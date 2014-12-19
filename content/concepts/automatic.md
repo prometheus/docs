@@ -1,6 +1,6 @@
 ---
 title: Automatic Labels and Synthetic Metrics
-sort_rank: 5
+sort_rank: 2
 ---
 
 # Automatic Labels and Synthetic Metrics

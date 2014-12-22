@@ -54,6 +54,10 @@ footer p {
   color: #333;
 }
 
+.side-nav > li {
+  width: 100%;
+}
+
 .side-nav .nav-header {
   text-transform: uppercase;
   padding: 5px 0 5px 0;
@@ -71,9 +75,30 @@ footer p {
   margin-top: 25px;
 }
 
+.doc-content {
+  font-size: 18px;
+}
+
+.doc-content p, .doc-content ul {
+  margin: 25px 0 25px 0;
+}
+
+.doc-content > h1 {
+  color: #e6522c;
+  text-transform: uppercase;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 20px;
+  margin: 40px 0 10px 0;
+}
+
+.doc-content > h2 {
+  color: #e6522c;
+  font-size: 25px;
+}
+
 pre {
   font-family: "Courier New", Monaco, Menlo, Consolas, monospace;
-  background-color: #2f2f2f;
+  background-color: #444;
   color: #f8f8f2;
 }
 

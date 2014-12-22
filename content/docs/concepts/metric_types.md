@@ -11,9 +11,6 @@ Prometheus offers three core metric types:
   * Gauges
   * Summaries
 
-Each type is useful for a different purpose, so it is important to use the
-right one for the right job.
-
 Metric types are currently only differentiated in the client libraries (to
 enable APIs tailored to the usage of the specific types) and in the wire
 protocol. The Prometheus server does not yet make use of the type information
@@ -22,14 +19,12 @@ after ingesting samples as time series. This may change in the future.
 ## Counter
 
 A _counter_ is a cumulative metric that represents a single numerical value
-that only ever goes up. That implies that it cannot be used to count items
-whose number can also go down, e.g. the number of currently running goroutines.
-Those "counts" are represented by gauges.
+that only ever goes up. A counter is typically used to count requests served,
+tasks completed, errors occurred, etc. Counters should not be used to expose
+current counts of items whose number can also go down, e.g. the number of
+currently running goroutines. Use gauges for this use case.
 
-A counter is typically used to count requests served, tasks completed, errors
-occurred, etc.
-
-Client library usage documentation for counters:
+See the client library usage documentation for counters:
 
    * [Go](http://godoc.org/github.com/prometheus/client_golang/prometheus#Counter)
    * [Java](https://github.com/prometheus/client_java/blob/master/client/src/main/java/io/prometheus/client/metrics/Counter.java)
@@ -45,7 +40,7 @@ Gauges are typically used for measured values like temperatures or current
 memory usage, but also "counts" that can go up and down, like the number of
 running goroutines.
 
-Client library usage documentation for gauges:
+See the client library usage documentation for gauges:
 
    * [Go](http://godoc.org/github.com/prometheus/client_golang/prometheus#Gauge)
    * [Java](https://github.com/prometheus/client_java/blob/master/client/src/main/java/io/prometheus/client/metrics/Gauge.java)
@@ -58,7 +53,7 @@ A _summary_ samples observations (usually things like request durations) over
 sliding windows of time and provides instantaneous insight into their
 distributions, frequencies, and sums.
 
-A summary reports the following information:
+A summary with a base metric name of `<basename>` exposes multiple time series:
 
   * streaming **quantile values** of observed events, exposed as `<basename>{quantile="<quantile label>"}`
   * the **total sum** of all observed values, exposed as `<basename>_sum`
@@ -70,7 +65,7 @@ with one metric.
 
 A typical use-case is the observation of request latencies or response sizes.
 
-Client library usage documentation for summaries:
+See the client library usage documentation for summaries:
 
    * [Go](http://godoc.org/github.com/prometheus/client_golang/prometheus#Summary)
    * [Java](https://github.com/prometheus/client_java/blob/master/client/src/main/java/io/prometheus/client/metrics/Summary.java)

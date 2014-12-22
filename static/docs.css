@@ -96,6 +96,11 @@ footer p {
   font-size: 25px;
 }
 
+.doc-content > h2 code {
+  color: #e6522c;
+  background: none;
+}
+
 pre {
   font-family: "Courier New", Monaco, Menlo, Consolas, monospace;
   background-color: #444;

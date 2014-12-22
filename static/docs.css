@@ -1,7 +1,80 @@
+/* Move down content because we have a fixed navbar that is 50px tall */
+body {
+  padding-top: 50px;
+  padding-bottom: 20px;
+  font-family: 'Open Sans', serif;
+}
+
+.navbar-brand {
+  font-size: 20px;
+}
+
+.jumbotron {
+  background-color: #e6522c;
+  background-image: url("/assets/jumbotron-background.png");
+  text-align: center;
+}
+
+.jumbotron h1 {
+  color: #fff;
+}
+
+.jumbotron p {
+  color: rgba(255,255,255,0.7);
+}
+
+.jumbotron a.btn {
+  border: none;
+  background-color: rgba(0,0,0,0.15);
+  color: #fff;
+}
+
+.jumbotron a.btn:hover {
+  background-color: rgba(0,0,0,0.25);
+  color: #fff;
+}
+
+a.sc-logo {
+  color: #000;
+  text-decoration: none;
+}
+
+footer p {
+  float: left;
+}
+
+/* Docs-related styles. */
+.side-nav {
+  margin-top: 20px;
+  padding: 20px 20px 20px 20px;
+  background-color: #fafafa;
+}
+
+.side-nav a {
+  color: #333;
+}
+
+.side-nav .nav-header {
+  text-transform: uppercase;
+  padding: 5px 0 5px 0;
+  border-bottom: 2px solid #e6522c;
+  font-size: 16px;
+  display: block;
+  margin: auto;
+}
+
+.side-nav .active {
+  background-color: #eee;
+}
+
+.doc-content {
+  margin-top: 25px;
+}
+
 pre {
-  background-color: #333;
-  //color: #f8f8f2;
-  color: #ccc;
+  font-family: "Courier New", Monaco, Menlo, Consolas, monospace;
+  background-color: #2f2f2f;
+  color: #f8f8f2;
 }
 
 code {

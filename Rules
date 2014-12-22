@@ -29,11 +29,13 @@ compile '*' do
     filter :bootstrappify
     filter :admonition
     filter :colorize_syntax, :default_colorizer => :pygmentsrb
-    layout 'default'
+    layout 'docs'
   elsif item[:extension] == 'css'
     # don’t filter stylesheets
   elsif item.binary?
     # don’t filter binary items
+  elsif item[:title] == 'Home'
+    layout 'jumbotron'
   else
     layout 'default'
   end

@@ -1,5 +1,5 @@
 ---
 title: Concepts
-sort_rank: 4
+sort_rank: 2
 nav_icon: flask
 ---

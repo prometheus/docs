@@ -1,5 +1,5 @@
 ---
-title: The basics
+title: Basics
 sort_rank: 1
 ---
 
@@ -15,7 +15,7 @@ consumed and further processed by external systems via the HTTP API.
 ## Examples
 
 This document is meant as a reference. For learning, it might be easier to
-start with a couple of examples. See the [Expression Language Examples](/using/querying/examples).
+start with a couple of [examples](/docs/using/querying/examples).
 
 ## Basic Concepts
 

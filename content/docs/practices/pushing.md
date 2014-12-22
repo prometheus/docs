@@ -1,6 +1,6 @@
 ---
 title: Pushing data
-sort_rank: 6
+sort_rank: 2
 ---
 
 # Pushing Data

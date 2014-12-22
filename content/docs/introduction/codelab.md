@@ -1,9 +1,9 @@
 ---
 title: Starter codelab
-sort_rank: 1
+sort_rank: 3
 ---
 
-# Intro Codelab
+# Intro codelab
 
 This guide is a "Hello World"-style codelab which shows how to install,
 configure, and use Prometheus in a simple example setup. You'll build and run
@@ -29,7 +29,7 @@ cd prometheus
 make build
 ```
 
-## Configuring Prometheus to Monitor Itself
+## Configuring Prometheus to monitor itself
 
 Prometheus collects metrics from monitored targets by scraping metrics HTTP
 endpoints on these targets. Since Prometheus also exposes data in the same
@@ -69,11 +69,10 @@ job: {
 }
 ```
 
-As you might have noticed, Prometheus configuration is supplied in an ASCII
-form of
-[protocol buffers](https://developers.google.com/protocol-buffers/docs/overview).
-The protocol buffer schema definition has a [complete documentation of all
-available configuration options](https://github.com/prometheus/prometheus/blob/master/config/config.proto).
+Prometheus configuration is supplied in an ASCII form of [protocol
+buffers](https://developers.google.com/protocol-buffers/docs/overview). The
+[schema definition](https://github.com/prometheus/prometheus/blob/master/config/config.proto)
+has a complete documentation of all available configuration options.
 
 ## Starting Prometheus
 
@@ -91,62 +90,60 @@ http://localhost:9090. Give it a couple of seconds to start collecting data
 about itself from its own HTTP metrics endpoint.
 
 You can also verify that Prometheus is serving metrics about itself by
-navigating to its metrics exposure endpoint: [[http://localhost:9090/metrics]]
+navigating to its metrics exposure endpoint: http://localhost:9090/metrics
 
-## Using the Expression Browser
+## Using the expression browser
 
 Let's try looking at some data that Prometheus has collected about itself. To
-use Prometheus' built-in expression browser, navigate to
-[[http://localhost:9090/]] and choose the "Tabular" from the "Graph & Console"
+use Prometheus's built-in expression browser, navigate to
+http://localhost:9090/ and choose the "Tabular" view within the "Graph"
 tab.
 
-As you can gather from [[http://localhost:9090/metrics]], one metric that
+As you can gather from http://localhost:9090/metrics, one metric that
 Prometheus exports about itself is called
-`prometheus_metric_disk_latency_microseconds`. Go ahead and enter this into the
+`prometheus_target_operation_latency_milliseconds`. Go ahead and enter this into the
 expression console:
 
 ```
-prometheus_metric_disk_latency_microseconds
+prometheus_target_operation_latency_milliseconds
 ```
 
 This should return a lot of different timeseries (along with the latest value
 recorded for each), all with the metric name
-`prometheus_metric_disk_latency_microseconds`, but with different labels. These
-labels designate different latency percentiles, operation types, and operation
-results (success, failure).
+`prometheus_target_operation_latency_milliseconds`, but with different labels. These
+labels designate different latency percentiles and operation outcomes.
 
 To count the number of returned timeseries, you could write:
 
 ```
-count(prometheus_metric_disk_latency_microseconds)
+count(prometheus_target_operation_latency_milliseconds)
 ```
 
-If we were only interested in the 99th percentile latencies for e.g.
-`get_value_at_time` operations, we could use this query to retrieve that
-information:
+If we were only interested in the 99th percentile latencies for scraping
+Prometheus itself, we could use this query to retrieve that information:
 
 ```
-prometheus_metric_disk_latency_microseconds{operation="get_value_at_time", percentile="0.990000"}
+prometheus_target_operation_latency_milliseconds{instance="http://localhost:9090/metrics", quantile="0.99"}
 ```
 
-For further details about the expression language, see the [[Expression Language]]
-documentation.
+For further details about the expression language, see the
+[expression language documentation](/docs/querying/basics).
 
-## Using the Graphing Interface
+## Using the graphing interface
 
-To graph expressions, navigate to [[http://localhost:9090/]] and use the
-"Graph" tab.
+To graph expressions, navigate to http://localhost:9090/ and use the "Graph"
+tab.
 
 For example, enter the following expression to graph all latency percentiles
-for `get_value_at_time` operations in Prometheus:
+for scraping Prometheus itself operations:
 
 ```
-prometheus_metric_disk_latency_microseconds{operation="get_value_at_time"}
+prometheus_target_operation_latency_milliseconds{instance="http://localhost:9090/metrics"}
 ```
 
 Experiment with the graph range parameters and other settings.
 
-## Starting Up Some Sample Targets
+## Starting up some sample targets
 
 Let's make this more interesting and start some example targets for Prometheus
 to scrape.
@@ -168,14 +165,15 @@ go run main.go -listeningAddress=:8081
 go run main.go -listeningAddress=:8082
 ```
 
-You should now have example targets listening on
-[[http://localhost:8080/metrics]], [[http://localhost:8081/metrics]], and
-[[http://localhost:8082/metrics]].
+You should now have example targets listening on http://localhost:8080/metrics,
+http://localhost:8081/metrics, and http://localhost:8082/metrics.
 
-## Configuring Prometheus to Monitor the Sample Targets
+TODO: These examples don't exist anymore. Provide alternatives.
 
-Now we'll configure Prometheus to scrape these new targets. Let's group these
-three endpoints into a job we call `random-example`. However, imagine that the
+## Configuring Prometheus to monitor the sample targets
+
+Now we'll configure Prometheus to scrape these new targets. Let's group all
+three endpoints into one job called `random-example`. However, imagine that the
 first two endpoints are production targets, while the third one represents a
 canary instance. To model this in Prometheus, we can add several groups of
 endpoints to a single job, adding extra labels to each group of targets. In
@@ -217,11 +215,11 @@ Go to the expression browser and verify that Prometheus now has information
 about timeseries that these example endpoints expose, e.g. the
 `rpc_calls_total` metric.
 
-## Configure Rules For Aggregating Scraped Data into New Timeseries
+## Configure rules for aggregating scraped data into new timeseries
 
-Manually entering expressions every you time you need them can get cumbersome
-and might also be slow to compute in some cases. Prometheus allows you to
-periodically record expressions into completely new timeseries via configured
+Queries that aggregate over thousands of timeseries can get slow when computed
+ad-hoc. To make this more efficient, Prometheus allows you to prerecord
+expressions into completely new persisted timeseries via configured recording
 rules. Let's say we're interested in recording the per-second rate of
 `rpc_calls_total` averaged over all instances as measured over the last 5
 minutes. We could write this as:

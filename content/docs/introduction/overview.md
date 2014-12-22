@@ -3,16 +3,18 @@ title: Overview
 sort_rank: 1
 ---
 
+# Overview
+
 ## What is Prometheus?
 
 [Prometheus](https://github.com/prometheus) is an open-source systems
 monitoring and alerting toolkit built at [SoundCloud](http://soundcloud.com).
 Since its inception in 2012, it has become the standard for instrumenting new
-services at SoundCloud. Prometheus' main distinguishing features as compared to
-other monitoring systems are:
+services at SoundCloud and has seen growing external usage and contributions.
+Prometheus's main distinguishing features are:
 
-- a **multi-dimensional** data model (via key/value pairs attached to timeseries)
-- a [**flexible query language**](http://localhost:3000/using/querying/basics/)
+- a **multi-dimensional** data model (timeseries identified by metric name and key/value pairs)
+- a [**flexible query language**](/docs/using/querying/basics/)
   to leverage this dimensionality
 - no reliance on distributed storage; **single server nodes are autonomous**
 - timeseries collection happens via a **pull model** over HTTP

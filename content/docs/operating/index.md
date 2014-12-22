@@ -1,5 +1,5 @@
 ---
 title: Operating
-sort_rank: 3
+sort_rank: 5
 nav_icon: cog
 ---

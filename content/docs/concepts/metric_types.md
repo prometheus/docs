@@ -1,6 +1,6 @@
 ---
 title: Metric types
-sort_rank: 1
+sort_rank: 2
 ---
 
 # Metric Types
@@ -16,8 +16,8 @@ right one for the right job.
 
 Metric types are currently only differentiated in the client libraries (to
 enable APIs tailored to the usage of the specific types) and in the wire
-protocol. The Prometheus server does not yet persist and make use of the type
-information after ingesting samples. This may change in the future, however.
+protocol. The Prometheus server does not yet make use of the type information
+after ingesting samples as timeseries. This may change in the future.
 
 ## Counter
 

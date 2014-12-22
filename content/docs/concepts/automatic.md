@@ -1,17 +1,17 @@
 ---
 title: Automatic labels and synthetic metrics
-sort_rank: 2
+sort_rank: 3
 ---
 
-# Automatic labels and synthetic metrics
+# Automatic labels and metrics
 
 ## Automatically attached labels
 
 When Prometheus scrapes a target, it attaches some labels automatically to the
 scraped metrics timeseries which serve to identify the scraped target:
 
-* `job`: The Prometheus job name from which the timeseries was scraped.
-* `instance`: The specific instance/endpoint of the job which was scraped.
+* `job`: The configured Prometheus job name for which the target was scraped.
+* `instance`: The specific URL of the instance's endpoint that was scraped.
 
 If either of these labels are already present in the scraped data, they are not
 replaced. Instead, Prometheus adds its own labels with `exporter_` prepended to

@@ -1,6 +1,6 @@
 ---
-title: Instrumenting your code
-sort_rank: 2
+title: Start
+sort_rank: 1
 ---
 
 # Instrumenting your code
@@ -10,7 +10,7 @@ instrumentation, you will need to instrument your application's code via one of
 the Prometheus client libraries.
 
 First, familiarize yourself with the Prometheus-supported
-[metrics types](/concepts/metric_types/). To use these types programmatically, see
+[metric types](/docs/concepts/metric_types/). To use these types programmatically, see
 your specific client library's documentation.
 
 Choose a Prometheus client library that matches the language in which your

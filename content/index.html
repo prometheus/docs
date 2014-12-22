@@ -1,54 +1,56 @@
 ---
 title: Home
 ---
-<div class="row">
-  <div class="col-md-4">
-    <h2><i class="fa fa-flask"></i> Data Model</h2>
-    <p>Prometheus implements a highly dimensional data model. Timeseries are identified by a metric name and a set of key-value pairs.</p>
-    <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
+<div class="main">
+  <div class="row">
+    <div class="col-md-4">
+      <h2><i class="fa fa-flask"></i> Data Model</h2>
+      <p class="desc">Prometheus implements a highly dimensional data model. Timeseries are identified by a metric name and a set of key-value pairs.</p>
+      <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
+    </div>
+    <div class="col-md-4">
+      <h2><i class="fa fa-search"></i> Query Language</h2>
+      <p class="desc">A flexible query languge allows slicing and dicing of collected timeseries data in order to generate ad-hoc graphs, tables, and alerts.</p>
+      <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
+    </div>
+    <div class="col-md-4">
+      <h2><i class="fa fa-line-chart"></i> Visualization</h2>
+      <p class="desc">Prometheus supports multiple modes for visualizing data: a built-in expression browser, a GUI-based dashboard builder, and a console template language.</p>
+      <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
+    </div>
   </div>
-  <div class="col-md-4">
-    <h2><i class="fa fa-search"></i> Query Language</h2>
-    <p>A flexible query languge allows slicing and dicing of collected timeseries data in order to generate ad-hoc graphs, tables, and alerts.</p>
-    <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
+  <div class="row">
+    <div class="col-md-4">
+      <h2><i class="fa fa-cloud-download"></i> Pull Model</h2>
+      <p class="desc">Prometheus collects timeseries data by scraping instrumented services via HTTP. Short-lived jobs are supported via a push gateway.</p>
+      <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
+    </div>
+    <div class="col-md-4">
+      <h2><i class="fa fa-database"></i> Storage</h2>
+      <p class="desc">Prometheus stores timeseries in memory and on local disk in an efficient custom format. Scaling is achieved by functional sharding and federation.</p>
+      <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
+    </div>
+    <div class="col-md-4">
+      <h2><i class="fa fa-cog"></i> Operation</h2>
+      <p class="desc">Prometheus servers are autonomous, with no dependency on distributed storage. Written in Go, all binaries are statically linked and easy to deploy.</p>
+      <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
+    </div>
   </div>
-  <div class="col-md-4">
-    <h2><i class="fa fa-line-chart"></i> Visualization</h2>
-    <p>Prometheus supports multiple modes for visualizing data: a built-in expression browser, a GUI-based dashboard builder, and a console template language.</p>
-    <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
-  </div>
-</div>
-<div class="row">
-  <div class="col-md-4">
-    <h2><i class="fa fa-cloud-download"></i> Pull Model</h2>
-    <p>Prometheus collects timeseries data by scraping instrumented services via HTTP. Short-lived jobs are supported via a push gateway.</p>
-    <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
-  </div>
-  <div class="col-md-4">
-    <h2><i class="fa fa-database"></i> Storage</h2>
-    <p>Prometheus stores timeseries in memory and on local disk in an efficient custom format. Scaling is achieved by functional sharding and federation.</p>
-    <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
-  </div>
-  <div class="col-md-4">
-    <h2><i class="fa fa-cog"></i> Operation</h2>
-    <p>Prometheus servers are autonomous, with no dependency on distributed storage. Written in Go, all binaries are statically linked and easy to deploy.</p>
-    <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
-  </div>
-</div>
-<div class="row">
-  <div class="col-md-4">
-    <h2><i class="fa fa-code"></i> Client Libraries</h2>
-    <p>Client libraries allow easy instrumentation of services. Currently, Go, Java, and Ruby are supported. Custom libraries are easy to implement.</p>
-    <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
-  </div>
-  <div class="col-md-4">
-    <h2><i class="fa fa-warning"></i> Alerting</h2>
-    <p>Alerts are defined based on Prometheus's flexible query language and maintain dimensional information. An alertmanager handles notifications and silencing.</p>
-    <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
-  </div>
-  <div class="col-md-4">
-    <h2><i class="fa fa-cloud-upload"></i> Exporters</h2>
-    <p>Existing exporters allow bridging of third-party data into Prometheus. Examples: system statistics, as well as Docker, HAProxy, StatsD, and JMX metrics. </p>
-    <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
+  <div class="row">
+    <div class="col-md-4">
+      <h2><i class="fa fa-code"></i> Client Libraries</h2>
+      <p class="desc">Client libraries allow easy instrumentation of services. Currently, Go, Java, and Ruby are supported. Custom libraries are easy to implement.</p>
+      <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
+    </div>
+    <div class="col-md-4">
+      <h2><i class="fa fa-warning"></i> Alerting</h2>
+      <p class="desc">Alerts are defined based on Prometheus's flexible query language and maintain dimensional information. An alertmanager handles notifications and silencing.</p>
+      <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
+    </div>
+    <div class="col-md-4">
+      <h2><i class="fa fa-cloud-upload"></i> Exporters</h2>
+      <p class="desc">Existing exporters allow bridging of third-party data into Prometheus. Examples: system statistics, as well as Docker, HAProxy, StatsD, and JMX metrics. </p>
+      <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
+    </div>
   </div>
 </div>

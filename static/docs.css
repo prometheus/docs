@@ -80,3 +80,30 @@ pre {
 code {
   color: #333;
 }
+
+.main p {
+  font-size: 16px;
+  line-height: 1.8em;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+.main .desc {
+  margin-bottom: 20px;
+}
+
+.main-nav {
+  letter-spacing: 1px;
+  font-family: Avenir, 'Open Sans', serif;
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
+.jumbotron {
+  padding: 40px 0;
+}
+
+.jumbotron .subtitle {
+  margin-bottom: 20px;
+}

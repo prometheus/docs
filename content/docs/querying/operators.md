@@ -21,7 +21,7 @@ and vector/vector value pairs.
 scalar that is the result of the operator applied to both scalar operands.
 
 **Between an instant vector and a scalar**, the operator is applied to the
-value of every data sample in the vector. E.g. if a timeseries instant vector
+value of every data sample in the vector. E.g. if a time series instant vector
 is multiplied by 2, the result is another vector in which every sample value of
 the original vector is multiplied by 2.
 
@@ -99,7 +99,7 @@ clause).
 
 Example:
 
-If the metric `http_requests_total` had timeseries that fan out by
+If the metric `http_requests_total` had time series that fan out by
 `application`, `instance`, and `group` labels, we could calculate the total
 number of seen HTTP requests per application and group over all instances via:
 

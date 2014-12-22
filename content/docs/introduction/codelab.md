@@ -9,7 +9,7 @@ This guide is a "Hello World"-style codelab which shows how to install,
 configure, and use Prometheus in a simple example setup. You'll build and run
 Prometheus locally, configure it to scrape itself and an example application,
 and then work with queries, rules, and graphs to make use of the collected
-timeseries data.
+time series data.
 
 ## Getting Prometheus
 
@@ -45,7 +45,7 @@ global: {
   scrape_interval: "15s"     # By default, scrape targets every 15 seconds.
   evaluation_interval: "15s" # By default, evaluate rules every 15 seconds.
 
-  # Attach these extra labels to all timeseries collected by this Prometheus instance.
+  # Attach these extra labels to all time series collected by this Prometheus instance.
   labels: {
     label: {
       name: "monitor"
@@ -56,7 +56,7 @@ global: {
 
 # A job definition containing exactly one endpoint to scrape: Prometheus itself.
 job: {
-  # The job name is added as a label `job={job-name}` to any timeseries scraped from this job.
+  # The job name is added as a label `job={job-name}` to any time series scraped from this job.
   name: "prometheus"
   # Override the global default and scrape targets from this job every 5 seconds.
   scrape_interval: "5s"
@@ -108,12 +108,12 @@ expression console:
 prometheus_target_operation_latency_milliseconds
 ```
 
-This should return a lot of different timeseries (along with the latest value
+This should return a lot of different time series (along with the latest value
 recorded for each), all with the metric name
 `prometheus_target_operation_latency_milliseconds`, but with different labels. These
 labels designate different latency percentiles and operation outcomes.
 
-To count the number of returned timeseries, you could write:
+To count the number of returned time series, you could write:
 
 ```
 count(prometheus_target_operation_latency_milliseconds)
@@ -149,7 +149,7 @@ Let's make this more interesting and start some example targets for Prometheus
 to scrape.
 
 Download the Go client library for Prometheus, and run some random examples
-from it that export timeseries with random data:
+from it that export time series with random data:
 
 ```bash
 # Fetch the client library code:
@@ -212,14 +212,14 @@ job: {
 ```
 
 Go to the expression browser and verify that Prometheus now has information
-about timeseries that these example endpoints expose, e.g. the
+about time series that these example endpoints expose, e.g. the
 `rpc_calls_total` metric.
 
-## Configure rules for aggregating scraped data into new timeseries
+## Configure rules for aggregating scraped data into new time series
 
-Queries that aggregate over thousands of timeseries can get slow when computed
+Queries that aggregate over thousands of time series can get slow when computed
 ad-hoc. To make this more efficient, Prometheus allows you to prerecord
-expressions into completely new persisted timeseries via configured recording
+expressions into completely new persisted time series via configured recording
 rules. Let's say we're interested in recording the per-second rate of
 `rpc_calls_total` averaged over all instances as measured over the last 5
 minutes. We could write this as:
@@ -228,7 +228,7 @@ minutes. We could write this as:
 avg(rate(rpc_calls_total[5m]))
 ```
 
-To record this expression as a new timeseries called `rpc_calls_rate`, create a
+To record this expression as a new time series called `rpc_calls_rate`, create a
 file with the following recording rule and save it as `prometheus.rules`:
 
 ```
@@ -245,7 +245,7 @@ global: {
   scrape_interval: "15s"     # By default, scrape targets every 15 seconds.
   evaluation_interval: "15s" # By default, evaluate rules every 15 seconds.
 
-  # Attach these extra labels to all timeseries collected by this Prometheus instance.
+  # Attach these extra labels to all time series collected by this Prometheus instance.
   labels: {
     label: {
       name: "monitor"
@@ -257,6 +257,6 @@ global: {
 }
 ```
 
-Restart Prometheus with the new configuration and verify that a new timeseries
+Restart Prometheus with the new configuration and verify that a new time series
 with the metric name `rpc_calls_rate_mean` is now available by querying it
 through the expression browser or graphing it.

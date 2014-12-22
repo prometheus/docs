@@ -12,7 +12,7 @@ their absolute value.
 
 ## count_scalar()
 
-`count_scalar(v instant-vector)` returns the number of elements in a timeseries
+`count_scalar(v instant-vector)` returns the number of elements in a time series
 vector as a scalar. This is in contrast to the `count()` aggregation operator,
 which always returns a vector (an empty one if the input vector is empty) and
 allows grouping by labels via a `by` clause.
@@ -20,15 +20,15 @@ allows grouping by labels via a `by` clause.
 ## delta()
 
 `delta(v range-vector, counter bool)` calculates the difference between the
-first and last value of each timeseries element in a range vector `v`,
+first and last value of each time series element in a range vector `v`,
 returning an instant vector with the given deltas and equivalent labels. If
-`counter` is set to `1` (`true`), the timeseries in the range vector are
+`counter` is set to `1` (`true`), the time series in the range vector are
 treated as monotonically increasing counters. Breaks in monotonicity (such as
 counter resets due to target restarts) are automatically adjusted for. Setting
 `counter` to `0` (`false`) turns this behavior off.
 
 Example which returns the total number of HTTP requests counted within the last
-5 minutes, per timeseries in the range vector:
+5 minutes, per time series in the range vector:
 
 ```
 delta(http_requests{job="api-server"}[5m], 1)
@@ -53,7 +53,7 @@ and value across all series in the input vector.
 * the `counter` argument is implicitly set to `1` (`true`)
 
 Example call which returns the per-second rate of HTTP requests as measured
-over the last 5 minutes, per timeseries in the range vector:
+over the last 5 minutes, per time series in the range vector:
 
 ```
 rate(http_requests{job="api-server"}[5m])

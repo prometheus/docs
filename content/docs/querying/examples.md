@@ -7,12 +7,12 @@ sort_rank: 4
 
 ## Simple literals
 
-Return (as a sample vector) all timeseries with the metric
+Return (as a sample vector) all time series with the metric
 `http_requests_total`:
 
     http_requests_total
 
-Return (as a sample vector) all timeseries with the metric
+Return (as a sample vector) all time series with the metric
 `http_requests_total` and the given `job` and `group` labels:
 
     http_requests_total{job="prometheus", group="canary"}
@@ -24,13 +24,13 @@ making it a range vector:
 
 ## Using Functions, Operators, etc.
 
-Return (as a sample vector) the per-second rate for all timeseries with the
+Return (as a sample vector) the per-second rate for all time series with the
 `http_requests_total` metric name, as measured over the last 5 minutes:
 
     rate(http_requests_total[5m])
 
-Let's say that the `http_request_totals` timeseries all have the labels `job`
+Let's say that the `http_request_totals` time series all have the labels `job`
 (fanout by job name) and `instance` (fanout by instance of the job). We might
-want to sum over the rate of all instances, so we get fewer output timeseries:
+want to sum over the rate of all instances, so we get fewer output time series:
 
     sum(rate(http_requests_total[5m]))

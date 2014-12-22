@@ -32,7 +32,7 @@ If there are any syntax errors, it prints an error message and exits with a
 
 ## Recording rules
 Recording rules allow you to precompute frequently needed or computationally
-expensive expressions and save their result as a new set of timeseries.
+expensive expressions and save their result as a new set of time series.
 Querying the precomputed result will then often be much faster than executing
 the original expression every time it is needed. This is especially useful for
 dashboards, which need to query the same expression repeatedly every time they
@@ -41,21 +41,21 @@ refresh.
 To add a new recording rule, add a line of the following syntax to your rule
 file:
 
-    <new timeseries name>[{<label overrides>}] = <expression to record>
+    <new time series name>[{<label overrides>}] = <expression to record>
 
 Some examples:
 
-    // Saving the per-job HTTP request count as a new set of timeseries:
+    // Saving the per-job HTTP request count as a new set of time series:
     job:api_http_requests_total:sum = sum(api_http_requests_total) by (job)
 
-    // Drop or rewrite labels in the result timeseries:
-    new_timeseries{label_to_change="new_value",label_to_drop=""} = old_timeseries
+    // Drop or rewrite labels in the result time series:
+    new_time series{label_to_change="new_value",label_to_drop=""} = old_time series
 
 Recording rules are evaluated at the interval specified by the
 `evaluation_interval` field in the Prometheus configuration. During each
 evaluation cycle, the right-hand-side expression of the rule statement is
 evaluated at the current instant in time and the resulting sample vector is
-stored as a new set of timeseries with the current timestamp and a new metric
+stored as a new set of time series with the current timestamp and a new metric
 name (and perhaps an overridden set of labels).
 
 ## Alerting rules

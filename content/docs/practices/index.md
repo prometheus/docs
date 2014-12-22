@@ -1,5 +1,5 @@
 ---
 title: Best practices
-sort_rank: 6
+sort_rank: 7
 nav_icon: thumbs-o-up
 ---

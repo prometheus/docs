@@ -8,7 +8,7 @@ sort_rank: 1
 ## Overview
 
 Prometheus provides a functional expression language that lets the user select
-and aggregate timeseries data in real-time. The result of an expression can
+and aggregate time series data in real-time. The result of an expression can
 either be shown as a graph, viewed as data in the expression browser, or
 consumed and further processed by external systems via the HTTP API.
 
@@ -19,25 +19,25 @@ start with a couple of [examples](/docs/using/querying/examples).
 
 ## Basic Concepts
 
-### Timeseries
+### Time series
 
-Data in Prometheus is stored as timeseries, which are uniquely identified by a
-metric name and a set of arbitrary label/value pairs. Each timeseries can have
+Data in Prometheus is stored as time series, which are uniquely identified by a
+metric name and a set of arbitrary label/value pairs. Each time series can have
 one or more data points attached to it. Data points are timestamp/value pairs.
 
 #### Metric name
-The metric name of a timeseries (e.g. `http_requests_total`) specifies the
+The metric name of a time series (e.g. `http_requests_total`) specifies the
 general feature of a system that is measured. It may contain alpha-numeric
 characters, plus underscores and colons.
 
 #### Labels
-The label/value pairs which identify a timeseries allow later filtering and
+The label/value pairs which identify a time series allow later filtering and
 aggregation by these dimensions (e.g. `endpoint`, `response_code`, `instance`). Label keys
 are identifiers (alpha-numeric characters plus underscores, but no colons),
 while their values may be arbitrary strings.
 
 #### Data points
-Each timeseries can have one or more data points attached to it, which are
+Each time series can have one or more data points attached to it, which are
 timestamp/value pairs. Values are always encoded as floating-point numbers
 (currently 64-bit precision).
 
@@ -48,8 +48,8 @@ evaluate to one of four types:
 
 * **string**
 * **scalar** - simple numeric floating point value
-* **instant vector** - vector of multiple timeseries, containing a single sample for each timeseries, with all samples sharing the same (instant) timestamp
-* **range vector** - vector of multiple timeseries, containing a range of data points over time for each timeseries
+* **instant vector** - vector of multiple time series, containing a single sample for each time series, with all samples sharing the same (instant) timestamp
+* **range vector** - vector of multiple time series, containing a range of data points over time for each time series
 
 Depending on the use-case (e.g. when graphing vs. displaying the output of an
 expression), only some of these types are legal as the result from a
@@ -73,24 +73,24 @@ Scalar float values can be literally written as numbers of the form
 
     -2.43
 
-## Timeseries Selectors
+## Time series Selectors
 
 ### Instant Vector Selectors
 
-Instant vector selectors allow the selection of a set of timeseries and a
+Instant vector selectors allow the selection of a set of time series and a
 single sample value for each at a given timestamp (instant): in the simplest
 form, only a metric name is specified. This results in an instant vector
-containing elements for all timeseries that have this metric name.
+containing elements for all time series that have this metric name.
 
-This example selects all timeseries that have the `http_requests_total` metric
+This example selects all time series that have the `http_requests_total` metric
 name:
 
     http_requests_total
 
-It is possible to filter these timeseries further by appending a set of labels
+It is possible to filter these time series further by appending a set of labels
 to match in curly braces (`{}`).
 
-This example selects only those timeseries with the `http_requests_total`
+This example selects only those time series with the `http_requests_total`
 metric name that also have the `job` label set to `prometheus` and their
 `group` label set to `canary`:
 
@@ -104,7 +104,7 @@ again regular expressions. The following label matching operators exist:
 * `=~`: Select labels that regex-match the provided string (or substring).
 * `!~`: Select labels that do not regex-match the provided string (or substring).
 
-For example, this selects all `http_requests_total` timeseries for `staging`,
+For example, this selects all `http_requests_total` time series for `staging`,
 `testing`, and `development` environments and HTTP methods other than `GET`.
 
     http_requests_total{environment=~"staging|testing|development",method!="GET"}
@@ -128,7 +128,7 @@ following units:
 * `y` - years
 
 In this example, we select all the values we have recorded within the last 5
-minutes for all timeseries that have the metric name `http_requests_total` and
+minutes for all time series that have the metric name `http_requests_total` and
 a `job` label set to `prometheus`:
 
     http_requests_total{job="prometheus"}[5m]

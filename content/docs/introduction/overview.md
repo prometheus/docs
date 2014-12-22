@@ -13,12 +13,12 @@ Since its inception in 2012, it has become the standard for instrumenting new
 services at SoundCloud and has seen growing external usage and contributions.
 Prometheus's main distinguishing features are:
 
-- a **multi-dimensional** data model (timeseries identified by metric name and key/value pairs)
+- a **multi-dimensional** data model (time series identified by metric name and key/value pairs)
 - a [**flexible query language**](/docs/using/querying/basics/)
   to leverage this dimensionality
 - no reliance on distributed storage; **single server nodes are autonomous**
-- timeseries collection happens via a **pull model** over HTTP
-- **pushing timeseries** is supported via an intermediary gateway
+- time series collection happens via a **pull model** over HTTP
+- **pushing time series** is supported via an intermediary gateway
 - targets are discovered via **service discovery** or **static configuration**
 - multiple modes of **graphing and dashboarding support**
 - **federation support** coming soon
@@ -26,7 +26,7 @@ Prometheus's main distinguishing features are:
 The Prometheus ecosystem consists of multiple components, many of which are
 optional:
 
-- the main [Prometheus server](https://github.com/prometheus/prometheus) which scrapes and stores timeseries data
+- the main [Prometheus server](https://github.com/prometheus/prometheus) which scrapes and stores time series data
 - client libraries for instrumenting application code
 - a [push gateway](https://github.com/prometheus/pushgateway) for supporting short-lived jobs
 - a [GUI-based dashboard builder](PromDash) based on Rails/SQL

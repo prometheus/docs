@@ -35,6 +35,11 @@ optional:
 - a [command-line querying tool](https://github.com/prometheus/prometheus_cli)
 - various support tools
 
+This diagram illustrates the overall architecture of Prometheus and some of
+its ecosystem components:
+
+![Prometheus architecture](/assets/architecture.svg)
+
 ## When does it fit?
 
 Prometheus works well both for machine-based monitoring as well as monitoring

@@ -1,9 +1,9 @@
 ---
-title: Start
+title: Client libraries
 sort_rank: 1
 ---
 
-# Instrumenting your code
+# Client libraries
 
 If you want to monitor services which do not have existing Prometheus
 instrumentation, you will need to instrument your application's code via one of
@@ -23,3 +23,8 @@ HTTP endpoint on your application’s instance:
 
 When Prometheus scrapes your instance's HTTP endpoint, the client library
 sends the current state of all tracked metrics to the server.
+
+If no client library is available for your language, or you want to avoid
+dependencies on a client library, you may also implement one of the supported
+[exposition formats](/docs/instrumenting/exposition_formats) yourself to
+expose metrics.

@@ -1,9 +1,9 @@
 ---
-title: Time series
+title: Data model
 sort_rank: 1
 ---
 
-# Time series
+# Data model
 
 Prometheus fundamentally stores all data as [_time
 series_](http://en.wikipedia.org/wiki/Time_series): streams of timestamped
@@ -23,7 +23,8 @@ must match the regex `[a-zA-Z_:][a-zA-Z0-9_:]`.
 Labels enable Prometheus's dimensional data model: any given combination of
 labels for the same metric name identifies a particular dimensional
 instantiation of that metric (for example: all HTTP requests that used the
-method `POST` and which resulted in a `404` response). Changing any label
+method `POST` and which resulted in a `404` response). The query language
+allows filtering and aggregation based on these dimensions. Changing any label
 value, including adding or removing a label, will create a new time series.
 
 Label names may contain ASCII letters, numbers, as well as underscores. They

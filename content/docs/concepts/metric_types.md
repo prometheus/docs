@@ -5,16 +5,16 @@ sort_rank: 2
 
 # Metric Types
 
-Prometheus offers three core metric types:
+The Prometheus client libraries offer three core metric types:
 
   * Counters
   * Gauges
   * Summaries
 
-Metric types are currently only differentiated in the client libraries (to
-enable APIs tailored to the usage of the specific types) and in the wire
+These metric types are currently only differentiated in the client libraries
+(to enable APIs tailored to the usage of the specific types) and in the wire
 protocol. The Prometheus server does not yet make use of the type information
-after ingesting samples as time series. This may change in the future.
+and flattens all data into untyped time series. This may change in the future.
 
 ## Counter
 
@@ -53,7 +53,8 @@ A _summary_ samples observations (usually things like request durations) over
 sliding windows of time and provides instantaneous insight into their
 distributions, frequencies, and sums.
 
-A summary with a base metric name of `<basename>` exposes multiple time series:
+A summary with a base metric name of `<basename>` exposes multiple time series
+during a scrape:
 
   * streaming **quantile values** of observed events, exposed as `<basename>{quantile="<quantile label>"}`
   * the **total sum** of all observed values, exposed as `<basename>_sum`

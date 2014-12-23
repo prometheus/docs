@@ -11,18 +11,20 @@ values belonging to the same metric and the same set of labeled dimensions.
 Besides stored timeseries, Prometheus may generate temporary derived timeseries
 as the result of queries.
 
-## Identification
+## Metric names and labels
 Every time series is uniquely identified by its _metric name_ and a set of
-_key-value pairs_, also known as _labels_. Changing any label value, including
-adding or removing a label, will result in a new time series.
+_key-value pairs_, also known as _labels_.
 
-Labels enable Prometheus's highly-dimensional data model: any given combination
-of labels for the same metric name identifies a particular dimensional
+The _metric name_ specifies the general feature of a system that is measured
+(e.g. `http_requests_total` - the total number of HTTP requests received). It
+may contain ASCII letters and digits, as well as underscores and colons. It
+must match the regex `[a-zA-Z_:][a-zA-Z0-9_:]`.
+
+Labels enable Prometheus's dimensional data model: any given combination of
+labels for the same metric name identifies a particular dimensional
 instantiation of that metric (for example: all HTTP requests that used the
-method `POST` and which resulted in a `404` response).
-
-Metric names may contain ASCII letters, numbers, as well as underscores and
-colons. They must match the regex `[a-zA-Z_:][a-zA-Z0-9_:]`.
+method `POST` and which resulted in a `404` response). Changing any label
+value, including adding or removing a label, will create a new time series.
 
 Label names may contain ASCII letters, numbers, as well as underscores. They
 must match the regex `[a-zA-Z_][a-zA-Z0-9_]`.

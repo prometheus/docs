@@ -1,5 +1,5 @@
 ---
 title: Visualization
 sort_rank: 4
-nav_icon: search
+nav_icon: line-chart
 ---

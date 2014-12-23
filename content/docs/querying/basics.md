@@ -13,7 +13,7 @@ browser, or consumed by external systems via the HTTP API.
 ## Examples
 
 This document is meant as a reference. For learning, it might be easier to
-start with a couple of [examples](/docs/using/querying/examples).
+start with a couple of [examples](/docs/querying/examples).
 
 ## Expression Language Data Types
 

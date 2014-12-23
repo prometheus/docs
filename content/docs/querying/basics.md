@@ -15,39 +15,15 @@ browser, or consumed by external systems via the HTTP API.
 This document is meant as a reference. For learning, it might be easier to
 start with a couple of [examples](/docs/using/querying/examples).
 
-## Basic Concepts
-
-### Time series
-
-Data in Prometheus is stored as time series, which are uniquely identified by a
-metric name and a set of arbitrary label/value pairs. Each time series can have
-one or more data points attached to it. Data points are timestamp/value pairs.
-
-#### Metric name
-The metric name of a time series (e.g. `http_requests_total`) specifies the
-general feature of a system that is measured. It may contain alpha-numeric
-characters, plus underscores and colons.
-
-#### Labels
-The label/value pairs which identify a time series allow later filtering and
-aggregation by these dimensions (e.g. `endpoint`, `response_code`, `instance`). Label keys
-are identifiers (alpha-numeric characters plus underscores, but no colons),
-while their values may be arbitrary strings.
-
-#### Data points
-Each time series can have one or more data points attached to it, which are
-timestamp/value pairs. Values are always encoded as floating-point numbers
-(currently 64-bit precision).
-
 ## Expression Language Data Types
 
-In Prometheus' expression language, an expression or sub-expression can
+In Prometheus's expression language, an expression or sub-expression can
 evaluate to one of four types:
 
-* **string**
-* **scalar** - simple numeric floating point value
-* **instant vector** - vector of multiple time series, containing a single sample for each time series, with all samples sharing the same (instant) timestamp
-* **range vector** - vector of multiple time series, containing a range of data points over time for each time series
+* **Instant vector** - a set of time series containing a single sample for each time series, all sharing the same timestamp
+* **Range vector** - a set of time series containing a range of data points over time for each time series
+* **Scalar** - a simple numeric floating point value
+* **String** - a simple string value; currently unused
 
 Depending on the use-case (e.g. when graphing vs. displaying the output of an
 expression), only some of these types are legal as the result from a
@@ -134,15 +110,15 @@ a `job` label set to `prometheus`:
 ## Operators
 
 Prometheus supports many binary and aggregation operators. These are described
-in detail in the [[Expression Language Operators] page.
+in detail in the [expression language operators](/docs/querying/operators) page.
 
 ## Functions
 
 Prometheus supports several functions to operate on data. These are described
-in detail in the [[Expression Language Functions]] page.
+in detail in the [expression language functions](/docs/querying/functions) page.
 
 ## Gotchas
 
-TODO:
-* staleness and interpolation
-* ...
+TODO: explain staleness and inerpolation
+
+TODO: explain avoiding slow queries

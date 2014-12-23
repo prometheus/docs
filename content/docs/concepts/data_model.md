@@ -23,7 +23,7 @@ must match the regex `[a-zA-Z_:][a-zA-Z0-9_:]`.
 Labels enable Prometheus's dimensional data model: any given combination of
 labels for the same metric name identifies a particular dimensional
 instantiation of that metric (for example: all HTTP requests that used the
-method `POST` and which resulted in a `404` response). The query language
+method `POST` to the `/api/tracks` handler). The query language
 allows filtering and aggregation based on these dimensions. Changing any label
 value, including adding or removing a label, will create a new time series.
 

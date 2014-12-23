@@ -1,11 +1,11 @@
 ---
-title: Starter codelab
+title: Getting started
 sort_rank: 3
 ---
 
-# Intro codelab
+# Getting started
 
-This guide is a "Hello World"-style codelab which shows how to install,
+This guide is a "Hello World"-style tutorial which shows how to install,
 configure, and use Prometheus in a simple example setup. You'll build and run
 Prometheus locally, configure it to scrape itself and an example application,
 and then work with queries, rules, and graphs to make use of the collected
@@ -16,7 +16,7 @@ time series data.
 First, fetch the latest Prometheus collector server code:
 
 ```language-bash
-git clone git@github.com:/prometheus/prometheus
+git clone https://github.com/prometheus/prometheus.git
 ```
 
 ## Building Prometheus
@@ -49,7 +49,7 @@ global: {
   labels: {
     label: {
       name: "monitor"
-      value: "codelab-monitor"
+      value: "tutorial-monitor"
     }
   }
 }
@@ -81,8 +81,8 @@ Prometheus build directory and run:
 
 ```language-bash
 # Start Prometheus.
-# By default, Prometheus stores its database in /tmp/metrics (flag -metricsStoragePath).
-./prometheus -configFile=prometheus.conf
+# By default, Prometheus stores its database in /tmp/metrics (flag -storage.local.path).
+./prometheus -config.file=prometheus.conf
 ```
 
 Prometheus should start up and it should show a status page about itself at
@@ -249,7 +249,7 @@ global: {
   labels: {
     label: {
       name: "monitor"
-      value: "codelab-monitor"
+      value: "tutorial-monitor"
     }
   }
   # Load and evaluate rules in this file every 'evaluation_interval' seconds. This field may be repeated.

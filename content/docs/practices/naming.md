@@ -15,14 +15,14 @@ conventions differently.
 A metric name:
 
 * should have a (single-word) application prefix relevant to the containing Prometheus domain
- * `prometheus_notifications_total`
- * `indexer_requests_latencies_milliseconds`
- * `processor_requests_total`
+ * <code><b>prometheus</b>\_notifications\_total</code>
+ * <code><b>indexer</b>\_requests\_latencies\_milliseconds</code>
+ * <code><b>processor</b>\_requests\_total</code>
 * must have a single unit (i.e. don't mix seconds with milliseconds)
 * should have a units suffix
- * `api_http_request_latency_milliseconds`
- * `node_memory_usage_bytes`
- * `api_http_requests_total` (for an accumulating count)
+ * <code>api\_http\_request\_latency\_<b>milliseconds</b></code>
+ * <code>node\_memory\_usage\_<b>bytes</b></code>
+ * <code>api\_http\_requests\_<b>total</b></code> (for an accumulating count)
 * should represent the same logical thing-being-measured
  * request duration
  * bytes of data transfer

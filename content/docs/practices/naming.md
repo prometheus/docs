@@ -10,7 +10,7 @@ for using Prometheus, but can serve as both a style-guide and collection of
 best practices. Individual organizations might want to approach e.g. naming
 conventions differently.
 
-## Metric Names
+## Metric names
 
 A metric name:
 

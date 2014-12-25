@@ -8,7 +8,7 @@ class AdmonitionFilter < Nanoc::Filter
   BOOSTRAP_MAPPING = {
     'tip'     => 'info',
     'note'    => 'info',
-    'caution' => 'danger',
+    'caution' => 'warning',
     'todo'    => 'info',
   }
 

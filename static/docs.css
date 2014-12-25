@@ -79,7 +79,7 @@ footer p {
   font-size: 18px;
 }
 
-.doc-content p, .doc-content.ul {
+.doc-content p, .doc-content.ul, .doc-content .alert {
   margin: 25px 0 25px 0;
 }
 

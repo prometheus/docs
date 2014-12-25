@@ -9,7 +9,7 @@ In Prometheus terms, any individually scraped target is called an _instance_,
 usually corresponding to a single process. A collection of instances of the
 same type (replicated for scalability or reliability) is called a _job_.
 
-For example:
+For example, an API server job with four replicated instances:
 
    * job: `api-server`
       * instance 1: `http://1.2.3.4:5670/metrics`
@@ -36,6 +36,4 @@ For each instance scrape, Prometheus stores a sample of the form
 instance was scraped successfully or a value of `0` if the scrape failed. This
 time series is useful for instance availability monitoring.
 
-
-TODO: move alerts stuff somewhere else
-Prometheus also stores * `ALERTS`: for pending and firing alerts, a time series of the form `ALERTS{alertname="...", alertstate="pending|firing",...alertlabels...}` is written out. The sample value is `1` as long as the alert is in the indicated active (pending/firing) state, but a single `0` value gets written out when an alert transitions from active to inactive state.
+TODO: move alerts stuff somewhere else (Prometheus also stores * `ALERTS`: for pending and firing alerts, a time series of the form `ALERTS{alertname="...", alertstate="pending|firing",...alertlabels...}` is written out. The sample value is `1` as long as the alert is in the indicated active (pending/firing) state, but a single `0` value gets written out when an alert transitions from active to inactive state.)

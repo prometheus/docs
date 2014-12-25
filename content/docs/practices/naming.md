@@ -23,27 +23,26 @@ A metric name:
  * <code>api\_http\_request\_latency\_<b>milliseconds</b></code>
  * <code>node\_memory\_usage\_<b>bytes</b></code>
  * <code>api\_http\_requests\_<b>total</b></code> (for an accumulating count)
-* should represent the same logical thing-being-measured
+* should represent the same logical thing-being-measured across all label dimensions
  * request duration
  * bytes of data transfer
  * instantaneous resource usage as a percentage
 
-As a rule of thumb, if you `sum()` or `avg()` over all dimensions of a given
-metric, the result should be meaningful (though not necessarily useful). If it
-isn't meaningful, split the data up into multiple metrics. For example, having
-the capacity of various queues in the metric is good, mixing the capacity of a
-queue with the number of elements is not.
+As a rule of thumb, either the `sum()` or the `avg()` over all dimensions of a
+given metric should be meaningful (though not necessarily useful). If it isn't
+meaningful, split the data up into multiple metrics. For example, having the
+capacity of various queues in the metric is good, mixing the capacity of a
+queue with the current number of elements in the queue is not.
 
 ## Labels
 
-Use labels to differentiate
+Use labels to differentiate the characteristics of the thing that is being measured:
 
-* class of thing-being-measured
- * `api_http_requests_total` - differentiate request types: `type={create,update,delete}`
- * `api_request_duration_nanoseconds` - differentiate request stages: `stage={extract,transform,load}`
+ * `api_http_requests_total` - differentiate request types: `type="create|update|delete"`
+ * `api_request_duration_nanoseconds` - differentiate request stages: `stage="extract|transform|load"`
 
-Remember that every unique (label, value) pair represents a new axis of
-cardinality for the associated metric, which can dramatically increase the
-amount of data stored.
-
-
+CAUTION: <b>CAUTION:</b> Remember that every unique key-value label pair
+represents a new time series, which can dramatically increase the amount of
+data stored. Don't use labels to store dimensions with high cardinality (many
+different label values), such as user IDs, email addresses, or other unbounded
+sets of values.

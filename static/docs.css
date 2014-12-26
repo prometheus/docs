@@ -101,6 +101,14 @@ footer p {
   background: none;
 }
 
+.doc-content > h3 {
+  font-size: 25px;
+}
+
+.doc-content > h4 {
+  font-size: 21px;
+}
+
 pre {
   font-family: "Courier New", Monaco, Menlo, Consolas, monospace;
   background-color: #444;

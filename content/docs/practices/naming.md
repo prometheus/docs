@@ -41,6 +41,9 @@ Use labels to differentiate the characteristics of the thing that is being measu
  * `api_http_requests_total` - differentiate request types: `type="create|update|delete"`
  * `api_request_duration_nanoseconds` - differentiate request stages: `stage="extract|transform|load"`
 
+Don't put the label names in the metric name, as that's redundant and
+will cause confusion if it's aggregated away.
+
 CAUTION: <b>CAUTION:</b> Remember that every unique key-value label pair
 represents a new time series, which can dramatically increase the amount of
 data stored. Don't use labels to store dimensions with high cardinality (many

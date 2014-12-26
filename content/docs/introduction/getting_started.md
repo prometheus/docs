@@ -228,11 +228,11 @@ minutes. We could write this as:
 avg(rate(rpc_calls_total[5m]))
 ```
 
-To record this expression as a new time series called `rpc_calls_rate`, create a
+To record this expression as a new time series called `job:rpc_calls:avg_rate5m`, create a
 file with the following recording rule and save it as `prometheus.rules`:
 
 ```
-rpc_calls_rate_mean = avg(rate(rpc_calls_total[5m]))
+job:rpc_calls:avg_rate5m = avg(rate(rpc_calls_total[5m]))
 ```
 
 To make Prometheus pick up this new rule, add a `rule_files` statement to the
@@ -258,5 +258,5 @@ global: {
 ```
 
 Restart Prometheus with the new configuration and verify that a new time series
-with the metric name `rpc_calls_rate_mean` is now available by querying it
+with the metric name `job:rpc_calls:avg_rate5m` is now available by querying it
 through the expression browser or graphing it.

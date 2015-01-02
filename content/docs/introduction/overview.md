@@ -21,7 +21,6 @@ Prometheus's main distinguishing features are:
 - **pushing time series** is supported via an intermediary gateway
 - targets are discovered via **service discovery** or **static configuration**
 - multiple modes of **graphing and dashboarding support**
-- **federation support** coming soon
 
 The Prometheus ecosystem consists of multiple components, many of which are
 optional:
@@ -47,4 +46,17 @@ of highly dynamic service-oriented architectures. In a world of microservices,
 its support for multi-dimensional data collection and querying is a particular
 strength.
 
-TODO: highlight advantage of not depending on distributed storage.
+Prometheus is designed for reliability, to be the system you go to
+during an outage to allow you to quickly diagnose problems. Each Prometheus
+server is standalone, not depending on network storage or other remote services.
+You can rely it when other parts of your infrastructure are broken, and
+you don't have to setup complex infrastructure to use it.
+
+## When doesn't it fit?
+
+Prometheus values reliability. You can always view what statistics are
+available about your system, even under failure conditions. If you need 100%
+accuracy, such as for per-request billing, Prometheus is not a good choice as
+we keep things simple and easy to understand. In such a case you would be best
+using some other system to collect and analyse the data for billing, and
+Prometheus for the rest of your monitoring.

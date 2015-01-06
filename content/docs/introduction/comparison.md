@@ -77,38 +77,22 @@ has knowledge about what the world should look like (which endpoints should
 exist, what time series patterns mean trouble, etc.), and actively tries to find
 faults.
 
-**Architecture**
-
-Prometheus servers run independently of each other and only rely on their local
-storage for their core functionality: scraping, rule processing, and alerting.
-
-InfluxDB is by design a distributed storage cluster with storage and queries
-being handled by many nodes at once.
-
-This means that InfluxDB will easier to scale horizontally, but it also means
-that you have to manage the complexity of a distributed storage system from the
-get-go. Prometheus will be simpler to run, but at some point you will need to
-shard servers explicitly along scalability boundaries like products, services,
-datacenters, or similar. Independent servers (which can be run redundantly in
-parallel) may also give you better reliability and failure isolation, though
-that is debatable, since InfluxDB also can tolerate node outages due to data
-replication.
-
 **Data model / storage**
 
 *Summary:* InfluxDB stores rows of events with full metadata for each event;
-Prometheus only stores numeric samples for existing time series.
+Prometheus only stores numeric samples for existing time series. Both are good
+for different use cases.
 
 While InfluxDB's data model also allows annotation of data with arbitrary
 key-value pairs, it differs significantly from Prometheus in the way this data
-is modeled and stored. InfluxDB stores timestamped events with full metadata
+is modeled and stored. At its core, InfluxDB stores timestamped events with full metadata
 (key-value pairs) attached to each event / row. Prometheus stores only numeric
 time series and stores metadata for each time series exactly once, and then
 continues to simply append timestamped samples for that existing metadata
 entry. In a
 [test from March 2014](https://docs.google.com/document/d/1OgnI7YBCT_Ub9Em39dEfx9BuiqRNS3oA62i8fJbwwQ8/edit?usp=sharing),
-storing typical Prometheus time series data in InfluxDB lead to a **11x disk
-storage size increase** due to this metadata redundancy.
+dumping typical Prometheus time series data into InfluxDB required **11x more
+disk storage in InfluxDB than in Prometheus** due to this different data model.
 
 If you are only interested in tracking the development of existing named
 time series (for example, the cumulative count of HTTP requests with the method
@@ -131,6 +115,23 @@ Still, InfluxDB is better geared towards the following use cases:
 
 There are other storage features, such as downsampling, which InfluxDB supports
 and Prometheus doesn't yet.
+
+**Architecture**
+
+Prometheus servers run independently of each other and only rely on their local
+storage for their core functionality: scraping, rule processing, and alerting.
+
+InfluxDB is by design a distributed storage cluster with storage and queries
+being handled by many nodes at once.
+
+This means that InfluxDB will be easier to scale horizontally, but it also
+means that you have to manage the complexity of a distributed storage system
+from the beginning. Prometheus will be simpler to run, but at some point you
+will need to shard servers explicitly along scalability boundaries like
+products, services, datacenters, or similar aspects. Independent servers (which
+can be run redundantly in parallel) may also give you better reliability and
+failure isolation, though that is debatable, since InfluxDB also can tolerate
+node outages due to data replication.
 
 ## OpenTSDB
 

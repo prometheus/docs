@@ -6,10 +6,10 @@ sort_rank: 3
 # Getting started
 
 This guide is a "Hello World"-style tutorial which shows how to install,
-configure, and use Prometheus in a simple example setup. You'll build and run
+configure, and use Prometheus in a simple example setup. You will build and run
 Prometheus locally, configure it to scrape itself and an example application,
-and then work with queries, rules, and graphs to make use of the collected
-time series data.
+and then work with queries, rules, and graphs to make use of the collected time
+series data.
 
 ## Getting Prometheus
 
@@ -36,7 +36,7 @@ endpoints on these targets. Since Prometheus also exposes data in the same
 manner about itself, it may also be used to scrape and monitor its own health.
 
 While a Prometheus server which collects only data about itself is not very
-useful in practice, it's a good starting example. Save the following basic
+useful in practice, it is a good starting example. Save the following basic
 Prometheus configuration as a file named `prometheus.conf`:
 
 ```
@@ -61,7 +61,8 @@ job: {
   # Override the global default and scrape targets from this job every 5 seconds.
   scrape_interval: "5s"
 
-  # Let's define a group of targets to scrape for this job. In this case, only one.
+  # Let's define a group of static targets to scrape for this job. In this
+  # case, only one.
   target_group: {
     # These endpoints are scraped via HTTP.
     target: "http://localhost:9090/metrics"
@@ -96,34 +97,34 @@ navigating to its metrics exposure endpoint: http://localhost:9090/metrics
 
 Let's try looking at some data that Prometheus has collected about itself. To
 use Prometheus's built-in expression browser, navigate to
-http://localhost:9090/ and choose the "Tabular" view within the "Graph"
+http://localhost:9090/graph and choose the "Tabular" view within the "Graph"
 tab.
 
 As you can gather from http://localhost:9090/metrics, one metric that
 Prometheus exports about itself is called
-`prometheus_target_operation_latency_milliseconds`. Go ahead and enter this into the
-expression console:
+`prometheus_target_interval_length_seconds` (the actual amount of time between
+target scrapes). Go ahead and enter this into the expression console:
 
 ```
-prometheus_target_operation_latency_milliseconds
+prometheus_target_interval_length_seconds
 ```
 
 This should return a lot of different time series (along with the latest value
 recorded for each), all with the metric name
-`prometheus_target_operation_latency_milliseconds`, but with different labels. These
-labels designate different latency percentiles and operation outcomes.
+`prometheus_target_interval_length_seconds`, but with different labels. These
+labels designate different latency percentiles and target group intervals.
+
+If we were only interested in the 99th percentile latencies, we could use this
+query to retrieve that information:
+
+```
+prometheus_target_interval_length_seconds{quantile="0.99"}
+```
 
 To count the number of returned time series, you could write:
 
 ```
-count(prometheus_target_operation_latency_milliseconds)
-```
-
-If we were only interested in the 99th percentile latencies for scraping
-Prometheus itself, we could use this query to retrieve that information:
-
-```
-prometheus_target_operation_latency_milliseconds{instance="http://localhost:9090/metrics", quantile="0.99"}
+count(prometheus_target_interval_length_seconds)
 ```
 
 For further details about the expression language, see the
@@ -131,14 +132,14 @@ For further details about the expression language, see the
 
 ## Using the graphing interface
 
-To graph expressions, navigate to http://localhost:9090/ and use the "Graph"
+To graph expressions, navigate to http://localhost:9090/graph and use the "Graph"
 tab.
 
-For example, enter the following expression to graph all latency percentiles
-for scraping Prometheus itself operations:
+For example, enter the following expression to graph the per-second rate of all
+storage chunk operations happening in the self-scraped Prometheus:
 
 ```
-prometheus_target_operation_latency_milliseconds{instance="http://localhost:9090/metrics"}
+rate(prometheus_local_storage_chunk_ops_total[1m])
 ```
 
 Experiment with the graph range parameters and other settings.
@@ -148,27 +149,30 @@ Experiment with the graph range parameters and other settings.
 Let's make this more interesting and start some example targets for Prometheus
 to scrape.
 
-Download the Go client library for Prometheus, and run some random examples
-from it that export time series with random data:
+The Go client library includes an example which exports fictional RPC latencies
+for three services with different latency distributions.
+
+Download the Go client library for Prometheus and run three of these example
+processes:
 
 ```bash
-# Fetch the client library code:
+# Fetch the client library code.
 git clone git@github.com:/prometheus/client_golang
 
-# You might also want to do this if you didn't download the above repo into your Go package path already:
-go get github.com/prometheus/client_golang
+# Change to the random RPC example.
+cd client_golang/examples/random
+
+# Assuming a working Go setup, fetch necessary dependencies.
+go get -d
 
 # Start 3 example targets in screen sessions:
-cd client_golang/examples/random
-go run main.go -listeningAddress=:8080
-go run main.go -listeningAddress=:8081
-go run main.go -listeningAddress=:8082
+go run main.go -listen-address=:8080
+go run main.go -listen-address=:8081
+go run main.go -listen-address=:8082
 ```
 
 You should now have example targets listening on http://localhost:8080/metrics,
 http://localhost:8081/metrics, and http://localhost:8082/metrics.
-
-TODO: These examples don't exist anymore. Provide alternatives.
 
 ## Configuring Prometheus to monitor the sample targets
 
@@ -186,6 +190,7 @@ restart your Prometheus instance:
 ```
 job: {
   name: "random-example"
+  scrape_interval: "5s"
 
   # The "production" targets for this job.
   target_group: {
@@ -212,27 +217,32 @@ job: {
 ```
 
 Go to the expression browser and verify that Prometheus now has information
-about time series that these example endpoints expose, e.g. the
-`rpc_calls_total` metric.
+about time series that these example endpoints expose, such as the
+`rpc_durations_microseconds` metric.
 
 ## Configure rules for aggregating scraped data into new time series
 
-Queries that aggregate over thousands of time series can get slow when computed
-ad-hoc. To make this more efficient, Prometheus allows you to prerecord
-expressions into completely new persisted time series via configured recording
-rules. Let's say we're interested in recording the per-second rate of
-`rpc_calls_total` averaged over all instances as measured over the last 5
+Though not a problem in our example, queries that aggregate over thousands of
+time series can get slow when computed ad-hoc. To make this more efficient,
+Prometheus allows you to prerecord expressions into completely new persisted
+time series via configured recording rules. Let's say we are interested in
+recording the per-second rate of example RPCs
+(`rpc_durations_microseconds_count`) averaged over all instances (but
+preserving the `job` and `service` dimensions) as measured over a window of 5
 minutes. We could write this as:
 
 ```
-avg(rate(rpc_calls_total[5m]))
+avg(rate(rpc_durations_microseconds_count[5m])) by (job, service)
 ```
 
-To record this expression as a new time series called `job:rpc_calls:avg_rate5m`, create a
-file with the following recording rule and save it as `prometheus.rules`:
+Try graphing this expression.
+
+To record the time series resulting from this expression into a new metric
+called `job_service:rpc_durations_microseconds_count:avg_rate5m`, create a file
+with the following recording rule and save it as `prometheus.rules`:
 
 ```
-job:rpc_calls:avg_rate5m = avg(rate(rpc_calls_total[5m]))
+job_service:rpc_durations_microseconds_count:avg_rate5m = avg(rate(rpc_durations_microseconds_count[5m])) by (job, service)
 ```
 
 To make Prometheus pick up this new rule, add a `rule_files` statement to the
@@ -255,8 +265,10 @@ global: {
   # Load and evaluate rules in this file every 'evaluation_interval' seconds. This field may be repeated.
   rule_file: "prometheus.rules"
 }
+
+[...]
 ```
 
 Restart Prometheus with the new configuration and verify that a new time series
-with the metric name `job:rpc_calls:avg_rate5m` is now available by querying it
-through the expression browser or graphing it.
+with the metric name `job_service:rpc_durations_microseconds_count:avg_rate5m`
+is now available by querying it through the expression browser or graphing it.

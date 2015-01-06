@@ -29,7 +29,7 @@ optional:
 - client libraries for instrumenting application code
 - a [push gateway](https://github.com/prometheus/pushgateway) for supporting short-lived jobs
 - a [GUI-based dashboard builder](PromDash) based on Rails/SQL
-- special-purpose exporters (for HAProxy, StatsD, Ganglia, etc.) 
+- special-purpose exporters (for HAProxy, StatsD, Ganglia, etc.)
 - an (experimental) [alert manager](https://github.com/prometheus/alertmanager)
 - a [command-line querying tool](https://github.com/prometheus/prometheus_cli)
 - various support tools
@@ -50,13 +50,13 @@ Prometheus is designed for reliability, to be the system you go to
 during an outage to allow you to quickly diagnose problems. Each Prometheus
 server is standalone, not depending on network storage or other remote services.
 You can rely it when other parts of your infrastructure are broken, and
-you don't have to setup complex infrastructure to use it.
+you don't have to set up complex infrastructure to use it.
 
 ## When doesn't it fit?
 
 Prometheus values reliability. You can always view what statistics are
 available about your system, even under failure conditions. If you need 100%
 accuracy, such as for per-request billing, Prometheus is not a good choice as
-we keep things simple and easy to understand. In such a case you would be best
-using some other system to collect and analyse the data for billing, and
-Prometheus for the rest of your monitoring.
+the collected data will likely not be detailed and complete enough. In such a
+case you would be best off using some other system to collect and analyse the
+data for billing, and Prometheus for the rest of your monitoring.

@@ -24,7 +24,7 @@ end
 compile '*' do
   if item[:extension] == 'md'
     #filter :kramdown
-    filter :redcarpet, options: {hard_wrap: true, filter_html: true, autolink: true, no_intraemphasis: true, fenced_code_blocks: true, gh_blockcode: true}
+    filter :redcarpet, options: {hard_wrap: true, filter_html: true, autolink: true, no_intraemphasis: true, fenced_code_blocks: true, gh_blockcode: true}, renderer_options: {with_toc_data: true}
     filter :add_anchors
     filter :bootstrappify
     filter :admonition

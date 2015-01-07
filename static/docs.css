@@ -1,8 +1,10 @@
 /* Move down content because we have a fixed navbar that is 50px tall */
 body {
-  padding-top: 50px;
-  padding-bottom: 20px;
   font-family: 'Open Sans', serif;
+}
+
+.navbar {
+  margin-bottom: 0;
 }
 
 .navbar-brand {
@@ -107,6 +109,41 @@ footer p {
 
 .doc-content > h4 {
   font-size: 21px;
+}
+
+.doc-content a.header-anchor {
+  padding-left: 15px;
+}
+
+.doc-content a.header-anchor:after {
+  content: "\F0C1";
+  font-family: FontAwesome;
+  font-weight: normal;
+  font-size: .8em;
+}
+
+.doc-content a.header-anchor:link,
+.doc-content a.header-anchor:visited {
+  visibility: hidden;
+}
+
+.doc-content h1:hover a.header-anchor:hover,
+.doc-content h2:hover a.header-anchor:hover,
+.doc-content h3:hover a.header-anchor:hover,
+.doc-content h4:hover a.header-anchor:hover,
+.doc-content h5:hover a.header-anchor:hover,
+.doc-content h6:hover a.header-anchor:hover {
+  color: #000;
+}
+
+.doc-content h1:hover a.header-anchor,
+.doc-content h2:hover a.header-anchor,
+.doc-content h3:hover a.header-anchor,
+.doc-content h4:hover a.header-anchor,
+.doc-content h5:hover a.header-anchor,
+.doc-content h6:hover a.header-anchor {
+  color: #999;
+  visibility: visible;
 }
 
 pre {

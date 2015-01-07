@@ -36,6 +36,14 @@ body {
   color: #fff;
 }
 
+.main .fa {
+  color: #999;
+}
+
+.side-nav .fa {
+  color: #555;
+}
+
 a.sc-logo {
   color: #000;
   text-decoration: none;
@@ -48,8 +56,7 @@ footer p {
 /* Docs-related styles. */
 .side-nav {
   margin-top: 20px;
-  padding: 20px 20px 20px 20px;
-  background-color: #fafafa;
+  padding: 5px 20px 20px 20px;
 }
 
 .side-nav a {
@@ -61,16 +68,21 @@ footer p {
 }
 
 .side-nav .nav-header {
+  color: #e6522c;
   text-transform: uppercase;
-  padding: 5px 0 5px 0;
-  border-bottom: 2px solid #e6522c;
   font-size: 16px;
   display: block;
-  margin: auto;
+  margin: 20px auto 15px auto;
 }
 
 .side-nav .active {
-  background-color: #eee;
+  border-left: 3px solid #e6522c;
+  margin-left: -2px;
+  font-weight: bold;
+}
+
+.side-nav li ul li {
+  border-left: 1px solid #e9eff2;
 }
 
 .doc-content {
@@ -88,7 +100,6 @@ footer p {
 .doc-content > h1 {
   color: #e6522c;
   text-transform: uppercase;
-  border-bottom: 1px solid #eee;
   padding-bottom: 20px;
   margin: 40px 0 10px 0;
 }

@@ -1,6 +1,6 @@
 ---
 title: Pushing metrics
-sort_rank: 3
+sort_rank: 2
 ---
 
 # Pushing metrics
@@ -15,3 +15,9 @@ makes it easy to instrument even shell scripts without a client library.
 
 For more information on using the push gateway, see the project's
 [README.md](https://github.com/prometheus/pushgateway/blob/master/README.md).
+
+For use from Java see the
+[PushGateway](http://prometheus.github.io/client_java/io/prometheus/client/exporter/PushGateway.html)
+class.
+
+For use from Go see the [Push](http://godoc.org/github.com/prometheus/client_golang/prometheus#Push) and [PushAdd](http://godoc.org/github.com/prometheus/client_golang/prometheus#PushAdd) functions.

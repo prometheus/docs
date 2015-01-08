@@ -39,6 +39,9 @@ optional:
 - a [command-line querying tool](https://github.com/prometheus/prometheus_cli)
 - various support tools
 
+Most Prometheus components are written in [Go](https://golang.org/), making
+them easy to build and deploy as static binaries.
+
 ### Architecture
 
 This diagram illustrates the overall architecture of Prometheus and some of

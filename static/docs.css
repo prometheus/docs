@@ -120,11 +120,12 @@ footer p {
 }
 
 .doc-content > h3 {
-  font-size: 25px;
+  font-size: 22px;
 }
 
 .doc-content > h4 {
-  font-size: 21px;
+  font-weight: bold;
+  font-size: 18px;
 }
 
 .doc-content a.header-anchor {

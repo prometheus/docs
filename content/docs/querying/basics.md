@@ -119,6 +119,24 @@ in detail in the [expression language functions](/docs/querying/functions) page.
 
 ## Gotchas
 
-TODO: explain staleness and inerpolation
+### Time series staleness
 
-TODO: explain avoiding slow queries
+TODO: TODO: explain staleness
+
+### Interpolation
+
+TODO: TODO: explain interpolation
+
+### Avoiding slow queries and overloads
+
+If a query needs to operate on a very large amount of data, graphing it might
+time out or overload the server or browser. Thus, when gradually constructing
+queries over unknown data, always start building the query in the tabular view
+of Prometheus's expression browser until the result set seems reasonable.  Only
+when you have filtered or aggregated your data sufficiently, switch to graph
+mode. If the expression still takes too long to graph ad-hoc, pre-record it via
+a [recording rule](/docs/operating/rules/#recording-rules).
+
+This is especially relevant for Prometheus's query language, where a bare
+metric name selector like `api_http_requests_total` could expand to thousands
+of time series with different labels.

@@ -9,7 +9,7 @@ sort_rank: 4
 
 ### Scope
 
-[Graphite](http://graphite.readthedocs.org/en/latest/) focusses on being a
+[Graphite](http://graphite.readthedocs.org/en/latest/) focuses on being a
 passive time series database with a query language and graphing features. Any
 other concerns are addressed by external components.
 
@@ -35,7 +35,7 @@ instance as a dimension and being able to drill down into individual
 problematic ones.
 
 As an example, storing the number of HTTP requests to API servers with the
-response code `500` and the method `POST` to the `/tracks` controller would
+response code `500` and the method `POST` to the `/tracks` endpoint would
 commonly be encoded like this in Graphite/StatsD:
 
 ```
@@ -71,9 +71,6 @@ unable to consider it as an alternative at the time. Still, there are
 significant differences between Prometheus and InfluxDB, and both systems are
 geared towards slightly different use cases.
 
-The comparisons below attempt to help you choose the right system for your use
-case and taste:
-
 ### Scope
 
 The same scope differences as in the case of
@@ -98,13 +95,12 @@ disk storage in InfluxDB than in Prometheus** due to this different data model.
 
 If you are only interested in tracking the development of existing named
 time series (for example, the cumulative count of HTTP requests with the method
-`POST` and the handler `/api/tracks` on the instance
+`POST` to the `/api/tracks` endpoint on the instance
 `http://1.2.3.4:12345/metrics`), Prometheus will require much less storage
 space than InfluxDB. Further, Prometheus indexes all time series dimensions for
 efficient filtering, while InfluxDB currently only indexes tables by row
 timestamps (issue to track adding column indexes:
-https://github.com/influxdb/influxdb/issues/582). Thus, I would expect
-Prometheus to be more efficient at filtering data.
+https://github.com/influxdb/influxdb/issues/582).
 
 Still, InfluxDB is better geared towards the following use cases:
 

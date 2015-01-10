@@ -17,7 +17,7 @@ services at SoundCloud and is seeing growing external usage and contributions.
 Prometheus's main features are:
 
 - a multi-dimensional [data model](/docs/concepts/data_model/) (time series identified by metric name and key/value pairs)
-- a [flexible query language](/docs/using/querying/basics/)
+- a [flexible query language](/docs/querying/basics/)
   to leverage this dimensionality
 - no reliance on distributed storage; single server nodes are autonomous
 - time series collection happens via a pull model over HTTP

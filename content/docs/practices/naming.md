@@ -31,7 +31,7 @@ A metric name:
 As a rule of thumb, either the `sum()` or the `avg()` over all dimensions of a
 given metric should be meaningful (though not necessarily useful). If it is not
 meaningful, split the data up into multiple metrics. For example, having the
-capacity of various queues in the metric is good, mixing the capacity of a
+capacity of various queues in one metric is good, while mixing the capacity of a
 queue with the current number of elements in the queue is not.
 
 ## Labels

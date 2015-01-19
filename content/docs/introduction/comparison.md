@@ -131,7 +131,7 @@ can be run redundantly in parallel) may also give you better reliability and
 failure isolation, though that is debatable, since InfluxDB also can tolerate
 node outages due to data replication.
 
-## OpenTSDB
+## Prometheus vs. OpenTSDB
 
 [OpenTSDB](http://opentsdb.net/) is a distributed time series database based on
 [Hadoop](http://hadoop.apache.org/) and [HBase](http://hbase.apache.org/).

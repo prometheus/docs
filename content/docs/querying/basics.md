@@ -119,24 +119,42 @@ in detail in the [expression language functions](/docs/querying/functions) page.
 
 ## Gotchas
 
-### Time series staleness
+### Interpolation and staleness
 
-TODO: TODO: explain staleness
+When queries are run, timestamps at which to sample data are selected
+independent of the actual present time series data. This is mainly to support
+cases like aggregation (`sum`, `avg`, and so on), where multiple aggregated
+time series do not exactly align in time. At every one of these predetermined
+sampling times, Prometheus searches for the closest surrounding samples and
+linearly interpolates a timestamp-value pair between the actual stored samples.
+That means that the generated sample has timestamp and sample values which are
+somewhere in between the timestamp and sample values of the surrounding samples
+(depending on how close the query timestamp is to either surrounding point).
 
-### Interpolation
+If no stored sample is found either (by default) 5 minutes before or after a
+sampling timestamp, no interpolated sample is generated for this time series at
+this point in time. This effectively means that time series "disappear" from
+graphs at times where their latest collected sample is 5 older than 5 minutes.
 
-TODO: TODO: explain interpolation
+NOTE: <b>NOTE:</b> Staleness and interpolation handling might change. See
+https://github.com/prometheus/prometheus/issues/398 and
+https://github.com/prometheus/prometheus/issues/386.
 
 ### Avoiding slow queries and overloads
 
 If a query needs to operate on a very large amount of data, graphing it might
-time out or overload the server or browser. Thus, when gradually constructing
-queries over unknown data, always start building the query in the tabular view
-of Prometheus's expression browser until the result set seems reasonable.  Only
-when you have filtered or aggregated your data sufficiently, switch to graph
-mode. If the expression still takes too long to graph ad-hoc, pre-record it via
-a [recording rule](/docs/operating/rules/#recording-rules).
+time out or overload the server or browser. Thus, when constructing queries
+over unknown data, always start building the query in the tabular view of
+Prometheus's expression browser until the result set seems reasonable
+(hundreds, not thousands, of time series at most).  Only when you have filtered
+or aggregated your data sufficiently, switch to graph mode. If the expression
+still takes too long to graph ad-hoc, pre-record it via a [recording
+rule](/docs/operating/rules/#recording-rules).
 
 This is especially relevant for Prometheus's query language, where a bare
 metric name selector like `api_http_requests_total` could expand to thousands
-of time series with different labels.
+of time series with different labels. Also keep in mind that expressions which
+aggregate over many time series will generate load on the server even if the
+output is only a small number of time series. This is similar to how it would
+be slow to sum all values of a column in a relational database, even if the
+output value is only a single number.

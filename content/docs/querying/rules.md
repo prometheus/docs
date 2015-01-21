@@ -1,6 +1,6 @@
 ---
 title: Recording and alerting rules
-sort_rank: 5
+sort_rank: 6
 ---
 
 # Defining recording and alerting rules

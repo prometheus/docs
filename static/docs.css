@@ -49,13 +49,14 @@ body {
   color: #555;
 }
 
-a.sc-logo {
-  color: #000;
-  text-decoration: none;
+footer {
+  font-size: 12px;
+  color: #333;
 }
 
-footer p {
-  float: left;
+a.sc-logo img {
+  margin-left: 3px;
+  margin-bottom: 2px;
 }
 
 /* Docs-related styles. */

@@ -33,8 +33,8 @@ Most Prometheus components are written in Go. Some are also written in Java and 
 ### Who wrote Prometheus?
 
 Prometheus was initially started privately by
-[Matt Proud](https://github.com/matttproud) and
-[Julius Volz](https://github.com/juliusv). The majority of its
+[Matt T. Proud](http://www.matttproud.com) and
+[Julius Volz](http://juliusv.com). The majority of its
 development has been sponsored by [SoundCloud](https://soundcloud.com).
 
 Other companies making active contributions include [Boxever](www.boxever.com)

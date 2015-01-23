@@ -16,28 +16,28 @@ services at SoundCloud and is seeing growing external usage and contributions.
 
 Prometheus's main features are:
 
-- a multi-dimensional [data model](/docs/concepts/data_model/) (time series identified by metric name and key/value pairs)
-- a [flexible query language](/docs/querying/basics/)
+* a multi-dimensional [data model](/docs/concepts/data_model/) (time series identified by metric name and key/value pairs)
+* a [flexible query language](/docs/querying/basics/)
   to leverage this dimensionality
-- no reliance on distributed storage; single server nodes are autonomous
-- time series collection happens via a pull model over HTTP
-- [pushing time series](/docs/instrumenting/pushing/) is supported via an intermediary gateway
-- targets are discovered via service discovery or static configuration
-- multiple modes of graphing and dashboarding support
+* no reliance on distributed storage; single server nodes are autonomous
+* time series collection happens via a pull model over HTTP
+* [pushing time series](/docs/instrumenting/pushing/) is supported via an intermediary gateway
+* targets are discovered via service discovery or static configuration
+* multiple modes of graphing and dashboarding support
 
 ### Components
 
 The Prometheus ecosystem consists of multiple components, many of which are
 optional:
 
-- the main [Prometheus server](https://github.com/prometheus/prometheus) which scrapes and stores time series data
-- [client libraries](/docs/instrumenting/clientlibs/) for instrumenting application code
-- a [push gateway](https://github.com/prometheus/pushgateway) for supporting short-lived jobs
-- a [GUI-based dashboard builder](/docs/visualization/promdash/) based on Rails/SQL
-- special-purpose [exporters](/docs/instrumenting/exporters/) (for HAProxy, StatsD, Ganglia, etc.)
-- an (experimental) [alert manager](https://github.com/prometheus/alertmanager)
-- a [command-line querying tool](https://github.com/prometheus/prometheus_cli)
-- various support tools
+* the main [Prometheus server](https://github.com/prometheus/prometheus) which scrapes and stores time series data
+* [client libraries](/docs/instrumenting/clientlibs/) for instrumenting application code
+* a [push gateway](https://github.com/prometheus/pushgateway) for supporting short-lived jobs
+* a [GUI-based dashboard builder](/docs/visualization/promdash/) based on Rails/SQL
+* special-purpose [exporters](/docs/instrumenting/exporters/) (for HAProxy, StatsD, Ganglia, etc.)
+* an (experimental) [alert manager](https://github.com/prometheus/alertmanager)
+* a [command-line querying tool](https://github.com/prometheus/prometheus_cli)
+* various support tools
 
 Most Prometheus components are written in [Go](https://golang.org/), making
 them easy to build and deploy as static binaries.

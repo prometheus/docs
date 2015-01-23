@@ -13,9 +13,9 @@ Choose a Prometheus client library that matches the language in which your
 application is written. This lets you define and expose internal metrics via an
 HTTP endpoint on your application’s instance:
 
-- [Go](https://github.com/prometheus/client_golang)
-- [Java or Scala](https://github.com/prometheus/client_java)
-- [Ruby](https://github.com/prometheus/client_ruby)
+* [Go](https://github.com/prometheus/client_golang)
+* [Java or Scala](https://github.com/prometheus/client_java)
+* [Ruby](https://github.com/prometheus/client_ruby)
 
 When Prometheus scrapes your instance's HTTP endpoint, the client library
 sends the current state of all tracked metrics to the server.

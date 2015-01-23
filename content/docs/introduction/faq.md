@@ -30,6 +30,22 @@ The Alertmanager cannot currently be made highly available, but this is a goal.
 
 Most Prometheus components are written in Go. Some are also written in Java and Ruby.
 
+### Why do you pull rather than push?
+
+Pulling over HTTP offers a number of advantages:
+
+* You can run your monitoring on your laptop when developing changes.
+* You can more easily tell if a target is down.
+* You can manually go to a target and inspect its health with a web browser.
+
+Overall we believe that pulling is slightly better than pushing, but it should
+not be considered a major point when considering a monitoring system.
+
+The [Push vs Pull for Monitoring](http://www.boxever.com/push-vs-pull-for-monitoring)
+blog post by Brian Brazil goes into more detail.
+
+For cases where you must push, we offer the [Pushgateway](../../instrumenting/pushing).
+
 ### Who wrote Prometheus?
 
 Prometheus was initially started privately by
@@ -47,6 +63,11 @@ file in each repository.
 Prometheus is released under the
 [Apache 2.0](https://github.com/prometheus/prometheus/blob/master/LICENSE) license.
 
+### What is the plural of Prometheus?
+
+After extensive research it has been determined that the correct plural of
+'Prometheus' is 'Prometheis'.
+
 ### Can I send alerts?
 
 Yes, with the experimental [Alertmanager](https://github.com/prometheus/alertmanager).
@@ -63,9 +84,9 @@ templates](visualization/consoles/).
 
 Currently there are client libraries for:
 
-- [Go](https://github.com/prometheus/client_golang)
-- [Java or Scala](https://github.com/prometheus/client_java)
-- [Ruby](https://github.com/prometheus/client_ruby)
+* [Go](https://github.com/prometheus/client_golang)
+* [Java or Scala](https://github.com/prometheus/client_java)
+* [Ruby](https://github.com/prometheus/client_ruby)
 
 If you are interested in contributing a client library for a new language, see
 the [exposition formats](../../instrumenting/exposition_formats/).
@@ -81,6 +102,10 @@ disk utilization, filesystem fullness and network bandwidth.
 Yes, using the [Pushgateway](../../instrumenting/pushing). See also the
 [best practices](../../practices/instrumentation/#batch-jobs) for monitoring batch
 jobs.
+
+### What applications can Prometheus monitor out of the box?
+
+See [exporters for third-party systems](../../instrumenting/exporters).
 
 ### Which Java client should I use?
 

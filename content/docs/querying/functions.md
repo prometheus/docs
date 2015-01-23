@@ -37,27 +37,33 @@ allows grouping by labels via a `by` clause.
 
 ## `delta()`
 
-`delta(v range-vector, counter bool)` calculates the difference between the
+`delta(v range-vector)` calculates the difference between the
 first and last value of each time series element in a range vector `v`,
-returning an instant vector with the given deltas and equivalent labels. If
-`counter` is set to `1` (`true`), the time series in the range vector are
-treated as monotonically increasing counters. Breaks in monotonicity (such as
-counter resets due to target restarts) are automatically adjusted for. Setting
-`counter` to `0` (`false`) turns this behavior off.
+returning an instant vector with the given deltas and equivalent labels.
+The delta is interpolated to cover the full time range. 
 
-Example which returns the total number of HTTP requests counted within the last
-5 minutes, per time series in the range vector:
+The following example expression returns the difference in CPU temperature
+between now and 2 hours ago:
 
 ```
-delta(http_requests{job="api-server"}[5m], 1)
+delta(cpu_temp_celsius{host="zeus"}[2h])
 ```
 
-Example which returns the difference in CPU temperature between now and 2 hours
-ago:
+`delta` should only be used with gauges.
+
+## `deriv()`
+
+`deriv(v range-vector)` calculates the derivative of the time series in a range
+vector `v`, using [simple linear regression](http://en.wikipedia.org/wiki/Simple_linear_regression).
+
+The following example expression returns the predicted CPU temperature in 5
+minutes based on the previous hour of data:
 
 ```
-delta(cpu_temp_celsius{host="zeus"}[2h], 0)
+cpu_temp_celsius{host="zeus"} + deriv(cpu_temp_celsius{host="zeus"}[1h]) * 5 * 60
 ```
+
+`deriv` should only be used with gauges.
 
 ## `drop_common_labels()`
 
@@ -66,16 +72,18 @@ and value across all series in the input vector.
 
 ## `rate()`
 
-`rate(v range-vector)` behaves like `delta()`, with two differences:
-* the returned delta is converted into a per-second rate, according to the respective interval
-* the `counter` argument is implicitly set to `1` (`true`)
+`rate(v range-vector)` calculate the per-second average rate of increase of the
+time series in the range vector. Breaks in monotonicity (such as counter
+resets due to target restarts) are automatically adjusted for.
 
-Example call which returns the per-second rate of HTTP requests as measured
+The following example expression returns the per-second rate of HTTP requests as measured
 over the last 5 minutes, per time series in the range vector:
 
 ```
-rate(http_requests{job="api-server"}[5m])
+rate(http_requests_total{job="api-server"}[5m])
 ```
+
+`rate` should only be used with counters.
 
 ## `scalar()`
 

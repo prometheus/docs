@@ -55,7 +55,7 @@ but it is very localised information. A better approach is to send a heartbeat
 through the system: some dummy item that gets passed all the way through
 and includes the timestamp when it was inserted. Each stage can export the most
 recent heartbeat timestamp it has seen, letting you know how long items are
-taking to propogate through the system. For systems that do not have quiet
+taking to propagate through the system. For systems that do not have quiet
 periods where no processing occurs, an explicit heartbeat may not be needed.
 
 #### Batch jobs
@@ -97,7 +97,7 @@ Depending on how heavy the library is, track internal errors and
 latency within the library itself, and any general statistics you think may be
 useful.
 
-A library may be used by multiple independant parts of an application against
+A library may be used by multiple independent parts of an application against
 different resources, so take care to distinguish uses with labels where
 appropriate. For example, a database connection pool should distinguish the databases
 it is talking to, whereas there is no need to differentiate
@@ -109,9 +109,9 @@ As a general rule, for every line of logging code you should also have a
 counter that is incremented. If you find an interesting log message, you want to
 be able to see how often it has been happening and for how long.
 
-If there are multiple closely-related log messages in the same function (for example
+If there are multiple closely-related log messages in the same function (for example,
 different branches of an if or switch statement), it can sometimes make sense
-increment the same one counter for all of them.
+increment a single counter for all of them.
 
 It is also generally useful to export the total number of info/error/warning
 lines that were logged by the application as a whole, and check for significant
@@ -144,7 +144,7 @@ gauge for how long the collection took in seconds and another for the number of
 errors encountered.
 
 This is one of the two cases when it is okay to export a duration as a gauge
-rather than a summary, the other being batch job durations. This is as both
+rather than a summary, the other being batch job durations. This is because both
 represent information about that particular push/scrape, rather than
 tracking multiple durations over time.
 
@@ -161,7 +161,7 @@ take advantage of them, so it takes a bit of getting used to.
 When you have multiple metrics that you want to add/average/sum, they should
 usually be one metric with labels rather than multiple metrics.
 
-For example, rather `http_responses_500_total` and `http_resonses_403_total`,
+For example, rather than `http_responses_500_total` and `http_resonses_403_total`,
 create a single metric called `http_responses_total` with a `code` label
 for the HTTP response code. You can then process the entire metric as one in
 rules and graphs.
@@ -209,15 +209,15 @@ never take a `rate()` of a gauge.
 Summaries are similar to having two counters. They track the number of events
 *and* the amount of something for each event, allowing you to calculate the
 average amount per event (useful for latency, for example). In addition,
-summaries can also export quantiles of the amounts, but note that quantiles are not
-aggregatable.
+summaries can also export quantiles of the amounts, but note that [quantiles are not
+aggregatable](http://latencytipoftheday.blogspot.de/2014/06/latencytipoftheday-you-cant-average.html).
 
 ### Timestamps, not time since
 
 If you want to track the amount of time since something happened, export the
 Unix timestamp at which it happened - not the time since it happened.
 
-With the timestamp exported, you can use `time() - my_timestamp_metric` to
+With the timestamp exported, you can use the expression `time() - my_timestamp_metric` to
 calculate the time since the event, removing the need for update logic and
 protecting you against the update logic getting stuck.
 

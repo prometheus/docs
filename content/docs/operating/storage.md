@@ -3,4 +3,13 @@ title: Storage
 nav_icon: database
 ---
 
-This is about the storage.
+# Storage
+
+Prometheus stores its timeseries data under the directory specified by the flag
+`storage.local.path`. If you suspect problems caused by corruption in the
+database, or you simply want to erase the existing database, you can easily
+start fresh by deleting the contents of this directory:
+
+   1. Stop Prometheus.
+   1. `rm -rf $STORAGE_PATH/*`
+   1. Start Prometheus.

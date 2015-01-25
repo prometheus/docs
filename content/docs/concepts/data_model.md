@@ -8,7 +8,7 @@ sort_rank: 1
 Prometheus fundamentally stores all data as [_time
 series_](http://en.wikipedia.org/wiki/Time_series): streams of timestamped
 values belonging to the same metric and the same set of labeled dimensions.
-Besides stored timeseries, Prometheus may generate temporary derived timeseries
+Besides stored time series, Prometheus may generate temporary derived time series
 as the result of queries.
 
 ## Metric names and labels

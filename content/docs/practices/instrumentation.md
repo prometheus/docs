@@ -174,7 +174,7 @@ See also the [naming](../naming) section.
 
 ### Do not overuse labels
 
-Each labelset is an additional timeseries that has RAM, CPU, disk, and network
+Each labelset is an additional time series that has RAM, CPU, disk, and network
 costs. Usually the overhead is negligible, but in scenarios with lots of
 metrics and hundreds of labelsets across hundreds of servers, this can add up
 quickly.

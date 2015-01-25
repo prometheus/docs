@@ -55,13 +55,13 @@ api_server_http_requests_total{method="POST","handler="/tracks",status="500",ins
 Graphite stores time series data on local disk in the
 [Whisper](http://graphite.readthedocs.org/en/latest/whisper.html) format, an
 RRD-style database that expects samples to arrive at regular intervals. Every
-timeseries is stored in a separate file, and new samples overwrite old ones
+time series is stored in a separate file, and new samples overwrite old ones
 after a certain amount of time.
 
 Prometheus also creates one local file per time series, but allows storing
 samples at arbitrary intervals as scrapes or rule evaluations occur. Since new
 samples are simply appended, old data may be kept arbitrarily long. Prometheus
-also works well for many short-lived, frequently changing sets of timeseries.
+also works well for many short-lived, frequently changing sets of time series.
 
 ## Prometheus vs. InfluxDB
 

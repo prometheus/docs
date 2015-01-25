@@ -155,9 +155,9 @@ as the global setting remains unchanged.
 The legend settings menu tab allows you to configure when to show the legend on
 a graph, as well as defining how it should be formatted.
 
-By default, each timeseries will be displayed with their full name (metric name
-plus all label names and values) in the legend. If you have many timeseries or
-timeseries with many labels, this can quickly lead to unusably long legends.
+By default, each time series will be displayed with their full name (metric name
+plus all label names and values) in the legend. If you have many time series or
+time series with many labels, this can quickly lead to unusably long legends.
 
 The `Legend format` builder allows you to create a list of format strings which
 you can then assign to expressions in the `Datasources` tab. Each format string

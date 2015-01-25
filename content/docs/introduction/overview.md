@@ -51,7 +51,7 @@ its ecosystem components:
 
 Prometheus scrapes metrics from instrumented jobs, either directly or via an
 intermediary push gateway for short-lived jobs. It stores all scraped samples
-locally and runs rules over this data to either record new timeseries from
+locally and runs rules over this data to either record new time series from
 existing data or generate alerts. PromDash or other API consumers can be used
 to visualize the collected data.
 

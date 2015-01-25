@@ -8,7 +8,7 @@ sort_rank: 5
 ## General
 
 ### What is Prometheus?
-Prometheus is an open-source systems monitoring and alerting toolkit,
+Prometheus is an open-source systems monitoring and alerting toolkit
 with an active ecosystem. See the [overview](../overview).
 
 ### How does Prometheus compare against \[other monitoring system\]?

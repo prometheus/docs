@@ -49,11 +49,11 @@ its ecosystem components:
 
 ![Prometheus architecture](/assets/architecture.svg)
 
-Prometheus servers scrape metrics from instrumented jobs, either directly or
-via an intermediary push gateway for short-lived jobs. They store all scraped
-samples locally and run rules over this data to either record new timeseries
-from existing data or generate alerts. PromDash or other API consumers can be
-used to visualize the collected data.
+Prometheus scrapes metrics from instrumented jobs, either directly or via an
+intermediary push gateway for short-lived jobs. It stores all scraped samples
+locally and runs rules over this data to either record new timeseries from
+existing data or generate alerts. PromDash or other API consumers can be used
+to visualize the collected data.
 
 ## When does it fit?
 

@@ -11,6 +11,8 @@ PromDash is a browser-based dashboard builder for Prometheus. It is a
 [Rails](http://rubyonrails.org/) application and stores its dashboard metadata
 in a configurable SQL backend.
 
+[![PromDash screenshot](/assets/promdash_event_processor.png)](/assets/promdash_event_processor.png)
+
 For installing and running PromDash, see the
 [README.md](https://github.com/prometheus/promdash/blob/master/README.md) for
 more information. The instructions below assume that you have a running

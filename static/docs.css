@@ -163,6 +163,13 @@ a.sc-logo img {
   visibility: visible;
 }
 
+.doc-content img {
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+}
+
 pre {
   font-family: "Courier New", Monaco, Menlo, Consolas, monospace;
   background-color: #444;

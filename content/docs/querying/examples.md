@@ -65,10 +65,10 @@ The same expression, but summed by application, could be written like this:
 In the same fictional cluster scheduler that exposed CPU usage metrics like the
 following for every instance:
 
-    instance_cpu_time_ns{app="lion", proc="web", rev="", env="", job=""}
-    instance_cpu_time_ns{app="elephant", proc="worker", rev="", env="", job=""}
-    instance_cpu_time_ns{app="turtle", proc="api", rev="", env="", job=""}
-    instance_cpu_time_ns{app="fox", proc="widget", rev="", env="", job=""}
+    instance_cpu_time_ns{app="lion", proc="web", rev="34d0f99", env="prod", job="cluster-manager"}
+    instance_cpu_time_ns{app="elephant", proc="worker", rev="34d0f99", env="prod", job="cluster-manager"}
+    instance_cpu_time_ns{app="turtle", proc="api", rev="4d3a513", env="prod", job="cluster-manager"}
+    instance_cpu_time_ns{app="fox", proc="widget", rev="4d3a513", env="prod", job="cluster-manager"}
     ...
 
 ...we could get the top 3 CPU users grouped by application (`app`) and process

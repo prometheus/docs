@@ -62,7 +62,7 @@ The same expression, but summed by application, could be written like this:
       instance_memory_limit_bytes - instance_memory_usage_bytes
     ) by (app, proc) / 1024 / 1024
 
-In the same fictional cluster scheduler that exposed CPU usage metrics like the
+If the same fictional cluster scheduler exposed CPU usage metrics like the
 following for every instance:
 
     instance_cpu_time_ns{app="lion", proc="web", rev="34d0f99", env="prod", job="cluster-manager"}

@@ -170,7 +170,7 @@ As a rule of thumb, no part of a metric name should ever be procedurally
 generated (use labels instead). The one exception is when proxying metrics
 from another monitoring/instrumentation system.
 
-See also the [naming](../naming) section.
+See also the [naming](/docs/practices/naming/) section.
 
 ### Do not overuse labels
 

@@ -71,7 +71,7 @@ job: {
 ```
 
 Prometheus configuration is supplied in an ASCII form of [protocol
-buffers](https://developers.google.com/protocol-buffers/docs/overview). The
+buffers](https://developers.google.com/protocol-buffers/docs/overview/). The
 [schema definition](https://github.com/prometheus/prometheus/blob/master/config/config.proto)
 has a complete documentation of all available configuration options.
 
@@ -128,7 +128,7 @@ count(prometheus_target_interval_length_seconds)
 ```
 
 For further details about the expression language, see the
-[expression language documentation](/docs/querying/basics).
+[expression language documentation](/docs/querying/basics/).
 
 ## Using the graphing interface
 

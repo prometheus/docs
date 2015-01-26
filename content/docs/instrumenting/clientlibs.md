@@ -22,4 +22,4 @@ sends the current state of all tracked metrics to the server.
 
 If no client library is available for your language, or you want to avoid
 dependencies, you may also implement one of the supported [exposition
-formats](/docs/instrumenting/exposition_formats) yourself to expose metrics.
+formats](/docs/instrumenting/exposition_formats/) yourself to expose metrics.

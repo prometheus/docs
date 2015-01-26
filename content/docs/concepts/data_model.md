@@ -32,7 +32,7 @@ must match the regex `[a-zA-Z_][a-zA-Z0-9_]`.
 
 Label values may contain any Unicode characters.
 
-See also the [best practices for naming metrics and labels](/docs/practices/naming).
+See also the [best practices for naming metrics and labels](/docs/practices/naming/).
 
 ## Samples
 Samples form the actual time series data. Each sample consists of:

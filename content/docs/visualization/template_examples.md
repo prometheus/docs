@@ -53,7 +53,7 @@ samples were returned to avoid an execution error. For example this could
 happen if a scrape or rule evaluation has not run yet, or a host was down.
 
 The included `prom_query_drilldown` template handles this, allows for
-formatting of results, and linking to the [expression browser](../browser/).
+formatting of results, and linking to the [expression browser](/docs/visualization/browser/).
 
 ## Using console URL parameters
 
@@ -90,8 +90,8 @@ available inside the loop as `.` is now the loop variable.
 ## Defining reusable templates
 
 Prometheus supports defining templates that can be reused. This is particularly
-powerful when combined with 
-[console library](../template_reference/#console-templates) support, allowing
+powerful when combined with
+[console library](/docs/visualization/template_reference/#console-templates) support, allowing
 sharing of templates across consoles.
 
 ```

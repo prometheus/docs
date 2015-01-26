@@ -31,7 +31,7 @@ If you find yourself exceeding these, it could make sense to demote the visibili
 less important information, possibly splitting out some subsystems to a new console.
 For example, you could graph aggregated rather than broken-down data, move
 it to the right-hand-side table, or even remove data completely if it is rarely
-useful - you can always look at it in the [expression browser](../../visualization/browser/)!
+useful - you can always look at it in the [expression browser](/docs/visualization/browser/)!
 
 Finally, it is difficult for a set of consoles to serve more than one master.
 What you want to know when oncall (what's broken?) tends to be very different

@@ -9,11 +9,11 @@ sort_rank: 5
 
 ### What is Prometheus?
 Prometheus is an open-source systems monitoring and alerting toolkit
-with an active ecosystem. See the [overview](../overview).
+with an active ecosystem. See the [overview](/docs/introduction/overview/).
 
 ### How does Prometheus compare against \[other monitoring system\]?
 
-See the [comparison](../comparison) page.
+See the [comparison](/docs/introduction/comparison/) page.
 
 ### What dependencies does Prometheus have?
 
@@ -44,7 +44,7 @@ not be considered a major point when considering a monitoring system.
 The [Push vs Pull for Monitoring](http://www.boxever.com/push-vs-pull-for-monitoring)
 blog post by Brian Brazil goes into more detail.
 
-For cases where you must push, we offer the [Pushgateway](../../instrumenting/pushing).
+For cases where you must push, we offer the [Pushgateway](/docs/instrumenting/pushing/).
 
 ### Who wrote Prometheus?
 
@@ -53,7 +53,7 @@ Prometheus was initially started privately by
 [Julius Volz](http://juliusv.com). The majority of its
 development has been sponsored by [SoundCloud](https://soundcloud.com).
 
-Other companies making active contributions include [Boxever](www.boxever.com)
+Other companies making active contributions include [Boxever](http://www.boxever.com/)
 and [Docker](https://www.docker.com). A full list can be found in the
 [CONTRIBUTORS](https://github.com/prometheus/prometheus/blob/master/CONTRIBUTORS.md)
 file in each repository.
@@ -71,12 +71,12 @@ After extensive research it has been determined that the correct plural of
 ### Can I send alerts?
 
 Yes, with the experimental [Alertmanager](https://github.com/prometheus/alertmanager).
-[PagerDuty](https://www.pagerduty.com/) and email are supported.
+[PagerDuty](http://www.pagerduty.com/) and email are supported.
 
 ### Can I create dashboards?
 
-Yes, with [PromDash](../../visualization/promdash/) and [Console
-templates](visualization/consoles/).
+Yes, with [PromDash](/docs/visualization/promdash/) and [Console
+templates](/docs/visualization/consoles/).
 
 ## Instrumentation
 
@@ -89,7 +89,7 @@ Currently there are client libraries for:
 * [Ruby](https://github.com/prometheus/client_ruby)
 
 If you are interested in contributing a client library for a new language, see
-the [exposition formats](../../instrumenting/exposition_formats/).
+the [exposition formats](/docs/instrumenting/exposition_formats/).
 
 ### Can I monitor machines?
 
@@ -99,13 +99,13 @@ disk utilization, filesystem fullness and network bandwidth.
 
 ### Can I monitor batch jobs?
 
-Yes, using the [Pushgateway](../../instrumenting/pushing). See also the
-[best practices](../../practices/instrumentation/#batch-jobs) for monitoring batch
+Yes, using the [Pushgateway](/docs/instrumenting/pushing/). See also the
+[best practices](/docs/practices/instrumentation/#batch-jobs) for monitoring batch
 jobs.
 
 ### What applications can Prometheus monitor out of the box?
 
-See [exporters for third-party systems](../../instrumenting/exporters).
+See [exporters for third-party systems](/docs/instrumenting/exporters/).
 
 ### Which Java client should I use?
 

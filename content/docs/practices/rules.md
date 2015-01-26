@@ -5,7 +5,7 @@ sort_rank: 5
 
 # Recording rules
 
-A consistent naming scheme for [recording rules](../../operating/rules) makes it
+A consistent naming scheme for [recording rules](/docs/querying/rules/) makes it
 easier to interpret the meaning of a rule at a glance. It also avoids mistakes by 
 making incorrect or meaningless calculations stand out. 
 

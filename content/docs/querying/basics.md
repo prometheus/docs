@@ -13,7 +13,7 @@ browser, or consumed by external systems via the HTTP API.
 ## Examples
 
 This document is meant as a reference. For learning, it might be easier to
-start with a couple of [examples](/docs/querying/examples).
+start with a couple of [examples](/docs/querying/examples/).
 
 ## Expression Language Data Types
 
@@ -110,12 +110,12 @@ a `job` label set to `prometheus`:
 ## Operators
 
 Prometheus supports many binary and aggregation operators. These are described
-in detail in the [expression language operators](/docs/querying/operators) page.
+in detail in the [expression language operators](/docs/querying/operators/) page.
 
 ## Functions
 
 Prometheus supports several functions to operate on data. These are described
-in detail in the [expression language functions](/docs/querying/functions) page.
+in detail in the [expression language functions](/docs/querying/functions/) page.
 
 ## Gotchas
 
@@ -149,7 +149,7 @@ Prometheus's expression browser until the result set seems reasonable
 (hundreds, not thousands, of time series at most).  Only when you have filtered
 or aggregated your data sufficiently, switch to graph mode. If the expression
 still takes too long to graph ad-hoc, pre-record it via a [recording
-rule](../rules/#recording-rules).
+rule](/docs/querying/rules/#recording-rules).
 
 This is especially relevant for Prometheus's query language, where a bare
 metric name selector like `api_http_requests_total` could expand to thousands

@@ -11,7 +11,7 @@ from the Prometheus server.
 
 Console templates are the most powerful way to create templates that can be
 easily managed in source control. There is a learning curve though, so users new
-to this style of monitoring should try out [PromDash](../promdash/) first.
+to this style of monitoring should try out [PromDash](/docs/visualization/promdash/) first.
 
 ## Getting started
 
@@ -62,7 +62,7 @@ table. The main content has a queries-per-second graph.
 </tr>
 <tr>
   <td>CPU</td>
-  <td>{{ template "prom_query_drilldown" (args 
+  <td>{{ template "prom_query_drilldown" (args
       "avg by(job)(rate(process_cpu_seconds_total{job='myjob'}[5m]))"
       "s/s" "humanizeNoSmallPrefix") }}
   </td>
@@ -87,8 +87,8 @@ new PromConsole.Graph({
   node: document.querySelector("#queryGraph"),
   expr: "sum(rate(http_query_count{job='myjob'}[5m]))",
   name: "Queries",
-  yAxisFormatter: PromConsole.NumberFormatter.humanizeNoSmallPrefix, 
-  yHoverFormatter: PromConsole.NumberFormatter.humanizeNoSmallPrefix, 
+  yAxisFormatter: PromConsole.NumberFormatter.humanizeNoSmallPrefix,
+  yHoverFormatter: PromConsole.NumberFormatter.humanizeNoSmallPrefix,
   yUnits: "/s",
   yTitle: "Queries"
 })
@@ -102,8 +102,8 @@ new PromConsole.Graph({
 The `prom_right_table_head` and `prom_right_table_tail` templates contain the
 right-hand-side table. This is optional.
 
-`prom_query_drilldown` is a template that will evaluate the expression passed to it, format it, 
-and link to the expression in the [expression browser](../browser). The first
+`prom_query_drilldown` is a template that will evaluate the expression passed to it, format it,
+and link to the expression in the [expression browser](/docs/visualization/browser/). The first
 argument is the expression. The second argument is the unit to use. The third
 argument is how to format the output. Only the first argument is requred.
 

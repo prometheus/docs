@@ -156,19 +156,15 @@ Download the Go client library for Prometheus and run three of these example
 processes:
 
 ```bash
-# Fetch the client library code.
+# Fetch the client library code and compile example.
 git clone git@github.com:/prometheus/client_golang
+cd client_golang
+make random_example
 
-# Change to the random RPC example.
-cd client_golang/examples/random
-
-# Assuming a working Go setup, fetch necessary dependencies.
-go get -d
-
-# Start 3 example targets in screen sessions:
-go run main.go -listen-address=:8080
-go run main.go -listen-address=:8081
-go run main.go -listen-address=:8082
+# Start 3 example targets in separate terminals:
+./random_example -listen-address=:8080
+./random_example -listen-address=:8081
+./random_example -listen-address=:8082
 ```
 
 You should now have example targets listening on http://localhost:8080/metrics,

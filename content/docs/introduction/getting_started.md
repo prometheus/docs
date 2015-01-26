@@ -246,8 +246,8 @@ job_service:rpc_durations_microseconds_count:avg_rate5m = avg(rate(rpc_durations
 ```
 
 To make Prometheus pick up this new rule, add a `rule_files` statement to the
-global configuration section in your `prometheus.conf`. The global section
-should now look like this:
+global configuration section in your `prometheus.conf`. The config should now
+look like this:
 
 ```
 # Global default settings.
@@ -266,7 +266,32 @@ global: {
   rule_file: "prometheus.rules"
 }
 
-[...]
+job: {
+  name: "random-example"
+  scrape_interval: "5s"
+
+  # The "production" targets for this job.
+  target_group: {
+    target: "http://localhost:8080/metrics"
+    target: "http://localhost:8081/metrics"
+    labels: {
+      label: {
+        name: "group"
+        value: "production"
+      }
+    }
+  }
+  # The "canary" targets for this job.
+  target_group: {
+    target: "http://localhost:8082/metrics"
+    labels: {
+      label: {
+        name: "group"
+        value: "canary"
+      }
+    }
+  }
+}
 ```
 
 Restart Prometheus with the new configuration and verify that a new time series

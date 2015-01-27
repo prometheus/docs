@@ -157,14 +157,14 @@ processes:
 
 ```bash
 # Fetch the client library code and compile example.
-git clone git@github.com:/prometheus/client_golang
+git clone https://github.com/prometheus/client_golang.git
 cd client_golang
-make random_example
+make example_random
 
 # Start 3 example targets in separate terminals:
-./random_example -listen-address=:8080
-./random_example -listen-address=:8081
-./random_example -listen-address=:8082
+./example_random -listen-address=:8080
+./example_random -listen-address=:8081
+./example_random -listen-address=:8082
 ```
 
 You should now have example targets listening on http://localhost:8080/metrics,
@@ -173,7 +173,7 @@ http://localhost:8081/metrics, and http://localhost:8082/metrics.
 ## Configuring Prometheus to monitor the sample targets
 
 Now we'll configure Prometheus to scrape these new targets. Let's group all
-three endpoints into one job called `random-example`. However, imagine that the
+three endpoints into one job called `example-random`. However, imagine that the
 first two endpoints are production targets, while the third one represents a
 canary instance. To model this in Prometheus, we can add several groups of
 endpoints to a single job, adding extra labels to each group of targets. In
@@ -185,7 +185,7 @@ restart your Prometheus instance:
 
 ```
 job: {
-  name: "random-example"
+  name: "example-random"
   scrape_interval: "5s"
 
   # The "production" targets for this job.
@@ -263,7 +263,7 @@ global: {
 }
 
 job: {
-  name: "random-example"
+  name: "example-random"
   scrape_interval: "5s"
 
   # The "production" targets for this job.

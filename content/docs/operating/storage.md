@@ -11,5 +11,5 @@ database, or you simply want to erase the existing database, you can easily
 start fresh by deleting the contents of this directory:
 
    1. Stop Prometheus.
-   1. `rm -rf $STORAGE_PATH/*`
+   1. `rm -r <storage path>/*`
    1. Start Prometheus.

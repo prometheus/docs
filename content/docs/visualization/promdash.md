@@ -188,7 +188,7 @@ will then automatically resize the Graphite graph to fit its widget by
 dynamically rewriting the frame URL. It will also add time controls which act
 similarly to those found in Prometheus graph widgets.
 
-## Embedding a gashboard
+## Embedding a dashboard
 PromDash has support for embedding dashboards into other pages via iframes. To
 get an embeddable view for a PromDash dashboard, add `embed` to the URL of a
 dashboard as the first path element:

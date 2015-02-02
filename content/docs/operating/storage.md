@@ -8,7 +8,8 @@ nav_icon: database
 Prometheus has a sophisticated local storage subsystem. For indexes,
 it uses [LevelDB](https://github.com/google/leveldb). For the bulk
 sample data, it has its own custom storage layer, which organizes
-sample data in chunks of constant size (1024 bytes payload).
+sample data in chunks of constant size (1024 bytes payload). These
+chunks are then stored on disk in one file per time series.
 
 ## Memory usage
 
@@ -33,11 +34,12 @@ times more RAM available than needed by the memory chunks alone.
 LevelDB is essentially dealing with data on disk and relies on the
 disk caches of the operating system for optimal performance. However,
 it maintains in-memory caches, whose size you can configure for each
-index via the flags
-`storage.local.index-cache-size.fingerprint-to-metric`,
-`storage.local.index-cache-size.fingerprint-to-timerange`,
-`storage.local.index-cache-size.label-name-to-label-values`, and
-`storage.local.index-cache-size.label-pair-to-fingerprints`.
+index via the following flags:
+
+* `storage.local.index-cache-size.fingerprint-to-metric`
+* `storage.local.index-cache-size.fingerprint-to-timerange`
+* `storage.local.index-cache-size.label-name-to-label-values`
+* `storage.local.index-cache-size.label-pair-to-fingerprints`
 
 ## Disk usage
 

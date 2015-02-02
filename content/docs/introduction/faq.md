@@ -126,3 +126,19 @@ Performance across client libraries and languages may vary. For Java,
 indicate that incrementing a counter/gauge with the Java client will take
 12-17ns, depending on contention. This is negligible for all but the most
 latency-critical code.
+
+## Troubleshooting
+
+### My server takes a long time to start up and spams the log with copious information about crash recovery.
+
+You are suffering from an unclean shutdown. Prometheus has to shut
+down cleanly after a `SIGTERM`, which might take a while for heavily
+used servers. If the server crashes or is killed hard (e.g. OOM kill
+by the kernel or your runlevel system got impatient while waiting for
+Prometheus to shutdown), a crash recovery has to be performed, which
+should take less than a minute under normal circumstances. See [crash recovery](/docs/operating/storage/#crash-recovery) for details.
+
+### I am using ZFS on Linux, and the unit test `TestPersistLoadDropChunks` fails. If I run Prometheus despite the failing test, the weirdest things happen.
+
+You have run into a bug of ZFS on Linux. See [issue #484](https://github.com/prometheus/prometheus/issues/484)
+for details. Upgrading to ZFS on Linux v0.6.4 should fix the issue.

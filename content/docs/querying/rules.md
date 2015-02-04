@@ -118,6 +118,13 @@ To manually inspect which alerts are active (pending or firing), navigate to
 the "Alerts" tab of your Prometheus instance. This will show you the exact
 label sets for which each defined alert is currently active.
 
+For pending and firing alerts, Prometheus also stores synthetic time series of
+the form `ALERTS{alertname="<alert name>", alertstate="pending|firing", <additional alert labels>}`.
+The sample value is set to `1` as long as the alert is in the indicated active
+(pending or firing) state, and a single `0` value gets written out when an alert
+transitions from active to inactive state. Once inactive, the time series does
+not get further updates.
+
 ### Sending alert notifications
 Prometheus's alerting rules are good at figuring what is broken *right now*,
 but they are not a fully-fledged notification solution. Another layer is needed

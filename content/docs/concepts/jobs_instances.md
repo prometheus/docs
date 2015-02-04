@@ -35,5 +35,3 @@ For each instance scrape, Prometheus stores a sample of the form
 `up{job="<job-name>", instance="<instance-url>"}` with a value of `1` if the
 instance was scraped successfully or a value of `0` if the scrape failed. This
 time series is useful for instance availability monitoring.
-
-TODO: move alerts stuff somewhere else (Prometheus also stores * `ALERTS`: for pending and firing alerts, a time series of the form `ALERTS{alertname="...", alertstate="pending|firing",...alertlabels...}` is written out. The sample value is `1` as long as the alert is in the indicated active (pending/firing) state, but a single `0` value gets written out when an alert transitions from active to inactive state.)

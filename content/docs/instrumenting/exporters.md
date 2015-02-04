@@ -12,10 +12,11 @@ metrics directly (for example, HAProxy or Linux system stats). The
 following is a list of existing third-party exporters:
 
    * [Node/system metrics exporter](https://github.com/prometheus/node_exporter)
-   * [HAProxy exporter](https://github.com/prometheus/haproxy_exporter)
-   * [AWS CloudWatch exporter](https://github.com/prometheus/cloudwatch_exporter)
-   * [StatsD bridge](https://github.com/prometheus/statsd_bridge)
+   * [Collectd exporter](https://github.com/prometheus/collectd_exporter)
    * [JMX exporter](https://github.com/prometheus/jmx_exporter)
+   * [HAProxy exporter](https://github.com/prometheus/haproxy_exporter)
+   * [StatsD bridge](https://github.com/prometheus/statsd_bridge)
+   * [AWS CloudWatch exporter](https://github.com/prometheus/cloudwatch_exporter)
    * [Hystrix metrics publisher](https://github.com/prometheus/hystrix)
 
 The [JMX exporter](https://github.com/prometheus/jmx_exporter) can export from a

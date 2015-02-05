@@ -32,7 +32,7 @@ Note that this does a substring match, not a full string match:
 
 To select all HTTP status codes except 4xx ones, you could run:
 
-    http_requests_total{job!~"^4..$"}
+    http_requests_total{status!~"^4..$"}
 
 ## Using Functions, Operators, etc.
 

@@ -28,6 +28,11 @@ the 1-element output vector from the input vector:
 This is useful for alerting on when no time series
 exist for a given metric name and label combination.
 
+## `ceil()`
+
+`ceil(v instant-vector)` rounds the sample values of all elements in `v` up to
+the nearest integer.
+
 ## `count_scalar()`
 
 `count_scalar(v instant-vector)` returns the number of elements in a time series
@@ -70,6 +75,11 @@ cpu_temp_celsius{host="zeus"} + deriv(cpu_temp_celsius{host="zeus"}[1h]) * 5 * 6
 `drop_common_labels(instant-vector)` drops all labels that have the same name
 and value across all series in the input vector.
 
+## `floor()`
+
+`floor(v instant-vector)` rounds the sample values of all elements in `v` down
+to the nearest integer.
+
 ## `rate()`
 
 `rate(v range-vector)` calculate the per-second average rate of increase of the
@@ -84,6 +94,13 @@ rate(http_requests_total{job="api-server"}[5m])
 ```
 
 `rate` should only be used with counters.
+
+## `round()`
+
+`round(v instant-vector, to_nearest=1 scalar)` rounds the sample values of all
+elements in `v` to the nearest integer. Ties are resolved by rounding up. The
+optional `to_nearest` argument allows specifying the nearest multiple to which
+the sample values should be rounded.
 
 ## `scalar()`
 

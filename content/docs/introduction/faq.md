@@ -89,6 +89,16 @@ Yes, with the experimental [Alertmanager](https://github.com/prometheus/alertman
 Yes, with [PromDash](/docs/visualization/promdash/) and [Console
 templates](/docs/visualization/consoles/).
 
+### Can I change the timezone? Why is everything in UTC?
+
+To avoid any kind of timezone confusion, especially when the so-called
+daylight saving time is involved, we decided to exclusively use Unix
+time internally and UTC for display purposes in all components of
+Prometheus. A carefully done timezone selection could be introduced
+into the UI. Contributions are welcome. See
+[issue #500](https://github.com/prometheus/prometheus/issues/500)
+for the current state of this effort.
+
 ## Instrumentation
 
 ### Which languages have instrumentation libraries?
@@ -153,3 +163,53 @@ should take less than a minute under normal circumstances. See [crash recovery](
 
 You have run into a bug of ZFS on Linux. See [issue #484](https://github.com/prometheus/prometheus/issues/484)
 for details. Upgrading to ZFS on Linux v0.6.4 should fix the issue.
+
+## Implementation
+
+### Why are all sample values 64-bit floats? I want integers.
+
+We restrained ourselves to 64-bit floats to simplify the design. The
+[IEEE 754 double-precision binary floating-point
+format](http://en.wikipedia.org/wiki/Double-precision_floating-point_format)
+supports integer precision for values up to 2<sup>53</sup>. Supporting
+native 64 bit integers would (only) help if you need integer precision
+above 2<sup>53</sup> but below 2<sup>63</sup>. In principle, support
+for different sample value types (including some kind of big integer,
+supporting even more than 64 bit) could be implemented, but it is not
+a priority right now. Note that a counter, even if incremented
+one million times per second, will only run into precision issues
+after over 285 years.
+
+### Why does Prometheus use a custom storage backend rather than [some other storage method]? Isn't the "one file per time series" approach killing performance?
+
+Initially, Prometheus ran completely on LevelDB, but to achieve better
+performance, we had to change the storage for bulk sample data. We
+evaluated many storage backends that were available at the time,
+without getting satisfactory results. So we implemented exactly the
+parts we needed, while keeping LevelDB for indexes and making heavy
+use of file system capabilities. Obviously, we could not evaluate
+every single storage backend out there, and storage backends have
+evolved meanwhile. However, the performance of the solution
+implemented now is satisfactory for most use-cases. Our most important
+requirements are an acceptable query speed for common queries and a
+sustainable ingestion rate of many thousands of samples per
+second. The latter depends on the compressibility of the sample data
+and on the number of time series the samples belong to, but to give
+you an idea, here are some results from benchmarks:
+
+* On an older 8-core machine with Intel Core i7 CPUs and two spinning
+  disks (Samsung HD753LJ) in a RAID-1 setup, Prometheus sustained an
+  ingestion rate of 20k samples per second, belonging to 450k time
+  series, scraped from 1500 targets.
+* On a modern server with SSD, Prometheus sustained an ingestion rate
+  of more than 100k samples per second, belonging to millions of time
+  series, scraped from thousands of targets.
+
+In both cases, the bottleneck was identified as insufficiently
+parallelized hash calculation, which happens before samples even hit
+the storage backend.
+
+Running out of inodes is highly unlikely in a usual set-up. There is a
+possible downside: If you want to delete Prometheus's storage
+directory, you will notice that some file systems are very slow when
+deleting files.

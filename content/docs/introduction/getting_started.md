@@ -93,6 +93,20 @@ about itself from its own HTTP metrics endpoint.
 You can also verify that Prometheus is serving metrics about itself by
 navigating to its metrics exposure endpoint: http://localhost:9090/metrics
 
+By default, Prometheus will only execute at most one OS thread at a
+time. In production scenarios on multi-CPU machines, you will most
+likely achieve better performance by setting the `GOMAXPROCS`
+environment variable to a value similar to the number of available CPU
+cores:
+
+```language-bash
+GOMAXPROCS=8 ./prometheus -config.file=prometheus.conf
+```
+
+Blindly setting `GOMAXPROCS` to a high value can be
+counterproductive. See the relevant [Go
+FAQs](http://golang.org/doc/faq#Why_no_multi_CPU).
+
 ## Using the expression browser
 
 Let's try looking at some data that Prometheus has collected about itself. To

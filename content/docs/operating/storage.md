@@ -86,3 +86,16 @@ storage directory:
    1. Stop Prometheus.
    1. `rm -r <storage path>/*`
    1. Start Prometheus.
+
+## Hash collisions
+
+Prometheus currently uses 64-bit fingerprints to identify time
+series. On a large server with several million time series, the chance
+of a hash collision is about one to one million (assuming the FNV-1a
+hash function works well). While that might appear safe enough, the
+problem is that a hash collision will effectively lead to undetected
+data corruption. Also, with more powerful hardware and future
+improvements of the Prometheus code, much higher numbers of time
+series might be handled by a single server, increasing the chance of a
+collision. See [Prometheus issue #509] for efforts to deal with the
+problem.

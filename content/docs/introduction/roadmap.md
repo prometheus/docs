@@ -21,7 +21,7 @@ of global Prometheus servers which collect and store only aggregated data from
 those local servers. This allows you to have an aggregate global view and
 detailed local views.
 
-GitHub issue: [#480](https://github.com/prometheus/prometheus/issues/480)
+GitHub issue: [#9](https://github.com/prometheus/prometheus/issues/9)
 
 **Aggregatable histograms**
 
@@ -32,7 +32,7 @@ incorrect](http://latencytipoftheday.blogspot.de/2014/06/latencytipoftheday-you-
 to average over the 90th percentile latency of multiple monitored instances.
 We plan to implement server-side histograms which will allow for this use case.
 
-GitHub issue: [#9](https://github.com/prometheus/prometheus/issues/9)
+GitHub issue: [#480](https://github.com/prometheus/prometheus/issues/480)
 
 **More flexible label matching in binary operations**
 
@@ -86,12 +86,15 @@ GitHub issue: [#398](https://github.com/prometheus/prometheus/issues/398)
 
 **Server-side metric metadata support**
 
-At this time, metric types and other metadata are only used in the client
-libaries and in the exposition format, but not persisted or utilized in the
-Prometheus server. We plan on making use of this metadata in the future. For
-example, we could suggest automatic rates over counters, warn users if they
-take the rate of a gauge, or display metric documentation strings. The details
-of this are still to be determined.
+At this time, metric types and other metadata are only used in the
+client libaries and in the exposition format, but not persisted or
+utilized in the Prometheus server. We plan on making use of this
+metadata in the future. For example, we could suggest automatic rates
+over counters, warn users if they take the rate of a gauge, or display
+metric documentation strings. Some metric types, like the upcoming
+[server-side histograms](https://github.com/prometheus/prometheus/issues/480),
+could also be stored and processed in a more efficient way.  The
+details of this are still to be determined.
 
 **More client libraries and exporters**
 

@@ -62,7 +62,7 @@ original (left-hand-side) metric names and data values.
 These logical/set binary operators are only defined between instant vectors:
 
 * `and` (intersection)
-* `or` (union)
+* `or` (union) (**not yet implemented!**)
 
 `vector1 and vector2` results in a vector consisting of the elements of
 `vector1` for which there are elements in `vector2` with exactly matching

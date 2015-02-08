@@ -29,6 +29,10 @@ cd prometheus
 make build
 ```
 
+If you encounter problems building Prometheus, see [the more detailed build
+instructions](https://github.com/prometheus/prometheus#use-make) in the
+README.md.
+
 ## Configuring Prometheus to monitor itself
 
 Prometheus collects metrics from monitored targets by scraping metrics HTTP

@@ -18,7 +18,7 @@ _key-value pairs_, also known as _labels_.
 The _metric name_ specifies the general feature of a system that is measured
 (e.g. `http_requests_total` - the total number of HTTP requests received). It
 may contain ASCII letters and digits, as well as underscores and colons. It
-must match the regex `[a-zA-Z_:][a-zA-Z0-9_:]`.
+must match the regex `[a-zA-Z_:][a-zA-Z0-9_:]*`.
 
 Labels enable Prometheus's dimensional data model: any given combination of
 labels for the same metric name identifies a particular dimensional
@@ -28,7 +28,8 @@ allows filtering and aggregation based on these dimensions. Changing any label
 value, including adding or removing a label, will create a new time series.
 
 Label names may contain ASCII letters, numbers, as well as underscores. They
-must match the regex `[a-zA-Z_][a-zA-Z0-9_]`.
+must match the regex `[a-zA-Z_][a-zA-Z0-9_]*`. Label names beginning with `__`
+are reserved for internal use.
 
 Label values may contain any Unicode characters.
 

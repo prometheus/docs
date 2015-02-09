@@ -8,3 +8,6 @@ tmp/
 
 # Crash Log
 crash.log
+
+# OS X file
+static/.DS_Store

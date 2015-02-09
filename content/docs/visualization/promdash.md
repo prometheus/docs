@@ -230,10 +230,63 @@ show `serverID` fields, and never `serverURL`, since any uploaded JSON
 containing `serverURL`s is transformed immediately to `serverID`s before being
 saved server-side.
 
+### Annotation tags
+
+Graph widgets have the ability to request annotations by `tagname` and then
+render them on the graph. If you have a server running that stores events with
+a timestamp, you can query it to render annotations on your widgets.
+
+[![Annotation screenshot](/assets/annotations_example.png)](/assets/annotations_example.png)
+
+To enable, first select "Display annotation tags" via the global dashboard
+setting. Each input can hold an arbitrary number of comma-separated tags that
+will be used to query your designated annotations server. Once you have added
+your tags you can hide the annotation list by un-checking annotations setting
+in the global dashboard settings.
+
+The URL for your annotations server is set via the `ANNOTATIONS_URL`
+environment variable when running PromDash.
+
+When requesting annotations, the following query string parameters are sent to
+the annotations server:
+
+- `until`: This is the graph's endTime.
+- `range`: This is the graph's range.
+- `tags[]`: This is a list of the tags defined on your dashboard.
+
+Each tag input on your dashboard represents a separate query. E.g., if you have
+three tag inputs, three requests will be made to your annotations server, each
+containing the tags from one input.
+
+The `until` and `range` parameters define time window displayed by the graph.
+Annotations that are returned to PromDash that do not fall within this window
+will not be rendered.
+
+The payload returned from the annotation server should conform to this schema:
+
+```javascript
+{
+  posts: [
+    {
+      created_at: 111232553, // UNIX timestamp
+      message: "annotation message here"
+    },
+    // ... more tags
+  ]
+}
+```
+
+All returned annotation tags will be rendered on every graph. There currently
+is no support for rendering specific tags on only a subset of graphs.
+
+Hovering over an annotation on a graph will display the annotation's message
+(cf. schema above).
+
+[![Annotation global config screenshot](/assets/annotations_hover.png)](/assets/annotations_hover.png)
+
 ## TODOs
 
 Add documention about:
 
-* annotation tags
 * `fullscreen` / `fullscreenTitle` URL parameters
 * document the dashboard JSON format

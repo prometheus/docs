@@ -62,11 +62,11 @@ have an effect on the dashboard as a whole:
   * **Resolution**: A slider that selects the resolution with which to load
     data from Prometheus.
   * **Show annotation tags**: Select whether to show the UI for editing tags
-    that speficy which annotations to load and display in graphs. See the
-    "Annotation tags" section.
+    that specify which annotations to load and display in graphs. See the
+    [Annotations](#annotations) section.
   * **Show template variables**: Select whether to show the UI for editing
-    global template variables for the dashboard. See the "Template variables"
-    section for more information.
+    global template variables for the dashboard. See the [Using template
+    variables](#using-template-variables) section.
   * **Encode entire dashboard in URL**: Select whether to continuously update the
     browser URL as changes to the dashboard are made. The browser URL will then
     always reflect the current contents and state of the dashboard and may be
@@ -79,7 +79,78 @@ have an effect on the dashboard as a whole:
   settings or the settings of individual widgets. Without saving, any changes
   made to the dashboard are lost when reloading the page.
 
-#### Using template variables
+## Adding Prometheus graphs
+To add a Prometheus graph, click the "Add Graph" button on the dashboard.
+
+To configure the graph, move the mouse over its widget area until a
+menu bar appears in the top left corner.
+
+### Datasources
+To configure which data to display, select the `Datasources` menu tab. It
+allows you to set one or multiple expressions to be graphed, along with the
+Prometheus server they should be queried from. The supported expressions are
+any standard [Prometheus expression language
+expressions](https://github.com/prometheus/prometheus/wiki/Expression-Language).
+
+For each expression, you can select a graph axis to map the resulting data on,
+as well as a format string that specifies how the returned time series labels
+should be reflected in the legend. See later sections on how to add axes and
+format strings.
+
+### Time options
+The time options let you configure a custom range and time window per graph.
+Note, however, that these are reset to the global time settings once the global
+ones are changed again.
+
+### Graph and axis settings
+The graph and axis settings allow you to configure a title for your graph, as
+well as the preferred line interpolation and query resolution. Furthermore,
+you may add a second axis and configure various options for each axis (stacked
+vs. lines, axis scales, etc.).
+
+### Palette settings
+The palette settings allow you to select a color scheme for drawing the lines
+and filled areas in graphs. If set, this overrides the global setting as long
+as the global setting remains unchanged.
+
+### Legend settings
+The legend settings menu tab allows you to configure when to show the legend on
+a graph, as well as defining how it should be formatted.
+
+By default, each time series will be displayed with their full name (metric name
+plus all label names and values) in the legend. If you have many time series or
+time series with many labels, this can quickly lead to unusably long legends.
+
+The `Legend format` builder allows you to create a list of format strings which
+you can then assign to expressions in the `Datasources` tab. Each format string
+allows you to customize how results returned from an expression should be
+displayed in the legend. For each time series, the legend will show an
+interpolated version of the given format string. To reference specific label
+values in the format string, use double curly braces: `{{label-name}}`. For
+example: `{{host}} - cluster {{cluster}}`.
+
+### Link to graph
+The "Link to this graph" menu tab allows you to generate a link to a specific
+graph. This link will show the graph in a single-widget fullscreen view as it
+was configured when the link was generated. Subsequent changes to the
+underlying graph will not affect the linked version of the graph.
+
+## Adding inline frames
+You can add arbitrary iframes as widgets to a PromDash dashboard by clicking
+the "Add Frame" button. You will be prompted to enter a URL to display, which
+may later be configured via the "Frame Source" menu tab. Similarly to
+Prometheus graph widgets, frame widgets allow you to configure a title and
+generate a link to the frame.
+
+### Automatic Graphite graph URL adjustment
+PromDash has limited support for parsing and rewriting links to Graphite graph
+URLs. If you want to embed a Graphite graph via a PromDash frame, enable the
+option "this is a graphite graph" under the "Frame options" menu tab. PromDash
+will then automatically resize the Graphite graph to fit its widget by
+dynamically rewriting the frame URL. It will also add time controls which act
+similarly to those found in Prometheus graph widgets.
+
+## Using template variables
 Template variables allow you to make generalized dashboards in which you set
 only certain variables each time you display them. For example, if you were
 interested in building a dashboard that shows statistics for a host, you
@@ -98,6 +169,7 @@ variable interpolation are:
 * The widget title.
 * The expression input fields in a Prometheus graph.
 * The URL input of an iframe widget.
+* Annotation tag input fields.
 
 In the example of a host dashboard, we could interpolate the `host` variable
 into each widget's Prometheus expressions, like:
@@ -117,76 +189,73 @@ In the example of the host dashboard, the URL could look like this:
 
     http://promdash.somedomain.int/hoststats#!?var.host=myhost
 
-### Configuring a Prometheus graph
-To add a Prometheus graph, click the "Add Graph" button on the dashboard.
+## Annotations
 
-To configure a Prometheus graph, move the mouse over its widget area until a
-menu bar appears in the top left corner.
+PromDash allows you to load timestamped annotations from an external service
+and display them in graphs as vertical lines:
 
-#### Datasources
-To configure which data to display in a graph, select the `Datasources` menu
-tab. It allows you to set one or multiple expressions to be graphed, along with
-the Prometheus server they should be queried from. The supported expressions
-are any standard
-[Prometheus expression language expressions](https://github.com/prometheus/prometheus/wiki/Expression-Language).
+[![Annotation screenshot](/assets/annotations_example.png)](/assets/annotations_example.png)
 
-For each expression, you can select a graph axis to map the resulting data on,
-as well as a format string that specifies how the returned time series labels
-should be reflected in the legend. See later sections on how to add axes and
-format strings.
+### Configuring annotations
 
-#### Time options
-The time options let you configure a custom range and time window per graph.
-Note, however, that these are reset to the global time settings once the global
-ones are changed again.
+This section assumes that you already have a working annotation server. For
+details on building one, see the [Annotations API](#annotations-api) section below.
 
-#### Graph and axis settings
-The graph and axis settings allow you to configure a title for your graph, as
-well as the preferred line interpolation and query resolution. Furthermore,
-you may add a second axis and configure various options for each axis (stacked
-vs. lines, axis scales, etc.).
+The URL that PromDash should query for annotations is set
+via the `ANNOTATIONS_URL` environment variable.
 
-#### Palette settings
-The palette settings allow you to select a color scheme for drawing the lines
-and filled areas in graphs. If set, this overrides the global setting as long
-as the global setting remains unchanged.
+To enable annotations on a dashboard, first select "Display annotation tags" in
+the global dashboard settings. Each input can hold an arbitrary number of
+comma-separated tags that will be used to query your designated annotations
+server. Once you have added your tags you can hide the annotation list by
+un-checking annotations setting in the global dashboard settings.
 
-#### Legend settings
-The legend settings menu tab allows you to configure when to show the legend on
-a graph, as well as defining how it should be formatted.
+Hovering over an annotation on a graph will display the annotation's message:
 
-By default, each time series will be displayed with their full name (metric name
-plus all label names and values) in the legend. If you have many time series or
-time series with many labels, this can quickly lead to unusably long legends.
+[![Annotation global config screenshot](/assets/annotations_hover.png)](/assets/annotations_hover.png)
 
-The `Legend format` builder allows you to create a list of format strings which
-you can then assign to expressions in the `Datasources` tab. Each format string
-allows you to customize how results returned from an expression should be
-displayed in the legend. For each time series, the legend will show an
-interpolated version of the given format string. To reference specific label
-values in the format string, use double curly braces: `{{label-name}}`. For
-example: `{{host}} - cluster {{cluster}}`.
+### Annotations API
 
-#### Link to graph
-The "Link to this graph" menu tab allows you to generate a link to a specific
-graph. This link will show the graph in a single-widget fullscreen view as it
-was configured when the link was generated. Subsequent changes to the
-underlying graph will not affect the linked version of the graph.
+Although we do not distribute a publicly available annotations server yet, it
+is easy to build one.
 
-### Using frames
-You can add arbitrary iframes as widgets to a PromDash dashboard by clicking
-the "Add Frame" button. You will be prompted to enter a URL to display, which
-may later be configured via the "Frame Source" menu tab. Similarly to
-Prometheus graph widgets, frame widgets allow you to configure a title and
-generate a link to the frame.
+The URL from which PromDash fetches annotations has the following format:
 
-#### Automatic Graphite graph URL adjustment
-PromDash has limited support for parsing and rewriting links to Graphite graph
-URLs. If you want to embed a Graphite graph via a PromDash frame, enable the
-option "this is a graphite graph" under the "Frame options" menu tab. PromDash
-will then automatically resize the Graphite graph to fit its widget by
-dynamically rewriting the frame URL. It will also add time controls which act
-similarly to those found in Prometheus graph widgets.
+    ${ANNOTATIONS_URL}?range=3600&tags[]=chef&tags[]=prometheus&until=1423491311.424
+
+The parameters have the following meaning:
+
+- `${ANNOTATIONS_URL}`: this is the configured `${ANNOTATIONS_URL}` environment
+  variable.
+- `until`: This is the graph's end time as a Unix timestamp in seconds.
+- `range`: This is the graph's range (stretching back from the end time) in seconds.
+- `tags[]`: This is a list of the tags for which annotations should be loaded.
+
+Each tag input on your dashboard represents a separate query. For example, if
+you have three tag inputs, three requests will be made to your annotations
+server.
+
+The `until` and `range` parameters define the time window displayed by the
+graph. Annotations that are returned to PromDash that do not fall within this
+window will not be rendered.
+
+The JSON payload returned from the annotations server needs to conform to this
+schema:
+
+```javascript
+{
+  posts: [
+    {
+      created_at: 111232553, // UNIX timestamp
+      message: "annotation message here"
+    },
+    // ... more tags
+  ]
+}
+```
+
+All returned annotation tags will be rendered on every graph. There currently
+is no support for rendering specific tags on only a subset of graphs.
 
 ## Embedding a dashboard
 PromDash has support for embedding dashboards into other pages via iframes. To
@@ -229,60 +298,6 @@ Be aware that if you GET the JSON representation of a dashboard, it will always
 show `serverID` fields, and never `serverURL`, since any uploaded JSON
 containing `serverURL`s is transformed immediately to `serverID`s before being
 saved server-side.
-
-### Annotation tags
-
-Graph widgets have the ability to request annotations by `tagname` and then
-render them on the graph. If you have a server running that stores events with
-a timestamp, you can query it to render annotations on your widgets.
-
-[![Annotation screenshot](/assets/annotations_example.png)](/assets/annotations_example.png)
-
-To enable, first select "Display annotation tags" via the global dashboard
-setting. Each input can hold an arbitrary number of comma-separated tags that
-will be used to query your designated annotations server. Once you have added
-your tags you can hide the annotation list by un-checking annotations setting
-in the global dashboard settings.
-
-The URL for your annotations server is set via the `ANNOTATIONS_URL`
-environment variable when running PromDash.
-
-When requesting annotations, the following query string parameters are sent to
-the annotations server:
-
-- `until`: This is the graph's endTime.
-- `range`: This is the graph's range.
-- `tags[]`: This is a list of the tags defined on your dashboard.
-
-Each tag input on your dashboard represents a separate query. E.g., if you have
-three tag inputs, three requests will be made to your annotations server, each
-containing the tags from one input.
-
-The `until` and `range` parameters define time window displayed by the graph.
-Annotations that are returned to PromDash that do not fall within this window
-will not be rendered.
-
-The payload returned from the annotation server should conform to this schema:
-
-```javascript
-{
-  posts: [
-    {
-      created_at: 111232553, // UNIX timestamp
-      message: "annotation message here"
-    },
-    // ... more tags
-  ]
-}
-```
-
-All returned annotation tags will be rendered on every graph. There currently
-is no support for rendering specific tags on only a subset of graphs.
-
-Hovering over an annotation on a graph will display the annotation's message
-(cf. schema above).
-
-[![Annotation global config screenshot](/assets/annotations_hover.png)](/assets/annotations_hover.png)
 
 ## TODOs
 

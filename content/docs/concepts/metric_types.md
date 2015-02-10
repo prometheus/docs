@@ -30,6 +30,7 @@ See the client library usage documentation for counters:
    * [Java](https://github.com/prometheus/client_java/blob/master/client/src/main/java/io/prometheus/client/metrics/Counter.java)
    * [Java (simple client)](https://github.com/prometheus/client_java/blob/master/simpleclient/src/main/java/io/prometheus/client/Counter.java)
    * [Ruby](https://github.com/prometheus/client_ruby#counter)
+   * [Python](https://github.com/prometheus/client_python#counter)
 
 ## Gauge
 
@@ -46,6 +47,7 @@ See the client library usage documentation for gauges:
    * [Java](https://github.com/prometheus/client_java/blob/master/client/src/main/java/io/prometheus/client/metrics/Gauge.java)
    * [Java (simple client)](https://github.com/prometheus/client_java/blob/master/simpleclient/src/main/java/io/prometheus/client/Gauge.java)
    * [Ruby](https://github.com/prometheus/client_ruby#gauge)
+   * [Python](https://github.com/prometheus/client_python#gauge)
 
 ## Summaries
 
@@ -72,3 +74,4 @@ See the client library usage documentation for summaries:
    * [Java](https://github.com/prometheus/client_java/blob/master/client/src/main/java/io/prometheus/client/metrics/Summary.java)
    * [Java (simple client)](https://github.com/prometheus/client_java/blob/master/simpleclient/src/main/java/io/prometheus/client/Summary.java)
    * [Ruby](https://github.com/prometheus/client_ruby#summary)
+   * [Python](https://github.com/prometheus/client_python#summary)

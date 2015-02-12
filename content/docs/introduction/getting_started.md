@@ -29,6 +29,9 @@ cd prometheus
 make build
 ```
 
+Note that building requires a fair amount of memory. You should have
+at least 2GiB of RAM available.
+
 If you encounter problems building Prometheus, see [the more detailed build
 instructions](https://github.com/prometheus/prometheus#use-make) in the
 README.md.

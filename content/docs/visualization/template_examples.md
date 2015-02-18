@@ -34,7 +34,7 @@ This displays a list of instances, and whether they are up:
 
 ```
 {{ range query "up" }}
-  {{ .Labels.instance }} {{ .Labels.Value }}
+  {{ .Labels.instance }} {{ .Value }}
 {{ end }}
 ```
 

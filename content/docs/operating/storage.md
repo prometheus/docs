@@ -97,5 +97,5 @@ problem is that a hash collision will effectively lead to undetected
 data corruption. Also, with more powerful hardware and future
 improvements of the Prometheus code, much higher numbers of time
 series might be handled by a single server, increasing the chance of a
-collision. See [Prometheus issue #509] for efforts to deal with the
-problem.
+collision. See [Prometheus issue #509](https://github.com/prometheus/prometheus/issues/509)
+for efforts to deal with the problem.

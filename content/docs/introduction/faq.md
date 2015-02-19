@@ -199,15 +199,15 @@ you an idea, here are some results from benchmarks:
 
 * On an older 8-core machine with Intel Core i7 CPUs and two spinning
   disks (Samsung HD753LJ) in a RAID-1 setup, Prometheus sustained an
-  ingestion rate of 20k samples per second, belonging to 450k time
-  series, scraped from 1500 targets.
+  ingestion rate of 18k samples per second, belonging to 56k time
+  series, scraped from 200 targets.
 * On a modern server with SSD, Prometheus sustained an ingestion rate
-  of more than 100k samples per second, belonging to millions of time
-  series, scraped from thousands of targets.
+  of 320k samples per second, belonging to 1.7M time
+  series, scraped from 1100 targets.
 
-In both cases, the bottleneck was identified as insufficiently
-parallelized hash calculation, which happens before samples even hit
-the storage backend.
+In both cases, there were no obvious bottlenecks. Various stages of the
+processing pipelines reached their limits more or less at the same
+ingestion rate.
 
 Running out of inodes is highly unlikely in a usual set-up. There is a
 possible downside: If you want to delete Prometheus's storage

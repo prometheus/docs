@@ -144,9 +144,9 @@ gauge for how long the collection took in seconds and another for the number of
 errors encountered.
 
 This is one of the two cases when it is okay to export a duration as a gauge
-rather than a summary, the other being batch job durations. This is because both
-represent information about that particular push/scrape, rather than
-tracking multiple durations over time.
+rather than a summary or a histogram, the other being batch job durations. This
+is because both represent information about that particular push/scrape, rather
+than tracking multiple durations over time.
 
 ## Things to watch out for
 
@@ -191,10 +191,10 @@ processing system.
 If you are unsure, start with no labels and add more
 labels over time as concrete use cases arise.
 
-### Counter vs. gauge vs. summary
+### Counter vs. gauge
 
-It is important to know which of the three main metric types to use for a given
-metric. There is a simple rule of thumb: if the value can go down, it's a gauge.
+To pick between counter and gauge, there is a simple rule of thumb: if
+the value can go down, it's a gauge.
 
 Counters can only go up (and reset, such as when a process restarts). They are
 useful for accumulating the number of events, or the amount of something at
@@ -206,11 +206,55 @@ Gauges can be set, go up, and go down. They are useful for snapshots of state,
 such as in-progress requests, free/total memory, or temperature. You should
 never take a `rate()` of a gauge.
 
-Summaries are similar to having two counters. They track the number of events
-*and* the amount of something for each event, allowing you to calculate the
-average amount per event (useful for latency, for example). In addition,
-summaries can also export quantiles of the amounts, but note that [quantiles are not
-aggregatable](http://latencytipoftheday.blogspot.de/2014/06/latencytipoftheday-you-cant-average.html).
+### Summary vs. histogram
+
+Summaries and histograms are more complex metric types. They both sample
+observations. They track the number of observations *and* the sum of the
+observed values, allowing you to calculate the average observed value (useful
+for latency, for example). Note that the number of observations (showing up in
+Prometheus as a time series with a `_count` suffix) is inherently a counter (as
+described above, it only goes up), while the sum of observations (showing up as
+a time series with a `_sum` suffix) is inherently a gauge (if a negative value
+is observed, it goes down).
+
+The essential difference is that summaries calculate streaming φ-quantiles on
+the client side and expose them, while histograms count observations in buckets
+and expose those counts. Calculation of quantiles from histograms happens on the
+server side using the [`histogram_quantile()`
+function](/docs/querying/functions/#histogram_quantile()).
+
+Both approaches have specific advantages and disadvantages:
+
+|   | Histogram | Summary
+|---|-----------|---------
+| Configuration | Need to configure buckets suitable for the expected range of observed values. | Need to configure φ-quantiles and sliding window, other φ-quantiles and sliding windows cannot be calculated later.
+| Client performance | Observations are very cheap as they only need to increment counters. | Observations are expensive due to the streaming quantile calculation.
+| Server performance | Calculating quantiles is expensive, consider [recording rules](/docs/querying/rules/#recording-rules) as a remedy. | Very low resource needs.
+| Number of time series | Low for Apdex score (see below), very high for accurate quantiles. Each bucket creates a time series. | Low, one time series per configured quantile.
+| Accuracy | Depends on number and layout of buckets. Higher accuracy requires more time series. | Configurable. Higher accuracy requires more client resources but is relatively cheap.
+| Specification of φ-quantile and sliding time window | Ad-hoc in Prometheus expressions. | Preconfigured by the client.
+| Aggregation | Ad-hoc aggregation with [Prometheus expressions](/docs/querying/functions/#histogram_quantile()). | In general [not aggregatable](http://latencytipoftheday.blogspot.de/2014/06/latencytipoftheday-you-cant-average.html).
+
+Note the importance of the last item in the table. Let's say you run a service
+with an SLA to respond to 95% of requests in under 200ms. In that case, you will
+probably collect request durations from every single instance in your fleet, and
+then you want to aggregate everything into an overall 95th percentile. You can
+only do that with histograms, but not with summaries. Aggregating the
+precomputed quantiles from a summary rarely makes sense.
+
+A histogram is suitable to calculate the [Apdex
+score](http://en.wikipedia.org/wiki/Apdex). Configure a bucket with the target
+request duration as upper bound and another bucket with 4 times the request
+duration as upper bound. Example: The target request duration is 250ms. The
+tolerable request duration is 1s. The request duration are collected with a
+histogram called `http_request_duration_seconds`. The following expression
+yields the Apdex score:
+
+```
+(
+  http_request_duration_seconds_bucket{le="0.25"} + http_request_duration_seconds_bucket{le="1"}
+) / 2 / http_request_duration_seconds_count
+```
 
 ### Timestamps, not time since
 

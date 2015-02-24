@@ -112,24 +112,25 @@ a `job` label set to `prometheus`:
 The `offset` modifier allows changing the time offset for individual
 instant and range vectors in a query.
 
-For example, the following expression returns the value of `foo` 5
-minutes in the past relative to the current query evaluation time:
+For example, the following expression returns the value of
+`http_requests_total` 5 minutes in the past relative to the current
+query evaluation time:
 
-    foo offset 5m
+    http_requests_total offset 5m
 
 Note that the `offset` modifier always needs to follow the selector
 immediately, i.e. the following would be correct:
 
-    sum(foo offset 5m) // GOOD.
+    sum(http_requests_total{method="GET"} offset 5m) // GOOD.
 
 While the following would be *incorrect*:
 
-    sum(foo) offset 5m // INVALID.
+    sum(http_requests_total{method="GET"}) offset 5m // INVALID.
 
 The same works for range vectors. This returns the 5-minutes rate that
-`foo` had a week ago:
+`http_requests_total` had a week ago:
 
-    rate(foo[5m] offset 1w)
+    rate(http_requests_total[5m] offset 1w)
     
 ## Operators
 

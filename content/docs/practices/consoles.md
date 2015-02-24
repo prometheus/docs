@@ -3,7 +3,7 @@ title: Consoles and dashboards
 sort_rank: 3
 ---
 
-## Consoles and dashboards
+# Consoles and dashboards
 
 It can be tempting to display as much data as possible on a dashboard, especially
 when a system like Prometheus offers the ability to have such rich

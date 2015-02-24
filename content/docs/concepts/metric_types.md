@@ -63,13 +63,14 @@ during a scrape:
   * the **count** of events that have been observed, exposed as `<basename>_count` (identical to `<basename>_bucket{le="+Inf"}` above)
 
 Use the [`histogram_quantile()`
-function](/docs/querying/functions/#histogram_quantile()) to calculate quantiles
-from histograms or even aggregations of histograms. A histogram is also suitable
-to calculate an [Apdex score](http://en.wikipedia.org/wiki/Apdex). See [summary
-vs. histogram](/docs/practices/instrumentation/#summary-vs.-histogram) for
-details of histogram usage and differences to [summaries](#summary).
+function](/docs/querying/functions/#histogram_quantile()) to calculate
+quantiles from histograms or even aggregations of histograms. A
+histogram is also suitable to calculate an [Apdex
+score](http://en.wikipedia.org/wiki/Apdex). See [histograms and
+summaries](/docs/practices/histograms) for details of histogram usage
+and differences to [summaries](#summary).
 
-Client library usage documentation for summaries:
+Client library usage documentation for histograms:
 
    * [Go](http://godoc.org/github.com/prometheus/client_golang/prometheus#Histogram)
    * [Java](https://github.com/prometheus/client_java/blob/master/simpleclient/src/main/java/io/prometheus/client/Histogram.java) (histograms are only supported by the simple client but not by the legacy client)
@@ -79,7 +80,7 @@ Client library usage documentation for summaries:
 
 Similar to a _histogram_, a _summary_ samples observations (usually things like
 request durations and response sizes). While it also provides a total count of
-observation and a sum of all observed values, it calculates configurable
+observations and a sum of all observed values, it calculates configurable
 quantiles over a sliding time window.
 
 A summary with a base metric name of `<basename>` exposes multiple time series
@@ -89,9 +90,9 @@ during a scrape:
   * the **total sum** of all observed values, exposed as `<basename>_sum`
   * the **count** of events that have been observed, exposed as `<basename>_count`
 
-See [summary
-vs. histogram](/docs/practices/instrumentation/#summary-vs.-histogram) for
-details of summary usage and differences to [histograms](#histogram).
+See [histograms and summaries](/docs/practices/histograms) for
+detailed explanations of φ-quantiles, summary usage, and differences
+to [histograms](#histogram).
 
 Client library usage documentation for summaries:
 

@@ -66,7 +66,7 @@ development has been sponsored by [SoundCloud](https://soundcloud.com).
 
 Other companies making active contributions include [Boxever](http://www.boxever.com/)
 and [Docker](https://www.docker.com). A full list can be found in the
-[CONTRIBUTORS](https://github.com/prometheus/prometheus/blob/master/CONTRIBUTORS.md)
+[AUTHORS](https://github.com/prometheus/prometheus/blob/master/AUTHORS.md)
 file in each repository.
 
 ### What license is Prometheus released under?

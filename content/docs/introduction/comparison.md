@@ -45,9 +45,9 @@ stats.api-server.tracks.post.500 -> 93
 In Prometheus the same data could be encoded like this (assuming three api-server instances):
 
 ```
-api_server_http_requests_total{method="POST","handler="/tracks",status="500",instance="<sample1>"} -> 34
-api_server_http_requests_total{method="POST","handler="/tracks",status="500",instance="<sample2>"} -> 28
-api_server_http_requests_total{method="POST","handler="/tracks",status="500",instance="<sample3>"} -> 31
+api_server_http_requests_total{method="POST",handler="/tracks",status="500",instance="<sample1>"} -> 34
+api_server_http_requests_total{method="POST",handler="/tracks",status="500",instance="<sample2>"} -> 28
+api_server_http_requests_total{method="POST",handler="/tracks",status="500",instance="<sample3>"} -> 31
 ```
 
 ### Storage

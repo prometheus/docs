@@ -46,7 +46,7 @@ file:
 Some examples:
 
     // Saving the per-job HTTP in-progress request count as a new set of time series:
-    job:http_inprogress_requests:sum = sum(http_inprogress_requests) by (job)
+    job:http_inprogress_requests:sum = sum by (job)(http_inprogress_requests)
 
     // Drop or rewrite labels in the result time series:
     new_time series{label_to_change="new_value",label_to_drop=""} = old_time series

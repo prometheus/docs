@@ -103,7 +103,7 @@ If the metric `http_requests_total` had time series that fan out by
 `application`, `instance`, and `group` labels, we could calculate the total
 number of seen HTTP requests per application and group over all instances via:
 
-    sum(http_requests_total) by (application, group)
+    sum by (application, group)(http_requests_total)
 
 If we are just interested in the total of HTTP requests we've seen in **all**
 applications, we could simply write:

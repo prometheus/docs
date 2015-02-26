@@ -63,14 +63,14 @@ table. The main content has a queries-per-second graph.
 <tr>
   <td>CPU</td>
   <td>{{ template "prom_query_drilldown" (args
-      "avg by(job)(rate(process_cpu_seconds_total{job='myjob'}[5m]))"
+      "avg by (job)(rate(process_cpu_seconds_total{job='myjob'}[5m]))"
       "s/s" "humanizeNoSmallPrefix") }}
   </td>
 </tr>
 <tr>
   <td>Memory</td>
   <td>{{ template "prom_query_drilldown" (args
-       "avg by(job)(process_resident_memory_bytes{job='myjob'})"
+       "avg by (job)(process_resident_memory_bytes{job='myjob'})"
        "B" "humanize1024") }}
   </td>
 </tr>

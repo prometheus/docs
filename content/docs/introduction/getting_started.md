@@ -249,7 +249,7 @@ preserving the `job` and `service` dimensions) as measured over a window of 5
 minutes. We could write this as:
 
 ```
-avg(rate(rpc_durations_microseconds_count[5m])) by (job, service)
+avg by (job, service)(rate(rpc_durations_microseconds_count[5m]))
 ```
 
 Try graphing this expression.
@@ -259,7 +259,7 @@ called `job_service:rpc_durations_microseconds_count:avg_rate5m`, create a file
 with the following recording rule and save it as `prometheus.rules`:
 
 ```
-job_service:rpc_durations_microseconds_count:avg_rate5m = avg(rate(rpc_durations_microseconds_count[5m])) by (job, service)
+job_service:rpc_durations_microseconds_count:avg_rate5m = avg by (job, service)(rate(rpc_durations_microseconds_count[5m]))
 ```
 
 To make Prometheus pick up this new rule, add a `rule_files` statement to the

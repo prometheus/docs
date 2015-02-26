@@ -18,6 +18,7 @@ following is a list of existing third-party exporters:
    * [StatsD bridge](https://github.com/prometheus/statsd_bridge)
    * [AWS CloudWatch exporter](https://github.com/prometheus/cloudwatch_exporter)
    * [Hystrix metrics publisher](https://github.com/prometheus/hystrix)
+   * [Mesos task exporter](https://github.com/antonlindstrom/mesos_exporter)
 
 The [JMX exporter](https://github.com/prometheus/jmx_exporter) can export from a
 wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.org/) and

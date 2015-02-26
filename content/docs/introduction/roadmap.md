@@ -26,7 +26,7 @@ GitHub issue: [#9](https://github.com/prometheus/prometheus/issues/9)
 **Aggregatable histograms**
 
 The current client-side [summary
-types](http://localhost:3000/docs/concepts/metric_types/#summaries) do not
+types](/docs/concepts/metric_types/#summaries) do not
 support aggregation of quantiles. For example, it is [statistically
 incorrect](http://latencytipoftheday.blogspot.de/2014/06/latencytipoftheday-you-cant-average.html)
 to average over the 90th percentile latency of multiple monitored instances.

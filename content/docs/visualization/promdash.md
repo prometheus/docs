@@ -90,7 +90,7 @@ To configure which data to display, select the `Datasources` menu tab. It
 allows you to set one or multiple expressions to be graphed, along with the
 Prometheus server they should be queried from. The supported expressions are
 any standard [Prometheus expression language
-expressions](https://github.com/prometheus/prometheus/wiki/Expression-Language).
+expressions](/docs/querying/examples/).
 
 For each expression, you can select a graph axis to map the resulting data on,
 as well as a format string that specifies how the returned time series labels

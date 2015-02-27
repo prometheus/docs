@@ -28,7 +28,8 @@ The example consoles have 5 parts:
 1. The main content in the center, usually graphs
 1. A table on the right
 
-The navigation bar is for links to other systems, such as other Prometheuses,
+The navigation bar is for links to other systems, such as other Prometheis
+<sup>[1](/docs/introduction/faq/#what-is-the-plural-of-prometheus?)</sup>,
 documentation, and whatever else makes sense to you. The menu is for navigation
 inside the same Prometheus server, which is very useful to be able to quickly
 open a console in another tab to correlate information. Both are configured in

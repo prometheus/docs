@@ -51,7 +51,7 @@ but still preserve the `job` dimension:
 If we have two different metrics with the same dimensional labels, we can apply
 binary operators to them and elements on both sides with the same label set
 will get matched and propagated to the output. For example, this expression
-returns the unused memory in MB for every instance (on a fictional cluster
+returns the unused memory in MiB for every instance (on a fictional cluster
 scheduler exposing these metrics about the instances it runs):
 
     (instance_memory_limit_bytes - instance_memory_usage_bytes) / 1024 / 1024

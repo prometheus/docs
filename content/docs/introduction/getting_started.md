@@ -116,7 +116,7 @@ FAQs](http://golang.org/doc/faq#Why_no_multi_CPU).
 
 ## Using the expression browser
 
-Let's try looking at some data that Prometheus has collected about itself. To
+Let us try looking at some data that Prometheus has collected about itself. To
 use Prometheus's built-in expression browser, navigate to
 http://localhost:9090/graph and choose the "Tabular" view within the "Graph"
 tab.
@@ -167,7 +167,7 @@ Experiment with the graph range parameters and other settings.
 
 ## Starting up some sample targets
 
-Let's make this more interesting and start some example targets for Prometheus
+Let us make this more interesting and start some example targets for Prometheus
 to scrape.
 
 The Go client library includes an example which exports fictional RPC latencies
@@ -193,12 +193,12 @@ http://localhost:8081/metrics, and http://localhost:8082/metrics.
 
 ## Configuring Prometheus to monitor the sample targets
 
-Now we'll configure Prometheus to scrape these new targets. Let's group all
+Now we will configure Prometheus to scrape these new targets. Let's group all
 three endpoints into one job called `example-random`. However, imagine that the
 first two endpoints are production targets, while the third one represents a
 canary instance. To model this in Prometheus, we can add several groups of
 endpoints to a single job, adding extra labels to each group of targets. In
-this example, we'll add the `group="production"` label to the first group of
+this example, we will add the `group="production"` label to the first group of
 targets, while adding `group="canary"` to the second.
 
 To achieve this, add the following job definition to your `prometheus.conf` and

@@ -22,7 +22,7 @@ class.
 
 For use from Go see the [Push](http://godoc.org/github.com/prometheus/client_golang/prometheus#Push) and [PushAdd](http://godoc.org/github.com/prometheus/client_golang/prometheus#PushAdd) functions.
 
-## Java Batch Job Example
+## Java batch job example
 
 This example illustrates how to instrument a batch job and alert on it not having succeeded recently.
 

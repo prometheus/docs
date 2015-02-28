@@ -3,7 +3,7 @@ title: Metric types
 sort_rank: 2
 ---
 
-# Metric Types
+# Metric types
 
 The Prometheus client libraries offer three core metric types:
 

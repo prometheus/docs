@@ -64,7 +64,7 @@ job {
   # provided here needs to resolve to a DNS SRV record containing a set of
   # IP:PORT pairs.
   sd_name: "telemetry.server.prod.api.srv.my-domain.org"
-  # The SRV records don't have information about the endpoint to scrape, so it
+  # The SRV records do not have information about the endpoint to scrape, so it
   # needs to be configured separately when discovering targets dynamically.
   metrics_path: "/metrics"
 }

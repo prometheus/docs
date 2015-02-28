@@ -3,7 +3,7 @@ title: Examples
 sort_rank: 4
 ---
 
-# Query Examples
+# Query examples
 
 ## Simple time series selection
 
@@ -34,7 +34,7 @@ To select all HTTP status codes except 4xx ones, you could run:
 
     http_requests_total{status!~"^4..$"}
 
-## Using Functions, Operators, etc.
+## Using functions, operators, etc.
 
 Return the per-second rate for all time series with the `http_requests_total`
 metric name, as measured over the last 5 minutes:

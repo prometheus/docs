@@ -105,7 +105,7 @@ the sample values should be rounded. This multiple may also be a fraction.
 ## `scalar()`
 
 Given a single-element input vector, `scalar(v instant-vector)` returns the
-sample value of that single element as a scalar. If the input vector doesn't
+sample value of that single element as a scalar. If the input vector does not
 have exactly one element, `scalar` will return `NaN`.
 
 ## `sort()`
@@ -120,7 +120,7 @@ Same as `sort`, but sorts in descending order.
 ## `time()`
 
 `time()` returns the number of seconds since January 1, 1970 UTC. Note that
-this doesn't actually return the current time, but the time at which the
+this does not actually return the current time, but the time at which the
 expression is to be evaluated.
 
 ## `<aggregation>_over_time()`: Aggregating values over time:

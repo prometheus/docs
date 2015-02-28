@@ -14,7 +14,7 @@ configuration](https://github.com/prometheus/prometheus/blob/master/config/confi
 
 ## Syntax-checking rules
 To quickly check whether a rule file is syntactically correct without starting
-a Prometheus server, install and run Prometheus' `rule_checker` tool:
+a Prometheus server, install and run Prometheus's `rule_checker` tool:
 
 ```bash
 # If $GOPATH/github.com/prometheus/prometheus already exists, update it first:
@@ -129,7 +129,7 @@ not get further updates.
 Prometheus's alerting rules are good at figuring what is broken *right now*,
 but they are not a fully-fledged notification solution. Another layer is needed
 to add summarization, notification rate limiting, silencing and alert
-dependencies on top of the simple alert definitions. In Prometheus' ecosystem,
+dependencies on top of the simple alert definitions. In Prometheus's ecosystem,
 the [Alert Manager](https://github.com/prometheus/alertmanager) takes on this
 role. Thus, Prometheus may be configured to periodically send information about
 alert states to an Alert Manager instance, which then takes care of dispatching

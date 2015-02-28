@@ -24,7 +24,7 @@ service.
 We have found the following guidelines very effective:
 
 * Have no more than 5 graphs on a console.
-* Have no more than 5 plots (lines) on each graph. You can get away with more if it's a stacked/area graph.
+* Have no more than 5 plots (lines) on each graph. You can get away with more if it is a stacked/area graph.
 * When using the provided console template examples, avoid more than 20-30 entries in the right-hand-side table.
 
 If you find yourself exceeding these, it could make sense to demote the visibility of
@@ -34,6 +34,6 @@ it to the right-hand-side table, or even remove data completely if it is rarely
 useful - you can always look at it in the [expression browser](/docs/visualization/browser/)!
 
 Finally, it is difficult for a set of consoles to serve more than one master.
-What you want to know when oncall (what's broken?) tends to be very different
+What you want to know when oncall (what is broken?) tends to be very different
 from what you want when developing features (how many people hit corner
 case X?). In such cases, two separate sets of consoles can be useful.

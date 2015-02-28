@@ -15,7 +15,7 @@ browser, or consumed by external systems via the HTTP API.
 This document is meant as a reference. For learning, it might be easier to
 start with a couple of [examples](/docs/querying/examples/).
 
-## Expression Language Data Types
+## Expression language data types
 
 In Prometheus's expression language, an expression or sub-expression can
 evaluate to one of four types:
@@ -32,7 +32,7 @@ vector is the only type that can be directly graphed.
 
 ## Literals
 
-### String Literals
+### String literals
 
 Strings may be specified as literals in single or double quotes.
 
@@ -40,7 +40,7 @@ Example:
 
     "this is a string"
 
-### Float Literals
+### Float literals
 
 Scalar float values can be literally written as numbers of the form
 `[-](digits)[.(digits)]`.
@@ -49,7 +49,7 @@ Scalar float values can be literally written as numbers of the form
 
 ## Time series Selectors
 
-### Instant Vector Selectors
+### Instant vector selectors
 
 Instant vector selectors allow the selection of a set of time series and a
 single sample value for each at a given timestamp (instant): in the simplest

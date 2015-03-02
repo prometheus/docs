@@ -5,10 +5,11 @@ sort_rank: 4
 
 # Histograms and summaries
 
-Histograms and summaries are more complex metric types. Not only
-creates a single histogram or summary a multitude of time series, it
-is also more difficult to use them correctly. This section helps you
-to pick and configure the appropriate metric type for your use case.
+Histograms and summaries are more complex metric types. Not only does
+a single histogram or summary create a multitude of time series, it is
+also more difficult to use these metric types correctly. This section
+helps you to pick and configure the appropriate metric type for your
+use case.
 
 ## Library support
 
@@ -18,13 +19,7 @@ First of all, check the library support for
 both currently only exists in the Go client library. Many libraries
 support only one of the two types, or they support summaries only in a
 limited fashion (lacking [quantile
-calculation](#quantiles)). [Contributions are welcome](/community/),
-of course. In general, we expect histograms to be more urgently needed
-than summaries. Histograms are also easier to implement in a client
-library, so we recommend to implement histograms first, if in
-doubt. The reason why some libraries offer summaries but not
-histograms (Ruby, the legacy Java client) is that histograms are a
-more recent feature of Prometheus.
+calculation](#quantiles)).
 
 ## Count and sum of observations
 
@@ -35,20 +30,20 @@ durations or response sizes. They track the number of observations
 (showing up in Prometheus as a time series with a `_count` suffix) is
 inherently a counter (as described above, it only goes up). The sum of
 observations (showing up as a time series with a `_sum` suffix)
-behaves like a counter, too, as long as all observations are
-positive. Obviously, request durations or response sizes are always
-positive. In principle, however, you can use summaries and histograms
-to observe negative values (e.g. temperatures in centigrade). In that
-case, the sum of observations can go down, so you cannot apply
-`rate()` to it anymore.
+behaves like a counter, too, as long as there are no negative
+observations. Obviously, request durations or response sizes are
+never negative. In principle, however, you can use summaries and
+histograms to observe negative values (e.g. temperatures in
+centigrade). In that case, the sum of observations can go down, so you
+cannot apply `rate()` to it anymore.
 
 To calculate the average request duration during the last 5 minutes
-from a histogram or summary called `http_request_duration_second`, use
-the following expression:
+from a histogram or summary called `http_request_duration_seconds`,
+use the following expression:
 
-    rate(http_request_duration_seconds_sum[5m])
-      /
-    rate(http_request_duration_seconds_count[5m])
+      rate(http_request_duration_seconds_sum[5m])
+    /
+      rate(http_request_duration_seconds_count[5m])
 
 ## Apdex score
 
@@ -64,24 +59,25 @@ requests served within 300ms and easily alert if the value drops below
 served in the last 5 minutes. The request durations were collected with
 a histogram called `http_request_duration_seconds`.
 
-    sum(rate(http_request_duration_seconds_bucket{le="0.3"}[5m])) by (job)
-      /
-    sum(rate(http_request_duration_seconds_count[5m])) by (job)
+      sum(rate(http_request_duration_seconds_bucket{le="0.3"}[5m])) by (job)
+    /
+      sum(rate(http_request_duration_seconds_count[5m])) by (job)
 
 
 You can calculate the well-known [Apdex
 score](http://en.wikipedia.org/wiki/Apdex) in a similar way. Configure
-a bucket with the target request duration as upper bound and another
-bucket with the tolerated request duration (usually 4 times the target
-request duration) as upper bound. Example: The target request duration
-is 300ms. The tolerable request duration is 1.2s. The following
-expression yields the Apdex score over the last 5 minutes:
+a bucket with the target request duration as the upper bound and
+another bucket with the tolerated request duration (usually 4 times
+the target request duration) as the upper bound. Example: The target
+request duration is 300ms. The tolerable request duration is 1.2s. The
+following expression yields the Apdex score for each job over the last
+5 minutes:
 
     (
-      rate(http_request_duration_seconds_bucket{le="0.3"}[5m])
-        +
-      rate(http_request_duration_seconds_bucket{le="1.2"}[5m])
-    ) / 2 / rate(http_request_duration_seconds_count[5m])
+      sum(rate(http_request_duration_seconds_bucket{le="0.3"}[5m])) by (job)
+    +
+      sum(rate(http_request_duration_seconds_bucket{le="1.2"}[5m])) by (job)
+    ) / 2 / sum(rate(http_request_duration_seconds_count[5m])) by (job)
 
 ## Quantiles
 
@@ -92,7 +88,7 @@ known as the median. The 0.95-quantile is the 95th percentile.
 
 The essential difference between summaries and histograms is that summaries
 calculate streaming φ-quantiles on the client side and expose them directly,
-while histograms expose bucketed observations counts and the calculation of
+while histograms expose bucketed observation counts and the calculation of
 quantiles from the buckets of a histogram happens on the server side using the
 [`histogram_quantile()`
 function](/docs/querying/functions/#histogram_quantile()).
@@ -115,8 +111,8 @@ want to display the percentage of requests served within 300ms, but
 instead the 95th percentile, i.e. the request duration within which
 you have served 95% of requests. To do that, you can either configure
 a summary with a 0.95-quantile and (for example) a 5-minute decay
-time-window, or you configure a histogram with a few buckets around
-the 300ms mark, e.g. `{le="0.1"}`, `{le="0.2"}`, `{le="0.3"}`, and
+time, or you configure a histogram with a few buckets around the 300ms
+mark, e.g. `{le="0.1"}`, `{le="0.2"}`, `{le="0.3"}`, and
 `{le="0.45"}`. If your service runs replicated with a number of
 instances, you will collect request durations from every single one of
 them, and then you want to aggregate everything into an overall 95th
@@ -157,11 +153,11 @@ quantile gives you the impression that you are close to breaking the
 SLA, but in reality, the 95th percentile is a tiny bit above 220ms,
 a quite comfortable distance to your SLA.
 
-Next step in our *Gedenkenexperiment*: A change in backend routing
-adds a fixed amount of 100ms to all requent durations. Now the request
+Next step in our thought experiment: A change in backend routing
+adds a fixed amount of 100ms to all request durations. Now the request
 duration has its sharp spike at 320ms and almost all observations will
 fall into the bucket from 300ms to 450ms. The 95th percentile is
-calculated to be 442.5ms, although the correct values is close to
+calculated to be 442.5ms, although the correct value is close to
 320ms. While you are only a tiny bit outside of your SLA, the
 calculated 95th quantile looks much worse.
 
@@ -213,8 +209,18 @@ Two rules of thumb:
 
   1. If you need to aggregate, choose histograms.
 
-  2. Otherwise, choose a histogram if you need accuracy in the
-     dimension of the observed values and you have an idea in which
-     ranges of observed values you are interested in. Choose a summary
-     if you need accuracy in the dimension of φ, no matter in which
-     ranges of observed values the quantile will end up.
+  2. Otherwise, choose a histogram if you have an idea of the range
+     and distribution of values that will be observed. Choose a
+     summary if you need an accurate quantile, no matter what the
+     range and distribution of the values is.
+
+
+## What can I do if my client library does not support the metric type I need?
+
+Implement it! [Code contributions are welcome](/community/). In
+general, we expect histograms to be more urgently needed than
+summaries. Histograms are also easier to implement in a client
+library, so we recommend to implement histograms first, if in
+doubt. The reason why some libraries offer summaries but not
+histograms (the Ruby client and the legacy Java client) is that
+histograms are a more recent feature of Prometheus.

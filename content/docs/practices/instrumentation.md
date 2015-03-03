@@ -144,9 +144,9 @@ gauge for how long the collection took in seconds and another for the number of
 errors encountered.
 
 This is one of the two cases when it is okay to export a duration as a gauge
-rather than a summary, the other being batch job durations. This is because both
-represent information about that particular push/scrape, rather than
-tracking multiple durations over time.
+rather than a summary or a histogram, the other being batch job durations. This
+is because both represent information about that particular push/scrape, rather
+than tracking multiple durations over time.
 
 ## Things to watch out for
 
@@ -191,10 +191,14 @@ processing system.
 If you are unsure, start with no labels and add more
 labels over time as concrete use cases arise.
 
-### Counter vs. gauge vs. summary
+### Counter vs. gauge, summary vs. histogram
 
-It is important to know which of the three main metric types to use for a given
-metric. There is a simple rule of thumb: if the value can go down, it's a gauge.
+It is important to know which of the four main metric types to use for
+a given metric.
+
+To pick between counter and gauge, there is a simple rule of thumb: if
+-metric To pick between counter and gauge, there is a simple rule of
+thumb: if the value can go down, it is a gauge.
 
 Counters can only go up (and reset, such as when a process restarts). They are
 useful for accumulating the number of events, or the amount of something at
@@ -206,11 +210,8 @@ Gauges can be set, go up, and go down. They are useful for snapshots of state,
 such as in-progress requests, free/total memory, or temperature. You should
 never take a `rate()` of a gauge.
 
-Summaries are similar to having two counters. They track the number of events
-*and* the amount of something for each event, allowing you to calculate the
-average amount per event (useful for latency, for example). In addition,
-summaries can also export quantiles of the amounts, but note that [quantiles are not
-aggregatable](http://latencytipoftheday.blogspot.de/2014/06/latencytipoftheday-you-cant-average.html).
+Summaries and histograms are more complex metric types discussed in
+[their own section](/docs/practices/histograms/).
 
 ### Timestamps, not time since
 
@@ -244,9 +245,11 @@ benchmarks are the best way to determine the impact of any given change.
 
 ### Avoid missing metrics
 
-Time series that are not present until something happens are difficult to deal with,
-as the usual simple operations are no longer sufficient to correctly handle
-them. To avoid this, export a `0` for any time series you know may exist in advance.
+Time series that are not present until something happens are difficult
+to deal with, as the usual simple operations are no longer sufficient
+to correctly handle them. To avoid this, export `0` (or `NaN`, if `0`
+would be misleading) for any time series you know may exist in
+advance.
 
 Most Prometheus client libraries (including Go and Java Simpleclient) will
 automatically export a `0` for you for metrics with no labels.

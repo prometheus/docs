@@ -28,6 +28,12 @@ the 1-element output vector from the input vector:
 This is useful for alerting on when no time series
 exist for a given metric name and label combination.
 
+## `bottomk()`
+
+`bottomk(k integer, v instant-vector)` returns the `k` smallest elements of `v`
+by sample value.
+
+
 ## `ceil()`
 
 `ceil(v instant-vector)` rounds the sample values of all elements in `v` up to
@@ -80,6 +86,54 @@ and value across all series in the input vector.
 `floor(v instant-vector)` rounds the sample values of all elements in `v` down
 to the nearest integer.
 
+## `histogram_quantile()`
+
+`histogram_quantile(φ float, b instant-vector)` calculates the
+φ-quantile (0 ≤ φ ≤ 1) from the buckets `b` of a
+[histogram](/docs/concepts/metric_types/#histogram). (See [histograms
+and summaries](/docs/practices/histograms) for a detailed explanation
+of φ-quantiles and the usage of the histogram metric type in general.)
+The samples in `b` are the counts of observations in each bucket. Each
+sample must have a label `le` where the label value denotes the
+inclusive upper bound of the bucket. (Samples without such a label are
+silently ignored.) The [histogram metric
+type](/docs/concepts/metric_types/#histogram) automatically provides
+time series with the `_bucket` suffix and the appropriate labels.
+
+Use the `rate()` function to specify the time window for the quantile
+calculation.
+
+Example: A histogram metric is called `http_request_duration_seconds`. To
+calculate the 90th percentile of request durations over the last 10m, use the
+following expression:
+
+    histogram_quantile(0.9, rate(http_request_duration_seconds_bucket[10m]))
+
+The quantile is calculated for each label combination in
+`http_request_duration_seconds`. To aggregate, use the `sum()` aggregator
+around the `rate()` function. Since the `le` label is required by
+`histogram_quantile()`, it has to be included in the `by` clause. The following
+expression aggregates the 90th percentile by `job`:
+
+    histogram_quantile(0.9, sum(rate(http_request_duration_seconds_bucket[10m])) by (job, le))
+
+To aggregate everything, specify only the `le` label:
+
+    histogram_quantile(0.9, sum(rate(http_request_duration_seconds_bucket[10m])) by (le))
+
+The `histogram_quantile()` function interpolates quantile values by
+assuming a linear distribution within a bucket. The highest bucket
+must have an upper bound of `+Inf`. (Otherwise, `NaN` is returned.) If
+a quantile is located in the highest bucket, the upper bound of the
+second highest bucket is returned. A lower limit of the lowest bucket
+is assumed to be 0 if the upper bound of that bucket is greater than
+0. In that case, the usual linear interpolation is applied within that
+bucket. Otherwise, the upper bound of the lowest bucket is returned
+for quantiles located in the lowest bucket.
+
+If `b` contains fewer than two buckets, `NaN` is returned. For φ < 0, `-Inf` is
+returned. For φ > 1, `+Inf` is returned.
+
 ## `rate()`
 
 `rate(v range-vector)` calculate the per-second average rate of increase of the
@@ -123,6 +177,11 @@ Same as `sort`, but sorts in descending order.
 this does not actually return the current time, but the time at which the
 expression is to be evaluated.
 
+## `topk()`
+
+`topk(k integer, v instant-vector)` returns the `k` largest elements of `v` by
+sample value.
+
 ## `<aggregation>_over_time()`: Aggregating values over time:
 
 The following functions allow aggregating each series of a given range vector
@@ -133,11 +192,3 @@ over time and return an instant vector with per-series aggregation results:
 * `max_over_time(range-vector)`: the maximum value of all points under the specified interval.
 * `sum_over_time(range-vector)`: the sum of all values under the specified interval.
 * `count_over_time(range-vector)`: the count of all values under the specified interval.
-
-## `topk()` and `bottomk()`
-
-`topk(k integer, v instant-vector)` returns the `k` largest elements of `v` by
-sample value.
-
-`bottomk(k integer, v instant-vector` returns the `k` smallest elements of `v`
-by sample value.

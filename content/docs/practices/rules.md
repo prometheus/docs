@@ -1,6 +1,6 @@
 ---
 title: Recording rules
-sort_rank: 5
+sort_rank: 6
 ---
 
 # Recording rules

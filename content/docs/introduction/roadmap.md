@@ -23,17 +23,6 @@ detailed local views.
 
 GitHub issue: [#9](https://github.com/prometheus/prometheus/issues/9)
 
-**Aggregatable histograms**
-
-The current client-side [summary
-types](/docs/concepts/metric_types/#summaries) do not
-support aggregation of quantiles. For example, it is [statistically
-incorrect](http://latencytipoftheday.blogspot.de/2014/06/latencytipoftheday-you-cant-average.html)
-to average over the 90th percentile latency of multiple monitored instances.
-We plan to implement server-side histograms which will allow for this use case.
-
-GitHub issue: [#480](https://github.com/prometheus/prometheus/issues/480)
-
 **More flexible label matching in binary operations**
 
 [Binary operations](/docs/querying/operators/) between time series vectors

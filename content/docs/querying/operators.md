@@ -95,15 +95,15 @@ The `on` keyword allows reducing the set of considered labels to a provided list
 
 Example input:
 
-    method:http_errors:rate5m{method="get", code="500"}  24
-    method:http_errors:rate5m{method="get", code="404"}  30
-    method:http_errors:rate5m{method="put", code="500"}  3
-    method:http_errors:rate5m{method="post", code="500"} 6
-    method:http_errors:rate5m{method="post", code="404"} 21
+    method:http_errors:rate5m{source="internal", method="get", code="500"}  24
+    method:http_errors:rate5m{source="external", method="get", code="404"}  30
+    method:http_errors:rate5m{source="internal", method="put", code="501"}  3
+    method:http_errors:rate5m{source="internal", method="post", code="500"} 6
+    method:http_errors:rate5m{source="external", method="post", code="404"} 21
 
-    method:http_requests:rate5m{domain="example.com", method="get"}  600
-    method:http_requests:rate5m{domain="example.com", method="del"}  34
-    method:http_requests:rate5m{domain="example.com", method="post"} 120
+    method:http_requests:rate5m{method="get"}  600
+    method:http_requests:rate5m{method="del"}  34
+    method:http_requests:rate5m{method="post"} 120
 
 Example query:
 
@@ -125,10 +125,9 @@ left/right determines which vector has the higher cardinality.
     <vector expr> <bin-op> on(<label list>) group_left(<label list>) <vector expr>
     <vector expr> <bin-op> on(<label list>) group_right(<label list>) <vector expr>
 
-The label list provided with the group modifier contains additional labels to be included in
-the result metrics. A label can only appear in one of the lists. Every time
-series of the result vector must be uniquely identifiable by the labels from both lists
-combined.
+The label list provided with the group modifier contains additional labels from the "many"-side
+to be included in the result metrics. A label can only appear in one of the lists. Every time
+series of the result vector must be uniquely identifiable by the labels from both lists combined.
 
 _Grouping modifiers can only be used for [comparison/filtering](#comparison-/-filter-binary-operators)
 and [arithmetic](#arithmetic-binary-operators) operations as `and` and `or` operations
@@ -136,18 +135,18 @@ match with all possible entries in the right vector by default._
 
 Example query:
 
-    method:http_errors:rate5m / on(method) group_left(code,domain) method:http_requests:rate5m
+    method:http_errors:rate5m / on(method) group_left(code,source) method:http_requests:rate5m
 
 In this case the left vector contains more than one entry per `method` label value. Thus,
-we indicate this using `group_left` and provide `code` as the label that ensures that
-the result vector entries are unique. The `domain` label name simply requests to include the
-label into the result elements. The elements from the right side are now matched with multiple
-elements with the same `method` label on the left:
+we indicate this using `group_left`. To ensure that the result vector entries are unique, additional
+labels have to be provided. Either `code` or `source` satisfy this requirement, but both
+can be added for a more detailed result. The elements from the right side
+are now matched with multiple elements with the same `method` label on the left:
 
-    {domain="example.com", method="get", code="500"}  0.04            //  24 / 600
-    {domain="example.com", method="get", code="404"}  0.05            //  30 / 600
-    {domain="example.com", method="post", code="500"} 0.1             //  12 / 120
-    {domain="example.com", method="post", code="404"} 0.175           //  21 / 120
+    {source="internal", method="get", code="500"}  0.04            //  24 / 600
+    {source="external", method="get", code="404"}  0.05            //  30 / 600
+    {source="internal", method="post", code="500"} 0.1             //  12 / 120
+    {source="external", method="post", code="404"} 0.175           //  21 / 120
 
 _Many-to-one and one-to-many matching are advanced use cases that should be carefully considered.
 Often a proper use of `on(<labels>)` provides the desired outcome._

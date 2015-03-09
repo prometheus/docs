@@ -11,7 +11,7 @@ features and current work, see the issue trackers for the various repositories,
 for example, the [Prometheus
 server](https://github.com/prometheus/prometheus/issues).
 
-**Hierarchical federation**
+### Hierarchical federation
 
 Hierarchical federation will allow higher-level Prometheus servers to collect
 aggregated time series data from subordinated servers. This will enable more
@@ -23,17 +23,7 @@ detailed local views.
 
 GitHub issue: [#9](https://github.com/prometheus/prometheus/issues/9)
 
-**More flexible label matching in binary operations**
-
-[Binary operations](/docs/querying/operators/) between time series vectors
-currently require exact matches of label sets on both sides of the operation
-in order for paired vector elements to propagate into the result. We plan to
-add more flexible label-matching features to support advanced query use cases.
-This applies to 1-to-1 element matches as well as for 1-to-n matches.
-
-GitHub issues: [#488](https://github.com/prometheus/prometheus/issues/488) and [#393](https://github.com/prometheus/prometheus/issues/393)
-
-**Support for more types of service discovery**
+### Support for more types of service discovery
 
 Currently Prometheus supports configuring static HTTP targets, as well as
 discovering targets dynamically via [DNS SRV
@@ -42,7 +32,7 @@ types of service discovery (e.g. Consul or Zookeeper) in the future. Some will
 be implemented natively, but we may also add a plugin system for arbitrary
 discovery mechanisms.
 
-**Restartless configuration changes**
+### Restartless configuration changes
 
 Currently Prometheus requires a restart after any configuration or rule file
 change. This can mean monitoring interruptions for short periods of time. In
@@ -51,7 +41,7 @@ to restart Prometheus.
 
 GitHub issue: [#108](https://github.com/prometheus/prometheus/issues/108)
 
-**Long-term storage**
+### Long-term storage
 
 Currently Prometheus has support for storing samples on local disk, as well as
 experimental support for writing data into OpenTSDB. We plan to improve
@@ -61,7 +51,7 @@ other long-term storage backends.
 
 GitHub issue: [#10](https://github.com/prometheus/prometheus/issues/10)
 
-**Improved staleness handling**
+### Improved staleness handling
 
 Currently Prometheus omits time series from query results if the timestamp for
 which the query is executed is more than 5 minutes away from the nearest
@@ -73,7 +63,7 @@ time series stale if it was not present in the most recent scrape.
 
 GitHub issue: [#398](https://github.com/prometheus/prometheus/issues/398)
 
-**Server-side metric metadata support**
+### Server-side metric metadata support
 
 At this time, metric types and other metadata are only used in the
 client libaries and in the exposition format, but not persisted or
@@ -85,10 +75,9 @@ metric documentation strings. Some metric types, like the upcoming
 could also be stored and processed in a more efficient way.  The
 details of this are still to be determined.
 
-**More client libraries and exporters**
+### More client libraries and exporters
 
-Prometheus has a range of client libraries and exporters. There are always
-more languages that could be supported, or systems that it would be useful to
-export metrics from such as Python or Collectd. We will add more as we need
-them. We are also happy to accept pull requests and advise on how best to
-integrate with Prometheus.
+Prometheus has a range of client libraries and exporters. There are always more
+languages that could be supported, or systems that would be useful to export
+metrics from. We will add more as we need them. We are also happy to accept
+pull requests and advise on how best to integrate with Prometheus.

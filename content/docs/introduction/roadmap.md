@@ -23,16 +23,6 @@ detailed local views.
 
 GitHub issue: [#9](https://github.com/prometheus/prometheus/issues/9)
 
-### More flexible label matching in binary operations
-
-[Binary operations](/docs/querying/operators/) between time series vectors
-currently require exact matches of label sets on both sides of the operation
-in order for paired vector elements to propagate into the result. We plan to
-add more flexible label-matching features to support advanced query use cases.
-This applies to 1-to-1 element matches as well as for 1-to-n matches.
-
-GitHub issues: [#488](https://github.com/prometheus/prometheus/issues/488) and [#393](https://github.com/prometheus/prometheus/issues/393)
-
 ### Support for more types of service discovery
 
 Currently Prometheus supports configuring static HTTP targets, as well as
@@ -87,8 +77,7 @@ details of this are still to be determined.
 
 ### More client libraries and exporters
 
-Prometheus has a range of client libraries and exporters. There are always
-more languages that could be supported, or systems that it would be useful to
-export metrics from such as Python or Collectd. We will add more as we need
-them. We are also happy to accept pull requests and advise on how best to
-integrate with Prometheus.
+Prometheus has a range of client libraries and exporters. There are always more
+languages that could be supported, or systems that would be useful to export
+metrics from. We will add more as we need them. We are also happy to accept
+pull requests and advise on how best to integrate with Prometheus.

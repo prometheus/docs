@@ -81,6 +81,14 @@ cpu_temp_celsius{host="zeus"} + deriv(cpu_temp_celsius{host="zeus"}[1h]) * 5 * 6
 `drop_common_labels(instant-vector)` drops all labels that have the same name
 and value across all series in the input vector.
 
+## `exp()`
+
+`exp(v instant-vector)` calculates the exponential function for all elements in `v`.
+Special cases are:
+
+* `Exp(+Inf) = +Inf`
+* `Exp(NaN) = NaN`
+
 ## `floor()`
 
 `floor(v instant-vector)` rounds the sample values of all elements in `v` down
@@ -133,6 +141,26 @@ for quantiles located in the lowest bucket.
 
 If `b` contains fewer than two buckets, `NaN` is returned. For φ < 0, `-Inf` is
 returned. For φ > 1, `+Inf` is returned.
+
+## `ln()`
+
+`ln(v instant-vector)` calculates the natural logarithm for all elements in `v`.
+Special cases are:
+
+* `ln(+Inf) = +Inf`
+* `ln(0) = -Inf`
+* `ln(x < 0) = NaN`
+* `ln(NaN) = NaN`
+
+## `log2()`
+
+`log2(v instant-vector)` calculates the binary logarithm for all elements in `v`.
+The special cases are equivalent to those in `ln`.
+
+## `log10()`
+
+`log10(v instant-vector)` calculates the decimal logarithm for all elements in `v`.
+The special cases are equivalent to those in `ln`.
 
 ## `rate()`
 

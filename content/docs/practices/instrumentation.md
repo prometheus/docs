@@ -197,8 +197,7 @@ It is important to know which of the four main metric types to use for
 a given metric.
 
 To pick between counter and gauge, there is a simple rule of thumb: if
--metric To pick between counter and gauge, there is a simple rule of
-thumb: if the value can go down, it is a gauge.
+the value can go down, it is a gauge.
 
 Counters can only go up (and reset, such as when a process restarts). They are
 useful for accumulating the number of events, or the amount of something at

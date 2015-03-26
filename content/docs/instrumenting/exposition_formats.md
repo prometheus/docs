@@ -30,7 +30,7 @@ are meant to facilitate debugging. It is strongly recommended that a client
 library supports at least one human-readable format. A human-readable format
 should be the fallback in case the HTTP `Content-Type` header is not understood
 by the client library. The version `0.0.4` text format is generally considered
-human readble, so it is a good fallback candidate (and also understood by
+human readable, so it is a good fallback candidate (and also understood by
 Prometheus).
 
 ### Format variants comparison

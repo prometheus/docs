@@ -21,7 +21,7 @@ HTTP endpoint on your application’s instance:
 Unofficial third-party client libraries:
 
 * [Node.js](https://github.com/StreamMachine/prometheus_client_nodejs)
-* [.NET / #C](https://github.com/andrasm/prometheus-net)
+* [.NET / C#](https://github.com/andrasm/prometheus-net)
 * [Bash](https://github.com/aecolley/client_bash)
 
 When Prometheus scrapes your instance's HTTP endpoint, the client library

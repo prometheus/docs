@@ -25,10 +25,12 @@ rule_checker -ruleFile=/path/to/example.rules
 ```
 
 When the file is syntactically valid, the checker prints a textual
-representation of the parsed rules and then exits with an `0` return status.
+representation of the parsed rules to standard output and then exits with
+a `0` return status.
 
-If there are any syntax errors, it prints an error message and exits with a
-`255` return status.
+If there are any syntax errors, it prints an error message to standard error
+and exits with a `1` return status. On invalid input arguments the exit status
+is `2`.
 
 ## Recording rules
 Recording rules allow you to precompute frequently needed or computationally

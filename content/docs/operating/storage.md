@@ -50,6 +50,25 @@ likely not what you want for actual operations. The flag
 `storage.local.retention` allows you to configure the retention time
 for samples. Adjust it to your needs and your available disk space.
 
+## Settings for high numbers of time series
+
+Prometheus can handle millions of time series. However, you have to
+adjust the storage settings for that. Essentially, you want to allow a
+certain number of chunks for each time series to be kept in RAM. The
+default value for the `storage.local.memory-chunks` flag (discussed
+above) is 1048576. Up to about 300,000 series, you still have three
+chunks available per series on average. For more series, you should
+increase the `storage.local.memory-chunks` value. Three times the
+number of series is a good first approximation. But keep the
+implication for memory usage (see above) in mind.
+
+Even more important is raising the value for the
+`storage.local.max-chunks-to-persist` flag at the same time. As a rule
+of thumb, keep it somewhere between 50% and 100% of the
+`storage.local.memory-chunks` value. The main drawback of a high value
+is larger checkpoints. The consequences of a value too low are much
+more serious.
+
 ## Crash recovery
 
 Prometheus saves chunks to disk as soon as possible after they are

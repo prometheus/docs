@@ -45,7 +45,7 @@ Prometheus).
 | **Optional HTTP `Content-Encoding`** | `gzip` | `gzip` |
 | **Advantages** | <ul><li>Cross-platform</li><li>Size</li><li>Encoding and decoding costs</li><li>Strict schema</li><li>Supports concatenation and theoretically streaming (only server-side behavior would need to change)</li></ul> | <ul><li>Human-readable</li><li>Easy to assemble, especially for minimalistic cases (no nesting required)</li><li>Readable line by line (with the exception of type hints and docstrings)</li></ul> |
 | **Limitations** | <ul><li>Not human-readable</li></ul> | <ul><li>Verbose</li><li>Types and docstrings not integral part of the syntax, meaning little-to-nonexistent metric contract validation</li><li>Parsing cost</li></ul>|
-| **Supported metric primitives** | <ul><li>Summary</li><li>Gauge</li><li>Counter</li><li>Untyped</li></ul> | <ul><li>Summary</li><li>Gauge</li><li>Counter</li><li>Untyped</li></ul> |
+| **Supported metric primitives** | <ul><li>Counter</li><li>Gauge</li><li>Histogram</li><li>Summary</li><li>Untyped</li></ul> | <ul><li>Counter</li><li>Gauge</li><li>Histogram</li><li>Summary</li><li>Untyped</li></ul> |
 | **Compatibility** | Version `0.0.3` protocol buffers are also valid version `0.0.4` protocol buffers. | none |
 
 ### Text format details
@@ -67,12 +67,13 @@ characters have to be escaped as `\\` and `\n`, respectively. Only one `HELP`
 line may exist for the same metric name.
 
 If the token is `TYPE`, exactly two more tokens are expected. The first is the
-metric name, and the second is either `counter`, `gauge`, `summary`, or
-`untyped`, defining the type for the metric of that name. Only one `TYPE` line
-may exist for the same metric name. The `TYPE` line for a metric name has to
-appear before the first sample is reported for that metric name. If there is no
-`TYPE` line for a metric name, the type is set to `untyped`.  Remaining lines
-describe samples, one per line, with the following syntax (EBNF):
+metric name, and the second is either `counter`, `gauge`, `histogram`,
+`summary`, or `untyped`, defining the type for the metric of that name. Only
+one `TYPE` line may exist for the same metric name. The `TYPE` line for a
+metric name has to appear before the first sample is reported for that metric
+name. If there is no `TYPE` line for a metric name, the type is set to
+`untyped`.  Remaining lines describe samples, one per line, with the following
+syntax (EBNF):
 
     metric_name [
       "{" label_name "=" `"` label_value `"` { "," label_name "=" `"` label_value `"` } [ "," ] "}"
@@ -81,11 +82,15 @@ describe samples, one per line, with the following syntax (EBNF):
 `metric_name` and `label_name` have the usual Prometheus expression language restrictions. `label_value` can be any sequence of UTF-8 characters, but the backslash, the double-quote, and the line-feed characters have to be escaped as `\\`, `\"`, and `\n`, respectively.
 `value` is a float, and timestamp an `int64` (milliseconds since epoch, i.e. 1970-01-01 00:00:00 UTC, excluding leap seconds), represented as required by the [Go strconv package](http://golang.org/pkg/strconv/) (see functions `ParseInt` and `ParseFloat`). In particular, `Nan`, `+Inf`, and `-Inf` are valid values.
 
-The `summary` type is difficult to represent in the text format. The following conventions apply:
+The `histogram` and `summary` types are difficult to represent in the text
+format. The following conventions apply:
 
-* Each quantile `x` is given as a separate sample, each with a label `{quantile="x"}`.
-* The sample sum for a summary named `x` is given as a separate sample named `x_sum`.
-* The sample count for a summary named `x` is given as a separate sample named `x_count`.
+* The sample sum for a summary or histogram named `x` is given as a separate sample named `x_sum`.
+* The sample count for a summary or histogram named `x` is given as a separate sample named `x_count`.
+* Each quantile of a summary named `x` is given as a separate sample line with the same name `x` and a label `{quantile="y"}`.
+* Each bucket count of a histogram named `x` is given as a separate sample line with the name `x_bucket` and a label `{le="y"}` (where `y` is the upper bound of the bucket).
+* A histogram _must_ have a bucket with `{le="+Inf"}`. Its value _must_ be identical to the value of `x_count`.
+* The buckets of a histogram and the quantiles of a summary must appear in increasing numerical order of their label values (for the `le` or the `quantile` label, respectively).
 
 See also the example below.
 
@@ -104,8 +109,20 @@ metric_without_timestamp_and_labels 12.47
 # A weird metric from before the epoch:
 something_weird{problem="division by zero"} +Inf -3982045
 
-# Finally a summary, which has a pretty complex representation in the text format:
-# HELP telemetry_requests_metrics_latency_microseconds A histogram of the response latency.
+# A histogram, which has a pretty complex representation in the text format:
+# HELP http_request_duration_seconds A histogram of the request duration.
+# TYPE http_request_duration_seconds histogram
+http_request_duration_seconds_bucket{le="0.05"} 24054
+http_request_duration_seconds_bucket{le="0.1"} 33444
+http_request_duration_seconds_bucket{le="0.2"} 100392
+http_request_duration_seconds_bucket{le="0.5"} 129389
+http_request_duration_seconds_bucket{le="1"} 133988
+http_request_duration_seconds_bucket{le="+Inf"} 144320
+http_request_duration_seconds_sum 53423
+http_request_duration_seconds_count 144320
+
+# Finally a summary, which has a complex representation, too:
+# HELP telemetry_requests_metrics_latency_microseconds A summary of the response latency.
 # TYPE telemetry_requests_metrics_latency_microseconds summary
 telemetry_requests_metrics_latency_microseconds{quantile="0.01"} 3102
 telemetry_requests_metrics_latency_microseconds{quantile="0.05"} 3272

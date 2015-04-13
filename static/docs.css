@@ -63,10 +63,6 @@ body {
   white-space: nowrap;
 }
 
-.side-nav .fa {
-  color: #555;
-}
-
 footer {
   font-size: 12px;
   color: #333;
@@ -78,9 +74,17 @@ a.sc-logo img {
 }
 
 /* Docs-related styles. */
+.side-nav-col {
+  z-index: 100;
+}
+
 .side-nav {
   margin-top: 20px;
   padding: 5px 20px 20px 20px;
+}
+
+.side-nav .fa {
+  color: #555;
 }
 
 .side-nav a {

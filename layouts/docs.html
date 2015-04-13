@@ -2,7 +2,7 @@
 
 <div class="container">
   <div class="row">
-    <div class="col-md-3">
+    <div class="col-md-3 side-nav-col">
       <ul class="nav navbar-nav side-nav">
         <% @items['/docs/'].children.sort_by { |i| i[:sort_rank] || 0 }.each do |i| %>
           <%= toc(i, @item) %>

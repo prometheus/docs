@@ -162,6 +162,8 @@ vector of fewer elements with aggregated values:
 * `min` (select minimum over dimensions)
 * `max` (select maximum over dimensions)
 * `avg` (calculate the average over dimensions)
+* `stddev` (calculate population standard deviation over dimensions)
+* `stdvar` (calculate population standard variance over dimensions)
 * `count` (count number of elements in the vector)
 
 These operators can either be used to aggregate over **all** label dimensions

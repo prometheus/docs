@@ -12,6 +12,7 @@ metrics directly (for example, HAProxy or Linux system stats). The
 following is a list of existing third-party exporters:
 
    * [Node/system metrics exporter](https://github.com/prometheus/node_exporter)
+   * [Graphite exporter](https://github.com/prometheus/graphite_exporter)
    * [Collectd exporter](https://github.com/prometheus/collectd_exporter)
    * [JMX exporter](https://github.com/prometheus/jmx_exporter)
    * [HAProxy exporter](https://github.com/prometheus/haproxy_exporter)

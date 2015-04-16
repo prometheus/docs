@@ -199,6 +199,10 @@ in ascending order.
 
 Same as `sort`, but sorts in descending order.
 
+## `sqrt()`
+
+`sqrt(v instant-vector)` calculates the square root of all elements in `v`.
+
 ## `time()`
 
 `time()` returns the number of seconds since January 1, 1970 UTC. Note that

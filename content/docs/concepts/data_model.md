@@ -28,8 +28,10 @@ allows filtering and aggregation based on these dimensions. Changing any label
 value, including adding or removing a label, will create a new time series.
 
 Label names may contain ASCII letters, numbers, as well as underscores. They
-must match the regex `[a-zA-Z_][a-zA-Z0-9_]*`. Label names beginning with `__`
-are reserved for internal use.
+must match the regex `[a-zA-Z_][a-zA-Z0-9_]*`.
+Label names beginning with `_` are hidden and will, in genereal, not propagate
+into the label set of a time series. Label names beginning with `__` are reserved
+for internal use. Those labels may propagate into time series.
 
 Label values may contain any Unicode characters.
 

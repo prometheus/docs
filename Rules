@@ -22,6 +22,8 @@ route '/assets/*' do
 end
 
 compile '*' do
+  filter :erb
+
   if item[:extension] == 'md'
     #filter :kramdown
     filter :redcarpet, options: {filter_html: true, autolink: true, no_intraemphasis: true, fenced_code_blocks: true, gh_blockcode: true, tables: true}, renderer_options: {with_toc_data: true}
@@ -29,7 +31,11 @@ compile '*' do
     filter :bootstrappify
     filter :admonition
     filter :colorize_syntax, :default_colorizer => :pygmentsrb
-    layout 'docs'
+    if item[:kind] == 'article'
+      layout 'blog'
+    else
+      layout 'docs'
+    end
   elsif item[:extension] == 'css'
     # don’t filter stylesheets
   elsif item.binary?
@@ -39,6 +45,18 @@ compile '*' do
   else
     layout 'default'
   end
+end
+
+route '/blog/' do
+  '/blog/index.html'
+end
+
+# Transform /blog/<YYYY>-<MM>-<DD>-<post title> to
+# /blog/<YYYY>/<MM>/<DD>/<post title>.
+route '/blog/*' do
+  y, m, d, slug = /([0-9]+)\-([0-9]+)\-([0-9]+)\-([^\/]+)/.match(item.identifier).captures
+
+  "/blog/#{y}/#{m}/#{d}/#{slug}/index.html"
 end
 
 route '*' do

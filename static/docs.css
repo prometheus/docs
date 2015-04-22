@@ -131,6 +131,14 @@ a.sc-logo img {
   margin: 40px 0 10px 0;
 }
 
+.doc-content > h1 a {
+  color: #e6522c;
+}
+
+.doc-content.blog > h1 {
+  text-transform: none;
+}
+
 .doc-content > h2 {
   color: #e6522c;
   font-size: 25px;
@@ -220,4 +228,18 @@ code {
   font-size: 12px;
   font-weight: 500;
   text-transform: uppercase;
+}
+
+aside {
+  color: #888;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #aaa;
+}
+
+article {
+  margin: 10px 0 60px 0;
+}
+
+.read-more > a {
+  color: #888;
 }

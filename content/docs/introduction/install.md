@@ -37,7 +37,7 @@ two examples.
 Bind-mount your prometheus.conf from the host by running:
 
 ```
-docker run -p 9090:9090 -v /tmp/prometheus.conf:/prometheus.conf \
+docker run -p 9090:9090 -v /tmp/prometheus.conf:/etc/prometheus/prometheus.conf \
        prom/prometheus
 ```
 
@@ -60,7 +60,7 @@ Dockerfile like this:
 
 ```
 FROM prom/prometheus
-ADD prometheus.conf /
+ADD prometheus.conf /etc/prometheus/
 ```
 
 Now build and run it:

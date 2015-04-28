@@ -44,10 +44,10 @@ GitHub issue: [#108](https://github.com/prometheus/prometheus/issues/108)
 ### Long-term storage
 
 Currently Prometheus has support for storing samples on local disk, as well as
-experimental support for writing data into OpenTSDB. We plan to improve
-long-term storage support, although the details are not determined yet. This
-might include read-back support from OpenTSDB in Prometheus, or support for
-other long-term storage backends.
+experimental support for writing data into OpenTSDB and InfluxDB. We plan to
+improve long-term storage support, although the details are not determined yet.
+This might include read-back support from OpenTSDB/InfluxDB in Prometheus, or
+support for other long-term storage backends.
 
 GitHub issue: [#10](https://github.com/prometheus/prometheus/issues/10)
 

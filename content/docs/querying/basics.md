@@ -71,7 +71,7 @@ metric name that also have the `job` label set to `prometheus` and their
     http_requests_total{job="prometheus",group="canary"}
 
 It is also possible to negatively match a label value, or to match label values
-again regular expressions. The following label matching operators exist:
+against regular expressions. The following label matching operators exist:
 
 * `=`: Select labels that are exactly equal to the provided string.
 * `!=`: Select labels that are not equal to the provided string.

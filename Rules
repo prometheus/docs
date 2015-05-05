@@ -21,10 +21,16 @@ route '/assets/*' do
   item.identifier[0..-2]
 end
 
+route '/README/' do
+    '/README.md'
+end
+
 compile '*' do
   filter :erb
 
-  if item[:extension] == 'md'
+  if item[:title] == 'README.md'
+    # don't filter; this is for the GitHub repository
+  elsif item[:extension] == 'md'
     #filter :kramdown
     filter :redcarpet, options: {filter_html: true, autolink: true, no_intraemphasis: true, fenced_code_blocks: true, gh_blockcode: true, tables: true}, renderer_options: {with_toc_data: true}
     filter :add_anchors

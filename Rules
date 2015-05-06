@@ -29,7 +29,7 @@ compile '*' do
   filter :erb
 
   if item[:title] == 'README.md'
-    # don't filter; this is for the GitHub repository
+    # Don't filter; this should propagate verbatim to the output GitHub repository.
   elsif item[:extension] == 'md'
     #filter :kramdown
     filter :redcarpet, options: {filter_html: true, autolink: true, no_intraemphasis: true, fenced_code_blocks: true, gh_blockcode: true, tables: true}, renderer_options: {with_toc_data: true}

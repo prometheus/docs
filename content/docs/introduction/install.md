@@ -7,9 +7,13 @@ sort_rank: 2
 
 ## Using pre-compiled binaries
 
-We plan on providing precompiled binaries for various platforms and even
-packages for common Linux distributions soon. Once those are offered, it
-will be the recommended way of installing Prometheus.
+We provide precompiled binaries for released versions for most Prometheus
+components. These may be found under the "Releases" tab of the respective
+GitHub repositories. For example, for the main Prometheus server, binary
+releases are available at
+[https://github.com/prometheus/prometheus/releases](https://github.com/prometheus/prometheus/releases).
+
+We also plan on providing packages for common Linux distributions soon.
 
 ## From source
 

@@ -21,7 +21,7 @@ a Prometheus server, install and run Prometheus's `rule_checker` tool:
 go get -u github.com/prometheus/prometheus
 
 go install github.com/prometheus/prometheus/tools/rule_checker
-rule_checker -ruleFile=/path/to/example.rules
+rule_checker /path/to/example.rules
 ```
 
 When the file is syntactically valid, the checker prints a textual

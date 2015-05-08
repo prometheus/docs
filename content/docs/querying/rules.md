@@ -47,10 +47,10 @@ file:
 
 Some examples:
 
-    // Saving the per-job HTTP in-progress request count as a new set of time series:
+    # Saving the per-job HTTP in-progress request count as a new set of time series:
     job:http_inprogress_requests:sum = sum(http_inprogress_requests) by (job)
 
-    // Drop or rewrite labels in the result time series:
+    # Drop or rewrite labels in the result time series:
     new_time series{label_to_change="new_value",label_to_drop=""} = old_time series
 
 Recording rules are evaluated at the interval specified by the
@@ -90,14 +90,14 @@ for e.g. an email subject line), while the `DESCRIPTION` clause should provide
 a longer description. Both string fields allow the inclusion of template
 variables derived from the firing vector elements of the alert:
 
-    // To insert a firing element's label values:
+    # To insert a firing element's label values:
     {{$labels.<labelname>}}
-    // To insert the numeric expression value of the firing element:
+    # To insert the numeric expression value of the firing element:
     {{$value}}
 
 Examples:
 
-    // Alert for any instance that is unreachable for >5 minutes.
+    # Alert for any instance that is unreachable for >5 minutes.
     ALERT InstanceDown
       IF up == 0
       FOR 5m
@@ -107,7 +107,7 @@ Examples:
       SUMMARY "Instance {{$labels.instance}} down"
       DESCRIPTION "{{$labels.instance}} of job {{$labels.job}} has been down for more than 5 minutes."
 
-    // Alert for any instance that have a median request latency >1s.
+    # Alert for any instance that have a median request latency >1s.
     ALERT ApiHighRequestLatency
       IF api_http_request_latencies_ms{quantile="0.5"} > 1000
       FOR 1m

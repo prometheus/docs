@@ -121,7 +121,7 @@ differences as part of your release process.
 
 Failures should be handled similarly to logging. Every time there is a failure, a
 counter should be incremented. Unlike logging, the error may also bubble up to a
-more general error counter depending on how your code is strctured.
+more general error counter depending on how your code is structured.
 
 When reporting failures, you should generally have some other metric
 representing the total number of attempts. This makes the failure ratio easy to calculate.

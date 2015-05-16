@@ -27,7 +27,11 @@
     <meta name="msapplication-TileImage" content="/assets/favicons/mstile-144x144.png">
     <meta name="theme-color" content="#ffffff">
 
+    <% if @item[:title] %>
+    <title><%= @item[:title] %> | Prometheus</title>
+    <% else %>
     <title>Prometheus</title>
+    <% end %>
 
     <!-- Bootstrap core CSS -->
     <link href="/assets/bootstrap-3.3.1/css/bootstrap.min.css" rel="stylesheet">

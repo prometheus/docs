@@ -1,5 +1,5 @@
 ---
-title: Basics
+title: Querying basics
 sort_rank: 1
 ---
 

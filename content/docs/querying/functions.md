@@ -1,5 +1,5 @@
 ---
-title: Functions
+title: Query functions
 sort_rank: 3
 ---
 

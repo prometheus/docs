@@ -1,5 +1,5 @@
 ---
-title: Examples
+title: Querying examples
 sort_rank: 4
 ---
 

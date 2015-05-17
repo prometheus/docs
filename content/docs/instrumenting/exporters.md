@@ -25,6 +25,7 @@ These exporters are maintained as part of the official
    * [Hystrix metrics publisher](https://github.com/prometheus/hystrix)
    * [Mesos task exporter](https://github.com/prometheus/mesos_exporter)
    * [Consul exporter](https://github.com/prometheus/consul_exporter)
+   * [MySQL server exporter](https://github.com/prometheus/mysqld_exporter)
 
 The [JMX exporter](https://github.com/prometheus/jmx_exporter) can export from a
 wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.org/) and
@@ -40,6 +41,7 @@ Prometheus core team yet:
    * [Redis exporter](https://github.com/oliver006/redis_exporter)
    * [scollector exporter](https://github.com/tgulacsi/prometheus_scollector)
    * [MongoDB exporter](https://github.com/dcu/mongodb_exporter)
+   * [CouchDB exporter](https://github.com/gesellix/couchdb-exporter)
    * [Django exporter](https://github.com/korfuri/django-prometheus)
    * [Google's mtail log data extractor](https://github.com/google/mtail)
    * [Minecraft exporter module](https://github.com/Baughn/PrometheusIntegration)

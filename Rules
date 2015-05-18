@@ -46,8 +46,8 @@ compile '*' do
     # don’t filter stylesheets
   elsif item.binary?
     # don’t filter binary items
-  elsif item[:title] == 'Home'
-    layout 'jumbotron'
+  elsif item[:layout]
+    layout item[:layout]
   else
     layout 'default'
   end

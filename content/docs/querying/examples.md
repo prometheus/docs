@@ -1,5 +1,6 @@
 ---
 title: Querying examples
+nav_title: Examples
 sort_rank: 4
 ---
 

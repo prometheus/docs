@@ -1,5 +1,6 @@
 ---
 title: Querying basics
+nav_title: Basics
 sort_rank: 1
 ---
 

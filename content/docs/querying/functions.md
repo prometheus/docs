@@ -1,5 +1,6 @@
 ---
 title: Query functions
+nav_title: Functions
 sort_rank: 3
 ---
 

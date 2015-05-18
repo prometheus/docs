@@ -1,4 +1,4 @@
 ---
-title: Prometheus Documentation
+title: Documentation
 is_hidden: true
 ---

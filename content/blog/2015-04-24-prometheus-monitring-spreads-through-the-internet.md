@@ -1,5 +1,5 @@
 ---
-title: "Prometheus Monitoring Spreads through the Internet"
+title: Prometheus Monitoring Spreads through the Internet
 created_at: 2015-04-24
 kind: article
 author: Brian Brazil

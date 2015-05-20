@@ -97,6 +97,10 @@ job_name: <name>
 dns_sd_configs:
   [ - <dns_sd_config> ... ]
 
+# List of Consul service discovery configurations.
+consul_sd_configs:
+  [ - <consul_sd_config> ... ]
+
 # List of labeled target groups for this job.
 target_groups:
   [ - <target_group> ... ]
@@ -148,6 +152,37 @@ names:
 ```
 
 Where `<host>` is a valid hostname.
+
+
+### Consul SD configurations `<consul_sd_config>`
+
+Consul SD configurations allow to retrieve scrape targets from [Consul's](https://www.consul.io)
+Catalog API. 
+
+The following labels are attached to targets:
+
+* `__meta_consul_node`: the node name defined for the target
+* `__meta_consul_tags`: the list of tags of the target joined by the tag separator
+* `__meta_consul_service`: the name of the service the target belongs to
+* `__meta_consul_dc`: the datacenter string for the target
+
+``` 
+# The information to access the Consul API. It is to be defined
+# as the Consul documentation requires.
+server: <host>
+[ token: <string> ]
+[ datacenter: <string> ]
+[ scheme: <string> ]
+[ username: <string> ]
+[ password: <string> ]
+
+# A list of services for which targets are retrieved.
+services:
+  [ - <string> ]
+
+# The string by which consul tags are joined into the tag label.
+[ tag_separator: <string> | default = , ]
+```
 
 
 ### Relabeling `<relabel_config>`

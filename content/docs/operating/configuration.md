@@ -101,6 +101,10 @@ dns_sd_configs:
 consul_sd_configs:
   [ - <consul_sd_config> ... ]
 
+# List of file service discovery configurations.
+file_sd_configs:
+  [ - <file_sd_config> ... ]
+
 # List of labeled target groups for this job.
 target_groups:
   [ - <target_group> ... ]
@@ -183,6 +187,45 @@ services:
 # The string by which consul tags are joined into the tag label.
 [ tag_separator: <string> | default = , ]
 ```
+
+
+### File based SD configurations `<file_sd_config>`
+
+File based service discovery provides a more dynamic way to configure static targets
+and serves as an interface to plug in custom service discovery mechanisms.
+
+It reads a set of files containing a list of zero or more `<target_group>`s. Changes to
+all defined files are detected via disk watches and applied immediately. Files may be
+provided in YAML or JSON format. Only changes resulting in well-formatted target groups
+are applied.
+
+The JSON version of a target group has the following format:
+
+```
+{
+  "targets": [ "<host>", ... ],
+  "labels": {
+    [ "<labelname>": "<labelvalue>", ... ]
+  }
+}
+```
+
+As a fallback, the file contents are re-read in the specified refresh interval.
+
+Each target has the `__meta_filepath` label attached. Its value is set to the filepath 
+from which the target was extracted.
+
+```
+# Patterns for files from which target groups are extracted.
+names:
+  [ - <filename_pattern> ... ]
+
+# Refresh interval to re-read the files.
+[ refresh_interval: <duration> | default = 30s ]
+```
+
+Where `<filename_pattern>` may be a path ending in `.json`, `.yml` or `.yaml`. The last path segment
+may contain a single `*` that matches any character sequence, e.g. `my/path/tg_*.json`.
 
 
 ### Relabeling `<relabel_config>`

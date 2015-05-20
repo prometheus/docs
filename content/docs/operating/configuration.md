@@ -14,6 +14,11 @@ load](/docs/querying/rules/#configuring-rules).
 
 To view all available command-line flags, run `prometheus -h`.
 
+Prometheus can reload its configuration at runtime. If the new configuration
+is not well-formatted the changes will not be applied.
+A configuration reload is triggered by sending `SIGHUP` to the Prometheus process.
+This will also reload any configured rule files.
+
 
 ## Configuration file
 
@@ -92,6 +97,11 @@ job_name: <name>
 
 # The URL scheme with which to fetch metrics from targets.
 [ scheme: <scheme> | default = http ] 
+
+# HTTP basic authentication information.
+basic_auth:
+  [ username: <string> ]
+  [ password: <string> ]
 
 # List of DNS service discovery configurations.
 dns_sd_configs:

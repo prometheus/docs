@@ -10,7 +10,10 @@ Prometheus supports two types of rules which may be configured and then
 evaluated at regular intervals: recording rules and alerting rules. To include
 rules in Prometheus, create a file containing the necessary rule statements and
 have Prometheus load the file via the `rule_files` field in the [Prometheus
-configuration](https://github.com/prometheus/prometheus/blob/master/config/config.proto).
+configuration](/docs/operating/configuration).
+
+The rule files can be reloaded at runtime by sending `SIGHUP` to the Prometheus
+process. The changes are only applied if all rule files are well-formatted.
 
 ## Syntax-checking rules
 To quickly check whether a rule file is syntactically correct without starting

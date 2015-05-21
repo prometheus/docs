@@ -40,7 +40,7 @@ Generic placeholders are defined as follows:
 
 The other placeholders are specified separately.
 
-A valid example file can be found [here](https://github.com/prometheus/prometheus/blob/fabxc/sd_yamlcfg/config/testdata/conf.good.yml).
+A valid example file can be found [here](https://github.com/prometheus/prometheus/blob/master/config/testdata/conf.good.yml).
 
 The global configuration specifies parameters valid in all other configuration
 contexts. They also serve as defaults for other configuration sections.

@@ -13,11 +13,20 @@ GitHub repositories. For example, for the main Prometheus server, binary
 releases are available at
 [https://github.com/prometheus/prometheus/releases](https://github.com/prometheus/prometheus/releases).
 
-We also plan on providing packages for common Linux distributions soon.
+Debian and RPM packages are being worked on.
 
 ## From source
 
-For building Prometheus from source, see the relevant [`README.md` section](https://github.com/prometheus/prometheus/blob/master/README.md#use-make).
+For building Prometheus from source, see the relevant [`README.md`
+section](https://github.com/prometheus/prometheus/blob/master/README.md#use-make).
+
+Note that this documentation (as published on
+[prometheus.io](http://prometheus.io)) refers to the latest production
+release. The head of the
+[prometheus/docs](https://github.com/prometheus/docs) GitHub
+repository refers to the (possibly not yet released) head of the
+[prometheus/prometheus](https://github.com/prometheus/prometheus) (and
+other) repositories.
 
 ## Using Docker
 

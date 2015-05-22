@@ -6,24 +6,32 @@ sort_rank: 1
 # Metric and label naming
 
 The metric and label conventions presented in this document are not required
-for using Prometheus, but can serve as both a style-guide and collection of
+for using Prometheus, but can serve as both a style-guide and a collection of
 best practices. Individual organizations may want to approach e.g. naming
 conventions differently.
 
 ## Metric names
 
-A metric name:
+A metric name...
 
-* should have a (single-word) application prefix relevant to the containing Prometheus domain
+* ...should have a (single-word) application prefix relevant to the domain the
+  metric belongs to. The prefix is sometimes referred to as `namespace` by
+  client libraries. For metrics specific to an application, the prefix is
+  usually the application name itself. Sometimes, however, metrics are more
+  generic, like standardized metrics exported by client libraries. Examples:
  * <code><b>prometheus</b>\_notifications\_total</code>
- * <code><b>indexer</b>\_requests\_latencies\_milliseconds</code>
- * <code><b>processor</b>\_requests\_total</code>
-* must have a single unit (i.e. do not mix seconds with milliseconds)
-* should have a units suffix
+   (specific to the Prometheus server)
+ * <code><b>process</b>\_cpu\_seconds\_total</code>
+   (exported by many client libraries)
+ * <code><b>http</b>\_request\_duration\_microseconds</code>
+   (for all HTTP requests)
+* ...must have a single unit (i.e. do not mix seconds with milliseconds).
+* ...should have a suffix describing the unit.
  * <code>api\_http\_request\_latency\_<b>milliseconds</b></code>
  * <code>node\_memory\_usage\_<b>bytes</b></code>
  * <code>api\_http\_requests\_<b>total</b></code> (for an accumulating count)
-* should represent the same logical thing-being-measured across all label dimensions
+* ...should represent the same logical thing-being-measured across all label
+  dimensions.
  * request duration
  * bytes of data transfer
  * instantaneous resource usage as a percentage
@@ -44,7 +52,7 @@ Use labels to differentiate the characteristics of the thing that is being measu
 Do not put the label names in the metric name, as this introduces redundancy
 and will cause confusion if the respective labels are aggregated away.
 
-CAUTION: <b>CAUTION:</b> Remember that every unique key-value label pair
+CAUTION: **CAUTION:** Remember that every unique key-value label pair
 represents a new time series, which can dramatically increase the amount of
 data stored. Do not use labels to store dimensions with high cardinality (many
 different label values), such as user IDs, email addresses, or other unbounded

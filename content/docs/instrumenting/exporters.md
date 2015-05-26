@@ -46,6 +46,7 @@ Prometheus core team yet:
    * [Google's mtail log data extractor](https://github.com/google/mtail)
    * [Minecraft exporter module](https://github.com/Baughn/PrometheusIntegration)
    * [Meteor JS web framework exporter](https://atmospherejs.com/sevki/prometheus-exporter)
+   * [Memcached exporter](https://github.com/Snapbug/memcache_exporter)
 
 ## Directly instrumentated software
 

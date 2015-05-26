@@ -40,6 +40,12 @@ by sample value.
 `ceil(v instant-vector)` rounds the sample values of all elements in `v` up to
 the nearest integer.
 
+## `changes()`
+
+For each input time series, `changes(v range-vector)` returns the number of
+times its value has changed within the provided time range as an instant
+vector.
+
 ## `count_scalar()`
 
 `count_scalar(v instant-vector)` returns the number of elements in a time series
@@ -52,7 +58,7 @@ allows grouping by labels via a `by` clause.
 `delta(v range-vector)` calculates the difference between the
 first and last value of each time series element in a range vector `v`,
 returning an instant vector with the given deltas and equivalent labels.
-The delta is interpolated to cover the full time range. 
+The delta is interpolated to cover the full time range.
 
 The following example expression returns the difference in CPU temperature
 between now and 2 hours ago:
@@ -177,6 +183,15 @@ rate(http_requests_total{job="api-server"}[5m])
 ```
 
 `rate` should only be used with counters.
+
+## `resets()`
+
+For each input time series, `resets(v range-vector)` returns the number of
+counter resets within the provided time range as an instant vector. Any
+decrease in the value between two consecutive samples is interpreted as a
+counter reset.
+
+`resets` should only be used with counters.
 
 ## `round()`
 

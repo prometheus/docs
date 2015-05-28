@@ -184,6 +184,11 @@ rate(http_requests_total{job="api-server"}[5m])
 
 `rate` should only be used with counters.
 
+Note that when combining `rate()` with an aggregation operator (e.g. `sum()`)
+or a function aggregating over time (any function ending in `_over_time`),
+always take a `rate()` first, then aggregate. Otherwise `rate()` cannot detect
+counter resets when your target restarts.
+
 ## `resets()`
 
 For each input time series, `resets(v range-vector)` returns the number of

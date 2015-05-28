@@ -63,7 +63,7 @@ during a scrape:
   * the **count** of events that have been observed, exposed as `<basename>_count` (identical to `<basename>_bucket{le="+Inf"}` above)
 
 Use the [`histogram_quantile()`
-function](/docs/querying/functions/#histogram_quantile()) to calculate
+function](/docs/querying/functions/#histogram_quantile) to calculate
 quantiles from histograms or even aggregations of histograms. A
 histogram is also suitable to calculate an [Apdex
 score](http://en.wikipedia.org/wiki/Apdex). See [histograms and

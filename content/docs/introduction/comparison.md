@@ -74,7 +74,7 @@ geared towards slightly different use cases.
 ### Scope
 
 The same scope differences as in the case of
-[Graphite](/docs/introduction/comparison/#prometheus-vs.-graphite) apply here.
+[Graphite](/docs/introduction/comparison/#prometheus-vs-graphite) apply here.
 
 ### Data model / storage
 
@@ -139,7 +139,7 @@ node outages due to data replication.
 ### Scope
 
 The same scope differences as in the case of
-[Graphite](/docs/introduction/comparison/#prometheus-vs.-graphite) apply here.
+[Graphite](/docs/introduction/comparison/#prometheus-vs-graphite) apply here.
 
 ### Data model
 

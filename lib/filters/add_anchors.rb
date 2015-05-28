@@ -7,6 +7,7 @@ class AddAnchorsFilter < ::Nanoc::Filter
   identifier :add_anchors
 
   def run(content, params={})
+    anchors = {}
     # `#dup` is necessary because `.fragment` modifies the incoming string. Ew!
     # See https://github.com/sparklemotion/nokogiri/issues/1077
     doc = Nokogiri::HTML::DocumentFragment.parse(content.dup)
@@ -15,7 +16,22 @@ class AddAnchorsFilter < ::Nanoc::Filter
       node = Nokogiri::XML::Node.new('a', doc).tap do |a|
         a.content = ''
         a['class'] = 'header-anchor'
-        a['href'] = '#' + h_node['id']
+
+        # Replace sequences of non-word characters with single dashes. Remove
+        # extra dashes at the beginning or end.
+        anchor = h_node['id'].gsub(/\W+/, '-').gsub(/^-+|-+$/, '')
+
+        i = 0
+        unique_anchor = anchor
+        while anchors[unique_anchor] do
+          unique_anchor = "#{anchor}-#{i}"
+          i += 1
+        end
+        anchor = unique_anchor
+
+        anchors[anchor] = true
+        a['href'] = '#' + anchor
+        a['name'] = anchor
       end
       h_node.add_child(node)
     end

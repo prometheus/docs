@@ -26,10 +26,13 @@ A metric name...
  * <code><b>http</b>\_request\_duration\_microseconds</code>
    (for all HTTP requests)
 * ...must have a single unit (i.e. do not mix seconds with milliseconds).
-* ...should have a suffix describing the unit.
- * <code>api\_http\_request\_latency\_<b>milliseconds</b></code>
+* ...should have a suffix describing the unit, in plural form. Note that an accumulating count has `total` as a suffix, in addition to the unit if applicable.
+ * <code>http\_request\_duration\_<b>microseconds</b></code>
  * <code>node\_memory\_usage\_<b>bytes</b></code>
- * <code>api\_http\_requests\_<b>total</b></code> (for an accumulating count)
+ * <code>http\_requests\_<b>total</b></code>
+   (for a unit-less accumulating count)
+ * <code>process\_cpu\_<b>seconds\_total</b></code>
+   (for an accumulating count with unit)
 * ...should represent the same logical thing-being-measured across all label
   dimensions.
  * request duration

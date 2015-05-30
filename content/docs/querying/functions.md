@@ -149,6 +149,23 @@ for quantiles located in the lowest bucket.
 If `b` contains fewer than two buckets, `NaN` is returned. For φ < 0, `-Inf` is
 returned. For φ > 1, `+Inf` is returned.
 
+## `increase()`
+
+`increase(v range-vector)` calculates the increase in the
+time series in the range vector. Breaks in monotonicity (such as counter
+resets due to target restarts) are automatically adjusted for.
+
+The following example expression returns the number of HTTP requests as measured
+over the last 5 minutes, per time series in the range vector:
+
+```
+increase(http_requests_total{job="api-server"}[5m])
+```
+
+`increase` should only be used with counters. `increase` should be used
+primarily for human readability, use `rate` for rules so that everything is
+consistently per-second.
+
 ## `ln()`
 
 `ln(v instant-vector)` calculates the natural logarithm for all elements in `v`.
@@ -171,7 +188,7 @@ The special cases are equivalent to those in `ln`.
 
 ## `rate()`
 
-`rate(v range-vector)` calculate the per-second average rate of increase of the
+`rate(v range-vector)` calculates the per-second average rate of increase of the
 time series in the range vector. Breaks in monotonicity (such as counter
 resets due to target restarts) are automatically adjusted for.
 

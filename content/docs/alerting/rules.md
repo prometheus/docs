@@ -20,7 +20,7 @@ Alerting rules are defined in the following syntax:
     ALERT <alert name>
       IF <expression>
       [FOR <duration>]
-      WITH <label set>
+      [WITH <label set>]
       SUMMARY "<summary template>"
       DESCRIPTION "<description template>"
 
@@ -58,7 +58,6 @@ Examples:
     ALERT ApiHighRequestLatency
       IF api_http_request_latencies_ms{quantile="0.5"} > 1000
       FOR 1m
-      WITH {}
       SUMMARY "High request latency on {{$labels.instance}}"
       DESCRIPTION "{{$labels.instance}} has a median request latency above 1s (current value: {{$value}})"
 

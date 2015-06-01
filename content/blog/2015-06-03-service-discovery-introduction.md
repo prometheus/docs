@@ -1,5 +1,5 @@
 ---
-title: Advanced Service Discovery Features in Prometheus 0.14.0
+title: Advanced Service Discovery in Prometheus 0.14.0
 created_at: 2015-06-01
 kind: article
 author: Fabian Reinartz, Julius Volz

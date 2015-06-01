@@ -162,9 +162,9 @@ over the last 5 minutes, per time series in the range vector:
 increase(http_requests_total{job="api-server"}[5m])
 ```
 
-`increase` should only be used with counters. `increase` should be used
-primarily for human readability, use `rate` for rules so that everything is
-consistently per-second.
+`increase` should only be used with counters. It should be used primarily for
+human readability. Use `rate` in recording rules so that increases are tracked
+consistently on a per-second basis.
 
 ## `ln()`
 

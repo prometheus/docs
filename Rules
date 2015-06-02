@@ -25,6 +25,15 @@ route '/README/' do
     '/README.md'
 end
 
+# RSS Feed
+compile '/blog/feed/' do
+    filter :erb
+end
+
+route '/blog/feed/' do
+    '/blog/feed.xml'
+end
+
 compile '*' do
   filter :erb
 

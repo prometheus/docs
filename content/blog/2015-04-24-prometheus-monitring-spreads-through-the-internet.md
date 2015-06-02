@@ -2,7 +2,7 @@
 title: Prometheus Monitoring Spreads through the Internet
 created_at: 2015-04-24
 kind: article
-author: Brian Brazil
+author_name: Brian Brazil
 ---
 
 It has been almost three months since we publicy announced Prometheus version

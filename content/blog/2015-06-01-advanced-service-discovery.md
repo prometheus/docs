@@ -2,7 +2,7 @@
 title: Advanced Service Discovery in Prometheus 0.14.0
 created_at: 2015-06-01
 kind: article
-author: Fabian Reinartz, Julius Volz
+author_name: Fabian Reinartz, Julius Volz
 ---
 
 This week we released Prometheus v0.14.0 — a version with many long-awaited additions

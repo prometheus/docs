@@ -82,12 +82,20 @@ After extensive research it has been determined that the correct plural of
 ### Can I send alerts?
 
 Yes, with the experimental [Alertmanager](https://github.com/prometheus/alertmanager).
-[PagerDuty](http://www.pagerduty.com/) and email are supported.
+
+Currently the following external services are supported :
+
+* Email
+* Generic Webhooks
+* [PagerDuty](http://www.pagerduty.com/)
+* [HipChat](https://www.hipchat.com/)
+* [Slack](https://slack.com/)
+* [Pushover](https://pushover.net/)
+* [Flowdock](https://www.flowdock.com/)
 
 ### Can I create dashboards?
 
-Yes, with [PromDash](/docs/visualization/promdash/) and [Console
-templates](/docs/visualization/consoles/).
+Yes, with [PromDash](/docs/visualization/promdash/) and [Console templates](/docs/visualization/consoles/). There is also a early support for querying Prometheus servers from [Grafana](https://github.com/grafana/grafana-plugins/tree/master/datasources/prometheus).
 
 ### Can I change the timezone? Why is everything in UTC?
 

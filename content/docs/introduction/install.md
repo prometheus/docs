@@ -47,10 +47,10 @@ two examples.
 
 ### Volumes & bind-mount
 
-Bind-mount your prometheus.conf from the host by running:
+Bind-mount your prometheus.yml from the host by running:
 
 ```
-docker run -p 9090:9090 -v /tmp/prometheus.conf:/etc/prometheus/prometheus.conf \
+docker run -p 9090:9090 -v /tmp/prometheus.yml:/etc/prometheus/prometheus.yml \
        prom/prometheus
 ```
 
@@ -58,7 +58,7 @@ Or use an additional volume for the config:
 
 ```
 docker run -p 9090:9090 -v /prometheus-data \
-       prom/prometheus -config.file=/prometheus-data/prometheus.conf
+       prom/prometheus -config.file=/prometheus-data/prometheus.yml
 ```
 
 ### Custom image
@@ -73,7 +73,7 @@ Dockerfile like this:
 
 ```
 FROM prom/prometheus
-ADD prometheus.conf /etc/prometheus/
+ADD prometheus.yml /etc/prometheus/
 ```
 
 Now build and run it:

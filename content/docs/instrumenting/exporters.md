@@ -59,3 +59,4 @@ separate exporters are needed:
    * [Etcd](https://github.com/coreos/etcd)
    * [gokit](https://github.com/peterbourgon/gokit)
    * [go-metrics instrumentation library](https://github.com/armon/go-metrics)
+   * [RobustIRC](http://robustirc.net/)

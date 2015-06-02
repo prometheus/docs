@@ -27,19 +27,10 @@ GitHub issue: [#9](https://github.com/prometheus/prometheus/issues/9)
 
 Currently Prometheus supports configuring static HTTP targets, as well as
 discovering targets dynamically via [DNS SRV
-records](http://en.wikipedia.org/wiki/SRV_record). We plan to support more
-types of service discovery (e.g. Consul or Zookeeper) in the future. Some will
+records](http://en.wikipedia.org/wiki/SRV_record) and [Consul](https://www.consul.io/). There is also a file-based interface that allows you to connect your own discovery mechanisms. We plan to support more
+types of service discovery (e.g. Zookeeper) in the future. Some will
 be implemented natively, but we may also add a plugin system for arbitrary
 discovery mechanisms.
-
-### Restartless configuration changes
-
-Currently Prometheus requires a restart after any configuration or rule file
-change. This can mean monitoring interruptions for short periods of time. In
-the future, we want to support reloading configuration changes without having
-to restart Prometheus.
-
-GitHub issue: [#108](https://github.com/prometheus/prometheus/issues/108)
 
 ### Long-term storage
 

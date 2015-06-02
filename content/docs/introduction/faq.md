@@ -79,6 +79,12 @@ Prometheus is released under the
 After extensive research it has been determined that the correct plural of
 'Prometheus' is 'Prometheis'.
 
+### Can I reload Prometheus configuration ?
+
+Yes, sending SIGHUP to the Prometheus process will reload
+and apply the configuration file. The different components attempt
+to handle failing changes gracefully.
+
 ### Can I send alerts?
 
 Yes, with the experimental [Alertmanager](https://github.com/prometheus/alertmanager).

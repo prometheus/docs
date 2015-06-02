@@ -79,7 +79,7 @@ Prometheus is released under the
 After extensive research it has been determined that the correct plural of
 'Prometheus' is 'Prometheis'.
 
-### Can I reload Prometheus configuration ?
+### Can I reload Prometheus's configuration?
 
 Yes, sending SIGHUP to the Prometheus process will reload
 and apply the configuration file. The different components attempt
@@ -89,7 +89,7 @@ to handle failing changes gracefully.
 
 Yes, with the experimental [Alertmanager](https://github.com/prometheus/alertmanager).
 
-Currently the following external services are supported :
+Currently, the following external systems are supported:
 
 * Email
 * Generic Webhooks
@@ -117,7 +117,7 @@ for the current state of this effort.
 
 ### Which languages have instrumentation libraries?
 
-Currently there are client libraries for:
+Currently, there are client libraries for:
 
 * [Go](https://github.com/prometheus/client_golang)
 * [Java or Scala](https://github.com/prometheus/client_java)

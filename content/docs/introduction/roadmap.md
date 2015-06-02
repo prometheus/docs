@@ -27,10 +27,8 @@ GitHub issue: [#9](https://github.com/prometheus/prometheus/issues/9)
 
 Currently Prometheus supports configuring static HTTP targets, as well as
 discovering targets dynamically via [DNS SRV
-records](http://en.wikipedia.org/wiki/SRV_record) and [Consul](https://www.consul.io/). There is also a file-based interface that allows you to connect your own discovery mechanisms. We plan to support more
-types of service discovery (e.g. Zookeeper) in the future. Some will
-be implemented natively, but we may also add a plugin system for arbitrary
-discovery mechanisms.
+records](http://en.wikipedia.org/wiki/SRV_record) and [Consul](https://www.consul.io/). There is also a file-based interface that allows you to connect your own discovery mechanisms. We plan to natively support more
+types of service discovery (e.g. Zookeeper) in the future.
 
 ### Long-term storage
 

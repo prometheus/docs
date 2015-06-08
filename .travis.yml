@@ -1,5 +1,8 @@
 language: ruby
 
+branches:
+    only:
+        - master
 script: make deploy
 before_install:
     - eval "$(ssh-agent -s)"

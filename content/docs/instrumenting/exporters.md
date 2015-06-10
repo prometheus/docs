@@ -47,6 +47,7 @@ Prometheus core team yet:
    * [Minecraft exporter module](https://github.com/Baughn/PrometheusIntegration)
    * [Meteor JS web framework exporter](https://atmospherejs.com/sevki/prometheus-exporter)
    * [Memcached exporter](https://github.com/Snapbug/memcache_exporter)
+   * [New Relic exporter](https://github.com/jfindley/newrelic_exporter)
 
 ## Directly instrumentated software
 

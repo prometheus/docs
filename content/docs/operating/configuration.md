@@ -118,8 +118,12 @@ file_sd_configs:
 target_groups:
   [ - <target_group> ... ]
 
-# List of relabel configurations.
+# List of target relabel configurations.
 relabel_configs:
+  [ - <relabel_config> ... ]
+
+# List of metric relabel configurations.
+metric_relabel_configs:
   [ - <relabel_config> ... ]
 ```
 
@@ -239,7 +243,7 @@ Where `<filename_pattern>` may be a path ending in `.json`, `.yml` or `.yaml`. T
 may contain a single `*` that matches any character sequence, e.g. `my/path/tg_*.json`.
 
 
-### Relabeling `<relabel_config>`
+### Target relabeling `<relabel_config>`
 
 Relabeling is a powerful tool to dynamically rewrite the label set of a target before
 it gets scraped. Multiple relabeling steps can be configured per scrape configuration.
@@ -290,3 +294,11 @@ regex: <regex>
   (`${1}`, `${2}`, ...) in `replacement` substituted by their value.
 * `keep`: Drop targets for which `regex` does not match the concatenated `source_labels`.
 * `drop`: Drop targets for which `regex` matches the concatenated `source_labels`.
+
+### Metric relabeling `<metric_relabel_configs>`
+
+Metric relabeling is applied to samples as the last step before ingestion. It
+has the same configuration format and actions as target relabeling. Metric
+relabeling does not apply to automatically generated timeseries such as `up`.
+
+One use for this is to blacklist time series that are too expensive to ingest.

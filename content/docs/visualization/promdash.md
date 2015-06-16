@@ -195,7 +195,7 @@ In the example of the host dashboard, the URL could look like this:
 Template variables support filters. See the Filters section below for a list of
 currently available filters, expected inputs, and outputs.
 
-### Filters
+## Filters
 
 Filters can be used in all places where variable interpolation is supported,
 e.g. in legend format strings or template variables. The format is `{{variable

@@ -12,8 +12,8 @@ monitoring and alerting toolkit built at [SoundCloud](http://soundcloud.com).
 Since its inception in 2012, it has become the standard for instrumenting new
 services at SoundCloud and is seeing growing external usage and contributions.
 
-For a more elaborate overview, see also [SoundCloud's blog post which announces
-Prometheus](https://developers.soundcloud.com/blog/prometheus-monitoring-at-soundcloud).
+For a more elaborate overview, see the resources linked from the
+[media](/docs/introduction/media/) section.
 
 ### Features
 

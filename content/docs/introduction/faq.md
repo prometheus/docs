@@ -211,12 +211,13 @@ second. The latter depends on the compressibility of the sample data
 and on the number of time series the samples belong to, but to give
 you an idea, here are some results from benchmarks:
 
-* On an older 8-core machine with Intel Core i7 CPUs and two spinning
-  disks (Samsung HD753LJ) in a RAID-1 setup, Prometheus sustained an
-  ingestion rate of 34k samples per second, belonging to 170k time
-  series, scraped from 600 targets.
-* On a modern server with SSD, Prometheus sustained an ingestion rate
-  of 340k samples per second, belonging to 2M time
+* On an older 8-core machine with Intel Core i7 CPUs, 8GiB RAM, and
+  two spinning disks (Samsung HD753LJ) in a RAID-1 setup, Prometheus
+  sustained an ingestion rate of 34k samples per second, belonging to
+  170k time series, scraped from 600 targets.
+
+* On a modern server with 64GiB RAM and SSD, Prometheus sustained an
+  ingestion rate of 340k samples per second, belonging to 2M time
   series, scraped from 1800 targets.
 
 In both cases, there were no obvious bottlenecks. Various stages of the

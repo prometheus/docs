@@ -46,6 +46,7 @@ hosted outside of the Prometheus GitHub organization.
    * [Minecraft exporter module](https://github.com/Baughn/PrometheusIntegration)
    * [MongoDB exporter](https://github.com/dcu/mongodb_exporter)
    * [Munin exporter](https://github.com/pvdh/munin_exporter)
+   * [New Relic exporter](https://github.com/jfindley/newrelic_exporter)
    * [Redis exporter](https://github.com/oliver006/redis_exporter)
    * [RethinkDB exporter](https://github.com/oliver006/rethinkdb_exporter)
    * [scollector exporter](https://github.com/tgulacsi/prometheus_scollector)
@@ -61,3 +62,4 @@ separate exporters are needed:
    * [gokit](https://github.com/peterbourgon/gokit)
    * [Kubernetes-Mesos](https://github.com/mesosphere/kubernetes-mesos)
    * [Kubernetes](https://github.com/GoogleCloudPlatform/kubernetes)
+   * [RobustIRC](http://robustirc.net/)

@@ -5,11 +5,12 @@ sort_rank: 2
 
 # Metric types
 
-The Prometheus client libraries offer three core metric types:
+The Prometheus client libraries offer four core metric types:
 
-  * Counters
-  * Gauges
-  * Summaries
+  * Counter
+  * Gauge
+  * Histogram
+  * Summary
 
 These metric types are currently only differentiated in the client libraries
 (to enable APIs tailored to the usage of the specific types) and in the wire

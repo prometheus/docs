@@ -79,15 +79,29 @@ Prometheus is released under the
 After extensive research it has been determined that the correct plural of
 'Prometheus' is 'Prometheis'.
 
+### Can I reload Prometheus's configuration?
+
+Yes, sending SIGHUP to the Prometheus process will reload
+and apply the configuration file. The different components attempt
+to handle failing changes gracefully.
+
 ### Can I send alerts?
 
 Yes, with the experimental [Alertmanager](https://github.com/prometheus/alertmanager).
-[PagerDuty](http://www.pagerduty.com/) and email are supported.
+
+Currently, the following external systems are supported:
+
+* Email
+* Generic Webhooks
+* [PagerDuty](http://www.pagerduty.com/)
+* [HipChat](https://www.hipchat.com/)
+* [Slack](https://slack.com/)
+* [Pushover](https://pushover.net/)
+* [Flowdock](https://www.flowdock.com/)
 
 ### Can I create dashboards?
 
-Yes, with [PromDash](/docs/visualization/promdash/) and [Console
-templates](/docs/visualization/consoles/).
+Yes, with [PromDash](/docs/visualization/promdash/) and [Console templates](/docs/visualization/consoles/). There is also a early support for querying Prometheus servers from [Grafana](/docs/visualization/grafana/).
 
 ### Can I change the timezone? Why is everything in UTC?
 
@@ -103,7 +117,7 @@ for the current state of this effort.
 
 ### Which languages have instrumentation libraries?
 
-Currently there are client libraries for:
+Currently, there are client libraries for:
 
 * [Go](https://github.com/prometheus/client_golang)
 * [Java or Scala](https://github.com/prometheus/client_java)

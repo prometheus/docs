@@ -1,0 +1,11 @@
+language: ruby
+
+branches:
+    only:
+        - master
+script: make deploy
+before_install:
+    - eval "$(ssh-agent -s)"
+    - openssl aes-256-cbc -K $encrypted_2ba894bc7c2f_key -iv $encrypted_2ba894bc7c2f_iv -in prometheus_rsa.enc -out prometheus_rsa -d
+    - chmod 600 prometheus_rsa
+    - ssh-add prometheus_rsa

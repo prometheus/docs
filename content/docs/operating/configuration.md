@@ -110,6 +110,10 @@ dns_sd_configs:
 consul_sd_configs:
   [ - <consul_sd_config> ... ]
 
+# List of Zookeeper Serverset service discovery configurations.
+serverset_sd_configs:
+  [ - <serverset_sd_config> ... ]
+
 # List of file service discovery configurations.
 file_sd_configs:
   [ - <file_sd_config> ... ]
@@ -118,8 +122,12 @@ file_sd_configs:
 target_groups:
   [ - <target_group> ... ]
 
-# List of relabel configurations.
+# List of target relabel configurations.
 relabel_configs:
+  [ - <relabel_config> ... ]
+
+# List of metric relabel configurations.
+metric_relabel_configs:
   [ - <relabel_config> ... ]
 ```
 
@@ -198,6 +206,34 @@ services:
 [ tag_separator: <string> | default = , ]
 ```
 
+### Zookeeper Serverset SD configurations `<serverset_sd_config>`
+
+Serverset SD configurations allow retrieving scrape targets from [Serversets]
+(https://github.com/twitter/finagle/tree/master/finagle-serversets) which are
+stored in [Zookeeper](https://zookeeper.apache.org/). Serversets are commonly
+used by [Finagle](https://twitter.github.io/finagle/) and
+[Aurora](http://aurora.apache.org/).
+
+The following meta labels are available on targets during relabeling:
+
+* `__meta_serverset_path`: the full path to the serverset member node in Zookeeper
+* `__meta_serverset_endpoint_host`: the host of the default endpoint
+* `__meta_serverset_endpoint_port`: the port of the default endpoint
+* `__meta_serverset_endpoint_host_<endpoint>`: the host of the given endpoint
+* `__meta_serverset_endpoint_port_<endpoint>`: the port of the given endpoint
+* `__meta_serverset_status`: the status of the member
+
+```
+# The Zookeeper servers.
+servers:
+  - <host>
+# Paths can point to a single serverset, or the root of a tree of serversets.
+paths:
+  - <string>
+[ timeout: <duration> | default = 10s ]
+```
+
+Serverset data must be in the JSON format, the Thrift format is not currently supported.
 
 ### File-based SD configurations `<file_sd_config>`
 
@@ -239,7 +275,7 @@ Where `<filename_pattern>` may be a path ending in `.json`, `.yml` or `.yaml`. T
 may contain a single `*` that matches any character sequence, e.g. `my/path/tg_*.json`.
 
 
-### Relabeling `<relabel_config>`
+### Target relabeling `<relabel_config>`
 
 Relabeling is a powerful tool to dynamically rewrite the label set of a target before
 it gets scraped. Multiple relabeling steps can be configured per scrape configuration.
@@ -290,3 +326,11 @@ regex: <regex>
   (`${1}`, `${2}`, ...) in `replacement` substituted by their value.
 * `keep`: Drop targets for which `regex` does not match the concatenated `source_labels`.
 * `drop`: Drop targets for which `regex` matches the concatenated `source_labels`.
+
+### Metric relabeling `<metric_relabel_configs>`
+
+Metric relabeling is applied to samples as the last step before ingestion. It
+has the same configuration format and actions as target relabeling. Metric
+relabeling does not apply to automatically generated timeseries such as `up`.
+
+One use for this is to blacklist time series that are too expensive to ingest.

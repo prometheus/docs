@@ -75,3 +75,6 @@ checks:
     # E.g.:
     #   exclude: ['^/server_status']
     exclude: []
+
+# The base url required by atom_feed
+base_url: "http://prometheus.io"

@@ -1,10 +1,10 @@
-<%= render 'header' %>
+<%= render '/header.*' %>
 
 <div class="container">
   <div class="row">
     <div class="col-md-3 side-nav-col">
       <ul class="nav navbar-nav side-nav">
-        <% @items['/docs/'].children.sort_by { |i| i[:sort_rank] || 0 }.each do |i| %>
+        <% @items.find_all('/docs/*').sort_by { |i| i[:sort_rank] || 0 }.each do |i| %>
           <%= toc(i, @item) %>
         <% end %>
       </ul>
@@ -15,7 +15,7 @@
     </div>
 
   </div>
-  <%= render 'container_footer' %>
+  <%= render '/container_footer.*' %>
 </div>
 
-<%= render 'footer' %>
+<%= render '/footer.*' %>

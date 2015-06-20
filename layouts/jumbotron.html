@@ -1,4 +1,4 @@
-<%= render 'header' %>
+<%= render '/header.*' %>
 
 <div class="jumbotron">
   <div class="container">
@@ -10,7 +10,7 @@
 
 <div class="container">
   <%= yield %>
-  <%= render 'container_footer' %>
+  <%= render '/container_footer.*' %>
 </div>
 
-<%= render 'footer' %>
+<%= render '/footer.*' %>

@@ -1,45 +1,21 @@
 #!/usr/bin/env ruby
 
-# A few helpful tips about the Rules file:
-#
-# * The string given to #compile and #route are matching patterns for
-#   identifiers--not for paths. Therefore, you can’t match on extension.
-#
-# * The order of rules is important: for each item, only the first matching
-#   rule is applied.
-#
-# * Item identifiers start and end with a slash (e.g. “/about/” for the file
-#   “content/about.html”). To select all children, grandchildren, … of an
-#   item, use the pattern “/about/*/”; “/about/*” will also select the parent,
-#   because “*” matches zero or more characters.
-
-compile '/assets/*' do
-end
-
-route '/assets/*' do
-  # /assets/foo.html/ → /foo.html
-  item.identifier[0..-2]
-end
-
-route '/README/' do
-    '/README.md'
-end
+passthrough '/static/**/*'
+passthrough '/README.md'
 
 # RSS Feed
-compile '/blog/feed/' do
+compile '/blog/feed.*' do
     filter :erb
 end
 
-route '/blog/feed/' do
-    '/blog/feed.xml'
+route '/blog/feed.*' do
+  '/blog/feed.xml'
 end
 
-compile '*' do
+compile '/**/*' do
   filter :erb
 
-  if item[:title] == 'README.md'
-    # Don't filter; this should propagate verbatim to the output GitHub repository.
-  elsif item[:extension] == 'md'
+  if item[:extension] == 'md'
     #filter :kramdown
     filter :redcarpet, options: {filter_html: true, autolink: true, no_intraemphasis: true, fenced_code_blocks: true, gh_blockcode: true, tables: true}, renderer_options: {with_toc_data: true}
     filter :add_anchors
@@ -47,46 +23,42 @@ compile '*' do
     filter :admonition
     filter :colorize_syntax, :default_colorizer => :pygmentsrb
     if item[:kind] == 'article'
-      layout 'blog'
+      layout '/blog.*'
     else
-      layout 'docs'
+      layout '/docs.*'
     end
-  elsif item[:extension] == 'css'
-    # don’t filter stylesheets
   elsif item.binary?
     # don’t filter binary items
   elsif item[:layout]
     layout item[:layout]
   else
-    layout 'default'
+    layout '/default.*'
   end
 end
 
-route '/blog/' do
+route '/blog{/index,}.*' do
   '/blog/index.html'
 end
 
 # Transform /blog/<YYYY>-<MM>-<DD>-<post title> to
 # /blog/<YYYY>/<MM>/<DD>/<post title>.
-route '/blog/*' do
+route '/blog/**/*' do
   y, m, d, slug = /([0-9]+)\-([0-9]+)\-([0-9]+)\-([^\/]+)/.match(item.identifier).captures
 
   "/blog/#{y}/#{m}/#{d}/#{slug}/index.html"
 end
 
-route '*' do
-  if item[:extension] == 'css'
-    # Write item with identifier /foo/ to /foo.css
-    item.identifier.chop + '.css'
-  elsif item.binary?
-    # Write item with identifier /foo/ to /foo.ext
-    item.identifier.chop + '.' + item[:extension]
+route '/**/*' do
+  if item.binary?
+    # Write item with identifier /foo.dat to /foo.dat
+    item.identifier.to_s
+  elsif item.identifier =~ '/**/index.*'
+    # Write item with identifier /foo/index.md to /foo/index.html
+    item.identifier.without_ext + '.html'
   else
-    # Write item with identifier /foo/ to /foo/index.html
-    item.identifier + 'index.html'
+    # Write item with identifier /foo/bar.md to /foo/bar/index.html
+    item.identifier.without_ext + '/index.html'
   end
 end
 
-#passthrough '/assets/*'
-
-layout '*', :erb
+layout '/**/*', :erb

@@ -84,6 +84,28 @@ For example, this selects all `http_requests_total` time series for `staging`,
 
     http_requests_total{environment=~"staging|testing|development",method!="GET"}
 
+Label matchers that match empty label values also select all time series that do
+not have the specific label set at all.
+
+Vector selectors must either specify a name or at least one label matcher
+that does not match the empty string. The following expression is illegal:
+
+    {job=~".*"} # Bad!
+
+In contrast, these expressions are valid as they both have a selector that does not
+match empty label values.
+
+    {job=~".+"}              # Good!
+    {job=~".*",method="get"} # Good!
+
+Label matchers can also be applied to metric names by matching against the internal
+`__name__` label. For example, the expression `http_requests_total` is equivalent to
+`{__name__="http_requests_total"}`. Matchers other than `=` (`!=`, `=~`, `!~`) may also be used.
+The following expression selects all metrics that have a name starting with `job:`:
+
+    {__name__=~"^job:.*"}
+
+
 ### Range Vector Selectors
 
 Range vector literals work like instant vector literals, except that they

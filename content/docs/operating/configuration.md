@@ -307,7 +307,10 @@ source_labels: '[' <labelname> [, ...] ']'
 [ target_label: <labelname> ]
 
 # Regular expression against which the extracted value is matched.
-regex: <regex>
+[ regex: <regex> ]
+
+# Modulus to take of the hash of the source label values.
+[ modulus: <uint64> ]
 
 # Replacement value against which a regex replace is performed if the
 # regular expression matches.
@@ -317,7 +320,9 @@ regex: <regex>
 [ action: <relabel_action> | default = replace ]
 ```
 
-`<regex>` is any valid [RE2 regular expression](https://github.com/google/re2/wiki/Syntax).
+`<regex>` is any valid [RE2 regular
+expression](https://github.com/google/re2/wiki/Syntax). It is required for
+the `replace`, `keep`, and `drop` actions.
 
 `<relabel_action>` determines the relabeling action to take:
 
@@ -326,6 +331,7 @@ regex: <regex>
   (`${1}`, `${2}`, ...) in `replacement` substituted by their value.
 * `keep`: Drop targets for which `regex` does not match the concatenated `source_labels`.
 * `drop`: Drop targets for which `regex` matches the concatenated `source_labels`.
+* `hashmod`: Set `target_label` to the `modulus` of a hash of the concatenated `source_labels`.
 
 ### Metric relabeling `<metric_relabel_configs>`
 

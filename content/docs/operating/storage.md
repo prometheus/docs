@@ -45,7 +45,7 @@ index via the following flags:
 
 Prometheus stores its on-disk time series data under the directory
 specified by the flag `storage.local.path`. The default path is
-`/tmp/metrics`, which is good to try something out quickly but most
+`./data`, which is good to try something out quickly but most
 likely not what you want for actual operations. The flag
 `storage.local.retention` allows you to configure the retention time
 for samples. Adjust it to your needs and your available disk space.
@@ -68,6 +68,13 @@ of thumb, keep it somewhere between 50% and 100% of the
 `storage.local.memory-chunks` value. The main drawback of a high value
 is larger checkpoints. The consequences of a value too low are much
 more serious.
+
+Out of the metrics that Prometheus exposes about itself, the following are
+particularly useful for tuning the flags above:
+
+* `prometheus_local_storage_memory_series`: The current number of series held in memory.
+* `prometheus_local_storage_memory_chunks`: The current number of chunks held in memory.
+* `prometheus_local_storage_chunks_to_persist`: The number of memory chunks that still need to be persisted to disk.
 
 ## Crash recovery
 

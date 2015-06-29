@@ -15,15 +15,15 @@ HTTP endpoint on your application’s instance:
 
 * [Go](https://github.com/prometheus/client_golang)
 * [Java or Scala](https://github.com/prometheus/client_java)
-* [Ruby](https://github.com/prometheus/client_ruby)
 * [Python](https://github.com/prometheus/client_python)
+* [Ruby](https://github.com/prometheus/client_ruby)
 
 Unofficial third-party client libraries:
 
-* [Node.js](https://github.com/StreamMachine/prometheus_client_nodejs)
-* [.NET / C#](https://github.com/andrasm/prometheus-net)
 * [Bash](https://github.com/aecolley/client_bash)
 * [Haskell](https://github.com/fimad/prometheus-haskell)
+* [Node.js](https://github.com/StreamMachine/prometheus_client_nodejs)
+* [.NET / C#](https://github.com/andrasm/prometheus-net)
 
 When Prometheus scrapes your instance's HTTP endpoint, the client library
 sends the current state of all tracked metrics to the server.

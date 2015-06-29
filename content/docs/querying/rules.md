@@ -54,7 +54,7 @@ Some examples:
     job:http_inprogress_requests:sum = sum(http_inprogress_requests) by (job)
 
     # Drop or rewrite labels in the result time series:
-    new_time series{label_to_change="new_value",label_to_drop=""} = old_time series
+    new_time_series{label_to_change="new_value",label_to_drop=""} = old_time_series
 
 Recording rules are evaluated at the interval specified by the
 `evaluation_interval` field in the Prometheus configuration. During each

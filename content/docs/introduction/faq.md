@@ -117,11 +117,15 @@ for the current state of this effort.
 
 ### Which languages have instrumentation libraries?
 
-Currently, there are client libraries for:
+Currently, there are official client libraries for:
 
 * [Go](https://github.com/prometheus/client_golang)
-* [Java or Scala](https://github.com/prometheus/client_java)
+* [Java (JVM)](https://github.com/prometheus/client_java)
 * [Ruby](https://github.com/prometheus/client_ruby)
+* [Python](https://github.com/prometheus/client_python)
+
+There are also a number of independently maintained client libraries. See the
+[client libraries](/docs/instrumenting/clientlibs/) documentation.
 
 If you are interested in contributing a client library for a new language, see
 the [exposition formats](/docs/instrumenting/exposition_formats/).

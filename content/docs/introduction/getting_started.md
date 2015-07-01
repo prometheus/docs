@@ -188,8 +188,8 @@ endpoints to a single job, adding extra labels to each group of targets. In
 this example, we will add the `group="production"` label to the first group of
 targets, while adding `group="canary"` to the second.
 
-To achieve this, add the following job definition to your `prometheus.yml` and
-restart your Prometheus instance:
+To achieve this, add the following job definition to the `scrape_configs`
+section in your `prometheus.yml` and restart your Prometheus instance:
 
 ```
 scrape_configs:
@@ -257,6 +257,15 @@ rule_files:
   - 'prometheus.rules'
 
 scrape_configs:
+  - job_name: 'prometheus'
+
+    # Override the global default and scrape targets from this job every 5 seconds.
+    scrape_interval: 5s
+    scrape_timeout: 10s
+
+    target_groups:
+      - targets: ['localhost:9090']
+
   - job_name:       'example-random'
     scrape_interval: 5s
 

@@ -161,9 +161,9 @@ A DNS-SD configuration allows specifying a set of DNS SRV record names which
 are periodically queried to discover a list of targets (host-port pairs). The
 DNS servers to be contacted are read from `/etc/resolv.conf`.
 
-During the [relabeling phase](#relabeling-relabel_config), the meta label `__meta_dns_srv_name` is
-available on each target and is set to the SRV record name that produced the
-discovered target.
+During the [relabeling phase](#target-relabeling-relabel_config), the meta
+label `__meta_dns_srv_name` is available on each target and is set to the SRV
+record name that produced the discovered target.
 
 ```
 # A list of DNS SRV record names to be queried.
@@ -259,8 +259,9 @@ The JSON version of a target group has the following format:
 As a fallback, the file contents are also re-read periodically at the specified
 refresh interval.
 
-Each target has a meta label `__meta_filepath` during the [relabeling phase](#relabeling-relabel_config).
-Its value is set to the filepath from which the target was extracted.
+Each target has a meta label `__meta_filepath` during the
+[relabeling phase](#target-relabeling-relabel_config). Its value is set to the
+filepath from which the target was extracted.
 
 ```
 # Patterns for files from which target groups are extracted.

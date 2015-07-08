@@ -9,7 +9,7 @@ sort_rank: 1
 Prometheus provides a functional expression language that lets the user select
 and aggregate time series data in real time. The result of an expression can
 either be shown as a graph, viewed as tabular data in Prometheus's expression
-browser, or consumed by external systems via the HTTP API.
+browser, or consumed by external systems via the [HTTP API](/docs/querying/api/).
 
 ## Examples
 

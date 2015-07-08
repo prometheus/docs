@@ -50,6 +50,7 @@ hosted outside of the Prometheus GitHub organization.
    * [RabbitMQ exporter](https://github.com/kbudde/rabbitmq_exporter)
    * [Redis exporter](https://github.com/oliver006/redis_exporter)
    * [RethinkDB exporter](https://github.com/oliver006/rethinkdb_exporter)
+   * [Rsyslog exporter](https://github.com/digitalocean/rsyslog_exporter)
    * [scollector exporter](https://github.com/tgulacsi/prometheus_scollector)
 
 ## Directly instrumentated software

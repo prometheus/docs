@@ -169,13 +169,17 @@ vector of fewer elements with aggregated values:
 These operators can either be used to aggregate over **all** label dimensions
 or preserve distinct dimensions by including a `by`-clause.
 
-    <aggr-op>(<vector expression>) [by (<label list>)] [keeping_extra]
+    <aggr-op>(<vector expression>) [by (<label list>)] [keep_common]
 
 By default, labels that are not listed in the `by` clause will be dropped from
 the result vector, even if their label values are identical between all
-elements of the vector. The `keeping_extra` clause allows to keep those extra
+elements of the vector. The `keep_common` clause allows to keep those extra
 labels (labels that are identical between elements, but not in the `by`
 clause).
+
+Until Prometheus 0.14.0, the `keep_common` keyword was called `keeping_extra`.
+The latter is still supported, but is deprecated and will be removed at some
+point.
 
 Example:
 

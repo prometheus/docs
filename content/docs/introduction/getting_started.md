@@ -76,7 +76,7 @@ Prometheus build directory and run:
 
 ```language-bash
 # Start Prometheus.
-# By default, Prometheus stores its database in /tmp/metrics (flag -storage.local.path).
+# By default, Prometheus stores its database in ./data (flag -storage.local.path).
 ./prometheus -config.file=prometheus.yml
 ```
 

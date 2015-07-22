@@ -183,9 +183,12 @@ Catalog API.
 
 The following meta labels are available on targets during relabeling:
 
+* `__meta_consul_address`: the address of the target 
 * `__meta_consul_node`: the node name defined for the target
 * `__meta_consul_tags`: the list of tags of the target joined by the tag separator
 * `__meta_consul_service`: the name of the service the target belongs to
+* `__meta_consul_service_address`: the service address of the target 
+* `__meta_consul_service_port`: the service port of the target 
 * `__meta_consul_dc`: the datacenter name for the target
 
 ```
@@ -205,6 +208,12 @@ services:
 # The string by which Consul tags are joined into the tag label.
 [ tag_separator: <string> | default = , ]
 ```
+
+Note that the IP number and port used to scrape the targets is assembled as
+`<__meta_consul_address>:<__meta_consul_service_port`. However, in some
+Consul setups, the relevant address is in `__meta_consul_service_address`.
+In those cases, you can use the [relabel](#target-relabeling-relabel_config)
+feature to replace the special `__address__` label.
 
 ### Zookeeper Serverset SD configurations `<serverset_sd_config>`
 

@@ -17,14 +17,12 @@ process. The changes are only applied if all rule files are well-formatted.
 
 ## Syntax-checking rules
 To quickly check whether a rule file is syntactically correct without starting
-a Prometheus server, install and run Prometheus's `rule_checker` tool:
+a Prometheus server, install and run Prometheus's `promtool` command-line
+utility tool:
 
 ```bash
-# If $GOPATH/github.com/prometheus/prometheus already exists, update it first:
-go get -u github.com/prometheus/prometheus
-
-go install github.com/prometheus/prometheus/tools/rule_checker
-rule_checker /path/to/example.rules
+go get github.com/prometheus/prometheus/cmd/promtool
+promtool check-rules /path/to/example.rules
 ```
 
 When the file is syntactically valid, the checker prints a textual
@@ -54,7 +52,7 @@ Some examples:
     job:http_inprogress_requests:sum = sum(http_inprogress_requests) by (job)
 
     # Drop or rewrite labels in the result time series:
-    new_time series{label_to_change="new_value",label_to_drop=""} = old_time series
+    new_time_series{label_to_change="new_value",label_to_drop=""} = old_time_series
 
 Recording rules are evaluated at the interval specified by the
 `evaluation_interval` field in the Prometheus configuration. During each

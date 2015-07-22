@@ -69,6 +69,13 @@ of thumb, keep it somewhere between 50% and 100% of the
 is larger checkpoints. The consequences of a value too low are much
 more serious.
 
+Out of the metrics that Prometheus exposes about itself, the following are
+particularly useful for tuning the flags above:
+
+* `prometheus_local_storage_memory_series`: The current number of series held in memory.
+* `prometheus_local_storage_memory_chunks`: The current number of chunks held in memory.
+* `prometheus_local_storage_chunks_to_persist`: The number of memory chunks that still need to be persisted to disk.
+
 ## Crash recovery
 
 Prometheus saves chunks to disk as soon as possible after they are

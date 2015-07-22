@@ -54,6 +54,7 @@ If functions are used in a pipeline, the pipeline value is passed as the last ar
 | humanize      | number        | string  | Converts a number to a more readable format, using [metric prefixes](http://en.wikipedia.org/wiki/Metric_prefix). 
 | humanize1024  | number        | string  | Like `humanize`, but uses 1024 as the base rather than 1000. |
 | humanizeDuration | number     | string  | Converts a duration in seconds to a more readable format. |
+| humanizeTimestamp | number    | string  | Converts a Unix timestamp in seconds to a more readable format. |
 
 Humanizing functions are intended to produce reasonable output for consumption
 by humans, and are not guaranteed to return the same results between Prometheus

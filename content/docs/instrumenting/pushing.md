@@ -32,12 +32,12 @@ If using Maven, add the following to `pom.xml`:
         <dependency>
             <groupId>io.prometheus</groupId>
             <artifactId>simpleclient</artifactId>
-            <version>0.0.6</version>
+            <version>0.0.10</version>
         </dependency>
         <dependency>
             <groupId>io.prometheus</groupId>
             <artifactId>simpleclient_pushgateway</artifactId>
-            <version>0.0.6</version>
+            <version>0.0.10</version>
         </dependency>
 ```
 
@@ -69,7 +69,7 @@ void executeBatchJob() throws Exception {
  } finally {
    durationTimer.setDuration();
    PushGateway pg = new PushGateway("127.0.0.1:9091");
-   pg.pushAdd(registry, "my_batch_job", "my_batch_job");
+   pg.pushAdd(registry, "my_batch_job");
  }
 }
 ```

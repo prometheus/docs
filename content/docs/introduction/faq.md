@@ -117,11 +117,9 @@ for the current state of this effort.
 
 ### Which languages have instrumentation libraries?
 
-Currently, there are client libraries for:
-
-* [Go](https://github.com/prometheus/client_golang)
-* [Java or Scala](https://github.com/prometheus/client_java)
-* [Ruby](https://github.com/prometheus/client_ruby)
+There are a number of client libraries for instrumenting your services with
+Prometheus metrics. See the [client libraries](/docs/instrumenting/clientlibs/)
+documentation for details.
 
 If you are interested in contributing a client library for a new language, see
 the [exposition formats](/docs/instrumenting/exposition_formats/).
@@ -211,12 +209,13 @@ second. The latter depends on the compressibility of the sample data
 and on the number of time series the samples belong to, but to give
 you an idea, here are some results from benchmarks:
 
-* On an older 8-core machine with Intel Core i7 CPUs and two spinning
-  disks (Samsung HD753LJ) in a RAID-1 setup, Prometheus sustained an
-  ingestion rate of 34k samples per second, belonging to 170k time
-  series, scraped from 600 targets.
-* On a modern server with SSD, Prometheus sustained an ingestion rate
-  of 340k samples per second, belonging to 2M time
+* On an older 8-core machine with Intel Core i7 CPUs, 8GiB RAM, and
+  two spinning disks (Samsung HD753LJ) in a RAID-1 setup, Prometheus
+  sustained an ingestion rate of 34k samples per second, belonging to
+  170k time series, scraped from 600 targets.
+
+* On a modern server with 64GiB RAM and SSD, Prometheus sustained an
+  ingestion rate of 340k samples per second, belonging to 2M time
   series, scraped from 1800 targets.
 
 In both cases, there were no obvious bottlenecks. Various stages of the

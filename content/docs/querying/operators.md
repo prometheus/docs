@@ -193,3 +193,17 @@ If we are just interested in the total of HTTP requests we have seen in **all**
 applications, we could simply write:
 
     sum(http_requests_total)
+
+## Binary operator precedence
+
+The following list shows the precedence of binary operators in Prometheus, from
+lowest to highest.
+
+1. `OR`
+2. `AND`
+3. `==`, `!=`, `<=`, `<`, `>=`, `>`
+4. `+`, `-`
+5. `*`, `/`, `%`
+
+Operators on the same precedence level are left-associative. For example,
+`2 * 3 % 2` is equivalent to `(2 * 3) % 2`.

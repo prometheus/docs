@@ -129,6 +129,9 @@ interpolated version of the given format string. To reference specific label
 values in the format string, use double curly braces: `{{label-name}}`. For
 example: `{{host}} - cluster {{cluster}}`.
 
+Format strings support filters. See the Filters section below for a list of
+currently available filters, expected inputs, and outputs.
+
 ### Link to graph
 The "Link to this graph" menu tab allows you to generate a link to a specific
 graph. This link will show the graph in a single-widget fullscreen view as it
@@ -188,6 +191,24 @@ existing variables or even define new ones via the URL:
 In the example of the host dashboard, the URL could look like this:
 
     http://promdash.somedomain.int/hoststats#!?var.host=myhost
+
+Template variables support filters. See the Filters section below for a list of
+currently available filters, expected inputs, and outputs.
+
+## Filters
+
+Filters can be used in all places where variable interpolation is supported,
+e.g. in legend format strings or template variables. The format is `{{variable
+| filter}}` and the following filters are currently available:
+
+- `toPercent`: Input: `0.5`; Output: `50%`
+- `toPercentile`: Input: `0.5`; Output: `50th`
+- `hostnameFqdn`: Input: `http://your-prometheus-endpoint.net:1111/`; Output: `your-prometheus-endpoint.net:1111`
+- `hostname`: Input: `http://your-prometheus-endpoint.net:1111/`; Output: `your-prometheus-endpoint`
+- `regex`: If `job` == `prometheus`, `{{job | regex:"pro":"faux"}}` => `fauxmetheus`
+
+Filters are chainable, so `{{label | filter1 | filter2}}` will apply `filter1`
+to `label`, and then apply `filter2` to that result.
 
 ## Annotations
 

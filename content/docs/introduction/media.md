@@ -18,7 +18,8 @@ Resources on the Internet helpful to get started with Prometheus.
 * [Prometheus: A Next-Generation Monitoring System](https://www.usenix.org/conference/srecon15europe/program/presentation/rabenstein) – Julius Volz and Björn Rabenstein at SREcon15 Europe, Dublin.
 * [What is your application doing right now?](http://youtu.be/Z0LlilNpX1U) – Matthias Gruter, Transmode, at DevOps Stockholm Meetup.
 * In German: [Monitoring mit Prometheus](https://entropia.de/GPN15:Monitoring_mit_Prometheus) – Michael Stapelberg at Gulaschprogrammiernacht 15.
-* [Prometheus workshop](https://vimeo.com/131581353) - Jamie Wilkinson at Monitorama PDX 2015 ([Slides](https://docs.google.com/presentation/d/1X1rKozAUuF2MVc1YXElFWq9wkcWv3Axdldl8LOH9Vik/edit)).
+* [Prometheus workshop](https://vimeo.com/131581353) – Jamie Wilkinson at Monitorama PDX 2015 ([Slides](https://docs.google.com/presentation/d/1X1rKozAUuF2MVc1YXElFWq9wkcWv3Axdldl8LOH9Vik/edit)).
+* [Prometheus: Designing and Implementing a Modern Monitoring Solution in Go](https://www.youtube.com/watch?v=1V7eJ0jN8-E) – Björn Rabenstein at GopherCon 2015 in Denver.
 
 ## Presentation slides
 

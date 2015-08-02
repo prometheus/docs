@@ -25,6 +25,7 @@ These exporters are maintained as part of the official
    * [JMX exporter](https://github.com/prometheus/jmx_exporter)
    * [Mesos task exporter](https://github.com/prometheus/mesos_exporter)
    * [MySQL server exporter](https://github.com/prometheus/mysqld_exporter)
+   * [SNMP exporter](https://github.com/prometheus/snmp_exporter)
    * [StatsD bridge](https://github.com/prometheus/statsd_bridge)
 
 The [JMX exporter](https://github.com/prometheus/jmx_exporter) can export from a

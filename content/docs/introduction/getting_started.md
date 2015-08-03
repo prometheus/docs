@@ -6,20 +6,12 @@ sort_rank: 3
 # Getting started
 
 This guide is a "Hello World"-style tutorial which shows how to install,
-configure, and use Prometheus in a simple example setup. You will build and run
+configure, and use Prometheus in a simple example setup. You will download and run
 Prometheus locally, configure it to scrape itself and an example application,
 and then work with queries, rules, and graphs to make use of the collected time
 series data.
 
-## Getting Prometheus
-
-First, fetch the latest Prometheus collector server code:
-
-```language-bash
-git clone https://github.com/prometheus/prometheus.git
-```
-
-## Building Prometheus
+## Downloading and running Prometheus
 
 [Download the latest release](https://github.com/prometheus/prometheus/releases)
 of Prometheus for your platform, then extract and run it:

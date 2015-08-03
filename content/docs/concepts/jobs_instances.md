@@ -26,10 +26,10 @@ scraped time series which serve to identify the scraped target:
 * `instance`: The `<host>:<port>` part of the target's URL that was scraped.
 
 If either of these labels are already present in the scraped data, Prometheus
-does not replace their values. Instead, it adds new labels with an `exporter_`
-prefix prepended to the label name: `exporter_job` and `exporter_instance`. The
-same pattern holds true for any labels that have been manually configured for a
-target group. This enables intermediary exporters to proxy metrics.
+prepends an `exported_` prefix to the existing label names (`exported_job` and
+`exported_instance`) and then attaches its own labels. The same pattern holds
+true for any labels configured for a target. This enables intermediary
+exporters to proxy metrics.
 
 For each instance scrape, Prometheus stores a sample of the form
 `up{job="<job-name>", instance="<instance-id>"}` with a value of `1` if the

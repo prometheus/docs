@@ -1,6 +1,7 @@
 ---
 title: Storage
 nav_icon: database
+sort_rank: 2
 ---
 
 # Storage

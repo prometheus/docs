@@ -1,6 +1,7 @@
 ---
 title: Configuration
 nav_icon: sliders
+sort_rank: 1
 ---
 
 # Configuration

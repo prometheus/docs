@@ -313,7 +313,8 @@ Initially, aside from the configured global and per-target labels, a target's `j
 label is set to the `job_name` value of the respective scrape configuration.
 The `__address__` label is set to the `<host>:<port>` address of the target.
 After relabeling, the `instance` label is set to the value of `__address__` by default if
-it was not set during relabeling.
+it was not set during relabeling. The `__scheme__` and `__metrics_path__` labels
+are set to the scheme and metrics path of the target respectively.
 
 Additional labels prefixed with `__meta_` may be available during the
 relabeling phase. They are set by the service discovery mechanism that provided

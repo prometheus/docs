@@ -74,13 +74,6 @@ delta(cpu_temp_celsius{host="zeus"}[2h])
 `deriv(v range-vector)` calculates the derivative of the time series in a range
 vector `v`, using [simple linear regression](http://en.wikipedia.org/wiki/Simple_linear_regression).
 
-The following example expression returns the predicted CPU temperature in 5
-minutes based on the previous hour of data:
-
-```
-cpu_temp_celsius{host="zeus"} + deriv(cpu_temp_celsius{host="zeus"}[1h]) * 5 * 60
-```
-
 `deriv` should only be used with gauges.
 
 ## `drop_common_labels()`
@@ -185,6 +178,14 @@ The special cases are equivalent to those in `ln`.
 
 `log10(v instant-vector)` calculates the decimal logarithm for all elements in `v`.
 The special cases are equivalent to those in `ln`.
+
+## `predict_linear()`
+
+`predict_linear(v range-vector, t scalar)` predicts the value of time series
+`t` seconds from now, based on the range vector `v`, using [simple linear
+regression](http://en.wikipedia.org/wiki/Simple_linear_regression).
+
+`predict_linear` should only be used with gauges.
 
 ## `rate()`
 

@@ -90,7 +90,7 @@ instance:request_latency_seconds:mean5m =
   /
     instance:request_latency_seconds_count:rate5m{job="myjob"}
 
-// Aggregate up numbeator and denominator, then divide.
+// Aggregate up numerator and denominator, then divide.
 job:request_latency_seconds:mean5m =
     sum by (job)(instance:request_latency_seconds_sum:rate5m{job="myjob"})
   /

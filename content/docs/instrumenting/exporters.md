@@ -43,7 +43,6 @@ hosted outside of the Prometheus GitHub organization.
    * [Django exporter](https://github.com/korfuri/django-prometheus)
    * [Google's mtail log data extractor](https://github.com/google/mtail)
    * [HTTP(s)/TCP/ICMP blackbox prober](https://github.com/discordianfish/blackbox_prober)
-   * [SMTP/Maildir MDA blackbox prober](https://github.com/cherti/mailexporter)
    * [Memcached exporter](https://github.com/Snapbug/memcache_exporter)
    * [Meteor JS web framework exporter](https://atmospherejs.com/sevki/prometheus-exporter)
    * [Minecraft exporter module](https://github.com/Baughn/PrometheusIntegration)
@@ -55,6 +54,7 @@ hosted outside of the Prometheus GitHub organization.
    * [RethinkDB exporter](https://github.com/oliver006/rethinkdb_exporter)
    * [Rsyslog exporter](https://github.com/digitalocean/rsyslog_exporter)
    * [scollector exporter](https://github.com/tgulacsi/prometheus_scollector)
+   * [SMTP/Maildir MDA blackbox prober](https://github.com/cherti/mailexporter)
 
 ## Directly instrumentated software
 

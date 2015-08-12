@@ -144,7 +144,7 @@ Parameters to the graph library:
 
 | Name          | Description
 | ------------- | -------------
-| expr          | Required. Expression to graph.
+| expr          | Required. Expression to graph. Can be a list.
 | node          | Required. DOM node to render into.
 | duration      | Optional. Duration of the graph. Defaults to 1 hour.
 | endTime       | Optional. Unixtime the graph ends at. Defaults to now.
@@ -153,12 +153,15 @@ Parameters to the graph library:
 | min           | Optional. Minimum x-axis value. Defaults to lowest data value.
 | max           | Optional. Maximum y-axis value. Defaults to highest data value.
 | renderer      | Optional. Type of graph. Options are `line` and `area` (stacked graph). Defaults to `line`.
-| name          | Optional. Title of plots in legend and hover detail. If passed a string, `[[ label ]]` will be substituted with the label value. If passed a function, it will be passed a map of labels and should return the name as a string.
+| name          | Optional. Title of plots in legend and hover detail. If passed a string, `[[ label ]]` will be substituted with the label value. If passed a function, it will be passed a map of labels and should return the name as a string. Can be a list.
 | xTitle        | Optional. Title of the x-axis. Defaults to `Time`.
 | yUnits        | Optional. Units of the y-axis. Defaults to empty.
 | yTitle        | Optional. Title of the y-axis. Defaults to empty.
 | yAxisFormatter | Optional. Number formatter for the y-axis. Defaults to `PromConsole.NumberFormatter.humanize`.
 | yHoverFormatter | Optional. Number formatter for the hover detail. Defaults to `PromConsole.NumberFormatter.humanizeExact`.
+
+If both `expr` and `name` are lists, they must be of the same length. The name
+will be applied to the plots for the corresponding expression.
 
 Valid options for the `yAxisFormatter` and `yHoverFormatter`:
 

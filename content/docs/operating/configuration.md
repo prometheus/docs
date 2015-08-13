@@ -331,8 +331,9 @@ Labels starting with `__` will be removed from the label set after relabeling is
 
 ```
 # The source labels select values from existing labels. Their content is concatenated
-# using the configured separator and matched against the configured regular expression.
-source_labels: '[' <labelname> [, ...] ']'
+# using the configured separator and matched against the configured regular expression
+# for the replace, keep, and drop actions.
+[ source_labels: '[' <labelname> [, ...] ']' ]
 
 # Separator placed between concatenated source label values.
 [ separator: <string> | default = ; ]
@@ -357,7 +358,7 @@ source_labels: '[' <labelname> [, ...] ']'
 
 `<regex>` is any valid [RE2 regular
 expression](https://github.com/google/re2/wiki/Syntax). It is required for
-the `replace`, `keep`, and `drop` actions.
+the `replace`, `keep`, `drop` and `labelmap` actions.
 
 `<relabel_action>` determines the relabeling action to take:
 
@@ -367,6 +368,9 @@ the `replace`, `keep`, and `drop` actions.
 * `keep`: Drop targets for which `regex` does not match the concatenated `source_labels`.
 * `drop`: Drop targets for which `regex` matches the concatenated `source_labels`.
 * `hashmod`: Set `target_label` to the `modulus` of a hash of the concatenated `source_labels`.
+* `labelmap`: Match `regex` against all label names. Then copy the values of the matching labels
+   to label names given by `replacement` with match group references
+  (`${1}`, `${2}`, ...) in `replacement` substituted by their value.
 
 ### Metric relabeling `<metric_relabel_configs>`
 

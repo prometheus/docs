@@ -174,7 +174,7 @@ number.
 
 ### DNS-SD configurations `<dns_sd_config>`
 
-A DNS-SD configuration allows specifying a set of DNS SRV record names which
+A DNS-SD configuration allows specifying a set of DNS record names which
 are periodically queried to discover a list of targets (host-port pairs). The
 DNS servers to be contacted are read from `/etc/resolv.conf`.
 
@@ -187,11 +187,18 @@ record name that produced the discovered target.
 names:
   [ - <record_name> ]
 
+# The type of DNS query to perform.
+[ type: <query_type> | default = 'SRV' ]
+
+# The port number used if the query type is not SRV.
+[ port: <number>]
+
 # The time after which the provided names are refreshed.
 [ refresh_interval: <duration> | default = 30s ]
 ```
 
 Where `<record_name>` is any DNS SRV record name.
+Where `<query_type>` is `SRV`, `A`, or `AAAA`.
 
 ### Consul SD configurations `<consul_sd_config>`
 

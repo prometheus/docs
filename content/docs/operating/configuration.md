@@ -225,7 +225,8 @@ server: <host>
 [ username: <string> ]
 [ password: <string> ]
 
-# A list of services for which targets are retrieved.
+# A list of services for which targets are retrieved. If omitted, all services
+# are scraped.
 services:
   [ - <string> ]
 

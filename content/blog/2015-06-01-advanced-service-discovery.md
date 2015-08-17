@@ -208,7 +208,7 @@ scrape_configs:
     target_label:  'instance'
     replacement:   '$1'
   - source_labels: ['__meta_consul_tags']
-    regex:         '(production|canary)'
+    regex:         ',(production|canary),'
     target_label:  'group'
     replacement:   '$1'
 ```

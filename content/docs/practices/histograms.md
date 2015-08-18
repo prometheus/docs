@@ -79,6 +79,10 @@ following expression yields the Apdex score for each job over the last
       sum(rate(http_request_duration_seconds_bucket{le="1.2"}[5m])) by (job)
     ) / 2 / sum(rate(http_request_duration_seconds_count[5m])) by (job)
 
+Note that we divide the sum of both buckets. The reason is that the histogram
+buckets are cumulative. The `le="0.3"` bucket is also contained in the `le="1.2"`
+bucket; dividing it by 2 corrects for that.
+
 ## Quantiles
 
 You can use both summaries and histograms to calculate so-called φ-quantiles,

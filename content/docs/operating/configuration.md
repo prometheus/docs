@@ -279,15 +279,27 @@ all defined files are detected via disk watches and applied immediately. Files m
 provided in YAML or JSON format. Only changes resulting in well-formed target groups
 are applied.
 
-The JSON version of a target group has the following format:
+The `<file_sd_config>` block has this format:
 
 ```
-{
-  "targets": [ "<host>", ... ],
-  "labels": {
-    [ "<labelname>": "<labelvalue>", ... ]
-  }
-}
+file_sd_configs:
+  - names:
+    - "file1.json"
+    - "/etc/prometheus/file2.json"
+```
+
+The JSON file must contain a list of target groups, using this format:
+
+```
+[
+  {
+    "targets": [ "<host>", ... ],
+    "labels": {
+      [ "<labelname>": "<labelvalue>", ... ]
+    }
+  },
+  ...
+]
 ```
 
 As a fallback, the file contents are also re-read periodically at the specified

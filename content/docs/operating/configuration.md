@@ -279,15 +279,17 @@ all defined files are detected via disk watches and applied immediately. Files m
 provided in YAML or JSON format. Only changes resulting in well-formed target groups
 are applied.
 
-The JSON version of a target group has the following format:
+The JSON version of a list of target groups has the following format:
 
 ```
-{
-  "targets": [ "<host>", ... ],
-  "labels": {
-    [ "<labelname>": "<labelvalue>", ... ]
+[
+  {
+    "targets": [ "<host>", ... ],
+    "labels": {
+      [ "<labelname>": "<labelvalue>", ... ]
+    }
   }
-}
+]
 ```
 
 As a fallback, the file contents are also re-read periodically at the specified

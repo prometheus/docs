@@ -152,19 +152,20 @@ to scrape.
 The Go client library includes an example which exports fictional RPC latencies
 for three services with different latency distributions.
 
+Ensure you have the [Go compiler installed](https://golang.org/doc/install). 
 Download the Go client library for Prometheus and run three of these example
 processes:
 
 ```bash
 # Fetch the client library code and compile example.
 git clone https://github.com/prometheus/client_golang.git
-cd client_golang
-make example_random
+cd client_golang/examples/random
+go build
 
 # Start 3 example targets in separate terminals:
-./example_random -listen-address=:8080
-./example_random -listen-address=:8081
-./example_random -listen-address=:8082
+./random -listen-address=:8080
+./random -listen-address=:8081
+./random -listen-address=:8082
 ```
 
 You should now have example targets listening on http://localhost:8080/metrics,

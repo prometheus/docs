@@ -159,6 +159,22 @@ increase(http_requests_total{job="api-server"}[5m])
 human readability. Use `rate` in recording rules so that increases are tracked
 consistently on a per-second basis.
 
+## `label_replace()`
+
+For each timeseries in `v`, `label_replace(v instant-vector, dst_label string, replacement string,
+src_label string, regex string)`  matches the regular expression `regex` against
+the label `src_label`.  If it matches, then the timeseries is returned with the
+label `dst_label` replaced by the expansion of `replacement`. `$1` is replaced
+with the first matching subgroup, `$2` with the second etc. If the regular
+expression doesn't match then the timeseries is not returned.
+
+
+This example will return a vector with each time series having a `foo`
+label with the value `a` added to it:
+```
+label_replace(up{job="api-server",service="a:c"}, "foo", "$1", "service", "(.*):.*")
+```
+
 ## `ln()`
 
 `ln(v instant-vector)` calculates the natural logarithm for all elements in `v`.

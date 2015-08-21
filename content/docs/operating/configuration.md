@@ -83,6 +83,20 @@ dynamically discovered using one of the supported service-discovery mechanisms.
 Additionally, `relabel_configs` allow advanced modifications to any
 target and its labels before scraping.
 
+If the targets require authentication, the following options are available:
+
+* `basic_auth` - sets the `Authorization` header on every scrape request with the
+configured username and password.
+* `client_cert` - configures the scrape request to use
+[mutual TLS](https://en.wikipedia.org/wiki/Mutual_authentication) with the
+configured certificate and key.
+* `bearer_token` - sets the `Authorization` header on every scrape request with
+the configured bearer token.
+* `bearer_token_file` - sets the `Authorization` header on every scrape request
+with the bearer token read from the configured file.
+
+See below for the configuration of these authentication options.
+
 ```
 # The job name assigned to scraped metrics by default.
 job_name: <name>
@@ -114,10 +128,24 @@ job_name: <name>
 # The URL scheme with which to fetch metrics from targets.
 [ scheme: <scheme> | default = http ]
 
-# HTTP basic authentication information.
+# Optional authentication information. Note that `basic_auth`, `bearer_token`
+# `bearer_token_file` options are mutually exclusive.
+
+# Optional HTTP basic authentication information.
 basic_auth:
   [ username: <string> ]
   [ password: <string> ]
+
+# Optional client certificate authentication information.
+client_cert:
+  [ cert: /path/to/cert/file ]
+  [ key: /path/to/key/file ]
+
+# Optional bearer token authentication information.
+[ bearer_token: <string> ]
+
+# Optional bearer token file authentication information.
+[ bearer_token_file: /path/to/bearer/token/file ]
 
 # List of DNS service discovery configurations.
 dns_sd_configs:

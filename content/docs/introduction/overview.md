@@ -8,9 +8,11 @@ sort_rank: 1
 ## What is Prometheus?
 
 [Prometheus](https://github.com/prometheus) is an open-source systems
-monitoring and alerting toolkit built at [SoundCloud](http://soundcloud.com).
-Since its inception in 2012, it has become the standard for instrumenting new
-services at SoundCloud and is seeing growing external usage and contributions.
+monitoring and alerting toolkit originally built at
+[SoundCloud](http://soundcloud.com). Since its inception in 2012, many
+companies and organizations have adopted Prometheus, and the project has a very
+active developer and user community. It is now a standalone open source project
+and maintained independently of any company.
 
 For a more elaborate overview, see the resources linked from the
 [media](/docs/introduction/media/) section.

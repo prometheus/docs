@@ -187,7 +187,6 @@ section in your `prometheus.yml` and restart your Prometheus instance:
 ```
 scrape_configs:
   - job_name:       'example-random'
-    scrape_interval: 5s
 
     # Override the global default and scrape targets from this job every 5 seconds.
     scrape_interval: 5s
@@ -260,7 +259,6 @@ scrape_configs:
       - targets: ['localhost:9090']
 
   - job_name:       'example-random'
-    scrape_interval: 5s
 
     # Override the global default and scrape targets from this job every 5 seconds.
     scrape_interval: 5s

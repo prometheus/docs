@@ -359,6 +359,10 @@ the target and vary between mechanisms.
 
 Labels starting with `__` will be removed from the label set after relabeling is completed.
 
+If a relabeling step needs to store a label value only temporarily (as the
+input to a subsequent relabeling step), use the `__tmp` label name prefix. This
+prefix is guaranteed to never be used by Prometheus itself.
+
 ```
 # The source labels select values from existing labels. Their content is concatenated
 # using the configured separator and matched against the configured regular expression

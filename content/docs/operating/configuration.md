@@ -283,6 +283,7 @@ The following meta labels are available on targets during relabeling:
 * `__meta_serverset_endpoint_port`: the port of the default endpoint
 * `__meta_serverset_endpoint_host_<endpoint>`: the host of the given endpoint
 * `__meta_serverset_endpoint_port_<endpoint>`: the port of the given endpoint
+* `__meta_serverset_shard`: the shard number of the member
 * `__meta_serverset_status`: the status of the member
 
 ```

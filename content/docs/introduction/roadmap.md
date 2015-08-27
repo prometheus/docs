@@ -11,13 +11,6 @@ features and current work, see the issue trackers for the various repositories,
 for example, the [Prometheus
 server](https://github.com/prometheus/prometheus/issues).
 
-### Support for more types of service discovery
-
-Currently Prometheus supports configuring static HTTP targets, as well as
-discovering targets dynamically via [DNS SRV
-records](http://en.wikipedia.org/wiki/SRV_record) and [Consul](https://www.consul.io/). There is also a file-based interface that allows you to connect your own discovery mechanisms. We plan to natively support more
-types of service discovery (e.g. Zookeeper) in the future.
-
 ### Long-term storage
 
 Currently Prometheus has support for storing samples on local disk, as well as

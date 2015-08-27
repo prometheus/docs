@@ -11,18 +11,6 @@ features and current work, see the issue trackers for the various repositories,
 for example, the [Prometheus
 server](https://github.com/prometheus/prometheus/issues).
 
-### Hierarchical federation
-
-Hierarchical federation will allow higher-level Prometheus servers to collect
-aggregated time series data from subordinated servers. This will enable more
-scalable monitoring topologies. For example, a setup might consist of
-per-datacenter Prometheus servers that collect data in high detail, and a set
-of global Prometheus servers which collect and store only aggregated data from
-those local servers. This allows you to have an aggregate global view and
-detailed local views.
-
-GitHub issue: [#9](https://github.com/prometheus/prometheus/issues/9)
-
 ### Support for more types of service discovery
 
 Currently Prometheus supports configuring static HTTP targets, as well as

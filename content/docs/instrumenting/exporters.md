@@ -39,6 +39,7 @@ and maintained. We encourage the creation of more exporters but cannot
 vet all of them for best practices. Commonly, those exporters are
 hosted outside of the Prometheus GitHub organization.
 
+   * [BIND exporter](https://github.com/digitalocean/bind_exporter)
    * [CouchDB exporter](https://github.com/gesellix/couchdb-exporter)
    * [Django exporter](https://github.com/korfuri/django-prometheus)
    * [Google's mtail log data extractor](https://github.com/google/mtail)

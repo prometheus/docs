@@ -202,16 +202,17 @@ number.
 
 ### DNS-SD configurations `<dns_sd_config>`
 
-A DNS-SD configuration allows specifying a set of DNS record names which
-are periodically queried to discover a list of targets (host-port pairs). The
-DNS servers to be contacted are read from `/etc/resolv.conf`.
+A DNS-SD configuration allows specifying a set of DNS `A`, `AAAA`, or `SRV`
+record names which are periodically queried to discover a list of targets
+(host-port pairs). The DNS servers to be contacted are read from
+`/etc/resolv.conf`.
 
 During the [relabeling phase](#target-relabeling-relabel_config), the meta
-label `__meta_dns_srv_name` is available on each target and is set to the SRV
+label `__meta_dns_name` is available on each target and is set to the DNS
 record name that produced the discovered target.
 
 ```
-# A list of DNS SRV record names to be queried.
+# A list of DNS record names to be queried.
 names:
   [ - <record_name> ]
 
@@ -225,7 +226,7 @@ names:
 [ refresh_interval: <duration> | default = 30s ]
 ```
 
-Where `<record_name>` is any DNS SRV record name.
+Where `<record_name>` is any DNS record name.
 Where `<query_type>` is `SRV`, `A`, or `AAAA`.
 
 ### Consul SD configurations `<consul_sd_config>`

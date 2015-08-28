@@ -155,6 +155,10 @@ dns_sd_configs:
 consul_sd_configs:
   [ - <consul_sd_config> ... ]
 
+# List of Kubernetes service discovery configurations.
+kubernetes_sd_configs:
+  [ - <kubernetes_sd_config> ... ]
+
 # List of Zookeeper Serverset service discovery configurations.
 serverset_sd_configs:
   [ - <serverset_sd_config> ... ]
@@ -267,6 +271,71 @@ Note that the IP number and port used to scrape the targets is assembled as
 Consul setups, the relevant address is in `__meta_consul_service_address`.
 In those cases, you can use the [relabel](#target-relabeling-relabel_config)
 feature to replace the special `__address__` label.
+
+### Kubernetes SD configurations `<kubernetes_sd_config>`
+
+CAUTION: Kubernetes SD is in beta: breaking changes to configuration are still
+likely in future releases.
+
+Kubernetes SD configurations allow retrieving scrape targets from
+[Kubernetes'](http://kubernetes.io/) REST API. By default, this discovers nodes
+and appropriately annotated services so that metrics from both cluster
+components and deployed applications can be scraped. This will create multiple
+target groups: one for all nodes with each node as a target; and one for each
+service containing each service endpoint as a target.
+
+The following meta labels are available on targets during relabeling:
+
+* `__meta_kubernetes_node`: the name of the node from the Kubernetes API
+* `__meta_kubernetes_node_label_<labelname>`: each node label from the
+Kubernetes API
+* `__meta_kubernetes_service_namespace`: the namespace of the service
+* `__meta_kubernetes_service_name`: the name of the service
+* `__meta_kubernetes_service_label_<labelname>`: each service label from the
+Kubernetes API
+* `__meta_kubernetes_service_annotation_<annotationname>`: each service
+annotation from the Kubernetes API
+
+See below for the configuration options for Kubernetes discovery:
+
+```
+# The information to access the Kubernetes API.
+
+# The server address. In a cluster this will normally be
+# https://kubernetes.default.svc.
+server: <host>
+
+# Run in cluster. This will use the automounted CA certificate and bearer
+# token file at /var/run/secrets/kubernetes.io/serviceaccount/ in the pod.
+[ in_cluster: <boolean> ]
+
+# CA certificate to validate API server certificate with. If running in a pod,
+# then it is best to use a service account and set in_cluster to true.
+[ ca_file: <filename> ]
+# Disable validation of the API server certificate. If running in a pod, then it
+# is best to use a service account and set in_cluster to true.
+[ insecure: <boolean> ]
+
+# The kubelet port to scrape metrics from. This will normally be the read-only
+# port of 10255 (default).
+[ kubelet_port: <int> ]
+
+# File to read the bearer token from to authenticate to the API server. If
+# running in a pod, then it is best to use a service account and set in_cluster
+# to true.
+[ bearer_token_file: <filename> ]
+
+# Username and password for basic authentication to the API server.
+[ username: <string> ]
+[ password: <string> ]
+
+# Certificate and key files for client cert authentication to the API server.
+[ cert_file: <string> ]
+[ key_file: <filename> ]
+
+# Retry interval between watches if they disconnect (default: 1s)
+[ retry_interval: <duration> ]
+```
 
 ### Zookeeper Serverset SD configurations `<serverset_sd_config>`
 

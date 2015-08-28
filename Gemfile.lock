@@ -10,6 +10,10 @@ GEM
     colored (1.2)
     cri (2.6.1)
       colored (~> 1.2)
+    em-websocket (0.5.1)
+      eventmachine (>= 0.12.9)
+      http_parser.rb (~> 0.6.0)
+    eventmachine (1.0.8)
     ffi (1.9.6)
     formatador (0.2.5)
     guard (2.6.1)
@@ -18,10 +22,15 @@ GEM
       lumberjack (~> 1.0)
       pry (>= 0.9.12)
       thor (>= 0.18.1)
+    guard-livereload (2.3.1)
+      em-websocket (~> 0.5)
+      guard (~> 2.0)
+      multi_json (~> 1.8)
     guard-nanoc (1.0.2)
       guard (>= 1.8.0)
       nanoc (>= 3.6.3)
     hitimes (1.2.2)
+    http_parser.rb (0.6.0)
     kramdown (1.4.2)
     listen (2.7.11)
       celluloid (>= 0.15.2)
@@ -30,6 +39,7 @@ GEM
     lumberjack (1.0.9)
     method_source (0.8.2)
     mini_portile (0.6.0)
+    multi_json (1.11.2)
     nanoc (3.7.3)
       cri (~> 2.3)
     nokogiri (1.6.3.1)
@@ -43,6 +53,8 @@ GEM
       posix-spawn (~> 0.3.6)
       yajl-ruby (~> 1.1.0)
     rack (1.5.2)
+    rb-fchange (0.0.6)
+      ffi
     rb-fsevent (0.9.4)
     rb-inotify (0.9.5)
       ffi (>= 0.5.0)
@@ -59,9 +71,13 @@ PLATFORMS
 DEPENDENCIES
   adsf
   builder
+  guard-livereload
   guard-nanoc
   kramdown
   nanoc
   nokogiri
   pygments.rb
+  rb-fchange
+  rb-fsevent
+  rb-inotify
   redcarpet

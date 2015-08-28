@@ -333,8 +333,8 @@ server: <host>
 [ cert_file: <string> ]
 [ key_file: <filename> ]
 
-# Retry interval between watches if they disconnect (default: 1s)
-[ retry_interval: <duration> ]
+# Retry interval between watches if they disconnect.
+[ retry_interval: <duration> | default = 1s ]
 ```
 
 ### Zookeeper Serverset SD configurations `<serverset_sd_config>`

@@ -160,6 +160,7 @@ processes:
 # Fetch the client library code and compile example.
 git clone https://github.com/prometheus/client_golang.git
 cd client_golang/examples/random
+go get -d
 go build
 
 # Start 3 example targets in separate terminals:

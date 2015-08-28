@@ -50,6 +50,7 @@ hosted outside of the Prometheus GitHub organization.
    * [MongoDB exporter](https://github.com/dcu/mongodb_exporter)
    * [Munin exporter](https://github.com/pvdh/munin_exporter)
    * [New Relic exporter](https://github.com/jfindley/newrelic_exporter)
+   * [PostgreSQL exporter](https://github.com/wrouesnel/postgres_exporter)
    * [RabbitMQ exporter](https://github.com/kbudde/rabbitmq_exporter)
    * [Redis exporter](https://github.com/oliver006/redis_exporter)
    * [RethinkDB exporter](https://github.com/oliver006/rethinkdb_exporter)

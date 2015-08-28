@@ -6,3 +6,7 @@ guard 'nanoc' do
   watch('Rules')
   watch(%r{^(content|layouts|lib|static)/.*$})
 end
+
+guard 'livereload' do
+  watch(%r{output/.+})
+end

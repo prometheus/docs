@@ -2,7 +2,7 @@
 title: Custom service discovery with etcd
 created_at: 2015-08-17
 kind: article
-author_name: Fabian Reinartz 
+author_name: Fabian Reinartz
 ---
 
 In a [previous post](/blog/2015/06/01/advanced-service-discovery/) we
@@ -17,7 +17,7 @@ We also touched on the topic of [custom service discovery](/blog/2015/06/01/adva
 Not every type of service discovery is generic enough to be directly included
 in Prometheus. Chances are your organisation has a proprietary
 system in place and you just have to make it work with Prometheus.
-This does not mean that you cannot enjoy the benefits of automatically 
+This does not mean that you cannot enjoy the benefits of automatically
 discovering new monitoring targets.
 
 In this post we will implement a small utility program that connects a custom
@@ -47,8 +47,8 @@ look like this:
 
 ```
 {
-  Targets: ["10.0.33.1:54423", "10.0.34.12:32535"],
-  Labels: {
+  "targets": ["10.0.33.1:54423", "10.0.34.12:32535"],
+  "labels": {
     "job": "node_exporter"
   }
 }
@@ -62,7 +62,7 @@ a file of target groups.
 
 Let's get started with some plumbing. Our tool has two flags: the etcd server
 to connect to and the file to which the target groups are written. Internally,
-the services are represented as a map from service names to instances. 
+the services are represented as a map from service names to instances.
 Instances are a map from the instance identifier in the etcd path to its
 address.
 
@@ -84,11 +84,11 @@ Our `main` function parses the flags and initializes our object holding the
 current services. We then connect to the etcd server and do a recursive read
 of the `/services` path.
 We receive the subtree for the given path as a result and call `srvs.handle`,
-which recursively performs the `srvs.update` method for each node in the 
+which recursively performs the `srvs.update` method for each node in the
 subtree. The `update` method modifies the state of our `srvs` object to be
 aligned with the state of our subtree in etcd.
 Finally, we call `srvs.persist` which transforms the `srvs` object into a list
-of target groups and writes them out to the file specified by the 
+of target groups and writes them out to the file specified by the
 `-target-file` flag.
 
 ```
@@ -112,7 +112,7 @@ func main() {
 
 Let's assume we have this as a working implementation. We could now run this
 tool every 30 seconds to have a mostly accurate view of the current targets in
-our service discovery. 
+our service discovery.
 
 But can we do better?
 
@@ -129,7 +129,7 @@ func main() {
   // ...
 
   updates := make(chan *etcd.Response)
-  
+
   // Start recursively watching for updates.
   go func() {
     _, err := client.Watch(servicesPrefix, 0, true, updates, nil)
@@ -152,8 +152,8 @@ func main() {
 }
 ```
 
-We start a goroutine that recursively watches for changes to entries in 
-`/services`. It blocks forever and sends all changes to the `updates` channel. 
+We start a goroutine that recursively watches for changes to entries in
+`/services`. It blocks forever and sends all changes to the `updates` channel.
 We then read the updates from the channel and apply it as before. In case an
 instance or entire service disappears however, we call `srvs.handle` using the
 `srvs.delete` method instead.
@@ -161,7 +161,7 @@ instance or entire service disappears however, we call `srvs.handle` using the
 We finish each update by another call to `srvs.persist` to write out the
 changes to the file Promtheus is watching.
 
-### Modifcation methods
+### Modification methods
 
 So far so good – conceptually this works. What remains are the `update` and
 `delete` handler methods as well as the `persist` method.

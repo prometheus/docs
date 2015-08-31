@@ -170,23 +170,20 @@ in detail in the [expression language functions](/docs/querying/functions/) page
 ### Interpolation and staleness
 
 When queries are run, timestamps at which to sample data are selected
-independent of the actual present time series data. This is mainly to support
+independently of the actual present time series data. This is mainly to support
 cases like aggregation (`sum`, `avg`, and so on), where multiple aggregated
-time series do not exactly align in time. At every one of these predetermined
-sampling times, Prometheus searches for the closest surrounding samples and
-linearly interpolates a timestamp-value pair between the actual stored samples.
-That means that the generated sample has timestamp and sample values which are
-somewhere in between the timestamp and sample values of the surrounding samples
-(depending on how close the query timestamp is to either surrounding point).
+time series do not exactly align in time. Because of their independence,
+Prometheus needs to assign a value at those timestamps for each relevant time
+series. It does so by simply taking the newest sample before this timestamp.
 
-If no stored sample is found either (by default) 5 minutes before or after a
-sampling timestamp, no interpolated sample is generated for this time series at
-this point in time. This effectively means that time series "disappear" from
-graphs at times where their latest collected sample is 5 older than 5 minutes.
+If no stored sample is found (by default) 5 minutes before a sampling timestamp,
+no value is assigned for this time series at this point in time. This
+effectively means that time series "disappear" from graphs at times where their
+latest collected sample is older than 5 minutes.
 
 NOTE: <b>NOTE:</b> Staleness and interpolation handling might change. See
 https://github.com/prometheus/prometheus/issues/398 and
-https://github.com/prometheus/prometheus/issues/386.
+https://github.com/prometheus/prometheus/issues/581.
 
 ### Avoiding slow queries and overloads
 

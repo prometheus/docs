@@ -37,9 +37,9 @@ in the right hand vector. The result is propagated into the result vector and th
 name is dropped. Entries for which no matching entry in the right-hand vector can be
 found are not part of the result.
 
-### Comparison/filter binary operators
+### Comparison binary operators
 
-The following binary comparison/filter operators exist in Prometheus:
+The following binary comparison operators exist in Prometheus:
 
 * `==` (equal)
 * `!=` (not-equal)
@@ -48,21 +48,31 @@ The following binary comparison/filter operators exist in Prometheus:
 * `>=` (greater-or-equal)
 * `<=` (less-or-equal)
 
-Comparison/filters operators are defined between scalar/scalar, vector/scalar,
-and vector/vector value pairs.
+Comparison operators are defined between scalar/scalar, vector/scalar,
+and vector/vector value pairs. By default they filter. Their behaviour can be
+modified by providing `bool` after the operator, which will return `0` or `1`
+for the value rather than filtering.
 
 **Between two scalars**, these operators result in another scalar that is
 either `0` (`false`) or `1` (`true`), depending on the comparison result.
+The `bool` modifier has no effect on this comparison, however it's
+recommended to always provide it due to [upcoming changes](https://github.com/prometheus/prometheus/issues/482).
+
 
 **Between an instant vector and a scalar**, these operators are applied to the
 value of every data sample in the vector, and vector elements between which the
-comparison result is `false` get dropped from the result vector.
+comparison result is `false` get dropped from the result vector. If the `bool`
+modifier is provided, vector elements that would be dropped instead have the value
+`0` and vector elements that would be kept have the value `1`.
 
-**Between two instant vectors**, these operators behave as a filter, applied to
-matching entries. Vector elements for which the expression is not true or
-which do not find a match on the other side of the expression get dropped from the
-result, while the others are propagated into a result vector with their original
-(left-hand-side) metric names and label values.
+**Between two instant vectors**, these operators behave as a filter by default,
+applied to matching entries. Vector elements for which the expression is not
+true or which do not find a match on the other side of the expression get
+dropped from the result, while the others are propagated into a result vector
+with their original (left-hand-side) metric names and label values.
+If the `bool` modifier is provided, vector elements that would have been
+dropped instead have the value `0` and vector elements that would be kept have
+the value `1` with the left-hand-side metric names and label values.
 
 ### Logical/set binary operators
 

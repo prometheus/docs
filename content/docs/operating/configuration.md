@@ -278,14 +278,17 @@ CAUTION: Kubernetes SD is in beta: breaking changes to configuration are still
 likely in future releases.
 
 Kubernetes SD configurations allow retrieving scrape targets from
-[Kubernetes'](http://kubernetes.io/) REST API. By default, this discovers nodes
-and appropriately annotated services so that metrics from both cluster
-components and deployed applications can be scraped. This will create multiple
-target groups: one for all nodes with each node as a target; and one for each
-service containing each service endpoint as a target.
+[Kubernetes'](http://kubernetes.io/) REST API. By default, this discovers
+masters, nodes, and appropriately annotated services so that metrics from both
+cluster components and deployed applications can be scraped. This will create
+multiple target groups: one for all masters with each master as a target, one
+for all nodes with each node as a target, and one for each service containing
+each service endpoint as a target.
 
 The following meta labels are available on targets during relabeling:
 
+* `__meta_kubernetes_role`: the role of the target: one of `master`, `node` or
+`service`
 * `__meta_kubernetes_node`: the name of the node from the Kubernetes API
 * `__meta_kubernetes_node_label_<labelname>`: each node label from the
 Kubernetes API
@@ -301,9 +304,10 @@ See below for the configuration options for Kubernetes discovery:
 ```
 # The information to access the Kubernetes API.
 
-# The server address. In a cluster this will normally be
-# https://kubernetes.default.svc.
-server: <host>
+# The master addresses. In a cluster this will normally be
+# `https://kubernetes.default.svc`. Supports multiple HA masters.
+masters:
+  - [<host>]
 
 # Run in cluster. This will use the automounted CA certificate and bearer
 # token file at /var/run/secrets/kubernetes.io/serviceaccount/ in the pod.

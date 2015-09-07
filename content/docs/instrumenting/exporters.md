@@ -17,6 +17,7 @@ These exporters are maintained as part of the official
 
    * [Node/system metrics exporter](https://github.com/prometheus/node_exporter)
    * [AWS CloudWatch exporter](https://github.com/prometheus/cloudwatch_exporter)
+   * [Blackbox exporter](https://github.com/prometheus/blackbox_exporter)
    * [Collectd exporter](https://github.com/prometheus/collectd_exporter)
    * [Consul exporter](https://github.com/prometheus/consul_exporter)
    * [Graphite exporter](https://github.com/prometheus/graphite_exporter)

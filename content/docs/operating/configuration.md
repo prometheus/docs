@@ -428,6 +428,20 @@ The JSON version of a target group has the following format:
 }
 ```
 
+Also, the files must contain an array of target groups, not a standalone one. Here is
+an example of a simple file:
+
+```
+[
+  {
+    "targets": ["10.0.0.1:9090", "10.0.0.2:9090"],
+    "labels": {
+      "generated_from": "unicorn magic"
+    }
+  }
+]
+```
+
 As a fallback, the file contents are also re-read periodically at the specified
 refresh interval.
 

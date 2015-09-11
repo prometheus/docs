@@ -269,6 +269,18 @@ expression is to be evaluated.
 `topk(k integer, v instant-vector)` returns the `k` largest elements of `v` by
 sample value.
 
+## `vector()`
+
+`vector(s scalar, v={} vector)` returns the scalar `s` as a vector with no
+labels.  If the optional argument `v` is provided, labels in the output vector
+are derived from it similar to `absent()`.
+
+| Expression                               | Result
+|------------------------------------------|--------
+| vector(1)                                | {}: 1
+| vector(2, {job="myjob",instance=~".*"})  | {job="myjob"}: 2
+
+
 ## `<aggregation>_over_time()`: Aggregating values over time:
 
 The following functions allow aggregating each series of a given range vector

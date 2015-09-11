@@ -269,6 +269,10 @@ expression is to be evaluated.
 `topk(k integer, v instant-vector)` returns the `k` largest elements of `v` by
 sample value.
 
+## `vector()`
+
+`vector(s scalar)` returns the scalar `s` as a vector with no labels.
+
 ## `<aggregation>_over_time()`: Aggregating values over time:
 
 The following functions allow aggregating each series of a given range vector

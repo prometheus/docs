@@ -68,8 +68,18 @@ separate exporters are needed:
 
    * [cAdvisor](https://github.com/google/cadvisor)
    * [Etcd](https://github.com/coreos/etcd)
-   * [go-metrics instrumentation library](https://github.com/armon/go-metrics)
-   * [gokit](https://github.com/peterbourgon/gokit)
    * [Kubernetes-Mesos](https://github.com/mesosphere/kubernetes-mesos)
    * [Kubernetes](https://github.com/GoogleCloudPlatform/kubernetes)
    * [RobustIRC](http://robustirc.net/)
+
+## Other third-party utilities
+
+This section lists libraries and other utilities that help you instrument code
+in a certain language. They are not Prometheus client libraries themselves but
+make use of one of the normal Prometheus client libraries under the hood. As
+for all independently maintained software, we cannot vet all of them for best
+practices.
+
+   * Clojure: [prometheus-clj](https://github.com/soundcloud/prometheus-clj)
+   * Go: [go-metrics instrumentation library](https://github.com/armon/go-metrics)
+   * Go: [gokit](https://github.com/peterbourgon/gokit)

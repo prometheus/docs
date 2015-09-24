@@ -22,7 +22,6 @@ These exporters are maintained as part of the official
    * [Consul exporter](https://github.com/prometheus/consul_exporter)
    * [Graphite exporter](https://github.com/prometheus/graphite_exporter)
    * [HAProxy exporter](https://github.com/prometheus/haproxy_exporter)
-   * [Hystrix metrics publisher](https://github.com/prometheus/hystrix)
    * [JMX exporter](https://github.com/prometheus/jmx_exporter)
    * [Mesos task exporter](https://github.com/prometheus/mesos_exporter)
    * [MySQL server exporter](https://github.com/prometheus/mysqld_exporter)
@@ -83,3 +82,4 @@ practices.
    * Clojure: [prometheus-clj](https://github.com/soundcloud/prometheus-clj)
    * Go: [go-metrics instrumentation library](https://github.com/armon/go-metrics)
    * Go: [gokit](https://github.com/peterbourgon/gokit)
+   * Java/JXM: [Hystrix metrics publisher](https://github.com/soundcloud/prometheus-hystrix)

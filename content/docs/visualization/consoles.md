@@ -106,7 +106,7 @@ right-hand-side table. This is optional.
 `prom_query_drilldown` is a template that will evaluate the expression passed to it, format it,
 and link to the expression in the [expression browser](/docs/visualization/browser/). The first
 argument is the expression. The second argument is the unit to use. The third
-argument is how to format the output. Only the first argument is requred.
+argument is how to format the output. Only the first argument is required.
 
 Valid output formats for the third argument to `prom_query_drilldown`:
 

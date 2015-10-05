@@ -243,7 +243,7 @@ global:
   # scrape_timeout is set to the global default (10s).
 
   # Attach these extra labels to all timeseries collected by this Prometheus instance.
-  labels:
+  external_labels:
     monitor: 'codelab-monitor'
 
 rule_files:

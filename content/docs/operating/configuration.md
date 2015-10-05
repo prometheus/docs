@@ -88,13 +88,11 @@ If the targets require authentication, the following options are available:
 
 * `basic_auth` - sets the `Authorization` header on every scrape request with the
 configured username and password.
-* `client_cert` - configures the scrape request to use
-[mutual TLS](https://en.wikipedia.org/wiki/Mutual_authentication) with the
-configured certificate and key.
 * `bearer_token` - sets the `Authorization` header on every scrape request with
 the configured bearer token.
 * `bearer_token_file` - sets the `Authorization` header on every scrape request
 with the bearer token read from the configured file.
+* `tls_config` - configures the scrape request's TLS settings.
 
 See below for the configuration of these authentication options.
 
@@ -141,16 +139,15 @@ basic_auth:
   [ username: <string> ]
   [ password: <string> ]
 
-# Optional client certificate authentication information.
-client_cert:
-  [ cert: /path/to/cert/file ]
-  [ key: /path/to/key/file ]
-
 # Optional bearer token authentication information.
 [ bearer_token: <string> ]
 
 # Optional bearer token file authentication information.
 [ bearer_token_file: /path/to/bearer/token/file ]
+
+# Optional TLS configuration.
+tls_config:
+  [ <tls_config> ]
 
 # List of DNS service discovery configurations.
 dns_sd_configs:
@@ -188,6 +185,23 @@ metric_relabel_configs:
 Where `<scheme>` may be `http` or `https` and `<path>` is a valid URL path.
 `<job_name>` must be unique across all scrape configurations and adhere to the
 regex `[a-zA-Z_][a-zA-Z0-9_-]`.
+
+
+### TLS configuration `<tls_config>`
+
+A `tls_config` allows configuring TLS connections.
+
+```
+# CA certificate to validate API server certificate with.
+[ ca_file: <filename> ]
+
+# Certificate and key files for client cert authentication to the server.
+[ cert_file: <filename> ]
+[ key_file: <filename> ]
+
+# Disable validation of the server certificate.
+[ insecure_skip_verify: <boolean> ]
+```
 
 
 ### Target groups `<target_group>`
@@ -244,12 +258,13 @@ Catalog API.
 
 The following meta labels are available on targets during relabeling:
 
-* `__meta_consul_address`: the address of the target 
+* `__meta_consul_address`: the address of the target
 * `__meta_consul_node`: the node name defined for the target
 * `__meta_consul_tags`: the list of tags of the target joined by the tag separator
 * `__meta_consul_service`: the name of the service the target belongs to
-* `__meta_consul_service_address`: the service address of the target 
-* `__meta_consul_service_port`: the service port of the target 
+* `__meta_consul_service_address`: the service address of the target
+* `__meta_consul_service_port`: the service port of the target
+* `__meta_consul_service_id`: the service ID of the target
 * `__meta_consul_dc`: the datacenter name for the target
 
 ```
@@ -318,13 +333,6 @@ masters:
 # token file at /var/run/secrets/kubernetes.io/serviceaccount/ in the pod.
 [ in_cluster: <boolean> ]
 
-# CA certificate to validate API server certificate with. If running in a pod,
-# then it is best to use a service account and set in_cluster to true.
-[ ca_file: <filename> ]
-# Disable validation of the API server certificate. If running in a pod, then it
-# is best to use a service account and set in_cluster to true.
-[ insecure: <boolean> ]
-
 # The kubelet port to scrape metrics from. This will normally be the read-only
 # port of 10255 (default).
 [ kubelet_port: <int> ]
@@ -338,9 +346,10 @@ masters:
 [ username: <string> ]
 [ password: <string> ]
 
-# Certificate and key files for client cert authentication to the API server.
-[ cert_file: <string> ]
-[ key_file: <filename> ]
+# TLS configuration. If running in a pod, then it is best to use a service
+# account and set in_cluster to true.
+tls_config:
+  [ <tls_config> ]
 
 # Retry interval between watches if they disconnect.
 [ retry_interval: <duration> | default = 1s ]
@@ -506,7 +515,7 @@ prefix is guaranteed to never be used by Prometheus itself.
 
 `<regex>` is any valid [RE2 regular
 expression](https://github.com/google/re2/wiki/Syntax). It is required for
-the `replace`, `keep`, `drop` and `labelmap` actions.
+the `replace`, `keep`, `drop` and `labelmap` actions. The regex is fully anchored.
 
 `<relabel_action>` determines the relabeling action to take:
 

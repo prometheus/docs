@@ -68,7 +68,7 @@ versions.
 | match         | pattern, text | boolean | [regexp.MatchString](http://golang.org/pkg/regexp/#MatchString) Tests for a regexp match. |
 | reReplaceAll  | pattern, replacement, text | string | [Regexp.ReplaceAllString](http://golang.org/pkg/regexp/#Regexp.ReplaceAllString) Regexp substitution. |
 | graphLink  | expr | string | Returns path to graph view in the [expression browser](/docs/visualization/browser/) for the expression. |
-| tableLink  | expr | string | Returns path to tabular view in the [expression browser](/docs/visualization/browser/) for the expression. |
+| tableLink  | expr | string | Returns path to tabular ("Console") view in the [expression browser](/docs/visualization/browser/) for the expression. |
 
 ### Others
 

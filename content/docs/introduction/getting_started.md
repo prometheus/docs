@@ -98,7 +98,7 @@ FAQs](http://golang.org/doc/faq#Why_no_multi_CPU).
 
 Let us try looking at some data that Prometheus has collected about itself. To
 use Prometheus's built-in expression browser, navigate to
-http://localhost:9090/graph and choose the "Tabular" view within the "Graph"
+http://localhost:9090/graph and choose the "Console" view within the "Graph"
 tab.
 
 As you can gather from http://localhost:9090/metrics, one metric that

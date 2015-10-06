@@ -23,7 +23,7 @@ making it a range vector:
     http_requests_total{job="apiserver", handler="/api/comments"}[5m]
 
 Note that an expression resulting in a range vector cannot be graphed directly,
-but viewed in the tabular view of the expression browser.
+but viewed in the tabular ("Console") view of the expression browser.
 
 Using regular expressions, you could select time series only for jobs whose
 name match a certain pattern, in this case, all jobs that end with `server`.

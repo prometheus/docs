@@ -153,7 +153,13 @@ to scrape.
 The Go client library includes an example which exports fictional RPC latencies
 for three services with different latency distributions.
 
-Ensure you have the [Go compiler installed](https://golang.org/doc/install). 
+Ensure you have the [Go compiler installed](https://golang.org/doc/install) and
+have a [working Go build environment](https://golang.org/doc/code.html) (with
+correct `GOPATH`) set up. For some of the dependencies that `go get` will
+fetch, you will also need to have the
+[Mercurial](https://www.mercurial-scm.org/) revision control system (`hg`
+command) installed.
+
 Download the Go client library for Prometheus and run three of these example
 processes:
 

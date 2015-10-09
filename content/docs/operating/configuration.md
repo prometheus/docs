@@ -141,10 +141,17 @@ basic_auth:
   [ username: <string> ]
   [ password: <string> ]
 
-# Optional client certificate authentication information.
-client_cert:
-  [ cert: /path/to/cert/file ]
-  [ key: /path/to/key/file ]
+# Optional TLS config.
+[ tls_config: ]
+  # CA certificate to validate API server certificate with. If running in a pod,
+  # then it is best to use a service account and set in_cluster to true.
+  [ ca_file: <filename> ]
+  # Client certificate file
+  [ cert_file: <filename> ]
+  # Client key file.
+  [ key_file: <filename> ]
+  # Disable validation of the server certificate.
+  [ insecure_skip_verify: <boolean> ]
 
 # Optional bearer token authentication information.
 [ bearer_token: <string> ]
@@ -318,12 +325,18 @@ masters:
 # token file at /var/run/secrets/kubernetes.io/serviceaccount/ in the pod.
 [ in_cluster: <boolean> ]
 
-# CA certificate to validate API server certificate with. If running in a pod,
-# then it is best to use a service account and set in_cluster to true.
-[ ca_file: <filename> ]
-# Disable validation of the API server certificate. If running in a pod, then it
-# is best to use a service account and set in_cluster to true.
-[ insecure: <boolean> ]
+# TLS config to connect to the Kubernetes API server.
+[ tls_config: ]
+  # CA certificate to validate API server certificate with. If running in a pod,
+  # then it is best to use a service account and set in_cluster to true.
+  [ ca_file: <filename> ]
+  # Client certificate file.
+  [ cert_file: <filename> ]
+  # Client key file.
+  [ key_file: <filename> ]
+  # Disable validation of the API server certificate. If running in a pod, then it
+  # is best to use a service account and set in_cluster to true.
+  [ insecure_skip_verify: <boolean> ]
 
 # The kubelet port to scrape metrics from. This will normally be the read-only
 # port of 10255 (default).
@@ -337,10 +350,6 @@ masters:
 # Username and password for basic authentication to the API server.
 [ username: <string> ]
 [ password: <string> ]
-
-# Certificate and key files for client cert authentication to the API server.
-[ cert_file: <string> ]
-[ key_file: <filename> ]
 
 # Retry interval between watches if they disconnect.
 [ retry_interval: <duration> | default = 1s ]

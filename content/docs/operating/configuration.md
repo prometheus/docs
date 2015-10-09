@@ -165,6 +165,10 @@ kubernetes_sd_configs:
 serverset_sd_configs:
   [ - <serverset_sd_config> ... ]
 
+# List of EC2 service discovery configurations.
+ec2_sd_configs:
+  [ - <ec2_sd_config> ... ]
+
 # List of file service discovery configurations.
 file_sd_configs:
   [ - <file_sd_config> ... ]
@@ -420,6 +424,43 @@ paths:
 ```
 
 Serverset data must be in the JSON format, the Thrift format is not currently supported.
+
+### EC2 SD configurations `<ec2_sd_config>`
+
+CAUTION: EC2 SD is in beta: breaking changes to configuration are still
+likely in future releases.
+
+EC2 SD configurations allow retrieving scrape targets from AWS EC2
+instances. The private IP address is used by default, but my be changed to
+the public IP address with relabeling.
+
+The following meta labels are available on targets during relabeling:
+
+* `__meta_ec2_instance_id`: the EC2 instance ID
+* `__meta_ec2_public_ip`: the public IP address of the instance
+* `__meta_ec2_private_ip`: the private IP address of the instance, if present
+* `__meta_ec2_tag_<tagkey>`: each tag value of the instance
+
+See below for the configuration options for EC2 discovery:
+
+```
+# The information to access the EC2 API.
+
+# The AWS Region.
+region: <string>
+
+# The AWS API keys. If blank, the environment variables `AWS_ACCESS_KEY_ID`
+# and `AWS_SECRET_ACCESS_KEY` are used.
+[ access_key: <string> ]
+[ secret_key: <string> ]
+
+# Refresh interval to re-read the instance list.
+[ refresh_interval: <duration> | default = 60s ]
+
+# The port to scrape metrics from. If using the public IP address, this must
+# instead be specified in the relabeling rule.
+[ port: <int> | default = 80 ]
+```
 
 ### File-based SD configurations `<file_sd_config>`
 

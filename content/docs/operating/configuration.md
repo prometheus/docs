@@ -317,7 +317,6 @@ The following meta labels are available on targets during relabeling:
 
 * `__meta_kubernetes_role`: the role of the target: one of `master`, `node` or
 `service`
-* `__meta_kubernetes_node`: the name of the node from the Kubernetes API
 * `__meta_kubernetes_node_label_<labelname>`: each node label from the
 Kubernetes API
 * `__meta_kubernetes_service_namespace`: the namespace of the service
@@ -326,6 +325,9 @@ Kubernetes API
 Kubernetes API
 * `__meta_kubernetes_service_annotation_<annotationname>`: each service
 annotation from the Kubernetes API
+
+In addition, the `instance` label for node metrics will be set to the node name
+as retrieved from the API server.
 
 See below for the configuration options for Kubernetes discovery:
 

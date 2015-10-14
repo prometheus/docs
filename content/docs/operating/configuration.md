@@ -431,7 +431,7 @@ CAUTION: EC2 SD is in beta: breaking changes to configuration are still
 likely in future releases.
 
 EC2 SD configurations allow retrieving scrape targets from AWS EC2
-instances. The private IP address is used by default, but my be changed to
+instances. The private IP address is used by default, but may be changed to
 the public IP address with relabeling.
 
 The following meta labels are available on targets during relabeling:

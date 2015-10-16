@@ -82,7 +82,7 @@ syntax (EBNF):
 `metric_name` and `label_name` have the usual Prometheus expression language restrictions. `label_value` can be any sequence of UTF-8 characters, but the backslash, the double-quote, and the line-feed characters have to be escaped as `\\`, `\"`, and `\n`, respectively.
 `value` is a float, and timestamp an `int64` (milliseconds since epoch, i.e. 1970-01-01 00:00:00 UTC, excluding leap seconds), represented as required by the [Go strconv package](http://golang.org/pkg/strconv/) (see functions `ParseInt` and `ParseFloat`). In particular, `Nan`, `+Inf`, and `-Inf` are valid values.
 
-All lines for a given metric should be provided as one uninterrupted group, with
+All lines for a given metric must be provided as one uninterrupted group, with
 the optional `HELP` and `TYPE` lines first.
 
 The `histogram` and `summary` types are difficult to represent in the text

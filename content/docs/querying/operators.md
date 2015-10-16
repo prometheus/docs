@@ -53,11 +53,9 @@ and vector/vector value pairs. By default they filter. Their behaviour can be
 modified by providing `bool` after the operator, which will return `0` or `1`
 for the value rather than filtering.
 
-**Between two scalars**, these operators result in another scalar that is
-either `0` (`false`) or `1` (`true`), depending on the comparison result.
-The `bool` modifier has no effect on this comparison, however it's
-recommended to always provide it due to [upcoming changes](https://github.com/prometheus/prometheus/issues/482).
-
+**Between two scalars**, the `bool` modifier must be provided and these
+operators result in another scalar that is either `0` (`false`) or `1`
+(`true`), depending on the comparison result.
 
 **Between an instant vector and a scalar**, these operators are applied to the
 value of every data sample in the vector, and vector elements between which the

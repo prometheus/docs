@@ -31,7 +31,7 @@ other) repositories.
 ## Using Docker
 
 All Prometheus services are available as Docker images under the
-[prom](https://registry.hub.docker.com/repos/prom/) organization.
+[prom](https://hub.docker.com/u/prom/) organization.
 
 Running Prometheus on Docker is as simple as
  `docker run -p 9090:9090 prom/prometheus`. This starts Prometheus with

@@ -303,16 +303,16 @@ likely in future releases.
 
 Kubernetes SD configurations allow retrieving scrape targets from
 [Kubernetes'](http://kubernetes.io/) REST API. By default, this discovers
-masters, nodes, and appropriately annotated services so that metrics from both
+API servers, nodes, and appropriately annotated services so that metrics from both
 cluster components and deployed applications can be scraped. This will create
-multiple target groups: one for all masters with each master as a target, one
+multiple target groups: one for all API servers with each API server as a target, one
 for all nodes with each node as a target, and one for each service containing
 each service endpoint as a target.
 
 The following meta labels are available on targets during relabeling:
 
-* `__meta_kubernetes_role`: the role of the target: one of `master`, `node` or
-`service`
+* `__meta_kubernetes_role`: the role of the target: one of `apiserver`, `node`
+or `service`
 * `__meta_kubernetes_node_label_<labelname>`: each node label from the
 Kubernetes API
 * `__meta_kubernetes_service_namespace`: the namespace of the service
@@ -330,9 +330,9 @@ See below for the configuration options for Kubernetes discovery:
 ```
 # The information to access the Kubernetes API.
 
-# The master addresses. In a cluster this will normally be
-# `https://kubernetes.default.svc`. Supports multiple HA masters.
-masters:
+# The API server addresses. In a cluster this will normally be
+# `https://kubernetes.default.svc`. Supports multiple HA API servers.
+api_servers:
   - [<host>]
 
 # Run in cluster. This will use the automounted CA certificate and bearer
@@ -343,14 +343,21 @@ masters:
 # port of 10255 (default).
 [ kubelet_port: <int> ]
 
-# File to read the bearer token from to authenticate to the API server. If
-# running in a pod, then it is best to use a service account and set in_cluster
-# to true.
-[ bearer_token_file: <filename> ]
+# Optional authentication information used to authenticate to the API server.
+# Note that `basic_auth`, `bearer_token` and `bearer_token_file` options are
+# mutually exclusive.
 
-# Username and password for basic authentication to the API server.
-[ username: <string> ]
-[ password: <string> ]
+# Optional HTTP basic authentication information.
+basic_auth:
+  [ username: <string> ]
+  [ password: <string> ]
+
+# Optional bearer token authentication information.
+[ bearer_token: <string> ]
+
+# Optional bearer token file authentication information. If running in a pod,
+# then it is best to use a service account and set in_cluster to true.
+[ bearer_token_file: <filename> ]
 
 # TLS configuration. If running in a pod, then it is best to use a service
 # account and set in_cluster to true.

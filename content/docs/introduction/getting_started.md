@@ -18,6 +18,7 @@ of Prometheus for your platform, then extract and run it:
 
 ```
 tar xvfz prometheus-*.tar.gz
+cd prometheus-*
 ./prometheus
 ```
 

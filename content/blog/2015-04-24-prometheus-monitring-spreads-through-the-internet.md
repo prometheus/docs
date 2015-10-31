@@ -5,7 +5,7 @@ kind: article
 author_name: Brian Brazil
 ---
 
-It has been almost three months since we publicy announced Prometheus version
+It has been almost three months since we publicly announced Prometheus version
 0.10.0, and we're now at version 0.13.1.
 
 [SoundCloud's announcement blog post](https://developers.soundcloud.com/blog/prometheus-monitoring-at-soundcloud)

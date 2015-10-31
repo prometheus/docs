@@ -211,7 +211,7 @@ A `tls_config` allows configuring TLS connections.
 ### Target groups `<target_group>`
 
 A `target_group` allows specifying a list of targets and a common label set for them.
-They are the canoncial way to specify static targets in a scrape configuration.
+They are the canonical way to specify static targets in a scrape configuration.
 
 ```
 # The targets specified by the target group.

@@ -35,7 +35,7 @@ and latency. The number of in-progress requests can also be useful.
 Online-serving systems should be monitored on both the client and server side.
 If the two sides see different behaviors, that is very useful information for debugging.
 If a service has many clients, it is also not practical for the service to track them
-individally, so they have to rely on their own stats.
+individually, so they have to rely on their own stats.
 
 Be consistent in whether you count queries when they start or when they end.
 When they end is suggested, as it will line up with the error and latency stats,
@@ -161,7 +161,7 @@ take advantage of them, so it takes a bit of getting used to.
 When you have multiple metrics that you want to add/average/sum, they should
 usually be one metric with labels rather than multiple metrics.
 
-For example, rather than `http_responses_500_total` and `http_resonses_403_total`,
+For example, rather than `http_responses_500_total` and `http_responses_403_total`,
 create a single metric called `http_responses_total` with a `code` label
 for the HTTP response code. You can then process the entire metric as one in
 rules and graphs.

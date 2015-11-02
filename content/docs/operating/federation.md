@@ -70,8 +70,8 @@ Prometheus:
 
   params:
     'match[]':
-      - 'job="prometheus"'
-      - '{__name__=~"^job:"}']
+      - '{job="prometheus"}'
+      - '{__name__=~"^job:"}'
 
   target_groups:
     - targets:

@@ -85,7 +85,7 @@ For example, this selects all `http_requests_total` time series for `staging`,
     http_requests_total{environment=~"staging|testing|development",method!="GET"}
 
 Label matchers that match empty label values also select all time series that do
-not have the specific label set at all. Regex-matches are fully anchored.
+not have the specific label set at all. Regex-matches are not anchored.
 
 Vector selectors must either specify a name or at least one label matcher
 that does not match the empty string. The following expression is illegal:
@@ -154,7 +154,7 @@ The same works for range vectors. This returns the 5-minutes rate that
 `http_requests_total` had a week ago:
 
     rate(http_requests_total[5m] offset 1w)
-    
+
 ## Operators
 
 Prometheus supports many binary and aggregation operators. These are described

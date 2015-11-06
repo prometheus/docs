@@ -77,6 +77,23 @@ particularly useful for tuning the flags above:
 * `prometheus_local_storage_memory_chunks`: The current number of chunks held in memory.
 * `prometheus_local_storage_chunks_to_persist`: The number of memory chunks that still need to be persisted to disk.
 
+PromQL queries that involve a high number of time series will make heavy use of
+the LevelDB backed indices. If you need to run queries of that kind, tweaking
+the index cache sizes might be required. The following flags are relevant:
+
+* `-storage.local.index-cache-size.label-name-to-label-values`: For regular
+  expression matching.
+* `-storage.local.index-cache-size.label-pair-to-fingerprints`: Increase the
+  size if a large number of time series share the same label pair or name.
+* `-storage.local.index-cache-size.fingerprint-to-metric` and
+  `-storage.local.index-cache-size.fingerprint-to-timerange`: Increase the size
+  if you have a large number of archived time series, i.e. series that have not
+  received samples in a while but are still not old enough to be purged
+  completely.
+
+You have to experiment with the flag values to find out what helps. If a query
+touches 100,000+ time series, hundreds of MiB might be reasonable.
+
 ## Crash recovery
 
 Prometheus saves chunks to disk as soon as possible after they are

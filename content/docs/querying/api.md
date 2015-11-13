@@ -14,9 +14,15 @@ The API response format is JSON. Every successful API request returns a `2xx`
 status code.
 
 Invalid requests that reach the API handlers return a JSON error object
-and the HTTP response code `422 Unprocessable Entity`
-([RFC4918](http://tools.ietf.org/html/rfc4918#page-78)). Other non-`2xx` codes
-may be returned for errors occurring before the API endpoint is reached.
+and one of the following HTTP response codes:
+
+- `400 Bad Request` when parameters are missing or incorrect.
+- `422 Unprocessable Entity` when an expression can't be executed
+  ([RFC4918](http://tools.ietf.org/html/rfc4918#page-78)).
+- `503 Service Unavailable` when queries time out or abort.
+
+Other non-`2xx` codes may be returned for errors occurring before the API
+endpoint is reached.
 
 The JSON response envelope format is as follows:
 
@@ -64,7 +70,9 @@ GET /api/v1/query
 URL query parameters:
 
 - `query=<string>`: Prometheus expression query string.
-- `time=<rfc3339 | unix_timestamp>`: Evaluation timestamp.
+- `time=<rfc3339 | unix_timestamp>`: Evaluation timestamp. Optional.
+
+The current server time is used if the `time` parameter is omitted.
 
 The `data` section of the query result has the following format:
 

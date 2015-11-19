@@ -26,3 +26,4 @@ Resources on the Internet helpful to get started with Prometheus.
 
 * [Systems Monitoring with Prometheus](http://www.slideshare.net/brianbrazil/devops-ireland-systems-monitoring-with-prometheus) – Brian Brazil at Devops Ireland Meetup, Dublin.
 * [Monitoring your Python with Prometheus](http://www.slideshare.net/brianbrazil/python-ireland-monitoring-your-python-with-prometheus) – Brian Brazil at Python Ireland Meetup, Dublin.
+* [OMG! Prometheus](https://www.dropbox.com/s/0l7kxhjqjbabtb0/prometheus%20site-ops%20preso.pdf?dl=0) – Benjamin Staffin, Fitbit Site Operations, explains the case for Prometheus to his team.

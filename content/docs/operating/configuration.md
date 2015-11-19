@@ -211,7 +211,7 @@ A `tls_config` allows configuring TLS connections.
 ### Target groups `<target_group>`
 
 A `target_group` allows specifying a list of targets and a common label set for them.
-They are the canoncial way to specify static targets in a scrape configuration.
+They are the canonical way to specify static targets in a scrape configuration.
 
 ```
 # The targets specified by the target group.
@@ -440,7 +440,7 @@ CAUTION: EC2 SD is in beta: breaking changes to configuration are still
 likely in future releases.
 
 EC2 SD configurations allow retrieving scrape targets from AWS EC2
-instances. The private IP address is used by default, but my be changed to
+instances. The private IP address is used by default, but may be changed to
 the public IP address with relabeling.
 
 The following meta labels are available on targets during relabeling:
@@ -481,15 +481,18 @@ all defined files are detected via disk watches and applied immediately. Files m
 provided in YAML or JSON format. Only changes resulting in well-formed target groups
 are applied.
 
-The JSON version of a target group has the following format:
+The JSON file must contain a list of target groups, using this format:
 
 ```
-{
-  "targets": [ "<host>", ... ],
-  "labels": {
-    [ "<labelname>": "<labelvalue>", ... ]
-  }
-}
+[
+  {
+    "targets": [ "<host>", ... ],
+    "labels": {
+      [ "<labelname>": "<labelvalue>", ... ]
+    }
+  },
+  ...
+]
 ```
 
 As a fallback, the file contents are also re-read periodically at the specified

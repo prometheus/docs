@@ -26,7 +26,7 @@ These exporters are maintained as part of the official
    * [Mesos task exporter](https://github.com/prometheus/mesos_exporter)
    * [MySQL server exporter](https://github.com/prometheus/mysqld_exporter)
    * [SNMP exporter](https://github.com/prometheus/snmp_exporter)
-   * [StatsD bridge](https://github.com/prometheus/statsd_bridge)
+   * [StatsD exporter](https://github.com/prometheus/statsd_exporter)
 
 The [JMX exporter](https://github.com/prometheus/jmx_exporter) can export from a
 wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.org/) and
@@ -39,6 +39,7 @@ and maintained. We encourage the creation of more exporters but cannot
 vet all of them for best practices. Commonly, those exporters are
 hosted outside of the Prometheus GitHub organization.
 
+   * [Apache exporter](https://github.com/neezgee/apache_exporter)
    * [BIND exporter](https://github.com/digitalocean/bind_exporter)
    * [CouchDB exporter](https://github.com/gesellix/couchdb-exporter)
    * [Django exporter](https://github.com/korfuri/django-prometheus)

@@ -18,6 +18,7 @@ of Prometheus for your platform, then extract and run it:
 
 ```
 tar xvfz prometheus-*.tar.gz
+cd prometheus-*
 ./prometheus
 ```
 
@@ -80,15 +81,9 @@ from its own HTTP metrics endpoint.
 You can also verify that Prometheus is serving metrics about itself by
 navigating to its metrics endpoint: http://localhost:9090/metrics
 
-By default, Prometheus will only execute at most one OS thread at a
-time. In production scenarios on multi-CPU machines, you will most
-likely achieve better performance by setting the `GOMAXPROCS`
-environment variable to a value similar to the number of available CPU
-cores:
-
-```language-bash
-GOMAXPROCS=8 ./prometheus -config.file=prometheus.yml
-```
+The number of OS threads executed by Prometheus is controlled by the
+`GOMAXPROCS` environment variable. As of Go 1.5 the default value is
+the number of cores available.
 
 Blindly setting `GOMAXPROCS` to a high value can be
 counterproductive. See the relevant [Go

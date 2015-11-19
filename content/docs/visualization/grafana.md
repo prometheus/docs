@@ -4,36 +4,26 @@ sort_rank: 7
 ---
 
 # Grafana support for Prometheus
-There is early support for querying Prometheus servers from [Grafana](http://grafana.org/).
-The Grafana data source for Prometheus currently lives in the
-[grafana-plugins](https://github.com/grafana/grafana-plugins) repository.
+[Grafana](http://grafana.org/) supports querying Prometheus.
+The Grafana data source for Prometheus is included since Grafana 2.5.0 (2015-10-28).
 
 The following shows an example Grafana dashboard which queries Prometheus for data:
 
 [![Grafana screenshot](/assets/grafana_prometheus.png)](/assets/grafana_prometheus.png)
 
 ## Installing
-For general Grafana installation instructions, see the [official Grafana
+For the full Grafana installation instructions, see the [official Grafana
 documentation](http://docs.grafana.org/installation/).
 
-To use the Prometheus data source with Grafana, copy the
-`datasources/prometheus` directory from the `grafana-plugins` repository to
-the `public/app/plugins/datasource` directory of your Grafana server.
-
-For example, on Linux, installing Grafana and the Prometheus data source could
-look like this:
+As an example, on Linux, installing Grafana could look like this:
 
 ```bash-lang
 # Download and unpack Grafana from binary tar (adjust version as appropriate).
-curl -L -O https://grafanarel.s3.amazonaws.com/builds/grafana-2.0.2.linux-x64.tar.gz
-tar zxf grafana-2.0.2.linux-x64.tar.gz
-
-# Copy the Prometheus datasource from 'grafana-plugins' into Grafana.
-git clone https://github.com/grafana/grafana-plugins.git
-cp -a grafana-plugins/datasources/prometheus grafana-2.0.2/public/app/plugins/datasource/
+curl -L -O https://grafanarel.s3.amazonaws.com/builds/grafana-2.5.0.linux-x64.tar.gz
+tar zxf grafana-2.5.0.linux-x64.tar.gz
 
 # Start Grafana.
-cd grafana-2.0.2/
+cd grafana-2.5.0/
 ./bin/grafana-server web
 ```
 

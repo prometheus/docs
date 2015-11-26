@@ -51,6 +51,16 @@ For each input time series, `changes(v range-vector)` returns the number of
 times its value has changed within the provided time range as an instant
 vector.
 
+## `clamp_max()`
+
+`clamp_max(v instant-vector, max scalar)` clamps the sample values of all
+elements in `v` to have an upper limit of `max`.
+
+## `clamp_min()`
+
+`clamp_min(v instant-vector, min scalar)` clamps the sample values of all
+elements in `v` to have a lower limit of `min`.
+
 ## `count_scalar()`
 
 `count_scalar(v instant-vector)` returns the number of elements in a time series

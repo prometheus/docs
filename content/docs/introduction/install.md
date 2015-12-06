@@ -85,3 +85,21 @@ docker run -p 9090:9090 my-prometheus
 
 A more advanced option is to render the config dynamically on start
 with some tooling or even have a daemon update it periodically.
+
+## Using configuration management systems
+
+If you prefer using configuration management systems you might be interested in
+the following third-party contributions:
+
+Ansible:
+
+* [griggheo/ansible-prometheus](https://github.com/griggheo/ansible-prometheus)
+* [William-Yeh/ansible-prometheus](https://github.com/William-Yeh/ansible-prometheus)
+
+Chef:
+
+* [rayrod2030/chef-prometheus](https://github.com/rayrod2030/chef-prometheus)
+
+SaltStack:
+
+* [bechtoldt/saltstack-prometheus-formula](https://github.com/bechtoldt/saltstack-prometheus-formula)

@@ -483,7 +483,7 @@ The JSON file must contain a list of target groups, using this format:
   {
     "targets": [ "<host>", ... ],
     "labels": {
-      [ "<labelname>": "<labelvalue>", ... ]
+      "<labelname>": "<labelvalue>", ...
     }
   },
   ...

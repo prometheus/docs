@@ -22,7 +22,7 @@ Unofficial third-party client libraries:
 
 * [Bash](https://github.com/aecolley/client_bash)
 * [Haskell](https://github.com/fimad/prometheus-haskell)
-* [Node.js](https://github.com/StreamMachine/prometheus_client_nodejs)
+* [Node.js](https://github.com/siimon/prom-client)
 * [.NET / C#](https://github.com/andrasm/prometheus-net)
 
 When Prometheus scrapes your instance's HTTP endpoint, the client library

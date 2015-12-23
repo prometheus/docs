@@ -1,6 +1,6 @@
 ---
 title: Alerting rules
-sort_rank: 3
+sort_rank: 4
 ---
 
 # Alerting rules
@@ -40,7 +40,7 @@ can be templated.
 
 #### Templating
 
-Label and annotation values can be templated using Go's template language.
+Label and annotation values can be templated using [console templates](../visualization/consoles).
 The `$labels` variable holds the label key/value pairs of an alert instance
 and `$value` holds the evaluated value of an alert instance.
 
@@ -53,7 +53,7 @@ Examples:
 
     # Alert for any instance that is unreachable for >5 minutes.
     ALERT InstanceDown
-      IF up == 0 
+      IF up == 0
       FOR 5m
       LABELS { severity = "page" }
       ANNOTATIONS {

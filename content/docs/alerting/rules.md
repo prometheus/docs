@@ -1,6 +1,6 @@
 ---
 title: Alerting rules
-sort_rank: 3
+sort_rank: 4
 ---
 
 # Alerting rules
@@ -38,9 +38,26 @@ identifying for an alert instance. They are used to store longer additional
 information such as alert descriptions or runbook links. The annotation values
 can be templated.
 
+#### v0.16.2 and earlier
+
+In previous Prometheus versions the rule syntax is as follows:
+
+    ALERT <alert name>
+      IF <expression>
+      [FOR <duration>]
+      [WITH <label set>]
+      [ANNOTATIONS <label set>]
+
+Annotations are not free form but fixed to a summary, a description, and a
+runbook field. Labels are attached using the `WITH` rather than the `LABELS`
+clause.
+
+Label values in the `WITH` clause cannot be templated.
+
+
 #### Templating
 
-Label and annotation values can be templated using Go's template language.
+Label and annotation values can be templated using [console templates](../visualization/consoles).
 The `$labels` variable holds the label key/value pairs of an alert instance
 and `$value` holds the evaluated value of an alert instance.
 
@@ -53,7 +70,7 @@ Examples:
 
     # Alert for any instance that is unreachable for >5 minutes.
     ALERT InstanceDown
-      IF up == 0 
+      IF up == 0
       FOR 5m
       LABELS { severity = "page" }
       ANNOTATIONS {

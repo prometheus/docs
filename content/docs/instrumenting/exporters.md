@@ -71,6 +71,7 @@ separate exporters are needed:
    * [Kubernetes-Mesos](https://github.com/mesosphere/kubernetes-mesos)
    * [Kubernetes](https://github.com/GoogleCloudPlatform/kubernetes)
    * [RobustIRC](http://robustirc.net/)
+   * [SkyDNS](https://github.com/skynetservices/skydns)
 
 ## Other third-party utilities
 

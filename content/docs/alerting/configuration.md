@@ -59,8 +59,8 @@ global:
   # The API URL to use for Slack notifications.
   [ slack_api_url: <string> ]
 
-  [ pagerduty_url: <string> | "https://events.pagerduty.com/generic/2010-04-15/create_event.json" ]
-  [ opsgenie_api_host: <string> | "https://api.opsgenie.com/" ]
+  [ pagerduty_url: <string> | default = "https://events.pagerduty.com/generic/2010-04-15/create_event.json" ]
+  [ opsgenie_api_host: <string> | default = "https://api.opsgenie.com/" ]
 
 # Files from which custom notification template definitions are read.
 # The last component may use a wildcard matcher, e.g. 'templates/*.tmpl'.
@@ -70,13 +70,13 @@ templates:
 # The root node of the routing tree.
 route: <route>
 
-# A list of inhibition rules.
-inhibit_rules:
-  [ - <inhibit_rule> ... ]
-
 # A list of notification receivers.
 receivers:
   - <receiver> ...
+
+# A list of inhibition rules.
+inhibit_rules:
+  [ - <inhibit_rule> ... ]
 ```
 
 
@@ -99,12 +99,8 @@ current node.
 [ receiver: <string> ]
 [ group_by: '[' <labelname>, ... ']' ]
 
-# Zero or more child routes.
-routes:
-  [ - <route> ... ]
-
 # Whether an alert should continue matching subsequent sibling nodes.
-[ continue: <boolean> | default = true ]
+[ continue: <boolean> | default = false ]
 
 # A set of equality matchers an alert has to fulfill to match the node.
 match:
@@ -127,6 +123,10 @@ match_re:
 # How long to wait before sending a notification again if it has already
 # been sent successfully for an alert. (Usually ~3h or more).
 [ repeat_interval: <duration> ]
+
+# Zero or more child routes.
+routes:
+  [ - <route> ... ]
 ```
 
 ### Example
@@ -191,6 +191,10 @@ source_match_re:
 
 Receiver is a named configuration of one or more notification integrations.
 
+__Other receiver implementations available in version 0.0.4 of Alertmanager
+are not implemented yet. We are gladly accepting any contributions to add them
+to the new implementation.__
+
 ```
 # The unique name of the receiver.
 name: <string>
@@ -202,8 +206,142 @@ pagerduty_configs:
   [ - <pagerduty_config>, ... ]
 slack_config:
   [ - <slack_config>, ... ]
-webhook_configs:
-  [ - <webhook_config>, ... ]
 opsgenie_configs:
   [ - <opsgenie_config>, ... ]
+webhook_configs:
+  [ - <webhook_config>, ... ]
+```
+
+
+## Email receiver `<email_config>`
+
+```
+# Whether or not to notify about resolved alerts.
+[ send_resolved: <boolean> | default = false ]
+
+# The email address to send notifications to.
+to: <string>
+# The sender address.
+[ from: <email> | default = global.smtp_from ]
+# The SMTP host through which emails are sent.
+[ smarthost: <string> | default = global.smtp_smarthost ]
+
+# The HTML body of the email notification.
+[ html: <tmpl_string> | default = '{{ template "email.default.html" . }}' ] 
+
+# Further headers email header key/value pairs. Overrides any headers
+# previously set by the notification implementation.
+[ headers: { <string>: <tmpl_string>, ... } ]
+```
+
+## PagerDuty receiver `<pagerduty_config>`
+
+PagerDuty notifications are sent via the [PagerDuty API](https://developer.pagerduty.com/documentation/integration/events).
+
+```
+# Whether or not to notify about resolved alerts.
+[ send_resolved: <boolean> | default = true ]
+
+# The PagerDuty service key.
+service_key: <tmpl_string>
+# The URL to send API requests to
+[ url: <string> | default = global.pagerduty_url ]
+
+# The client identification of the Alertmanager.
+[ client:  <tmpl_string> | default = '{{ template "pagerduty.default.client" . }}' ]
+# A backlink to the sender of the notification.
+[ client_url:  <tmpl_string> | default = '{{ template "pagerduty.default.clientURL" . }}' ]
+
+# A description of the incident.
+[ description: <tmpl_string> | default = '{{ template "pagerduty.default.description" .}}' ]
+
+# A set of arbitrary key/value pairs that provide further detail
+# about the incident.
+[ details: { <string>: <tmpl_string>, ... } | default = {
+  firing:       '{{ template "pagerduty.default.instances" .Alerts.Firing }}'
+  resolved:     '{{ template "pagerduty.default.instances" .Alerts.Resolved }}'
+  num_firing:   '{{ .Alerts.Firing | len }}'
+  num_resolved: '{{ .Alerts.Resolved | len }}'
+} ]
+```
+
+
+## Slack receiver `<slack_config>`
+
+Slack notifications are sent via [Slack webhooks](https://api.slack.com/incoming-webhooks).
+
+```
+# Whether or not to notify about resolved alerts.
+[ send_resolved: <boolean> | default = true ]
+
+# The Slack webhook URL.
+[ api_url: <string> | default = global.slack_api_url ]
+
+# The channel or user to send notifications to.
+channel: <tmpl_string>
+
+# API request data as defined by the Slack webhook API.
+[ color: <tmpl_string> | default = '{{ if eq .Status "firing" }}danger{{ else }}good{{ end }}' ]
+[ username: <tmpl_string> | default = '{{ template "slack.default.username" . }}'
+[ title: <tmpl_string> | default = '{{ template "slack.default.title" . }}' ]
+[ title_link: <tmpl_string> | default = '{{ template "slack.default.titlelink" . }}' ]
+[ pretext: <tmpl_string> | default = '{{ template "slack.default.pretext" . }}' ]
+[ text: <tmpl_string> | default = '{{ template "slack.default.text" . }}' ]
+[ fallback: <tmpl_string> | default = '{{ template "slack.default.fallback" . }}' ]
+```
+
+
+## OpsGenie receiver `<opsgenie_config>`
+
+OpsGenie notifications are sent via the [OpsGenie API](https://www.opsgenie.com/docs/web-api/alert-api).
+
+```
+# Whether or not to notify about resolved alerts.
+[ send_resolved: <boolean> | default = true ]
+
+# The API key to use when talking to the OpsGenie API.
+api_key: <string>
+
+# The host to send OpsGenie API requests to.
+[ api_host: <string> | default = global.opsgenie_api_host ]
+
+# A description of the incident.
+[ description: <tmpl_string> | default = '{{ template "opsgenie.default.description" . }}' ]
+# A backlink to the sender of the notification.
+[ source: <tmpl_string> | default = '{{ template "opsgenie.default.source" . }}' ]
+
+# A set of arbitrary key/value pairs that provide further detail
+# about the incident.
+[ details: { <string>: <tmpl_string>, ... } ]
+```
+
+
+## Webhook receiver `<webhook config>`
+
+The webhook receiver allows configuring a generic receiver. The Alertmanager
+will send HTTP POST requests in the following JSON format to the configured
+endpoint:
+
+```
+{
+  "version": "2",
+  "status": "<resolved|firing>",
+  "alerts": [
+    {
+      "labels": <object>,
+      "annotations": <object>,
+      "startsAt": "<rfc3339>",
+      "endsAt": "<rfc3339>"
+    },
+    ...
+  ]
+}
+```
+
+```
+# Whether or not to notify about resolved alerts.
+[ send_resolved: <boolean> | default = true ]
+
+# The endpoint to send HTTP POST requests to.
+url: <string>
 ```

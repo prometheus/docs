@@ -30,7 +30,12 @@ depends on the `honor_labels` configuration option. See the
 [scrape configuration documentation](/docs/operating/configuration/#scrape-configurations-scrape_config)
 for more information.
 
-For each instance scrape, Prometheus stores a sample of the form
-`up{job="<job-name>", instance="<instance-id>"}` with a value of `1` if the
-instance was scraped successfully or a value of `0` if the scrape failed. This
-time series is useful for instance availability monitoring.
+For each instance scrape, Prometheus stores a sample in the following
+time series:
+
+* `up{job="<job-name>", instance="<instance-id>"}`: `1` if the instance is
+   healthy, i.e. reachable, or `0` if the scrape failed.
+* `scrape_duration_seconds{job="<job-name>", instance="<instance-id>"}`:
+   duration of the scrape.
+
+The `up` time series is useful for instance availability monitoring.

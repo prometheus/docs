@@ -46,12 +46,15 @@ For each input time series, `changes(v range-vector)` returns the number of
 times its value has changed within the provided time range as an instant
 vector.
 
+## `count()`
+
+`count(v instant-vector)` returns a vector and allows grouping by labels via a
+`by` clause. Returns an empty vector if the input vector is empty.
+
 ## `count_scalar()`
 
 `count_scalar(v instant-vector)` returns the number of elements in a time series
-vector as a scalar. This is in contrast to the `count()` aggregation operator,
-which always returns a vector (an empty one if the input vector is empty) and
-allows grouping by labels via a `by` clause.
+vector as a scalar.
 
 ## `delta()`
 

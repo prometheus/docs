@@ -49,9 +49,10 @@ vector.
 ## `count_scalar()`
 
 `count_scalar(v instant-vector)` returns the number of elements in a time series
-vector as a scalar. This is in contrast to the `count()` aggregation operator,
-which always returns a vector (an empty one if the input vector is empty) and
-allows grouping by labels via a `by` clause.
+vector as a scalar. This is in contrast to the `count()`
+[aggregation operator](/docs/querying/operators/#aggregation-operators), which
+always returns a vector (an empty one if the input vector is empty) and allows
+grouping by labels via a `by` clause.
 
 ## `delta()`
 
@@ -179,7 +180,8 @@ Use `rate` for alerts and slow-moving counters, as brief changes
 in the rate can reset the `FOR` clause and graphs consisting entirely of rare
 spikes are hard to read.
 
-Note that when combining `irate()` with an aggregation operator (e.g. `sum()`)
+Note that when combining `irate()` with an
+[aggregation operator](/docs/querying/operators/#aggregation-operators) (e.g. `sum()`)
 or a function aggregating over time (any function ending in `_over_time`),
 always take a `irate()` first, then aggregate. Otherwise `irate()` cannot detect
 counter resets when your target restarts.

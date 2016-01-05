@@ -207,13 +207,13 @@ applications, we could simply write:
 ## Binary operator precedence
 
 The following list shows the precedence of binary operators in Prometheus, from
-lowest to highest.
+highest to lowest.
 
-1. `OR`
-2. `AND`
+1. `*`, `/`, `%`
+2. `+`, `-`
 3. `==`, `!=`, `<=`, `<`, `>=`, `>`
-4. `+`, `-`
-5. `*`, `/`, `%`
+4. `AND`
+5. `OR`
 
 Operators on the same precedence level are left-associative. For example,
 `2 * 3 % 2` is equivalent to `(2 * 3) % 2`.

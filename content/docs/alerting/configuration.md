@@ -59,6 +59,12 @@ global:
   # The API URL to use for Slack notifications.
   [ slack_api_url: <string> ]
 
+  # The API URL to use self-hosted Hipchat Server.
+  [ hipchat_url: <string> | default = "https://api.hipchat.com/" ]
+
+  # The Auth Token for Hipchat notifications.
+  [ hipchat_auth_token: <string> ]
+
   [ pagerduty_url: <string> | default = "https://events.pagerduty.com/generic/2010-04-15/create_event.json" ]
   [ opsgenie_api_host: <string> | default = "https://api.opsgenie.com/" ]
 
@@ -206,6 +212,8 @@ pagerduty_configs:
   [ - <pagerduty_config>, ... ]
 slack_config:
   [ - <slack_config>, ... ]
+hipchat_configs:
+  [ - <hipchat_config>, ... ]
 opsgenie_configs:
   [ - <opsgenie_config>, ... ]
 webhook_configs:
@@ -288,6 +296,32 @@ channel: <tmpl_string>
 [ pretext: <tmpl_string> | default = '{{ template "slack.default.pretext" . }}' ]
 [ text: <tmpl_string> | default = '{{ template "slack.default.text" . }}' ]
 [ fallback: <tmpl_string> | default = '{{ template "slack.default.fallback" . }}' ]
+```
+
+
+## Hipchat receiver `<hipchat_config>`
+
+Hipchat notifications are sent via [Hipchat Room Notification API](https://www.hipchat.com/docs/apiv2/method/send_room_notification).
+
+```
+# Whether or not to notify about resolved alerts.
+[ send_resolved: <boolean> | default = false ]
+
+# The Hipchat URL.
+[ api_url: <string> | default = global.hipchat_url ]
+
+# The Auth Token from Hipchat.
+[ auth_token: <string> | default = global.hipchat_auth_token ]
+
+# Room ID.
+room_id: <string>
+
+# API request data as defined by the Hipchat API.
+[ from: <string> | default = '{{ template "hipchat.default.from" . }}' ]
+[ notify: <bool> | default = false ]
+[ message: <string> | default = '{{ template "hipchat.default.message" . }}' ]
+[ message_format: <string> | default = 'text' ]
+[ color: <string> | default = '{{ if eq .Status "firing" }}danger{{ else }}good{{ end }}' ]
 ```
 
 

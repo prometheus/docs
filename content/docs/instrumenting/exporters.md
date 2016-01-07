@@ -41,6 +41,7 @@ hosted outside of the Prometheus GitHub organization.
 
    * [Apache exporter](https://github.com/neezgee/apache_exporter)
    * [BIND exporter](https://github.com/digitalocean/bind_exporter)
+   * [Ceph exporter](https://github.com/digitalocean/ceph_exporter)
    * [CouchDB exporter](https://github.com/gesellix/couchdb-exporter)
    * [Django exporter](https://github.com/korfuri/django-prometheus)
    * [Google's mtail log data extractor](https://github.com/google/mtail)

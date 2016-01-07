@@ -31,7 +31,7 @@ no need to page.
 For error rates, page on user-visible errors. If there are errors further down
 the stack that will cause such a failure, there is no need to page on them
 separately. However, if some failures are not user-visible, but are otherwise
-severe enough to require human involvment (for example, you are losing a lot of
+severe enough to require human involvement (for example, you are losing a lot of
 money), add pages to be sent on those.
 
 You may need alerts for different types of request if they have different

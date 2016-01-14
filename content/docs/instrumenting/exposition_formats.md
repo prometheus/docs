@@ -48,6 +48,16 @@ Prometheus).
 | **Supported metric primitives** | <ul><li>Counter</li><li>Gauge</li><li>Histogram</li><li>Summary</li><li>Untyped</li></ul> | <ul><li>Counter</li><li>Gauge</li><li>Histogram</li><li>Summary</li><li>Untyped</li></ul> |
 | **Compatibility** | Version `0.0.3` protocol buffers are also valid version `0.0.4` protocol buffers. | none |
 
+### Protocol buffer format details
+
+Reproducible sorting of the protocol buffer fields in repeated expositions is
+preferred but not required, i.e. do not sort if the computational cost is
+prohibitive.
+
+Each `MetricFamily` within the same exposition must have a unique name. Each
+`Metric` within the same `MetricFamily` must have a unique set of `LabelPair`
+fields. Otherwise, the ingestion behavior is undefined.
+
 ### Text format details
 
 The protocol is line-oriented. A line-feed character (`\n`) separates lines.
@@ -83,7 +93,12 @@ syntax (EBNF):
 `value` is a float, and timestamp an `int64` (milliseconds since epoch, i.e. 1970-01-01 00:00:00 UTC, excluding leap seconds), represented as required by the [Go strconv package](http://golang.org/pkg/strconv/) (see functions `ParseInt` and `ParseFloat`). In particular, `Nan`, `+Inf`, and `-Inf` are valid values.
 
 All lines for a given metric must be provided as one uninterrupted group, with
-the optional `HELP` and `TYPE` lines first.
+the optional `HELP` and `TYPE` lines first (in no particular order). Beyond
+that, reproducible sorting in repeated expositions is preferred but not
+required, i.e. do not sort if the computational cost is prohibitive.
+
+Each line must have a unique combination of metric name and labels. Otherwise,
+the ingestion behavior is undefined.
 
 The `histogram` and `summary` types are difficult to represent in the text
 format. The following conventions apply:

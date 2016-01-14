@@ -53,5 +53,5 @@ with Prometheus.
 
 ### Python
 
-* [Monitoring your Python with Prometheus](http://www.slideshare.net/brianbrazil/python-ireland-monitoring-your-python-with-prometheus) – Brian Brazil at Python Ireland Meetup, Dublin.
 * [Better Monitoring for Python](http://www.slideshare.net/brianbrazil/better-monitoring-for-python-inclusive-monitoring-with-prometheus-pycon-ireland-lightning-talk) – Brian Brazil at Pycon Ireland.
+* [Monitoring your Python with Prometheus](http://www.slideshare.net/brianbrazil/python-ireland-monitoring-your-python-with-prometheus) – Brian Brazil at Python Ireland Meetup, Dublin.

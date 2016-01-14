@@ -104,12 +104,15 @@ https://github.com/influxdb/influxdb/issues/582).
 
 Still, InfluxDB is better geared towards the following use cases:
 
-   * storing all **individual** events, not just time series of values
-      * e.g. storing every HTTP request with full metadata *vs.* storing the cumulative count of HTTP requests for certain dimensions
-   * storing time series with completely unbounded dimensionality
-      * e.g. storing user IDs or email addresses in the key-value metadata *vs.*
-        storing bounded dimensionality like the HTTP method, HTTP handler and
-        instance ID
+   * Storing all **individual** events, not just time series of values.
+      * E.g. storing every HTTP request with full metadata *vs.* storing the
+        cumulative count of HTTP requests for certain dimensions.
+	  * [Logs and Metrics and Graphs, Oh My!](https://blog.raintank.io/logs-and-metrics-and-graphs-oh-my/)
+        describes the difference between event logging and metrics recording.
+   * Storing time series with completely unbounded dimensionality.
+      * E.g. storing user IDs or email addresses in the key-value metadata
+        *vs.* storing bounded dimensionality like the HTTP method, HTTP handler
+        and instance ID.
 
 There are other storage features, such as downsampling, which InfluxDB supports
 and Prometheus does not yet.

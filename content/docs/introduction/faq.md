@@ -26,6 +26,12 @@ Identical alerts will be deduplicated by the [Alertmanager](https://github.com/p
 
 The Alertmanager cannot currently be made highly available, but this is a goal.
 
+### I was told Prometheus “doesn't scale”.
+
+There are in fact various ways to scale and federate
+Prometheus. Read [Scaling and Federating Prometheus](http://www.robustperception.io/scaling-and-federating-prometheus/)
+on the Robust Perception blog to get started.
+
 ### What language is Prometheus written in?
 
 Most Prometheus components are written in Go. Some are also written in Java and Ruby.
@@ -56,6 +62,18 @@ The [Push vs Pull for Monitoring](http://www.boxever.com/push-vs-pull-for-monito
 blog post by Brian Brazil goes into more detail.
 
 For cases where you must push, we offer the [Pushgateway](/docs/instrumenting/pushing/).
+
+### How to feed logs into Prometheus?
+
+Short answer: Don't! Use something like the ELK stack instead.
+
+Longer answer: Prometheus is system to collect and process metrics, not an
+event logging system. The Raintank blog post
+[Logs and Metrics and Graphs, Oh My!](https://blog.raintank.io/logs-and-metrics-and-graphs-oh-my/)
+provides more details about the differences between logs and metrics.
+
+If you want to extract Prometheus metrics from application logs, Google's
+[mtail](https://github.com/google/mtail) might be helpful.
 
 ### Who wrote Prometheus?
 

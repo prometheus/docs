@@ -47,6 +47,7 @@ hosted outside of the Prometheus GitHub organization.
    * [Google's mtail log data extractor](https://github.com/google/mtail)
    * [Heka exporter](https://github.com/docker-infra/heka_exporter)
    * [HTTP(s)/TCP/ICMP blackbox prober](https://github.com/discordianfish/blackbox_prober)
+   * [Jenkins exporter](https://github.com/RobustPerception/python_examples/tree/master/jenkins_exporter)
    * [Memcached exporter](https://github.com/Snapbug/memcache_exporter)
    * [Meteor JS web framework exporter](https://atmospherejs.com/sevki/prometheus-exporter)
    * [Minecraft exporter module](https://github.com/Baughn/PrometheusIntegration)

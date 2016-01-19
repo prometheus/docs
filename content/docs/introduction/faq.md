@@ -11,7 +11,7 @@ sort_rank: 5
 Prometheus is an open-source systems monitoring and alerting toolkit
 with an active ecosystem. See the [overview](/docs/introduction/overview/).
 
-### How does Prometheus compare against \[other monitoring system\]?
+### How does Prometheus compare against \[other monitoring systems\]?
 
 See the [comparison](/docs/introduction/comparison/) page.
 
@@ -67,7 +67,7 @@ For cases where you must push, we offer the [Pushgateway](/docs/instrumenting/pu
 
 Short answer: Don't! Use something like the ELK stack instead.
 
-Longer answer: Prometheus is system to collect and process metrics, not an
+Longer answer: Prometheus is a system to collect and process metrics, not an
 event logging system. The Raintank blog post
 [Logs and Metrics and Graphs, Oh My!](https://blog.raintank.io/logs-and-metrics-and-graphs-oh-my/)
 provides more details about the differences between logs and metrics.

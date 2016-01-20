@@ -72,7 +72,7 @@ scrape_configs:
 ```
 
 
-### Scrape configurations `<scrape_config>`
+### `<scrape_config>`
 
 A `scrape_config` section specifies a set of targets and parameters describing how
 to scrape them. In the general case, one scrape configuration specifies a single
@@ -195,7 +195,7 @@ Where `<scheme>` may be `http` or `https` and `<path>` is a valid URL path.
 regex `[a-zA-Z_][a-zA-Z0-9_-]`.
 
 
-### TLS configuration `<tls_config>`
+### `<tls_config>`
 
 A `tls_config` allows configuring TLS connections.
 
@@ -212,7 +212,7 @@ A `tls_config` allows configuring TLS connections.
 ```
 
 
-### Target groups `<target_group>`
+### `<target_group>`
 
 A `target_group` allows specifying a list of targets and a common label set for them.
 They are the canonical way to specify static targets in a scrape configuration.
@@ -231,7 +231,7 @@ Where `<host>` is a valid string consisting of a hostname or IP followed by a po
 number.
 
 
-### DNS-SD configurations `<dns_sd_config>`
+### `<dns_sd_config>`
 
 A DNS-SD configuration allows specifying a set of DNS record names which
 are periodically queried to discover a list of targets (host-port pairs). The
@@ -259,7 +259,7 @@ names:
 Where `<record_name>` is any DNS SRV record name.
 Where `<query_type>` is `SRV`, `A`, or `AAAA`.
 
-### Consul SD configurations `<consul_sd_config>`
+### `<consul_sd_config>`
 
 Consul SD configurations allow retrieving scrape targets from [Consul's](https://www.consul.io)
 Catalog API.
@@ -300,7 +300,7 @@ Consul setups, the relevant address is in `__meta_consul_service_address`.
 In those cases, you can use the [relabel](#target-relabeling-relabel_config)
 feature to replace the special `__address__` label.
 
-### Kubernetes SD configurations `<kubernetes_sd_config>`
+### `<kubernetes_sd_config>`
 
 CAUTION: Kubernetes SD is in beta: breaking changes to configuration are still
 likely in future releases.
@@ -363,7 +363,7 @@ tls_config:
 [ retry_interval: <duration> | default = 1s ]
 ```
 
-### Marathon SD configurations `<marathon_sd_configs>`
+### `<marathon_sd_configs>`
 
 CAUTION: Marathon SD is in beta: breaking changes to configuration are still
 likely in future releases.
@@ -399,7 +399,7 @@ Prometheus relabeling to control which instances will actually be scraped. Also
 by default all apps will show up as a single job in Prometheus (the one specified
 in the configuration file), which can also be changed using relabeling.
 
-### Zookeeper Serverset SD configurations `<serverset_sd_config>`
+### `<serverset_sd_config>`
 
 Serverset SD configurations allow retrieving scrape targets from [Serversets]
 (https://github.com/twitter/finagle/tree/master/finagle-serversets) which are
@@ -429,7 +429,7 @@ paths:
 
 Serverset data must be in the JSON format, the Thrift format is not currently supported.
 
-### EC2 SD configurations `<ec2_sd_config>`
+### `<ec2_sd_config>`
 
 CAUTION: EC2 SD is in beta: breaking changes to configuration are still
 likely in future releases.
@@ -466,7 +466,7 @@ region: <string>
 [ port: <int> | default = 80 ]
 ```
 
-### File-based SD configurations `<file_sd_config>`
+### `<file_sd_config>`
 
 File-based service discovery provides a more generic way to configure static targets
 and serves as an interface to plug in custom service discovery mechanisms.
@@ -510,7 +510,7 @@ Where `<filename_pattern>` may be a path ending in `.json`, `.yml` or `.yaml`. T
 may contain a single `*` that matches any character sequence, e.g. `my/path/tg_*.json`.
 
 
-### Target relabeling `<relabel_config>`
+### `<relabel_config>`
 
 Relabeling is a powerful tool to dynamically rewrite the label set of a target before
 it gets scraped. Multiple relabeling steps can be configured per scrape configuration.
@@ -578,7 +578,7 @@ the `replace`, `keep`, `drop` and `labelmap` actions. The regex is fully anchore
    to label names given by `replacement` with match group references
   (`${1}`, `${2}`, ...) in `replacement` substituted by their value.
 
-### Metric relabeling `<metric_relabel_configs>`
+### `<metric_relabel_configs>`
 
 Metric relabeling is applied to samples as the last step before ingestion. It
 has the same configuration format and actions as target relabeling. Metric

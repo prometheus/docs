@@ -2,7 +2,7 @@ def nav_title_of(i)
   i[:nav_title] || i[:title] || ''
 end
 
-def toc(root_item, focused_item, buffer='', layer=0)
+def nav(root_item, focused_item, buffer='', layer=0)
   # Skip non-written or hidden items
   return buffer if root_item.nil? || root_item.path.nil? || root_item[:is_hidden]
 
@@ -30,7 +30,7 @@ def toc(root_item, focused_item, buffer='', layer=0)
     buffer << '<ul class="nav">'
 
     visible_children.each do |child|
-      toc(child, focused_item, buffer, layer + 1)
+      nav(child, focused_item, buffer, layer + 1)
     end
 
     buffer << '</ul>'

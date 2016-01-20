@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'nanoc'
+gem 'nanoc', '~> 4.0'
 gem 'adsf'
 gem 'kramdown'
 gem 'guard-nanoc'

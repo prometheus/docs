@@ -8,7 +8,7 @@ GEM
       timers (~> 4.0.0)
     coderay (1.1.0)
     colored (1.2)
-    cri (2.6.1)
+    cri (2.7.0)
       colored (~> 1.2)
     em-websocket (0.5.1)
       eventmachine (>= 0.12.9)
@@ -40,7 +40,7 @@ GEM
     method_source (0.8.2)
     mini_portile (0.6.0)
     multi_json (1.11.2)
-    nanoc (3.7.3)
+    nanoc (4.0.0)
       cri (~> 2.3)
     nokogiri (1.6.3.1)
       mini_portile (= 0.6.0)
@@ -74,10 +74,13 @@ DEPENDENCIES
   guard-livereload
   guard-nanoc
   kramdown
-  nanoc
+  nanoc (~> 4.0)
   nokogiri
   pygments.rb
   rb-fchange
   rb-fsevent
   rb-inotify
   redcarpet
+
+BUNDLED WITH
+   1.10.6

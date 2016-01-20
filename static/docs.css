@@ -224,8 +224,9 @@ a.sc-logo img {
 
 pre {
   font-family: "Courier New", Monaco, Menlo, Consolas, monospace;
-  background-color: #444;
-  color: #f8f8f2;
+  background-color: #f9f2f4;
+  border: 1px solid #e6522c;
+  color: #333;
 }
 
 code {

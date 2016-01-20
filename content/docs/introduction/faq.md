@@ -1,6 +1,7 @@
 ---
 title: FAQ
 sort_rank: 5
+toc: full-width
 ---
 
 # Frequently Asked Questions

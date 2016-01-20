@@ -201,6 +201,27 @@ a.sc-logo img {
   display: block;
 }
 
+.toc {
+  padding: 1em;
+  background-color: #eee;
+}
+
+.toc-right {
+  float: right;
+  width: 40%;
+  margin: 0 0 0.5em 0.5em;
+}
+
+.toc ul {
+  padding: 0 0 0 1.5em;
+  margin: 0;
+}
+
+.toc a code {
+  color: #337ab7;
+  background-color: transparent;
+}
+
 pre {
   font-family: "Courier New", Monaco, Menlo, Consolas, monospace;
   background-color: #444;

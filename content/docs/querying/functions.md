@@ -11,7 +11,7 @@ sort_rank: 3
 `abs(v vector)` returns the input vector with all sample values converted to
 their absolute value.
 
-## `absent(v vector)`
+## `absent()`
 
 `absent(v vector)` returns an empty vector if the vector passed to it has any
 elements and a 1-element vector with the value 1 if the vector passed to it has
@@ -20,11 +20,16 @@ no elements.
 In the second case, `absent()` tries to be smart about deriving labels of
 the 1-element output vector from the input vector:
 
-| Expression                                       | Result
-|--------------------------------------------------|--------
-| absent(nonexistent{job="myjob"})                 | {job="myjob"}
-| absent(nonexistent{job="myjob",instance=~".*"})  | {job="myjob"}
-| absent(sum(nonexistent{job="myjob"}))            | {}
+```
+absent(nonexistent{job="myjob"})
+# => {job="myjob"}
+
+absent(nonexistent{job="myjob",instance=~".*"})
+# => {job="myjob"}
+
+absent(sum(nonexistent{job="myjob"}))
+# => {}
+```
 
 This is useful for alerting on when no time series
 exist for a given metric name and label combination.
@@ -301,7 +306,7 @@ sample value.
 
 `vector(s scalar)` returns the scalar `s` as a vector with no labels.
 
-## `<aggregation>_over_time()`: Aggregating values over time:
+## `<aggregation>_over_time()`
 
 The following functions allow aggregating each series of a given range vector
 over time and return an instant vector with per-series aggregation results:

@@ -12,7 +12,7 @@ toc: full-width
 Prometheus is an open-source systems monitoring and alerting toolkit
 with an active ecosystem. See the [overview](/docs/introduction/overview/).
 
-### How does Prometheus compare against \[other monitoring systems\]?
+### How does Prometheus compare against other monitoring systems?
 
 See the [comparison](/docs/introduction/comparison/) page.
 

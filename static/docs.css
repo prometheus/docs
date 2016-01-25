@@ -247,5 +247,6 @@ article {
 .logos {
   display: flex;
   align-items: center;
-  height: 128px;
+  justify-content: center;
+  height: 64px;
 }

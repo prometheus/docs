@@ -265,3 +265,9 @@ article {
 .read-more > a {
   color: #888;
 }
+
+.logos {
+  display: flex;
+  align-items: center;
+  height: 128px;
+}

@@ -64,11 +64,20 @@ number of series is a good first approximation. But keep the
 implication for memory usage (see above) in mind.
 
 Even more important is raising the value for the
-`storage.local.max-chunks-to-persist` flag at the same time. As a rule
-of thumb, keep it somewhere between 50% and 100% of the
-`storage.local.memory-chunks` value. The main drawback of a high value
-is larger checkpoints. The consequences of a value too low are much
-more serious.
+`storage.local.max-chunks-to-persist` flag at the same time. As a rule of
+thumb, keep it around 50% of the `storage.local.memory-chunks` value. The main
+drawback of a high value is larger checkpoints. The consequences of a value too
+low are much more serious, as the sample ingestion will simply stop once the
+value is reached. The more chunks you can keep in memory per time series, the
+more write operations can be batched, which is especially important for
+spinning disks. Note that each active time series will have an incomplete head
+chunk, which cannot be persisted yet. It is a chunk in memory, but not a “chunk
+to persist” yet. If you have 1M active time series, you need 3M
+`storage.local.memory-chunks` to have three chunks for each series
+available. Only 2M of those can be persistable, so setting
+`storage.local.max-chunks-to-persist` to more than 2M can easily lead to more
+than 3M chunks in memory, despite the setting for
+`storage.local.memory-chunks`.
 
 Out of the metrics that Prometheus exposes about itself, the following are
 particularly useful for tuning the flags above:

@@ -12,7 +12,7 @@ is a great opportunity for us to look back and share some of the wonderful
 things that have happened to the project since then. But first, let's start at
 the beginning.
 
-Although we already started Prometheus as an open-source project on GitHub in
+Although we had already started Prometheus as an open-source project on GitHub in
 2012, we didn't make noise about it at first. We wanted to give the project
 time to mature and be able to experiment without friction. Prometheus was
 gradually introduced for production monitoring at

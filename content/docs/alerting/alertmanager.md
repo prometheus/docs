@@ -54,7 +54,7 @@ Inhibitions are configured through the Alertmanager's configuration file.
 ## Silences
 
 Silences are a straightforward way to simply mute alerts for a given time.
-A silence is configured based on matchers, just as the routing tree. Incoming
+A silence is configured based on matchers, just like the routing tree. Incoming
 alerts are checked whether they match all the equality or regular expression
 matchers of an active silence.
 If they do, no notifications will be send out for that alert.

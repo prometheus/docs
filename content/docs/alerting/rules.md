@@ -20,9 +20,9 @@ Alerting rules are defined in the following syntax:
 
     ALERT <alert name>
       IF <expression>
-      [FOR <duration>]
-      [LABELS <label set>]
-      [ANNOTATIONS <label set>]
+      [ FOR <duration> ]
+      [ LABELS <label set> ]
+      [ ANNOTATIONS <label set> ]
 
 The optional `FOR` clause causes Prometheus to wait for a certain duration
 between first encountering a new expression output vector element (like an
@@ -38,15 +38,17 @@ identifying for an alert instance. They are used to store longer additional
 information such as alert descriptions or runbook links. The annotation values
 can be templated.
 
-#### v0.16.2 and earlier
+#### Prometheus v0.16.2 and earlier
 
 In previous Prometheus versions the rule syntax is as follows:
 
     ALERT <alert name>
       IF <expression>
-      [FOR <duration>]
-      [WITH <label set>]
-      [ANNOTATIONS <label set>]
+      [ FOR <duration> ]
+      [ WITH <label set> ]
+      SUMMARY <string>
+      DESCRIPTION <string>
+      [ RUNBOOK <string> ]
 
 Annotations are not free form but fixed to a summary, a description, and a
 runbook field. Labels are attached using the `WITH` rather than the `LABELS`

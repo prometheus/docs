@@ -32,6 +32,8 @@ this category.
 The key metrics in such a system are the number of performed queries, errors,
 and latency. The number of in-progress requests can also be useful.
 
+For counting failed queries, see section [Failures](#failures) below.
+
 Online-serving systems should be monitored on both the client and server side.
 If the two sides see different behaviors, that is very useful information for debugging.
 If a service has many clients, it is also not practical for the service to track them

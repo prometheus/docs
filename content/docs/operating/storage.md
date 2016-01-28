@@ -150,6 +150,22 @@ rushed mode, the following strategies are applied to speed up persisting chunks:
 
 Prometheus leaves rushed mode once the score has dropped below 0.7.
 
+## Settings for very long retention time
+
+If you have set a very long retention time via the `storage.local.retention`
+flag (more than a month), you might want to increase the flag value
+`storage.local.series-file-shrink-ratio`.
+
+Whenever Prometheus needs to cut off some chunks from the beginning of a series
+file, it will simply rewrite the whole file. (Some file systems support “head
+truncation”, which Prometheus currently does not use for several reasons.) To
+not rewrite a very large series file to get rid of very few chunks, the rewrite
+only happens if at least 10% of the chunks in the series file are removed. This
+value can be changed via the mentioned `storage.local.series-file-shrink-ratio`
+flag. If you have a lot of disk space but want to minimize rewrites (at the
+cost of wasted disk space), increase the flag value to higher values, e.g. 0.3
+for 30% of required chunk removal.
+
 ## Helpful metrics
 
 Out of the metrics that Prometheus exposes about itself, the following are

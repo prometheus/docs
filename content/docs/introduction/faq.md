@@ -234,8 +234,8 @@ you an idea, here are some results from benchmarks:
   170k time series, scraped from 600 targets.
 
 * On a modern server with 64GiB RAM and SSD, Prometheus sustained an
-  ingestion rate of 340k samples per second, belonging to 2M time
-  series, scraped from 1800 targets.
+  ingestion rate of 525k samples per second, belonging to ~1.5M time
+  series, scraped from ~1700 targets.
 
 In both cases, there were no obvious bottlenecks. Various stages of the
 processing pipelines reached their limits more or less at the same

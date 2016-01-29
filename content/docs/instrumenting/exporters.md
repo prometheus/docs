@@ -85,6 +85,7 @@ separate exporters are needed:
    * [Kubernetes](https://github.com/GoogleCloudPlatform/kubernetes)
    * [RobustIRC](http://robustirc.net/)
    * [SkyDNS](https://github.com/skynetservices/skydns)
+   * [Weave Flux](http://weaveworks.github.io/flux/)
 
 ## Other third-party utilities
 

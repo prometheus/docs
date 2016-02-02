@@ -59,7 +59,7 @@ Label values in the `WITH` clause cannot be templated.
 
 #### Templating
 
-Label and annotation values can be templated using [console templates](../visualization/consoles).
+Label and annotation values can be templated using [console templates](../../visualization/consoles).
 The `$labels` variable holds the label key/value pairs of an alert instance
 and `$value` holds the evaluated value of an alert instance.
 
@@ -85,7 +85,7 @@ Examples:
       IF api_http_request_latencies_second{quantile="0.5"} > 1
       FOR 1m
       ANNOTATIONS {
-        summary = "High request latency on {{ $labels.instance }}", 
+        summary = "High request latency on {{ $labels.instance }}",
         description = "{{ $labels.instance }} has a median request latency above 1s (current value: {{ $value }}s)",
       }
 

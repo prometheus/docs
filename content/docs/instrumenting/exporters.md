@@ -65,6 +65,7 @@ hosted outside of the Prometheus GitHub organization.
    * [Rsyslog exporter](https://github.com/digitalocean/rsyslog_exporter)
    * [scollector exporter](https://github.com/tgulacsi/prometheus_scollector)
    * [SMTP/Maildir MDA blackbox prober](https://github.com/cherti/mailexporter)
+   * [speedtest exporter](https://github.com/RichiH/speedtest_exporter)
    * [SQL query result set metrics exporter](https://github.com/chop-dbhi/prometheus-sql)
 
 When implementing a new Prometheus exporter, please follow the

@@ -56,6 +56,7 @@ hosted outside of the Prometheus GitHub organization.
    * [Munin exporter](https://github.com/pvdh/munin_exporter)
    * [New Relic exporter](https://github.com/jfindley/newrelic_exporter)
    * [NSQ exporter](https://github.com/lovoo/nsq_exporter)
+   * [OpenWeatherMap exporter](https://github.com/RichiH/openweathermap_exporter)
    * [PgBouncer exporter](http://git.cbaines.net/prometheus-pgbouncer-exporter/about)
    * [PostgreSQL exporter](https://github.com/wrouesnel/postgres_exporter)
    * [PowerDNS exporter](https://github.com/janeczku/powerdns_exporter)

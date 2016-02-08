@@ -1,6 +1,6 @@
 ---
 title: Grafana
-sort_rank: 7
+sort_rank: 2
 ---
 
 # Grafana support for Prometheus

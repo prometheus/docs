@@ -56,7 +56,7 @@ below.
 [![The DreamHack network core](https://c2.staticflickr.com/4/3951/18679671439_10ce7a8eb4_c.jpg)](https://www.flickr.com/photos/dreamhack/18679671439)
 <center>*The DreamHack network core*</center>
 
-[![Network planning map](http://i.imgur.com/ZCQa2Abl.png)](http://i.imgur.com/ZCQa2Ab.png)
+[![Network planning map](/assets/dh_network_planning_map.png)](/assets/dh_network_planning_map.png)
 <center>*The planning map for the distribution and core layers. The core is
 clearly visible in "Hall D"*</center>
 
@@ -96,7 +96,7 @@ snmpcollector (SNMP) and ipplan-pinger (ICMP), closely followed by dhcpinfo
 systems into [node_exporter](https://github.com/prometheus/node_exporter)'s
 textfile collector.
 
-[![dhmon Architecture](http://i.imgur.com/6gN3MRp.png)](http://i.imgur.com/6gN3MRp.png)
+[![dhmon Architecture](/assets/dh_dhmon_architecture.png)](/assets/dh_dhmon_architecture.png)
 <center>*The current architecture plan of dhmon as of Summer 2015*</center>
 
 We use Prometheus as a central timeseries storage and querying engine, but we
@@ -119,7 +119,7 @@ very short sampling intervals. In the end, we found no reason for why we can't
 use Prometheus for this data as well - we will definitely try to replace our
 memcached with Prometheus at the next DreamHack.
 
-[![dhmon Visualization](http://i.imgur.com/D5I0Ztbl.png)](http://i.imgur.com/D5I0Ztb.png)
+[![dhmon Visualization](/assets/dh_dhmon_visualization.png)](/assets/dh_dhmon_visualization.png)
 <center>*The overview of our access layer visualized by dhmon*</center>
 
 ## Prometheus setup
@@ -196,7 +196,7 @@ Let's also look at how an alert for an almost full DHCP scope looks like:
 We found the syntax to define alerts easy to read and understand even if you had
 no previous experience with Prometheus or time series databases.
 
-[![Prometheus alerts for DreamHack](http://i.imgur.com/RV5gM7Ol.png)](http://i.imgur.com/RV5gM7O.png)
+[![Prometheus alerts for DreamHack](/assets/dh_prometheus_alerts.png)](/assets/dh_prometheus_alerts.png)
 <center>*Oops! Turns out we have some bad uplinks, better run out and fix
 it!*</center>
 
@@ -208,7 +208,7 @@ Every time someone asked us something about the network, we crafted a query to
 get the answer and saved it as a dashboard widget. The most interesting ones
 were then added to an overview dashboard that we proudly displayed.
 
-[![dhmon Dashboard](http://i.imgur.com/yYtC8vLl.png)](http://i.imgur.com/yYtC8vL.png)
+[![dhmon Dashboard](/assets/dh_dhmon_dashboard.png)](/assets/dh_dhmon_dashboard.png)
 <center>*The DreamHack Overview dashboard powered by PromDash*</center>
 
 ## The future

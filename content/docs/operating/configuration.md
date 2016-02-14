@@ -238,7 +238,7 @@ are periodically queried to discover a list of targets (host-port pairs). The
 DNS servers to be contacted are read from `/etc/resolv.conf`.
 
 During the [relabeling phase](#target-relabeling-relabel_config), the meta
-label `__meta_dns_srv_name` is available on each target and is set to the SRV
+label `__meta_dns_name` is available on each target and is set to the SRV
 record name that produced the discovered target.
 
 ```

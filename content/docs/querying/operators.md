@@ -175,15 +175,16 @@ vector of fewer elements with aggregated values:
 * `count` (count number of elements in the vector)
 
 These operators can either be used to aggregate over **all** label dimensions
-or preserve distinct dimensions by including a `by`-clause.
+or preserve distinct dimensions by including a `without` or `by` clause.
 
-    <aggr-op>(<vector expression>) [by (<label list>)] [keep_common]
+    <aggr-op>(<vector expression>) [without|by (<label list>)] [keep_common]
 
-By default, labels that are not listed in the `by` clause will be dropped from
-the result vector, even if their label values are identical between all
-elements of the vector. The `keep_common` clause allows to keep those extra
-labels (labels that are identical between elements, but not in the `by`
-clause).
+`without` removes the listed labels from the result vector, while all other
+labels are preserved the output. `by` does the opposite and drops labels that
+are not listed in the `by` clause, even if their label values are identical
+between all elements of the vector. The `keep_common` clause allows to keep
+those extra labels (labels that are identical between elements, but not in the
+`by` clause).
 
 Until Prometheus 0.14.0, the `keep_common` keyword was called `keeping_extra`.
 The latter is still supported, but is deprecated and will be removed at some
@@ -195,7 +196,7 @@ If the metric `http_requests_total` had time series that fan out by
 `application`, `instance`, and `group` labels, we could calculate the total
 number of seen HTTP requests per application and group over all instances via:
 
-    sum(http_requests_total) by (application, group)
+    sum(http_requests_total) without (instance)
 
 If we are just interested in the total of HTTP requests we have seen in **all**
 applications, we could simply write:

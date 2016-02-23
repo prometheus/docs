@@ -83,8 +83,6 @@ ALERT InstanceLatencyOutlier
       >
         1
   FOR 30m
-  SUMMARY "{{$labels.instance}} in {{$labels.job}} is a latency outlier"
-  DESCRIPTION "{{$labels.instance}} has latency of {{humanizeDuration $value}}"
 ```
 
 ## Automatic actions
@@ -107,23 +105,13 @@ configuration that uses it could look like this:
 ```
 # A simple notification configuration which only sends alert notifications to
 # an external webhook.
-notification_config {
-  name: "restart_webhook"
-  webhook_config {
+receivers:
+- name: restart_webhook
+  webhook_configs:
     url: "http://example.org/my/hook"
-  }
-}
 
-# An aggregation rule which matches all alerts with the label
-# alertname="InstanceLatencyOutlier" and sends them using the "restart_webhook"
-# notification configuration.
-aggregation_rule {
-  filter {
-    name_re: "alertname"
-    value_re: "InstanceLatencyOutlier"
-  }
-  notification_config_name: "restart_webhook"
-}
+route:
+  receiver: restart_webhook
 ```
 
 

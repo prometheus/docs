@@ -55,8 +55,22 @@ Use labels to differentiate the characteristics of the thing that is being measu
 Do not put the label names in the metric name, as this introduces redundancy
 and will cause confusion if the respective labels are aggregated away.
 
+### Cardinality
+
 CAUTION: **CAUTION:** Remember that every unique key-value label pair
 represents a new time series, which can dramatically increase the amount of
 data stored. Do not use labels to store dimensions with high cardinality (many
 different label values), such as user IDs, email addresses, or other unbounded
-sets of values.
+sets of values. This is especially true for anything which is scraped from more
+than one target.
+
+To give you a better idea of the underlying numbers, let's look at node_exporter.
+node_exporter exposes metrics for every mounted filesystem. Every node will have
+in the tens of timeseries for, say, `node_filesystem_avail`. If you have
+10,000 nodes, you will end up with roughly 100,000 timeseries for
+`node_filesystem_avail`, which is fine for Prometheus to handle.
+
+If you were to now add quota per user, you would quickly reach a double digit
+number of millions with 10,000 users on 10,000 nodes. This is too much for the
+current implementation of Prometheus.
+

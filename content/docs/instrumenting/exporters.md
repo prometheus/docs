@@ -69,6 +69,7 @@ hosted outside of the Prometheus GitHub organization.
    * [SMTP/Maildir MDA blackbox prober](https://github.com/cherti/mailexporter)
    * [Speedtest.net exporter](https://github.com/RichiH/speedtest_exporter)
    * [SQL query result set metrics exporter](https://github.com/chop-dbhi/prometheus-sql)
+   * [Varnish exporter](https://github.com/jonnenauha/prometheus_varnish_exporter)
 
 When implementing a new Prometheus exporter, please follow the
 [Prometheus Exporter Guidelines](https://docs.google.com/document/d/1JapuiRbp-XoyECgl2lPdxITrhm5IyCUq9iA_h6jp3OY/edit).

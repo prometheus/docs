@@ -54,7 +54,7 @@ global:
   # How long until a scrape request times out.
   [ scrape_timeout: <duration> | default = 10s ]
 
-  # How frequently to evaluate rules by default.
+  # How frequently to evaluate rules.
   [ evaluation_interval: <duration> | default = 1m ]
 
   # The labels to add to any time series or alerts when communicating with

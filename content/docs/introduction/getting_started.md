@@ -37,7 +37,6 @@ Prometheus configuration as a file named `prometheus.yml`:
 ```
 global:
   scrape_interval:     15s # By default, scrape targets every 15 seconds.
-  evaluation_interval: 15s # Evaluate rules every 15 seconds.
 
   # Attach these labels to any time series or alerts when communicating with
   # external systems (federation, remote storage, Alertmanager).
@@ -52,7 +51,6 @@ scrape_configs:
 
     # Override the global default and scrape targets from this job every 5 seconds.
     scrape_interval: 5s
-    scrape_timeout: 10s
 
     target_groups:
       - targets: ['localhost:9090']
@@ -189,7 +187,6 @@ scrape_configs:
 
     # Override the global default and scrape targets from this job every 5 seconds.
     scrape_interval: 5s
-    scrape_timeout: 10s
 
     target_groups:
       - targets: ['localhost:8080', 'localhost:8081']
@@ -237,8 +234,7 @@ look like this:
 ```
 global:
   scrape_interval:     15s # By default, scrape targets every 15 seconds.
-  evaluation_interval: 15s # By default, scrape targets every 15 seconds.
-  # scrape_timeout is set to the global default (10s).
+  evaluation_interval: 15s # Evaluate rules every 15 seconds.
 
   # Attach these extra labels to all timeseries collected by this Prometheus instance.
   external_labels:
@@ -252,7 +248,6 @@ scrape_configs:
 
     # Override the global default and scrape targets from this job every 5 seconds.
     scrape_interval: 5s
-    scrape_timeout: 10s
 
     target_groups:
       - targets: ['localhost:9090']
@@ -261,7 +256,6 @@ scrape_configs:
 
     # Override the global default and scrape targets from this job every 5 seconds.
     scrape_interval: 5s
-    scrape_timeout: 10s
 
     target_groups:
       - targets: ['localhost:8080', 'localhost:8081']

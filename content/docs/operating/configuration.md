@@ -579,7 +579,8 @@ the `replace`, `keep`, `drop` and `labelmap` actions. The regex is fully anchore
 
 * `replace`: Match `regex` against the concatenated `source_labels`. Then, set
   `target_label` to `replacement`, with match group references
-  (`${1}`, `${2}`, ...) in `replacement` substituted by their value.
+  (`${1}`, `${2}`, ...) in `replacement` substituted by their value. If `target_label`
+  exists its value will be updated, if not a new label will be added with the specified value.
 * `keep`: Drop targets for which `regex` does not match the concatenated `source_labels`.
 * `drop`: Drop targets for which `regex` matches the concatenated `source_labels`.
 * `hashmod`: Set `target_label` to the `modulus` of a hash of the concatenated `source_labels`.

@@ -22,8 +22,7 @@ currently running goroutines. Use gauges for this use case.
 Client library usage documentation for counters:
 
    * [Go](http://godoc.org/github.com/prometheus/client_golang/prometheus#Counter)
-   * [Java](https://github.com/prometheus/client_java/blob/master/client/src/main/java/io/prometheus/client/metrics/Counter.java)
-   * [Java (simple client)](https://github.com/prometheus/client_java/blob/master/simpleclient/src/main/java/io/prometheus/client/Counter.java)
+   * [Java](https://github.com/prometheus/client_java/blob/master/simpleclient/src/main/java/io/prometheus/client/Counter.java)
    * [Ruby](https://github.com/prometheus/client_ruby#counter)
    * [Python](https://github.com/prometheus/client_python#counter)
 
@@ -39,8 +38,7 @@ running goroutines.
 Client library usage documentation for gauges:
 
    * [Go](http://godoc.org/github.com/prometheus/client_golang/prometheus#Gauge)
-   * [Java](https://github.com/prometheus/client_java/blob/master/client/src/main/java/io/prometheus/client/metrics/Gauge.java)
-   * [Java (simple client)](https://github.com/prometheus/client_java/blob/master/simpleclient/src/main/java/io/prometheus/client/Gauge.java)
+   * [Java](https://github.com/prometheus/client_java/blob/master/simpleclient/src/main/java/io/prometheus/client/Gauge.java)
    * [Ruby](https://github.com/prometheus/client_ruby#gauge)
    * [Python](https://github.com/prometheus/client_python#gauge)
 
@@ -68,7 +66,7 @@ and differences to [summaries](#summary).
 Client library usage documentation for histograms:
 
    * [Go](http://godoc.org/github.com/prometheus/client_golang/prometheus#Histogram)
-   * [Java](https://github.com/prometheus/client_java/blob/master/simpleclient/src/main/java/io/prometheus/client/Histogram.java) (histograms are only supported by the simple client but not by the legacy client)
+   * [Java](https://github.com/prometheus/client_java/blob/master/simpleclient/src/main/java/io/prometheus/client/Histogram.java)
    * [Python](https://github.com/prometheus/client_python#histogram)
 
 ## Summary
@@ -92,7 +90,6 @@ to [histograms](#histogram).
 Client library usage documentation for summaries:
 
    * [Go](http://godoc.org/github.com/prometheus/client_golang/prometheus#Summary)
-   * [Java](https://github.com/prometheus/client_java/blob/master/client/src/main/java/io/prometheus/client/metrics/Summary.java)
-   * [Java (simple client)](https://github.com/prometheus/client_java/blob/master/simpleclient/src/main/java/io/prometheus/client/Summary.java)
+   * [Java](https://github.com/prometheus/client_java/blob/master/simpleclient/src/main/java/io/prometheus/client/Summary.java)
    * [Ruby](https://github.com/prometheus/client_ruby#summary)
    * [Python](https://github.com/prometheus/client_python#summary)

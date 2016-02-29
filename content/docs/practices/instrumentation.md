@@ -230,7 +230,7 @@ For code which is performance-critical or called more than 100k times a second
 inside a given process, you may wish to take some care as to how many metrics
 you update.
 
-A Java Simpleclient counter takes
+A Java counter takes
 [12-17ns](https://github.com/prometheus/client_java/blob/master/benchmark/README.md)
 to increment depending on contention. Other languages will have similar
 performance. If that amount of time is significant for your inner loop, limit
@@ -250,5 +250,5 @@ to correctly handle them. To avoid this, export `0` (or `NaN`, if `0`
 would be misleading) for any time series you know may exist in
 advance.
 
-Most Prometheus client libraries (including Go and Java Simpleclient) will
+Most Prometheus client libraries (including Go, Java, and Python) will
 automatically export a `0` for you for metrics with no labels.

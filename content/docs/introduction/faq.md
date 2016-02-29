@@ -35,7 +35,8 @@ on the Robust Perception blog to get started.
 
 ### What language is Prometheus written in?
 
-Most Prometheus components are written in Go. Some are also written in Java and Ruby.
+Most Prometheus components are written in Go. Some are also written in Java,
+Python, and Ruby.
 
 ### How stable are Prometheus features, storage formats, and APIs?
 
@@ -146,8 +147,14 @@ the [exposition formats](/docs/instrumenting/exposition_formats/).
 ### Can I monitor machines?
 
 Yes, the [Node Exporter](https://github.com/prometheus/node_exporter) exposes
-an extensive set of machine-level metrics on Linux such as CPU usage, memory,
-disk utilization, filesystem fullness and network bandwidth.
+an extensive set of machine-level metrics on Linux and other Unix systems such
+as CPU usage, memory, disk utilization, filesystem fullness and network
+bandwidth.
+
+### Can I monitor network devices?
+
+Yes, the [SNMP Exporter](https://github.com/prometheus/snmp_exporter) allows
+monitoring of devices that support SNMP.
 
 ### Can I monitor batch jobs?
 
@@ -158,12 +165,6 @@ jobs.
 ### What applications can Prometheus monitor out of the box?
 
 See [exporters for third-party systems](/docs/instrumenting/exporters/).
-
-### Which Java client should I use?
-
-New users are advised to use the
-[simpleclient](https://github.com/prometheus/client_java/tree/master/simpleclient).
-For more information, see the [comparison](https://github.com/prometheus/client_java/wiki).
 
 ### Can I monitor JVM applications via JMX?
 

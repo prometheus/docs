@@ -309,18 +309,19 @@ feature to replace the special `__address__` label.
 CAUTION: Kubernetes SD is in beta: breaking changes to configuration are still
 likely in future releases.
 
-Kubernetes SD configurations allow retrieving scrape targets from
-[Kubernetes'](http://kubernetes.io/) REST API. By default, this discovers
-API servers, nodes, and appropriately annotated services so that metrics from both
-cluster components and deployed applications can be scraped. This will create
-multiple target groups: one for all API servers with each API server as a target, one
-for all nodes with each node as a target, and one for each service containing
-each service endpoint as a target.
+Kubernetes SD configurations allow retrieving scrape targets from 
+[Kubernetes'](http://kubernetes.io/) REST API. By default, this discovers API 
+servers, nodes, pods, and appropriately annotated services so that metrics from 
+both cluster components and deployed applications can be scraped. This will 
+create multiple target groups: one for all API servers with each API server as a 
+target, one for all nodes with each node as a target, one for each service 
+containing each service endpoint as a target; and one for all pods with each 
+(Pod,ContainerPort) tuple as a target, both with and without HTTPS.
 
 The following meta labels are available on targets during relabeling:
 
-* `__meta_kubernetes_role`: the role of the target: one of `apiserver`, `node`
-or `service`
+* `__meta_kubernetes_role`: the role of the target: one of `apiserver`, 
+`endpoint`, `node`, `pod` or `service`
 * `__meta_kubernetes_node_label_<labelname>`: each node label from the
 Kubernetes API
 * `__meta_kubernetes_service_namespace`: the namespace of the service
@@ -329,6 +330,13 @@ Kubernetes API
 Kubernetes API
 * `__meta_kubernetes_service_annotation_<annotationname>`: each service
 annotation from the Kubernetes API
+* `__meta_kubernetes_pod_name`: the name of the pod
+* `__meta_kubernetes_pod_namespace`: the namespace of the service
+* `__meta_kubernetes_pod_address`: the PodIP of the pod
+* `__meta_kubernetes_pod_label_<labelname>`: each pod label from the Kubernetes 
+API
+* `__meta_kubernetes_pod_annotation_<annotationname>`: each pod annotation from 
+the Kubernetes API
 
 In addition, the `instance` label for node metrics will be set to the node name
 as retrieved from the API server.

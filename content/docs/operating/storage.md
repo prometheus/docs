@@ -32,51 +32,6 @@ metrics `prometheus_local_storage_memory_chunks` and
 will come in handy. As a rule of thumb, you should have at least three
 times more RAM available than needed by the memory chunks alone.
 
-LevelDB is essentially dealing with data on disk and relies on the
-disk caches of the operating system for optimal performance. However,
-it maintains in-memory caches, whose size you can configure for each
-index via the following flags:
-
-* `storage.local.index-cache-size.fingerprint-to-metric`
-* `storage.local.index-cache-size.fingerprint-to-timerange`
-* `storage.local.index-cache-size.label-name-to-label-values`
-* `storage.local.index-cache-size.label-pair-to-fingerprints`
-
-## Disk usage
-
-Prometheus stores its on-disk time series data under the directory
-specified by the flag `storage.local.path`. The default path is
-`./data`, which is good to try something out quickly but most
-likely not what you want for actual operations. The flag
-`storage.local.retention` allows you to configure the retention time
-for samples. Adjust it to your needs and your available disk space.
-
-## Settings for high numbers of time series
-
-Prometheus can handle millions of time series. However, you have to
-adjust the storage settings for that. Essentially, you want to allow a
-certain number of chunks for each time series to be kept in RAM. The
-default value for the `storage.local.memory-chunks` flag (discussed
-above) is 1048576. Up to about 300,000 series, you still have three
-chunks available per series on average. For more series, you should
-increase the `storage.local.memory-chunks` value. Three times the
-number of series is a good first approximation. But keep the
-implication for memory usage (see above) in mind.
-
-Even more important is raising the value for the
-`storage.local.max-chunks-to-persist` flag at the same time. As a rule
-of thumb, keep it somewhere between 50% and 100% of the
-`storage.local.memory-chunks` value. The main drawback of a high value
-is larger checkpoints. The consequences of a value too low are much
-more serious.
-
-Out of the metrics that Prometheus exposes about itself, the following are
-particularly useful for tuning the flags above:
-
-* `prometheus_local_storage_memory_series`: The current number of series held in memory.
-* `prometheus_local_storage_memory_chunks`: The current number of chunks held in memory.
-* `prometheus_local_storage_chunks_to_persist`: The number of memory chunks that still need to be persisted to disk.
-
 PromQL queries that involve a high number of time series will make heavy use of
 the LevelDB backed indices. If you need to run queries of that kind, tweaking
 the index cache sizes might be required. The following flags are relevant:
@@ -92,7 +47,140 @@ the index cache sizes might be required. The following flags are relevant:
   completely.
 
 You have to experiment with the flag values to find out what helps. If a query
-touches 100,000+ time series, hundreds of MiB might be reasonable.
+touches 100,000+ time series, hundreds of MiB might be reasonable. If you have
+plenty of free memory available, using more of it for LevelDB cannot harm.
+
+## Disk usage
+
+Prometheus stores its on-disk time series data under the directory specified by
+the flag `storage.local.path`. The default path is `./data` (relative to the
+working directory), which is good to try something out quickly but most likely
+not what you want for actual operations. The flag `storage.local.retention`
+allows you to configure the retention time for samples. Adjust it to your needs
+and your available disk space.
+
+## Settings for high numbers of time series
+
+Prometheus can handle millions of time series. However, you have to adjust the
+storage settings to handle much more than 100,000 active time
+series. Essentially, you want to allow a certain number of chunks for each time
+series to be kept in RAM. The default value for the
+`storage.local.memory-chunks` flag (discussed above) is 1048576. Up to about
+300,000 series, you still have three chunks available per series on
+average. For more series, you should increase the `storage.local.memory-chunks`
+value. Three times the number of series is a good first approximation. But keep
+the implication for memory usage (see above) in mind.
+
+If you have more active time series than configured memory chunks, Prometheus
+will inevitably run into a sitation where it has to keep more chunks in memory
+than configured. If the number of chunks goes more than 10% above the
+configured limit, Prometheus will throttle ingestion of more samples (by
+skipping scrapes and rule evaluations) until the configured value is exceeded
+by less than 5%. _Throttled ingestion is really bad for various reasons. You
+really do not want to be in that situation._
+
+Equally important, especially if writing to a spinning disk, is raising the
+value for the `storage.local.max-chunks-to-persist` flag. As a rule of thumb,
+keep it around 50% of the `storage.local.memory-chunks`
+value. `storage.local.max-chunks-to-persist` controls how many chunks can be
+waiting to be written to your storage device, may it be spinning disk or SSD
+(which contains neither a disk nor a drive motor but we will refer to it as
+“disk“ for the sake of simplicity). If that number of waiting chunks is
+exceeded, Prometheus will once more throttle sample ingestion until the number
+has dropped to 95% of the configured value. Before that happens, Prometheus
+will try to speed up persisting chunks. See the
+[section about persistence pressure](#persistence-pressure-and-rushed-mode)
+below.
+
+The more chunks you can keep in memory per time series, the more write
+operations can be batched, which is especially important for spinning
+disks. Note that each active time series will have an incomplete head chunk,
+which cannot be persisted yet. It is a chunk in memory, but not a “chunk to
+persist” yet. If you have 1M active time series, you need 3M
+`storage.local.memory-chunks` to have three chunks for each series
+available. Only 2M of those can be persistable, so setting
+`storage.local.max-chunks-to-persist` to more than 2M can easily lead to more
+than 3M chunks in memory, despite the setting for
+`storage.local.memory-chunks`, which again will lead to the dreaded throttling
+of ingestion (but Prometheus will try its best to speed up persisting of chunks
+before it happens).
+
+The other drawback of a high value of chunks waiting for persistence is larger
+checkpoints.
+
+## Persistence pressure and “rushed mode”
+
+Naively, Prometheus would all the time try to persist completed chunk to disk
+as soon as possible. Such a strategy would lead to many tiny write operations,
+using up most of the I/O bandwidth and keeping the server quite busy. Spinning
+disks are more sensitive here, but even SSDs will not like it. Prometheus tries
+instead to batch up write operations as much as possible, which works better if
+it is allowed to use more memory. Setting the flags described above to values
+that lead to full utilization of the available memory is therefore crucial for
+high performance.
+
+Prometheus will also sync series files after each write (with
+`storage.local.series-sync-strategy=adaptive`, which is the default) and use
+the disk bandwidth for more frequent checkpoints (based on the count of “dirty
+series”, see [below](#crash-recovery)), both attempting to minimize data loss
+in case of a crash.
+
+But what to do if the number of chunks waiting for persistence grows too much?
+Prometheus calculates a score for urgency to persist chunks, which depends on
+the number of chunks waiting for persistence in relation to the
+`storage.local.max-chunks-to-persist` value and on how much the number of
+chunks in memory exceeds the `storage.local.memory-chunks` value (if at all,
+and only if there is a minimum number of chunks waiting for persistence so that
+faster persisting of chunks can help at all). The score is between 0 and 1,
+where 1 corresponds to the highest unrgency. Depending on the score, Prometheus
+will write to disk more frequently. Should the score ever pass the threshold
+of 0.8, Prometheus enters “rushed mode” (which you can see in the logs). In
+rushed mode, the following strategies are applied to speed up persisting chunks:
+
+* Series files are not synced after write operations anymore (making better use
+  of the OS's page cache at the price of an increased risk of losing data in
+  case of a server crash – this behavior can be overridden with the flag
+  `storage.local.series-sync-strategy`).
+* Checkpoints are only created as often as configured via the
+  `storage.local.checkpoint-interval` flag (freeing more disk bandwidth for
+  persisting chunks at the price of more data loss in case of a crash and an
+  increased time to run the subsequent crash recovery).
+* Write operations to persist chunks are not throttled anymore and performed as
+  fast as possible.
+
+Prometheus leaves rushed mode once the score has dropped below 0.7.
+
+## Settings for very long retention time
+
+If you have set a very long retention time via the `storage.local.retention`
+flag (more than a month), you might want to increase the flag value
+`storage.local.series-file-shrink-ratio`.
+
+Whenever Prometheus needs to cut off some chunks from the beginning of a series
+file, it will simply rewrite the whole file. (Some file systems support “head
+truncation”, which Prometheus currently does not use for several reasons.) To
+not rewrite a very large series file to get rid of very few chunks, the rewrite
+only happens if at least 10% of the chunks in the series file are removed. This
+value can be changed via the mentioned `storage.local.series-file-shrink-ratio`
+flag. If you have a lot of disk space but want to minimize rewrites (at the
+cost of wasted disk space), increase the flag value to higher values, e.g. 0.3
+for 30% of required chunk removal.
+
+## Helpful metrics
+
+Out of the metrics that Prometheus exposes about itself, the following are
+particularly useful for tuning the flags above:
+
+* `prometheus_local_storage_memory_series`: The current number of series held
+  in memory.
+* `prometheus_local_storage_memory_chunks`: The current number of chunks held
+  in memory.
+* `prometheus_local_storage_chunks_to_persist`: The number of memory chunks
+  that still need to be persisted to disk.
+* `prometheus_local_storage_persistence_urgency_score`: The urgency score as
+  discussed [above](#persistence-pressure-and-rushed-mode).
+* `prometheus_local_storage_rushed_mode` is 1 if Prometheus is in “rushed
+  mode”, 0 otherwise.
 
 ## Crash recovery
 

@@ -41,7 +41,7 @@ By default, a Slack message sent by Alertmanager looks like this:
 
 ![](/assets/blog/2016-03-03/slack_alert_before.png)
 
-It shows us that there are 3 firing alerts, followed by the label values of
+It shows us that there is one firing alert, followed by the label values of
 the alert grouping (alertname, datacenter, app) and further label values the
 alerts have in common (critical).
 

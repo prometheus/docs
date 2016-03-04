@@ -114,7 +114,7 @@ receivers:
 - name: 'slack-notifications'
   slack_configs:
   - channel: '#alerts'
-    text: '{{ template "slack.myorg.text" . }}{{ end }}'
+    text: '{{ template "slack.myorg.text" . }}'
 
 templates:
 - '/etc/alertmanager/templates/myorg.tmpl'

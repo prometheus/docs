@@ -28,7 +28,7 @@ the following format:
       "<labelname>": "<labelvalue>",
     },
     "startsAt": "<rfc3339>",
-    "endAt": "<rfc3339>"
+    "endsAt": "<rfc3339>"
     "generatorURL": "<generator_url>"
   },
   ...

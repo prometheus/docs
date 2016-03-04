@@ -309,34 +309,56 @@ feature to replace the special `__address__` label.
 CAUTION: Kubernetes SD is in beta: breaking changes to configuration are still
 likely in future releases.
 
-Kubernetes SD configurations allow retrieving scrape targets from 
-[Kubernetes'](http://kubernetes.io/) REST API. By default, this discovers API 
-servers, nodes, pods, and appropriately annotated services so that metrics from 
-both cluster components and deployed applications can be scraped. This will 
-create multiple target groups: one for all API servers with each API server as a 
-target, one for all nodes with each node as a target, one for each service 
-containing each service endpoint as a target; and one for all pods with each 
-(Pod,ContainerPort) tuple as a target, both with and without HTTPS.
+Kubernetes SD configurations allow retrieving scrape targets from
+[Kubernetes'](http://kubernetes.io/) REST API. By default, this discovers API
+servers, nodes, pods, and appropriately annotated services so that metrics from
+both cluster components and deployed applications can be scraped. This will
+create multiple target groups:
+
+* One for all API servers, with each API server as a target
+(__meta_kubernetes_role=apiserver)
+* One for all nodes, with each node as a target (__meta_kubernetes_role=node)
+* One for all services, with each service as a target
+(__meta_kubernetes_role=service)
+* One for *each* service, with each service endpoint as a target
+(__meta_kubernetes_role=endpoint)
+* One for all pods, with each pod as a target (__meta_kubernetes_role=pod)
+* One for *each* pod, with each container as a target
+(__meta_kubernetes_role=container)
+
+For services and containers, the port is the first port reported by Kubernetes.
+For pods, the port is the "first port" for the first container reported by
+Kubernetes. It is not guaranteed that Kubernetes will present these in a stable
+order, so you should not rely on these selections unless you only have on port
+per service/container and/or one container per pod.
 
 The following meta labels are available on targets during relabeling:
 
-* `__meta_kubernetes_role`: the role of the target: one of `apiserver`, 
+* All roles:
+    * `__meta_kubernetes_role`: the role of the target: one of `apiserver`,
 `endpoint`, `node`, `pod` or `service`
-* `__meta_kubernetes_node_label_<labelname>`: each node label from the
+* Nodes:
+    * `__meta_kubernetes_node_label_<labelname>`: each node label from the
 Kubernetes API
-* `__meta_kubernetes_service_namespace`: the namespace of the service
-* `__meta_kubernetes_service_name`: the name of the service
-* `__meta_kubernetes_service_label_<labelname>`: each service label from the
+* Services and Endpoints:
+    * `__meta_kubernetes_service_namespace`: the namespace of the service
+    * `__meta_kubernetes_service_name`: the name of the service
+    * `__meta_kubernetes_service_label_<labelname>`: each service label from the
 Kubernetes API
-* `__meta_kubernetes_service_annotation_<annotationname>`: each service
+    * `__meta_kubernetes_service_annotation_<annotationname>`: each service
 annotation from the Kubernetes API
-* `__meta_kubernetes_pod_name`: the name of the pod
-* `__meta_kubernetes_pod_namespace`: the namespace of the service
-* `__meta_kubernetes_pod_address`: the PodIP of the pod
-* `__meta_kubernetes_pod_label_<labelname>`: each pod label from the Kubernetes 
+* Pods and Containers:
+    * `__meta_kubernetes_pod_name`: the name of the pod
+    * `__meta_kubernetes_pod_namespace`: the namespace of the service
+    * `__meta_kubernetes_pod_address`: the PodIP of the pod
+    * `__meta_kubernetes_pod_label_<labelname>`: each pod label from the Kubernetes
 API
-* `__meta_kubernetes_pod_annotation_<annotationname>`: each pod annotation from 
+    * `__meta_kubernetes_pod_annotation_<annotationname>`: each pod annotation from
 the Kubernetes API
+    * `__meta_kubernetes_pod_container_name`: the name of the container associated
+with the target
+    * `__meta_kubernetes_pod_container_port_name`: the name of the first container
+port selected for the target
 
 In addition, the `instance` label for node metrics will be set to the node name
 as retrieved from the API server.

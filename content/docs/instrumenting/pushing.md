@@ -24,6 +24,8 @@ class.
 
  * For use from Python see [Exporting to a Pushgateway](https://github.com/prometheus/client_python#exporting-to-a-pushgateway).
 
+ * For use from Ruby see the [Pushgateway documentation](https://github.com/prometheus/client_ruby#pushgateway).
+
 ## Java batch job example
 
 This example illustrates how to instrument a batch job and alert on it not having succeeded recently.

@@ -273,7 +273,7 @@ Slack notifications are sent via [Slack webhooks](https://api.slack.com/incoming
 
 ```
 # Whether or not to notify about resolved alerts.
-[ send_resolved: <boolean> | default = true ]
+[ send_resolved: <boolean> | default = false ]
 
 # The Slack webhook URL.
 [ api_url: <string> | default = global.slack_api_url ]

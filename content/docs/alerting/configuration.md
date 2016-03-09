@@ -205,7 +205,7 @@ email_configs:
   [ - <email_config>, ... ]
 pagerduty_configs:
   [ - <pagerduty_config>, ... ]
-slack_config:
+slack_configs:
   [ - <slack_config>, ... ]
 opsgenie_configs:
   [ - <opsgenie_config>, ... ]

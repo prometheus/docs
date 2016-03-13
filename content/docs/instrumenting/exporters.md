@@ -22,6 +22,7 @@ These exporters are maintained as part of the official
    * [Consul exporter](https://github.com/prometheus/consul_exporter)
    * [Graphite exporter](https://github.com/prometheus/graphite_exporter)
    * [HAProxy exporter](https://github.com/prometheus/haproxy_exporter)
+   * [InfluxDB exporter](https://github.com/prometheus/influxdb_exporter)
    * [JMX exporter](https://github.com/prometheus/jmx_exporter)
    * [Mesos task exporter](https://github.com/prometheus/mesos_exporter)
    * [MySQL server exporter](https://github.com/prometheus/mysqld_exporter)

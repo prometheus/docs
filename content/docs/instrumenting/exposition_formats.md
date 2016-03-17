@@ -113,13 +113,13 @@ format. The following conventions apply:
 See also the example below.
 
 ```
-# HELP api_http_request_count The total number of HTTP requests.
-# TYPE api_http_request_count counter
-http_request_count{method="post",code="200"} 1027 1395066363000
-http_request_count{method="post",code="400"}    3 1395066363000
+# HELP http_requests_total The total number of HTTP requests.
+# TYPE http_requests_total counter
+http_requests_total{method="post",code="200"} 1027 1395066363000
+http_requests_total{method="post",code="400"}    3 1395066363000
 
 # Escaping in label values:
-msdos_file_access_time_ms{path="C:\\DIR\\FILE.TXT",error="Cannot find file:\n\"FILE.TXT\""} 1.234e3
+msdos_file_access_time_seconds{path="C:\\DIR\\FILE.TXT",error="Cannot find file:\n\"FILE.TXT\""} 1.458255915e9
 
 # Minimalistic line:
 metric_without_timestamp_and_labels 12.47

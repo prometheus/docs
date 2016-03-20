@@ -109,6 +109,7 @@ format. The following conventions apply:
 * Each bucket count of a histogram named `x` is given as a separate sample line with the name `x_bucket` and a label `{le="y"}` (where `y` is the upper bound of the bucket).
 * A histogram _must_ have a bucket with `{le="+Inf"}`. Its value _must_ be identical to the value of `x_count`.
 * The buckets of a histogram and the quantiles of a summary must appear in increasing numerical order of their label values (for the `le` or the `quantile` label, respectively).
+* Histogram and summary metrics _must_ have a comment defining their type (`# TYPE` line before the samples of a given metric).
 
 See also the example below.
 

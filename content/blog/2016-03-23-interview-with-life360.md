@@ -19,6 +19,8 @@ Life360 creates technology that helps families stay connected, we’re the Famil
 Network app for families. We’re quite busy handling these families - at peak
 we serve 700k requests per minute for 70 million registered families.
 
+[<img src="/assets/blog/2016-03-23/life360_horizontal_logo_gradient_rgb.png" style="width: 444px; height:177px"/>](https://www.life360.com/)
+
 We manage around 20 services in production, mostly handling location requests
 from mobile clients (Android, iOS, and Windows Phone), spanning over 150+
 instances at peak. Redundancy and high-availability are our goals and we strive

@@ -372,7 +372,7 @@ tls_config:
 [ retry_interval: <duration> | default = 1s ]
 ```
 
-### `<marathon_sd_configs>`
+### `<marathon_sd_config>`
 
 CAUTION: Marathon SD is in beta: breaking changes to configuration are still
 likely in future releases.
@@ -587,7 +587,7 @@ the `replace`, `keep`, `drop` and `labelmap` actions. The regex is fully anchore
    to label names given by `replacement` with match group references
   (`${1}`, `${2}`, ...) in `replacement` substituted by their value.
 
-### `<metric_relabel_configs>`
+### `<metric_relabel_config>`
 
 Metric relabeling is applied to samples as the last step before ingestion. It
 has the same configuration format and actions as target relabeling. Metric

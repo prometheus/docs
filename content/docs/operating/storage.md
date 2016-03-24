@@ -59,6 +59,49 @@ not what you want for actual operations. The flag `storage.local.retention`
 allows you to configure the retention time for samples. Adjust it to your needs
 and your available disk space.
 
+## Chunk encoding
+
+Prometheus currently offers three different types of chunk encodings. The chunk
+encoding for newly created chunks is determined by the
+`-storage.local.chunk-encoding-version` flag. The valid values are 0, 1,
+or 2.
+
+Type 0 is the simple delta encoding implemented for Prometheus's first chunked
+storage layer. Type 1 is the current default encoding, a double-delta encoding
+with much better compression behavior than type 0. Both encodings feature a
+fixed byte width per sample over the whole chunk, which allows fast random
+access. While type 0 is the fastest encoding, the difference in encoding cost
+compared to encoding 1 is tiny. Due to the better compression behavior of type
+1, there is really no reason to select type 0 except compatibility with very
+old Prometheus versions.
+
+Type 2 is a variable bit-width encoding, i.e. each sample in the chunk can use
+a different number of bits. Timestamps are double-delta encoded, too, but with
+a slightly different algorithm. A number of different encoding schemes are
+available for sample values. The choice is made per chunk based on the nature
+of the sample values (constant, integer, regularly increasing, random…). Major
+parts of the type 2 encoding are inspired by a paper published by Facebook
+engineers:
+[_Gorilla: A Fast, Scalable, In-Memory Time Series Database_](http://www.vldb.org/pvldb/vol8/p1816-teller.pdf).
+
+With type 2, access within a chunk has to happen sequentially, and the encoding
+and decoding cost is a bit higher. Overall, type 2 will cause more CPU usage
+and increased query latency compared to type 1 but offers a much improved
+compression ratio. The exact numbers depend heavily on the data set and the
+kind of queries. Below are results from a typical production server with a
+fairly expensive set of recording rules.
+
+Chunk type | bytes per sample | cores | rule evaluation duration
+:------:|:-----:|:----:|:----:
+1 | 3.3 | 1.6 | 2.9s
+2 | 1.3 | 2.4 | 4.9s
+
+You can change the chunk encoding each time you start the server, so
+experimenting with your own use case is encouraged. Take into account, however,
+that only newly created chunks will use the newly selected chunk encoding, so
+it will take a while until you see the effects.
+
+
 ## Settings for high numbers of time series
 
 Prometheus can handle millions of time series. However, you have to adjust the

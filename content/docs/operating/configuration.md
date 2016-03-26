@@ -169,6 +169,10 @@ kubernetes_sd_configs:
 serverset_sd_configs:
   [ - <serverset_sd_config> ... ]
 
+# List of AirBnB's Nerve service discovery configurations.
+nerve_sd_configs:
+  [ - <nerve_sd_config> ... ]
+
 # List of EC2 service discovery configurations.
 ec2_sd_configs:
   [ - <ec2_sd_config> ... ]
@@ -437,6 +441,29 @@ paths:
 ```
 
 Serverset data must be in the JSON format, the Thrift format is not currently supported.
+
+### `<nerve_sd_config>`
+
+Nerve SD configurations allow retrieving scrape targets from [AirBnB's Nerve]
+(https://github.com/airbnb/nerve) which are stored in
+[Zookeeper](https://zookeeper.apache.org/).
+
+The following meta labels are available on targets during relabeling:
+
+* `__meta_nerve_path`: the full path to the emdpoint node in Zookeeper
+* `__meta_nerve_endpoint_host`: the host of the endpoint
+* `__meta_nerve_endpoint_port`: the port of the endpoint
+* `__meta_nerve_endpoint_name`: the name of the endpoint
+
+```
+# The Zookeeper servers.
+servers:
+  - <host>
+# Paths can point to a single service, or the root of a tree of services.
+paths:
+  - <string>
+[ timeout: <duration> | default = 10s ]
+```
 
 ### `<ec2_sd_config>`
 

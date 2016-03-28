@@ -22,8 +22,9 @@ Unofficial third-party client libraries:
 
 * [Bash](https://github.com/aecolley/client_bash)
 * [Haskell](https://github.com/fimad/prometheus-haskell)
-* [Node.js](https://github.com/siimon/prom-client)
+* [Lua](https://github.com/knyar/nginx-lua-prometheus) for Nginx
 * [.NET / C#](https://github.com/andrasm/prometheus-net)
+* [Node.js](https://github.com/siimon/prom-client)
 
 When Prometheus scrapes your instance's HTTP endpoint, the client library
 sends the current state of all tracked metrics to the server.

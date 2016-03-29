@@ -19,6 +19,12 @@ body {
   margin-right: 3px;
 }
 
+.navbar .github-stars {
+  margin: 15px 0 0 15px;
+  width: 100px;
+  height: 20px;
+}
+
 .jumbotron {
   background-color: #e6522c;
   background-image: url("/assets/jumbotron-background.png");

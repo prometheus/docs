@@ -38,7 +38,7 @@ with Prometheus.
 * [What is your application doing right now?](http://youtu.be/Z0LlilNpX1U) – Matthias Gruter, Transmode, at DevOps Stockholm Meetup.
 * [Prometheus workshop](https://vimeo.com/131581353) – Jamie Wilkinson at Monitorama PDX 2015 ([slides](https://docs.google.com/presentation/d/1X1rKozAUuF2MVc1YXElFWq9wkcWv3Axdldl8LOH9Vik/edit)).
 * [Monitoring Hadoop with Prometheus](https://www.youtube.com/watch?v=qs2sqOLNGtw) – Brian Brazil at the Hadoop User Group Ireland ([slides](http://www.slideshare.net/brianbrazil/monitoring-hadoop-with-prometheus-hadoop-user-group-ireland-december-2015)).
-* In German: [Monitoring mit Prometheus](https://entropia.de/GPN15:Monitoring_mit_Prometheus) – Michael Stapelberg at Gulaschprogrammiernacht 15.
+* In German: [Monitoring mit Prometheus](https://media.ccc.de/v/eh16-43-monitoring_mit_prometheus#video&t=2804) – Michael Stapelberg at [Easterhegg 2016](https://eh16.easterhegg.eu/).
 
 ## Presentation slides
 

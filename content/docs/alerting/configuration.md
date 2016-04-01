@@ -205,6 +205,8 @@ email_configs:
   [ - <email_config>, ... ]
 pagerduty_configs:
   [ - <pagerduty_config>, ... ]
+pushover_configs:
+  [ - <pushover_config>, ... ]
 slack_configs:
   [ - <slack_config>, ... ]
 opsgenie_configs:
@@ -266,6 +268,37 @@ service_key: <tmpl_string>
 } ]
 ```
 
+## Pushover receiver `<pushover_config>`
+
+Pushover notifications are sent via the [Pushover API](https://pushover.net/api).
+
+```
+# The recipient user’s user key.
+user_key: <string>
+
+# Your registered application’s API token, see https://pushover.net/apps
+token: <string>
+
+# Notification title.
+[ title: <tmpl_string> | default = '{{ template "pushover.default.title" . }}' ]
+
+# Notification message.
+[ message: <tmpl_string> | default = '{{ template "pushover.default.message" . }}' ]
+
+# A supplementary URL shown alongside the message.
+[ url: <tmpl_string> | default = '{{ template "pushover.default.url" . }}' ]
+
+# Priority, see https://pushover.net/api#priority
+[ priority: <tmpl_string> | default = '{{ if eq .Status "firing" }}2{{ else }}0{{ end }}' ]
+
+# How often the Pushover servers will send the same notification to the user.
+# Must be at least 30 seconds.
+[ retry: <duration> | default = 1m ]
+
+# How long your notification will continue to be retried for, unless the user
+# acknowledges the notification.
+[ expire: <duration> | default = 1h ]
+```
 
 ## Slack receiver `<slack_config>`
 

@@ -43,7 +43,8 @@
 
     <!-- Custom Fonts -->
     <link href="/assets/font-awesome-4.2.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Open+Sans">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Lato:300,300italic,400' rel='stylesheet' type='text/css'>
 
     <script src="https://code.jquery.com/jquery-2.2.2.min.js" integrity="sha256-36cp2Co+/62rEAAYHLmRCPIych47CvdM+uTBJwSzWjI=" crossorigin="anonymous"></script>
     <script src="/assets/docs.js"></script>
@@ -51,6 +52,7 @@
 
   <body>
 
+  <div class="<%= @item[:layout] == 'jumbotron' ? 'navbar-jumbotron' : '' %>">
     <nav class="navbar navbar-inverse navbar-static-top" role="navigation">
       <div class="container">
         <div class="navbar-header">
@@ -64,8 +66,7 @@
         </div>
         <div class="collapse navbar-collapse" id="navbar">
           <ul class="nav navbar-nav navbar-right main-nav">
-            <li><a href="/">Overview</a></li>
-            <li><a href="/docs/introduction/overview/">Documentation</a></li>
+            <li><a href="/docs/introduction/overview/">Docs</a></li>
             <li><a href="/community/">Community</a></li>
             <li><a href="/blog/">Blog</a></li>
             <li><a href="https://github.com/prometheus"><i class="fa fa-github"></i> Github</a></li>
@@ -76,3 +77,4 @@
         </div>
       </div>
     </nav>
+  </div>

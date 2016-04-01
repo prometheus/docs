@@ -1,130 +1,195 @@
 ---
 layout: jumbotron
 ---
-<div class="main">
-  <div class="row">
-    <div class="col-md-3">
-      <h2><i class="fa fa-flask"></i> Data model</h2>
-      <p class="desc">Prometheus implements a highly dimensional data model. Time series are identified by a metric name and a set of key-value pairs.</p>
-      <p><a class="btn btn-default" href="/docs/concepts/data_model/" role="button">View details &raquo;</a></p>
-    </div>
-    <div class="col-md-3">
-      <h2><i class="fa fa-search"></i> Query language</h2>
-      <p class="desc">A flexible query language allows slicing and dicing of collected time series data in order to generate ad-hoc graphs, tables, and alerts.</p>
-      <p><a class="btn btn-default" href="/docs/querying/basics/" role="button">View details &raquo;</a></p>
-    </div>
-    <div class="col-md-3">
-      <h2><i class="fa fa-line-chart"></i> Visualization</h2>
-      <p class="desc">Prometheus has multiple modes for visualizing data: a built-in expression browser, a GUI-based dashboard builder, and a console template language.</p>
-      <p><a class="btn btn-default" href="/docs/visualization/promdash/" role="button">View details &raquo;</a></p>
-    </div>
-    <div class="col-md-3">
-      <h2><i class="fa fa-database"></i> Storage</h2>
-      <p class="desc">Prometheus stores time series in memory and on local disk in an efficient custom format. Scaling is achieved by functional sharding and federation.</p>
-      <p><a class="btn btn-default" href="/docs/operating/storage/" role="button">View details &raquo;</a></p>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-md-3">
-      <h2><i class="fa fa-cog"></i> Operation</h2>
-      <p class="desc">Each server is independent for reliability, relying only on local storage. Written in Go, all binaries are statically linked and easy to deploy.</p>
-      <p><a class="btn btn-default" href="/docs/operating/configuration/" role="button">View details &raquo;</a></p>
-    </div>
-    <div class="col-md-3">
-      <h2><i class="fa fa-code"></i> Client libraries</h2>
-      <p class="desc">Client libraries allow easy instrumentation of services. Currently, Go, Java, and Ruby are supported. Custom libraries are easy to implement.</p>
-      <p><a class="btn btn-default" href="/docs/instrumenting/clientlibs/" role="button">View details &raquo;</a></p>
-    </div>
-    <div class="col-md-3">
-      <h2><i class="fa fa-warning"></i> Alerting</h2>
-      <p class="desc">Alerts are defined based on Prometheus's flexible query language and maintain dimensional information. An alertmanager handles notifications and silencing.</p>
-      <p><a class="btn btn-default" href="/docs/alerting/rules/" role="button">View details &raquo;</a></p>
-    </div>
-    <div class="col-md-3">
-      <h2><i class="fa fa-cloud-upload"></i> Exporters</h2>
-      <p class="desc">Existing exporters allow bridging of third-party data into Prometheus. Examples: system statistics, as well as Docker, HAProxy, StatsD, and JMX metrics. </p>
-      <p><a class="btn btn-default" href="/docs/instrumenting/exporters/" role="button">View details &raquo;</a></p>
-    </div>
-  </div>
-  <div class="container text-center">
-    <div class="row">
-      <hr>
-      <div class="col-md-12">Trusted by:</div>
-    </div>
-  </div>
+<div class="jumbotron">
   <div class="container">
     <div class="row">
-      <div class="col-md-2 col-sm-4 col-xs-6 logos">
-        <a href="http://argus-sec.com/"><img src="assets/company-logos/Argus.png"/></a>
+      <div class="col-xs-12 col-md-8 col-sm-offset-2 center-xs">
+        <h1>From metrics to insight</h1>
+        <p class="subtitle">Power your metrics and alerting with a leading<br>open-source monitoring solution.</p>
+        <p>
+          <a class="btn btn-default btn-lg" href="/docs/introduction/getting_started/" role="button">GET STARTED</a>
+        </p>
       </div>
-      <div class="col-md-2 col-sm-4 col-xs-6 logos">
-        <a href="http://www.boxever.com/"><img src="assets/company-logos/Boxever.png"/></a>
-      </div>
-      <div class="col-md-2 col-sm-4 col-xs-6 logos">
-        <a href="https://www.cesanta.com/"><img src="assets/company-logos/cesanta.png"/></a>
-      </div>
-      <div class="col-md-2 col-sm-4 col-xs-6 logos">
-        <a href="https://www.coreos.com/"><img src="assets/company-logos/CoreOS.png"/></a>
-      </div>
-      <div class="col-md-2 col-sm-4 col-xs-6 logos">
-        <a href="http://www.crononauta.com/"><img src="assets/company-logos/crononauta.png"/></a>
-      </div>
-      <div class="col-md-2 col-sm-4 col-xs-6 logos">
-        <a href="https://www.digitalocean.com/"><img src="assets/company-logos/digitalocean.png"/></a>
-      </div>
-      <div class="col-md-2 col-sm-4 col-xs-6 logos">
-        <a href="https://www.docker.com/"><img src="assets/company-logos/Docker.png"/></a>
-      </div>
-      <div class="col-md-2 col-sm-4 col-xs-6 logos">
-        <a href="http://www.ericsson.com/"><img src="assets/company-logos/Ericsson.png"/></a>
-      </div>
-      <div class="col-md-2 col-sm-4 col-xs-6 logos">
-        <a href="http://www.eurotech.com/"><img src="assets/company-logos/Eurotech.png"/></a>
-      </div>
-      <div class="col-md-2 col-sm-4 col-xs-6 logos">
-        <a href="https://giantswarm.io/"><img src="assets/company-logos/giantswarm.png"/></a>
-      </div>
-      <div class="col-md-2 col-sm-4 col-xs-6 logos">
-        <a href="http://improbable.io/"><img src="assets/company-logos/Improbable.png"/></a>
-      </div>
-      <div class="col-md-2 col-sm-4 col-xs-6 logos">
-        <a href="https://www.jodel-app.com/"><img src="assets/company-logos/Jodel.png"/></a>
-      </div>
-      <div class="col-md-2 col-sm-4 col-xs-6 logos">
-        <a href="http://www.mavensecurities.com/"><img src="assets/company-logos/MavenSecurities.png"/></a>
-      </div>
-      <div class="col-md-2 col-sm-4 col-xs-6 logos">
-        <a href="http://www.outbrain.com/"><img src="assets/company-logos/Outbrain.png"/></a>
-      </div>
-      <div class="col-md-2 col-sm-4 col-xs-6 logos">
-        <a href="https://www.percona.com/"><img src="assets/company-logos/Percona.png"/></a>
-      </div>
-      <div class="col-md-2 col-sm-4 col-xs-6 logos">
-        <a href="http://www.quobyte.com/"><img src="assets/company-logos/quobyte.png"/></a>
-      </div>
-      <div class="col-md-2 col-sm-4 col-xs-6 logos">
-        <a href="http://www.robustperception.io/"><img src="assets/company-logos/RobustPerception.png"/></a>
-      </div>
-      <div class="col-md-2 col-sm-4 col-xs-6 logos">
-        <a href="http://www.showmax.com/"><img src="assets/company-logos/ShowMax.png"/></a>
-      </div>
-      <div class="col-md-2 col-sm-4 col-xs-6 logos">
-        <a href="https://www.shuttlecloud.com/"><img src="assets/company-logos/shuttlecloud.png"/></a>
-      </div>
-      <div class="col-md-2 col-sm-4 col-xs-6 logos">
-        <a href="https://www.soundcloud.com/"><img src="assets/company-logos/soundcloud.png"/></a>
-      </div>
-      <div class="col-md-2 col-sm-4 col-xs-6 logos">
-        <a href="https://www.uda100.com/"><img src="assets/company-logos/WeLearn.png"/></a>
-      </div>
-      <div class="col-md-2 col-sm-4 col-xs-6 logos">
-        <a href="https://www.unosoft.hu/"><img src="assets/company-logos/unosoft.png"/></a>
-      </div>
-      <div class="col-md-2 col-sm-4 col-xs-6 logos">
-        <a href="https://www.variomedia.de/"><img src="assets/company-logos/variomedia.png"/></a>
-      </div>
-      <div class="col-md-2 col-sm-4 col-xs-6 logos">
-        <a href="https://www.weave.works/"><img src="assets/company-logos/weave.png"/></a>
-      </div>
+    </div>
   </div>
+</div>
+
+<div class="container">
+  <div class="main">
+    <div class="row">
+      <div class="col-md-3 feature-item">
+        <a href="/docs/concepts/data_model/">
+          <h2><i class="fa fa-flask"></i> Dimensional data</h2>
+          <p>Prometheus implements a highly dimensional data model. Time series are identified by a metric name and a set of key-value pairs.</p>
+        </a>
+      </div>
+      <div class="col-md-3 feature-item">
+        <a href="/docs/querying/basics/">
+          <h2><i class="fa fa-search"></i> Powerful queries</h2>
+          <p>A flexible query language allows slicing and dicing of collected time series data in order to generate ad-hoc graphs, tables, and alerts.</p>
+        </a>
+      </div>
+      <div class="col-md-3 feature-item">
+        <a href="/docs/visualization/grafana/">
+          <h2><i class="fa fa-line-chart"></i> Great visualization</h2>
+          <p>Prometheus has multiple modes for visualizing data: a built-in expression browser, Grafana integration, and a console template language.</p>
+        </a>
+      </div>
+      <div class="col-md-3 feature-item">
+        <a href="/docs/operating/storage/">
+          <h2><i class="fa fa-database"></i> Efficient storage</h2>
+          <p>Prometheus stores time series in memory and on local disk in an efficient custom format. Scaling is achieved by functional sharding and federation.</p>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="main">
+    <div class="row">
+      <div class="col-md-3 feature-item">
+        <a href="/docs/operating/configuration/">
+          <h2><i class="fa fa-cog"></i> Simple operation</h2>
+          <p>Each server is independent for reliability, relying only on local storage. Written in Go, all binaries are statically linked and easy to deploy.</p>
+        </a>
+      </div>
+      <div class="col-md-3 feature-item">
+        <a href="/docs/alerting/rules/">
+          <h2><i class="fa fa-warning"></i> Precise alerting</h2>
+          <p>Alerts are defined based on Prometheus's flexible query language and maintain dimensional information. An alertmanager handles notifications and silencing.</p>
+        </a>
+      </div>
+      <div class="col-md-3 feature-item">
+        <a href="/docs/instrumenting/clientlibs/">
+          <h2><i class="fa fa-code"></i> Many client libraries</h2>
+          <p>Client libraries allow easy instrumentation of services. Currently, Go, Java, and Ruby are supported. Custom libraries are easy to implement.</p>
+        </a>
+      </div>
+      <div class="col-md-3 feature-item">
+        <a href="/docs/instrumenting/exporters/">
+          <h2><i class="fa fa-cloud-upload"></i> Many integrations</h2>
+          <p>Existing exporters allow bridging of third-party data into Prometheus. Examples: system statistics, as well as Docker, HAProxy, StatsD, and JMX metrics. </p>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="row top-hr">
+    <div class="col-md-12">
+      <hr>
+    </div>
+  </div>
+
+  <div class="row quote">
+    <div class="col-md-12">
+      <p class="quote-text">
+        «Even though Borgmon remains internal to Google, the idea of treating time-series data as a data source for generating alerts is now accessible to everyone through those open source tools like Prometheus [...]»
+      </p>
+      <p class="quote-source">
+      — <a href="http://shop.oreilly.com/product/0636920041528.do"><b>Site Reliability Engineering:</b> How Google Runs Production Systems</a> (O'Reilly Media)
+      </p>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <hr>
+    </div>
+  </div>
+
+  <div class="row open-source">
+    <div class="col-md-12">
+      <h1><i class="fa fa-github"></i> Open Source</h1>
+      <p>Prometheus is 100% open source and community-driven. All components are available under the <a href="http://www.apache.org/licenses/LICENSE-2.0">Apache 2 License</a> on <a href="https://github.com/prometheus">GitHub</a>.</p>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <hr>
+    </div>
+  </div>
+
+  <div class="container text-center">
+    <div class="row">
+      <div class="col-md-12 trusted-by">Some of our users include:</div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-2 col-sm-4 col-xs-6 logos">
+      <a href="http://argus-sec.com/"><img src="assets/company-logos/Argus.png"/></a>
+    </div>
+    <div class="col-md-2 col-sm-4 col-xs-6 logos">
+      <a href="http://www.boxever.com/"><img src="assets/company-logos/Boxever.png"/></a>
+    </div>
+    <div class="col-md-2 col-sm-4 col-xs-6 logos">
+      <a href="https://www.cesanta.com/"><img src="assets/company-logos/cesanta.png"/></a>
+    </div>
+    <div class="col-md-2 col-sm-4 col-xs-6 logos">
+      <a href="https://www.coreos.com/"><img src="assets/company-logos/CoreOS.png"/></a>
+    </div>
+    <div class="col-md-2 col-sm-4 col-xs-6 logos">
+      <a href="http://www.crononauta.com/"><img src="assets/company-logos/crononauta.png"/></a>
+    </div>
+    <div class="col-md-2 col-sm-4 col-xs-6 logos">
+      <a href="https://www.digitalocean.com/"><img src="assets/company-logos/digitalocean.png"/></a>
+    </div>
+    <div class="col-md-2 col-sm-4 col-xs-6 logos">
+      <a href="https://www.docker.com/"><img src="assets/company-logos/Docker.png"/></a>
+    </div>
+    <div class="col-md-2 col-sm-4 col-xs-6 logos">
+      <a href="http://www.ericsson.com/"><img src="assets/company-logos/Ericsson.png"/></a>
+    </div>
+    <div class="col-md-2 col-sm-4 col-xs-6 logos">
+      <a href="http://www.eurotech.com/"><img src="assets/company-logos/Eurotech.png"/></a>
+    </div>
+    <div class="col-md-2 col-sm-4 col-xs-6 logos">
+      <a href="https://giantswarm.io/"><img src="assets/company-logos/giantswarm.png"/></a>
+    </div>
+    <div class="col-md-2 col-sm-4 col-xs-6 logos">
+      <a href="http://improbable.io/"><img src="assets/company-logos/Improbable.png"/></a>
+    </div>
+    <div class="col-md-2 col-sm-4 col-xs-6 logos">
+      <a href="https://www.jodel-app.com/"><img src="assets/company-logos/Jodel.png"/></a>
+    </div>
+    <div class="col-md-2 col-sm-4 col-xs-6 logos">
+      <a href="http://www.mavensecurities.com/"><img src="assets/company-logos/MavenSecurities.png"/></a>
+    </div>
+    <div class="col-md-2 col-sm-4 col-xs-6 logos">
+      <a href="http://www.outbrain.com/"><img src="assets/company-logos/Outbrain.png"/></a>
+    </div>
+    <div class="col-md-2 col-sm-4 col-xs-6 logos">
+      <a href="https://www.percona.com/"><img src="assets/company-logos/Percona.png"/></a>
+    </div>
+    <div class="col-md-2 col-sm-4 col-xs-6 logos">
+      <a href="http://www.quobyte.com/"><img src="assets/company-logos/quobyte.png"/></a>
+    </div>
+    <div class="col-md-2 col-sm-4 col-xs-6 logos">
+      <a href="http://www.robustperception.io/"><img src="assets/company-logos/RobustPerception.png"/></a>
+    </div>
+    <div class="col-md-2 col-sm-4 col-xs-6 logos">
+      <a href="http://www.showmax.com/"><img src="assets/company-logos/ShowMax.png"/></a>
+    </div>
+    <div class="col-md-2 col-sm-4 col-xs-6 logos">
+      <a href="https://www.shuttlecloud.com/"><img src="assets/company-logos/shuttlecloud.png"/></a>
+    </div>
+    <div class="col-md-2 col-sm-4 col-xs-6 logos">
+      <a href="https://www.soundcloud.com/"><img src="assets/company-logos/soundcloud.png"/></a>
+    </div>
+    <div class="col-md-2 col-sm-4 col-xs-6 logos">
+      <a href="https://www.uda100.com/"><img src="assets/company-logos/WeLearn.png"/></a>
+    </div>
+    <div class="col-md-2 col-sm-4 col-xs-6 logos">
+      <a href="https://www.unosoft.hu/"><img src="assets/company-logos/unosoft.png"/></a>
+    </div>
+    <div class="col-md-2 col-sm-4 col-xs-6 logos">
+      <a href="https://www.variomedia.de/"><img src="assets/company-logos/variomedia.png"/></a>
+    </div>
+    <div class="col-md-2 col-sm-4 col-xs-6 logos">
+      <a href="https://www.weave.works/"><img src="assets/company-logos/weave.png"/></a>
+    </div>
+  </div>
+
+  <%= render 'container_footer' %>
 </div>

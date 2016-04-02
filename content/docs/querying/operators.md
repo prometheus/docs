@@ -78,6 +78,7 @@ These logical/set binary operators are only defined between instant vectors:
 
 * `and` (intersection)
 * `or` (union)
+* `unless` (complement)
 
 `vector1 and vector2` results in a vector consisting of the elements of
 `vector1` for which there are elements in `vector2` with exactly matching
@@ -87,6 +88,10 @@ over from the left-hand-side vector.
 `vector1 or vector2` results in a vector that contains all original elements
 (label sets + values) of `vector1` and additionally all elements of `vector2`
 which do not have matching label sets in `vector1`.
+
+`vector1 unless vector2` results in a vector consisting of the elements of
+`vector1` for which there are no elements in `vector2` with exactly matching
+label sets. All matching elements in both vectors are dropped.
 
 ## Vector matching
 
@@ -211,8 +216,8 @@ highest to lowest.
 1. `*`, `/`, `%`
 2. `+`, `-`
 3. `==`, `!=`, `<=`, `<`, `>=`, `>`
-4. `AND`
-5. `OR`
+4. `and`, `unless`
+5. `or`
 
 Operators on the same precedence level are left-associative. For example,
 `2 * 3 % 2` is equivalent to `(2 * 3) % 2`.

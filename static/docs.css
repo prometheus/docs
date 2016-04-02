@@ -90,6 +90,7 @@ a.sc-logo img {
 }
 
 .side-nav .fa {
+  width: 20px;
   color: #555;
 }
 
@@ -102,14 +103,18 @@ a.sc-logo img {
 }
 
 .side-nav .nav-header {
-  color: #e6522c;
-  text-transform: uppercase;
-  font-size: 16px;
   display: block;
   margin: 20px auto 15px auto;
+  font-size: 16px;
 }
 
-.side-nav .active {
+.side-nav .nav-header a, .side-nav .nav-header span {
+  color: #e6522c;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+
+.side-nav ul.active li.active {
   border-left: 3px solid #e6522c;
   margin-left: -2px;
   font-weight: bold;

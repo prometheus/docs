@@ -108,7 +108,7 @@ a.sc-logo img {
   font-size: 16px;
 }
 
-.side-nav .nav-header a, .side-nav .nav-header span {
+.side-nav .nav-header a, .side-nav .nav-header {
   color: #e6522c;
   text-transform: uppercase;
   text-decoration: none;

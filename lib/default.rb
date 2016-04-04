@@ -1,10 +1,13 @@
 # All files in the 'lib' directory will be loaded
 # before nanoc starts compiling.
 
+require 'nanoc/cachebuster'
+
 include Nanoc::Helpers::LinkTo
 include Nanoc::Helpers::Rendering
 include Nanoc3::Helpers::Blogging
 include Nanoc3::Helpers::Tagging
+include Nanoc::Helpers::CacheBusting
 
 module BlogHelper
   def get_pretty_date(post)
@@ -18,7 +21,7 @@ module BlogHelper
       "<div class='read-more'><a href='#{post.path}'>Continue reading &rsaquo;</a></div>"
     end
     return content
-  end  
+  end
 end
 
 include BlogHelper

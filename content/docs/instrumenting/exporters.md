@@ -1,6 +1,6 @@
 ---
 title: Exporters and third-party integrations
-sort_rank: 3
+sort_rank: 4
 ---
 
 # Exporters and third-party integrations
@@ -76,7 +76,7 @@ hosted outside of the Prometheus GitHub organization.
    * [Varnish exporter](https://github.com/jonnenauha/prometheus_varnish_exporter)
 
 When implementing a new Prometheus exporter, please follow the
-[Prometheus Exporter Guidelines](https://docs.google.com/document/d/1JapuiRbp-XoyECgl2lPdxITrhm5IyCUq9iA_h6jp3OY/edit).
+[Prometheus Exporter Guidelines](/docs/instrumenting/exporter_guidelines)
 Please also consider consulting the [development mailing
 list](https://groups.google.com/forum/#!forum/prometheus-developers).  We are
 happy to give advice on how to make your exporter as useful and consistent as

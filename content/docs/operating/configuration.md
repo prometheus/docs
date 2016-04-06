@@ -299,7 +299,7 @@ services:
 ```
 
 Note that the IP number and port used to scrape the targets is assembled as
-`<__meta_consul_address>:<__meta_consul_service_port`. However, in some
+`<__meta_consul_address>:<__meta_consul_service_port>`. However, in some
 Consul setups, the relevant address is in `__meta_consul_service_address`.
 In those cases, you can use the [relabel](#target-relabeling-relabel_config)
 feature to replace the special `__address__` label.

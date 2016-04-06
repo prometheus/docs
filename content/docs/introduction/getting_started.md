@@ -86,6 +86,10 @@ Blindly setting `GOMAXPROCS` to a high value can be
 counterproductive. See the relevant [Go
 FAQs](http://golang.org/doc/faq#Why_no_multi_CPU).
 
+Note that Prometheus by default uses around 3GB in memory. If you have a
+smaller machine, you can tune Prometheus to use less memory.  For details,
+see the [memory usage documentation](/docs/operating/storage/#memory-usage).
+
 ## Using the expression browser
 
 Let us try looking at some data that Prometheus has collected about itself. To

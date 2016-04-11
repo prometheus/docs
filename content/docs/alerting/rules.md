@@ -1,6 +1,6 @@
 ---
 title: Alerting rules
-sort_rank: 4
+sort_rank: 5
 ---
 
 # Alerting rules

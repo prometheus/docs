@@ -323,7 +323,7 @@ footer {
 
 .toc {
   padding: 1em;
-  background-color: #f9f2f4;
+  background-color: #f5f5f5;
 }
 
 .toc-right {
@@ -347,7 +347,7 @@ pre {
   border-left: 4px solid #e6522c;
   border-radius: 0;
   font-family: "Courier New", Monaco, Menlo, Consolas, monospace;
-  background-color: #f9f2f4;
+  background-color: #f5f5f5;
   color: #333;
   padding: 15px;
 }

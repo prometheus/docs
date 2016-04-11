@@ -1,7 +1,7 @@
 // Setup
 
 // Modify the diameter to expand/contract space between nodes.
-var anchor = document.querySelector(".doc-content").parentElement;
+var anchor = document.querySelector(".page-header").parentElement;
 var diameter = anchor.clientWidth;
 
 var color = "#e6522c";
@@ -39,10 +39,11 @@ function parseSearch(searchString) {
 function resetSVG() {
   d3.select(anchor).select("svg").remove()
   svg = d3.select(anchor).append("svg")
+    .classed("routing-table", true)
     .attr("width", diameter)
     .attr("height", diameter - 150)
     .append("g")
-    .attr("transform", "translate(" + diameter / 2 + "," + (diameter / 2 - 250) + ")");
+    .attr("transform", "translate(" + diameter / 2 + "," + (diameter / 2 - 200) + ")");
 }
 
 // Click handler for reading config.yml

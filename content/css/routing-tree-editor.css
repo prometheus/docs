@@ -1,0 +1,39 @@
+.routing-table {
+  font: 12px sans-serif;
+}
+
+.node circle {
+  stroke: #e6522c;
+  stroke-width: 1.5px;
+}
+
+.node text {
+  font: 10px sans-serif;
+}
+
+.link {
+  fill: none;
+  stroke: #ccc;
+  stroke-width: 1.5px;
+}
+
+.form-control.label-input {
+  padding: 2px;
+  width: 450px;
+}
+
+textarea {
+  border-color: #ddd;
+  height: 450px;
+  padding: 2px 0;
+  width: 100%;
+  font-family: monospace;
+}
+
+.block {
+  display: block;
+}
+
+.inline-block {
+  display: inline-block;
+}

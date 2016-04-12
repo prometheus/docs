@@ -25,7 +25,6 @@ var tooltip = d3.select("body")
     .style("z-index", "10")
     .style("visibility", "hidden");
 
-// Global for now so we can play with it from the console
 function parseSearch(searchString) {
   var labels = searchString.replace(/{|}|\"|\s/g, "").split(",");
   var o = {};
@@ -58,7 +57,18 @@ d3.select(".js-parse-and-draw").on("click", function() {
 
 // Click handler for input labelSet
 d3.select(".js-find-match").on("click", function() {
-  var searchValue = document.querySelector("input").value
+  labelServiceHandler();
+});
+
+$(document).on("keyup", function(e) {
+  if (e.keyCode != 13) {
+    return;
+  }
+  labelServiceHandler();
+});
+
+function labelServiceHandler() {
+  var searchValue = document.querySelector(".js-label-set-input").value
   var labelSet = parseSearch(searchValue);
   var matches = match(root, labelSet)
   var nodes = tree.nodes(root);
@@ -66,8 +76,7 @@ d3.select(".js-find-match").on("click", function() {
   nodes.forEach(function(n) { n.matched = false });
   nodes[idx].matched = true;
   update(root);
-  // Animate path to node?
-});
+}
 
 // Match does a depth-first left-to-right search through the route tree
 // and returns the matching routing nodes.

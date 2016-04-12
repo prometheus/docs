@@ -12,8 +12,8 @@ While the command-line flags configure immutable system parameters, the
 configuration file defines inhibition rules, notification routing and
 notification receivers.
 
-An visual routing tree editor and label set matcher is available
-[here](/webtools/alerting/routing-tree-editor).
+The [visual editor](/webtools/alerting/routing-tree-editor) can assist in
+building routing trees.
 
 To view all available command-line flags, run `alertmanager -h`.
 

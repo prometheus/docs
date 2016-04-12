@@ -23,12 +23,6 @@ body {
   margin-left: 12px;
 }
 
-.navbar .github-stars {
-  margin: 15px 0 0 15px;
-  width: 100px;
-  height: 20px;
-}
-
 .navbar-toggle {
   margin-top: 22px;
 }
@@ -153,7 +147,7 @@ body {
 }
 
 .open-source {
-  margin: 25px 0 25px 0;
+  margin: 25px 0 20px 0;
   font-family: 'Lato', sans-serif;
   font-weight: 300;
   text-align: center;
@@ -168,6 +162,12 @@ body {
   width: 50%;
   margin: auto;
   font-size: 20px;
+}
+
+.open-source .github-stars {
+  margin-top: 20px;
+  width: 160px;
+  height: 30px;
 }
 
 .trusted-by {

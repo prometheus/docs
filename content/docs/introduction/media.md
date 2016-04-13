@@ -18,8 +18,6 @@ with Prometheus.
   – a more elaborate overview than the one given on this site.
 * Prometheus-related posts on the
   [Robust Perception blog](http://www.robustperception.io/tag/prometheus/).
-* The [monitoring series](http://www.boxever.com/tag/monitoring) on Boxever's
-  tech blog.
 
 ## Tutorials
 

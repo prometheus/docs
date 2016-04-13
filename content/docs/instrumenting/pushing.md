@@ -1,6 +1,6 @@
 ---
 title: Pushing metrics
-sort_rank: 2
+sort_rank: 3
 ---
 
 # Pushing metrics

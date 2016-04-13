@@ -1,6 +1,6 @@
 ---
 title: Exposition formats
-sort_rank: 4
+sort_rank: 6
 ---
 
 # Exposition formats

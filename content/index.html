@@ -3,74 +3,66 @@ layout: jumbotron
 ---
 <div class="jumbotron">
   <div class="container">
-    <div class="row">
-      <div class="col-xs-12 col-md-8 col-sm-offset-2 center-xs">
-        <h1>From metrics to insight</h1>
-        <p class="subtitle">Power your metrics and alerting with a leading<br>open-source monitoring solution.</p>
-        <p>
-          <a class="btn btn-default btn-lg" href="/docs/introduction/getting_started/" role="button">GET STARTED</a>
-        </p>
-      </div>
-    </div>
+    <h1>From metrics to insight</h1>
+    <p class="subtitle">Power your metrics and alerting with a leading<br>open-source monitoring solution.</p>
+    <p>
+      <a class="btn btn-default btn-lg" href="/docs/introduction/getting_started/" role="button">GET STARTED</a>
+    </p>
   </div>
 </div>
 
 <div class="container">
-  <div class="main">
-    <div class="row">
-      <div class="col-md-3 feature-item">
-        <a href="/docs/concepts/data_model/">
-          <h2><i class="fa fa-flask"></i> Dimensional data</h2>
-          <p>Prometheus implements a highly dimensional data model. Time series are identified by a metric name and a set of key-value pairs.</p>
-        </a>
-      </div>
-      <div class="col-md-3 feature-item">
-        <a href="/docs/querying/basics/">
-          <h2><i class="fa fa-search"></i> Powerful queries</h2>
-          <p>A flexible query language allows slicing and dicing of collected time series data in order to generate ad-hoc graphs, tables, and alerts.</p>
-        </a>
-      </div>
-      <div class="col-md-3 feature-item">
-        <a href="/docs/visualization/grafana/">
-          <h2><i class="fa fa-line-chart"></i> Great visualization</h2>
-          <p>Prometheus has multiple modes for visualizing data: a built-in expression browser, Grafana integration, and a console template language.</p>
-        </a>
-      </div>
-      <div class="col-md-3 feature-item">
-        <a href="/docs/operating/storage/">
-          <h2><i class="fa fa-database"></i> Efficient storage</h2>
-          <p>Prometheus stores time series in memory and on local disk in an efficient custom format. Scaling is achieved by functional sharding and federation.</p>
-        </a>
-      </div>
+  <div class="row">
+    <div class="col-md-3 col-sm-6 col-xs-12 feature-item">
+      <a href="/docs/concepts/data_model/">
+        <h2><i class="fa fa-flask"></i> Dimensional data</h2>
+        <p>Prometheus implements a highly dimensional data model. Time series are identified by a metric name and a set of key-value pairs.</p>
+      </a>
+    </div>
+    <div class="col-md-3 col-sm-6 col-xs-12 feature-item">
+      <a href="/docs/querying/basics/">
+        <h2><i class="fa fa-search"></i> Powerful queries</h2>
+        <p>A flexible query language allows slicing and dicing of collected time series data in order to generate ad-hoc graphs, tables, and alerts.</p>
+      </a>
+    </div>
+    <div class="col-md-3 col-sm-6 col-xs-12 feature-item">
+      <a href="/docs/visualization/grafana/">
+        <h2><i class="fa fa-line-chart"></i> Great visualization</h2>
+        <p>Prometheus has multiple modes for visualizing data: a built-in expression browser, Grafana integration, and a console template language.</p>
+      </a>
+    </div>
+    <div class="col-md-3 col-sm-6 col-xs-12 feature-item">
+      <a href="/docs/operating/storage/">
+        <h2><i class="fa fa-database"></i> Efficient storage</h2>
+        <p>Prometheus stores time series in memory and on local disk in an efficient custom format. Scaling is achieved by functional sharding and federation.</p>
+      </a>
     </div>
   </div>
 
-  <div class="main">
-    <div class="row">
-      <div class="col-md-3 feature-item">
-        <a href="/docs/operating/configuration/">
-          <h2><i class="fa fa-cog"></i> Simple operation</h2>
-          <p>Each server is independent for reliability, relying only on local storage. Written in Go, all binaries are statically linked and easy to deploy.</p>
-        </a>
-      </div>
-      <div class="col-md-3 feature-item">
-        <a href="/docs/alerting/rules/">
-          <h2><i class="fa fa-warning"></i> Precise alerting</h2>
-          <p>Alerts are defined based on Prometheus's flexible query language and maintain dimensional information. An alertmanager handles notifications and silencing.</p>
-        </a>
-      </div>
-      <div class="col-md-3 feature-item">
-        <a href="/docs/instrumenting/clientlibs/">
-          <h2><i class="fa fa-code"></i> Many client libraries</h2>
-          <p>Client libraries allow easy instrumentation of services. Currently, Go, Java, and Ruby are supported. Custom libraries are easy to implement.</p>
-        </a>
-      </div>
-      <div class="col-md-3 feature-item">
-        <a href="/docs/instrumenting/exporters/">
-          <h2><i class="fa fa-cloud-upload"></i> Many integrations</h2>
-          <p>Existing exporters allow bridging of third-party data into Prometheus. Examples: system statistics, as well as Docker, HAProxy, StatsD, and JMX metrics. </p>
-        </a>
-      </div>
+  <div class="row">
+    <div class="col-md-3 col-sm-6 col-xs-12 feature-item">
+      <a href="/docs/operating/configuration/">
+        <h2><i class="fa fa-cog"></i> Simple operation</h2>
+        <p>Each server is independent for reliability, relying only on local storage. Written in Go, all binaries are statically linked and easy to deploy.</p>
+      </a>
+    </div>
+    <div class="col-md-3 col-sm-6 col-xs-12 feature-item">
+      <a href="/docs/alerting/rules/">
+        <h2><i class="fa fa-warning"></i> Precise alerting</h2>
+        <p>Alerts are defined based on Prometheus's flexible query language and maintain dimensional information. An alertmanager handles notifications and silencing.</p>
+      </a>
+    </div>
+    <div class="col-md-3 col-sm-6 col-xs-12 feature-item">
+      <a href="/docs/instrumenting/clientlibs/">
+        <h2><i class="fa fa-code"></i> Many client libraries</h2>
+        <p>Client libraries allow easy instrumentation of services. Currently, Go, Java, and Ruby are supported. Custom libraries are easy to implement.</p>
+      </a>
+    </div>
+    <div class="col-md-3 col-sm-6 col-xs-12 feature-item">
+      <a href="/docs/instrumenting/exporters/">
+        <h2><i class="fa fa-cloud-upload"></i> Many integrations</h2>
+        <p>Existing exporters allow bridging of third-party data into Prometheus. Examples: system statistics, as well as Docker, HAProxy, StatsD, and JMX metrics. </p>
+      </a>
     </div>
   </div>
 

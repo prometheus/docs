@@ -1,9 +1,9 @@
 ---
-title: Client Library Guidelines
+title: Client library guidelines
 sort_rank: 2
 ---
 
-# Client Library Guidelines
+# Client library guidelines
 
 This document covers what functionality and API Prometheus client libraries
 should offer, with the aim of consistency across libraries, making the easy use
@@ -295,7 +295,7 @@ except when a custom Collector is proxying from other
 instrumentation/monitoring systems. Generated/dynamic metric names are a sign
 that you should be using labels instead.
 
-### Metric description/help
+### Metric description and help
 
 Gauge/Counter/Summary/Histogram MUST require metric descriptions/help to be
 provided.
@@ -347,7 +347,7 @@ Client libraries are ENCOURAGED to offer ways that make it easy for users to
 unit-test their use of the instrumentation code. For example, the
 `CollectorRegistry.get_sample_value` in Python.
 
-## Packaging and Dependencies
+## Packaging and dependencies
 
 Ideally, a client library can be included in any application to add some
 instrumentation, without having to worry about it breaking the application.
@@ -362,7 +362,7 @@ separated from the bridges/exposition of metrics in a given format. For
 example, the Java simpleclient `simpleclient` module has no dependencies, and
 the `simpleclient_servlet` has the HTTP bits.
 
-## Performance Considerations
+## Performance considerations
 
 As client libraries must be thread-safe, some form of concurrency control is
 required and consideration must be given to performance on multi-core machines

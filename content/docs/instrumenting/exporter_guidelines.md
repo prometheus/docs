@@ -1,9 +1,9 @@
 ---
-title: Exporter Guidelines
+title: Exporter guidelines
 sort_rank: 5
 ---
 
-# Exporter Guidelines
+# Exporter guidelines
 
 When directly instrumenting your own code, the general rules of how to
 instrument code with a Prometheus client library can be followed quite
@@ -17,7 +17,7 @@ direct instrumentation.
 If you are writing an exporter and are unclear on anything here, contact us on
 IRC (#prometheus on Freenode) or the [mailing list](/community).
 
-## Maintainability and Purity
+## Maintainability and purity
 
 The main decision you need to make when writing an exporter is how much work
 you’re willing to put in to get perfect metrics out of it.
@@ -247,7 +247,7 @@ instrumentation system that has a way to decrement it (e.g. Dropwizard metrics)
 that’s not a counter - it’s a gauge. `UNTYPED` is probably the best type to use
 there, as `GAUGE` would be misleading if it were being used as a counter.
 
-### Help Strings
+### Help strings
 
 When you’re transforming metrics it’s useful for users to be able to track back
 to what the original was, and what rules were in play that caused that

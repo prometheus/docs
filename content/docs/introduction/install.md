@@ -103,3 +103,7 @@ Chef:
 SaltStack:
 
 * [bechtoldt/saltstack-prometheus-formula](https://github.com/bechtoldt/saltstack-prometheus-formula)
+
+Puppet:
+
+* [https://forge.puppet.com/brutus777/prometheus](https://forge.puppet.com/brutus777/prometheus)

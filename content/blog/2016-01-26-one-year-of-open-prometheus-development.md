@@ -22,6 +22,8 @@ Docker and Boexever in 2014. Over the years, Prometheus was growing more and
 more mature and although it was already solving people's monitoring problems,
 it was still unknown to the wider public.
 
+<!-- more -->
+
 ## Going public
 
 Everything changed for us a year ago, in January of 2015. After more than two

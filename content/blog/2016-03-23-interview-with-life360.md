@@ -33,6 +33,7 @@ services written in Go, Python, PHP, as well as plans to introduce Java to our
 stack. We use Consul for service discovery, and of course our Prometheus setup
 is integrated with it.
 
+<!-- more -->
 
 ## What was your pre-Prometheus monitoring experience?
 

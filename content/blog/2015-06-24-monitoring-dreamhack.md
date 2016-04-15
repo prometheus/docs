@@ -30,6 +30,8 @@ or *dhtech*. This post is going to focus on the work of dhtech and how we used
 Prometheus during DreamHack Summer 2015 to try to kick our monitoring up another
 notch.
 
+<!-- more -->
+
 ## The equipment
 Turns out that to build a highly performant network for 10,000+
 computers, you need at least the same number of network ports. In our case these

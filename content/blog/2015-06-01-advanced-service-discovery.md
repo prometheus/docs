@@ -22,6 +22,7 @@ In this blog post, we will take a closer look at the built-in service discovery 
 some practical examples. As an additional resource, see
 [Prometheus's configuration documentation](/docs/operating/configuration).
 
+<!-- more -->
 
 ## Prometheus and targets
 

@@ -30,7 +30,7 @@ route:
   receiver: 'slack-notifications'
   # All alerts in a notification have the same value for these labels.
   group_by: [alertname, datacenter, app]
-  
+
 receivers:
 - name: 'slack-notifications'
   slack_configs:
@@ -45,7 +45,9 @@ It shows us that there is one firing alert, followed by the label values of
 the alert grouping (alertname, datacenter, app) and further label values the
 alerts have in common (critical).
 
-## Customize 
+<!-- more -->
+
+## Customize
 
 If you have alerts, you should also have documentation on how to handle them –
 a runbook. A good approach to that is having a wiki that has a section for
@@ -66,11 +68,11 @@ by the Go programming language.
 ```yaml
 global:
   slack_api_url: '<slack_webhook_url>'
-  
+
 route:
 - receiver: 'slack-notifications'
   group_by: [alertname, datacenter, app]
-  
+
 receivers:
 - name: 'slack-notifications'
   slack_configs:
@@ -105,7 +107,7 @@ field and we provide a path to our custom template file:
 ```yaml
 global:
   slack_api_url: '<slack_webhook_url>'
-  
+
 route:
 - receiver: 'slack-notifications'
   group_by: [alertname, datacenter, app]

@@ -19,6 +19,8 @@ detect and handle with custom-built rules. The Prometheus [query
 language](../../../../../docs/querying/basics/) gives you the tools to discover
 these anomalies while avoiding false positives.
 
+<!-- more -->
+
 ## Building a query
 
 A common problem within a service is when a small number of servers are not

@@ -18,7 +18,7 @@ module BlogHelper
     content = post.compiled_content
     if content =~ /\s<!-- more -->\s/
       content = content.partition('<!-- more -->').first +
-      "<div class='read-more'><a href='#{post.path}'>Continue reading &rsaquo;</a></div>"
+      "<div class='read-more'><a class='btn btn-primary' href='#{post.path}'>Continue reading &raquo;</a></div>"
     end
     return content
   end

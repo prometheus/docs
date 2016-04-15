@@ -13,7 +13,7 @@ with Prometheus.
 
 ## Blogs
 
-* This site has its own [blog](http://prometheus.io/blog/).
+* This site has its own [blog](/blog/).
 * [SoundCloud's blog post announcing Prometheus](https://developers.soundcloud.com/blog/prometheus-monitoring-at-soundcloud)
   – a more elaborate overview than the one given on this site.
 * Prometheus-related posts on the

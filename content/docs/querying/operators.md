@@ -137,7 +137,7 @@ The label list provided with the group modifier contains additional labels from 
 to be included in the result metrics. A label can only appear in one of the lists. Every time
 series of the result vector must be uniquely identifiable by the labels from both lists combined.
 
-_Grouping modifiers can only be used for [comparison/filtering](#comparison-/-filter-binary-operators)
+_Grouping modifiers can only be used for [comparison](#comparison-binary-operators)
 and [arithmetic](#arithmetic-binary-operators) operations as `and` and `or` operations
 match with all possible entries in the right vector by default._
 

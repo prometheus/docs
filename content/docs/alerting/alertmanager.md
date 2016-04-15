@@ -37,7 +37,7 @@ single compact notification.
 Grouping of alerts, timing for the grouped notifications, and the receivers
 of those notificiations are configured by a routing tree in the configuration
 file.
- 
+
 ## Inhibition
 
 Inhibition is a concept of suppressing notifications for certain alerts if

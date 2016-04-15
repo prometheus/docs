@@ -77,4 +77,4 @@ checks:
     exclude: []
 
 # The base url required by atom_feed
-base_url: "http://prometheus.io"
+base_url: "https://prometheus.io"

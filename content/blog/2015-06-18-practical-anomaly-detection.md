@@ -123,4 +123,4 @@ Alertmanager's generic webhook support can trigger automatic remediations.
 This all combines to enable oncall engineers to focus on problems where they can
 have the most impact.
 
-When defining alerts for your services, see also our [alerting best practices](http://prometheus.io/docs/practices/alerting/).
+When defining alerts for your services, see also our [alerting best practices](/docs/practices/alerting/).

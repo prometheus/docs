@@ -40,7 +40,7 @@ Prometheus).
 | **Inception** | April 2014 | April 2014  |
 | **Supported in** | Prometheus version `>=0.4.0` | Prometheus version `>=0.4.0` |
 | **Transmission** | HTTP | HTTP |
-| **Encoding** | [32-bit varint-encoded record length-delimited](https://developers.google.com/protocol-buffers/docs/reference/java/com/google/protobuf/AbstractMessageLite#writeDelimitedTo(java.  io.OutputStream)) Protocol Buffer messages of type [io.prometheus.client.MetricFamily](https://github.com/prometheus/client_model/blob/086fe7ca28bde6cec2acd5223423c1475a362858/metrics.proto#L76-  L81) | UTF-8, `\n` line endings |
+| **Encoding** | [32-bit varint-encoded record length-delimited](https://developers.google.com/protocol-buffers/docs/reference/java/com/google/protobuf/AbstractMessageLite#writeDelimitedTo(java.io.OutputStream)) Protocol Buffer messages of type [io.prometheus.client.MetricFamily](https://github.com/prometheus/client_model/blob/086fe7ca28bde6cec2acd5223423c1475a362858/metrics.proto#L76-  L81) | UTF-8, `\n` line endings |
 | **HTTP `Content-Type`** | `application/vnd.google.protobuf; proto=io.prometheus.client.MetricFamily; encoding=delimited` | `text/plain; version=0.0.4` (A missing `version` value will lead to a fall-back to the most recent text format version.) |
 | **Optional HTTP `Content-Encoding`** | `gzip` | `gzip` |
 | **Advantages** | <ul><li>Cross-platform</li><li>Size</li><li>Encoding and decoding costs</li><li>Strict schema</li><li>Supports concatenation and theoretically streaming (only server-side behavior would need to change)</li></ul> | <ul><li>Human-readable</li><li>Easy to assemble, especially for minimalistic cases (no nesting required)</li><li>Readable line by line (with the exception of type hints and docstrings)</li></ul> |

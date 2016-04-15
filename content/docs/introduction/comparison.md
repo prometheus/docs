@@ -65,7 +65,7 @@ also works well for many short-lived, frequently changing sets of time series.
 
 ## Prometheus vs. InfluxDB
 
-[InfluxDB](http://influxdb.com/) is a very promising new open-source time
+[InfluxDB](https://influxdata.com/) is a very promising new open-source time
 series database. It did not exist when Prometheus development began, so we were
 unable to consider it as an alternative at the time. Still, there are
 significant differences between Prometheus and InfluxDB, and both systems are

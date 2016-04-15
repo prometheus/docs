@@ -21,7 +21,7 @@ For building Prometheus from source, see the relevant [`README.md`
 section](https://github.com/prometheus/prometheus/blob/master/README.md#use-make).
 
 Note that this documentation (as published on
-[prometheus.io](http://prometheus.io)) refers to the latest production
+[prometheus.io](https://prometheus.io)) refers to the latest production
 release. The head of the
 [prometheus/docs](https://github.com/prometheus/docs) GitHub
 repository refers to the (possibly not yet released) head of the
@@ -39,7 +39,7 @@ a sample configuration and exposes it on port 9090.
 
 The Prometheus image uses a volume to store the actual metrics. For
 production deployments it is highly recommended to use the
-[Data Volume Container](https://docs.docker.com/userguide/dockervolumes/#creating-and-mounting-a-data-volume-container)
+[Data Volume Container](https://docs.docker.com/engine/userguide/containers/dockervolumes/#creating-and-mounting-a-data-volume-container)
 pattern to ease managing the data on Prometheus upgrades.
 
 To provide your own configuration, there are several options. Here are

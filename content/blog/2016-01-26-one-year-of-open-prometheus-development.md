@@ -28,14 +28,14 @@ Everything changed for us a year ago, in January of 2015. After more than two
 years of development and internal usage, we felt that Prometheus was ready for
 a wider audience and decided to go fully public with our official [announcement
 blog post](https://developers.soundcloud.com/blog/prometheus-monitoring-at-soundcloud),
-a [website](http://prometheus.io/), and a series of
+a [website](https://prometheus.io/), and a series of
 [related](http://www.boxever.com/tags/monitoring)
 [posts](http://5pi.de/2015/01/26/monitor-docker-containers-with-prometheus/).
 We already received a good deal of attention during the first week after the
 announcement, but nothing could prepare us for what happened a week later:
 someone unknown to us (hello there,
 [jjwiseman](https://news.ycombinator.com/user?id=jjwiseman)!) had submitted
-[the Prometheus website](http://prometheus.io/) to Hacker News and somehow their
+[the Prometheus website](https://prometheus.io/) to Hacker News and somehow their
 post had made it [all the way to the top](https://news.ycombinator.com/item?id=8995696).
 
 This is when things started going slightly crazy in a good way. We saw a sharp
@@ -105,10 +105,10 @@ or another has become too long to mention all of them:
 [CoreOS](https://coreos.com/), [Docker](https://docker.com),
 [Boxever](http://www.boxever.com/),
 [DigitalOcean](https://www.digitalocean.com/), [Financial Times](http://www.ft.com/),
-[Improbable](http://improbable.io/), [KPMG](https://kpmg.com), and many more.
+[Improbable](http://improbable.io/), [KPMG](https://www.kpmg.com), and many more.
 Even the world's largest digital festival,
 [DreamHack](https://www.dreamhack.se), has [used
-Prometheus](http://prometheus.io/blog/2015/06/24/monitoring-dreamhack/) to keep
+Prometheus](/blog/2015/06/24/monitoring-dreamhack/) to keep
 tabs on their network infrastructure in 2015, and
 [FOSDEM](https://fosdem.org/2016/) will do so in 2016.
 

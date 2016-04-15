@@ -241,7 +241,7 @@ A DNS-SD configuration allows specifying a set of DNS record names which
 are periodically queried to discover a list of targets (host-port pairs). The
 DNS servers to be contacted are read from `/etc/resolv.conf`.
 
-During the [relabeling phase](#target-relabeling-relabel_config), the meta
+During the [relabeling phase](#relabel_configs), the meta
 label `__meta_dns_name` is available on each target and is set to the SRV
 record name that produced the discovered target.
 
@@ -301,7 +301,7 @@ services:
 Note that the IP number and port used to scrape the targets is assembled as
 `<__meta_consul_address>:<__meta_consul_service_port>`. However, in some
 Consul setups, the relevant address is in `__meta_consul_service_address`.
-In those cases, you can use the [relabel](#target-relabeling-relabel_config)
+In those cases, you can use the [relabel](#relabel_configs)
 feature to replace the special `__address__` label.
 
 ### `<kubernetes_sd_config>`
@@ -530,7 +530,7 @@ As a fallback, the file contents are also re-read periodically at the specified
 refresh interval.
 
 Each target has a meta label `__meta_filepath` during the
-[relabeling phase](#target-relabeling-relabel_config). Its value is set to the
+[relabeling phase](#relabel_configs). Its value is set to the
 filepath from which the target was extracted.
 
 ```
@@ -546,7 +546,7 @@ Where `<filename_pattern>` may be a path ending in `.json`, `.yml` or `.yaml`. T
 may contain a single `*` that matches any character sequence, e.g. `my/path/tg_*.json`.
 
 
-### `<relabel_config>`
+### `<relabel_configs>`
 
 Relabeling is a powerful tool to dynamically rewrite the label set of a target before
 it gets scraped. Multiple relabeling steps can be configured per scrape configuration.
@@ -615,7 +615,7 @@ the `replace`, `keep`, `drop` and `labelmap` actions. The regex is fully anchore
    to label names given by `replacement` with match group references
   (`${1}`, `${2}`, ...) in `replacement` substituted by their value.
 
-### `<metric_relabel_config>`
+### `<metric_relabel_configs>`
 
 Metric relabeling is applied to samples as the last step before ingestion. It
 has the same configuration format and actions as target relabeling. Metric

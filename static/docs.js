@@ -35,8 +35,8 @@ $(document).ready(function() {
     var arch = $('.download-selection .arch .caption').text();
 
     $('.downloads tbody tr').each(function() {
-      if (selected($(this).data('os').toString(), os, ['darwin', 'linux'])
-          && selected($(this).data('arch').toString(), arch, ['386', 'amd64'])) {
+      if (selected($(this).data('os').toString(), os, ['darwin', 'linux', 'windows'])
+          && selected($(this).data('arch').toString(), arch, ['amd64'])) {
         $(this).show();
       } else {
         $(this).hide();

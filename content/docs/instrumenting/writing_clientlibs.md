@@ -1,9 +1,9 @@
 ---
-title: Client library guidelines
+title: Writing client libraries
 sort_rank: 2
 ---
 
-# Client library guidelines
+# Writing client libraries
 
 This document covers what functionality and API Prometheus client libraries
 should offer, with the aim of consistency across libraries, making the easy use

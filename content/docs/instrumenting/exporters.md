@@ -76,7 +76,7 @@ hosted outside of the Prometheus GitHub organization.
    * [Varnish exporter](https://github.com/jonnenauha/prometheus_varnish_exporter)
 
 When implementing a new Prometheus exporter, please follow the
-[Prometheus Exporter Guidelines](/docs/instrumenting/exporter_guidelines)
+[guidelines on writing exporters](/docs/instrumenting/writing_exporters)
 Please also consider consulting the [development mailing
 list](https://groups.google.com/forum/#!forum/prometheus-developers).  We are
 happy to give advice on how to make your exporter as useful and consistent as

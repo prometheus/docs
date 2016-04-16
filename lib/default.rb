@@ -23,5 +23,22 @@ module BlogHelper
     return content
   end
 end
-
 include BlogHelper
+
+module DownloadHelper
+  def format_bytes(bytes)
+    '%.2f MiB' % (bytes.to_f / 1024 / 1024)
+  end
+
+  def dropdown(name, items)
+    caption = %(<span class="caption">all</span> <span class="caret"></span>)
+    button = %(<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">#{caption}</button>)
+    default = %(<li><a href="#">all</a></li><li><a href="#">popular</a></li><li role="separator" class="divider"></li>)
+    list = %(<ul class="dropdown-menu">#{default} #{items.map { |i| %(<li><a href="#">#{i}</a></li>) }.join('') }</ul>)
+
+    %(<div class="btn-group #{name}">#{button} #{list}</div>)
+  end
+end
+include DownloadHelper
+
+

@@ -76,7 +76,8 @@ body {
   background-color: rgba(0,0,0,0.15);
   color: #fff;
   padding: 20px 25px 20px 25px;
-  margin-top: 15px;
+  margin: 15px 10px 0 10px;
+  text-transform: uppercase;
 }
 
 .jumbotron a.btn:hover {
@@ -186,6 +187,24 @@ body {
 footer {
   font-size: 12px;
   color: #333;
+}
+
+/* Downloads related styles. */
+.download h2 {
+  margin-top: 2em;
+}
+
+.download-selection {
+  clear: both;
+}
+
+.download-selection .btn-group {
+  padding-right: 1em;
+}
+
+.downloads .checksum {
+  color: #aaa;
+  font-style: italic;
 }
 
 /* Docs-related styles. */

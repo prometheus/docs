@@ -13,8 +13,8 @@ series data.
 
 ## Downloading and running Prometheus
 
-[Download the latest release](https://github.com/prometheus/prometheus/releases)
-of Prometheus for your platform, then extract and run it:
+[Download the latest release](/download) of Prometheus for your platform, then
+extract and run it:
 
 ```
 tar xvfz prometheus-*.tar.gz

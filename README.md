@@ -1,4 +1,4 @@
-# Prometheus Documentation
+# Prometheus Documentation [![Build Status](https://travis-ci.org/prometheus/docs.svg?branch=master)](https://travis-ci.org/prometheus/docs)
 
 This repository contains both the content and the static-site generator code for the
 Prometheus documentation site.

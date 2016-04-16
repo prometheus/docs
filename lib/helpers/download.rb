@@ -93,7 +93,7 @@ module Downloads
     end
 
     def url
-      @data['url']
+      @data['browser_download_url']
     end
 
     def kind

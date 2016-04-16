@@ -20,7 +20,6 @@ body {
   display: inline;
   margin-top: -5px;
   margin-right: 3px;
-  margin-left: 12px;
 }
 
 .navbar-toggle {
@@ -214,7 +213,7 @@ footer {
 
 .side-nav {
   margin-top: 20px;
-  padding: 5px 20px 20px 20px;
+  padding: 5px 20px 20px 0;
 }
 
 .side-nav .fa {

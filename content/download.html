@@ -36,8 +36,8 @@ title: Download
 
     <div class="panel panel-default download-selection">
       <div class="panel-body">
-        Operating system <%= dropdown(:os, Downloads.operating_systems) %>
-        Architecture <%= dropdown(:arch, Downloads.architectures) %>
+        Operating system <%= dropdown(:os, Downloads.operating_systems, :popular, popular: %w(darwin linux windows)) %>
+        Architecture <%= dropdown(:arch, Downloads.architectures, :amd64) %>
       </div>
     </div>
 

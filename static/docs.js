@@ -20,23 +20,25 @@ $(document).ready(function() {
     $(this).replaceWith(link);
   });
 
-  var selected = function(value, want, popular) {
+  var selected = function(value, want, group) {
     switch(want) {
     case 'all':
       return true;
-    case 'popular':
-      return popular.indexOf(value) > -1;
     default:
+      if (group.length > 0) {
+        return group.indexOf(value) > -1;
+      }
       return value === want;
     }
   }
   var selectDownloads = function() {
     var os = $('.download-selection .os .caption').text();
+    var osGroup = $('.download-selection .os li:contains("'+os+'")').data("group");
     var arch = $('.download-selection .arch .caption').text();
 
     $('.downloads tbody tr').each(function() {
-      if (selected($(this).data('os').toString(), os, ['darwin', 'linux', 'windows'])
-          && selected($(this).data('arch').toString(), arch, ['amd64'])) {
+      if (selected($(this).data('os').toString(), os, osGroup !== undefined ? osGroup.split(' ') : [])
+          && selected($(this).data('arch').toString(), arch, [])) {
         $(this).show();
       } else {
         $(this).hide();
@@ -44,7 +46,6 @@ $(document).ready(function() {
     });
   };
 
-  $('.download-selection button .caption').text('popular');
   selectDownloads();
 
   $('.download-selection a').on('click', function() {

@@ -114,4 +114,25 @@ module Downloads
       @data['size']
     end
   end
+
+  module Helper
+    def format_bytes(bytes)
+      '%.2f MiB' % (bytes.to_f / 1024 / 1024)
+    end
+
+    def dropdown(name, items, default, groups = {})
+      additional = groups.map do |name, items|
+        %(<li data-group="#{items.join(' ')}"><a href="#">#{name}</a></li>)
+      end.join('')
+
+      caption = %(<span class="caption">#{default}</span> <span class="caret"></span>)
+      button = %(<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">#{caption}</button>)
+      header = %(<li><a href="#">all</a></li>#{additional}<li role="separator" class="divider"></li>)
+      list = %(<ul class="dropdown-menu">#{header} #{items.map { |i| %(<li><a href="#">#{i}</a></li>) }.join('') }</ul>)
+
+      %(<div class="btn-group #{name}">#{button} #{list}</div>)
+    end
+  end
 end
+
+include Downloads::Helper

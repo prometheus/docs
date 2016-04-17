@@ -49,11 +49,11 @@ title: Download
     <% repository.releases.each do |release| %>
       <thead>
         <tr>
-          <th colspan="5">
-            <%= release.name %>
+          <td colspan="5">
+            <strong><%= release.name %></strong>
             <%= %(<span class="label label-primary">Pre-release</span>) if release.prerelease %>
             <small><a href="<%= release.url %>">Release notes</a></small>
-          </th>
+          </td>
         </tr>
         <tr class="first">
           <th>File name</th>

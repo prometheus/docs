@@ -1,9 +1,9 @@
 ---
-title: Exporter guidelines
+title: Writing exporters
 sort_rank: 5
 ---
 
-# Exporter guidelines
+# Writing exporters
 
 When directly instrumenting your own code, the general rules of how to
 instrument code with a Prometheus client library can be followed quite

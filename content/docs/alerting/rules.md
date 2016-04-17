@@ -56,8 +56,8 @@ clause.
 
 Label values in the `WITH` clause cannot be templated.
 
-**Note:** Old alerting rules can be converted to the new syntax using [this script](https://gist.github.com/xbglowx/d798da98ff9937e33862b285d0121bde#gistcomment-1752515).
-
+NOTE: **Note:** Old alerting rules can be converted to the new syntax using
+[this script](https://gist.github.com/xbglowx/d798da98ff9937e33862b285d0121bde#gistcomment-1752515).
 
 #### Templating
 

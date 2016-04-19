@@ -246,3 +246,21 @@ Running out of inodes is highly unlikely in a usual set-up. There is a
 possible downside: If you want to delete Prometheus's storage
 directory, you will notice that some file systems are very slow when
 deleting files.
+
+### Why don't the Prometheus server components support TLS or authentication? Can I add those?
+
+While TLS and authentication are frequently requested features, we have
+intentionally not implemented them in any of Prometheus's server-side
+components. There are so many different options and parameters for both (10+
+options for TLS alone) that we have decided to focus on building the best
+monitoring system possible rather than supporting fully generic TLS and
+authentication solutions in every server component.
+
+If you need TLS or authentication, we recommend putting a reverse proxy in
+front of Prometheus. See for example [Adding Basic Auth to Prometheus with
+Nginx](http://www.robustperception.io/adding-basic-auth-to-prometheus-with-nginx/).
+
+Note that this applies only to inbound connections. Prometheus does support
+[scraping TLS- and auth-enabled
+targets](/docs/operating/configuration/#%3Cscrape_config%3E), and other
+Prometheus components that create outbound connections have similar support.

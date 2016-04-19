@@ -12,12 +12,12 @@ downloads: $(DOWNLOADS:%=downloads/%/repo.json) $(DOWNLOADS:%=downloads/%/releas
 
 downloads/%/repo.json:
 	@mkdir -p $(dir $@)
-	# curl -sf -H 'Accept: application/vnd.github.v3+json' <GITHUB_AUTHENTICATION> https://api.github.com/repos/prometheus/$* > $@
+	@echo "curl -sf -H 'Accept: application/vnd.github.v3+json' <GITHUB_AUTHENTICATION> https://api.github.com/repos/prometheus/$* > $@"
 	@curl -sf -H 'Accept: application/vnd.github.v3+json' $(GITHUB_AUTHENTICATION) https://api.github.com/repos/prometheus/$* > $@
 
 downloads/%/releases.json:
 	@mkdir -p $(dir $@)
-	# curl -sf -H 'Accept: application/vnd.github.v3+json' <GITHUB_AUTHENTICATION> https://api.github.com/repos/prometheus/$*/releases > $@
+	@echo "curl -sf -H 'Accept: application/vnd.github.v3+json' <GITHUB_AUTHENTICATION> https://api.github.com/repos/prometheus/$*/releases > $@"
 	@curl -sf -H 'Accept: application/vnd.github.v3+json' $(GITHUB_AUTHENTICATION) https://api.github.com/repos/prometheus/$*/releases > $@
 
 github_pages_export: compile

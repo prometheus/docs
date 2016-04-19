@@ -11,12 +11,14 @@ deploy: github_pages_export github_pages_push
 downloads: $(DOWNLOADS:%=downloads/%/repo.json) $(DOWNLOADS:%=downloads/%/releases.json)
 
 downloads/%/repo.json:
-	mkdir -p $(dir $@)
-	curl -sf -H 'Accept: application/vnd.github.v3+json' https://api.github.com/repos/prometheus/$* > $@
+	@mkdir -p $(dir $@)
+	# curl -sf -H 'Accept: application/vnd.github.v3+json' <GITHUB_AUTHENTICATION> https://api.github.com/repos/prometheus/$* > $@
+	@curl -sf -H 'Accept: application/vnd.github.v3+json' $(GITHUB_AUTHENTICATION) https://api.github.com/repos/prometheus/$* > $@
 
 downloads/%/releases.json:
-	mkdir -p $(dir $@)
-	curl -sf -H 'Accept: application/vnd.github.v3+json' https://api.github.com/repos/prometheus/$*/releases > $@
+	@mkdir -p $(dir $@)
+	# curl -sf -H 'Accept: application/vnd.github.v3+json' <GITHUB_AUTHENTICATION> https://api.github.com/repos/prometheus/$*/releases > $@
+	@curl -sf -H 'Accept: application/vnd.github.v3+json' $(GITHUB_AUTHENTICATION) https://api.github.com/repos/prometheus/$*/releases > $@
 
 github_pages_export: compile
 	cd output && \

@@ -88,6 +88,7 @@ Some third-party software already exposes Prometheus metrics natively, so no
 separate exporters are needed:
 
    * [cAdvisor](https://github.com/google/cadvisor)
+   * [Doorman](https://github.com/youtube/doorman)
    * [Etcd](https://github.com/coreos/etcd)
    * [Kubernetes-Mesos](https://github.com/mesosphere/kubernetes-mesos)
    * [Kubernetes](https://github.com/GoogleCloudPlatform/kubernetes)

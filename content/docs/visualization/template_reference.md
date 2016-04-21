@@ -39,7 +39,7 @@ If functions are used in a pipeline, the pipeline value is passed as the last ar
 
 | Name          | Arguments     | Returns  | Notes    |
 | ------------- | ------------- | -------- | -------- |
-| query         | query string  | []sample | Queries the databases, does not support returning range vectors.  |
+| query         | query string  | []sample | Queries the database, does not support returning range vectors.  |
 | first         | []sample      | sample   | Equivalent to `index a 0`  |
 | label         | label, sample | string   | Equivalent to `index sample.Labels label`  |
 | value         | sample        | float64  | Equivalent to `sample.Value`  |

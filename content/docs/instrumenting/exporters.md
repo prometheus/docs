@@ -54,6 +54,7 @@ hosted outside of the Prometheus GitHub organization.
    * [Memcached exporter](https://github.com/Snapbug/memcache_exporter)
    * [Meteor JS web framework exporter](https://atmospherejs.com/sevki/prometheus-exporter)
    * [Minecraft exporter module](https://github.com/Baughn/PrometheusIntegration)
+   * [Mirth Connect exporter](https://github.com/vynca/mirth_exporter)
    * [MongoDB exporter](https://github.com/dcu/mongodb_exporter)
    * [Munin exporter](https://github.com/pvdh/munin_exporter)
    * [New Relic exporter](https://github.com/jfindley/newrelic_exporter)

@@ -19,10 +19,9 @@ extract and run it:
 ```
 tar xvfz prometheus-*.tar.gz
 cd prometheus-*
-./prometheus
 ```
 
-It should fail to start, complaining about the absence of a configuration file.
+Before starting Prometheus, let's configure it.
 
 ## Configuring Prometheus to monitor itself
 

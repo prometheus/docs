@@ -42,14 +42,16 @@ tooling for configuring Varnishes for routing requests.
 
 ## What was your pre-Prometheus monitoring experience?
 
-The primary use-cases for monitoring system are Active monitoring and probing
-(via Icinga) Metrics acquisition and creation of alerts based on these metrics
-(now Prometheus) Log acquisition from backend services Event and log
-acquisition from apps
+The primary use-cases for monitoring systems are:
+
+* Active monitoring and probing (via Icinga)
+* Metrics acquisition and creation of alerts based on these metrics (now Prometheus)
+* Log acquisition from backend services
+* Event and log acquisition from apps
 
 The last two use-cases are handled via our logging infrastructure. It consists
 of a collector running in the service container, which is listening on local
-unix socket. The socket is used by apps to send messages to the outside world.
+Unix socket. The socket is used by apps to send messages to the outside world.
 Messages are transferred via RabbitMQ servers to consumers. Consumers are
 custom written or hekad based. One of the main message flows is going towards
 the service ElasticSearch cluster, which makes logs accessible for Kibana and
@@ -57,7 +59,7 @@ ad-hoc searches. We also save all processed events to GlusterFS for archival
 purposes and/or further processing.
 
 We used to run two metric acquisition pipelines in parallel. The first is based
-on Collectd + Statsd + Graphite + Grafana and the other using Collectd +
+on Collectd + StatsD + Graphite + Grafana and the other using Collectd +
 OpenTSDB. We have struggled considerably with both pipelines. We had to deal
 with either the I/O hungriness of Graphite, or the complexity and inadequate
 tooling around OpenTSDB.
@@ -79,12 +81,12 @@ option for us.
 
 ## How did you transition?
 
-We initially started with LXC virtual on one of our service servers, but
+We initially started with LXC containers on one of our service servers, but
 quickly moved towards a dedicated server from Hetzner, where we host the
 majority of our services. We’re using PX70-SSD, which is Intel® Xeon® E3-1270
 v3 Quad-Core Haswell with 32GB RAM, so we have plenty of power to run
 Prometheus. SSDs allow us to have retention set to 120 days. Our logging
-infrastructure is built around getting logs locally (receiving them on unix
+infrastructure is built around getting logs locally (receiving them on Unix
 socket) and then pushing them towards the various workers.
 
 ![Diagram of ShowMax logging infrastructure. Shows flow of log messages from the source via processors to various consumers.](/assets/blog/2016-05-01/Loggin_infrastructure.png)
@@ -105,7 +107,7 @@ yourself.
 
 The next step was for us to figure out what to use for managing dashboards and
 graphs. We liked the Grafana integration, but didn’t really like how Grafana
-manages dashboards configurations. We are running Grafana in a docker
+manages dashboard configurations. We are running Grafana in a Docker
 container, so any changes should be kept out of the container. Another problem
 was the lack of change tracking in Grafana.
 
@@ -116,7 +118,7 @@ persisting changes made into the container. This provides you with automation,
 repeatability, and auditing.
 
 We are pleased to announce that this tool is also now available under an Apache
-2.0 license at [GitHub](https://github.com/ShowMax/grafana-dashboards-generator).
+2.0 license on [GitHub](https://github.com/ShowMax/grafana-dashboards-generator).
 
 
 ## What improvements have you seen since switching?
@@ -127,8 +129,8 @@ getting that sorted was a great win for us. Furthemore the speed and stability
 of Prometheus made access to metrics very easy for developers. Prometheus is
 really helping us to embrace the DevOps culture.
 
-Tomas Cerevka, one of our backend developers, was testing new version of the
-service using JRuby. He needed a quick peek into heap consumed by those
+Tomas Cerevka, one of our backend developers, was testing a new version of the
+service using JRuby. He needed a quick peek into the heap consumption of that
 particular service. He was able to get that information in a snap. For us,
 this speed is essential.
 
@@ -144,4 +146,3 @@ model.
 
 We’ve also already played with alerts. We want to spend more time on this topic
 and come up with increasingly sophisticated alert rules.
-

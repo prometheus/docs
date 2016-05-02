@@ -10,8 +10,9 @@ them to share their experiences of evaluating and using Prometheus.*
 
 ## Can you tell us about yourself and what ShowMax does?
 
-I’m Antonin Kral, and I’m leading research and architecture for ShowMax. Before
-that, I’ve held architectural and CTO roles for the past 12 years.
+I’m Antonin Kral, and I’m leading research and architecture for
+[ShowMax](http://www.showmax.com). Before that, I’ve held architectural and CTO
+roles for the past 12 years.
 
 ShowMax is a subscription video on demand service that launched in South Africa
 in 2015. We’ve got an extensive content catalogue with more than 20,000
@@ -22,7 +23,7 @@ in a barely connected village in sub-Saharan Africa? Already 35% of video
 around the world is streamed, but there are still so many places the revolution
 has left untouched.
 
-![](/assets/blog/2016-05-01/showmax-logo.png)
+![ShowMax logo](/assets/blog/2016-05-01/showmax-logo.png)
 
 We are managing about 50 services running mostly on private clusters built
 around CoreOS. They are primarily handling API requests from our clients
@@ -86,7 +87,7 @@ Prometheus. SSDs allow us to have retention set to 120 days. Our logging
 infrastructure is built around getting logs locally (receiving them on unix
 socket) and then pushing them towards the various workers.
 
-![](/assets/blog/2016-05-01/Loggin_infrastructure.png)
+![Diagram of ShowMax logging infrastructure. Shows flow of log messages from the source via processors to various consumers.](/assets/blog/2016-05-01/Loggin_infrastructure.png)
 
 Having this infrastructure available made pushing metrics a logical choice
 (especially in pre-Prometheus times). On the other side, Prometheus is
@@ -100,7 +101,7 @@ crashed service). We made Prometheus-pusher available on
 [GitHub](https://github.com/ShowMax/prometheus-pusher), so you can try it
 yourself.
 
-![](/assets/blog/2016-05-01/log_processors.png)
+![Grafana dashboard showing April 5th 2016 log processors traffic.](/assets/blog/2016-05-01/log_processors.png)
 
 The next step was for us to figure out what to use for managing dashboards and
 graphs. We liked the Grafana integration, but didn’t really like how Grafana
@@ -115,7 +116,7 @@ persisting changes made into the container. This provides you with automation,
 repeatability, and auditing.
 
 We are pleased to announce that this tool is also now available under an Apache
-2.0 license at https://github.com/ShowMax/grafana-dashboards-generator
+2.0 license at [GitHub](https://github.com/ShowMax/grafana-dashboards-generator).
 
 
 ## What improvements have you seen since switching?
@@ -131,7 +132,7 @@ service using JRuby. He needed a quick peek into heap consumed by those
 particular service. He was able to get that information in a snap. For us,
 this speed is essential.
 
-![](/assets/blog/2016-05-01/ui_fragments-heap-zoom.png)
+![Heap size consumed by JRuby worker during troubleshooting memory issues on JVM.](/assets/blog/2016-05-01/ui_fragments-heap-zoom.png)
 
 ## What do you think the future holds for ShowMax and Prometheus?
 

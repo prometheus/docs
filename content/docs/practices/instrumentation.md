@@ -202,7 +202,7 @@ the value can go down, it is a gauge.
 Counters can only go up (and reset, such as when a process restarts). They are
 useful for accumulating the number of events, or the amount of something at
 each event. For example, the total number of HTTP requests, or the total number of
-of bytes sent in HTTP requests. Raw counters are rarely useful. Use the
+bytes sent in HTTP requests. Raw counters are rarely useful. Use the
 `rate()` function to get the per-second rate at which they are increasing.
 
 Gauges can be set, go up, and go down. They are useful for snapshots of state,

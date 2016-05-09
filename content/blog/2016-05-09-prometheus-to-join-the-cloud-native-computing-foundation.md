@@ -23,7 +23,7 @@ governance model, as well as benefit from the resources, infrastructure, and
 advice that the independent foundation provides to its members.
 
 We think that the CNCF and Prometheus are an ideal thematic match, as both
-focus on bringing about a [modern vision of the cloud](https://cncf.io/about/our-mission).
+focus on bringing about a modern vision of the cloud.
 
 In the following months, we will be working with the CNCF on finalizing the
 project governance structure. We will report back when there are more details

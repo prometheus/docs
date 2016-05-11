@@ -76,6 +76,7 @@ hosted outside of the Prometheus GitHub organization.
    * [SQL query result set metrics exporter](https://github.com/chop-dbhi/prometheus-sql)
    * [Ubiquiti UniFi exporter](https://github.com/mdlayher/unifi_exporter)
    * [Varnish exporter](https://github.com/jonnenauha/prometheus_varnish_exporter)
+   * [BIG-IP exporter](https://github.com/ExpressenAB/bigip_exporter)
 
 When implementing a new Prometheus exporter, please follow the
 [guidelines on writing exporters](/docs/instrumenting/writing_exporters)

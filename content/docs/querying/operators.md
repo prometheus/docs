@@ -211,7 +211,7 @@ highest to lowest.
 1. `*`, `/`, `%`
 2. `+`, `-`
 3. `==`, `!=`, `<=`, `<`, `>=`, `>`
-4. `AND`
+4. `AND`, `UNLESS` 
 5. `OR`
 
 Operators on the same precedence level are left-associative. For example,

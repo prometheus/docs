@@ -406,6 +406,57 @@ tls_config:
 [ retry_interval: <duration> | default = 1s ]
 ```
 
+#### Example `<kubernetes_sd_config>`
+
+The example below scrapes a number of resources:
+
+  * Any pods that have the annotation `prometheus.io/scrape` set to the string
+`true`. If the pods also have an annotation `prometheus.io/port`, then the
+target port on which to scrape is changed from the default `9102` to the value
+of that annotation.
+  * All Kubernetes Nodes
+
+Additionally, for all such resources, some labels are retained from the data
+reported by Kubernetes:
+
+  * Any actual Kubernetes label is preserved in a Prometheus label.
+  * The Kubernetes "namespace" of pods is preserved in the Prometheus label `kubernetes_namespace`.
+  * The Kubernetes pod name is preserved in the Prometheus label `kubernetes_pod_name`.
+
+`prometheus.yml`:
+```
+---
+# documented: http://prometheus.io/docs/operating/configuration/
+rule_files:
+- /alert.rules
+scrape_configs:
+- job_name: scrape_annotated_pods
+  kubernetes_sd_configs:
+  - api_servers:
+    - https://kubernetes
+    in_cluster: true
+  relabel_configs:
+    - source_labels: [__meta_kubernetes_pod_annotation_prometheus_io_scrape]
+      regex: true
+      action: keep
+    - source_labels: [__address__, __meta_kubernetes_pod_annotation_prometheus_io_port]
+      regex: (.*):(?:.*);(.+)
+      action: replace
+      target_label: __address__
+      replacement: ${1}:${2}
+    - source_labels: [__meta_kubernetes_role]
+      regex: node
+      action: keep
+    - action: labelmap
+      regex: __meta_kubernetes_pod_label_(.+)
+    - source_labels: [__meta_kubernetes_pod_namespace]
+      action: replace
+      target_label: kubernetes_namespace
+    - source_labels: [__meta_kubernetes_pod_name]
+      action: replace
+      target_label: kubernetes_pod_name
+```
+
 ### `<marathon_sd_config>`
 
 CAUTION: Marathon SD is in beta: breaking changes to configuration are still

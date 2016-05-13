@@ -41,6 +41,7 @@ vet all of them for best practices. Commonly, those exporters are
 hosted outside of the Prometheus GitHub organization.
 
    * [Apache exporter](https://github.com/neezgee/apache_exporter)
+   * [BIG-IP exporter](https://github.com/ExpressenAB/bigip_exporter)
    * [BIND exporter](https://github.com/digitalocean/bind_exporter)
    * [Ceph exporter](https://github.com/digitalocean/ceph_exporter)
    * [CouchDB exporter](https://github.com/gesellix/couchdb-exporter)
@@ -76,7 +77,6 @@ hosted outside of the Prometheus GitHub organization.
    * [SQL query result set metrics exporter](https://github.com/chop-dbhi/prometheus-sql)
    * [Ubiquiti UniFi exporter](https://github.com/mdlayher/unifi_exporter)
    * [Varnish exporter](https://github.com/jonnenauha/prometheus_varnish_exporter)
-   * [BIG-IP exporter](https://github.com/ExpressenAB/bigip_exporter)
 
 When implementing a new Prometheus exporter, please follow the
 [guidelines on writing exporters](/docs/instrumenting/writing_exporters)

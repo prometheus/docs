@@ -287,7 +287,7 @@ Many monitoring systems don’t have labels, instead doing things like
 
 The graphite and statsd exporters share a way of doing this with a small
 configuration language. Other exporters should implement the same. It’s
-currently implemented only in Go, and would benefit from begin factored out
+currently implemented only in Go, and would benefit from being factored out
 into a separate library.
 
 ## Collectors

@@ -40,6 +40,7 @@ and maintained. We encourage the creation of more exporters but cannot
 vet all of them for best practices. Commonly, those exporters are
 hosted outside of the Prometheus GitHub organization.
 
+   * [Aerospike exporter](https://github.com/alicebob/asprom)
    * [Apache exporter](https://github.com/neezgee/apache_exporter)
    * [BIG-IP exporter](https://github.com/ExpressenAB/bigip_exporter)
    * [BIND exporter](https://github.com/digitalocean/bind_exporter)

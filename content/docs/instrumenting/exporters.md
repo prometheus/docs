@@ -63,6 +63,7 @@ hosted outside of the Prometheus GitHub organization.
    * [Nginx metric library](https://github.com/knyar/nginx-lua-prometheus)
    * [NSQ exporter](https://github.com/lovoo/nsq_exporter)
    * [OpenWeatherMap exporter](https://github.com/RichiH/openweathermap_exporter)
+   * [Passenger exporter](https://github.com/stuartnelson3/passenger_exporter)
    * [PgBouncer exporter](http://git.cbaines.net/prometheus-pgbouncer-exporter/about)
    * [PostgreSQL exporter](https://github.com/wrouesnel/postgres_exporter)
    * [PowerDNS exporter](https://github.com/janeczku/powerdns_exporter)
@@ -78,7 +79,6 @@ hosted outside of the Prometheus GitHub organization.
    * [SQL query result set metrics exporter](https://github.com/chop-dbhi/prometheus-sql)
    * [Ubiquiti UniFi exporter](https://github.com/mdlayher/unifi_exporter)
    * [Varnish exporter](https://github.com/jonnenauha/prometheus_varnish_exporter)
-   * [Passenger exporter](https://github.com/stuartnelson3/passenger_exporter)
 
 When implementing a new Prometheus exporter, please follow the
 [guidelines on writing exporters](/docs/instrumenting/writing_exporters)

@@ -171,7 +171,7 @@ for 30% of required chunk removal.
 Out of the metrics that Prometheus exposes about itself, the following are
 particularly useful for tuning the flags above:
 
-* `prometheus_local_storage_memory_series`: The current number of series held
+* `prometheus_local_storage_memory_series`: The current number of active series held
   in memory.
 * `prometheus_local_storage_memory_chunks`: The current number of chunks held
   in memory.

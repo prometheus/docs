@@ -78,6 +78,7 @@ These logical/set binary operators are only defined between instant vectors:
 
 * `and` (intersection)
 * `or` (union)
+* `unless` (complement)
 
 `vector1 and vector2` results in a vector consisting of the elements of
 `vector1` for which there are elements in `vector2` with exactly matching
@@ -88,6 +89,10 @@ over from the left-hand-side vector.
 (label sets + values) of `vector1` and additionally all elements of `vector2`
 which do not have matching label sets in `vector1`.
 
+`vector1 unless vector2` results in a vector consisting of the elements of
+`vector1` for which there are no elements in `vector2` with exactly matching
+label sets. All matching elements in both vectors are dropped.
+
 ## Vector matching
 
 Operations between vectors attempt to find a matching element in the right-hand-side
@@ -97,17 +102,20 @@ matching behavior:
 **One-to-one** finds a unique pair of entries from each side of the operation.
 In the default case, that is an operation following the format `vector1 <operator> vector2`.
 Two entries match if they have the exact same set of labels and corresponding values.
-The `on` keyword allows reducing the set of considered labels to a provided list:
+The `ignoring` keyword allows ignoring certain labels when matching, while the
+`on` keyword allows reducing the set of considered labels to a provided list:
 
+
+    <vector expr> <bin-op> ignoring(<label list>) <vector expr>
     <vector expr> <bin-op> on(<label list>) <vector expr>
 
 Example input:
 
-    method:http_errors:rate5m{source="internal", method="get", code="500"}  24
-    method:http_errors:rate5m{source="external", method="get", code="404"}  30
-    method:http_errors:rate5m{source="internal", method="put", code="501"}  3
-    method:http_errors:rate5m{source="internal", method="post", code="500"} 6
-    method:http_errors:rate5m{source="external", method="post", code="404"} 21
+    method_code:http_errors:rate5m{method="get", code="500"}  24
+    method_code:http_errors:rate5m{method="get", code="404"}  30
+    method_code:http_errors:rate5m{method="put", code="501"}  3
+    method_code:http_errors:rate5m{method="post", code="500"} 6
+    method_code:http_errors:rate5m{method="post", code="404"} 21
 
     method:http_requests:rate5m{method="get"}  600
     method:http_requests:rate5m{method="del"}  34
@@ -115,35 +123,41 @@ Example input:
 
 Example query:
 
-    method:http_errors:rate5m{code="500"} / on(method) method:http_requests:rate5m
+    method_code:http_errors:rate5m{code="500"} / ignoring(code) method:http_requests:rate5m
 
 This returns a result vector containing the fraction of HTTP requests with status code
-of 500 for each method, as measured over the last 5 minutes. Without `on(method)` there
+of 500 for each method, as measured over the last 5 minutes. Without `ignoring(code)` there
 would have been no match as the metrics do not share the same set of labels.
 The entries with methods `put` and `del` have no match and will not show up in the result:
 
     {method="get"}  0.04            //  24 / 600
     {method="post"} 0.1             //  12 / 120
 
+
 **Many-to-one** and **one-to-many** matchings refer to the case where each vector element on
 the "one"-side can match with multiple elements on the "many"-side. This has to
 be explicitly requested using the `group_left` or `group_right` modifier, where
 left/right determines which vector has the higher cardinality.
 
+    <vector expr> <bin-op> ignoring(<label list>) group_left(<label list>) <vector expr>
+    <vector expr> <bin-op> ignoring(<label list>) group_right(<label list>) <vector expr>
     <vector expr> <bin-op> on(<label list>) group_left(<label list>) <vector expr>
     <vector expr> <bin-op> on(<label list>) group_right(<label list>) <vector expr>
 
-The label list provided with the group modifier contains additional labels from the "many"-side
-to be included in the result metrics. A label can only appear in one of the lists. Every time
-series of the result vector must be uniquely identifiable by the labels from both lists combined.
+The label list provided with the group modifier contains additional labels from
+the "one"-side to be included in the result metrics. For `on` a label can only
+appear in one of the lists. Every time series of the result vector must be
+uniquely identifiable.
 
-_Grouping modifiers can only be used for [comparison](#comparison-binary-operators)
-and [arithmetic](#arithmetic-binary-operators) operations as `and` and `or` operations
-match with all possible entries in the right vector by default._
+_Grouping modifiers can only be used for
+[comparison](#comparison-binary-operators) and
+[arithmetic](#arithmetic-binary-operators). Operations as `and`, `unless` and
+`or` operations match with all possible entries in the right vector by
+default._
 
 Example query:
 
-    method:http_errors:rate5m / on(method) group_left(code,source) method:http_requests:rate5m
+    method_code:http_errors:rate5m / ignoring(code) group_left method:http_requests:rate5m
 
 In this case the left vector contains more than one entry per `method` label value. Thus,
 we indicate this using `group_left`. To ensure that the result vector entries are unique, additional
@@ -151,14 +165,13 @@ labels have to be provided. Either `code` or `source` satisfy this requirement, 
 can be added for a more detailed result. The elements from the right side
 are now matched with multiple elements with the same `method` label on the left:
 
-    {source="internal", method="get", code="500"}  0.04            //  24 / 600
-    {source="external", method="get", code="404"}  0.05            //  30 / 600
-    {source="internal", method="post", code="500"} 0.1             //  12 / 120
-    {source="external", method="post", code="404"} 0.175           //  21 / 120
+    {method="get", code="500"}  0.04            //  24 / 600
+    {method="get", code="404"}  0.05            //  30 / 600
+    {method="post", code="500"} 0.1             //  12 / 120
+    {method="post", code="404"} 0.175           //  21 / 120
 
 _Many-to-one and one-to-many matching are advanced use cases that should be carefully considered.
-Often a proper use of `on(<labels>)` provides the desired outcome._
-
+Often a proper use of `ignoring(<labels>)` provides the desired outcome._
 
 ## Aggregation operators
 
@@ -182,7 +195,7 @@ or preserve distinct dimensions by including a `without` or `by` clause.
 `without` removes the listed labels from the result vector, while all other
 labels are preserved the output. `by` does the opposite and drops labels that
 are not listed in the `by` clause, even if their label values are identical
-between all elements of the vector. The `keep_common` clause allows to keep
+between all elements of the vector. The `keep_common` clause allows keeping
 those extra labels (labels that are identical between elements, but not in the
 `by` clause).
 
@@ -211,8 +224,8 @@ highest to lowest.
 1. `*`, `/`, `%`
 2. `+`, `-`
 3. `==`, `!=`, `<=`, `<`, `>=`, `>`
-4. `AND`, `UNLESS` 
-5. `OR`
+4. `and`, `unless`
+5. `or`
 
 Operators on the same precedence level are left-associative. For example,
 `2 * 3 % 2` is equivalent to `(2 * 3) % 2`.

@@ -11,7 +11,7 @@ sort_rank: 1
 monitoring and alerting toolkit originally built at
 [SoundCloud](http://soundcloud.com). Since its inception in 2012, many
 companies and organizations have adopted Prometheus, and the project has a very
-active developer and user community. It is now a standalone open source project
+active developer and user [community](/community). It is now a standalone open source project
 and maintained independently of any company.
 
 For a more elaborate overview, see the resources linked from the

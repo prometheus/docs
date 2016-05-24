@@ -1,9 +1,15 @@
 ---
 title: PromDash
-sort_rank: 2
+sort_rank: 7
+toc: full-width
 ---
 
 # PromDash
+
+CAUTION: <b>NOTE:</b> We recommend [Grafana](/docs/visualization/grafana) for
+visualization of Prometheus metrics nowadays, as it has native Prometheus
+support and is widely adopted and powerful. There will be less focus on
+PromDash development in the future.
 
 ## Overview
 

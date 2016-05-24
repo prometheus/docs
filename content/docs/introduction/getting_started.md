@@ -13,16 +13,15 @@ series data.
 
 ## Downloading and running Prometheus
 
-[Download the latest release](https://github.com/prometheus/prometheus/releases)
-of Prometheus for your platform, then extract and run it:
+[Download the latest release](/download) of Prometheus for your platform, then
+extract and run it:
 
 ```
 tar xvfz prometheus-*.tar.gz
 cd prometheus-*
-./prometheus
 ```
 
-It should fail to start, complaining about the absence of a configuration file.
+Before starting Prometheus, let's configure it.
 
 ## Configuring Prometheus to monitor itself
 
@@ -37,8 +36,6 @@ Prometheus configuration as a file named `prometheus.yml`:
 ```
 global:
   scrape_interval:     15s # By default, scrape targets every 15 seconds.
-  evaluation_interval: 15s # By default, scrape targets every 15 seconds.
-  # scrape_timeout is set to the global default (10s).
 
   # Attach these labels to any time series or alerts when communicating with
   # external systems (federation, remote storage, Alertmanager).
@@ -53,7 +50,6 @@ scrape_configs:
 
     # Override the global default and scrape targets from this job every 5 seconds.
     scrape_interval: 5s
-    scrape_timeout: 10s
 
     target_groups:
       - targets: ['localhost:9090']
@@ -88,6 +84,10 @@ the number of cores available.
 Blindly setting `GOMAXPROCS` to a high value can be
 counterproductive. See the relevant [Go
 FAQs](http://golang.org/doc/faq#Why_no_multi_CPU).
+
+Note that Prometheus by default uses around 3GB in memory. If you have a
+smaller machine, you can tune Prometheus to use less memory.  For details,
+see the [memory usage documentation](/docs/operating/storage/#memory-usage).
 
 ## Using the expression browser
 
@@ -190,7 +190,6 @@ scrape_configs:
 
     # Override the global default and scrape targets from this job every 5 seconds.
     scrape_interval: 5s
-    scrape_timeout: 10s
 
     target_groups:
       - targets: ['localhost:8080', 'localhost:8081']
@@ -238,8 +237,7 @@ look like this:
 ```
 global:
   scrape_interval:     15s # By default, scrape targets every 15 seconds.
-  evaluation_interval: 15s # By default, scrape targets every 15 seconds.
-  # scrape_timeout is set to the global default (10s).
+  evaluation_interval: 15s # Evaluate rules every 15 seconds.
 
   # Attach these extra labels to all timeseries collected by this Prometheus instance.
   external_labels:
@@ -253,7 +251,6 @@ scrape_configs:
 
     # Override the global default and scrape targets from this job every 5 seconds.
     scrape_interval: 5s
-    scrape_timeout: 10s
 
     target_groups:
       - targets: ['localhost:9090']
@@ -262,7 +259,6 @@ scrape_configs:
 
     # Override the global default and scrape targets from this job every 5 seconds.
     scrape_interval: 5s
-    scrape_timeout: 10s
 
     target_groups:
       - targets: ['localhost:8080', 'localhost:8081']

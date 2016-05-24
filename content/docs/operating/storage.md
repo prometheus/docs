@@ -175,7 +175,7 @@ the number of chunks waiting for persistence in relation to the
 chunks in memory exceeds the `storage.local.memory-chunks` value (if at all,
 and only if there is a minimum number of chunks waiting for persistence so that
 faster persisting of chunks can help at all). The score is between 0 and 1,
-where 1 corresponds to the highest unrgency. Depending on the score, Prometheus
+where 1 corresponds to the highest urgency. Depending on the score, Prometheus
 will write to disk more frequently. Should the score ever pass the threshold
 of 0.8, Prometheus enters “rushed mode” (which you can see in the logs). In
 rushed mode, the following strategies are applied to speed up persisting chunks:

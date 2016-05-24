@@ -7,39 +7,32 @@ sort_rank: 2
 
 ## Using pre-compiled binaries
 
-We provide precompiled binaries for released versions for most Prometheus
-components. These may be found under the "Releases" tab of the respective
-GitHub repositories. For example, for the main Prometheus server, binary
-releases are available at
-[https://github.com/prometheus/prometheus/releases](https://github.com/prometheus/prometheus/releases).
-
-Debian and RPM packages are being worked on.
+We provide precompiled binaries for most official Prometheus components.
+Check out the [download section](/download) for a list of all available
+versions.
 
 ## From source
 
-For building Prometheus from source, see the relevant [`README.md`
-section](https://github.com/prometheus/prometheus/blob/master/README.md#use-make).
+For building Prometheus components from source, see the `Makefile` targets in
+the respective repository.
 
-Note that this documentation (as published on
-[prometheus.io](http://prometheus.io)) refers to the latest production
-release. The head of the
-[prometheus/docs](https://github.com/prometheus/docs) GitHub
-repository refers to the (possibly not yet released) head of the
-[prometheus/prometheus](https://github.com/prometheus/prometheus) (and
-other) repositories.
+NOTE: **Note:** The documentation on this website refers to the latest stable
+release (excluding pre-releases). The branch
+[next-release](https://github.com/prometheus/docs/compare/next-release) refers
+to unreleased changes that are in master branches of source repos.
 
 ## Using Docker
 
 All Prometheus services are available as Docker images under the
 [prom](https://hub.docker.com/u/prom/) organization.
 
-Running Prometheus on Docker is as simple as
- `docker run -p 9090:9090 prom/prometheus`. This starts Prometheus with
-a sample configuration and exposes it on port 9090.
+Running Prometheus on Docker is as simple as `docker run -p 9090:9090
+prom/prometheus`. This starts Prometheus with a sample configuration and
+exposes it on port 9090.
 
 The Prometheus image uses a volume to store the actual metrics. For
 production deployments it is highly recommended to use the
-[Data Volume Container](https://docs.docker.com/userguide/dockervolumes/#creating-and-mounting-a-data-volume-container)
+[Data Volume Container](https://docs.docker.com/engine/userguide/containers/dockervolumes/#creating-and-mounting-a-data-volume-container)
 pattern to ease managing the data on Prometheus upgrades.
 
 To provide your own configuration, there are several options. Here are

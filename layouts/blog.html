@@ -1,4 +1,5 @@
 <% render 'default' do %>
+<div class="row">
   <div class="col-md-9 blog doc-content">
     <h1><%= item[:title] %></h1>
     <aside>Posted at: <%= get_pretty_date(item) %> by <%= item[:author_name]%></aside>
@@ -22,4 +23,5 @@
   </div>
 
   <%= render 'blog_sidebar' %>
+</div>
 <% end %>

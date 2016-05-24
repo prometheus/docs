@@ -19,6 +19,8 @@ detect and handle with custom-built rules. The Prometheus [query
 language](../../../../../docs/querying/basics/) gives you the tools to discover
 these anomalies while avoiding false positives.
 
+<!-- more -->
+
 ## Building a query
 
 A common problem within a service is when a small number of servers are not
@@ -83,8 +85,6 @@ ALERT InstanceLatencyOutlier
       >
         1
   FOR 30m
-  SUMMARY "{{$labels.instance}} in {{$labels.job}} is a latency outlier"
-  DESCRIPTION "{{$labels.instance}} has latency of {{humanizeDuration $value}}"
 ```
 
 ## Automatic actions
@@ -107,23 +107,13 @@ configuration that uses it could look like this:
 ```
 # A simple notification configuration which only sends alert notifications to
 # an external webhook.
-notification_config {
-  name: "restart_webhook"
-  webhook_config {
+receivers:
+- name: restart_webhook
+  webhook_configs:
     url: "http://example.org/my/hook"
-  }
-}
 
-# An aggregation rule which matches all alerts with the label
-# alertname="InstanceLatencyOutlier" and sends them using the "restart_webhook"
-# notification configuration.
-aggregation_rule {
-  filter {
-    name_re: "alertname"
-    value_re: "InstanceLatencyOutlier"
-  }
-  notification_config_name: "restart_webhook"
-}
+route:
+  receiver: restart_webhook
 ```
 
 
@@ -135,4 +125,4 @@ Alertmanager's generic webhook support can trigger automatic remediations.
 This all combines to enable oncall engineers to focus on problems where they can
 have the most impact.
 
-When defining alerts for your services, see also our [alerting best practices](http://prometheus.io/docs/practices/alerting/).
+When defining alerts for your services, see also our [alerting best practices](/docs/practices/alerting/).

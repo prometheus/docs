@@ -221,10 +221,9 @@ Two rules of thumb:
 
 ## What can I do if my client library does not support the metric type I need?
 
-Implement it! [Code contributions are welcome](/community/). In
-general, we expect histograms to be more urgently needed than
-summaries. Histograms are also easier to implement in a client
-library, so we recommend to implement histograms first, if in
-doubt. The reason why some libraries offer summaries but not
-histograms (the Ruby client and the legacy Java client) is that
-histograms are a more recent feature of Prometheus.
+Implement it! [Code contributions are welcome](/community/). In general, we
+expect histograms to be more urgently needed than summaries. Histograms are
+also easier to implement in a client library, so we recommend to implement
+histograms first, if in doubt. The reason why some libraries offer summaries
+but not histograms (such as the Ruby client) is that histograms are a more
+recent feature of Prometheus.

@@ -22,6 +22,7 @@ In this blog post, we will take a closer look at the built-in service discovery 
 some practical examples. As an additional resource, see
 [Prometheus's configuration documentation](/docs/operating/configuration).
 
+<!-- more -->
 
 ## Prometheus and targets
 
@@ -35,7 +36,7 @@ labels set by an earlier stage:
 1. Global labels, which are assigned to every target scraped by the Prometheus instance.
 2. The `job` label, which is configured as a default value for each scrape configuration.
 3. Labels that are set per target group within a scrape configuration.
-4. Advanced label manipulation via [_relabeling_](/docs/operating/configuration/#target-relabeling-relabel_config).
+4. Advanced label manipulation via [_relabeling_](/docs/operating/configuration/#relabel_config).
 
 Each stage overwrites any colliding labels from the earlier stages. Eventually, we have a flat
 set of labels that describe a single target. Those labels are then attached to every time series that
@@ -76,7 +77,7 @@ scrape_configs:
       job: 'job2'
 ```
 
-Through a mechanism named [_relabeling_](http://prometheus.io/docs/operating/configuration/#target-relabeling-relabel_config),
+Through a mechanism named [_relabeling_](http://prometheus.io/docs/operating/configuration/#relabel_config),
 any label can be removed, created, or modified on a per-target level. This
 enables fine-grained labeling that can also take into account metadata coming
 from the service discovery. Relabeling is the last stage of label assignment
@@ -124,7 +125,7 @@ This rule transforms a target with the label set:
 You could then also remove the source labels in an additional relabeling step.
 
 You can read more about relabeling and how you can use it to filter targets in the
-[configuration documentation](/docs/operating/configuration#target-relabeling-relabel_config).
+[configuration documentation](/docs/operating/configuration#relabel_config).
 
 Over the next sections, we will see how you can leverage relabeling when using service discovery.
 
@@ -219,7 +220,7 @@ has the `production` or `canary` Consul tag, a respective `group` label is assig
 Each target's `instance` label is set to the node name provided by Consul.
 
 A full documentation of all configuration parameters for service discovery via Consul
-can be found on the [Prometheus website](/docs/operating/configuration#target-relabeling-relabel_config).
+can be found on the [Prometheus website](/docs/operating/configuration#relabel_config).
 
 
 ## Custom service discovery

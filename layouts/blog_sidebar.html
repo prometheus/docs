@@ -2,10 +2,11 @@
   <ul class="nav navbar-nav side-nav">
     <li>
       <span class="nav-header">Blog posts</span>
-      <ul class="nav">
+      <ul class="nav active">
       <% sorted_articles.each do |post| %>
         <li><%= link_to post[:title], post.path %></li>
       <% end %>
-    </ul>
+      </ul>
+    </li>
   </ul>
 </div>

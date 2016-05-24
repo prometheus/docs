@@ -1,0 +1,81 @@
+---
+title: Download
+---
+<div class="row">
+  <div class="col-md-12 doc-content download">
+    <h1>Download</h1>
+
+    <div class="toc toc-right">
+      <ul>
+      <% Downloads.repositories.each do |repo| %>
+        <li><a href="#<%= repo.name %>"><%= repo.name %></a></li>
+      <% end %>
+      </ul>
+    </div>
+
+    <p>
+      We provide precompiled binaries and <a href="https://hub.docker.com/r/prom/">Docker images</a>
+      for most officially maintained Prometheus components. If a component is
+      not listed here, check the respective repository on Github for further
+      instructions.
+    </p>
+    <p>
+      There is also a constantly growing number of independently maintained
+      exporters listed at <a href="/docs/instrumenting/exporters/">Exporters
+      and integrations</a>.
+    </p>
+    <p>
+      After downloading a binary release suitable for your system, please follow
+      the <a href="/docs/introduction/getting_started/">installation instructions</a>.
+    </p>
+
+    <div class="alert alert-info" role="alert">
+      <strong>Work in progress!</strong>
+      We will provide more precompiled binary versions as well as checksums soon.
+    </div>
+
+    <div class="panel panel-default download-selection">
+      <div class="panel-body">
+        Operating system <%= dropdown(:os, Downloads.operating_systems, :popular, popular: %w(darwin linux windows)) %>
+        Architecture <%= dropdown(:arch, Downloads.architectures, :amd64) %>
+      </div>
+    </div>
+
+    <% Downloads.repositories.each do |repository| %>
+    <h2 id="<%= repository.name %>"><%= repository.name %></h2>
+    <p><%= repository.description %> <a href="<%= repository.url %>"><i class="fa fa-github"></i> <%= repository.full_name %></a></p>
+
+    <table class="table table-bordered downloads">
+    <% repository.releases.each do |release| %>
+      <thead>
+        <tr>
+          <td colspan="5">
+            <strong><%= release.name %></strong>
+            <%= %(<span class="label label-primary">Pre-release</span>) if release.prerelease %>
+            <small><a href="<%= release.url %>">Release notes</a></small>
+          </td>
+        </tr>
+        <tr class="first">
+          <th>File name</th>
+          <th>OS</th>
+          <th>Arch</th>
+          <th>Size</th>
+          <th>SHA256 Checksum</th>
+        </tr>
+      </thead>
+      <tbody>
+      <% release.assets.each do |asset| %>
+        <tr data-os="<%= asset.os %>" data-arch="<%= asset.arch %>">
+          <td class="filename"><a class="download" href="<%= asset.url %>"><%= asset.name %></a></td>
+          <td><%= asset.os %></td>
+          <td><%= asset.arch %></td>
+          <td><%= format_bytes asset.size %></td>
+          <td class="checksum">not available yet</td>
+        </tr>
+      <% end %>
+      </tbody>
+    <% end %>
+    </table>
+    <% end %>
+  </div>
+</div>

@@ -54,7 +54,7 @@ global:
   # How long until a scrape request times out.
   [ scrape_timeout: <duration> | default = 10s ]
 
-  # How frequently to evaluate rules by default.
+  # How frequently to evaluate rules.
   [ evaluation_interval: <duration> | default = 1m ]
 
   # The labels to add to any time series or alerts when communicating with
@@ -169,6 +169,10 @@ kubernetes_sd_configs:
 serverset_sd_configs:
   [ - <serverset_sd_config> ... ]
 
+# List of AirBnB's Nerve service discovery configurations.
+nerve_sd_configs:
+  [ - <nerve_sd_config> ... ]
+
 # List of EC2 service discovery configurations.
 ec2_sd_configs:
   [ - <ec2_sd_config> ... ]
@@ -237,8 +241,8 @@ A DNS-SD configuration allows specifying a set of DNS record names which
 are periodically queried to discover a list of targets (host-port pairs). The
 DNS servers to be contacted are read from `/etc/resolv.conf`.
 
-During the [relabeling phase](#target-relabeling-relabel_config), the meta
-label `__meta_dns_srv_name` is available on each target and is set to the SRV
+During the [relabeling phase](#relabel_config), the meta
+label `__meta_dns_name` is available on each target and is set to the SRV
 record name that produced the discovered target.
 
 ```
@@ -295,9 +299,9 @@ services:
 ```
 
 Note that the IP number and port used to scrape the targets is assembled as
-`<__meta_consul_address>:<__meta_consul_service_port`. However, in some
+`<__meta_consul_address>:<__meta_consul_service_port>`. However, in some
 Consul setups, the relevant address is in `__meta_consul_service_address`.
-In those cases, you can use the [relabel](#target-relabeling-relabel_config)
+In those cases, you can use the [relabel](#relabel_config)
 feature to replace the special `__address__` label.
 
 ### `<kubernetes_sd_config>`
@@ -372,7 +376,7 @@ tls_config:
 [ retry_interval: <duration> | default = 1s ]
 ```
 
-### `<marathon_sd_configs>`
+### `<marathon_sd_config>`
 
 CAUTION: Marathon SD is in beta: breaking changes to configuration are still
 likely in future releases.
@@ -438,6 +442,29 @@ paths:
 
 Serverset data must be in the JSON format, the Thrift format is not currently supported.
 
+### `<nerve_sd_config>`
+
+Nerve SD configurations allow retrieving scrape targets from [AirBnB's Nerve]
+(https://github.com/airbnb/nerve) which are stored in
+[Zookeeper](https://zookeeper.apache.org/).
+
+The following meta labels are available on targets during relabeling:
+
+* `__meta_nerve_path`: the full path to the emdpoint node in Zookeeper
+* `__meta_nerve_endpoint_host`: the host of the endpoint
+* `__meta_nerve_endpoint_port`: the port of the endpoint
+* `__meta_nerve_endpoint_name`: the name of the endpoint
+
+```
+# The Zookeeper servers.
+servers:
+  - <host>
+# Paths can point to a single service, or the root of a tree of services.
+paths:
+  - <string>
+[ timeout: <duration> | default = 10s ]
+```
+
 ### `<ec2_sd_config>`
 
 CAUTION: EC2 SD is in beta: breaking changes to configuration are still
@@ -449,10 +476,16 @@ the public IP address with relabeling.
 
 The following meta labels are available on targets during relabeling:
 
+* `__meta_ec2_availability_zone`: the availability zone in which the instance is running
 * `__meta_ec2_instance_id`: the EC2 instance ID
-* `__meta_ec2_public_ip`: the public IP address of the instance
 * `__meta_ec2_private_ip`: the private IP address of the instance, if present
+* `__meta_ec2_public_dns_name`: the public DNS name of the instance, if available
+* `__meta_ec2_public_ip`: the public IP address of the instance, if available
+* `__meta_ec2_subnet_id`: comma separated list of subnets IDs in which the instance is running, if available
 * `__meta_ec2_tag_<tagkey>`: each tag value of the instance
+* `__meta_ec2_vpc_id`: the ID of the VPC in which the instance is running, if available
+
+
 
 See below for the configuration options for EC2 discovery:
 
@@ -503,7 +536,7 @@ As a fallback, the file contents are also re-read periodically at the specified
 refresh interval.
 
 Each target has a meta label `__meta_filepath` during the
-[relabeling phase](#target-relabeling-relabel_config). Its value is set to the
+[relabeling phase](#relabel_config). Its value is set to the
 filepath from which the target was extracted.
 
 ```
@@ -579,7 +612,8 @@ the `replace`, `keep`, `drop` and `labelmap` actions. The regex is fully anchore
 
 * `replace`: Match `regex` against the concatenated `source_labels`. Then, set
   `target_label` to `replacement`, with match group references
-  (`${1}`, `${2}`, ...) in `replacement` substituted by their value.
+  (`${1}`, `${2}`, ...) in `replacement` substituted by their value. If `regex`
+  does not match, no replacement takes place.
 * `keep`: Drop targets for which `regex` does not match the concatenated `source_labels`.
 * `drop`: Drop targets for which `regex` matches the concatenated `source_labels`.
 * `hashmod`: Set `target_label` to the `modulus` of a hash of the concatenated `source_labels`.
@@ -587,7 +621,7 @@ the `replace`, `keep`, `drop` and `labelmap` actions. The regex is fully anchore
    to label names given by `replacement` with match group references
   (`${1}`, `${2}`, ...) in `replacement` substituted by their value.
 
-### `<metric_relabel_configs>`
+### `<metric_relabel_config>`
 
 Metric relabeling is applied to samples as the last step before ingestion. It
 has the same configuration format and actions as target relabeling. Metric

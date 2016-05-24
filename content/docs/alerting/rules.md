@@ -1,6 +1,6 @@
 ---
 title: Alerting rules
-sort_rank: 3
+sort_rank: 5
 ---
 
 # Alerting rules
@@ -15,32 +15,60 @@ Alerting rules are configured in Prometheus in the same way as [recording
 rules](../../querying/rules).
 
 ### Defining alerting rules
+
 Alerting rules are defined in the following syntax:
 
     ALERT <alert name>
       IF <expression>
-      [FOR <duration>]
-      [WITH <label set>]
-      SUMMARY "<summary template>"
-      DESCRIPTION "<description template>"
+      [ FOR <duration> ]
+      [ LABELS <label set> ]
+      [ ANNOTATIONS <label set> ]
 
 The optional `FOR` clause causes Prometheus to wait for a certain duration
 between first encountering a new expression output vector element (like an
 instance with a high HTTP error rate) and counting an alert as firing for this
 element. Elements that are active, but not firing yet, are in pending state.
 
-The `WITH` clause allows specifying a set of additional labels to be attached
-to the alert. Any existing conflicting labels will be overwritten.
+The `LABELS` clause allows specifying a set of additional labels to be attached
+to the alert. Any existing conflicting labels will be overwritten. The label
+values can be templated.
 
-The `SUMMARY` should be a short, human-readable summary of the alert (suitable
-for e.g. an email subject line), while the `DESCRIPTION` clause should provide
-a longer description. Both string fields allow the inclusion of template
-variables derived from the firing vector elements of the alert:
+The `ANNOTATIONS` clause specifies another set of labels that are not
+identifying for an alert instance. They are used to store longer additional
+information such as alert descriptions or runbook links. The annotation values
+can be templated.
+
+#### Prometheus v0.16.2 and earlier
+
+In previous Prometheus versions the rule syntax is as follows:
+
+    ALERT <alert name>
+      IF <expression>
+      [ FOR <duration> ]
+      [ WITH <label set> ]
+      SUMMARY <string>
+      DESCRIPTION <string>
+      [ RUNBOOK <string> ]
+
+Annotations are not free form but fixed to a summary, a description, and a
+runbook field. Labels are attached using the `WITH` rather than the `LABELS`
+clause.
+
+Label values in the `WITH` clause cannot be templated.
+
+NOTE: **Note:** Old alerting rules can be converted to the new syntax using
+[this script](https://gist.github.com/xbglowx/d798da98ff9937e33862b285d0121bde#gistcomment-1752515).
+
+#### Templating
+
+Label and annotation values can be templated using [console templates](../../visualization/consoles).
+The `$labels` variable holds the label key/value pairs of an alert instance
+and `$value` holds the evaluated value of an alert instance.
 
     # To insert a firing element's label values:
-    {{$labels.<labelname>}}
+    {{ $labels.<labelname> }}
     # To insert the numeric expression value of the firing element:
-    {{$value}}
+    {{ $value }}
 
 Examples:
 
@@ -48,20 +76,23 @@ Examples:
     ALERT InstanceDown
       IF up == 0
       FOR 5m
-      WITH {
-        severity="page"
+      LABELS { severity = "page" }
+      ANNOTATIONS {
+        summary = "Instance {{ $labels.instance }} down",
+        description = "{{ $labels.instance }} of job {{ $labels.job }} has been down for more than 5 minutes.",
       }
-      SUMMARY "Instance {{$labels.instance}} down"
-      DESCRIPTION "{{$labels.instance}} of job {{$labels.job}} has been down for more than 5 minutes."
 
     # Alert for any instance that have a median request latency >1s.
-    ALERT ApiHighRequestLatency
-      IF api_http_request_latencies_ms{quantile="0.5"} > 1000
+    ALERT APIHighRequestLatency
+      IF api_http_request_latencies_second{quantile="0.5"} > 1
       FOR 1m
-      SUMMARY "High request latency on {{$labels.instance}}"
-      DESCRIPTION "{{$labels.instance}} has a median request latency above 1s (current value: {{$value}})"
+      ANNOTATIONS {
+        summary = "High request latency on {{ $labels.instance }}",
+        description = "{{ $labels.instance }} has a median request latency above 1s (current value: {{ $value }}s)",
+      }
 
 ### Inspecting alerts during runtime
+
 To manually inspect which alerts are active (pending or firing), navigate to
 the "Alerts" tab of your Prometheus instance. This will show you the exact
 label sets for which each defined alert is currently active.
@@ -74,6 +105,7 @@ transitions from active to inactive state. Once inactive, the time series does
 not get further updates.
 
 ### Sending alert notifications
+
 Prometheus's alerting rules are good at figuring what is broken *right now*,
 but they are not a fully-fledged notification solution. Another layer is needed
 to add summarization, notification rate limiting, silencing and alert

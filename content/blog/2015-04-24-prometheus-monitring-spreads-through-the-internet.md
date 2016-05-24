@@ -16,6 +16,8 @@ catch up on anything you missed.
 In the future, we will use this blog to publish more articles and announcements
 to help you get the most out of Prometheus.
 
+<!-- more -->
+
 ## Using Prometheus
 
 Posts on how to use Prometheus comprise the majority of online content. Here

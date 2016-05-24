@@ -24,6 +24,8 @@ In this post we will implement a small utility program that connects a custom
 service discovery approach based on [etcd](https://coreos.com/etcd/), the
 highly consistent distributed key-value store, to Prometheus.
 
+<!-- more -->
+
 ## Targets in etcd and Prometheus
 
 Our fictional service discovery system stores services and their

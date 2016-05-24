@@ -1,6 +1,6 @@
 ---
 title: Exposition formats
-sort_rank: 4
+sort_rank: 6
 ---
 
 # Exposition formats
@@ -40,7 +40,7 @@ Prometheus).
 | **Inception** | April 2014 | April 2014  |
 | **Supported in** | Prometheus version `>=0.4.0` | Prometheus version `>=0.4.0` |
 | **Transmission** | HTTP | HTTP |
-| **Encoding** | [32-bit varint-encoded record length-delimited](https://developers.google.com/protocol-buffers/docs/reference/java/com/google/protobuf/AbstractMessageLite#writeDelimitedTo(java.  io.OutputStream)) Protocol Buffer messages of type [io.prometheus.client.MetricFamily](https://github.com/prometheus/client_model/blob/086fe7ca28bde6cec2acd5223423c1475a362858/metrics.proto#L76-  L81) | UTF-8, `\n` line endings |
+| **Encoding** | [32-bit varint-encoded record length-delimited](https://developers.google.com/protocol-buffers/docs/reference/java/com/google/protobuf/AbstractMessageLite#writeDelimitedTo(java.io.OutputStream)) Protocol Buffer messages of type [io.prometheus.client.MetricFamily](https://github.com/prometheus/client_model/blob/086fe7ca28bde6cec2acd5223423c1475a362858/metrics.proto#L76-  L81) | UTF-8, `\n` line endings |
 | **HTTP `Content-Type`** | `application/vnd.google.protobuf; proto=io.prometheus.client.MetricFamily; encoding=delimited` | `text/plain; version=0.0.4` (A missing `version` value will lead to a fall-back to the most recent text format version.) |
 | **Optional HTTP `Content-Encoding`** | `gzip` | `gzip` |
 | **Advantages** | <ul><li>Cross-platform</li><li>Size</li><li>Encoding and decoding costs</li><li>Strict schema</li><li>Supports concatenation and theoretically streaming (only server-side behavior would need to change)</li></ul> | <ul><li>Human-readable</li><li>Easy to assemble, especially for minimalistic cases (no nesting required)</li><li>Readable line by line (with the exception of type hints and docstrings)</li></ul> |
@@ -113,13 +113,13 @@ format. The following conventions apply:
 See also the example below.
 
 ```
-# HELP api_http_request_count The total number of HTTP requests.
-# TYPE api_http_request_count counter
-http_request_count{method="post",code="200"} 1027 1395066363000
-http_request_count{method="post",code="400"}    3 1395066363000
+# HELP http_requests_total The total number of HTTP requests.
+# TYPE http_requests_total counter
+http_requests_total{method="post",code="200"} 1027 1395066363000
+http_requests_total{method="post",code="400"}    3 1395066363000
 
 # Escaping in label values:
-msdos_file_access_time_ms{path="C:\\DIR\\FILE.TXT",error="Cannot find file:\n\"FILE.TXT\""} 1.234e3
+msdos_file_access_time_seconds{path="C:\\DIR\\FILE.TXT",error="Cannot find file:\n\"FILE.TXT\""} 1.458255915e9
 
 # Minimalistic line:
 metric_without_timestamp_and_labels 12.47

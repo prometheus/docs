@@ -159,11 +159,10 @@ Example query:
 
     method_code:http_errors:rate5m / ignoring(code) group_left method:http_requests:rate5m
 
-In this case the left vector contains more than one entry per `method` label value. Thus,
-we indicate this using `group_left`. To ensure that the result vector entries are unique, additional
-labels have to be provided. Either `code` or `source` satisfy this requirement, but both
-can be added for a more detailed result. The elements from the right side
-are now matched with multiple elements with the same `method` label on the left:
+In this case the left vector contains more than one entry per `method` label
+value. Thus, we indicate this using `group_left`. The elements from the right
+side are now matched with multiple elements with the same `method` label on the
+left:
 
     {method="get", code="500"}  0.04            //  24 / 600
     {method="get", code="404"}  0.05            //  30 / 600

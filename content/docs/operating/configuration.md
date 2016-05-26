@@ -316,15 +316,15 @@ both cluster components and deployed applications can be scraped. This will
 create multiple target groups:
 
 * One for all API servers, with each API server as a target
-(__meta_kubernetes_role=apiserver)
-* One for all nodes, with each node as a target (__meta_kubernetes_role=node)
+(`__meta_kubernetes_role=apiserver`)
+* One for all nodes, with each node as a target (`__meta_kubernetes_role=node`)
 * One for all services, with each service as a target
-(__meta_kubernetes_role=service)
+(`__meta_kubernetes_role=service`)
 * One for *each* service, with each service endpoint as a target
-(__meta_kubernetes_role=endpoint)
-* One for all pods, with each pod as a target (__meta_kubernetes_role=pod)
+(`__meta_kubernetes_role=endpoint`)
+* One for all pods, with each pod as a target (`__meta_kubernetes_role=pod`)
 * One for *each* pod, with each container as a target
-(__meta_kubernetes_role=container)
+(`__meta_kubernetes_role=container`)
 
 For services and containers, the port is the first port reported by Kubernetes.
 For pods, the port is the "first port" for the first container reported by
@@ -336,7 +336,7 @@ The following meta labels are available on targets during relabeling:
 
 * All roles:
     * `__meta_kubernetes_role`: the role of the target: one of `apiserver`,
-`endpoint`, `node`, `pod` or `service`
+`endpoint`, `node`, `pod`, `container` or `service`
 * Nodes:
     * `__meta_kubernetes_node_label_<labelname>`: each node label from the
 Kubernetes API
@@ -406,56 +406,7 @@ tls_config:
 [ retry_interval: <duration> | default = 1s ]
 ```
 
-#### Example `<kubernetes_sd_config>`
-
-The example below scrapes a number of resources:
-
-  * Any pods that have the annotation `prometheus.io/scrape` set to the string
-`true`. If the pods also have an annotation `prometheus.io/port`, then the
-target port on which to scrape is changed from the default `9102` to the value
-of that annotation.
-  * All Kubernetes Nodes
-
-Additionally, for all such resources, some labels are retained from the data
-reported by Kubernetes:
-
-  * Any actual Kubernetes label is preserved in a Prometheus label.
-  * The Kubernetes "namespace" of pods is preserved in the Prometheus label `kubernetes_namespace`.
-  * The Kubernetes pod name is preserved in the Prometheus label `kubernetes_pod_name`.
-
-`prometheus.yml`:
-```
----
-# documented: http://prometheus.io/docs/operating/configuration/
-rule_files:
-- /alert.rules
-scrape_configs:
-- job_name: scrape_annotated_pods
-  kubernetes_sd_configs:
-  - api_servers:
-    - https://kubernetes
-    in_cluster: true
-  relabel_configs:
-    - source_labels: [__meta_kubernetes_pod_annotation_prometheus_io_scrape]
-      regex: true
-      action: keep
-    - source_labels: [__address__, __meta_kubernetes_pod_annotation_prometheus_io_port]
-      regex: (.*):(?:.*);(.+)
-      action: replace
-      target_label: __address__
-      replacement: ${1}:${2}
-    - source_labels: [__meta_kubernetes_role]
-      regex: node
-      action: keep
-    - action: labelmap
-      regex: __meta_kubernetes_pod_label_(.+)
-    - source_labels: [__meta_kubernetes_pod_namespace]
-      action: replace
-      target_label: kubernetes_namespace
-    - source_labels: [__meta_kubernetes_pod_name]
-      action: replace
-      target_label: kubernetes_pod_name
-```
+There are example Kubernetes SD configs on [GitHub](https://github.com/prometheus/prometheus/blob/master/documentation/examples/prometheus-kubernetes.yml).
 
 ### `<marathon_sd_config>`
 

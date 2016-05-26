@@ -211,6 +211,10 @@ A `tls_config` allows configuring TLS connections.
 [ cert_file: <filename> ]
 [ key_file: <filename> ]
 
+# ServerName extension to indicate the name of the server.
+# http://tools.ietf.org/html/rfc4366#section-3.1
+[ server_name: <string> ]
+
 # Disable validation of the server certificate.
 [ insecure_skip_verify: <boolean> ]
 ```

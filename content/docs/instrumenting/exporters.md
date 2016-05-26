@@ -72,7 +72,6 @@ hosted outside of the Prometheus GitHub organization.
    * [Rancher exporter](https://github.com/infinityworksltd/prometheus-rancher-exporter)
    * [Redis exporter](https://github.com/oliver006/redis_exporter)
    * [RethinkDB exporter](https://github.com/oliver006/rethinkdb_exporter)
-   * [Rsyslog exporter](https://github.com/digitalocean/rsyslog_exporter)
    * [rTorrent exporter](https://github.com/mdlayher/rtorrent_exporter)
    * [scollector exporter](https://github.com/tgulacsi/prometheus_scollector)
    * [SMTP/Maildir MDA blackbox prober](https://github.com/cherti/mailexporter)

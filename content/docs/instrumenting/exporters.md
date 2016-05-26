@@ -68,6 +68,7 @@ hosted outside of the Prometheus GitHub organization.
    * [PostgreSQL exporter](https://github.com/wrouesnel/postgres_exporter)
    * [PowerDNS exporter](https://github.com/janeczku/powerdns_exporter)
    * [RabbitMQ exporter](https://github.com/kbudde/rabbitmq_exporter)
+   * [RabbitMQ Management Plugin exporter](https://github.com/deadtrickster/prometheus_rabbitmq_exporter)
    * [Rancher exporter](https://github.com/infinityworksltd/prometheus-rancher-exporter)
    * [Redis exporter](https://github.com/oliver006/redis_exporter)
    * [RethinkDB exporter](https://github.com/oliver006/rethinkdb_exporter)

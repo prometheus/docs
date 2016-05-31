@@ -131,7 +131,7 @@ would have been no match as the metrics do not share the same set of labels.
 The entries with methods `put` and `del` have no match and will not show up in the result:
 
     {method="get"}  0.04            //  24 / 600
-    {method="post"} 0.1             //  12 / 120
+    {method="post"} 0.05            //   6 / 120
 
 
 **Many-to-one** and **one-to-many** matchings refer to the case where each vector element on
@@ -166,7 +166,7 @@ left:
 
     {method="get", code="500"}  0.04            //  24 / 600
     {method="get", code="404"}  0.05            //  30 / 600
-    {method="post", code="500"} 0.1             //  12 / 120
+    {method="post", code="500"} 0.05            //   6 / 120
     {method="post", code="404"} 0.175           //  21 / 120
 
 _Many-to-one and one-to-many matching are advanced use cases that should be carefully considered.

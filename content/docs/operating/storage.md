@@ -151,6 +151,13 @@ before it happens).
 The other drawback of a high value of chunks waiting for persistence is larger
 checkpoints.
 
+If you combine a high number of time series with very fast and/or large
+scrapes, the number of pre-allocated mutexes for series locking might not be
+sufficient. If you see scrape hiccups while Prometheus is writing a checkpoint
+or processing expensive queries, try increasing the value of the
+`storage.local.num-fingerprint-mutexes` flag. Sometimes tens of thousands or
+even more are required.
+
 ## Persistence pressure and “rushed mode”
 
 Naively, Prometheus would all the time try to persist completed chunk to disk

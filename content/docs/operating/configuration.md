@@ -317,20 +317,29 @@ create multiple target groups:
 
 * One for all API servers, with each API server as a target
 (`__meta_kubernetes_role=apiserver`)
+    * The default port is the port used for the API server itself.
 * One for all nodes, with each node as a target (`__meta_kubernetes_role=node`)
+    * The default port is the Kubelet port from the Kubernetes configuration.
 * One for all services, with each service as a target
 (`__meta_kubernetes_role=service`)
+    * The default port is selected in an undefined manner. If your service
+    exposes multiple ports, you should explicitly configure relabeling to
+    indicate the proper port.
 * One for *each* service, with each service endpoint as a target
 (`__meta_kubernetes_role=endpoint`)
+    * The default port is selected in an undefined manner. If your service
+    exposes multiple ports, you should explicitly configure relabeling to
+    indicate the proper port.
 * One for all pods, with each pod as a target (`__meta_kubernetes_role=pod`)
+    * The default port is the numerically lowest port exposed by Kubernetes for
+    the container that is alphabetically first by name.
+    * A pod **will not** be created as a target if it does not include at least
+    one container that exposes at least one port.
 * One for *each* pod, with each container as a target
 (`__meta_kubernetes_role=container`)
-
-For services and containers, the port is the first port reported by Kubernetes.
-For pods, the port is the "first port" for the first container reported by
-Kubernetes. It is not guaranteed that Kubernetes will present these in a stable
-order, so you should not rely on these selections unless you only have on port
-per service/container and/or one container per pod.
+    * The default port is the numerically lowest port.
+    * A container **will not** be created as a target if it does not expose at
+      least one port.
 
 The following meta labels are available on targets during relabeling:
 

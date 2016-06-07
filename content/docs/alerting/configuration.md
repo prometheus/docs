@@ -25,6 +25,10 @@ A configuration reload is triggered by sending a `SIGHUP` to the process.
 
 To specify which configuration file to load, use the `-config.file` flag.
 
+```
+./alertmanager -config.file=simple.yml
+```
+
 The file is written in the [YAML format](http://en.wikipedia.org/wiki/YAML),
 defined by the scheme described below.
 Brackets indicate that a parameter is optional. For non-list parameters the

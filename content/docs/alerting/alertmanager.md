@@ -35,7 +35,7 @@ Alertmanager to group alerts by their cluster and alertname so it sends a
 single compact notification.
 
 Grouping of alerts, timing for the grouped notifications, and the receivers
-of those notificiations are configured by a routing tree in the configuration
+of those notifications are configured by a routing tree in the configuration
 file.
 
 ## Inhibition

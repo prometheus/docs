@@ -357,7 +357,7 @@ api_key: <string>
 ```
 
 
-## Webhook receiver `<webhook config>`
+## Webhook receiver `<webhook_config>`
 
 The webhook receiver allows configuring a generic receiver. 
 

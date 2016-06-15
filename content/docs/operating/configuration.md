@@ -78,8 +78,12 @@ A `scrape_config` section specifies a set of targets and parameters describing h
 to scrape them. In the general case, one scrape configuration specifies a single
 job. In advanced configurations, this may change.
 
-Targets may be statically configured via the `target_groups` parameter or
+Targets may be statically configured via the `static_configs` parameter or
 dynamically discovered using one of the supported service-discovery mechanisms.
+
+NOTE: Prior to v0.20, `target_groups` was used instead of `static_configs`.
+`target_groups` can still be used alternatively in v0.20 itself, but not in
+later versions.
 
 Additionally, `relabel_configs` allow advanced modifications to any
 target and its labels before scraping.
@@ -181,9 +185,10 @@ ec2_sd_configs:
 file_sd_configs:
   [ - <file_sd_config> ... ]
 
-# List of labeled target groups for this job.
-target_groups:
-  [ - <target_group> ... ]
+# List of labeled statically configured targets for this job.
+# Known as target_groups prior to v0.20.
+static_configs:
+  [ - <static_config> ... ]
 
 # List of target relabel configurations.
 relabel_configs:
@@ -211,18 +216,23 @@ A `tls_config` allows configuring TLS connections.
 [ cert_file: <filename> ]
 [ key_file: <filename> ]
 
+# ServerName extension to indicate the name of the server.
+# http://tools.ietf.org/html/rfc4366#section-3.1
+[ server_name: <string> ]
+
 # Disable validation of the server certificate.
 [ insecure_skip_verify: <boolean> ]
 ```
 
 
-### `<target_group>`
+### `<static_config>`
 
-A `target_group` allows specifying a list of targets and a common label set for them.
-They are the canonical way to specify static targets in a scrape configuration.
+A `static_confic` allows specifying a list of targets and a common label set
+for them.  It is the canonical way to specify static targets in a scrape
+configuration.
 
 ```
-# The targets specified by the target group.
+# The targets specified by the static config.
 targets:
   [ - '<host>' ]
 
@@ -554,12 +564,12 @@ region: <string>
 File-based service discovery provides a more generic way to configure static targets
 and serves as an interface to plug in custom service discovery mechanisms.
 
-It reads a set of files containing a list of zero or more `<target_group>`s. Changes to
-all defined files are detected via disk watches and applied immediately. Files may be
-provided in YAML or JSON format. Only changes resulting in well-formed target groups
-are applied.
+It reads a set of files containing a list of zero or more
+`<static_config>`s. Changes to all defined files are detected via disk watches
+and applied immediately. Files may be provided in YAML or JSON format. Only
+changes resulting in well-formed target groups are applied.
 
-The JSON file must contain a list of target groups, using this format:
+The JSON file must contain a list of static configs, using this format:
 
 ```
 [
@@ -582,7 +592,7 @@ filepath from which the target was extracted.
 
 ```
 # Patterns for files from which target groups are extracted.
-names:
+files:
   [ - <filename_pattern> ... ]
 
 # Refresh interval to re-read the files.
@@ -592,6 +602,7 @@ names:
 Where `<filename_pattern>` may be a path ending in `.json`, `.yml` or `.yaml`. The last path segment
 may contain a single `*` that matches any character sequence, e.g. `my/path/tg_*.json`.
 
+NOTE: Prior to v0.20, `names:` was used instead of `files:`.
 
 ### `<relabel_config>`
 

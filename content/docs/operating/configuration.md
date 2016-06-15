@@ -227,7 +227,7 @@ A `tls_config` allows configuring TLS connections.
 
 ### `<static_config>`
 
-A `static_confic` allows specifying a list of targets and a common label set
+A `static_config` allows specifying a list of targets and a common label set
 for them.  It is the canonical way to specify static targets in a scrape
 configuration.
 

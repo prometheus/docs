@@ -63,6 +63,10 @@ global:
   [ smtp_from: <tmpl_string> ]
   # The default SMTP smarthost used for sending emails.
   [ smtp_smarthost: <string> ]
+  # SMTP authentication information.
+  [ smtp_auth_username: <string> ]
+  [ smtp_auth_password: <string> ]
+  [ smtp_auth_secret: <string> ]
 
   # The API URL to use for Slack notifications.
   [ slack_api_url: <string> ]
@@ -235,6 +239,13 @@ to: <tmpl_string>
 [ from: <tmpl_string> | default = global.smtp_from ]
 # The SMTP host through which emails are sent.
 [ smarthost: <string> | default = global.smtp_smarthost ]
+# SMTP authentication information.
+[ auth_username: <string> ]
+[ auth_password: <string> ]
+[ auth_secret: <string> ]
+[ auth_identity: <string> ]
+
+[ require_tls: <bool> | default = true ]
 
 # The HTML body of the email notification.
 [ html: <tmpl_string> | default = '{{ template "email.default.html" . }}' ] 
@@ -326,6 +337,7 @@ channel: <tmpl_string>
 [ username: <tmpl_string> | default = '{{ template "slack.default.username" . }}'
 [ title: <tmpl_string> | default = '{{ template "slack.default.title" . }}' ]
 [ title_link: <tmpl_string> | default = '{{ template "slack.default.titlelink" . }}' ]
+[ icon_emoji: <tmpl_string> ]
 [ pretext: <tmpl_string> | default = '{{ template "slack.default.pretext" . }}' ]
 [ text: <tmpl_string> | default = '{{ template "slack.default.text" . }}' ]
 [ fallback: <tmpl_string> | default = '{{ template "slack.default.fallback" . }}' ]
@@ -354,6 +366,11 @@ api_key: <string>
 # A set of arbitrary key/value pairs that provide further detail
 # about the incident.
 [ details: { <string>: <tmpl_string>, ... } ]
+
+# Comma separated list of team responsible for notifications.
+[ teams: <tmpl_string> ]
+# Comma separated list of tags attached to the notifications.
+[ tags: <tmpl_string> ]
 ```
 
 

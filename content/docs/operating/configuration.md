@@ -396,10 +396,6 @@ api_servers:
 # token file at /var/run/secrets/kubernetes.io/serviceaccount/ in the pod.
 [ in_cluster: <boolean> ]
 
-# The kubelet port to scrape metrics from. This will normally be the read-only
-# port of 10255 (default).
-[ kubelet_port: <int> ]
-
 # Optional authentication information used to authenticate to the API server.
 # Note that `basic_auth`, `bearer_token` and `bearer_token_file` options are
 # mutually exclusive.

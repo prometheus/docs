@@ -639,14 +639,14 @@ prefix is guaranteed to never be used by Prometheus itself.
 [ target_label: <labelname> ]
 
 # Regular expression against which the extracted value is matched.
-[ regex: <regex> ]
+[ regex: <regex> | default = (.*) ]
 
 # Modulus to take of the hash of the source label values.
 [ modulus: <uint64> ]
 
 # Replacement value against which a regex replace is performed if the
 # regular expression matches.
-[ replacement: <string> | default = '' ]
+[ replacement: <string> | default = $1 ]
 
 # Action to perform based on regex matching.
 [ action: <relabel_action> | default = replace ]

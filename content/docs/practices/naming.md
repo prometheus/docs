@@ -7,8 +7,8 @@ sort_rank: 1
 
 The metric and label conventions presented in this document are not required
 for using Prometheus, but can serve as both a style-guide and a collection of
-best practices. Individual organizations may want to approach e.g. naming
-conventions differently.
+best practices. Individual organizations may want to approach some of these 
+practices, e.g. naming conventions, differently.
 
 ## Metric names
 

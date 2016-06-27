@@ -60,8 +60,8 @@ d3.select(".js-find-match").on("click", function() {
   labelServiceHandler();
 });
 
-$(document).on("keyup", function(e) {
-  if (e.keyCode != 13) {
+d3.select(document).on("keyup", function(e) {
+  if (d3.event.keyCode != 13) {
     return;
   }
   labelServiceHandler();

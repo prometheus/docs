@@ -98,6 +98,7 @@ separate exporters are needed:
    * [Etcd](https://github.com/coreos/etcd)
    * [Kubernetes-Mesos](https://github.com/mesosphere/kubernetes-mesos)
    * [Kubernetes](https://github.com/GoogleCloudPlatform/kubernetes)
+   * [linkerd](https://github.com/BuoyantIO/linkerd)
    * [RobustIRC](http://robustirc.net/)
    * [SkyDNS](https://github.com/skynetservices/skydns)
    * [Weave Flux](http://weaveworks.github.io/flux/)

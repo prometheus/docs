@@ -88,7 +88,7 @@ list](https://groups.google.com/forum/#!forum/prometheus-developers).  We are
 happy to give advice on how to make your exporter as useful and consistent as
 possible.
 
-## Directly instrumentated software
+## Directly instrumented software
 
 Some third-party software already exposes Prometheus metrics natively, so no
 separate exporters are needed:

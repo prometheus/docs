@@ -60,8 +60,8 @@ d3.select(".js-find-match").on("click", function() {
   labelServiceHandler();
 });
 
-$(document).on("keyup", function(e) {
-  if (e.keyCode != 13) {
+d3.select(document).on("keyup", function(e) {
+  if (d3.event.keyCode != 13) {
     return;
   }
   labelServiceHandler();
@@ -199,6 +199,15 @@ function update(root) {
   }
 
   var link = svg.selectAll(".link").data(links);
+
+  var drawSimple = nodes.length < 3 ? true : false;
+  if (drawSimple) {
+    // Algorithm fails to assign x attributes if nodes.length < 3. For this
+    // simple case, manually assign values.
+    nodes.forEach(function(n, i) {
+      n.x = i * 180 + 90;
+    });
+  }
 
   link.enter().append("path")
     .attr("class", "link")

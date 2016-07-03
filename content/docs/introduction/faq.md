@@ -121,7 +121,7 @@ Currently, the following external systems are supported:
 
 ### Can I create dashboards?
 
-Yes, with [PromDash](/docs/visualization/promdash/) and [Console templates](/docs/visualization/consoles/). There is also a early support for querying Prometheus servers from [Grafana](/docs/visualization/grafana/).
+Yes, we recomend [Grafana](/docs/visualization/grafana/) for production usage. [PromDash](/docs/visualization/promdash/) and [Console templates](/docs/visualization/consoles/) also exist.
 
 ### Can I change the timezone? Why is everything in UTC?
 

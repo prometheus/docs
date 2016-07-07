@@ -186,18 +186,24 @@ vector of fewer elements with aggregated values:
 * `stddev` (calculate population standard deviation over dimensions)
 * `stdvar` (calculate population standard variance over dimensions)
 * `count` (count number of elements in the vector)
+* `bottomk` (smallest k elements by sample value)
+* `topk` (largest k elements by sample value)
 
 These operators can either be used to aggregate over **all** label dimensions
 or preserve distinct dimensions by including a `without` or `by` clause.
 
-    <aggr-op>(<vector expression>) [without|by (<label list>)] [keep_common]
+    <aggr-op>([parameter,] <vector expression>) [without|by (<label list>)] [keep_common]
 
-`without` removes the listed labels from the result vector, while all other
-labels are preserved the output. `by` does the opposite and drops labels that
-are not listed in the `by` clause, even if their label values are identical
-between all elements of the vector. The `keep_common` clause allows keeping
-those extra labels (labels that are identical between elements, but not in the
-`by` clause).
+`parameter` is only required for `topk` and `bottomk`. `without` removes the
+listed labels from the result vector, while all other labels are preserved the
+output. `by` does the opposite and drops labels that are not listed in the `by`
+clause, even if their label values are identical between all elements of the
+vector. The `keep_common` clause allows keeping those extra labels (labels that
+are identical between elements, but not in the `by` clause).
+
+`topk` and `bottomk` are different from other aggregators in that a subset of
+the input samples, including the original labels, are returned in the result
+vector. `by` and `without` are only used to bucket the input vector.
 
 Until Prometheus 0.14.0, the `keep_common` keyword was called `keeping_extra`.
 The latter is still supported, but is deprecated and will be removed at some
@@ -215,6 +221,10 @@ If we are just interested in the total of HTTP requests we have seen in **all**
 applications, we could simply write:
 
     sum(http_requests_total)
+
+To get the 5 largest HTTP requests counts across all instances we could write:
+
+    topk(5, http_requests_total)
 
 ## Binary operator precedence
 

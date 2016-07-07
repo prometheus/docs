@@ -318,7 +318,7 @@ token: <string>
 [ expire: <duration> | default = 1h ]
 ```
 
-## Slack receiver `<slack_config>`
+## Slack receiver `<slack_configs>`
 
 Slack notifications are sent via [Slack webhooks](https://api.slack.com/incoming-webhooks).
 
@@ -341,6 +341,16 @@ channel: <tmpl_string>
 [ pretext: <tmpl_string> | default = '{{ template "slack.default.pretext" . }}' ]
 [ text: <tmpl_string> | default = '{{ template "slack.default.text" . }}' ]
 [ fallback: <tmpl_string> | default = '{{ template "slack.default.fallback" . }}' ]
+```
+
+example  slack_config receiver:
+
+```
+receivers:
+- name: 'slack'
+  slack_configs:
+   - api_url: 'https://hooks.slack.com/services/T00000000/B00000000/XXXXXXXXXXXXXXXXXXXXXXXX'
+     channel: '#Town Square'
 ```
 
 

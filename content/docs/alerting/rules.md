@@ -38,27 +38,6 @@ identifying for an alert instance. They are used to store longer additional
 information such as alert descriptions or runbook links. The annotation values
 can be templated.
 
-#### Prometheus v0.16.2 and earlier
-
-In previous Prometheus versions the rule syntax is as follows:
-
-    ALERT <alert name>
-      IF <expression>
-      [ FOR <duration> ]
-      [ WITH <label set> ]
-      SUMMARY <string>
-      DESCRIPTION <string>
-      [ RUNBOOK <string> ]
-
-Annotations are not free form but fixed to a summary, a description, and a
-runbook field. Labels are attached using the `WITH` rather than the `LABELS`
-clause.
-
-Label values in the `WITH` clause cannot be templated.
-
-NOTE: **Note:** Old alerting rules can be converted to the new syntax using
-[this script](https://gist.github.com/xbglowx/d798da98ff9937e33862b285d0121bde#gistcomment-1752515).
-
 #### Templating
 
 Label and annotation values can be templated using [console templates](../../visualization/consoles).

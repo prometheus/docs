@@ -204,10 +204,6 @@ are identical between elements, but not in the `by` clause).
 the input samples, including the original labels, are returned in the result
 vector. `by` and `without` are only used to bucket the input vector.
 
-Until Prometheus 0.14.0, the `keep_common` keyword was called `keeping_extra`.
-The latter is still supported, but is deprecated and will be removed at some
-point.
-
 Example:
 
 If the metric `http_requests_total` had time series that fan out by

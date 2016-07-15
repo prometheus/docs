@@ -325,6 +325,7 @@ over time and return an instant vector with per-series aggregation results:
 * `max_over_time(range-vector)`: the maximum value of all points in the specified interval.
 * `sum_over_time(range-vector)`: the sum of all values in the specified interval.
 * `count_over_time(range-vector)`: the count of all values in the specified interval.
+* `quantile_over_time(scalar, range-vector)`: the φ-quantile (0 ≤ φ ≤ 1) of the values in the specified interval.
 
 Note that all values in the specified interval have the same weight in the
 aggregation even if the values are not equally spaced throughout the interval.

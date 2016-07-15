@@ -32,7 +32,7 @@ value is set to the specified default.
 
 Generic placeholders are defined as follows:
 
-* `<duration>`: a duration matching the regular expression `[0-9]+[smhdwy]`
+* `<duration>`: a duration matching the regular expression `[0-9]+(ms|[smhdwy])`
 * `<labelname>`: a string matching the regular expression `[a-zA-Z_][a-zA-Z0-9_]*`
 * `<labelvalue>`: a string of unicode characters
 * `<filename>`: a valid path in the current working directory

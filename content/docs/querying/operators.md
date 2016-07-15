@@ -19,6 +19,7 @@ The following binary arithmetic operators exist in Prometheus:
 * `*` (multiplication)
 * `/` (division)
 * `%` (modulo)
+* `^` (power/exponentiation)
 
 Binary arithmetic operators are defined between scalar/scalar, vector/scalar,
 and vector/vector value pairs.
@@ -238,11 +239,13 @@ To get the 5 largest HTTP requests counts across all instances we could write:
 The following list shows the precedence of binary operators in Prometheus, from
 highest to lowest.
 
-1. `*`, `/`, `%`
-2. `+`, `-`
-3. `==`, `!=`, `<=`, `<`, `>=`, `>`
-4. `and`, `unless`
-5. `or`
+1. `^`
+2. `*`, `/`, `%`
+3. `+`, `-`
+4. `==`, `!=`, `<=`, `<`, `>=`, `>`
+5. `and`, `unless`
+6. `or`
 
 Operators on the same precedence level are left-associative. For example,
-`2 * 3 % 2` is equivalent to `(2 * 3) % 2`.
+`2 * 3 % 2` is equivalent to `(2 * 3) % 2`. However `^` is right associative,
+so `2 * 3 ^ 2` is equivilent to `2 * (3 ^ 2)`.

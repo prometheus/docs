@@ -157,25 +157,13 @@ basic_auth:
 tls_config:
   [ <tls_config> ]
 
-# List of DNS service discovery configurations.
-dns_sd_configs:
-  [ - <dns_sd_config> ... ]
-
 # List of Consul service discovery configurations.
 consul_sd_configs:
   [ - <consul_sd_config> ... ]
 
-# List of Kubernetes service discovery configurations.
-kubernetes_sd_configs:
-  [ - <kubernetes_sd_config> ... ]
-
-# List of Zookeeper Serverset service discovery configurations.
-serverset_sd_configs:
-  [ - <serverset_sd_config> ... ]
-
-# List of AirBnB's Nerve service discovery configurations.
-nerve_sd_configs:
-  [ - <nerve_sd_config> ... ]
+# List of DNS service discovery configurations.
+dns_sd_configs:
+  [ - <dns_sd_config> ... ]
 
 # List of EC2 service discovery configurations.
 ec2_sd_configs:
@@ -184,6 +172,18 @@ ec2_sd_configs:
 # List of file service discovery configurations.
 file_sd_configs:
   [ - <file_sd_config> ... ]
+
+# List of Kubernetes service discovery configurations.
+kubernetes_sd_configs:
+  [ - <kubernetes_sd_config> ... ]
+
+# List of AirBnB's Nerve service discovery configurations.
+nerve_sd_configs:
+  [ - <nerve_sd_config> ... ]
+
+# List of Zookeeper Serverset service discovery configurations.
+serverset_sd_configs:
+  [ - <serverset_sd_config> ... ]
 
 # List of labeled statically configured targets for this job.
 # Known as target_groups prior to v0.20.
@@ -223,55 +223,6 @@ A `tls_config` allows configuring TLS connections.
 # Disable validation of the server certificate.
 [ insecure_skip_verify: <boolean> ]
 ```
-
-
-### `<static_config>`
-
-A `static_config` allows specifying a list of targets and a common label set
-for them.  It is the canonical way to specify static targets in a scrape
-configuration.
-
-```
-# The targets specified by the static config.
-targets:
-  [ - '<host>' ]
-
-# Labels assigned to all metrics scraped from the targets.
-labels:
-  [ <labelname>: <labelvalue> ... ]
-```
-
-Where `<host>` is a valid string consisting of a hostname or IP followed by a port
-number.
-
-
-### `<dns_sd_config>`
-
-A DNS-SD configuration allows specifying a set of DNS record names which
-are periodically queried to discover a list of targets (host-port pairs). The
-DNS servers to be contacted are read from `/etc/resolv.conf`.
-
-During the [relabeling phase](#relabel_config), the meta
-label `__meta_dns_name` is available on each target and is set to the SRV
-record name that produced the discovered target.
-
-```
-# A list of DNS SRV record names to be queried.
-names:
-  [ - <record_name> ]
-
-# The type of DNS query to perform.
-[ type: <query_type> | default = 'SRV' ]
-
-# The port number used if the query type is not SRV.
-[ port: <number>]
-
-# The time after which the provided names are refreshed.
-[ refresh_interval: <duration> | default = 30s ]
-```
-
-Where `<record_name>` is any DNS SRV record name.
-Where `<query_type>` is `SRV`, `A`, or `AAAA`.
 
 ### `<consul_sd_config>`
 
@@ -313,6 +264,122 @@ Note that the IP number and port used to scrape the targets is assembled as
 Consul setups, the relevant address is in `__meta_consul_service_address`.
 In those cases, you can use the [relabel](#relabel_config)
 feature to replace the special `__address__` label.
+
+### `<dns_sd_config>`
+
+A DNS-SD configuration allows specifying a set of DNS record names which
+are periodically queried to discover a list of targets (host-port pairs). The
+DNS servers to be contacted are read from `/etc/resolv.conf`.
+
+During the [relabeling phase](#relabel_config), the meta
+label `__meta_dns_name` is available on each target and is set to the SRV
+record name that produced the discovered target.
+
+```
+# A list of DNS SRV record names to be queried.
+names:
+  [ - <record_name> ]
+
+# The type of DNS query to perform.
+[ type: <query_type> | default = 'SRV' ]
+
+# The port number used if the query type is not SRV.
+[ port: <number>]
+
+# The time after which the provided names are refreshed.
+[ refresh_interval: <duration> | default = 30s ]
+```
+
+Where `<record_name>` is any DNS SRV record name.
+Where `<query_type>` is `SRV`, `A`, or `AAAA`.
+
+### `<ec2_sd_config>`
+
+CAUTION: EC2 SD is in beta: breaking changes to configuration are still
+likely in future releases.
+
+EC2 SD configurations allow retrieving scrape targets from AWS EC2
+instances. The private IP address is used by default, but may be changed to
+the public IP address with relabeling.
+
+The following meta labels are available on targets during relabeling:
+
+* `__meta_ec2_availability_zone`: the availability zone in which the instance is running
+* `__meta_ec2_instance_id`: the EC2 instance ID
+* `__meta_ec2_private_ip`: the private IP address of the instance, if present
+* `__meta_ec2_public_dns_name`: the public DNS name of the instance, if available
+* `__meta_ec2_public_ip`: the public IP address of the instance, if available
+* `__meta_ec2_subnet_id`: comma separated list of subnets IDs in which the instance is running, if available
+* `__meta_ec2_tag_<tagkey>`: each tag value of the instance
+* `__meta_ec2_vpc_id`: the ID of the VPC in which the instance is running, if available
+
+
+
+See below for the configuration options for EC2 discovery:
+
+```
+# The information to access the EC2 API.
+
+# The AWS Region.
+region: <string>
+
+# The AWS API keys. If blank, the environment variables `AWS_ACCESS_KEY_ID`
+# and `AWS_SECRET_ACCESS_KEY` are used.
+[ access_key: <string> ]
+[ secret_key: <string> ]
+
+# Refresh interval to re-read the instance list.
+[ refresh_interval: <duration> | default = 60s ]
+
+# The port to scrape metrics from. If using the public IP address, this must
+# instead be specified in the relabeling rule.
+[ port: <int> | default = 80 ]
+```
+
+### `<file_sd_config>`
+
+File-based service discovery provides a more generic way to configure static targets
+and serves as an interface to plug in custom service discovery mechanisms.
+
+It reads a set of files containing a list of zero or more
+`<static_config>`s. Changes to all defined files are detected via disk watches
+and applied immediately. Files may be provided in YAML or JSON format. Only
+changes resulting in well-formed target groups are applied.
+
+The JSON file must contain a list of static configs, using this format:
+
+```
+[
+  {
+    "targets": [ "<host>", ... ],
+    "labels": {
+      "<labelname>": "<labelvalue>", ...
+    }
+  },
+  ...
+]
+```
+
+As a fallback, the file contents are also re-read periodically at the specified
+refresh interval.
+
+Each target has a meta label `__meta_filepath` during the
+[relabeling phase](#relabel_config). Its value is set to the
+filepath from which the target was extracted.
+
+```
+# Patterns for files from which target groups are extracted.
+files:
+  [ - <filename_pattern> ... ]
+
+# Refresh interval to re-read the files.
+[ refresh_interval: <duration> | default = 30s ]
+```
+
+Where `<filename_pattern>` may be a path ending in `.json`, `.yml` or `.yaml`. The last path segment
+may contain a single `*` that matches any character sequence, e.g. `my/path/tg_*.json`.
+
+NOTE: Prior to v0.20, `names:` was used instead of `files:`.
 
 ### `<kubernetes_sd_config>`
 
@@ -459,6 +526,29 @@ Prometheus relabeling to control which instances will actually be scraped. Also
 by default all apps will show up as a single job in Prometheus (the one specified
 in the configuration file), which can also be changed using relabeling.
 
+### `<nerve_sd_config>`
+
+Nerve SD configurations allow retrieving scrape targets from [AirBnB's Nerve]
+(https://github.com/airbnb/nerve) which are stored in
+[Zookeeper](https://zookeeper.apache.org/).
+
+The following meta labels are available on targets during relabeling:
+
+* `__meta_nerve_path`: the full path to the emdpoint node in Zookeeper
+* `__meta_nerve_endpoint_host`: the host of the endpoint
+* `__meta_nerve_endpoint_port`: the port of the endpoint
+* `__meta_nerve_endpoint_name`: the name of the endpoint
+
+```
+# The Zookeeper servers.
+servers:
+  - <host>
+# Paths can point to a single service, or the root of a tree of services.
+paths:
+  - <string>
+[ timeout: <duration> | default = 10s ]
+```
+
 ### `<serverset_sd_config>`
 
 Serverset SD configurations allow retrieving scrape targets from [Serversets]
@@ -489,116 +579,25 @@ paths:
 
 Serverset data must be in the JSON format, the Thrift format is not currently supported.
 
-### `<nerve_sd_config>`
+### `<static_config>`
 
-Nerve SD configurations allow retrieving scrape targets from [AirBnB's Nerve]
-(https://github.com/airbnb/nerve) which are stored in
-[Zookeeper](https://zookeeper.apache.org/).
-
-The following meta labels are available on targets during relabeling:
-
-* `__meta_nerve_path`: the full path to the emdpoint node in Zookeeper
-* `__meta_nerve_endpoint_host`: the host of the endpoint
-* `__meta_nerve_endpoint_port`: the port of the endpoint
-* `__meta_nerve_endpoint_name`: the name of the endpoint
+A `static_config` allows specifying a list of targets and a common label set
+for them.  It is the canonical way to specify static targets in a scrape
+configuration.
 
 ```
-# The Zookeeper servers.
-servers:
-  - <host>
-# Paths can point to a single service, or the root of a tree of services.
-paths:
-  - <string>
-[ timeout: <duration> | default = 10s ]
+# The targets specified by the static config.
+targets:
+  [ - '<host>' ]
+
+# Labels assigned to all metrics scraped from the targets.
+labels:
+  [ <labelname>: <labelvalue> ... ]
 ```
 
-### `<ec2_sd_config>`
+Where `<host>` is a valid string consisting of a hostname or IP followed by a port
+number.
 
-CAUTION: EC2 SD is in beta: breaking changes to configuration are still
-likely in future releases.
-
-EC2 SD configurations allow retrieving scrape targets from AWS EC2
-instances. The private IP address is used by default, but may be changed to
-the public IP address with relabeling.
-
-The following meta labels are available on targets during relabeling:
-
-* `__meta_ec2_availability_zone`: the availability zone in which the instance is running
-* `__meta_ec2_instance_id`: the EC2 instance ID
-* `__meta_ec2_private_ip`: the private IP address of the instance, if present
-* `__meta_ec2_public_dns_name`: the public DNS name of the instance, if available
-* `__meta_ec2_public_ip`: the public IP address of the instance, if available
-* `__meta_ec2_subnet_id`: comma separated list of subnets IDs in which the instance is running, if available
-* `__meta_ec2_tag_<tagkey>`: each tag value of the instance
-* `__meta_ec2_vpc_id`: the ID of the VPC in which the instance is running, if available
-
-
-
-See below for the configuration options for EC2 discovery:
-
-```
-# The information to access the EC2 API.
-
-# The AWS Region.
-region: <string>
-
-# The AWS API keys. If blank, the environment variables `AWS_ACCESS_KEY_ID`
-# and `AWS_SECRET_ACCESS_KEY` are used.
-[ access_key: <string> ]
-[ secret_key: <string> ]
-
-# Refresh interval to re-read the instance list.
-[ refresh_interval: <duration> | default = 60s ]
-
-# The port to scrape metrics from. If using the public IP address, this must
-# instead be specified in the relabeling rule.
-[ port: <int> | default = 80 ]
-```
-
-### `<file_sd_config>`
-
-File-based service discovery provides a more generic way to configure static targets
-and serves as an interface to plug in custom service discovery mechanisms.
-
-It reads a set of files containing a list of zero or more
-`<static_config>`s. Changes to all defined files are detected via disk watches
-and applied immediately. Files may be provided in YAML or JSON format. Only
-changes resulting in well-formed target groups are applied.
-
-The JSON file must contain a list of static configs, using this format:
-
-```
-[
-  {
-    "targets": [ "<host>", ... ],
-    "labels": {
-      "<labelname>": "<labelvalue>", ...
-    }
-  },
-  ...
-]
-```
-
-As a fallback, the file contents are also re-read periodically at the specified
-refresh interval.
-
-Each target has a meta label `__meta_filepath` during the
-[relabeling phase](#relabel_config). Its value is set to the
-filepath from which the target was extracted.
-
-```
-# Patterns for files from which target groups are extracted.
-files:
-  [ - <filename_pattern> ... ]
-
-# Refresh interval to re-read the files.
-[ refresh_interval: <duration> | default = 30s ]
-```
-
-Where `<filename_pattern>` may be a path ending in `.json`, `.yml` or `.yaml`. The last path segment
-may contain a single `*` that matches any character sequence, e.g. `my/path/tg_*.json`.
-
-NOTE: Prior to v0.20, `names:` was used instead of `files:`.
 
 ### `<relabel_config>`
 

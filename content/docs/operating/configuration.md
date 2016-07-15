@@ -157,6 +157,10 @@ basic_auth:
 tls_config:
   [ <tls_config> ]
 
+# List of Azure service discovery configurations.
+azure_sd_configs:
+  [ - <azure_sd_config> ... ]
+
 # List of Consul service discovery configurations.
 consul_sd_configs:
   [ - <consul_sd_config> ... ]
@@ -222,6 +226,41 @@ A `tls_config` allows configuring TLS connections.
 
 # Disable validation of the server certificate.
 [ insecure_skip_verify: <boolean> ]
+```
+
+### `<azure_sd_config>`
+CAUTION: Azure SD is in beta: breaking changes to configuration are still
+likely in future releases.
+
+Azure SD configurations allow retrieving scrape targets from Azure VMs.
+
+The following meta labels are available on targets during relabeling:
+
+* `__meta_azure_machine_id`: the machine ID
+* `__meta_azure_machine_rescource_group`: the machine's resource group
+* `__meta_azure_machine_location`: the location the machine runs in
+* `__meta_azure_machine_private_ip`: the machine's private IP
+* `__meta_azure_tag_<tagname>`: each tag value of the machine
+
+See below for the configuration options for Azure discovery:
+
+```
+# The information to access the Azure API.
+# The subscription ID.
+subscription_id: <string>
+# The tenant ID.
+tenant_id: <string>
+# The client ID.
+client_id: <string>
+# The client secret.
+client_secret: <string>
+
+# Refresh interval to re-read the instance list.
+[ refresh_interval: <duration> | default = 300s ]
+
+# The port to scrape metrics from. If using the public IP address, this must
+# instead be specified in the relabeling rule.
+[ port: <int> | default = 80 ]
 ```
 
 ### `<consul_sd_config>`

@@ -157,6 +157,9 @@ basic_auth:
 tls_config:
   [ <tls_config> ]
 
+# Optional proxy URL.
+[ proxy_url: <string> ]
+
 # List of Azure service discovery configurations.
 azure_sd_configs:
   [ - <azure_sd_config> ... ]

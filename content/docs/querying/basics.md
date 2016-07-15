@@ -35,11 +35,22 @@ vector is the only type that can be directly graphed.
 
 ### String literals
 
-Strings may be specified as literals in single or double quotes.
+Strings may be specified as literals in single quotes, double quotes or
+backticks.
+
+PromQL follows the same [escaping rules as
+Go](https://golang.org/ref/spec#String_literals). In single or double quotes a
+backslash begins an escape sequence, which may be followed by `a`, `b`, `f`,
+`n`, `r`, `t`, `v` or `\`. Specific characters can be provided using octal
+(`\nnn`) or hexadecimal (`\xnn`, `\unnnn` and `\Unnnnnnnn`).
+
+No escaping is processed inside backticks. Unlike Go, Prometheus does not discard newlines inside backticks.
 
 Example:
 
     "this is a string"
+    'these are unescaped: \n \\ \t'
+    `these are not unescaped: \n ' " \t`
 
 ### Float literals
 

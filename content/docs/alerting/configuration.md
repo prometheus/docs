@@ -73,6 +73,8 @@ global:
 
   [ pagerduty_url: <string> | default = "https://events.pagerduty.com/generic/2010-04-15/create_event.json" ]
   [ opsgenie_api_host: <string> | default = "https://api.opsgenie.com/" ]
+  [ hipchat_url: <string> | default = "https://api.hipchat.com/" ]
+  [ hipchat_auth_token: <string> ]
 
 # Files from which custom notification template definitions are read.
 # The last component may use a wildcard matcher, e.g. 'templates/*.tmpl'.
@@ -214,6 +216,8 @@ name: <string>
 # Configurations for several notification integrations.
 email_configs:
   [ - <email_config>, ... ]
+hipchat_configs:
+  [ - <hipchat_config>, ... ]
 pagerduty_configs:
   [ - <pagerduty_config>, ... ]
 pushover_configs:
@@ -253,6 +257,34 @@ to: <tmpl_string>
 # Further headers email header key/value pairs. Overrides any headers
 # previously set by the notification implementation.
 [ headers: { <string>: <tmpl_string>, ... } ]
+```
+
+## HipChat receiver `<hipchat_config>`
+
+HipChat notifications use a [Build Your Own](https://confluence.atlassian.com/hc/integrations-with-hipchat-server-683508267.html) integration.
+
+```
+# Whether or not to notify about resolved alerts.
+[ send_resolved: <boolean> | default = false ]
+
+# The HipChat Room ID.
+room_id: <tmpl_string>
+# The auth token.
+[ auth_token: <string> | default = global.hipchat_auth_token ]
+# The URL to send API requests to.
+[ url: <string> | default = global.hipchat_url ]
+
+# See https://www.hipchat.com/docs/apiv2/method/send_room_notification
+# A label to be shown in addition to the sender's name.
+[ from:  <tmpl_string> | default = '{{ template "hipchat.default.from" . }}' ]
+# The message body.
+[ message:  <tmpl_string> | default = '{{ template "hipchat.default.message" . }}' ]
+# Whether this message should trigger a user notification.
+[ notify:  <boolean> | default = false ]
+# Determines how the message is treated by the alertmanager and rendered inside HipChat. Valid values are 'text' and 'html'.
+[ message_format:  <string> | default = 'text' ]
+# Background color for message.
+[ color:  <tmpl_string> | default = '{{ if eq .Status "firing" }}red{{ else }}green{{ end }}' ]
 ```
 
 ## PagerDuty receiver `<pagerduty_config>`

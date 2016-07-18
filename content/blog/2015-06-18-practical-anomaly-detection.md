@@ -36,7 +36,7 @@ more than two standard deviations above the mean:
 
 ```
   instance:latency_seconds:mean5m
-> on (job) group_left(instance)
+> on (job) group_left()
   (
       avg by (job)(instance:latency_seconds:mean5m)
     + on (job)
@@ -51,14 +51,14 @@ that the instance latency also has to be 20% above the average:
 ```
   (
       instance:latency_seconds:mean5m
-    > on (job) group_left(instance)
+    > on (job) group_left()
       (
           avg by (job)(instance:latency_seconds:mean5m)
         + on (job)
           2 * stddev by (job)(instance:latency_seconds:mean5m)
       )
   )
-> on (job) group_left(instance)
+> on (job) group_left()
   1.2 * avg by (job)(instance:latency_seconds:mean5m)
 ```
 
@@ -71,14 +71,14 @@ ALERT InstanceLatencyOutlier
   IF
         (
             instance:latency_seconds:mean5m
-          > on (job) group_left(instance)
+          > on (job) group_left()
             (
                 avg by (job)(instance:latency_seconds:mean5m)
               + on (job)
                 2 * stddev by (job)(instance:latency_seconds:mean5m)
             )
         )
-      > on (job) group_left(instance)
+      > on (job) group_left()
         1.2 * avg by (job)(instance:latency_seconds:mean5m)
     and on (job)
         avg by (job)(instance:latency_seconds_count:rate5m)

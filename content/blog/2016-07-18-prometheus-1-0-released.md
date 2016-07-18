@@ -1,6 +1,6 @@
 ---
 title: Prometheus reaches 1.0
-created: 2016-07-18
+created_at: 2016-07-18
 kind: article
 author_name: Fabian Reinartz on behalf of the Prometheus team
 ---

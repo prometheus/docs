@@ -34,12 +34,6 @@ absent(sum(nonexistent{job="myjob"}))
 This is useful for alerting on when no time series
 exist for a given metric name and label combination.
 
-## `bottomk()`
-
-`bottomk(k integer, v instant-vector)` returns the `k` smallest elements of `v`
-by sample value.
-
-
 ## `ceil()`
 
 `ceil(v instant-vector)` rounds the sample values of all elements in `v` up to
@@ -316,11 +310,6 @@ Same as `sort`, but sorts in descending order.
 `time()` returns the number of seconds since January 1, 1970 UTC. Note that
 this does not actually return the current time, but the time at which the
 expression is to be evaluated.
-
-## `topk()`
-
-`topk(k integer, v instant-vector)` returns the `k` largest elements of `v` by
-sample value.
 
 ## `vector()`
 

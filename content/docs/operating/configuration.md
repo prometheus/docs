@@ -463,18 +463,14 @@ create multiple target groups:
 The following meta labels are available on targets during relabeling:
 
 * All roles:
-    * `__meta_kubernetes_role`: the role of the target: one of `apiserver`,
-`endpoint`, `node`, `pod`, `container` or `service`
+  * `__meta_kubernetes_role`: the role of the target: one of `endpoint`, `service`, `pod`, `container`, `node`, or `apiserver`
 * Nodes:
-    * `__meta_kubernetes_node_label_<labelname>`: each node label from the
-Kubernetes API
+    * `__meta_kubernetes_node_label_<labelname>`: each node label from the Kubernetes API
 * Services and Endpoints:
     * `__meta_kubernetes_service_namespace`: the namespace of the service
     * `__meta_kubernetes_service_name`: the name of the service
-    * `__meta_kubernetes_service_label_<labelname>`: each service label from the
-Kubernetes API
-    * `__meta_kubernetes_service_annotation_<annotationname>`: each service
-annotation from the Kubernetes API
+    * `__meta_kubernetes_service_label_<labelname>`: each service label from the Kubernetes API
+    * `__meta_kubernetes_service_annotation_<annotationname>`: each service annotation from the Kubernetes API
 * Pods and Containers:
     * `__meta_kubernetes_pod_name`: the name of the pod
     * `__meta_kubernetes_pod_namespace`: the namespace of the service
@@ -500,6 +496,9 @@ See below for the configuration options for Kubernetes discovery:
 # `https://kubernetes.default.svc`. Supports multiple HA API servers.
 api_servers:
   - [<host>]
+
+# The Kubernetes role of entities that should be discovered.
+role: <role>
 
 # Run in cluster. This will use the automounted CA certificate and bearer
 # token file at /var/run/secrets/kubernetes.io/serviceaccount/ in the pod.
@@ -530,7 +529,8 @@ tls_config:
 [ retry_interval: <duration> | default = 1s ]
 ```
 
-There are example Kubernetes SD configs on [GitHub](https://github.com/prometheus/prometheus/blob/master/documentation/examples/prometheus-kubernetes.yml).
+
+Where `<role>` must be `endpoint`, `service`, `pod`, `container`, `node`, or `apiserver`.
 
 ### `<marathon_sd_config>`
 

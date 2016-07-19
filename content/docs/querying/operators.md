@@ -19,6 +19,7 @@ The following binary arithmetic operators exist in Prometheus:
 * `*` (multiplication)
 * `/` (division)
 * `%` (modulo)
+* `^` (power/exponentiation)
 
 Binary arithmetic operators are defined between scalar/scalar, vector/scalar,
 and vector/vector value pairs.
@@ -185,22 +186,31 @@ vector of fewer elements with aggregated values:
 * `stddev` (calculate population standard deviation over dimensions)
 * `stdvar` (calculate population standard variance over dimensions)
 * `count` (count number of elements in the vector)
+* `count_values` (count number of elements with the same value)
+* `bottomk` (smallest k elements by sample value)
+* `topk` (largest k elements by sample value)
 
 These operators can either be used to aggregate over **all** label dimensions
 or preserve distinct dimensions by including a `without` or `by` clause.
 
-    <aggr-op>(<vector expression>) [without|by (<label list>)] [keep_common]
+    <aggr-op>([parameter,] <vector expression>) [without|by (<label list>)] [keep_common]
 
-`without` removes the listed labels from the result vector, while all other
-labels are preserved the output. `by` does the opposite and drops labels that
-are not listed in the `by` clause, even if their label values are identical
-between all elements of the vector. The `keep_common` clause allows keeping
-those extra labels (labels that are identical between elements, but not in the
-`by` clause).
+`parameter` is only required for `count_values`,`topk` and `bottomk`. `without`
+removes the listed labels from the result vector, while all other labels are
+preserved the output. `by` does the opposite and drops labels that are not
+listed in the `by` clause, even if their label values are identical between all
+elements of the vector. The `keep_common` clause allows keeping those extra
+labels (labels that are identical between elements, but not in the `by`
+clause).
 
-Until Prometheus 0.14.0, the `keep_common` keyword was called `keeping_extra`.
-The latter is still supported, but is deprecated and will be removed at some
-point.
+`count_values` outputs one time series per unique sample value. Each series has
+an additional label. The name of that label is given by the aggregation
+parameter, and the label value is the unique sample value.  The value of each
+time series is the number of times that sample value was present.
+
+`topk` and `bottomk` are different from other aggregators in that a subset of
+the input samples, including the original labels, are returned in the result
+vector. `by` and `without` are only used to bucket the input vector.
 
 Example:
 
@@ -215,16 +225,26 @@ applications, we could simply write:
 
     sum(http_requests_total)
 
+To count the number of binaries running each build version we could write:
+
+    count_values("version", build_version)
+
+To get the 5 largest HTTP requests counts across all instances we could write:
+
+    topk(5, http_requests_total)
+
 ## Binary operator precedence
 
 The following list shows the precedence of binary operators in Prometheus, from
 highest to lowest.
 
-1. `*`, `/`, `%`
-2. `+`, `-`
-3. `==`, `!=`, `<=`, `<`, `>=`, `>`
-4. `and`, `unless`
-5. `or`
+1. `^`
+2. `*`, `/`, `%`
+3. `+`, `-`
+4. `==`, `!=`, `<=`, `<`, `>=`, `>`
+5. `and`, `unless`
+6. `or`
 
 Operators on the same precedence level are left-associative. For example,
-`2 * 3 % 2` is equivalent to `(2 * 3) % 2`.
+`2 * 3 % 2` is equivalent to `(2 * 3) % 2`. However `^` is right associative,
+so `2 * 3 ^ 2` is equivilent to `2 * (3 ^ 2)`.

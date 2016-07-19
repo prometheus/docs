@@ -51,7 +51,7 @@ scrape_configs:
     # Override the global default and scrape targets from this job every 5 seconds.
     scrape_interval: 5s
 
-    target_groups:
+    static_configs:
       - targets: ['localhost:9090']
 ```
 
@@ -191,7 +191,7 @@ scrape_configs:
     # Override the global default and scrape targets from this job every 5 seconds.
     scrape_interval: 5s
 
-    target_groups:
+    static_configs:
       - targets: ['localhost:8080', 'localhost:8081']
         labels:
           group: 'production'
@@ -252,7 +252,7 @@ scrape_configs:
     # Override the global default and scrape targets from this job every 5 seconds.
     scrape_interval: 5s
 
-    target_groups:
+    static_configs:
       - targets: ['localhost:9090']
 
   - job_name:       'example-random'
@@ -260,7 +260,7 @@ scrape_configs:
     # Override the global default and scrape targets from this job every 5 seconds.
     scrape_interval: 5s
 
-    target_groups:
+    static_configs:
       - targets: ['localhost:8080', 'localhost:8081']
         labels:
           group: 'production'

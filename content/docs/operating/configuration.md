@@ -462,7 +462,6 @@ create multiple target groups:
 
 The following meta labels are available on targets during relabeling:
 
-<<<<<<< HEAD
 * All roles:
   * `__meta_kubernetes_role`: the role of the target: one of `endpoint`, `service`, `pod`, `container`, `node`, or `apiserver`
 * Nodes:

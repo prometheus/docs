@@ -105,7 +105,7 @@ exporting a single metric with all the labels would have too high a
 cardinality.
 
 Prometheus metrics and label names are written in `snake_case`. Converting
-`camelCase` to `snake_case` is desirable, though it doing so automatically
+`camelCase` to `snake_case` is desirable, though doing so automatically
 doesn’t always produce nice results for things like `myTCPExample` or `isNaN`
 so sometimes it’s best to leave them as-is.
 

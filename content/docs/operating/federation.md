@@ -73,7 +73,7 @@ Prometheus:
       - '{job="prometheus"}'
       - '{__name__=~"^job:"}'
 
-  target_groups:
+  static_configs:
     - targets:
       - 'source-prometheus-1:9090'
       - 'source-prometheus-2:9090'

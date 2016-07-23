@@ -122,6 +122,10 @@ of the world with its built-in support for a wide variety of service discovery
 mechanisms for cloud providers and container-scheduling systems: Consul,
 Marathon, Kubernetes, EC2, DNS-based SD, Azure, Zookeeper Serversets, and more.
 Prometheus also allows you to plug in your own custom mechanism if needed.
+In a microservice world or any multi-tiered architecture, it is also
+fundamentally an advantage if your monitoring system uses the same method to
+discover targets to monitor as your service instances use to discover their
+backends.
 
 ## Accidentally DDoS-ing your monitoring
 

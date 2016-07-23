@@ -54,7 +54,7 @@ measured with real production metrics data at SoundCloud). This allows you to
 monitor over 10,000 machines from a single Prometheus server. The scaling
 bottleneck here has never been related to pulling metrics, but usually to the
 speed at which the Prometheus server can ingest the data into memory and then
-sustainably persist it on disk/SSD.
+sustainably persist and expire data on disk/SSD.
 
 Also, although networks are pretty reliable these days, using a
 TCP-based pull approach makes doubly sure that metrics data arrives reliably,
@@ -166,10 +166,9 @@ poses in certain environments.
 
 ## All good then?
 
-We know that the debate about pulling versus pushing is a religious one and as
-such will probably never die out. However, we hope that this article addresses the
-most common concerns that people have about a pull-based monitoring approach.
-With Prometheus and other pull-based systems being used successfully in very
-large environments and the pull aspect never posing a bottleneck in reality,
-the result should be clear: the “pull doesn't scale” argument is not a real
-concern.
+This article addresses the most common scalability concerns around a pull-based
+monitoring approach. With Prometheus and other pull-based systems being used
+successfully in very large environments and the pull aspect never posing a
+bottleneck in reality, the result should be clear: the “pull doesn't scale”
+argument is not a real concern. We hope that future debates will focus on
+aspects that matter more than this red herring.

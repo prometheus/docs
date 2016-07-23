@@ -8,9 +8,9 @@ author_name: Julius Volz
 Let's talk about one particularly hard-to-kill myth again. Whenever there is a
 discussion about monitoring systems and Prometheus's pull-based metrics
 collection approach comes up, someone inevitably chimes in about how a
-pull-based approach just "fundamentally doesn't scale". When asked why they
+pull-based approach just “fundamentally doesn't scale”. When asked why they
 think this is the case, they either respond with vague fears or cite reasons
-which only apply to systems which are fundamentally different from Prometheus
+which only apply to systems that are fundamentally different from Prometheus
 in other ways. In fact, having worked with pull-based monitoring at the largest
 scales, this claim runs counter to our own operational experience.
 
@@ -70,7 +70,7 @@ the events into metrics (StatsD is one example of this) or stores events
 individually for later processing (the ELK stack is an example of that). In
 such a system, pulling would be problematic indeed: the instrumented service
 would have to buffer events between pulls, and the pulls would have to happen
-incredibly frequently in order to simulate the same "liveness" of the
+incredibly frequently in order to simulate the same “liveness” of the
 push-based approach and not overwhelm event buffers.
 
 However, again, Prometheus is not an event-based monitoring system. You do not
@@ -104,7 +104,7 @@ instances at all, like when you only run ephemeral workers where it is
 sufficient for a large-enough number of them to report in some result. Most
 environments are not exclusively like that.
 
-If the monitoring system needs to know the desired state of the world anyways,
+If the monitoring system needs to know the desired state of the world anyway,
 then a push-based approach actually requires *more* configuration in total. Not
 only does your monitoring system need to know what service instances should
 exist, but your service instances now also need to know how to reach your
@@ -171,5 +171,5 @@ such will probably never die out. However, we hope that this article addresses t
 most common concerns that people have about a pull-based monitoring approach.
 With Prometheus and other pull-based systems being used successfully in very
 large environments and the pull aspect never posing a bottleneck in reality,
-the result should be clear: the "pull doesn't scale" argument is not a real
+the result should be clear: the “pull doesn't scale” argument is not a real
 concern.

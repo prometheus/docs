@@ -5,14 +5,13 @@ kind: article
 author_name: Julius Volz
 ---
 
-Let's talk about one particularly hard-to-kill myth again. Whenever there is a
-discussion about monitoring systems and Prometheus's pull-based metrics
-collection approach comes up, someone inevitably chimes in about how a
-pull-based approach just “fundamentally doesn't scale”. When asked why they
-think this is the case, they either respond with vague fears or cite reasons
-which only apply to systems that are fundamentally different from Prometheus
-in other ways. In fact, having worked with pull-based monitoring at the largest
-scales, this claim runs counter to our own operational experience.
+Let's talk about a particularly persistent myth. Whenever there is a discussion
+about monitoring systems and Prometheus's pull-based metrics collection
+approach comes up, someone inevitably chimes in about how a pull-based approach
+just “fundamentally doesn't scale”. The given reasons are often vague or only
+apply to systems that are fundamentally different from Prometheus. In fact,
+having worked with pull-based monitoring at the largest scales, this claim runs
+counter to our own operational experience.
 
 We already have an FAQ entry about
 [why Prometheus chooses pull over push](/docs/introduction/faq/#why-do-you-pull-rather-than-push?),
@@ -34,8 +33,8 @@ However, Prometheus takes a fundamentally different approach altogether.
 Instead of executing check scripts, it only collects time series data from a
 set of instrumented targets over the network. For each target, the Prometheus
 server simply fetches the current state of all metrics of that target over HTTP
-and has no other execution overhead that would be pull-related. This brings us
-to the next point:
+(in a highly parallel way, using goroutines) and has no other execution
+overhead that would be pull-related. This brings us to the next point:
 
 ## It doesn't matter who initiates the connection
 
@@ -50,23 +49,24 @@ negligible compared to the other work that the Prometheus server has to do to
 ingest data (especially persisting time series data on disk). To put some
 numbers behind this: a single beefy Prometheus server can easily store millions
 of time series, with a record of 800,000 incoming samples per second (as
-measured with real production metrics data at SoundCloud). This allows you to
-monitor over 10,000 machines from a single Prometheus server. The scaling
-bottleneck here has never been related to pulling metrics, but usually to the
-speed at which the Prometheus server can ingest the data into memory and then
-sustainably persist and expire data on disk/SSD.
+measured with real production metrics data at SoundCloud). Given a 10-seconds
+scrape interval and 700 time series per host, this allows you to monitor over
+10,000 machines from a single Prometheus server. The scaling bottleneck here
+has never been related to pulling metrics, but usually to the speed at which
+the Prometheus server can ingest the data into memory and then sustainably
+persist and expire data on disk/SSD.
 
-Also, although networks are pretty reliable these days, using a
-TCP-based pull approach makes doubly sure that metrics data arrives reliably,
-or that the monitoring system at least knows immediately when the metrics
-transfer fails due to a broken network.
+Also, although networks are pretty reliable these days, using a TCP-based pull
+approach makes sure that metrics data arrives reliably, or that the monitoring
+system at least knows immediately when the metrics transfer fails due to a
+broken network.
 
 ## Prometheus is not an event-based system
 
 Some monitoring systems are event-based. That is, they report each individual
 event (an HTTP request, an exception, you name it) to a central monitoring
 system immediately as it happens. This central system then either aggregates
-the events into metrics (StatsD is one example of this) or stores events
+the events into metrics (StatsD is the prime example of this) or stores events
 individually for later processing (the ELK stack is an example of that). In
 such a system, pulling would be problematic indeed: the instrumented service
 would have to buffer events between pulls, and the pulls would have to happen
@@ -92,7 +92,7 @@ approach also does not create problems in this case.
 
 With a pull-based approach, your monitoring system needs to know which service
 instances exist and how to connect to them. Often people are worried about the
-extra configuration this requires on the side of the monitoring system.
+extra configuration this requires on the part of the monitoring system.
 
 We would argue that you cannot escape this configuration effort for
 serious monitoring setups in any case: if your monitoring system doesn't know
@@ -108,14 +108,14 @@ If the monitoring system needs to know the desired state of the world anyway,
 then a push-based approach actually requires *more* configuration in total. Not
 only does your monitoring system need to know what service instances should
 exist, but your service instances now also need to know how to reach your
-monitoring system. This is not only more required configuration, it also makes
-your monitoring setup less flexible. Now you cannot just run a copy of
-production monitoring on your laptop, as you can with pull. Now you cannot just
-get metrics from some other tool or inspect metrics endpoints manually, as you
-can with pull. Now you cannot just run two Prometheus servers to get high
-availability, as you can with pull.  Now you cannot change the endpoint under
-which your production monitoring is reachable without reconfiguring all of your
-metrics sources.
+monitoring system. A pull approach not only more requires less configuration,
+it also makes your monitoring setup more flexible. With pull, you can just run
+a copy of production monitoring on your laptop to experiment with it. It also
+allows you just fetch metrics with some other tool or inspect metrics endpoints
+manually. To get high availability, pull allows you to just run two identically
+configured Prometheus servers in parallel. And lastly, if you have to move the
+endpoint under which your monitoring is reachable, a pull approach does not
+require you to reconfigure all of your metrics sources.
 
 On a practical front, Prometheus makes it easy to configure the desired state
 of the world with its built-in support for a wide variety of service discovery
@@ -130,16 +130,16 @@ backends.
 ## Accidentally DDoS-ing your monitoring
 
 Whether you use a pull-based or a push-based approach, any time-series database
-will fall over if you send it more samples than it can handle. However, we have
-made the experience that it's slightly more likely for a push-based approach to
-accidentally bring down your monitoring. If the control over what metrics get
-ingested from which instances is not centralized (in your monitoring system),
-then you run into the danger of experimental or rogue jobs suddenly pushing
-lots of garbage data into your production monitoring and bringing it down.
-There are still plenty of ways how this can happen with a pull-based approach
-(which only controls where to pull metrics from, but not the size and nature of
-the metrics payloads), but the risk is lower and such incidents can be
-fixed at a central point.
+will fall over if you send it more samples than it can handle. However, in our
+experience it's slightly more likely for a push-based approach to accidentally
+bring down your monitoring. If the control over what metrics get ingested from
+which instances is not centralized (in your monitoring system), then you run
+into the danger of experimental or rogue jobs suddenly pushing lots of garbage
+data into your production monitoring and bringing it down.  There are still
+plenty of ways how this can happen with a pull-based approach (which only
+controls where to pull metrics from, but not the size and nature of the metrics
+payloads), but the risk is lower and such incidents can be fixed at a central
+point.
 
 ## Real-world proof
 
@@ -152,8 +152,8 @@ Google's Borgmon, which was (and partially still is) used within Google to
 monitor all its critical production services using a pull-based approach. Any
 scaling issues we encountered with Borgmon at Google were not due its pull
 approach either. If a pull-based approach scales to a global environment with
-many tens of datacenters and hundreds of thousands of machines, you can hardly say
-that pull doesn't scale.
+many tens of datacenters and millions of machines, you can hardly say that pull
+doesn't scale.
 
 ## But there are other problems with pull!
 
@@ -165,8 +165,8 @@ directly in each of the network segments. This is not quite the environment for
 which Prometheus was built, although workarounds are often possible ([via the
 Pushgateway or restructuring your setup](/docs/practices/pushing/)). In any
 case, these remaining concerns about pull-based monitoring are usually not
-scaling-related, but concern some other operational difficulty that pulling
-poses in certain environments.
+scaling-related, but due to network operation difficulties around opening TCP
+connections.
 
 ## All good then?
 

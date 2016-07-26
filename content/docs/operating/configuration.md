@@ -309,18 +309,22 @@ feature to replace the special `__address__` label.
 
 ### `<dns_sd_config>`
 
-A DNS-SD configuration allows specifying a set of DNS record names which
-are periodically queried to discover a list of targets (host-port pairs). The
+A DNS-based service discovery configuration allows specifying a set of DNS
+domain names which are periodically queried to discover a list of targets. The
 DNS servers to be contacted are read from `/etc/resolv.conf`.
 
-During the [relabeling phase](#relabel_config), the meta
-label `__meta_dns_name` is available on each target and is set to the SRV
+This service discovery method only supports basic DNS A, AAAA and SRV record
+queries, but not the advanced DNS-SD approach specified in
+[RFC6763](https://tools.ietf.org/html/rfc6763).
+
+During the [relabeling phase](#relabel_config), the meta label
+`__meta_dns_name` is available on each target and is set to the
 record name that produced the discovered target.
 
 ```
-# A list of DNS SRV record names to be queried.
+# A list of DNS domain names to be queried.
 names:
-  [ - <record_name> ]
+  [ - <domain_name> ]
 
 # The type of DNS query to perform.
 [ type: <query_type> | default = 'SRV' ]
@@ -332,7 +336,7 @@ names:
 [ refresh_interval: <duration> | default = 30s ]
 ```
 
-Where `<record_name>` is any DNS SRV record name.
+Where `<domain_name>` is a valid DNS domain name.
 Where `<query_type>` is `SRV`, `A`, or `AAAA`.
 
 ### `<ec2_sd_config>`

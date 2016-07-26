@@ -55,13 +55,15 @@ during a scrape:
   * the **total sum** of all observed values, exposed as `<basename>_sum`
   * the **count** of events that have been observed, exposed as `<basename>_count` (identical to `<basename>_bucket{le="+Inf"}` above)
 
-Use the [`histogram_quantile()`
-function](/docs/querying/functions/#histogram_quantile) to calculate
-quantiles from histograms or even aggregations of histograms. A
-histogram is also suitable to calculate an [Apdex
-score](http://en.wikipedia.org/wiki/Apdex). See [histograms and
-summaries](/docs/practices/histograms) for details of histogram usage
-and differences to [summaries](#summary).
+Use the
+[`histogram_quantile()` function](/docs/querying/functions/#histogram_quantile)
+to calculate quantiles from histograms or even aggregations of histograms. A
+histogram is also suitable to calculate an
+[Apdex score](http://en.wikipedia.org/wiki/Apdex). When operating on buckets,
+remember that the histogram is
+[cumulative](https://en.wikipedia.org/wiki/Histogram#Cumulative_histogram). See
+[histograms and summaries](/docs/practices/histograms) for details of histogram
+usage and differences to [summaries](#summary).
 
 Client library usage documentation for histograms:
 

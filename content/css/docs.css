@@ -348,6 +348,11 @@ footer {
   display: block;
 }
 
+.doc-content img.orig-size {
+  width: auto;
+  margin-left: 0;
+}
+
 .toc {
   padding: 1em;
   background-color: #f5f5f5;

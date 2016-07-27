@@ -12,7 +12,10 @@ monitoring and alerting toolkit originally built at
 [SoundCloud](http://soundcloud.com). Since its inception in 2012, many
 companies and organizations have adopted Prometheus, and the project has a very
 active developer and user [community](/community). It is now a standalone open source project
-and maintained independently of any company.
+and maintained independently of any company. To emphasize this and clarify
+the project's governance structure, Prometheus joined the
+[Cloud Native Computing Foundation](https://cncf.io/) in 2016
+as the second hosted project after [Kubernetes](http://kubernetes.io/).
 
 For a more elaborate overview, see the resources linked from the
 [media](/docs/introduction/media/) section.

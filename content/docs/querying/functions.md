@@ -162,6 +162,16 @@ more trends in the data is considered. Both `sf` and `tf` must be between 0 and
 
 `holt_winters` should only be used with gauges.
 
+## `idelta()`
+
+`idelta(v range-vector)`
+
+`idelta(v range-vector)` calculates the difference between the last two samples
+in the range vector `v`, returning an instant vector with the given deltas and
+equivalent labels.
+
+`idelta` should only be used with gauges.
+
 ## `increase()`
 
 `increase(v range-vector)` calculates the increase in the

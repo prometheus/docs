@@ -15,11 +15,10 @@ use case.
 
 First of all, check the library support for
 [histograms](/docs/concepts/metric_types/#histogram) and
-[summaries](/docs/concepts/metric_types/#summary). Full support for
-both currently only exists in the Go client library. Many libraries
-support only one of the two types, or they support summaries only in a
-limited fashion (lacking [quantile
-calculation](#quantiles)).
+[summaries](/docs/concepts/metric_types/#summary).
+
+Some libraries support only one of the two types, or they support summaries
+only in a limited fashion (lacking [quantile calculation](#quantiles)).
 
 ## Count and sum of observations
 
@@ -226,6 +225,4 @@ Two rules of thumb:
 Implement it! [Code contributions are welcome](/community/). In general, we
 expect histograms to be more urgently needed than summaries. Histograms are
 also easier to implement in a client library, so we recommend to implement
-histograms first, if in doubt. The reason why some libraries offer summaries
-but not histograms (such as the Ruby client) is that histograms are a more
-recent feature of Prometheus.
+histograms first, if in doubt.

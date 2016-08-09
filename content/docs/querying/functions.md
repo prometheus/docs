@@ -162,6 +162,16 @@ more trends in the data is considered. Both `sf` and `tf` must be between 0 and
 
 `holt_winters` should only be used with gauges.
 
+## `idelta()`
+
+`idelta(v range-vector)`
+
+`idelta(v range-vector)` calculates the difference between the last two samples
+in the range vector `v`, returning an instant vector with the given deltas and
+equivalent labels.
+
+`idelta` should only be used with gauges.
+
 ## `increase()`
 
 `increase(v range-vector)` calculates the increase in the
@@ -325,6 +335,9 @@ over time and return an instant vector with per-series aggregation results:
 * `max_over_time(range-vector)`: the maximum value of all points in the specified interval.
 * `sum_over_time(range-vector)`: the sum of all values in the specified interval.
 * `count_over_time(range-vector)`: the count of all values in the specified interval.
+* `quantile_over_time(scalar, range-vector)`: the φ-quantile (0 ≤ φ ≤ 1) of the values in the specified interval.
+* `stddev_over_time(range-vector)`: the population standard deviation of the values in the specified interval.
+* `stdvar_over_time(range-vector)`: the population standard variance of the values in the specified interval.
 
 Note that all values in the specified interval have the same weight in the
 aggregation even if the values are not equally spaced throughout the interval.

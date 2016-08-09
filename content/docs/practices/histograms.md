@@ -80,8 +80,10 @@ following expression yields the Apdex score for each job over the last
     ) / 2 / sum(rate(http_request_duration_seconds_count[5m])) by (job)
 
 Note that we divide the sum of both buckets. The reason is that the histogram
-buckets are cumulative. The `le="0.3"` bucket is also contained in the `le="1.2"`
-bucket; dividing it by 2 corrects for that.
+buckets are
+[cumulative](https://en.wikipedia.org/wiki/Histogram#Cumulative_histogram). The
+`le="0.3"` bucket is also contained in the `le="1.2"` bucket; dividing it by 2
+corrects for that.
 
 ## Quantiles
 

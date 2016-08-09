@@ -23,11 +23,11 @@ A metric name...
    (specific to the Prometheus server)
  * <code><b>process</b>\_cpu\_seconds\_total</code>
    (exported by many client libraries)
- * <code><b>http</b>\_request\_duration\_microseconds</code>
+ * <code><b>http</b>\_request\_duration\_seconds</code>
    (for all HTTP requests)
-* ...must have a single unit (i.e. do not mix seconds with milliseconds).
+* ...must have a single unit (i.e. do not mix seconds with milliseconds, or seconds with bytes).
 * ...should have a suffix describing the unit, in plural form. Note that an accumulating count has `total` as a suffix, in addition to the unit if applicable.
- * <code>http\_request\_duration\_<b>microseconds</b></code>
+ * <code>http\_request\_duration\_<b>seconds</b></code>
  * <code>node\_memory\_usage\_<b>bytes</b></code>
  * <code>http\_requests\_<b>total</b></code>
    (for a unit-less accumulating count)
@@ -50,13 +50,13 @@ queue with the current number of elements in the queue is not.
 Use labels to differentiate the characteristics of the thing that is being measured:
 
  * `api_http_requests_total` - differentiate request types: `type="create|update|delete"`
- * `api_request_duration_nanoseconds` - differentiate request stages: `stage="extract|transform|load"`
+ * `api_request_duration_seconds` - differentiate request stages: `stage="extract|transform|load"`
 
 Do not put the label names in the metric name, as this introduces redundancy
 and will cause confusion if the respective labels are aggregated away.
 
-CAUTION: **CAUTION:** Remember that every unique key-value label pair
-represents a new time series, which can dramatically increase the amount of
-data stored. Do not use labels to store dimensions with high cardinality (many
-different label values), such as user IDs, email addresses, or other unbounded
-sets of values.
+CAUTION: **CAUTION:** Remember that every unique combination of key-value label
+pairs represents a new time series, which can dramatically increase the amount
+of data stored. Do not use labels to store dimensions with high cardinality
+(many different label values), such as user IDs, email addresses, or other
+unbounded sets of values.

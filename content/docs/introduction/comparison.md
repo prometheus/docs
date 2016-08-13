@@ -65,7 +65,7 @@ also works well for many short-lived, frequently changing sets of time series.
 
 ## Prometheus vs. InfluxDB
 
-[InfluxDB](https://influxdata.com/) is a very promising new open-source time
+[InfluxDB](https://influxdata.com/) is an open-source time
 series database. It did not exist when Prometheus development began, so we were
 unable to consider it as an alternative at the time. Still, there are
 significant differences between Prometheus and InfluxDB, and both systems are
@@ -76,43 +76,18 @@ geared towards slightly different use cases.
 The same scope differences as in the case of
 [Graphite](/docs/introduction/comparison/#prometheus-vs-graphite) apply here.
 
+Similar to the Graphite ecosystem, InfluxDB relies on separate open-source utilities for [data collection](https://github.com/influxdata/telegraf) and [alerting](https://github.com/influxdata/kapacitor).
+
 ### Data model / storage
 
-*Summary:* InfluxDB stores rows of events with full metadata for each event;
-Prometheus only stores numeric samples for existing time series. Both are good
-for different use cases.
+*Summary:* InfluxDB has a similar data model to Prometheus. Both support annotation of data with
+arbitrary key-value pairs (Prometheus's `labels` or InfluxDB's `tags`). In both systems these annotations 
+define a series, with the metadata stored only once. Storage density in InfluxDB is similar to Prometheus. Both 
+systems achieve compression of around ~2 bytes per float or integer value on disk.
 
-While InfluxDB's data model also allows annotation of data with arbitrary
-key-value pairs, it differs significantly from Prometheus in the way this data
-is modeled and stored. At its core, InfluxDB stores timestamped events with full metadata
-(key-value pairs) attached to each event / row. Prometheus stores only numeric
-time series and stores metadata for each time series exactly once, and then
-continues to simply append timestamped samples for that existing metadata
-entry. In a
-[test from March 2014](https://docs.google.com/document/d/1OgnI7YBCT_Ub9Em39dEfx9BuiqRNS3oA62i8fJbwwQ8/edit?usp=sharing),
-dumping typical Prometheus time series data into InfluxDB required **11x more
-disk storage in InfluxDB than in Prometheus** due to this different data model.
-
-If you are only interested in tracking the development of existing named
-time series (for example, the cumulative count of HTTP requests with the method
-`POST` to the `/api/tracks` endpoint on the instance
-`http://1.2.3.4:12345/metrics`), Prometheus will require much less storage
-space than InfluxDB. Further, Prometheus indexes all time series dimensions for
-efficient filtering, while InfluxDB currently only indexes tables by row
-timestamps (issue to track adding column indexes:
-https://github.com/influxdb/influxdb/issues/582).
-
-Still, InfluxDB is better geared towards the following use cases:
-
-   * Storing all **individual** events, not just time series of values.
-      * E.g. storing every HTTP request with full metadata *vs.* storing the
-        cumulative count of HTTP requests for certain dimensions.
-	  * [Logs and Metrics and Graphs, Oh My!](https://blog.raintank.io/logs-and-metrics-and-graphs-oh-my/)
-        describes the difference between event logging and metrics recording.
-   * Storing time series with completely unbounded dimensionality.
-      * E.g. storing user IDs or email addresses in the key-value metadata
-        *vs.* storing bounded dimensionality like the HTTP method, HTTP handler
-        and instance ID.
+InfluxDB, unlike Prometheus, supports storing **all individual events**, not just a time series of values. By contrast, Prometheus stores just the cumulative count of HTTP requests differentiated by labels.
+	  
+  > [Logs and Metrics and Graphs, Oh My!](https://blog.raintank.io/logs-and-metrics-and-graphs-oh-my/) describes the difference between event logging and metrics recording.
 
 There are other storage features, such as downsampling, which InfluxDB supports
 and Prometheus does not yet.

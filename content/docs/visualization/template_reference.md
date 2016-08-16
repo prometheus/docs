@@ -65,8 +65,6 @@ versions.
 | Name          | Arguments     | Returns |    Notes    |
 | ------------- | ------------- | ------- | ----------- |
 | title         | string        | string  | [strings.Title](http://golang.org/pkg/strings/#Title), capitalises first character of each word.|
-| toUpper       | string        | string  | [strings.ToUpper](http://golang.org/pkg/strings/#ToUpper), converts all characters to upper case.|
-| toLower       | string        | string  | [strings.ToLower](http://golang.org/pkg/strings/#ToLower), converts all characters to lower case.|
 | match         | pattern, text | boolean | [regexp.MatchString](http://golang.org/pkg/regexp/#MatchString) Tests for a unanchored regexp match. |
 | reReplaceAll  | pattern, replacement, text | string | [Regexp.ReplaceAllString](http://golang.org/pkg/regexp/#Regexp.ReplaceAllString) Regexp substitution, unanchored. |
 | graphLink  | expr | string | Returns path to graph view in the [expression browser](/docs/visualization/browser/) for the expression. |

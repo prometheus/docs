@@ -99,7 +99,7 @@ separate exporters are needed:
    * [Doorman](https://github.com/youtube/doorman)
    * [Etcd](https://github.com/coreos/etcd)
    * [Kubernetes-Mesos](https://github.com/mesosphere/kubernetes-mesos)
-   * [Kubernetes](https://github.com/GoogleCloudPlatform/kubernetes)
+   * [Kubernetes](https://github.com/kubernetes/kubernetes)
    * [RobustIRC](http://robustirc.net/)
    * [SkyDNS](https://github.com/skynetservices/skydns)
    * [Weave Flux](http://weaveworks.github.io/flux/)

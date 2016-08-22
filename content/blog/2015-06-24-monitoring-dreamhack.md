@@ -55,9 +55,6 @@ On top of all of this, we operate our own WiFi networks, DNS/DHCP servers, and
 other infrastructure. When completed, our core looks something like the image
 below.
 
-[![The DreamHack network core](https://c2.staticflickr.com/4/3951/18679671439_10ce7a8eb4_c.jpg)](https://www.flickr.com/photos/dreamhack/18679671439)
-<center>*The DreamHack network core*</center>
-
 [![Network planning map](/assets/dh_network_planning_map.png)](/assets/dh_network_planning_map.png)
 <center>*The planning map for the distribution and core layers. The core is
 clearly visible in "Hall D"*</center>

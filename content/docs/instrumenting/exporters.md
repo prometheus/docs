@@ -53,7 +53,7 @@ hosted outside of the Prometheus GitHub organization.
    * [Heka dashboard exporter](https://github.com/docker-infra/heka_exporter)
    * [Heka exporter](https://github.com/imgix/heka_exporter)
    * [IoT Edison exporter](https://github.com/roman-vynar/edison_exporter)
-   * [Jenkins exporter](https://github.com/RobustPerception/python_examples/tree/master/jenkins_exporter)
+   * [Jenkins exporter](https://github.com/lovoo/jenkins_exporter)
    * [knxd exporter](https://github.com/RichiH/knxd_exporter)
    * [Meteor JS web framework exporter](https://atmospherejs.com/sevki/prometheus-exporter)
    * [Minecraft exporter module](https://github.com/Baughn/PrometheusIntegration)

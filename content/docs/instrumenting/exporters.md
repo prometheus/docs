@@ -60,6 +60,7 @@ hosted outside of the Prometheus GitHub organization.
    * [Mirth Connect exporter](https://github.com/vynca/mirth_exporter)
    * [MongoDB exporter](https://github.com/dcu/mongodb_exporter)
    * [Munin exporter](https://github.com/pvdh/munin_exporter)
+   * [NATS exporter](https://github.com/lovoo/nats_exporter)
    * [New Relic exporter](https://github.com/jfindley/newrelic_exporter)
    * [Nginx metric library](https://github.com/knyar/nginx-lua-prometheus)
    * [NSQ exporter](https://github.com/lovoo/nsq_exporter)

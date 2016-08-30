@@ -22,12 +22,14 @@ downloads/%/releases.json:
 
 github_pages_export: compile
 	cd output && \
-	echo prometheus.io > CNAME && \
-	git init && \
-	git config user.name "Travis CI" && \
-	git config user.email "travis@prometheus.io" && \
-	git add . && \
-	git commit --message="Static site builder output"
+		mkdir -p .github && \
+		echo "This repository is auto-generated. You have to open pull requests against https://github.com/prometheus/docs instead." > .github/PULL_REQUEST_TEMPLATE.md && \
+		echo prometheus.io > CNAME && \
+		git init && \
+		git config user.name "Travis CI" && \
+		git config user.email "travis@prometheus.io" && \
+		git add . && \
+		git commit --message="Static site builder output"
 
 github_pages_push:
 	cd output && \

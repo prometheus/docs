@@ -419,7 +419,7 @@ files:
   [ - <filename_pattern> ... ]
 
 # Refresh interval to re-read the files.
-[ refresh_interval: <duration> | default = 30s ]
+[ refresh_interval: <duration> | default = 5m ]
 ```
 
 Where `<filename_pattern>` may be a path ending in `.json`, `.yml` or `.yaml`. The last path segment

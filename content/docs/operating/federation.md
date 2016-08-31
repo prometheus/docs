@@ -71,7 +71,7 @@ Prometheus:
   params:
     'match[]':
       - '{job="prometheus"}'
-      - '{__name__=~"^job:"}'
+      - '{__name__=~"job:.*"}'
 
   static_configs:
     - targets:

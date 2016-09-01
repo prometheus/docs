@@ -22,6 +22,7 @@ Unofficial third-party client libraries:
 
 * [Bash](https://github.com/aecolley/client_bash)
 * [Common Lisp](https://github.com/deadtrickster/prometheus.cl)
+* [Elixir](https://github.com/deadtrickster/prometheus.ex)
 * [Erlang](https://github.com/deadtrickster/prometheus.erl)
 * [Haskell](https://github.com/fimad/prometheus-haskell)
 * [Lua](https://github.com/knyar/nginx-lua-prometheus) for Nginx

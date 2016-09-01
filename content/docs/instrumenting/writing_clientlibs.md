@@ -327,12 +327,7 @@ readable formats) if it can be implemented without a significant resource cost.
 ## Standard and runtime collectors
 
 Client libraries SHOULD offer what they can of the Standard exports, documented
-at
-[https://docs.google.com/document/d/1Q0MXWdwp1mdXCzNRak6bW5LLVylVRXhdi7_21Sg15xQ/edit](https://docs.google.com/document/d/1Q0MXWdwp1mdXCzNRak6bW5LLVylVRXhdi7_21Sg15xQ/edit)
-
-In addition, client libraries are ENCOURAGED to also offer whatever makes sense
-in terms of metrics for their language’s runtime (e.g. Garbage collection
-stats).
+at [standard exports](/docs/instrumenting/standard_exports).
 
 These SHOULD be implemented as custom Collectors, and registered by default on
 the default CollectorRegistry. There SHOULD be a way to disable these, as there

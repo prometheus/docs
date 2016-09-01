@@ -327,11 +327,31 @@ readable formats) if it can be implemented without a significant resource cost.
 ## Standard and runtime collectors
 
 Client libraries SHOULD offer what they can of the Standard exports, documented
-at [standard exports](/docs/instrumenting/standard_exports).
+below.
 
 These SHOULD be implemented as custom Collectors, and registered by default on
 the default CollectorRegistry. There SHOULD be a way to disable these, as there
 are some very niche use cases where they get in the way.
+
+These exports should have the prefix `process_`. If a language or runtime
+doesn't expose one of the variables it'd just not export it. All memory values
+in bytes, all times in unixtime/seconds.
+
+## Metrics
+
+| Metric name                     | Help string                                            | Unit    |
+| ------------------------------- | ------------------------------------------------------ | ------- |
+| `process_cpu_seconds_total`     | Total user and system CPU time spent in seconds.       | Seconds |
+| `process_open_fds`              | Number of open file descriptors.                       | Integer |
+| `process_max_fds`               | Maximum number of open file descriptors.               | Integer |
+| `process_virtual_memory_bytes`  | Virtual memory size in bytes.                          | bytes   |
+| `process_resident_memory_bytes` | Resident memory size in bytes.                         | bytes   |
+| `process_heap_bytes`            | Process heap size in bytes.                            | bytes   |
+| `process_start_time_seconds`    | Start time of the process since unix epoch in seconds. | Seconds |
+
+In addition, client libraries are ENCOURAGED to also offer whatever makes sense
+in terms of metrics for their language’s runtime (e.g. Garbage collection
+stats).
 
 ## Unit tests
 

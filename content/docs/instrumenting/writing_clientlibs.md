@@ -339,15 +339,15 @@ in bytes, all times in unixtime/seconds.
 
 ## Metrics
 
-| Metric name                     | Help string                                            | Unit    |
-| ------------------------------- | ------------------------------------------------------ | ------- |
-| `process_cpu_seconds_total`     | Total user and system CPU time spent in seconds.       | Seconds |
-| `process_open_fds`              | Number of open file descriptors.                       | Integer |
-| `process_max_fds`               | Maximum number of open file descriptors.               | Integer |
-| `process_virtual_memory_bytes`  | Virtual memory size in bytes.                          | bytes   |
-| `process_resident_memory_bytes` | Resident memory size in bytes.                         | bytes   |
-| `process_heap_bytes`            | Process heap size in bytes.                            | bytes   |
-| `process_start_time_seconds`    | Start time of the process since unix epoch in seconds. | Seconds |
+| Metric name                     | Help string                                            | Unit             |
+| ------------------------------- | ------------------------------------------------------ | ---------------  |
+| `process_cpu_seconds_total`     | Total user and system CPU time spent in seconds.       | Seconds          |
+| `process_open_fds`              | Number of open file descriptors.                       | File Descriptors |
+| `process_max_fds`               | Maximum number of open file descriptors.               | Integer          |
+| `process_virtual_memory_bytes`  | Virtual memory size in bytes.                          | bytes            |
+| `process_resident_memory_bytes` | Resident memory size in bytes.                         | bytes            |
+| `process_heap_bytes`            | Process heap size in bytes.                            | bytes            |
+| `process_start_time_seconds`    | Start time of the process since unix epoch in seconds. | Seconds          |
 
 In addition, client libraries are ENCOURAGED to also offer whatever makes sense
 in terms of metrics for their language’s runtime (e.g. Garbage collection

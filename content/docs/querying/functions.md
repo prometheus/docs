@@ -75,8 +75,9 @@ for each of the given times in UTC. Returned values are from 1 to 31.
 
 ## `day_of_week()`
 
-`day_of_week(v=vector(time()) instant-vector)` returns the day of the week
-for each of the given times in UTC. Sunday=0 etc.
+`day_of_week(v=vector(time()) instant-vector)` returns the day of the week for
+each of the given times in UTC. Returned values are from 0 to 6, where 0 means
+Sunday etc.
 
 ## `days_in_month()`
 
@@ -278,8 +279,9 @@ The special cases are equivalent to those in `ln`.
 
 ## `month()`
 
-`month(v=vector(time()) instant-vector)` returns the month of the year
-for each of the given times in UTC. January=1 etc.
+`month(v=vector(time()) instant-vector)` returns the month of the year for each
+of the given times in UTC. Returned values are from 1 to 12, where 1 means
+January etc.
 
 ## `predict_linear()`
 

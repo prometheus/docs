@@ -351,7 +351,7 @@ in bytes, all times in unixtime/seconds.
 
 In addition, client libraries are ENCOURAGED to also offer whatever makes sense
 in terms of metrics for their language’s runtime (e.g. Garbage collection
-stats).
+stats), with an appropriate prefix such as `go_`, `hostspot_` etc. 
 
 ## Unit tests
 

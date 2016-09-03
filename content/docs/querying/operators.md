@@ -189,19 +189,20 @@ vector of fewer elements with aggregated values:
 * `count_values` (count number of elements with the same value)
 * `bottomk` (smallest k elements by sample value)
 * `topk` (largest k elements by sample value)
+* `quantile` (calculate φ-quantile (0 ≤ φ ≤ 1) over dimensions)
 
 These operators can either be used to aggregate over **all** label dimensions
 or preserve distinct dimensions by including a `without` or `by` clause.
 
     <aggr-op>([parameter,] <vector expression>) [without|by (<label list>)] [keep_common]
 
-`parameter` is only required for `count_values`,`topk` and `bottomk`. `without`
-removes the listed labels from the result vector, while all other labels are
-preserved the output. `by` does the opposite and drops labels that are not
-listed in the `by` clause, even if their label values are identical between all
-elements of the vector. The `keep_common` clause allows keeping those extra
-labels (labels that are identical between elements, but not in the `by`
-clause).
+`parameter` is only required for `count_values`, `quantile`, `topk` and
+`bottomk`. `without` removes the listed labels from the result vector, while
+all other labels are preserved the output. `by` does the opposite and drops
+labels that are not listed in the `by` clause, even if their label values are
+identical between all elements of the vector. The `keep_common` clause allows
+keeping those extra labels (labels that are identical between elements, but not
+in the `by` clause).
 
 `count_values` outputs one time series per unique sample value. Each series has
 an additional label. The name of that label is given by the aggregation

@@ -6,14 +6,19 @@ sort_rank: 3
 
 # Functions
 
+Some functions have default arguments, e.g. `year(v=vector(time())
+instant-vector)`. This means that there is one argument `v` which is an instant
+vector, which if not provided it will default to the value of the expression
+`vector(time())`.
+
 ## `abs()`
 
-`abs(v vector)` returns the input vector with all sample values converted to
+`abs(v instant-vector)` returns the input vector with all sample values converted to
 their absolute value.
 
 ## `absent()`
 
-`absent(v vector)` returns an empty vector if the vector passed to it has any
+`absent(v instant-vector)` returns an empty vector if the vector passed to it has any
 elements and a 1-element vector with the value 1 if the vector passed to it has
 no elements.
 
@@ -62,6 +67,22 @@ vector as a scalar. This is in contrast to the `count()`
 [aggregation operator](/docs/querying/operators/#aggregation-operators), which
 always returns a vector (an empty one if the input vector is empty) and allows
 grouping by labels via a `by` clause.
+
+## `day_of_month()`
+
+`day_of_month(v=vector(time()) instant-vector)` returns the day of the month
+for each of the given times in UTC. Returned values are from 1 to 31.
+
+## `day_of_week()`
+
+`day_of_week(v=vector(time()) instant-vector)` returns the day of the week for
+each of the given times in UTC. Returned values are from 0 to 6, where 0 means
+Sunday etc.
+
+## `days_in_month()`
+
+`days_in_month(v=vector(time()) instant-vector)` returns number of days in the
+month for each of the given times in UTC. Returned values are from 28 to 31.
 
 ## `delta()`
 
@@ -162,6 +183,21 @@ more trends in the data is considered. Both `sf` and `tf` must be between 0 and
 
 `holt_winters` should only be used with gauges.
 
+## `hour()`
+
+`hour(v=vector(time()) instant-vector)` returns the hour of the day
+for each of the given times in UTC. Returned values are from 0 to 23.
+
+## `idelta()`
+
+`idelta(v range-vector)`
+
+`idelta(v range-vector)` calculates the difference between the last two samples
+in the range vector `v`, returning an instant vector with the given deltas and
+equivalent labels.
+
+`idelta` should only be used with gauges.
+
 ## `increase()`
 
 `increase(v range-vector)` calculates the increase in the
@@ -241,6 +277,12 @@ The special cases are equivalent to those in `ln`.
 `log10(v instant-vector)` calculates the decimal logarithm for all elements in `v`.
 The special cases are equivalent to those in `ln`.
 
+## `month()`
+
+`month(v=vector(time()) instant-vector)` returns the month of the year for each
+of the given times in UTC. Returned values are from 1 to 12, where 1 means
+January etc.
+
 ## `predict_linear()`
 
 `predict_linear(v range-vector, t scalar)` predicts the value of time series
@@ -315,6 +357,12 @@ expression is to be evaluated.
 
 `vector(s scalar)` returns the scalar `s` as a vector with no labels.
 
+## `year()`
+
+`year(v=vector(time()) instant-vector)` returns the year
+for each of the given times in UTC.
+
+
 ## `<aggregation>_over_time()`
 
 The following functions allow aggregating each series of a given range vector
@@ -325,6 +373,9 @@ over time and return an instant vector with per-series aggregation results:
 * `max_over_time(range-vector)`: the maximum value of all points in the specified interval.
 * `sum_over_time(range-vector)`: the sum of all values in the specified interval.
 * `count_over_time(range-vector)`: the count of all values in the specified interval.
+* `quantile_over_time(scalar, range-vector)`: the φ-quantile (0 ≤ φ ≤ 1) of the values in the specified interval.
+* `stddev_over_time(range-vector)`: the population standard deviation of the values in the specified interval.
+* `stdvar_over_time(range-vector)`: the population standard variance of the values in the specified interval.
 
 Note that all values in the specified interval have the same weight in the
 aggregation even if the values are not equally spaced throughout the interval.

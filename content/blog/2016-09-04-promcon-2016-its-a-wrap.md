@@ -83,10 +83,8 @@ Especially for a small conference like this, recording and sharing talks was
 important, as it dramatically increases the reach of the talks and helps
 Prometheus users and developers around the world to participate and learn.
 
-Today, we are pleased to announce that all talks are now publicly available on
-YouTube:
-
-TODO: include link to talk videos
+Today, we are pleased to announce that all talks are now publicly available
+on Youtube. Enjoy them [here](https://www.youtube.com/playlist?list=PLoz-W_CUquUlCq-Q0hy53TolAhaED9vmU).
 
 ## Reception
 

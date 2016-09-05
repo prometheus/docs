@@ -53,6 +53,7 @@ hosted outside of the Prometheus GitHub organization.
    * [Heka dashboard exporter](https://github.com/docker-infra/heka_exporter)
    * [Heka exporter](https://github.com/imgix/heka_exporter)
    * [IoT Edison exporter](https://github.com/roman-vynar/edison_exporter)
+   * [IPMI exporter](https://github.com/lovoo/ipmi_exporter)
    * [Jenkins exporter](https://github.com/lovoo/jenkins_exporter)
    * [knxd exporter](https://github.com/RichiH/knxd_exporter)
    * [Meteor JS web framework exporter](https://atmospherejs.com/sevki/prometheus-exporter)
@@ -82,6 +83,7 @@ hosted outside of the Prometheus GitHub organization.
    * [Ubiquiti UniFi exporter](https://github.com/mdlayher/unifi_exporter)
    * [Varnish exporter](https://github.com/jonnenauha/prometheus_varnish_exporter)
    * [WebDriver exporter](https://github.com/mattbostock/webdriver_exporter)
+   * [Xen exporter](https://github.com/lovoo/xenstats_exporter)
    * [Zookeeper exporter](https://github.com/carlpett/zookeeper_exporter)
 
 When implementing a new Prometheus exporter, please follow the

@@ -327,16 +327,31 @@ readable formats) if it can be implemented without a significant resource cost.
 ## Standard and runtime collectors
 
 Client libraries SHOULD offer what they can of the Standard exports, documented
-at
-[https://docs.google.com/document/d/1Q0MXWdwp1mdXCzNRak6bW5LLVylVRXhdi7_21Sg15xQ/edit](https://docs.google.com/document/d/1Q0MXWdwp1mdXCzNRak6bW5LLVylVRXhdi7_21Sg15xQ/edit)
-
-In addition, client libraries are ENCOURAGED to also offer whatever makes sense
-in terms of metrics for their language’s runtime (e.g. Garbage collection
-stats).
+below.
 
 These SHOULD be implemented as custom Collectors, and registered by default on
 the default CollectorRegistry. There SHOULD be a way to disable these, as there
 are some very niche use cases where they get in the way.
+
+These exports should have the prefix `process_`. If a language or runtime
+doesn't expose one of the variables it'd just not export it. All memory values
+in bytes, all times in unixtime/seconds.
+
+## Metrics
+
+| Metric name                     | Help string                                            | Unit             |
+| ------------------------------- | ------------------------------------------------------ | ---------------  |
+| `process_cpu_seconds_total`     | Total user and system CPU time spent in seconds.       | seconds          |
+| `process_open_fds`              | Number of open file descriptors.                       | file descriptors |
+| `process_max_fds`               | Maximum number of open file descriptors.               | file descriptors |
+| `process_virtual_memory_bytes`  | Virtual memory size in bytes.                          | bytes            |
+| `process_resident_memory_bytes` | Resident memory size in bytes.                         | bytes            |
+| `process_heap_bytes`            | Process heap size in bytes.                            | bytes            |
+| `process_start_time_seconds`    | Start time of the process since unix epoch in seconds. | seconds          |
+
+In addition, client libraries are ENCOURAGED to also offer whatever makes sense
+in terms of metrics for their language’s runtime (e.g. garbage collection
+stats), with an appropriate prefix such as `go_`, `hostspot_` etc. 
 
 ## Unit tests
 

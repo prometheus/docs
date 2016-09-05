@@ -341,16 +341,16 @@ in bytes, all times in unixtime/seconds.
 
 | Metric name                     | Help string                                            | Unit             |
 | ------------------------------- | ------------------------------------------------------ | ---------------  |
-| `process_cpu_seconds_total`     | Total user and system CPU time spent in seconds.       | Seconds          |
-| `process_open_fds`              | Number of open file descriptors.                       | File Descriptors |
-| `process_max_fds`               | Maximum number of open file descriptors.               | Integer          |
+| `process_cpu_seconds_total`     | Total user and system CPU time spent in seconds.       | seconds          |
+| `process_open_fds`              | Number of open file descriptors.                       | file descriptors |
+| `process_max_fds`               | Maximum number of open file descriptors.               | file descriptors |
 | `process_virtual_memory_bytes`  | Virtual memory size in bytes.                          | bytes            |
 | `process_resident_memory_bytes` | Resident memory size in bytes.                         | bytes            |
 | `process_heap_bytes`            | Process heap size in bytes.                            | bytes            |
-| `process_start_time_seconds`    | Start time of the process since unix epoch in seconds. | Seconds          |
+| `process_start_time_seconds`    | Start time of the process since unix epoch in seconds. | seconds          |
 
 In addition, client libraries are ENCOURAGED to also offer whatever makes sense
-in terms of metrics for their language’s runtime (e.g. Garbage collection
+in terms of metrics for their language’s runtime (e.g. garbage collection
 stats), with an appropriate prefix such as `go_`, `hostspot_` etc. 
 
 ## Unit tests

@@ -159,14 +159,14 @@ route:
   routes:
   # All alerts with service=mysql or service=cassandra
   # are dispatched to the database pager.
-  - receiver: 'database-pager'
+  - receiver: database-pager
     group_wait: 10s
     match_re:
       service: mysql|cassandra
   # All alerts with the team=frontend label match this sub-route.
   # They are grouped by product and environment rather than cluster
   # and alertname.
-  - receiver: 'frontend-pager'
+  - receiver: frontend-pager
     group_by: [product, environment]
     match:
       team: frontend
@@ -376,7 +376,7 @@ channel: <tmpl_string>
 ```
 
 
-## OpsGenie receiver `<opsgenie_config>`
+## OpsGenie receiver `<opsgenie_configs>`
 
 OpsGenie notifications are sent via the [OpsGenie API](https://www.opsgenie.com/docs/web-api/alert-api).
 

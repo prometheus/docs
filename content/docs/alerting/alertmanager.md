@@ -29,7 +29,7 @@ Alerting rules in Prometheus were configured to send an alert for each service
 instance if it cannot communicate with the database. As a result hundreds of
 alerts are sent to Alertmanager.
 
-As a user one only wants to get a single page while still being able to see
+As a user, one only wants to get a single page while still being able to see
 exactly which service instances were affected. Thus one can configure
 Alertmanager to group alerts by their cluster and alertname so it sends a
 single compact notification.
@@ -57,7 +57,7 @@ Silences are a straightforward way to simply mute alerts for a given time.
 A silence is configured based on matchers, just like the routing tree. Incoming
 alerts are checked whether they match all the equality or regular expression
 matchers of an active silence.
-If they do, no notifications will be send out for that alert.
+If they do, no notifications will be sent out for that alert.
 
 Silences are configured in the web interface of the Alertmanager.
 

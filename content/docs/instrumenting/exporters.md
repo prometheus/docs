@@ -49,6 +49,7 @@ hosted outside of the Prometheus GitHub organization.
    * [CouchDB exporter](https://github.com/gesellix/couchdb-exporter)
    * [Django exporter](https://github.com/korfuri/django-prometheus)
    * [Docker Hub exporter](https://github.com/infinityworksltd/docker-hub-exporter)
+   * [GitHub exporter](https://github.com/infinityworksltd/github-exporter)
    * [Google's mtail log data extractor](https://github.com/google/mtail)
    * [Grok exporter](https://github.com/fstab/grok_exporter)
    * [Heka dashboard exporter](https://github.com/docker-infra/heka_exporter)

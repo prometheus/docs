@@ -87,7 +87,8 @@ hosted outside of the Prometheus GitHub organization.
    * [WebDriver exporter](https://github.com/mattbostock/webdriver_exporter)
    * [Xen exporter](https://github.com/lovoo/xenstats_exporter)
    * [Zookeeper exporter](https://github.com/carlpett/zookeeper_exporter)
-
+   * [ScaleIO exporter](https://github.com/syepes/sio2prom)
+   
 When implementing a new Prometheus exporter, please follow the
 [guidelines on writing exporters](/docs/instrumenting/writing_exporters)
 Please also consider consulting the [development mailing
@@ -121,3 +122,4 @@ practices.
    * Go: [go-metrics instrumentation library](https://github.com/armon/go-metrics)
    * Go: [gokit](https://github.com/peterbourgon/gokit)
    * Java/JVM: [Hystrix metrics publisher](https://github.com/soundcloud/prometheus-hystrix)
+   * Rust: [rust-prometheus](https://github.com/pingcap/rust-prometheus/)

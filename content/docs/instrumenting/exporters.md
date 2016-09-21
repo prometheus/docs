@@ -122,4 +122,3 @@ practices.
    * Go: [go-metrics instrumentation library](https://github.com/armon/go-metrics)
    * Go: [gokit](https://github.com/peterbourgon/gokit)
    * Java/JVM: [Hystrix metrics publisher](https://github.com/soundcloud/prometheus-hystrix)
-   * Rust: [rust-prometheus](https://github.com/pingcap/rust-prometheus/)

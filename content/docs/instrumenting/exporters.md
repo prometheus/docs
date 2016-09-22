@@ -46,6 +46,7 @@ hosted outside of the Prometheus GitHub organization.
    * [BIG-IP exporter](https://github.com/ExpressenAB/bigip_exporter)
    * [BIND exporter](https://github.com/digitalocean/bind_exporter)
    * [Ceph exporter](https://github.com/digitalocean/ceph_exporter)
+   * [Cloud Foundry Firehose exporter](https://github.com/cloudfoundry-community/firehose_exporter)
    * [CouchDB exporter](https://github.com/gesellix/couchdb-exporter)
    * [Django exporter](https://github.com/korfuri/django-prometheus)
    * [Docker Hub exporter](https://github.com/infinityworksltd/docker-hub-exporter)

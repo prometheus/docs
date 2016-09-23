@@ -116,7 +116,7 @@ See also the example below.
 # HELP http_requests_total The total number of HTTP requests.
 # TYPE http_requests_total counter
 http_requests_total{method="post",code="200"} 1027 1395066363000
-http_requests_total{method="post",code="400"}    3 1395066363000
+http_requests_total{method="post",code="400"} 3 1395066363000
 
 # Escaping in label values:
 msdos_file_access_time_seconds{path="C:\\DIR\\FILE.TXT",error="Cannot find file:\n\"FILE.TXT\""} 1.458255915e9

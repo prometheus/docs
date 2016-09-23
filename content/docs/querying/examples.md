@@ -73,7 +73,7 @@ following for every instance:
     ...
 
 ...we could get the top 3 CPU users grouped by application (`app`) and process
-type (`proctype`) like this:
+type (`proc`) like this:
 
     topk(3, sum(rate(instance_cpu_time_ns[5m])) by (app, proc))
 

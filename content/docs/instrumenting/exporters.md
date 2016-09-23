@@ -78,6 +78,7 @@ hosted outside of the Prometheus GitHub organization.
    * [Redis exporter](https://github.com/oliver006/redis_exporter)
    * [RethinkDB exporter](https://github.com/oliver006/rethinkdb_exporter)
    * [rTorrent exporter](https://github.com/mdlayher/rtorrent_exporter)
+   * [ScaleIO exporter](https://github.com/syepes/sio2prom)
    * [scollector exporter](https://github.com/tgulacsi/prometheus_scollector)
    * [SMTP/Maildir MDA blackbox prober](https://github.com/cherti/mailexporter)
    * [Speedtest.net exporter](https://github.com/RichiH/speedtest_exporter)
@@ -87,8 +88,7 @@ hosted outside of the Prometheus GitHub organization.
    * [WebDriver exporter](https://github.com/mattbostock/webdriver_exporter)
    * [Xen exporter](https://github.com/lovoo/xenstats_exporter)
    * [Zookeeper exporter](https://github.com/carlpett/zookeeper_exporter)
-   * [ScaleIO exporter](https://github.com/syepes/sio2prom)
-   
+
 When implementing a new Prometheus exporter, please follow the
 [guidelines on writing exporters](/docs/instrumenting/writing_exporters)
 Please also consider consulting the [development mailing

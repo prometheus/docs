@@ -79,6 +79,7 @@ hosted outside of the Prometheus GitHub organization.
    * [Redis exporter](https://github.com/oliver006/redis_exporter)
    * [RethinkDB exporter](https://github.com/oliver006/rethinkdb_exporter)
    * [rTorrent exporter](https://github.com/mdlayher/rtorrent_exporter)
+   * [ScaleIO exporter](https://github.com/syepes/sio2prom)
    * [scollector exporter](https://github.com/tgulacsi/prometheus_scollector)
    * [SMTP/Maildir MDA blackbox prober](https://github.com/cherti/mailexporter)
    * [Speedtest.net exporter](https://github.com/RichiH/speedtest_exporter)

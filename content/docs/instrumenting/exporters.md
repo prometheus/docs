@@ -73,6 +73,7 @@ hosted outside of the Prometheus GitHub organization.
    * [PgBouncer exporter](http://git.cbaines.net/prometheus-pgbouncer-exporter/about)
    * [PostgreSQL exporter](https://github.com/wrouesnel/postgres_exporter)
    * [PowerDNS exporter](https://github.com/janeczku/powerdns_exporter)
+   * [ProxySQL exporter](https://github.com/percona/proxysql_exporter)
    * [RabbitMQ exporter](https://github.com/kbudde/rabbitmq_exporter)
    * [RabbitMQ Management Plugin exporter](https://github.com/deadtrickster/prometheus_rabbitmq_exporter)
    * [Rancher exporter](https://github.com/infinityworksltd/prometheus-rancher-exporter)

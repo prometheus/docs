@@ -6,7 +6,7 @@ author_name: Brian Brazil
 ---
 
 *Next in our series of interviews with users of Prometheus, DigitalOcean talks
-about how they use Promethus. Carlos Amedee also talked about [the social
+about how they use Prometheus. Carlos Amedee also talked about [the social
 aspects of the rollout](https://www.youtube.com/watch?v=ieo3lGBHcy8) at PromCon
 2016.*
 

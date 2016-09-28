@@ -161,7 +161,7 @@ instance or entire service disappears however, we call `srvs.handle` using the
 `srvs.delete` method instead.
 
 We finish each update by another call to `srvs.persist` to write out the
-changes to the file Promtheus is watching.
+changes to the file Prometheus is watching.
 
 ### Modification methods
 

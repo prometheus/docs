@@ -240,7 +240,7 @@ Azure SD configurations allow retrieving scrape targets from Azure VMs.
 The following meta labels are available on targets during relabeling:
 
 * `__meta_azure_machine_id`: the machine ID
-* `__meta_azure_machine_rescource_group`: the machine's resource group
+* `__meta_azure_machine_resource_group`: the machine's resource group
 * `__meta_azure_machine_location`: the location the machine runs in
 * `__meta_azure_machine_private_ip`: the machine's private IP
 * `__meta_azure_tag_<tagname>`: each tag value of the machine
@@ -580,7 +580,7 @@ Nerve SD configurations allow retrieving scrape targets from [AirBnB's Nerve]
 
 The following meta labels are available on targets during relabeling:
 
-* `__meta_nerve_path`: the full path to the emdpoint node in Zookeeper
+* `__meta_nerve_path`: the full path to the endpoint node in Zookeeper
 * `__meta_nerve_endpoint_host`: the host of the endpoint
 * `__meta_nerve_endpoint_port`: the port of the endpoint
 * `__meta_nerve_endpoint_name`: the name of the endpoint

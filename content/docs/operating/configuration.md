@@ -62,13 +62,18 @@ global:
   external_labels:
     [ <labelname>: <labelvalue> ... ]
 
-# Rule files specifies a list of files from which rules are read.
+# Rule files specifies a list of files from which rules and alerts are read.
 rule_files:
   [ - <filepath> ... ]
 
 # A list of scrape configurations.
 scrape_configs:
   [ - <scrape_config> ... ]
+
+# Alerting specifies settings related to the Alertmanager.
+alerting:
+  alert_relabel_configs:
+    [ - <relabel_config> ... ]
 ```
 
 
@@ -714,10 +719,19 @@ the `replace`, `keep`, `drop` and `labelmap` actions. The regex is fully anchore
    to label names given by `replacement` with match group references
   (`${1}`, `${2}`, ...) in `replacement` substituted by their value.
 
-### `<metric_relabel_config>`
+### `<metric_relabel_configs>`
 
 Metric relabeling is applied to samples as the last step before ingestion. It
 has the same configuration format and actions as target relabeling. Metric
 relabeling does not apply to automatically generated timeseries such as `up`.
 
 One use for this is to blacklist time series that are too expensive to ingest.
+
+### `<alert_relabel_configs>`
+
+Alert relabeling is applied to alerts before they are sent to the Alertmanager.
+It has the same configuration format and actions as target relabeling. Alert
+relabeling is applied after external labels.
+
+One use for this is ensuring a HA pair of Prometheus servers with different
+external labels send identical alerts.

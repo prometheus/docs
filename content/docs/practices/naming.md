@@ -26,7 +26,7 @@ A metric name...
  * <code><b>http</b>\_request\_duration\_seconds</code>
    (for all HTTP requests)
 * ...must have a single unit (i.e. do not mix seconds with milliseconds, or seconds with bytes).
-* ...should use base units (e.g. seconds, bytes, meters - not milliseconds, megabytes, kilometers).
+* ...should use SI base units (e.g. seconds, bytes, meters - not milliseconds, megabytes, kilometers).
 * ...should have a suffix describing the unit, in plural form. Note that an accumulating count has `total` as a suffix, in addition to the unit if applicable.
  * <code>http\_request\_duration\_<b>seconds</b></code>
  * <code>node\_memory\_usage\_<b>bytes</b></code>

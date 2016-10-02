@@ -52,13 +52,13 @@ hosted outside of the Prometheus GitHub organization.
    * [RethinkDB exporter](https://github.com/oliver006/rethinkdb_exporter)
    * [SQL query result set metrics exporter](https://github.com/chop-dbhi/prometheus-sql)
 
-### Hardware-related
+### Hardware related
    * [IoT Edison exporter](https://github.com/roman-vynar/edison_exporter)
    * [IPMI exporter](https://github.com/lovoo/ipmi_exporter)
    * [knxd exporter](https://github.com/RichiH/knxd_exporter)
    * [Ubiquiti UniFi exporter](https://github.com/mdlayher/unifi_exporter)
 
-### Messaging-Systems
+### Messaging systems
    * [NATS exporter](https://github.com/lovoo/nats_exporter)
    * [NSQ exporter](https://github.com/lovoo/nsq_exporter)
    * [RabbitMQ exporter](https://github.com/kbudde/rabbitmq_exporter)
@@ -87,7 +87,7 @@ hosted outside of the Prometheus GitHub organization.
    * [Google's mtail log data extractor](https://github.com/google/mtail)
    * [Grok exporter](https://github.com/fstab/grok_exporter)
    
-### Other Monitoring Systems
+### Other monitoring systems
    * [Cloud Foundry Firehose exporter](https://github.com/cloudfoundry-community/firehose_exporter)
    * [scollector exporter](https://github.com/tgulacsi/prometheus_scollector)
    * [Heka dashboard exporter](https://github.com/docker-infra/heka_exporter)
@@ -95,7 +95,7 @@ hosted outside of the Prometheus GitHub organization.
    * [Munin exporter](https://github.com/pvdh/munin_exporter)
    * [New Relic exporter](https://github.com/jfindley/newrelic_exporter)
 
-### Network Services
+### Network services
    * [BIG-IP exporter](https://github.com/ExpressenAB/bigip_exporter)
    * [BIND exporter](https://github.com/digitalocean/bind_exporter)
    * [PowerDNS exporter](https://github.com/janeczku/powerdns_exporter)

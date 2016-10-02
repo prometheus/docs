@@ -41,52 +41,71 @@ and maintained. We encourage the creation of more exporters but cannot
 vet all of them for best practices. Commonly, those exporters are
 hosted outside of the Prometheus GitHub organization.
 
+### Databases
    * [Aerospike exporter](https://github.com/alicebob/asprom)
-   * [Apache exporter](https://github.com/neezgee/apache_exporter)
-   * [BIG-IP exporter](https://github.com/ExpressenAB/bigip_exporter)
-   * [BIND exporter](https://github.com/digitalocean/bind_exporter)
-   * [Ceph exporter](https://github.com/digitalocean/ceph_exporter)
-   * [Cloud Foundry Firehose exporter](https://github.com/cloudfoundry-community/firehose_exporter)
    * [CouchDB exporter](https://github.com/gesellix/couchdb-exporter)
-   * [Django exporter](https://github.com/korfuri/django-prometheus)
-   * [Docker Hub exporter](https://github.com/infinityworksltd/docker-hub-exporter)
-   * [GitHub exporter](https://github.com/infinityworksltd/github-exporter)
-   * [Google's mtail log data extractor](https://github.com/google/mtail)
-   * [Grok exporter](https://github.com/fstab/grok_exporter)
-   * [Heka dashboard exporter](https://github.com/docker-infra/heka_exporter)
-   * [Heka exporter](https://github.com/imgix/heka_exporter)
-   * [IoT Edison exporter](https://github.com/roman-vynar/edison_exporter)
-   * [IPMI exporter](https://github.com/lovoo/ipmi_exporter)
-   * [Jenkins exporter](https://github.com/lovoo/jenkins_exporter)
-   * [knxd exporter](https://github.com/RichiH/knxd_exporter)
-   * [Meteor JS web framework exporter](https://atmospherejs.com/sevki/prometheus-exporter)
-   * [Minecraft exporter module](https://github.com/Baughn/PrometheusIntegration)
-   * [Mirth Connect exporter](https://github.com/vynca/mirth_exporter)
    * [MongoDB exporter](https://github.com/dcu/mongodb_exporter)
-   * [Munin exporter](https://github.com/pvdh/munin_exporter)
-   * [NATS exporter](https://github.com/lovoo/nats_exporter)
-   * [New Relic exporter](https://github.com/jfindley/newrelic_exporter)
-   * [Nginx metric library](https://github.com/knyar/nginx-lua-prometheus)
-   * [NSQ exporter](https://github.com/lovoo/nsq_exporter)
-   * [OpenWeatherMap exporter](https://github.com/RichiH/openweathermap_exporter)
-   * [Passenger exporter](https://github.com/stuartnelson3/passenger_exporter)
    * [PgBouncer exporter](http://git.cbaines.net/prometheus-pgbouncer-exporter/about)
    * [PostgreSQL exporter](https://github.com/wrouesnel/postgres_exporter)
-   * [PowerDNS exporter](https://github.com/janeczku/powerdns_exporter)
    * [ProxySQL exporter](https://github.com/percona/proxysql_exporter)
-   * [RabbitMQ exporter](https://github.com/kbudde/rabbitmq_exporter)
-   * [RabbitMQ Management Plugin exporter](https://github.com/deadtrickster/prometheus_rabbitmq_exporter)
-   * [Rancher exporter](https://github.com/infinityworksltd/prometheus-rancher-exporter)
    * [Redis exporter](https://github.com/oliver006/redis_exporter)
    * [RethinkDB exporter](https://github.com/oliver006/rethinkdb_exporter)
-   * [rTorrent exporter](https://github.com/mdlayher/rtorrent_exporter)
-   * [ScaleIO exporter](https://github.com/syepes/sio2prom)
-   * [scollector exporter](https://github.com/tgulacsi/prometheus_scollector)
-   * [SMTP/Maildir MDA blackbox prober](https://github.com/cherti/mailexporter)
-   * [Speedtest.net exporter](https://github.com/RichiH/speedtest_exporter)
    * [SQL query result set metrics exporter](https://github.com/chop-dbhi/prometheus-sql)
+
+### Hardware-related
+   * [IoT Edison exporter](https://github.com/roman-vynar/edison_exporter)
+   * [IPMI exporter](https://github.com/lovoo/ipmi_exporter)
+   * [knxd exporter](https://github.com/RichiH/knxd_exporter)
    * [Ubiquiti UniFi exporter](https://github.com/mdlayher/unifi_exporter)
+
+### Messaging-Systems
+   * [NATS exporter](https://github.com/lovoo/nats_exporter)
+   * [NSQ exporter](https://github.com/lovoo/nsq_exporter)
+   * [RabbitMQ exporter](https://github.com/kbudde/rabbitmq_exporter)
+   * [RabbitMQ Management Plugin exporter](https://github.com/deadtrickster/prometheus_rabbitmq_exporter)
+   * [Mirth Connect exporter](https://github.com/vynca/mirth_exporter)
+
+### Storage
+   * [Ceph exporter](https://github.com/digitalocean/ceph_exporter)
+   * [ScaleIO exporter](https://github.com/syepes/sio2prom)
+
+### Webserver- and proxies
+   * [Apache exporter](https://github.com/neezgee/apache_exporter)
+   * [Nginx metric library](https://github.com/knyar/nginx-lua-prometheus)
+   * [Passenger exporter](https://github.com/stuartnelson3/passenger_exporter)
    * [Varnish exporter](https://github.com/jonnenauha/prometheus_varnish_exporter)
+
+### APIs
+   * [Docker Hub exporter](https://github.com/infinityworksltd/docker-hub-exporter)
+   * [GitHub exporter](https://github.com/infinityworksltd/github-exporter)
+   * [OpenWeatherMap exporter](https://github.com/RichiH/openweathermap_exporter)
+   * [Rancher exporter](https://github.com/infinityworksltd/prometheus-rancher-exporter)
+
+### Logging
+   * [Google's mtail log data extractor](https://github.com/google/mtail)
+   * [Grok exporter](https://github.com/fstab/grok_exporter)
+   
+### Metrics-bridges
+   * [Cloud Foundry Firehose exporter](https://github.com/cloudfoundry-community/firehose_exporter)
+   * [scollector exporter](https://github.com/tgulacsi/prometheus_scollector)
+   * [Munin exporter](https://github.com/pvdh/munin_exporter)
+
+### Services
+   * [BIG-IP exporter](https://github.com/ExpressenAB/bigip_exporter)
+   * [BIND exporter](https://github.com/digitalocean/bind_exporter)
+   * [PowerDNS exporter](https://github.com/janeczku/powerdns_exporter)
+   * [SMTP/Maildir MDA blackbox prober](https://github.com/cherti/mailexporter)
+
+### Miscellaneous
+   * [Django exporter](https://github.com/korfuri/django-prometheus)
+   * [Heka dashboard exporter](https://github.com/docker-infra/heka_exporter)
+   * [Heka exporter](https://github.com/imgix/heka_exporter)
+   * [Jenkins exporter](https://github.com/lovoo/jenkins_exporter)
+   * [Meteor JS web framework exporter](https://atmospherejs.com/sevki/prometheus-exporter)
+   * [Minecraft exporter module](https://github.com/Baughn/PrometheusIntegration)
+   * [New Relic exporter](https://github.com/jfindley/newrelic_exporter)
+   * [rTorrent exporter](https://github.com/mdlayher/rtorrent_exporter)
+   * [Speedtest.net exporter](https://github.com/RichiH/speedtest_exporter)
    * [WebDriver exporter](https://github.com/mattbostock/webdriver_exporter)
    * [Xen exporter](https://github.com/lovoo/xenstats_exporter)
    * [Zookeeper exporter](https://github.com/carlpett/zookeeper_exporter)

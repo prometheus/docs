@@ -83,13 +83,12 @@ hosted outside of the Prometheus GitHub organization.
    * [OpenWeatherMap exporter](https://github.com/RichiH/openweathermap_exporter)
    * [Rancher exporter](https://github.com/infinityworksltd/prometheus-rancher-exporter)
    * [Speedtest.net exporter](https://github.com/RichiH/speedtest_exporter)
-   * [WebDriver exporter](https://github.com/mattbostock/webdriver_exporter)
 
 ### Logging
    * [Google's mtail log data extractor](https://github.com/google/mtail)
    * [Grok exporter](https://github.com/fstab/grok_exporter)
    
-### other Monitoring Systems
+### Other Monitoring Systems
    * [Cloud Foundry Firehose exporter](https://github.com/cloudfoundry-community/firehose_exporter)
    * [scollector exporter](https://github.com/tgulacsi/prometheus_scollector)
    * [Heka dashboard exporter](https://github.com/docker-infra/heka_exporter)
@@ -104,7 +103,6 @@ hosted outside of the Prometheus GitHub organization.
    * [SMTP/Maildir MDA blackbox prober](https://github.com/cherti/mailexporter)
 
 ### Miscellaneous
-   * [Django exporter](https://github.com/korfuri/django-prometheus)
    * [Jenkins exporter](https://github.com/lovoo/jenkins_exporter)
    * [Meteor JS web framework exporter](https://atmospherejs.com/sevki/prometheus-exporter)
    * [Minecraft exporter module](https://github.com/Baughn/PrometheusIntegration)
@@ -144,3 +142,5 @@ practices.
    * Go: [go-metrics instrumentation library](https://github.com/armon/go-metrics)
    * Go: [gokit](https://github.com/peterbourgon/gokit)
    * Java/JVM: [Hystrix metrics publisher](https://github.com/soundcloud/prometheus-hystrix)
+   * Python-Django: [django-prometheus](https://github.com/korfuri/django-prometheus)
+

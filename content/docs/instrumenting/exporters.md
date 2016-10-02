@@ -51,7 +51,6 @@ hosted outside of the Prometheus GitHub organization.
    * [Redis exporter](https://github.com/oliver006/redis_exporter)
    * [RethinkDB exporter](https://github.com/oliver006/rethinkdb_exporter)
    * [SQL query result set metrics exporter](https://github.com/chop-dbhi/prometheus-sql)
-   * [Zookeeper exporter](https://github.com/carlpett/zookeeper_exporter)
 
 ### Hardware-related
    * [IoT Edison exporter](https://github.com/roman-vynar/edison_exporter)

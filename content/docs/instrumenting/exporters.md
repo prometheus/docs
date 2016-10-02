@@ -51,6 +51,7 @@ hosted outside of the Prometheus GitHub organization.
    * [Redis exporter](https://github.com/oliver006/redis_exporter)
    * [RethinkDB exporter](https://github.com/oliver006/rethinkdb_exporter)
    * [SQL query result set metrics exporter](https://github.com/chop-dbhi/prometheus-sql)
+   * [Zookeeper exporter](https://github.com/carlpett/zookeeper_exporter)
 
 ### Hardware-related
    * [IoT Edison exporter](https://github.com/roman-vynar/edison_exporter)
@@ -69,28 +70,34 @@ hosted outside of the Prometheus GitHub organization.
    * [Ceph exporter](https://github.com/digitalocean/ceph_exporter)
    * [ScaleIO exporter](https://github.com/syepes/sio2prom)
 
-### Webserver- and proxies
+### HTTP
    * [Apache exporter](https://github.com/neezgee/apache_exporter)
    * [Nginx metric library](https://github.com/knyar/nginx-lua-prometheus)
    * [Passenger exporter](https://github.com/stuartnelson3/passenger_exporter)
    * [Varnish exporter](https://github.com/jonnenauha/prometheus_varnish_exporter)
-
+   * [WebDriver exporter](https://github.com/mattbostock/webdriver_exporter)
+   
 ### APIs
    * [Docker Hub exporter](https://github.com/infinityworksltd/docker-hub-exporter)
    * [GitHub exporter](https://github.com/infinityworksltd/github-exporter)
    * [OpenWeatherMap exporter](https://github.com/RichiH/openweathermap_exporter)
    * [Rancher exporter](https://github.com/infinityworksltd/prometheus-rancher-exporter)
+   * [Speedtest.net exporter](https://github.com/RichiH/speedtest_exporter)
+   * [WebDriver exporter](https://github.com/mattbostock/webdriver_exporter)
 
 ### Logging
    * [Google's mtail log data extractor](https://github.com/google/mtail)
    * [Grok exporter](https://github.com/fstab/grok_exporter)
    
-### Metrics-bridges
+### other Monitoring Systems
    * [Cloud Foundry Firehose exporter](https://github.com/cloudfoundry-community/firehose_exporter)
    * [scollector exporter](https://github.com/tgulacsi/prometheus_scollector)
+   * [Heka dashboard exporter](https://github.com/docker-infra/heka_exporter)
+   * [Heka exporter](https://github.com/imgix/heka_exporter)
    * [Munin exporter](https://github.com/pvdh/munin_exporter)
+   * [New Relic exporter](https://github.com/jfindley/newrelic_exporter)
 
-### Services
+### Network Services
    * [BIG-IP exporter](https://github.com/ExpressenAB/bigip_exporter)
    * [BIND exporter](https://github.com/digitalocean/bind_exporter)
    * [PowerDNS exporter](https://github.com/janeczku/powerdns_exporter)
@@ -98,17 +105,11 @@ hosted outside of the Prometheus GitHub organization.
 
 ### Miscellaneous
    * [Django exporter](https://github.com/korfuri/django-prometheus)
-   * [Heka dashboard exporter](https://github.com/docker-infra/heka_exporter)
-   * [Heka exporter](https://github.com/imgix/heka_exporter)
    * [Jenkins exporter](https://github.com/lovoo/jenkins_exporter)
    * [Meteor JS web framework exporter](https://atmospherejs.com/sevki/prometheus-exporter)
    * [Minecraft exporter module](https://github.com/Baughn/PrometheusIntegration)
-   * [New Relic exporter](https://github.com/jfindley/newrelic_exporter)
    * [rTorrent exporter](https://github.com/mdlayher/rtorrent_exporter)
-   * [Speedtest.net exporter](https://github.com/RichiH/speedtest_exporter)
-   * [WebDriver exporter](https://github.com/mattbostock/webdriver_exporter)
    * [Xen exporter](https://github.com/lovoo/xenstats_exporter)
-   * [Zookeeper exporter](https://github.com/carlpett/zookeeper_exporter)
 
 When implementing a new Prometheus exporter, please follow the
 [guidelines on writing exporters](/docs/instrumenting/writing_exporters)

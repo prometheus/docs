@@ -10,41 +10,26 @@ metrics from third-party systems as Prometheus metrics. This is useful for
 cases where it is not feasible to instrument a given system with Prometheus
 metrics directly (for example, HAProxy or Linux system stats).
 
-## Official third-party exporters
+## Third-party exporters
 
-These exporters are maintained as part of the official
-[Prometheus GitHub organization](https://github.com/prometheus):
+Some of these exporters are maintained as part of the official [Prometheus GitHub organization](https://github.com/prometheus),
+those are marked as *official*, others are externally contributed and maintained.
 
-   * [Node/system metrics exporter](https://github.com/prometheus/node_exporter)
-   * [AWS CloudWatch exporter](https://github.com/prometheus/cloudwatch_exporter)
-   * [Blackbox exporter](https://github.com/prometheus/blackbox_exporter)
-   * [Collectd exporter](https://github.com/prometheus/collectd_exporter)
-   * [Consul exporter](https://github.com/prometheus/consul_exporter)
-   * [Graphite exporter](https://github.com/prometheus/graphite_exporter)
-   * [HAProxy exporter](https://github.com/prometheus/haproxy_exporter)
-   * [InfluxDB exporter](https://github.com/prometheus/influxdb_exporter)
-   * [JMX exporter](https://github.com/prometheus/jmx_exporter)
-   * [Memcached exporter](https://github.com/prometheus/memcached_exporter)
-   * [Mesos task exporter](https://github.com/prometheus/mesos_exporter)
-   * [MySQL server exporter](https://github.com/prometheus/mysqld_exporter)
-   * [SNMP exporter](https://github.com/prometheus/snmp_exporter)
-   * [StatsD exporter](https://github.com/prometheus/statsd_exporter)
+We encourage the creation of more exporters but cannot
+vet all of them for best practices. Commonly, those exporters are
+hosted outside of the Prometheus GitHub organization.
 
 The [JMX exporter](https://github.com/prometheus/jmx_exporter) can export from a
 wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.org/) and
 [Cassandra](http://cassandra.apache.org/).
 
-## Independently maintained third-party exporters
-
-There are also a number of exporters which are externally contributed
-and maintained. We encourage the creation of more exporters but cannot
-vet all of them for best practices. Commonly, those exporters are
-hosted outside of the Prometheus GitHub organization.
-
 ### Databases
    * [Aerospike exporter](https://github.com/alicebob/asprom)
+   * [Consul exporter](https://github.com/prometheus/consul_exporter) (*official*)
    * [CouchDB exporter](https://github.com/gesellix/couchdb-exporter)
+   * [InfluxDB exporter](https://github.com/prometheus/influxdb_exporter) (*official*)
    * [MongoDB exporter](https://github.com/dcu/mongodb_exporter)
+   * [MySQL server exporter](https://github.com/prometheus/mysqld_exporter) (*official*)
    * [PgBouncer exporter](http://git.cbaines.net/prometheus-pgbouncer-exporter/about)
    * [PostgreSQL exporter](https://github.com/wrouesnel/postgres_exporter)
    * [ProxySQL exporter](https://github.com/percona/proxysql_exporter)
@@ -56,6 +41,7 @@ hosted outside of the Prometheus GitHub organization.
    * [IoT Edison exporter](https://github.com/roman-vynar/edison_exporter)
    * [IPMI exporter](https://github.com/lovoo/ipmi_exporter)
    * [knxd exporter](https://github.com/RichiH/knxd_exporter)
+   * [Node/system metrics exporter](https://github.com/prometheus/node_exporter) (*official*)
    * [Ubiquiti UniFi exporter](https://github.com/mdlayher/unifi_exporter)
 
 ### Messaging systems
@@ -71,12 +57,14 @@ hosted outside of the Prometheus GitHub organization.
 
 ### HTTP
    * [Apache exporter](https://github.com/neezgee/apache_exporter)
+   * [HAProxy exporter](https://github.com/prometheus/haproxy_exporter) (*official*)
    * [Nginx metric library](https://github.com/knyar/nginx-lua-prometheus)
    * [Passenger exporter](https://github.com/stuartnelson3/passenger_exporter)
    * [Varnish exporter](https://github.com/jonnenauha/prometheus_varnish_exporter)
    * [WebDriver exporter](https://github.com/mattbostock/webdriver_exporter)
    
 ### APIs
+   * [AWS CloudWatch exporter](https://github.com/prometheus/cloudwatch_exporter) (*official*)
    * [Docker Hub exporter](https://github.com/infinityworksltd/docker-hub-exporter)
    * [GitHub exporter](https://github.com/infinityworksltd/github-exporter)
    * [OpenWeatherMap exporter](https://github.com/RichiH/openweathermap_exporter)
@@ -89,22 +77,32 @@ hosted outside of the Prometheus GitHub organization.
    
 ### Other monitoring systems
    * [Cloud Foundry Firehose exporter](https://github.com/cloudfoundry-community/firehose_exporter)
-   * [scollector exporter](https://github.com/tgulacsi/prometheus_scollector)
+   * [Collectd exporter](https://github.com/prometheus/collectd_exporter) (*official*)
+   * [Graphite exporter](https://github.com/prometheus/graphite_exporter) (*official*)
    * [Heka dashboard exporter](https://github.com/docker-infra/heka_exporter)
    * [Heka exporter](https://github.com/imgix/heka_exporter)
    * [Munin exporter](https://github.com/pvdh/munin_exporter)
    * [New Relic exporter](https://github.com/jfindley/newrelic_exporter)
+   * [scollector exporter](https://github.com/tgulacsi/prometheus_scollector)
+   * [StatsD exporter](https://github.com/prometheus/statsd_exporter) (*official*)
+
 
 ### Miscellaneous
    * [BIG-IP exporter](https://github.com/ExpressenAB/bigip_exporter)
    * [BIND exporter](https://github.com/digitalocean/bind_exporter)
+   * [Blackbox exporter](https://github.com/prometheus/blackbox_exporter) (*official*)
    * [Jenkins exporter](https://github.com/lovoo/jenkins_exporter)
+   * [JMX exporter](https://github.com/prometheus/jmx_exporter) (*official*)
+   * [Memcached exporter](https://github.com/prometheus/memcached_exporter) (*official*)
+   * [Mesos task exporter](https://github.com/prometheus/mesos_exporter) (*official*)
    * [Meteor JS web framework exporter](https://atmospherejs.com/sevki/prometheus-exporter)
    * [Minecraft exporter module](https://github.com/Baughn/PrometheusIntegration)
    * [PowerDNS exporter](https://github.com/janeczku/powerdns_exporter)
    * [rTorrent exporter](https://github.com/mdlayher/rtorrent_exporter)
    * [SMTP/Maildir MDA blackbox prober](https://github.com/cherti/mailexporter)
+   * [SNMP exporter](https://github.com/prometheus/snmp_exporter) (*official*)
    * [Xen exporter](https://github.com/lovoo/xenstats_exporter)
+   
 
 When implementing a new Prometheus exporter, please follow the
 [guidelines on writing exporters](/docs/instrumenting/writing_exporters)

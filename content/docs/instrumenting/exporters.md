@@ -95,17 +95,15 @@ hosted outside of the Prometheus GitHub organization.
    * [Munin exporter](https://github.com/pvdh/munin_exporter)
    * [New Relic exporter](https://github.com/jfindley/newrelic_exporter)
 
-### Network services
+### Miscellaneous
    * [BIG-IP exporter](https://github.com/ExpressenAB/bigip_exporter)
    * [BIND exporter](https://github.com/digitalocean/bind_exporter)
-   * [PowerDNS exporter](https://github.com/janeczku/powerdns_exporter)
-   * [SMTP/Maildir MDA blackbox prober](https://github.com/cherti/mailexporter)
-
-### Miscellaneous
    * [Jenkins exporter](https://github.com/lovoo/jenkins_exporter)
    * [Meteor JS web framework exporter](https://atmospherejs.com/sevki/prometheus-exporter)
    * [Minecraft exporter module](https://github.com/Baughn/PrometheusIntegration)
+   * [PowerDNS exporter](https://github.com/janeczku/powerdns_exporter)
    * [rTorrent exporter](https://github.com/mdlayher/rtorrent_exporter)
+   * [SMTP/Maildir MDA blackbox prober](https://github.com/cherti/mailexporter)
    * [Xen exporter](https://github.com/lovoo/xenstats_exporter)
 
 When implementing a new Prometheus exporter, please follow the

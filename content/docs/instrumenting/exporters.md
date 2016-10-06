@@ -94,7 +94,6 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [Blackbox exporter](https://github.com/prometheus/blackbox_exporter) (**official**)
    * [Jenkins exporter](https://github.com/lovoo/jenkins_exporter)
    * [JMX exporter](https://github.com/prometheus/jmx_exporter) (**official**)
-   * [Mesos task exporter](https://github.com/prometheus/mesos_exporter) (**official**)
    * [Meteor JS web framework exporter](https://atmospherejs.com/sevki/prometheus-exporter)
    * [Minecraft exporter module](https://github.com/Baughn/PrometheusIntegration)
    * [PowerDNS exporter](https://github.com/janeczku/powerdns_exporter)

@@ -28,6 +28,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [Consul exporter](https://github.com/prometheus/consul_exporter) (*official*)
    * [CouchDB exporter](https://github.com/gesellix/couchdb-exporter)
    * [InfluxDB exporter](https://github.com/prometheus/influxdb_exporter) (*official*)
+   * [Memcached exporter](https://github.com/prometheus/memcached_exporter) (*official*)
    * [MongoDB exporter](https://github.com/dcu/mongodb_exporter)
    * [MySQL server exporter](https://github.com/prometheus/mysqld_exporter) (*official*)
    * [PgBouncer exporter](http://git.cbaines.net/prometheus-pgbouncer-exporter/about)
@@ -64,7 +65,6 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [WebDriver exporter](https://github.com/mattbostock/webdriver_exporter)
    
 ### APIs
-   * [AWS CloudWatch exporter](https://github.com/prometheus/cloudwatch_exporter) (*official*)
    * [Docker Hub exporter](https://github.com/infinityworksltd/docker-hub-exporter)
    * [GitHub exporter](https://github.com/infinityworksltd/github-exporter)
    * [OpenWeatherMap exporter](https://github.com/RichiH/openweathermap_exporter)
@@ -76,6 +76,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [Grok exporter](https://github.com/fstab/grok_exporter)
    
 ### Other monitoring systems
+   * [AWS CloudWatch exporter](https://github.com/prometheus/cloudwatch_exporter) (*official*)
    * [Cloud Foundry Firehose exporter](https://github.com/cloudfoundry-community/firehose_exporter)
    * [Collectd exporter](https://github.com/prometheus/collectd_exporter) (*official*)
    * [Graphite exporter](https://github.com/prometheus/graphite_exporter) (*official*)
@@ -84,8 +85,8 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [Munin exporter](https://github.com/pvdh/munin_exporter)
    * [New Relic exporter](https://github.com/jfindley/newrelic_exporter)
    * [scollector exporter](https://github.com/tgulacsi/prometheus_scollector)
+   * [SNMP exporter](https://github.com/prometheus/snmp_exporter) (*official*)
    * [StatsD exporter](https://github.com/prometheus/statsd_exporter) (*official*)
-
 
 ### Miscellaneous
    * [BIG-IP exporter](https://github.com/ExpressenAB/bigip_exporter)
@@ -93,16 +94,13 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [Blackbox exporter](https://github.com/prometheus/blackbox_exporter) (*official*)
    * [Jenkins exporter](https://github.com/lovoo/jenkins_exporter)
    * [JMX exporter](https://github.com/prometheus/jmx_exporter) (*official*)
-   * [Memcached exporter](https://github.com/prometheus/memcached_exporter) (*official*)
    * [Mesos task exporter](https://github.com/prometheus/mesos_exporter) (*official*)
    * [Meteor JS web framework exporter](https://atmospherejs.com/sevki/prometheus-exporter)
    * [Minecraft exporter module](https://github.com/Baughn/PrometheusIntegration)
    * [PowerDNS exporter](https://github.com/janeczku/powerdns_exporter)
    * [rTorrent exporter](https://github.com/mdlayher/rtorrent_exporter)
    * [SMTP/Maildir MDA blackbox prober](https://github.com/cherti/mailexporter)
-   * [SNMP exporter](https://github.com/prometheus/snmp_exporter) (*official*)
    * [Xen exporter](https://github.com/lovoo/xenstats_exporter)
-   
 
 When implementing a new Prometheus exporter, please follow the
 [guidelines on writing exporters](/docs/instrumenting/writing_exporters)

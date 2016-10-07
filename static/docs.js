@@ -48,7 +48,7 @@ $(document).ready(function() {
 
   selectDownloads();
 
-  $('.download-selection a').on('click', function() {
+  $('.download-selection a').on('click', function(event) {
     event.preventDefault();
 
     $(this).parents('.btn-group').find('button .caption').text($(this).text());

@@ -100,18 +100,22 @@ module Downloads
       'Binary'
     end
 
-    # TODO(ts): validate
     def os
-      name.split('.')[3].split('-').first
+      base_name.split('.').last.split('-').first
     end
 
-    # TODO(ts): validate
     def arch
-      name.split('.')[3].split('-').last
+      base_name.split('.').last.split('-').last
     end
 
     def size
       @data['size']
+    end
+
+    private
+
+    def base_name
+      name.chomp('.tar.gz').chomp('.zip')
     end
   end
 

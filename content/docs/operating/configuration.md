@@ -62,9 +62,10 @@ global:
   external_labels:
     [ <labelname>: <labelvalue> ... ]
 
-# Rule files specifies a list of files from which rules and alerts are read.
+# Rule files specifies a list of globs. Rules and alerts are read from
+# all matching files.
 rule_files:
-  [ - <filepath> ... ]
+  [ - <filepath_glob> ... ]
 
 # A list of scrape configurations.
 scrape_configs:

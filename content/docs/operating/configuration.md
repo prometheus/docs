@@ -180,6 +180,10 @@ ec2_sd_configs:
 file_sd_configs:
   [ - <file_sd_config> ... ]
 
+# List of GCE service discovery configurations.
+gce_sd_configs:
+  [ - <gce_sd_config> ... ]
+
 # List of Kubernetes service discovery configurations.
 kubernetes_sd_configs:
   [ - <kubernetes_sd_config> ... ]
@@ -427,6 +431,30 @@ Where `<filename_pattern>` may be a path ending in `.json`, `.yml` or `.yaml`. T
 may contain a single `*` that matches any character sequence, e.g. `my/path/tg_*.json`.
 
 NOTE: Prior to v0.20, `names:` was used instead of `files:`.
+
+### `<gce_sd_config>`
+
+CAUTION: GCE SD is in beta: breaking changes to configuration are still
+likely in future releases.
+
+[GCE](https://cloud.google.com/compute/) SD configurations allow retrieving scrape targets from GCP GCE instances.
+The private IP address is used by default, but may be changed to the public IP
+address with relabeling.
+
+The following meta labels are available on targets during relabeling:
+
+* `__meta_gce_project`: the GCP project in which the instance is running
+* `__meta_gce_zone`: the GCE zone in which the instance is running
+* `__meta_gce_network`: the network of the instance
+* `__meta_gce_subnetwork`: the subnetwork of the instance
+* `__meta_gce_public_ip`: the public IP address of the instance, if present
+* `__meta_gce_private_ip`: the private IP address of the instance
+* `__meta_gce_instance_name`: the name of the instance
+* `__meta_gce_instance_status`: the lifecycle status of the instance
+* `__meta_gce_instance_tags`: comma separated list of instance tags
+* `__meta_gce_instance_metadata_<metadatakey>`: each metadata value of the instance
+
+
 
 ### `<kubernetes_sd_config>`
 

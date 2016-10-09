@@ -456,11 +456,47 @@ The following meta labels are available on targets during relabeling:
 * `__meta_gce_public_ip`: the public IP address of the instance, if present
 * `__meta_gce_private_ip`: the private IP address of the instance
 * `__meta_gce_instance_name`: the name of the instance
-* `__meta_gce_instance_status`: the lifecycle status of the instance
 * `__meta_gce_instance_tags`: comma separated list of instance tags
-* `__meta_gce_instance_metadata_<metadatakey>`: each metadata value of the instance
 
 
+
+See below for the configuration options for GCE discovery:
+
+```
+# The information to access the GCE API.
+
+# The GCP Project
+project: <string>
+
+# The Zone of the scrape targets. If you need multiple zones use multiple
+# gce_sd_configs
+zone: <string>
+
+# Filter can be used optionally to filter the instance list by other criteria
+[ filter: <string> ]
+
+# Refresh interval to re-read the instance list
+[ refresh_interval: <duration> | default = 60s ]
+
+# The port to scrape metrics from. If using the public IP address, this must
+# instead be specified in the relabeling rule.
+[ port: <int> | default = 80 ]
+
+# The tag separator is used to separate the tags on concatenation
+[ tag_separator: <string> | default = , ]
+```
+
+Credentials are discovered by the Google Cloud SDK default client by looking
+in the following places, prefering the first location found:
+
+1. a JSON file specified by GOOGLE_APPLICATION_CREDENTIALS
+2. a JSON file in a well known path, $HOME/.config/gcloud/application_default_credentials.json
+3. fetched from the GCE Metadata server
+
+If prometheus is running within GCE the service account associated with the
+instance it is running on should have at least read only permissions to the
+compute resources. If running outside of GCE make sure to create an appropriate
+service account and place the credential file in one of the expected locations.
 
 ### `<kubernetes_sd_config>`
 

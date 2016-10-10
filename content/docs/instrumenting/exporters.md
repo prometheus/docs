@@ -98,6 +98,7 @@ hosted outside of the Prometheus GitHub organization.
 ### Miscellaneous
    * [BIG-IP exporter](https://github.com/ExpressenAB/bigip_exporter)
    * [BIND exporter](https://github.com/digitalocean/bind_exporter)
+   * [BOSH exporter](https://github.com/cloudfoundry-community/bosh_exporter)
    * [Jenkins exporter](https://github.com/lovoo/jenkins_exporter)
    * [Meteor JS web framework exporter](https://atmospherejs.com/sevki/prometheus-exporter)
    * [Minecraft exporter module](https://github.com/Baughn/PrometheusIntegration)

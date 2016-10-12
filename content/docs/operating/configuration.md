@@ -539,8 +539,16 @@ api_servers:
 # The Kubernetes role of entities that should be discovered.
 role: <role>
 
-# Run in cluster. This will use the automounted CA certificate and bearer
-# token file at /var/run/secrets/kubernetes.io/serviceaccount/ in the pod.
+# When true, Prometheus will assume it is being run inside a Kubernetes pod.
+# This will use the CA certificate and authentication token provided by the
+# Kubernetes service account, mounted at
+# /var/run/secrets/kubernetes.io/serviceaccount/ca.crt and
+# /var/run/secrets/kubernetes.io/serviceaccount/token, respectively.
+#
+# Note that this only handles authentication for service discovery. If the
+# target itself requires authentication to be scraped, that must be
+# configured separately via `tls_config`, `bearer_token`, etc. at the
+# `scrape_config` level.
 [ in_cluster: <boolean> ]
 
 # Optional authentication information used to authenticate to the API server.
@@ -568,8 +576,10 @@ tls_config:
 [ retry_interval: <duration> | default = 1s ]
 ```
 
-
 Where `<role>` must be `endpoint`, `service`, `pod`, `container`, `node`, or `apiserver`.
+
+See [this example Prometheus configuration file](https://github.com/prometheus/prometheus/blob/master/documentation/examples/prometheus-kubernetes.yml)
+for a detailed example of configuring Prometheus for Kubernetes.
 
 ### `<marathon_sd_config>`
 

@@ -43,6 +43,7 @@ hosted outside of the Prometheus GitHub organization.
 
 ### Databases
    * [Aerospike exporter](https://github.com/alicebob/asprom)
+   * [ClickHouse exporter](https://github.com/f1yegor/clickhouse_exporter)
    * [CouchDB exporter](https://github.com/gesellix/couchdb-exporter)
    * [MongoDB exporter](https://github.com/dcu/mongodb_exporter)
    * [PgBouncer exporter](http://git.cbaines.net/prometheus-pgbouncer-exporter/about)

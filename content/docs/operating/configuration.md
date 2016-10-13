@@ -744,7 +744,9 @@ prefix is guaranteed to never be used by Prometheus itself.
 
 `<regex>` is any valid [RE2 regular
 expression](https://github.com/google/re2/wiki/Syntax). It is required for
-the `replace`, `keep`, `drop` and `labelmap` actions. The regex is fully anchored.
+the `replace`, `keep`, `drop` and `labelmap` actions. The regex is automatically
+anchored on both ends to simplify the majority of use cases. In order to effectively
+unanchor the regex, use `.*<regex>.*`.
 
 `<relabel_action>` determines the relabeling action to take:
 

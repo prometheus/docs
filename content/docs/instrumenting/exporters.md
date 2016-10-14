@@ -58,6 +58,7 @@ hosted outside of the Prometheus GitHub organization.
    * [IoT Edison exporter](https://github.com/roman-vynar/edison_exporter)
    * [IPMI exporter](https://github.com/lovoo/ipmi_exporter)
    * [knxd exporter](https://github.com/RichiH/knxd_exporter)
+   * [lmsensors exporter](https://github.com/mdlayher/lmsensors_exporter)
    * [Ubiquiti UniFi exporter](https://github.com/mdlayher/unifi_exporter)
 
 ### Messaging systems

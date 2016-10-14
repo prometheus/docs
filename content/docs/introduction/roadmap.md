@@ -36,7 +36,7 @@ GitHub issue: [#398](https://github.com/prometheus/prometheus/issues/398)
 ### Server-side metric metadata support
 
 At this time, metric types and other metadata are only used in the
-client libaries and in the exposition format, but not persisted or
+client libraries and in the exposition format, but not persisted or
 utilized in the Prometheus server. We plan on making use of this
 metadata in the future. For example, we could suggest automatic rates
 over counters, warn users if they take the rate of a gauge, or display

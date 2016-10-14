@@ -105,7 +105,7 @@ It then traverses the child nodes. If `continue` is set to false, it stops
 after the first matching child. If `continue` is true on a matching node, the
 alert will continue matching against subsequent siblings.
 If an alert does not match any children of a node (no matching child nodes, or
-none exist), the alert is handled based on the configuration paramters of the
+none exist), the alert is handled based on the configuration parameters of the
 current node.
 
 

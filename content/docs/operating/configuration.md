@@ -468,8 +468,8 @@ See below for the configuration options for GCE discovery:
 # The GCP Project
 project: <string>
 
-# The Zone of the scrape targets. If you need multiple zones use multiple
-# gce_sd_configs
+# The zone of the scrape targets. If you need multiple zones use multiple
+# gce_sd_configs.
 zone: <string>
 
 # Filter can be used optionally to filter the instance list by other criteria
@@ -487,14 +487,14 @@ zone: <string>
 ```
 
 Credentials are discovered by the Google Cloud SDK default client by looking
-in the following places, prefering the first location found:
+in the following places, preferring the first location found:
 
-1. a JSON file specified by GOOGLE_APPLICATION_CREDENTIALS
-2. a JSON file in a well known path, $HOME/.config/gcloud/application_default_credentials.json
-3. fetched from the GCE Metadata server
+1. a JSON file specified by the `GOOGLE_APPLICATION_CREDENTIALS` environment variable
+2. a JSON file in the well-known path `$HOME/.config/gcloud/application_default_credentials.json`
+3. fetched from the GCE metadata server
 
-If prometheus is running within GCE the service account associated with the
-instance it is running on should have at least read only permissions to the
+If Prometheus is running within GCE, the service account associated with the
+instance it is running on should have at least read-only permissions to the
 compute resources. If running outside of GCE make sure to create an appropriate
 service account and place the credential file in one of the expected locations.
 

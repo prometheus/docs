@@ -248,4 +248,4 @@ highest to lowest.
 
 Operators on the same precedence level are left-associative. For example,
 `2 * 3 % 2` is equivalent to `(2 * 3) % 2`. However `^` is right associative,
-so `2 * 3 ^ 2` is equivilent to `2 * (3 ^ 2)`.
+so `2 * 3 ^ 2` is equivalent to `2 * (3 ^ 2)`.

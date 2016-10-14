@@ -12,7 +12,7 @@ recommended to configure alerting rules in Prometheus based on time series
 data rather than implementing a direct client.__
 
 The Alertmanager listens for alerts on an API endpoint at `/api/v1/alerts`.
-Clients are expected to continously re-send alerts as long as they are still
+Clients are expected to continuously re-send alerts as long as they are still
 active (usually on the order of 30 seconds to 3 minutes).
 Clients can push a list of alerts to that endpoint via a POST request of
 the following format:

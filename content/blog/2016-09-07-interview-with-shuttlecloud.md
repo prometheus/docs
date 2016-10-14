@@ -5,7 +5,7 @@ kind: article
 author_name: Brian Brazil
 ---
 
-*Continuing our series of interviews with users of Prometheus, ShuttleCloud talks about how they began using Promethus. Ignacio from ShuttleCloud also explained how [Prometheus Is Good for Your Small Startup](https://www.youtube.com/watch?v=gMHa4Yh8avk) at PromCon 2016.*
+*Continuing our series of interviews with users of Prometheus, ShuttleCloud talks about how they began using Prometheus. Ignacio from ShuttleCloud also explained how [Prometheus Is Good for Your Small Startup](https://www.youtube.com/watch?v=gMHa4Yh8avk) at PromCon 2016.*
 
 ## What does ShuttleCloud do?
 

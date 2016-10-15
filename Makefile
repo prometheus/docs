@@ -1,4 +1,4 @@
-DOWNLOADS := prometheus alertmanager blackbox_exporter haproxy_exporter mysqld_exporter node_exporter pushgateway statsd_exporter
+DOWNLOADS := prometheus alertmanager blackbox_exporter haproxy_exporter memcached_exporter mysqld_exporter node_exporter pushgateway statsd_exporter
 
 clean:
 	rm -rf output downloads

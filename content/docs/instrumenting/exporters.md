@@ -40,6 +40,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [SQL query result set metrics exporter](https://github.com/chop-dbhi/prometheus-sql)
 
 ### Hardware related
+   * [apcupsd exporter](https://github.com/mdlayher/apcupsd_exporter)
    * [IoT Edison exporter](https://github.com/roman-vynar/edison_exporter)
    * [IPMI exporter](https://github.com/lovoo/ipmi_exporter)
    * [knxd exporter](https://github.com/RichiH/knxd_exporter)
@@ -64,7 +65,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [Passenger exporter](https://github.com/stuartnelson3/passenger_exporter)
    * [Varnish exporter](https://github.com/jonnenauha/prometheus_varnish_exporter)
    * [WebDriver exporter](https://github.com/mattbostock/webdriver_exporter)
-   
+
 ### APIs
    * [Docker Hub exporter](https://github.com/infinityworksltd/docker-hub-exporter)
    * [GitHub exporter](https://github.com/infinityworksltd/github-exporter)
@@ -75,7 +76,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
 ### Logging
    * [Google's mtail log data extractor](https://github.com/google/mtail)
    * [Grok exporter](https://github.com/fstab/grok_exporter)
-   
+
 ### Other monitoring systems
    * [AWS CloudWatch exporter](https://github.com/prometheus/cloudwatch_exporter) (**official**)
    * [Cloud Foundry Firehose exporter](https://github.com/cloudfoundry-community/firehose_exporter)

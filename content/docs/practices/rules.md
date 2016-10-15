@@ -33,7 +33,7 @@ doing division, separate the metrics using `_per_` and call the operation
 
 When aggregating up ratios, aggregate up the numerator and denominator
 separately and then divide. Do not take the average of a ratio or average of an
-average as that is not statstically valid.
+average as that is not statistically valid.
 
 When aggregating up the `_count` and `_sum` of a Summary and dividing to
 calculate average observation size, treating it as a ratio would be unwieldy.

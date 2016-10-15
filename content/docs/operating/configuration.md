@@ -62,9 +62,10 @@ global:
   external_labels:
     [ <labelname>: <labelvalue> ... ]
 
-# Rule files specifies a list of files from which rules and alerts are read.
+# Rule files specifies a list of globs. Rules and alerts are read from
+# all matching files.
 rule_files:
-  [ - <filepath> ... ]
+  [ - <filepath_glob> ... ]
 
 # A list of scrape configurations.
 scrape_configs:
@@ -184,6 +185,10 @@ ec2_sd_configs:
 # List of file service discovery configurations.
 file_sd_configs:
   [ - <file_sd_config> ... ]
+
+# List of GCE service discovery configurations.
+gce_sd_configs:
+  [ - <gce_sd_config> ... ]
 
 # List of Kubernetes service discovery configurations.
 kubernetes_sd_configs:
@@ -357,6 +362,7 @@ The following meta labels are available on targets during relabeling:
 
 * `__meta_ec2_availability_zone`: the availability zone in which the instance is running
 * `__meta_ec2_instance_id`: the EC2 instance ID
+* `__meta_ec2_instance_state`: the state of the EC2 instance
 * `__meta_ec2_private_ip`: the private IP address of the instance, if present
 * `__meta_ec2_public_dns_name`: the public DNS name of the instance, if available
 * `__meta_ec2_public_ip`: the public IP address of the instance, if available
@@ -431,6 +437,30 @@ Where `<filename_pattern>` may be a path ending in `.json`, `.yml` or `.yaml`. T
 may contain a single `*` that matches any character sequence, e.g. `my/path/tg_*.json`.
 
 NOTE: Prior to v0.20, `names:` was used instead of `files:`.
+
+### `<gce_sd_config>`
+
+CAUTION: GCE SD is in beta: breaking changes to configuration are still
+likely in future releases.
+
+[GCE](https://cloud.google.com/compute/) SD configurations allow retrieving scrape targets from GCP GCE instances.
+The private IP address is used by default, but may be changed to the public IP
+address with relabeling.
+
+The following meta labels are available on targets during relabeling:
+
+* `__meta_gce_project`: the GCP project in which the instance is running
+* `__meta_gce_zone`: the GCE zone in which the instance is running
+* `__meta_gce_network`: the network of the instance
+* `__meta_gce_subnetwork`: the subnetwork of the instance
+* `__meta_gce_public_ip`: the public IP address of the instance, if present
+* `__meta_gce_private_ip`: the private IP address of the instance
+* `__meta_gce_instance_name`: the name of the instance
+* `__meta_gce_instance_status`: the lifecycle status of the instance
+* `__meta_gce_instance_tags`: comma separated list of instance tags
+* `__meta_gce_instance_metadata_<metadatakey>`: each metadata value of the instance
+
+
 
 ### `<kubernetes_sd_config>`
 
@@ -509,8 +539,16 @@ api_servers:
 # The Kubernetes role of entities that should be discovered.
 role: <role>
 
-# Run in cluster. This will use the automounted CA certificate and bearer
-# token file at /var/run/secrets/kubernetes.io/serviceaccount/ in the pod.
+# When true, Prometheus will assume it is being run inside a Kubernetes pod.
+# This will use the CA certificate and authentication token provided by the
+# Kubernetes service account, mounted at
+# /var/run/secrets/kubernetes.io/serviceaccount/ca.crt and
+# /var/run/secrets/kubernetes.io/serviceaccount/token, respectively.
+#
+# Note that this only handles authentication for service discovery. If the
+# target itself requires authentication to be scraped, that must be
+# configured separately via `tls_config`, `bearer_token`, etc. at the
+# `scrape_config` level.
 [ in_cluster: <boolean> ]
 
 # Optional authentication information used to authenticate to the API server.
@@ -538,8 +576,10 @@ tls_config:
 [ retry_interval: <duration> | default = 1s ]
 ```
 
-
 Where `<role>` must be `endpoint`, `service`, `pod`, `container`, `node`, or `apiserver`.
+
+See [this example Prometheus configuration file](https://github.com/prometheus/prometheus/blob/master/documentation/examples/prometheus-kubernetes.yml)
+for a detailed example of configuring Prometheus for Kubernetes.
 
 ### `<marathon_sd_config>`
 
@@ -702,9 +742,10 @@ prefix is guaranteed to never be used by Prometheus itself.
 [ action: <relabel_action> | default = replace ]
 ```
 
-`<regex>` is any valid [RE2 regular
-expression](https://github.com/google/re2/wiki/Syntax). It is required for
-the `replace`, `keep`, `drop` and `labelmap` actions. The regex is fully anchored.
+`<regex>` is any valid
+[RE2 regular expression](https://github.com/google/re2/wiki/Syntax). It is
+required for the `replace`, `keep`, `drop` and `labelmap` actions. The regex is
+anchored on both ends. To un-anchor the regex, use `.*<regex>.*`.
 
 `<relabel_action>` determines the relabeling action to take:
 

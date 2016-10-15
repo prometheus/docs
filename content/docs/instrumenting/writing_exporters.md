@@ -127,7 +127,7 @@ prefix on to these if they follow the [matching
 semantics](https://docs.google.com/document/d/1Q0MXWdwp1mdXCzNRak6bW5LLVylVRXhdi7_21Sg15xQ/edit).
 E.g. Prometheus has `scrape_duration_seconds` for how long a scrape took, it’s
 good practice to have e.g. `jmx_scrape_duration_seconds` saying how long the
-JMX collector took to do it’s thing. For process stats where you have access to
+JMX collector took to do its thing. For process stats where you have access to
 the pid, both Go and Python offer collectors that’ll handle this for you (see
 the [haproxy exporter](https://github.com/prometheus/haproxy_exporter) for an
 example).
@@ -172,7 +172,7 @@ it’s easier to use them that way.
 The rule of thumb is that one metric should make sense when summed or averaged.
 There is one other case that comes up with exporters, and that’s where the data
 is fundamentally tabular and doing otherwise would require users to do regexes
-on metric names to be useable. Consider the voltage sensors on your
+on metric names to be usable. Consider the voltage sensors on your
 motherboard, while doing math across them is meaningless, it makes sense to
 have them in one metric rather than having one metric per sensor. All values
 within a metrics should (almost) always have the same unit (consider if fan
@@ -452,7 +452,7 @@ A user may have many exporters and Prometheus components on the same machine,
 so to make that easier each has a unique port number.
 
 [https://github.com/prometheus/prometheus/wiki/Default-port-allocations](https://github.com/prometheus/prometheus/wiki/Default-port-allocations)
-is where we track them, this is publically editable.
+is where we track them, this is publicly editable.
 
 Feel free to grab the next free port number when developing your exporter,
 preferably before publicly announcing it. If you’re not ready to release yet,

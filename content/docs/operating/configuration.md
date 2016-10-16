@@ -75,6 +75,19 @@ scrape_configs:
 alerting:
   alert_relabel_configs:
     [ - <relabel_config> ... ]
+
+# Settings related to the experimental remote write feature.
+remote_write:
+  [ url: <string> ]
+  [ remote_timeout: <duration> | default = 30s ]
+  tls_config:
+    [ <tls_config> ]
+  [ proxy_url: <string> ]
+  basic_auth:
+    [ username: <string> ]
+    [ password: <string> ]
+  write_relabel_configs:
+    [ - <relabel_config> ... ]
 ```
 
 
@@ -776,3 +789,21 @@ relabeling is applied after external labels.
 
 One use for this is ensuring a HA pair of Prometheus servers with different
 external labels send identical alerts.
+
+### `<remote_write>`
+CAUTION: Remote write is experimental: breaking changes to configuration are
+likely in future releases.
+
+`url` is the URL of the endpoint to send samples to. `remote_timeout` specifies
+the timeout for sending requests to the URL. There are no retries.
+
+`basic_auth`, `tls_config` and `proxy_url` have the same meanings as in a
+`scrape_config`.
+
+`write_relabel_configs` is relabelling applied to samples before sending them
+ to the URL. Write relabelling is applied after external labels. This could be
+used to limit which samples are sent.
+
+There is a [small
+demo](https://github.com/prometheus/prometheus/tree/master/documentation/examples/remote_storage)
+of how to use this functionality.

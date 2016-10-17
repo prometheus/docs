@@ -434,80 +434,86 @@ CAUTION: Kubernetes SD is in beta: breaking changes to configuration are still
 likely in future releases.
 
 Kubernetes SD configurations allow retrieving scrape targets from
-[Kubernetes'](http://kubernetes.io/) REST API. By default, this discovers API
-servers, nodes, pods, and appropriately annotated services so that metrics from
-both cluster components and deployed applications can be scraped. This will
-create multiple target groups:
+[Kubernetes'](http://kubernetes.io/) REST API and always staying synchronized with
+the cluster state.
 
-* One for all API servers, with each API server as a target
-(`__meta_kubernetes_role=apiserver`)
-    * The default port is the port used for the API server itself.
-* One for all nodes, with each node as a target (`__meta_kubernetes_role=node`)
-    * The default port is the Kubelet port from the Kubernetes configuration.
-* One for all services, with each service as a target
-(`__meta_kubernetes_role=service`)
-    * The default port is selected in an undefined manner. If your service
-    exposes multiple ports, you should explicitly configure relabeling to
-    indicate the proper port.
-* One for *each* service, with each service endpoint as a target
-(`__meta_kubernetes_role=endpoint`)
-    * The default port is selected in an undefined manner. If your service
-    exposes multiple ports, you should explicitly configure relabeling to
-    indicate the proper port.
-* One for all pods, with each pod as a target (`__meta_kubernetes_role=pod`)
-    * The default port is the numerically lowest port exposed by Kubernetes for
-    the container that is alphabetically first by name.
-    * A pod **will not** be created as a target if it does not include at least
-    one container that exposes at least one port.
-* One for *each* pod, with each container as a target
-(`__meta_kubernetes_role=container`)
-    * The default port is the numerically lowest port.
-    * A container **will not** be created as a target if it does not expose at
-      least one port.
+One of the following `role`s can be configured to discover targets:
 
-The following meta labels are available on targets during relabeling:
+* **node**: Discovers one target per cluster node with the address defaulting
+  to the Kubelet's HTTP port.
+  The target address defaults to the first existing address of the Kubernetes
+  node object in the address type order of `NodeInternalIP`, `NodeExternalIP`, 
+  `NodeLegacyHostIP`, and `NodeHostName`.
 
-* All roles:
-  * `__meta_kubernetes_role`: the role of the target: one of `endpoint`, `service`, `pod`, `container`, `node`, or `apiserver`
-* Nodes:
-    * `__meta_kubernetes_node_label_<labelname>`: each node label from the Kubernetes API
-* Services and Endpoints:
-    * `__meta_kubernetes_service_namespace`: the namespace of the service
-    * `__meta_kubernetes_service_name`: the name of the service
-    * `__meta_kubernetes_service_label_<labelname>`: each service label from the Kubernetes API
-    * `__meta_kubernetes_service_annotation_<annotationname>`: each service annotation from the Kubernetes API
-* Pods and Containers:
-    * `__meta_kubernetes_pod_name`: the name of the pod
-    * `__meta_kubernetes_pod_namespace`: the namespace of the service
-    * `__meta_kubernetes_pod_address`: the PodIP of the pod
-    * `__meta_kubernetes_pod_label_<labelname>`: each pod label from the Kubernetes
-API
-    * `__meta_kubernetes_pod_annotation_<annotationname>`: each pod annotation from
-the Kubernetes API
-    * `__meta_kubernetes_pod_container_name`: the name of the container associated
-with the target
-    * `__meta_kubernetes_pod_container_port_name`: the name of the first container
-port selected for the target
+  Available meta labels:
+  * `__meta_kubernetes_node_name`: The name of the node object.
+  * `__meta_kubernetes_node_label_<labelname>`: Each label from the node object.
+  * `__meta_kubernetes_node_annotation_<annotationname>`: Each annotation from the node object.
+  * `__meta_kubernetes_node_address_<address_type>`: The first address for each node address type, if it exists.
 
-In addition, the `instance` label for node metrics will be set to the node name
-as retrieved from the API server.
+  In addition, the `instance` label for the node will be set to the node name
+  as retrieved from the API server.
+
+* **service**: Discovers a target for each service port for each service.
+  This is generally useful for blackbox monitoring of a service.
+  The address will be set to the Kubernetes DNS name of the service and respective
+  service port.
+
+  Available meta labels:
+  * `__meta_kubernetes_namespace`: The namespace of the service object.
+  * `__meta_kubernetes_service_name`: The name of the service object.
+  * `__meta_kubernetes_service_label_<labelname>`: The label of the service object.
+  * `__meta_kubernetes_service_annotation_<annotationname>`: The annotation of the service object.
+  * `__meta_kubernetes_service_port_name`: Name of the service port for the target.
+  * `__meta_kubernetes_service_port_number`: Number of the service port for the target.
+  * `__meta_kubernetes_service_port_portocol`: Protocol of the service port for the target.
+
+* **pod**: Discovers all pods and exposes their containers as targets. For each declared
+  port of a container, a single target is generated. If a container has no specified ports,
+  a port-free target per container is created for manually adding a port via relabeling.
+
+  Available meta labels:
+  * `__meta_kubernetes_namespace`: The namespace of the pod object.
+  * `__meta_kubernetes_pod_name`: The name of the pod object.
+  * `__meta_kubernetes_pod_ip`: The pod IP of the pod object.
+  * `__meta_kubernetes_pod_label_<labelname>`: The label of the pod object.
+  * `__meta_kubernetes_pod_annotation_<annotationname>`: The annotation of the pod object.
+  * `__meta_kubernetes_pod_container_name`: Name of the container the target address points to.
+  * `__meta_kubernetes_pod_container_port_name`: Name of the container port.
+  * `__meta_kubernetes_pod_container_port_number`: Number of the container port.
+  * `__meta_kubernetes_pod_container_port_protocol`: Protocol of the container port.
+  * `__meta_kubernetes_pod_ready`: Set to `true` or `false` for the pod's ready state.
+  * `__meta_kubernetes_pod_node_name`: The name of the node the pod is scheduled onto.
+  * `__meta_kubernetes_pod_host_ip`: The current host IP of the pod object.
+
+* **endpoints**: Discovers targets from listed endpoints of a service. For each endpoint
+  address one target is discovered per port. If the endpoint is backed by a pod, all
+  additional container ports of the pod, not bound to an endpoint port, are discovered as targets as well.
+
+  Available meta labels:
+  * `__meta_kubernetes_namespace`: The namespace of the endpoints object.
+  * `__meta_kubernetes_endpoints_name`: The names of the endpoints object.
+  * For all targets discovered directly from the endpoints list (those not additionally inferred
+    from underlying pods), the following labels are attached:
+    * `__meta_kubernetes_endpoint_ready`: Set to `true` or `false` for the endpoint's ready state.
+    * `__meta_kubernetes_endpoint_port_name`: Name of the endpoint port.
+    * `__meta_kubernetes_endpoint_port_protocol`: Protocol of the endpoint port.
+  * If the endpoints belong to a service, all labels of the `role: service` discovery are attached.
+  * For all targets backed by a pod, all labels of the `role: pod` discovery are attached.
+
 
 See below for the configuration options for Kubernetes discovery:
 
 ```
 # The information to access the Kubernetes API.
 
-# The API server addresses. In a cluster this will normally be
-# `https://kubernetes.default.svc`. Supports multiple HA API servers.
-api_servers:
-  - [<host>]
+# The API server addresses. If left empty, Prometheus is assumed to run inside
+# of the cluster and will discover API servers automatically and use the pod's
+# CA certificate and bearer token file at /var/run/secrets/kubernetes.io/serviceaccount/.
+api_server: [<host>]
 
 # The Kubernetes role of entities that should be discovered.
 role: <role>
-
-# Run in cluster. This will use the automounted CA certificate and bearer
-# token file at /var/run/secrets/kubernetes.io/serviceaccount/ in the pod.
-[ in_cluster: <boolean> ]
 
 # Optional authentication information used to authenticate to the API server.
 # Note that `basic_auth`, `bearer_token` and `bearer_token_file` options are
@@ -529,13 +535,9 @@ basic_auth:
 # account and set in_cluster to true.
 tls_config:
   [ <tls_config> ]
-
-# Retry interval between watches if they disconnect.
-[ retry_interval: <duration> | default = 1s ]
 ```
 
-
-Where `<role>` must be `endpoint`, `service`, `pod`, `container`, `node`, or `apiserver`.
+Where `<role>` must be `endpoints`, `service`, `pod`, or `node`.
 
 ### `<marathon_sd_config>`
 

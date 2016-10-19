@@ -127,6 +127,7 @@ separate exporters are needed:
    * [Kubernetes-Mesos](https://github.com/mesosphere/kubernetes-mesos)
    * [Kubernetes](https://github.com/kubernetes/kubernetes)
    * [RobustIRC](http://robustirc.net/)
+   * [Quobyte](https://www.quobyte.com/)
    * [SkyDNS](https://github.com/skynetservices/skydns)
    * [Weave Flux](http://weaveworks.github.io/flux/)
 

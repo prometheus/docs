@@ -16,7 +16,7 @@ Some of these exporters are maintained as part of the official [Prometheus GitHu
 those are marked as *official*, others are externally contributed and maintained.
 
 We encourage the creation of more exporters but cannot
-vet all of them for best practices. Commonly, those exporters are
+vet all of them for [best practices](https://prometheus.io/docs/instrumenting/writing_exporters/). Commonly, those exporters are
 hosted outside of the Prometheus GitHub organization.
 
 The [JMX exporter](https://github.com/prometheus/jmx_exporter) can export from a
@@ -28,7 +28,6 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [ClickHouse exporter](https://github.com/f1yegor/clickhouse_exporter)
    * [Consul exporter](https://github.com/prometheus/consul_exporter) (**official**)
    * [CouchDB exporter](https://github.com/gesellix/couchdb-exporter)
-   * [InfluxDB exporter](https://github.com/prometheus/influxdb_exporter) (**official**)
    * [Memcached exporter](https://github.com/prometheus/memcached_exporter) (**official**)
    * [MongoDB exporter](https://github.com/dcu/mongodb_exporter)
    * [MySQL server exporter](https://github.com/prometheus/mysqld_exporter) (**official**)
@@ -84,6 +83,8 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [Graphite exporter](https://github.com/prometheus/graphite_exporter) (**official**)
    * [Heka dashboard exporter](https://github.com/docker-infra/heka_exporter)
    * [Heka exporter](https://github.com/imgix/heka_exporter)
+   * [InfluxDB exporter](https://github.com/prometheus/influxdb_exporter) (**official**)
+   * [JMX exporter](https://github.com/prometheus/jmx_exporter) (**official**)
    * [Munin exporter](https://github.com/pvdh/munin_exporter)
    * [New Relic exporter](https://github.com/jfindley/newrelic_exporter)
    * [scollector exporter](https://github.com/tgulacsi/prometheus_scollector)
@@ -96,7 +97,6 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [Blackbox exporter](https://github.com/prometheus/blackbox_exporter) (**official**)
    * [BOSH exporter](https://github.com/cloudfoundry-community/bosh_exporter)
    * [Jenkins exporter](https://github.com/lovoo/jenkins_exporter)
-   * [JMX exporter](https://github.com/prometheus/jmx_exporter) (**official**)
    * [Meteor JS web framework exporter](https://atmospherejs.com/sevki/prometheus-exporter)
    * [Minecraft exporter module](https://github.com/Baughn/PrometheusIntegration)
    * [PowerDNS exporter](https://github.com/janeczku/powerdns_exporter)

@@ -364,9 +364,6 @@ Where `<query_type>` is `SRV`, `A`, or `AAAA`.
 
 ### `<ec2_sd_config>`
 
-CAUTION: EC2 SD is in beta: breaking changes to configuration are still
-likely in future releases.
-
 EC2 SD configurations allow retrieving scrape targets from AWS EC2
 instances. The private IP address is used by default, but may be changed to
 the public IP address with relabeling.

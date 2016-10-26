@@ -30,7 +30,7 @@ The Alertmanager cannot currently be made highly available, but this is a goal.
 ### I was told Prometheus “doesn't scale”.
 
 There are in fact various ways to scale and federate
-Prometheus. Read [Scaling and Federating Prometheus](http://www.robustperception.io/scaling-and-federating-prometheus/)
+Prometheus. Read [Scaling and Federating Prometheus](https://www.robustperception.io/scaling-and-federating-prometheus/)
 on the Robust Perception blog to get started.
 
 ### What language is Prometheus written in?
@@ -258,7 +258,7 @@ authentication solutions in every server component.
 
 If you need TLS or authentication, we recommend putting a reverse proxy in
 front of Prometheus. See for example [Adding Basic Auth to Prometheus with
-Nginx](http://www.robustperception.io/adding-basic-auth-to-prometheus-with-nginx/).
+Nginx](https://www.robustperception.io/adding-basic-auth-to-prometheus-with-nginx/).
 
 Note that this applies only to inbound connections. Prometheus does support
 [scraping TLS- and auth-enabled

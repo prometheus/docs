@@ -17,7 +17,7 @@ with Prometheus.
 * [SoundCloud's blog post announcing Prometheus](https://developers.soundcloud.com/blog/prometheus-monitoring-at-soundcloud)
   – a more elaborate overview than the one given on this site.
 * Prometheus-related posts on the
-  [Robust Perception blog](http://www.robustperception.io/tag/prometheus/).
+  [Robust Perception blog](https://www.robustperception.io/tag/prometheus/).
 
 ## Tutorials
 

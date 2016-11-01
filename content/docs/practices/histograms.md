@@ -63,7 +63,7 @@ a histogram called `http_request_duration_seconds`.
       sum(rate(http_request_duration_seconds_count[5m])) by (job)
 
 
-You can calculate the well-known [Apdex
+You can approximate the well-known [Apdex
 score](http://en.wikipedia.org/wiki/Apdex) in a similar way. Configure
 a bucket with the target request duration as the upper bound and
 another bucket with the tolerated request duration (usually 4 times
@@ -83,6 +83,9 @@ buckets are
 [cumulative](https://en.wikipedia.org/wiki/Histogram#Cumulative_histogram). The
 `le="0.3"` bucket is also contained in the `le="1.2"` bucket; dividing it by 2
 corrects for that.
+
+The calculation does not exactly match the traditional Apdex score, as it
+includes errors in the satisified and tolerable parts of the calculation.
 
 ## Quantiles
 

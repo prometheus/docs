@@ -90,7 +90,7 @@ Relabeling works as follows:
 - A regular expression is matched against the resulting string.
 - A new value based on those matches is assigned to another label.
 
-Mutiple relabeling rules can be defined for each scrape configuration. A simple one
+Multiple relabeling rules can be defined for each scrape configuration. A simple one
 that squashes two labels into one, looks as follows:
 
 ```

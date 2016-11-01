@@ -62,13 +62,32 @@ global:
   external_labels:
     [ <labelname>: <labelvalue> ... ]
 
-# Rule files specifies a list of files from which rules are read.
+# Rule files specifies a list of globs. Rules and alerts are read from
+# all matching files.
 rule_files:
-  [ - <filepath> ... ]
+  [ - <filepath_glob> ... ]
 
 # A list of scrape configurations.
 scrape_configs:
   [ - <scrape_config> ... ]
+
+# Alerting specifies settings related to the Alertmanager.
+alerting:
+  alert_relabel_configs:
+    [ - <relabel_config> ... ]
+
+# Settings related to the experimental remote write feature.
+remote_write:
+  [ url: <string> ]
+  [ remote_timeout: <duration> | default = 30s ]
+  tls_config:
+    [ <tls_config> ]
+  [ proxy_url: <string> ]
+  basic_auth:
+    [ username: <string> ]
+    [ password: <string> ]
+  write_relabel_configs:
+    [ - <relabel_config> ... ]
 ```
 
 
@@ -180,6 +199,10 @@ ec2_sd_configs:
 file_sd_configs:
   [ - <file_sd_config> ... ]
 
+# List of GCE service discovery configurations.
+gce_sd_configs:
+  [ - <gce_sd_config> ... ]
+
 # List of Kubernetes service discovery configurations.
 kubernetes_sd_configs:
   [ - <kubernetes_sd_config> ... ]
@@ -240,7 +263,7 @@ Azure SD configurations allow retrieving scrape targets from Azure VMs.
 The following meta labels are available on targets during relabeling:
 
 * `__meta_azure_machine_id`: the machine ID
-* `__meta_azure_machine_rescource_group`: the machine's resource group
+* `__meta_azure_machine_resource_group`: the machine's resource group
 * `__meta_azure_machine_location`: the location the machine runs in
 * `__meta_azure_machine_private_ip`: the machine's private IP
 * `__meta_azure_tag_<tagname>`: each tag value of the machine
@@ -341,9 +364,6 @@ Where `<query_type>` is `SRV`, `A`, or `AAAA`.
 
 ### `<ec2_sd_config>`
 
-CAUTION: EC2 SD is in beta: breaking changes to configuration are still
-likely in future releases.
-
 EC2 SD configurations allow retrieving scrape targets from AWS EC2
 instances. The private IP address is used by default, but may be changed to
 the public IP address with relabeling.
@@ -429,6 +449,66 @@ may contain a single `*` that matches any character sequence, e.g. `my/path/tg_*
 
 NOTE: Prior to v0.20, `names:` was used instead of `files:`.
 
+### `<gce_sd_config>`
+
+CAUTION: GCE SD is in beta: breaking changes to configuration are still
+likely in future releases.
+
+[GCE](https://cloud.google.com/compute/) SD configurations allow retrieving scrape targets from GCP GCE instances.
+The private IP address is used by default, but may be changed to the public IP
+address with relabeling.
+
+The following meta labels are available on targets during relabeling:
+
+* `__meta_gce_project`: the GCP project in which the instance is running
+* `__meta_gce_zone`: the GCE zone in which the instance is running
+* `__meta_gce_network`: the network of the instance
+* `__meta_gce_subnetwork`: the subnetwork of the instance
+* `__meta_gce_public_ip`: the public IP address of the instance, if present
+* `__meta_gce_private_ip`: the private IP address of the instance
+* `__meta_gce_instance_name`: the name of the instance
+* `__meta_gce_instance_tags`: comma separated list of instance tags
+
+
+
+See below for the configuration options for GCE discovery:
+
+```
+# The information to access the GCE API.
+
+# The GCP Project
+project: <string>
+
+# The zone of the scrape targets. If you need multiple zones use multiple
+# gce_sd_configs.
+zone: <string>
+
+# Filter can be used optionally to filter the instance list by other criteria
+[ filter: <string> ]
+
+# Refresh interval to re-read the instance list
+[ refresh_interval: <duration> | default = 60s ]
+
+# The port to scrape metrics from. If using the public IP address, this must
+# instead be specified in the relabeling rule.
+[ port: <int> | default = 80 ]
+
+# The tag separator is used to separate the tags on concatenation
+[ tag_separator: <string> | default = , ]
+```
+
+Credentials are discovered by the Google Cloud SDK default client by looking
+in the following places, preferring the first location found:
+
+1. a JSON file specified by the `GOOGLE_APPLICATION_CREDENTIALS` environment variable
+2. a JSON file in the well-known path `$HOME/.config/gcloud/application_default_credentials.json`
+3. fetched from the GCE metadata server
+
+If Prometheus is running within GCE, the service account associated with the
+instance it is running on should have at least read-only permissions to the
+compute resources. If running outside of GCE make sure to create an appropriate
+service account and place the credential file in one of the expected locations.
+
 ### `<kubernetes_sd_config>`
 
 CAUTION: Kubernetes SD is in beta: breaking changes to configuration are still
@@ -506,8 +586,16 @@ api_servers:
 # The Kubernetes role of entities that should be discovered.
 role: <role>
 
-# Run in cluster. This will use the automounted CA certificate and bearer
-# token file at /var/run/secrets/kubernetes.io/serviceaccount/ in the pod.
+# When true, Prometheus will assume it is being run inside a Kubernetes pod.
+# This will use the CA certificate and authentication token provided by the
+# Kubernetes service account, mounted at
+# /var/run/secrets/kubernetes.io/serviceaccount/ca.crt and
+# /var/run/secrets/kubernetes.io/serviceaccount/token, respectively.
+#
+# Note that this only handles authentication for service discovery. If the
+# target itself requires authentication to be scraped, that must be
+# configured separately via `tls_config`, `bearer_token`, etc. at the
+# `scrape_config` level.
 [ in_cluster: <boolean> ]
 
 # Optional authentication information used to authenticate to the API server.
@@ -535,8 +623,10 @@ tls_config:
 [ retry_interval: <duration> | default = 1s ]
 ```
 
-
 Where `<role>` must be `endpoint`, `service`, `pod`, `container`, `node`, or `apiserver`.
+
+See [this example Prometheus configuration file](https://github.com/prometheus/prometheus/blob/master/documentation/examples/prometheus-kubernetes.yml)
+for a detailed example of configuring Prometheus for Kubernetes.
 
 ### `<marathon_sd_config>`
 
@@ -582,7 +672,7 @@ Nerve SD configurations allow retrieving scrape targets from [AirBnB's Nerve]
 
 The following meta labels are available on targets during relabeling:
 
-* `__meta_nerve_path`: the full path to the emdpoint node in Zookeeper
+* `__meta_nerve_path`: the full path to the endpoint node in Zookeeper
 * `__meta_nerve_endpoint_host`: the host of the endpoint
 * `__meta_nerve_endpoint_port`: the port of the endpoint
 * `__meta_nerve_endpoint_name`: the name of the endpoint
@@ -699,9 +789,10 @@ prefix is guaranteed to never be used by Prometheus itself.
 [ action: <relabel_action> | default = replace ]
 ```
 
-`<regex>` is any valid [RE2 regular
-expression](https://github.com/google/re2/wiki/Syntax). It is required for
-the `replace`, `keep`, `drop` and `labelmap` actions. The regex is fully anchored.
+`<regex>` is any valid
+[RE2 regular expression](https://github.com/google/re2/wiki/Syntax). It is
+required for the `replace`, `keep`, `drop` and `labelmap` actions. The regex is
+anchored on both ends. To un-anchor the regex, use `.*<regex>.*`.
 
 `<relabel_action>` determines the relabeling action to take:
 
@@ -716,10 +807,37 @@ the `replace`, `keep`, `drop` and `labelmap` actions. The regex is fully anchore
    to label names given by `replacement` with match group references
   (`${1}`, `${2}`, ...) in `replacement` substituted by their value.
 
-### `<metric_relabel_config>`
+### `<metric_relabel_configs>`
 
 Metric relabeling is applied to samples as the last step before ingestion. It
 has the same configuration format and actions as target relabeling. Metric
 relabeling does not apply to automatically generated timeseries such as `up`.
 
 One use for this is to blacklist time series that are too expensive to ingest.
+
+### `<alert_relabel_configs>`
+
+Alert relabeling is applied to alerts before they are sent to the Alertmanager.
+It has the same configuration format and actions as target relabeling. Alert
+relabeling is applied after external labels.
+
+One use for this is ensuring a HA pair of Prometheus servers with different
+external labels send identical alerts.
+
+### `<remote_write>`
+CAUTION: Remote write is experimental: breaking changes to configuration are
+likely in future releases.
+
+`url` is the URL of the endpoint to send samples to. `remote_timeout` specifies
+the timeout for sending requests to the URL. There are no retries.
+
+`basic_auth`, `tls_config` and `proxy_url` have the same meanings as in a
+`scrape_config`.
+
+`write_relabel_configs` is relabelling applied to samples before sending them
+ to the URL. Write relabelling is applied after external labels. This could be
+used to limit which samples are sent.
+
+There is a [small
+demo](https://github.com/prometheus/prometheus/tree/master/documentation/examples/remote_storage)
+of how to use this functionality.

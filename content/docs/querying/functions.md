@@ -248,8 +248,7 @@ src_label string, regex string)`  matches the regular expression `regex` against
 the label `src_label`.  If it matches, then the timeseries is returned with the
 label `dst_label` replaced by the expansion of `replacement`. `$1` is replaced
 with the first matching subgroup, `$2` with the second etc. If the regular
-expression doesn't match then the timeseries is not returned.
-
+expression doesn't match then the timeseries is returned unchanged.
 
 This example will return a vector with each time series having a `foo`
 label with the value `a` added to it:
@@ -276,6 +275,11 @@ The special cases are equivalent to those in `ln`.
 
 `log10(v instant-vector)` calculates the decimal logarithm for all elements in `v`.
 The special cases are equivalent to those in `ln`.
+
+## `minute()`
+
+`minute(v=vector(time()) instant-vector)` returns the minute of the hour for each
+of the given times in UTC. Returned values are from 0 to 59.
 
 ## `month()`
 

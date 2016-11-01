@@ -16,11 +16,13 @@ data, etc. The Prometheus templating language is based on the
     ALERT InstanceDown
       IF up == 0
       FOR 5m
-      WITH {
+      LABELS {
         severity="page"
       }
-      SUMMARY "Instance {{$labels.instance}} down"
-      DESCRIPTION "{{$labels.instance}} of job {{$labels.job}} has been down for more than 5 minutes."
+      ANNOTATIONS {
+        summary = "Instance {{$labels.instance}} down",
+        description = "{{$labels.instance}} of job {{$labels.job}} has been down for more than 5 minutes.",
+      }
 
 
 Alert field templates will be executed during every rule iteration for each

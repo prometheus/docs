@@ -20,7 +20,7 @@ ones.
 In this blog post, we will walk through a simple customization of Slack
 notifications.
 
-We use this simple Alertmanager configuartion that sends all alerts to Slack:
+We use this simple Alertmanager configuration that sends all alerts to Slack:
 
 ```yaml
 global:

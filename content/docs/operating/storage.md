@@ -33,7 +33,7 @@ will come in handy. As a rule of thumb, you should have at least three
 times more RAM available than needed by the memory chunks alone.
 
 PromQL queries that involve a high number of time series will make heavy use of
-the LevelDB backed indices. If you need to run queries of that kind, tweaking
+the LevelDB backed indexes. If you need to run queries of that kind, tweaking
 the index cache sizes might be required. The following flags are relevant:
 
 * `-storage.local.index-cache-size.label-name-to-label-values`: For regular
@@ -115,7 +115,7 @@ value. Three times the number of series is a good first approximation. But keep
 the implication for memory usage (see above) in mind.
 
 If you have more active time series than configured memory chunks, Prometheus
-will inevitably run into a sitation where it has to keep more chunks in memory
+will inevitably run into a situation where it has to keep more chunks in memory
 than configured. If the number of chunks goes more than 10% above the
 configured limit, Prometheus will throttle ingestion of more samples (by
 skipping scrapes and rule evaluations) until the configured value is exceeded

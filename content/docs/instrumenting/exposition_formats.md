@@ -140,15 +140,15 @@ http_request_duration_seconds_sum 53423
 http_request_duration_seconds_count 144320
 
 # Finally a summary, which has a complex representation, too:
-# HELP telemetry_requests_metrics_latency_microseconds A summary of the response latency.
-# TYPE telemetry_requests_metrics_latency_microseconds summary
-telemetry_requests_metrics_latency_microseconds{quantile="0.01"} 3102
-telemetry_requests_metrics_latency_microseconds{quantile="0.05"} 3272
-telemetry_requests_metrics_latency_microseconds{quantile="0.5"} 4773
-telemetry_requests_metrics_latency_microseconds{quantile="0.9"} 9001
-telemetry_requests_metrics_latency_microseconds{quantile="0.99"} 76656
-telemetry_requests_metrics_latency_microseconds_sum 1.7560473e+07
-telemetry_requests_metrics_latency_microseconds_count 2693
+# HELP rpc_duration_seconds A summary of the RPC duration in seconds.
+# TYPE rpc_duration_seconds summary
+rpc_duration_seconds{quantile="0.01"} 3102
+rpc_duration_seconds{quantile="0.05"} 3272
+rpc_duration_seconds{quantile="0.5"} 4773
+rpc_duration_seconds{quantile="0.9"} 9001
+rpc_duration_seconds{quantile="0.99"} 76656
+rpc_duration_seconds_sum 1.7560473e+07
+rpc_duration_seconds_count 2693
 ```
 
 #### Optional Text Representations

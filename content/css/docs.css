@@ -285,6 +285,12 @@ footer {
   text-transform: none;
 }
 
+.doc-content.blog .sponsor-logos > a > img {
+  width: 250px;
+  display: inline-block !important;
+  margin: 15px 55px;
+}
+
 .doc-content > h2 {
   color: #e6522c;
   font-size: 22px;

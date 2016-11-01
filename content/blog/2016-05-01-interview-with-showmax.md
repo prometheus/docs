@@ -112,7 +112,7 @@ container, so any changes should be kept out of the container. Another problem
 was the lack of change tracking in Grafana.
 
 We have thus decided to write a generator which takes YAML maintained within
-git and generates JSON configs for Grafana dashboards. It is furthemore able to
+git and generates JSON configs for Grafana dashboards. It is furthermore able to
 deploy dashboards to Grafana started in a fresh container without the need for
 persisting changes made into the container. This provides you with automation,
 repeatability, and auditing.
@@ -125,7 +125,7 @@ We are pleased to announce that this tool is also now available under an Apache
 
 An improvement which we saw immediately was the stability of Prometheus. We
 were fighting with stability and scalability of Graphite prior to this, so
-getting that sorted was a great win for us. Furthemore the speed and stability
+getting that sorted was a great win for us. Furthermore the speed and stability
 of Prometheus made access to metrics very easy for developers. Prometheus is
 really helping us to embrace the DevOps culture.
 

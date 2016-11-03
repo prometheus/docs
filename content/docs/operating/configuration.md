@@ -518,69 +518,81 @@ Kubernetes SD configurations allow retrieving scrape targets from
 [Kubernetes'](http://kubernetes.io/) REST API and always staying synchronized with
 the cluster state.
 
-One of the following `role`s can be configured to discover targets:
+One of the following `role` types can be configured to discover targets:
 
-* **node**: Discovers one target per cluster node with the address defaulting
-  to the Kubelet's HTTP port.
-  The target address defaults to the first existing address of the Kubernetes
-  node object in the address type order of `NodeInternalIP`, `NodeExternalIP`, 
-  `NodeLegacyHostIP`, and `NodeHostName`.
+#### `node`
 
-  Available meta labels:
-  * `__meta_kubernetes_node_name`: The name of the node object.
-  * `__meta_kubernetes_node_label_<labelname>`: Each label from the node object.
-  * `__meta_kubernetes_node_annotation_<annotationname>`: Each annotation from the node object.
-  * `__meta_kubernetes_node_address_<address_type>`: The first address for each node address type, if it exists.
+The `node` role discovers one target per cluster node with the address defaulting
+to the Kubelet's HTTP port.
+The target address defaults to the first existing address of the Kubernetes
+node object in the address type order of `NodeInternalIP`, `NodeExternalIP`,
+`NodeLegacyHostIP`, and `NodeHostName`.
 
-  In addition, the `instance` label for the node will be set to the node name
-  as retrieved from the API server.
+Available meta labels:
 
-* **service**: Discovers a target for each service port for each service.
-  This is generally useful for blackbox monitoring of a service.
-  The address will be set to the Kubernetes DNS name of the service and respective
-  service port.
+* `__meta_kubernetes_node_name`: The name of the node object.
+* `__meta_kubernetes_node_label_<labelname>`: Each label from the node object.
+* `__meta_kubernetes_node_annotation_<annotationname>`: Each annotation from the node object.
+* `__meta_kubernetes_node_address_<address_type>`: The first address for each node address type, if it exists.
 
-  Available meta labels:
-  * `__meta_kubernetes_namespace`: The namespace of the service object.
-  * `__meta_kubernetes_service_name`: The name of the service object.
-  * `__meta_kubernetes_service_label_<labelname>`: The label of the service object.
-  * `__meta_kubernetes_service_annotation_<annotationname>`: The annotation of the service object.
-  * `__meta_kubernetes_service_port_name`: Name of the service port for the target.
-  * `__meta_kubernetes_service_port_number`: Number of the service port for the target.
-  * `__meta_kubernetes_service_port_portocol`: Protocol of the service port for the target.
+In addition, the `instance` label for the node will be set to the node name
+as retrieved from the API server.
 
-* **pod**: Discovers all pods and exposes their containers as targets. For each declared
-  port of a container, a single target is generated. If a container has no specified ports,
-  a port-free target per container is created for manually adding a port via relabeling.
+#### `service`
 
-  Available meta labels:
-  * `__meta_kubernetes_namespace`: The namespace of the pod object.
-  * `__meta_kubernetes_pod_name`: The name of the pod object.
-  * `__meta_kubernetes_pod_ip`: The pod IP of the pod object.
-  * `__meta_kubernetes_pod_label_<labelname>`: The label of the pod object.
-  * `__meta_kubernetes_pod_annotation_<annotationname>`: The annotation of the pod object.
-  * `__meta_kubernetes_pod_container_name`: Name of the container the target address points to.
-  * `__meta_kubernetes_pod_container_port_name`: Name of the container port.
-  * `__meta_kubernetes_pod_container_port_number`: Number of the container port.
-  * `__meta_kubernetes_pod_container_port_protocol`: Protocol of the container port.
-  * `__meta_kubernetes_pod_ready`: Set to `true` or `false` for the pod's ready state.
-  * `__meta_kubernetes_pod_node_name`: The name of the node the pod is scheduled onto.
-  * `__meta_kubernetes_pod_host_ip`: The current host IP of the pod object.
+The `service` role discovers a target for each service port for each service.
+This is generally useful for blackbox monitoring of a service.
+The address will be set to the Kubernetes DNS name of the service and respective
+service port.
 
-* **endpoints**: Discovers targets from listed endpoints of a service. For each endpoint
-  address one target is discovered per port. If the endpoint is backed by a pod, all
-  additional container ports of the pod, not bound to an endpoint port, are discovered as targets as well.
+Available meta labels:
 
-  Available meta labels:
-  * `__meta_kubernetes_namespace`: The namespace of the endpoints object.
-  * `__meta_kubernetes_endpoints_name`: The names of the endpoints object.
-  * For all targets discovered directly from the endpoints list (those not additionally inferred
-    from underlying pods), the following labels are attached:
-    * `__meta_kubernetes_endpoint_ready`: Set to `true` or `false` for the endpoint's ready state.
-    * `__meta_kubernetes_endpoint_port_name`: Name of the endpoint port.
-    * `__meta_kubernetes_endpoint_port_protocol`: Protocol of the endpoint port.
-  * If the endpoints belong to a service, all labels of the `role: service` discovery are attached.
-  * For all targets backed by a pod, all labels of the `role: pod` discovery are attached.
+* `__meta_kubernetes_namespace`: The namespace of the service object.
+* `__meta_kubernetes_service_name`: The name of the service object.
+* `__meta_kubernetes_service_label_<labelname>`: The label of the service object.
+* `__meta_kubernetes_service_annotation_<annotationname>`: The annotation of the service object.
+* `__meta_kubernetes_service_port_name`: Name of the service port for the target.
+* `__meta_kubernetes_service_port_number`: Number of the service port for the target.
+* `__meta_kubernetes_service_port_portocol`: Protocol of the service port for the target.
+
+#### `pod`
+
+The `pod` role discovers all pods and exposes their containers as targets. For each declared
+port of a container, a single target is generated. If a container has no specified ports,
+a port-free target per container is created for manually adding a port via relabeling.
+
+Available meta labels:
+
+* `__meta_kubernetes_namespace`: The namespace of the pod object.
+* `__meta_kubernetes_pod_name`: The name of the pod object.
+* `__meta_kubernetes_pod_ip`: The pod IP of the pod object.
+* `__meta_kubernetes_pod_label_<labelname>`: The label of the pod object.
+* `__meta_kubernetes_pod_annotation_<annotationname>`: The annotation of the pod object.
+* `__meta_kubernetes_pod_container_name`: Name of the container the target address points to.
+* `__meta_kubernetes_pod_container_port_name`: Name of the container port.
+* `__meta_kubernetes_pod_container_port_number`: Number of the container port.
+* `__meta_kubernetes_pod_container_port_protocol`: Protocol of the container port.
+* `__meta_kubernetes_pod_ready`: Set to `true` or `false` for the pod's ready state.
+* `__meta_kubernetes_pod_node_name`: The name of the node the pod is scheduled onto.
+* `__meta_kubernetes_pod_host_ip`: The current host IP of the pod object.
+
+#### `endpoints`
+
+The `endpoints` role discovers targets from listed endpoints of a service. For each endpoint
+address one target is discovered per port. If the endpoint is backed by a pod, all
+additional container ports of the pod, not bound to an endpoint port, are discovered as targets as well.
+
+Available meta labels:
+
+* `__meta_kubernetes_namespace`: The namespace of the endpoints object.
+* `__meta_kubernetes_endpoints_name`: The names of the endpoints object.
+* For all targets discovered directly from the endpoints list (those not additionally inferred
+  from underlying pods), the following labels are attached:
+  * `__meta_kubernetes_endpoint_ready`: Set to `true` or `false` for the endpoint's ready state.
+  * `__meta_kubernetes_endpoint_port_name`: Name of the endpoint port.
+  * `__meta_kubernetes_endpoint_port_protocol`: Protocol of the endpoint port.
+* If the endpoints belong to a service, all labels of the `role: service` discovery are attached.
+* For all targets backed by a pod, all labels of the `role: pod` discovery are attached.
 
 
 See below for the configuration options for Kubernetes discovery:

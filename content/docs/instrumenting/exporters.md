@@ -66,12 +66,12 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [WebDriver exporter](https://github.com/mattbostock/webdriver_exporter)
 
 ### APIs
+   * [Cloudflare exporter](https://github.com/wehkamp/docker-prometheus-cloudflare-exporter)
    * [Docker Hub exporter](https://github.com/infinityworksltd/docker-hub-exporter)
    * [GitHub exporter](https://github.com/infinityworksltd/github-exporter)
    * [OpenWeatherMap exporter](https://github.com/RichiH/openweathermap_exporter)
    * [Rancher exporter](https://github.com/infinityworksltd/prometheus-rancher-exporter)
    * [Speedtest.net exporter](https://github.com/RichiH/speedtest_exporter)
-   * [Cloudflare exporter](https://github.com/wehkamp/docker-prometheus-cloudflare-exporter)
 
 ### Logging
    * [Google's mtail log data extractor](https://github.com/google/mtail)

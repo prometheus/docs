@@ -103,6 +103,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [PowerDNS exporter](https://github.com/janeczku/powerdns_exporter)
    * [Process exporter](https://github.com/ncabatoff/process-exporter)
    * [rTorrent exporter](https://github.com/mdlayher/rtorrent_exporter)
+   * [Script exporter](https://github.com/adhocteam/script_exporter)
    * [SMTP/Maildir MDA blackbox prober](https://github.com/cherti/mailexporter)
    * [Xen exporter](https://github.com/lovoo/xenstats_exporter)
 

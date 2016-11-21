@@ -395,6 +395,8 @@ region: <string>
 # and `AWS_SECRET_ACCESS_KEY` are used.
 [ access_key: <string> ]
 [ secret_key: <string> ]
+# Named AWS profile used to connect to the API.
+[ profile: <string> ]
 
 # Refresh interval to re-read the instance list.
 [ refresh_interval: <duration> | default = 60s ]

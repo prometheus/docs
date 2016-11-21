@@ -67,6 +67,8 @@ global:
   [ smtp_auth_username: <string> ]
   [ smtp_auth_password: <string> ]
   [ smtp_auth_secret: <string> ]
+  # The default SMTP TLS requirement.
+  [ smtp_require_tls: <bool> | default = true ]
 
   # The API URL to use for Slack notifications.
   [ slack_api_url: <string> ]
@@ -249,7 +251,7 @@ to: <tmpl_string>
 [ auth_secret: <string> ]
 [ auth_identity: <string> ]
 
-[ require_tls: <bool> | default = true ]
+[ require_tls: <bool> | default = global.smtp_require_tls ]
 
 # The HTML body of the email notification.
 [ html: <tmpl_string> | default = '{{ template "email.default.html" . }}' ] 

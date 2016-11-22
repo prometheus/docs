@@ -426,8 +426,14 @@ endpoint:
 
 ```
 {
-  "version": "2",
+  "version": "3",
+  "groupKey": <number>     // key identifying the group of alerts (e.g. to deduplicate)
   "status": "<resolved|firing>",
+  "receiver": <string>,
+  "groupLabels": <object>,
+  "commonLabels": <object>,
+  "commonAnnotations": <object>,
+  "externalURL": <string>,  // backling to the Alertmanager.
   "alerts": [
     {
       "labels": <object>,

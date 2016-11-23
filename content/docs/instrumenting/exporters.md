@@ -52,6 +52,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [RabbitMQ exporter](https://github.com/kbudde/rabbitmq_exporter)
    * [RabbitMQ Management Plugin exporter](https://github.com/deadtrickster/prometheus_rabbitmq_exporter)
    * [Mirth Connect exporter](https://github.com/vynca/mirth_exporter)
+   * [Beanstalkd_exporter](https://github.com/messagebird/beanstalkd_exporter)
 
 ### Storage
    * [Ceph exporter](https://github.com/digitalocean/ceph_exporter)

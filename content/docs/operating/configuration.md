@@ -238,6 +238,7 @@ A `tls_config` allows configuring TLS connections.
 ```
 
 ### `<azure_sd_config>`
+
 CAUTION: Azure SD is in beta: breaking changes to configuration are still
 likely in future releases.
 
@@ -805,6 +806,10 @@ One use for this is ensuring a HA pair of Prometheus servers with different
 external labels send identical alerts.
 
 ### `<alertmanager_config>`
+
+CAUTION: Dynamic discovery of Alertmanager instances is in alpha state. Breaking configuration
+changes may happen in future releases. Use static configuration via the `-alertmanager.url` flag
+as a stable alternative.
 
 An `alertmanager_config` section specifies Alertmanager instances the Prometheus server sends 
 alerts to. It also provides parameters to configure how to communicate with these Alertmanagers.

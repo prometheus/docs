@@ -75,6 +75,8 @@ scrape_configs:
 alerting:
   alert_relabel_configs:
     [ - <relabel_config> ... ]
+  alertmanagers:
+    [- <alertmanager_config> ... ]
 
 # Settings related to the experimental remote write feature.
 remote_write:
@@ -90,7 +92,6 @@ remote_write:
     [ - <relabel_config> ... ]
 ```
 
-
 ### `<scrape_config>`
 
 A `scrape_config` section specifies a set of targets and parameters describing how
@@ -100,24 +101,8 @@ job. In advanced configurations, this may change.
 Targets may be statically configured via the `static_configs` parameter or
 dynamically discovered using one of the supported service-discovery mechanisms.
 
-NOTE: Prior to v0.20, `target_groups` was used instead of `static_configs`.
-`target_groups` can still be used alternatively in v0.20 itself, but not in
-later versions.
-
 Additionally, `relabel_configs` allow advanced modifications to any
 target and its labels before scraping.
-
-If the targets require authentication, the following options are available:
-
-* `basic_auth` - sets the `Authorization` header on every scrape request with the
-configured username and password.
-* `bearer_token` - sets the `Authorization` header on every scrape request with
-the configured bearer token.
-* `bearer_token_file` - sets the `Authorization` header on every scrape request
-with the bearer token read from the configured file.
-* `tls_config` - configures the scrape request's TLS settings.
-
-See below for the configuration of these authentication options.
 
 ```
 # The job name assigned to scraped metrics by default.
@@ -151,28 +136,28 @@ job_name: <name>
 # when a time series does not have a given label yet and are ignored otherwise.
 [ honor_labels: <boolean> | default = false ]
 
-# The URL scheme with which to fetch metrics from targets.
+# Configures the protocol scheme used for requests.
 [ scheme: <scheme> | default = http ]
 
 # Optional HTTP URL parameters.
 params:
   [ <string>: [<string>, ...] ]
 
-# Optional authentication information. Note that `basic_auth`, `bearer_token`
-# `bearer_token_file` options are mutually exclusive.
-
-# Optional HTTP basic authentication information.
+# Sets the `Authorization` header on every scrape request with the
+# configured username and password.
 basic_auth:
   [ username: <string> ]
   [ password: <string> ]
 
-# Optional bearer token authentication information.
+# Sets the `Authorization` header on every scrape request with
+# the configured bearer token. It is mutually exclusive with `bearer_token_file`.
 [ bearer_token: <string> ]
 
-# Optional bearer token file authentication information.
+# Sets the `Authorization` header on every scrape request with the bearer token 
+# read from the configured file. It is mutually exclusive with `bearer_token`.
 [ bearer_token_file: /path/to/bearer/token/file ]
 
-# Optional TLS configuration.
+# Configures the scrape request's TLS settings.
 tls_config:
   [ <tls_config> ]
 
@@ -216,7 +201,6 @@ serverset_sd_configs:
   [ - <serverset_sd_config> ... ]
 
 # List of labeled statically configured targets for this job.
-# Known as target_groups prior to v0.20.
 static_configs:
   [ - <static_config> ... ]
 
@@ -232,7 +216,6 @@ metric_relabel_configs:
 Where `<scheme>` may be `http` or `https` and `<path>` is a valid URL path.
 `<job_name>` must be unique across all scrape configurations and adhere to the
 regex `[a-zA-Z_][a-zA-Z0-9_-]`.
-
 
 ### `<tls_config>`
 
@@ -255,6 +238,7 @@ A `tls_config` allows configuring TLS connections.
 ```
 
 ### `<azure_sd_config>`
+
 CAUTION: Azure SD is in beta: breaking changes to configuration are still
 likely in future releases.
 
@@ -395,6 +379,8 @@ region: <string>
 # and `AWS_SECRET_ACCESS_KEY` are used.
 [ access_key: <string> ]
 [ secret_key: <string> ]
+# Named AWS profile used to connect to the API.
+[ profile: <string> ]
 
 # Refresh interval to re-read the instance list.
 [ refresh_interval: <duration> | default = 60s ]
@@ -830,6 +816,100 @@ relabeling is applied after external labels.
 
 One use for this is ensuring a HA pair of Prometheus servers with different
 external labels send identical alerts.
+
+### `<alertmanager_config>`
+
+CAUTION: Dynamic discovery of Alertmanager instances is in alpha state. Breaking configuration
+changes may happen in future releases. Use static configuration via the `-alertmanager.url` flag
+as a stable alternative.
+
+An `alertmanager_config` section specifies Alertmanager instances the Prometheus server sends 
+alerts to. It also provides parameters to configure how to communicate with these Alertmanagers.
+
+Alertmanagers may be statically configured via the `static_configs` parameter or
+dynamically discovered using one of the supported service-discovery mechanisms.
+
+Additionally, `relabel_configs` allow selecting Alertmanagers from discovered 
+entities and provide advanced modifications to the used API path, which is exposed
+through the `__alerts_path__` label.
+
+```
+# Per-target Alertmanager timeout when pushing alerts.
+[ timeout: <duration> | default = 10s ]
+
+# Prefix for the HTTP path alerts are pushed to. 
+[ path_prefix: <path> | default = / ]
+
+# Configures the protocol scheme used for requests.
+[ scheme: <scheme> | default = http ]
+
+# Sets the `Authorization` header on every request with the
+# configured username and password.
+basic_auth:
+  [ username: <string> ]
+  [ password: <string> ]
+
+# Sets the `Authorization` header on every request with
+# the configured bearer token. It is mutually exclusive with `bearer_token_file`.
+[ bearer_token: <string> ]
+
+# Sets the `Authorization` header on every request with the bearer token 
+# read from the configured file. It is mutually exclusive with `bearer_token`.
+[ bearer_token_file: /path/to/bearer/token/file ]
+
+# Configures the scrape request's TLS settings.
+tls_config:
+  [ <tls_config> ]
+
+# Optional proxy URL.
+[ proxy_url: <string> ]
+
+# List of Azure service discovery configurations.
+azure_sd_configs:
+  [ - <azure_sd_config> ... ]
+
+# List of Consul service discovery configurations.
+consul_sd_configs:
+  [ - <consul_sd_config> ... ]
+
+# List of DNS service discovery configurations.
+dns_sd_configs:
+  [ - <dns_sd_config> ... ]
+
+# List of EC2 service discovery configurations.
+ec2_sd_configs:
+  [ - <ec2_sd_config> ... ]
+
+# List of file service discovery configurations.
+file_sd_configs:
+  [ - <file_sd_config> ... ]
+
+# List of GCE service discovery configurations.
+gce_sd_configs:
+  [ - <gce_sd_config> ... ]
+
+# List of Kubernetes service discovery configurations.
+kubernetes_sd_configs:
+  [ - <kubernetes_sd_config> ... ]
+
+# List of AirBnB's Nerve service discovery configurations.
+nerve_sd_configs:
+  [ - <nerve_sd_config> ... ]
+
+# List of Zookeeper Serverset service discovery configurations.
+serverset_sd_configs:
+  [ - <serverset_sd_config> ... ]
+
+# List of labeled statically configured Alertmanagers.
+static_configs:
+  [ - <static_config> ... ]
+
+# List of Alertmanager relabel configurations.
+relabel_configs:
+  [ - <relabel_config> ... ]
+```
+
+Where `<scheme>` may be `http` or `https` and `<path>` is a valid URL path.
 
 ### `<remote_write>`
 CAUTION: Remote write is experimental: breaking changes to configuration are

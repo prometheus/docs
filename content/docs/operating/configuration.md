@@ -192,6 +192,10 @@ gce_sd_configs:
 kubernetes_sd_configs:
   [ - <kubernetes_sd_config> ... ]
 
+# List of Marathon service discovery configurations.
+marathon_sd_configs:
+  [ - <marathon_sd_config> ... ]
+
 # List of AirBnB's Nerve service discovery configurations.
 nerve_sd_configs:
   [ - <nerve_sd_config> ... ]
@@ -891,6 +895,10 @@ gce_sd_configs:
 # List of Kubernetes service discovery configurations.
 kubernetes_sd_configs:
   [ - <kubernetes_sd_config> ... ]
+
+# List of Marathon service discovery configurations.
+marathon_sd_configs:
+  [ - <marathon_sd_config> ... ]
 
 # List of AirBnB's Nerve service discovery configurations.
 nerve_sd_configs:

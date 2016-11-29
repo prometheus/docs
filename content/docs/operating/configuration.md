@@ -610,12 +610,10 @@ basic_auth:
 # Optional bearer token authentication information.
 [ bearer_token: <string> ]
 
-# Optional bearer token file authentication information. If running in a pod,
-# then it is best to use a service account and set in_cluster to true.
+# Optional bearer token file authentication information.
 [ bearer_token_file: <filename> ]
 
-# TLS configuration. If running in a pod, then it is best to use a service
-# account and set in_cluster to true.
+# TLS configuration.
 tls_config:
   [ <tls_config> ]
 ```

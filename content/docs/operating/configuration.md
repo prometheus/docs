@@ -623,6 +623,9 @@ Where `<role>` must be `endpoints`, `service`, `pod`, or `node`.
 See [this example Prometheus configuration file](https://github.com/prometheus/prometheus/blob/master/documentation/examples/prometheus-kubernetes.yml)
 for a detailed example of configuring Prometheus for Kubernetes.
 
+You may wish to check out the 3rd party [Prometheus Operator](https://github.com/coreos/prometheus-operator),
+which automates the Prometheus setup on top of Kubernetes.
+
 ### `<marathon_sd_config>`
 
 CAUTION: Marathon SD is in beta: breaking changes to configuration are still

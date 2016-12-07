@@ -154,7 +154,7 @@ sharp spike at 220ms. In the Prometheus histogram metric as configured
 above, almost all observations, and therefore also the 95th percentile,
 will fall into the bucket labeled `{le="0.3"}`, i.e. the bucket from
 200ms to 300ms. The histogram implementation guarantees that the true
-95th percentile is somewhere between 100ms and 200ms. To return a
+95th percentile is somewhere between 200ms and 300ms. To return a
 single value (rather than an interval), it applies linear
 interpolation, which yields 295ms in this case. The calculated
 quantile gives you the impression that you are close to breaking the

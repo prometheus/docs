@@ -143,4 +143,5 @@ practices.
    * Go: [gokit](https://github.com/peterbourgon/gokit)
    * Java/JVM: [Hystrix metrics publisher](https://github.com/soundcloud/prometheus-hystrix)
    * Python-Django: [django-prometheus](https://github.com/korfuri/django-prometheus)
+   * Rust: [rust-prometheus](https://github.com/pingcap/rust-prometheus)
 

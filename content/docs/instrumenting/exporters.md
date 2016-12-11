@@ -67,6 +67,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [WebDriver exporter](https://github.com/mattbostock/webdriver_exporter)
 
 ### APIs
+   * [AWS ECS exporter](https://github.com/slok/ecs-exporter)
    * [Cloudflare exporter](https://github.com/wehkamp/docker-prometheus-cloudflare-exporter)
    * [Docker Hub exporter](https://github.com/infinityworksltd/docker-hub-exporter)
    * [GitHub exporter](https://github.com/infinityworksltd/github-exporter)
@@ -143,4 +144,3 @@ practices.
    * Go: [gokit](https://github.com/peterbourgon/gokit)
    * Java/JVM: [Hystrix metrics publisher](https://github.com/soundcloud/prometheus-hystrix)
    * Python-Django: [django-prometheus](https://github.com/korfuri/django-prometheus)
-

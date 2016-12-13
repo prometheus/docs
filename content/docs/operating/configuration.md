@@ -772,7 +772,7 @@ prefix is guaranteed to never be used by Prometheus itself.
 
 `<regex>` is any valid
 [RE2 regular expression](https://github.com/google/re2/wiki/Syntax). It is
-required for the `replace`, `keep`, `drop` and `labelmap` actions. The regex is
+required for the `replace`, `keep`, `drop`, `labelmap`,`labeldrop` and `labelkeep` actions. The regex is
 anchored on both ends. To un-anchor the regex, use `.*<regex>.*`.
 
 `<relabel_action>` determines the relabeling action to take:
@@ -787,6 +787,13 @@ anchored on both ends. To un-anchor the regex, use `.*<regex>.*`.
 * `labelmap`: Match `regex` against all label names. Then copy the values of the matching labels
    to label names given by `replacement` with match group references
   (`${1}`, `${2}`, ...) in `replacement` substituted by their value.
+* `labeldrop`: Match `regex` against all label names. Any label that matches will be
+  removed from the set of labels.
+* `labelkeep`: Match `regex` against all label names. Any label that does not match will be
+  removed from the set of labels.
+
+Care must be taken with `labeldrop` and `labelkeep` to ensure that metrics are still uniquely labeled
+once the labels are removed.
 
 ### `<metric_relabel_configs>`
 

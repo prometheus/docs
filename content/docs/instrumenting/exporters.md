@@ -102,6 +102,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [BIND exporter](https://github.com/digitalocean/bind_exporter)
    * [Blackbox exporter](https://github.com/prometheus/blackbox_exporter) (**official**)
    * [BOSH exporter](https://github.com/cloudfoundry-community/bosh_exporter)
+   * [Dovecot exporter](https://github.com/kumina/dovecot_exporter)
    * [Jenkins exporter](https://github.com/lovoo/jenkins_exporter)
    * [Meteor JS web framework exporter](https://atmospherejs.com/sevki/prometheus-exporter)
    * [Minecraft exporter module](https://github.com/Baughn/PrometheusIntegration)
@@ -110,6 +111,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [rTorrent exporter](https://github.com/mdlayher/rtorrent_exporter)
    * [Script exporter](https://github.com/adhocteam/script_exporter)
    * [SMTP/Maildir MDA blackbox prober](https://github.com/cherti/mailexporter)
+   * [Unbound exporter](https://github.com/kumina/unbound_exporter)
    * [Xen exporter](https://github.com/lovoo/xenstats_exporter)
 
 When implementing a new Prometheus exporter, please follow the

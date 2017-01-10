@@ -126,12 +126,12 @@ With the Prometheus ecosystem continuing to grow, the first users have started
 asking about commercial support. While Prometheus will always remain an
 independent open source project, one of our core contributors ([Brian
 Brazil](https://github.com/brian-brazil)) has recently founded his own company,
-[Robust Perception](http://www.robustperception.io/), which provides support
+[Robust Perception](https://www.robustperception.io/), which provides support
 and consulting services around Prometheus and monitoring in general.
 
 On a lighter note, 2015 has also been the year in which Brian proved Prometheus's query
 language to be Turing complete by implementing
-[Conway's Game of Life in PromQL](http://www.robustperception.io/conways-life-in-prometheus/).
+[Conway's Game of Life in PromQL](https://www.robustperception.io/conways-life-in-prometheus/).
 
 ## The road ahead
 

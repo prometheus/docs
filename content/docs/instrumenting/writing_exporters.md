@@ -215,7 +215,7 @@ There’s generally two cases where this comes up.
 
 The first is some label it’d be useful to have on the metrics that are about,
 such as the version number of the software. Use the approach described at
-[http://www.robustperception.io/how-to-have-labels-for-machine-roles/](http://www.robustperception.io/how-to-have-labels-for-machine-roles/)
+[https://www.robustperception.io/how-to-have-labels-for-machine-roles/](http://www.robustperception.io/how-to-have-labels-for-machine-roles/)
 instead.
 
 The other case are what are really target labels. These are things like region,

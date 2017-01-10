@@ -90,7 +90,7 @@ We decided to export and monitor the following metrics:
 
 We have most of our services duplicated in two Google Cloud Platform availability zones. That includes the monitoring system. It’s straightforward to have more than one operation exporter in two or more different zones, as Prometheus can aggregate the data from all of them and make one metric (i.e., the maximum of all). We currently don’t have Prometheus or the Alertmanager in HA — only a metamonitoring instance — but we are working on it.
 
-For external blackbox monitoring, we use the Prometheus [Blackbox Exporter](https://github.com/prometheus/blackbox_exporter). Apart from checking if our external frontends are up, it is especially useful for having metrics for SSL certificates’ expiration dates. It even checks the whole chain of certificates. Kudos to Robust Perception for explaining it perfectly in their [blogpost](http://www.robustperception.io/get-alerted-before-your-ssl-certificates-expire/).
+For external blackbox monitoring, we use the Prometheus [Blackbox Exporter](https://github.com/prometheus/blackbox_exporter). Apart from checking if our external frontends are up, it is especially useful for having metrics for SSL certificates’ expiration dates. It even checks the whole chain of certificates. Kudos to Robust Perception for explaining it perfectly in their [blogpost](https://www.robustperception.io/get-alerted-before-your-ssl-certificates-expire/).
 
 We set up some charts in Grafana for visual monitoring in some dashboards, and the integration with Prometheus was trivial. The query language used to define the charts is the same as in Prometheus, which simplified their creation a lot.
 
@@ -103,7 +103,7 @@ We can't compare Prometheus with our previous solution because we didn’t have 
 
    * It has very few maintenance requirements.
    * It’s efficient: one machine can handle monitoring the whole cluster.
-   * The community is friendly—both dev and users. Moreover, [Brian’s blog](http://www.robustperception.io/blog/) is a very good resource.
+   * The community is friendly—both dev and users. Moreover, [Brian’s blog](https://www.robustperception.io/blog/) is a very good resource.
    * It has no third-party requirements; it’s just the server and the exporters. (No RabbitMQ or Redis needs to be maintained.)
    * Deployment of Go applications is a breeze.
 

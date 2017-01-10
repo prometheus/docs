@@ -111,7 +111,7 @@ job_name: <name>
 # How frequently to scrape targets from this job.
 [ scrape_interval: <duration> | default = <global_config.scrape_interval> ]
 
-# Per-target timeout when scraping this job.
+# Per-scrape timeout when scraping this job.
 [ scrape_timeout: <duration> | default = <global_config.scrape_timeout> ]
 
 # The HTTP resource path on which to fetch metrics from targets.
@@ -211,6 +211,11 @@ relabel_configs:
 # List of metric relabel configurations.
 metric_relabel_configs:
   [ - <relabel_config> ... ]
+
+# Per-scrape limit on number of scraped samples that will be accepted.
+# If more than this number of samples are present after metric relabelling
+# the entire scrape will be treated as failed. 0 means no limit.
+[ sample_limit: <int> | default = 0 ]
 ```
 
 Where `<scheme>` may be `http` or `https` and `<path>` is a valid URL path.

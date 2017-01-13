@@ -19,7 +19,8 @@ To view all available command-line flags, run `alertmanager -h`.
 
 Alertmanager can reload its configuration at runtime. If the new configuration
 is not well-formed, the changes will not be applied and an error is logged.
-A configuration reload is triggered by sending a `SIGHUP` to the process.
+A configuration reload is triggered by sending a `SIGHUP` to the process or
+sending a HTTP POST request to the `/-/reload` endpoint.
 
 ## Configuration file
 

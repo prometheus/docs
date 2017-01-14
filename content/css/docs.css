@@ -115,6 +115,8 @@ body {
   font-weight: 300;
   font-size: 25px;
   white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .feature-item .fa {

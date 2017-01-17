@@ -42,7 +42,7 @@ optional:
 * [client libraries](/docs/instrumenting/clientlibs/) for instrumenting application code
 * a [push gateway](https://github.com/prometheus/pushgateway) for supporting short-lived jobs
 * a [GUI-based dashboard builder](/docs/visualization/promdash/) based on Rails/SQL
-* special-purpose [exporters](/docs/instrumenting/exporters/) (for HAProxy, StatsD, Ganglia, etc.)
+* special-purpose [exporters](/docs/instrumenting/exporters/) (for HAProxy, StatsD, Graphite, etc.)
 * an (experimental) [alertmanager](https://github.com/prometheus/alertmanager)
 * a [command-line querying tool](https://github.com/prometheus/prometheus_cli)
 * various support tools

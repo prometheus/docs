@@ -189,6 +189,10 @@ file_sd_configs:
 gce_sd_configs:
   [ - <gce_sd_config> ... ]
 
+# List of Triton service discovery configurations.
+triton_sd_configs:
+  [ - <triton_sd_config> ... ]
+
 # List of Kubernetes service discovery configurations.
 kubernetes_sd_configs:
   [ - <kubernetes_sd_config> ... ]
@@ -499,6 +503,59 @@ If Prometheus is running within GCE, the service account associated with the
 instance it is running on should have at least read-only permissions to the
 compute resources. If running outside of GCE make sure to create an appropriate
 service account and place the credential file in one of the expected locations.
+
+### `<triton_sd_config>`
+CAUTION: Triton SD is in beta: breaking changes to configuration are still
+likely in future releases.
+
+[Triton](https://github.com/joyent/triton) SD configurations allow retrieving
+scrape targets from [Container Monitor](https://github.com/joyent/rfd/blob/master/rfd/0027/README.md)
+discovery endpoints.
+
+Prometheus will periodically check the discovery endpoint(s) for running
+containers and create a target for them.
+
+The following meta labels are available on targets during relabeling:
+
+* `__meta_triton_machine_id`: the UUID of the target container
+* `__meta_triton_machine_alias`: the alias of the target container
+* `__meta_triton_machine_image`: the target containers image type
+* `__meta_triton_machine_server_id`: the server UUID for the target container
+
+
+See below for the configuration options for Triton discovery:
+
+```
+# The information to access the Triton discovery API
+
+# The account to use for discovering new target containers
+account: <string>
+
+# The dns suffix which should be applied to target containers. This is often the
+# same value as endpoint
+dns_suffix: [ <string> ]
+
+# The Triton discovery endpoint (e.g. 'cmon.us-east-3b.triton.zone')
+endpoint: [ <string> ]
+
+# The port to use for discovery and metric scraping
+[ port: <int> | default = 9163 ]
+
+# The interval which should should be used for refreshing target containers
+[ refresh_interval: <duration> | default = 60s ]
+
+# The Triton discovery API version
+[ version: <int> | default = 1 ]
+
+# TLS configuration.
+tls_config:
+  [ <tls_config> ]
+```
+
+By default all running containers for a given Triton account will be scraped. It
+is worth pointing out that in most environments the Triton discovery endpoint
+will require TLS, so the scheme and tls_config sections should be added to your
+Triton job(s).
 
 ### `<kubernetes_sd_config>`
 
@@ -893,6 +950,10 @@ file_sd_configs:
 # List of GCE service discovery configurations.
 gce_sd_configs:
   [ - <gce_sd_config> ... ]
+
+# List of Triton service discovery configurations.
+triton_sd_configs:
+  [ - <triton_sd_config> ... ]
 
 # List of Kubernetes service discovery configurations.
 kubernetes_sd_configs:

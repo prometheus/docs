@@ -594,7 +594,7 @@ See below for the configuration options for Kubernetes discovery:
 # The API server addresses. If left empty, Prometheus is assumed to run inside
 # of the cluster and will discover API servers automatically and use the pod's
 # CA certificate and bearer token file at /var/run/secrets/kubernetes.io/serviceaccount/.
-api_server: [<host>]
+[ api_server: <host> ]
 
 # The Kubernetes role of entities that should be discovered.
 role: <role>

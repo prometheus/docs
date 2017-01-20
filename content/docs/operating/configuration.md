@@ -723,12 +723,12 @@ The following meta labels are available on targets during relabeling:
 * `__meta_triton_machine_server_id`: the server UUID for the target container
 
 ```
-# The information to access the Triton discovery API
+# The information to access the Triton discovery API.
 
 # The account to use for discovering new target containers.
 account: <string>
 
-# The dns suffix which should be applied to target containers.
+# The DNS suffix which should be applied to target containers.
 dns_suffix: <string>
 
 # The Triton discovery endpoint (e.g. 'cmon.us-east-3b.triton.zone'). This is

@@ -200,6 +200,10 @@ nerve_sd_configs:
 serverset_sd_configs:
   [ - <serverset_sd_config> ... ]
 
+# List of Triton service discovery configurations.
+triton_sd_configs:
+  [ - <triton_sd_config> ... ]
+
 # List of labeled statically configured targets for this job.
 static_configs:
   [ - <static_config> ... ]
@@ -703,6 +707,48 @@ paths:
 
 Serverset data must be in the JSON format, the Thrift format is not currently supported.
 
+### `<triton_sd_config>`
+CAUTION: Triton SD is in beta: breaking changes to configuration are still
+likely in future releases.
+
+[Triton](https://github.com/joyent/triton) SD configurations allow retrieving
+scrape targets from [Container Monitor](https://github.com/joyent/rfd/blob/master/rfd/0027/README.md)
+discovery endpoints.
+
+The following meta labels are available on targets during relabeling:
+
+* `__meta_triton_machine_id`: the UUID of the target container
+* `__meta_triton_machine_alias`: the alias of the target container
+* `__meta_triton_machine_image`: the target containers image type
+* `__meta_triton_machine_server_id`: the server UUID for the target container
+
+```
+# The information to access the Triton discovery API
+
+# The account to use for discovering new target containers.
+account: <string>
+
+# The dns suffix which should be applied to target containers.
+dns_suffix: <string>
+
+# The Triton discovery endpoint (e.g. 'cmon.us-east-3b.triton.zone'). This is
+# often the same value as dns_suffix.
+endpoint: <string>
+
+# The port to use for discovery and metric scraping.
+[ port: <int> | default = 9163 ]
+
+# The interval which should should be used for refreshing target containers.
+[ refresh_interval: <duration> | default = 60s ]
+
+# The Triton discovery API version.
+[ version: <int> | default = 1 ]
+
+# TLS configuration.
+tls_config:
+  [ <tls_config> ]
+```
+
 ### `<static_config>`
 
 A `static_config` allows specifying a list of targets and a common label set
@@ -899,6 +945,10 @@ nerve_sd_configs:
 # List of Zookeeper Serverset service discovery configurations.
 serverset_sd_configs:
   [ - <serverset_sd_config> ... ]
+
+# List of Triton service discovery configurations.
+triton_sd_configs:
+  [ - <triton_sd_config> ... ]
 
 # List of labeled statically configured Alertmanagers.
 static_configs:

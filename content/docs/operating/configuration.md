@@ -112,7 +112,7 @@ job_name: <name>
 # How frequently to scrape targets from this job.
 [ scrape_interval: <duration> | default = <global_config.scrape_interval> ]
 
-# Per-target timeout when scraping this job.
+# Per-scrape timeout when scraping this job.
 [ scrape_timeout: <duration> | default = <global_config.scrape_timeout> ]
 
 # The HTTP resource path on which to fetch metrics from targets.
@@ -205,6 +205,10 @@ nerve_sd_configs:
 serverset_sd_configs:
   [ - <serverset_sd_config> ... ]
 
+# List of Triton service discovery configurations.
+triton_sd_configs:
+  [ - <triton_sd_config> ... ]
+
 # List of labeled statically configured targets for this job.
 static_configs:
   [ - <static_config> ... ]
@@ -216,6 +220,11 @@ relabel_configs:
 # List of metric relabel configurations.
 metric_relabel_configs:
   [ - <relabel_config> ... ]
+
+# Per-scrape limit on number of scraped samples that will be accepted.
+# If more than this number of samples are present after metric relabelling
+# the entire scrape will be treated as failed. 0 means no limit.
+[ sample_limit: <int> | default = 0 ]
 ```
 
 Where `<scheme>` may be `http` or `https` and `<path>` is a valid URL path.
@@ -716,6 +725,48 @@ paths:
 
 Serverset data must be in the JSON format, the Thrift format is not currently supported.
 
+### `<triton_sd_config>`
+CAUTION: Triton SD is in beta: breaking changes to configuration are still
+likely in future releases.
+
+[Triton](https://github.com/joyent/triton) SD configurations allow retrieving
+scrape targets from [Container Monitor](https://github.com/joyent/rfd/blob/master/rfd/0027/README.md)
+discovery endpoints.
+
+The following meta labels are available on targets during relabeling:
+
+* `__meta_triton_machine_id`: the UUID of the target container
+* `__meta_triton_machine_alias`: the alias of the target container
+* `__meta_triton_machine_image`: the target containers image type
+* `__meta_triton_machine_server_id`: the server UUID for the target container
+
+```
+# The information to access the Triton discovery API.
+
+# The account to use for discovering new target containers.
+account: <string>
+
+# The DNS suffix which should be applied to target containers.
+dns_suffix: <string>
+
+# The Triton discovery endpoint (e.g. 'cmon.us-east-3b.triton.zone'). This is
+# often the same value as dns_suffix.
+endpoint: <string>
+
+# The port to use for discovery and metric scraping.
+[ port: <int> | default = 9163 ]
+
+# The interval which should should be used for refreshing target containers.
+[ refresh_interval: <duration> | default = 60s ]
+
+# The Triton discovery API version.
+[ version: <int> | default = 1 ]
+
+# TLS configuration.
+tls_config:
+  [ <tls_config> ]
+```
+
 ### `<static_config>`
 
 A `static_config` allows specifying a list of targets and a common label set
@@ -790,7 +841,7 @@ prefix is guaranteed to never be used by Prometheus itself.
 
 `<regex>` is any valid
 [RE2 regular expression](https://github.com/google/re2/wiki/Syntax). It is
-required for the `replace`, `keep`, `drop` and `labelmap` actions. The regex is
+required for the `replace`, `keep`, `drop`, `labelmap`,`labeldrop` and `labelkeep` actions. The regex is
 anchored on both ends. To un-anchor the regex, use `.*<regex>.*`.
 
 `<relabel_action>` determines the relabeling action to take:
@@ -805,6 +856,13 @@ anchored on both ends. To un-anchor the regex, use `.*<regex>.*`.
 * `labelmap`: Match `regex` against all label names. Then copy the values of the matching labels
    to label names given by `replacement` with match group references
   (`${1}`, `${2}`, ...) in `replacement` substituted by their value.
+* `labeldrop`: Match `regex` against all label names. Any label that matches will be
+  removed from the set of labels.
+* `labelkeep`: Match `regex` against all label names. Any label that does not match will be
+  removed from the set of labels.
+
+Care must be taken with `labeldrop` and `labelkeep` to ensure that metrics are still uniquely labeled
+once the labels are removed.
 
 ### `<metric_relabel_configs>`
 
@@ -909,6 +967,10 @@ nerve_sd_configs:
 # List of Zookeeper Serverset service discovery configurations.
 serverset_sd_configs:
   [ - <serverset_sd_config> ... ]
+
+# List of Triton service discovery configurations.
+triton_sd_configs:
+  [ - <triton_sd_config> ... ]
 
 # List of labeled statically configured Alertmanagers.
 static_configs:

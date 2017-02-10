@@ -198,6 +198,8 @@ URL query parameters:
 
 - `match[]=<series_selector>`: Repeated series selector argument that selects the
   series to return. At least one `match[]` argument must be provided.
+- `start=<rfc3339 | unix_timestamp>`: Start timestamp.
+- `end=<rfc3339 | unix_timestamp>`: End timestamp.
 
 The `data` section of the query result consists of a list of objects that
 contain the label name/value pairs which identify each series.

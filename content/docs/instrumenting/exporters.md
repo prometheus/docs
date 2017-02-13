@@ -63,7 +63,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [Apache exporter](https://github.com/neezgee/apache_exporter)
    * [HAProxy exporter](https://github.com/prometheus/haproxy_exporter) (**official**)
    * [Nginx metric library](https://github.com/knyar/nginx-lua-prometheus)
-   * [Nginx VTS exporter](https://github.com/hnlq715/nginx-vts-exporter)
+   * [Nginx VTS exporter](https://github.com/hnlq715/nginx-vts-exporter)
    * [Passenger exporter](https://github.com/stuartnelson3/passenger_exporter)
    * [Varnish exporter](https://github.com/jonnenauha/prometheus_varnish_exporter)
    * [WebDriver exporter](https://github.com/mattbostock/webdriver_exporter)

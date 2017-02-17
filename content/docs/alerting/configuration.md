@@ -255,7 +255,7 @@ to: <tmpl_string>
 [ require_tls: <bool> | default = global.smtp_require_tls ]
 
 # The HTML body of the email notification.
-[ html: <tmpl_string> | default = '{{ template "email.default.html" . }}' ] 
+[ html: <tmpl_string> | default = '{{ template "email.default.html" . }}' ]
 
 # Further headers email header key/value pairs. Overrides any headers
 # previously set by the notification implementation.
@@ -373,6 +373,7 @@ channel: <tmpl_string>
 [ title: <tmpl_string> | default = '{{ template "slack.default.title" . }}' ]
 [ title_link: <tmpl_string> | default = '{{ template "slack.default.titlelink" . }}' ]
 [ icon_emoji: <tmpl_string> ]
+[ icon_url: <tmpl_string> ]
 [ pretext: <tmpl_string> | default = '{{ template "slack.default.pretext" . }}' ]
 [ text: <tmpl_string> | default = '{{ template "slack.default.text" . }}' ]
 [ fallback: <tmpl_string> | default = '{{ template "slack.default.fallback" . }}' ]
@@ -411,7 +412,7 @@ api_key: <string>
 
 ## Webhook receiver `<webhook_config>`
 
-The webhook receiver allows configuring a generic receiver. 
+The webhook receiver allows configuring a generic receiver.
 
 ```
 # Whether or not to notify about resolved alerts.

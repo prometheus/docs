@@ -11,13 +11,20 @@ features and current work, see the issue trackers for the various repositories,
 for example, the [Prometheus
 server](https://github.com/prometheus/prometheus/issues).
 
+### New storage engine
+
+A new more efficient storage engine is in development. It will offer reduced
+resource usage, better inverted indexes, and generally allow Prometheus to
+scale further.
+
 ### Long-term storage
 
 Currently Prometheus has support for storing samples on local disk, as well as
-experimental support for writing data into OpenTSDB and InfluxDB. We plan to
-improve long-term storage support, although the details are not determined yet.
-This might include read-back support from OpenTSDB/InfluxDB in Prometheus, or
-support for other long-term storage backends.
+experimental support for sending data into remote systems via a generic mechanism.
+Example receivers exist for a [variety of TSDBs](https://github.com/prometheus/prometheus/tree/master/documentation/examples/remote_storage).
+
+We plan to add read-back support from other TSDBs via a generic mechanism in Prometheus,
+such as [Cortex](https://github.com/weaveworks/cortex).
 
 GitHub issue: [#10](https://github.com/prometheus/prometheus/issues/10)
 
@@ -38,16 +45,22 @@ GitHub issue: [#398](https://github.com/prometheus/prometheus/issues/398)
 At this time, metric types and other metadata are only used in the
 client libraries and in the exposition format, but not persisted or
 utilized in the Prometheus server. We plan on making use of this
-metadata in the future. For example, we could suggest automatic rates
-over counters, warn users if they take the rate of a gauge, or display
-metric documentation strings. Some metric types, like the upcoming
-[server-side histograms](https://github.com/prometheus/prometheus/issues/480),
-could also be stored and processed in a more efficient way.  The
-details of this are still to be determined.
+metadata in the future. The first step is to aggregate this data in-memory
+in Prometheus and provide it via an experimantal API endpoint.
 
-### More client libraries and exporters
+### Prometheus metrics format as a standard
+
+We intend to submit a cleaned up version of our format for standardization
+to a group such as the IETF.
+
+### Backfill time series
+
+Backfilling will permit bulk loads of data in the past. This will allow for
+retroactive rule evaluations, and transferring old data from other monitoring
+systems.
+
+### Support the Ecosystem
 
 Prometheus has a range of client libraries and exporters. There are always more
 languages that could be supported, or systems that would be useful to export
-metrics from. We will add more as we need them. We are also happy to accept
-pull requests and advise on how best to integrate with Prometheus.
+metrics from. We will support the ecosystem in creating and expanding these.

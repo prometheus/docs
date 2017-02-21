@@ -63,76 +63,111 @@ samples at arbitrary intervals as scrapes or rule evaluations occur. Since new
 samples are simply appended, old data may be kept arbitrarily long. Prometheus
 also works well for many short-lived, frequently changing sets of time series.
 
+### Summary
+
+Prometheus offers a richer data model and query language, in addition to being
+easier to run and integrate into your environment. If you want a clustered
+solution that can hold historical data long term, Graphite may be a better
+choice.
+
+
 ## Prometheus vs. InfluxDB
 
-[InfluxDB](https://influxdata.com/) is a very promising new open-source time
-series database. It did not exist when Prometheus development began, so we were
-unable to consider it as an alternative at the time. Still, there are
-significant differences between Prometheus and InfluxDB, and both systems are
-geared towards slightly different use cases.
+[InfluxDB](https://influxdata.com/) is an open-source time series database,
+with a commercial option for scaling and clustering. The InfluxDB project was
+released almost a year after Prometheus development began, so we were unable to
+consider it as an alternative at the time. Still, there are significant
+differences between Prometheus and InfluxDB, and both systems are geared
+towards slightly different use cases.
 
 ### Scope
 
+For a fair comparison, we must also consider
+[Kapacitor](https://github.com/influxdata/kapacitor) together with InfluxDB, as
+in combination they address the same problem space as Prometheus and the
+Alertmanager.
+
 The same scope differences as in the case of
-[Graphite](/docs/introduction/comparison/#prometheus-vs-graphite) apply here.
+[Graphite](#prometheus-vs-graphite) apply here for InfluxDB itself. In addition
+InfluxDB offers continuous queries, which are equivalent to Prometheus
+recording rules.
+
+Kapacitor’s scope is a combination of Prometheus recording rules, alerting
+rules, and the Alertmanager's notification functionality. Prometheus offers a
+more powerful query language for graphing and alerting. The Prometheus
+Alertmanager additionally offers grouping, deduplication and silencing
+functionality.
 
 ### Data model / storage
 
-*Summary:* InfluxDB stores rows of events with full metadata for each event;
-Prometheus only stores numeric samples for existing time series. Both are good
-for different use cases.
+Like Prometheus, the InfluxDB data model has key-value pairs as labels, which
+are called tags. In addition InfluxDB has a second level of labels called
+fields, which are more limited in use. InfluxDB supports timestamps with up to
+nanosecond resolution, and float64, int64, bool, and string data types.
+Prometheus by contrast supports the float64 data type with limited support for
+strings, and millisecond resolution timestamps.
 
-While InfluxDB's data model also allows annotation of data with arbitrary
-key-value pairs, it differs significantly from Prometheus in the way this data
-is modeled and stored. At its core, InfluxDB stores timestamped events with full metadata
-(key-value pairs) attached to each event / row. Prometheus stores only numeric
-time series and stores metadata for each time series exactly once, and then
-continues to simply append timestamped samples for that existing metadata
-entry. In a
-[test from March 2014](https://docs.google.com/document/d/1OgnI7YBCT_Ub9Em39dEfx9BuiqRNS3oA62i8fJbwwQ8/edit?usp=sharing),
-dumping typical Prometheus time series data into InfluxDB required **11x more
-disk storage in InfluxDB than in Prometheus** due to this different data model.
+InfluxDB uses a variant of a [log-structured merge tree for storage with a
+write ahead log](https://docs.influxdata.com/influxdb/v1.2/concepts/storage_engine/),
+sharded by time. This is much more suitable to event logging than Prometheus's
+append-only file per time series approach.
 
-If you are only interested in tracking the development of existing named
-time series (for example, the cumulative count of HTTP requests with the method
-`POST` to the `/api/tracks` endpoint on the instance
-`http://1.2.3.4:12345/metrics`), Prometheus will require much less storage
-space than InfluxDB. Further, Prometheus indexes all time series dimensions for
-efficient filtering, while InfluxDB currently only indexes tables by row
-timestamps (issue to track adding column indexes:
-https://github.com/influxdb/influxdb/issues/582).
 
-Still, InfluxDB is better geared towards the following use cases:
-
-   * Storing all **individual** events, not just time series of values.
-      * E.g. storing every HTTP request with full metadata *vs.* storing the
-        cumulative count of HTTP requests for certain dimensions.
-	  * [Logs and Metrics and Graphs, Oh My!](https://blog.raintank.io/logs-and-metrics-and-graphs-oh-my/)
-        describes the difference between event logging and metrics recording.
-   * Storing time series with completely unbounded dimensionality.
-      * E.g. storing user IDs or email addresses in the key-value metadata
-        *vs.* storing bounded dimensionality like the HTTP method, HTTP handler
-        and instance ID.
-
-There are other storage features, such as downsampling, which InfluxDB supports
-and Prometheus does not yet.
+[Logs and Metrics and Graphs, Oh My!](https://blog.raintank.io/logs-and-metrics-and-graphs-oh-my/)
+describes the difference between event logging and metrics recording.
 
 ### Architecture
 
 Prometheus servers run independently of each other and only rely on their local
 storage for their core functionality: scraping, rule processing, and alerting.
+The open source version of InfluxDB is similar.
 
-InfluxDB is by design a distributed storage cluster with storage and queries
-being handled by many nodes at once.
+The commercial InfluxDB offering is by design a distributed storage cluster
+with storage and queries being handled by many nodes at once.
 
-This means that InfluxDB will be easier to scale horizontally, but it also
-means that you have to manage the complexity of a distributed storage system
-from the beginning. Prometheus will be simpler to run, but at some point you
-will need to shard servers explicitly along scalability boundaries like
-products, services, datacenters, or similar aspects. Independent servers (which
-can be run redundantly in parallel) may also give you better reliability and
-failure isolation, though that is debatable, since InfluxDB also can tolerate
-node outages due to data replication.
+This means that the commercial InfluxDB will be easier to scale horizontally,
+but it also means that you have to manage the complexity of a distributed
+storage system from the beginning. Prometheus will be simpler to run, but at
+some point you will need to shard servers explicitly along scalability
+boundaries like products, services, datacenters, or similar aspects.
+Independent servers (which can be run redundantly in parallel) may also give
+you better reliability and failure isolation.
+
+Kapacitor currently has no [built-in distributed/redundant
+options](https://github.com/influxdata/kapacitor/issues/277) for rules,
+alerting or notifications. Prometheus and the Alertmanager by contrast offer a
+redundant option via running redundant replicas of Prometheus and using the
+Alertmanager's [High
+Availability](https://github.com/prometheus/alertmanager#high-availability)
+mode. In addition, Kapacitor can be scaled via manual sharding by the user,
+similar to Prometheus itself.
+
+### Summary
+
+There are many similarities between the systems. Both have labels (called tags
+in InfluxDB) to efficiently support multi-dimensional metrics. Both use
+basically the same data compression algorithms. Both have extensive
+integrations, including with each other. Both have hooks allowing you to extend
+them further, such as analysing data in statistical tools or performing
+automated actions.
+
+Where InfluxDB is better:
+
+  * If you're doing event logging.
+  * Commercial option offers clustering for InfluxDB, which is also better for long term data storage.
+  * Eventually consistent view of data between replicas.
+
+Where Prometheus is better:
+
+  * If you're primarily doing metrics.
+  * More powerful query language, alerting, and notification functionality.
+  * Higher availability and uptime for graphing and alerting.
+
+InfluxDB is maintained by a single commercial company following the open-core
+model, offering premium features like closed-source clustering, hosting and
+support. Prometheus is a [fully open source and independent project](/community/), maintained
+by a number of companies and individuals, some of whom also offer commercial
+services and support.
 
 ## Prometheus vs. OpenTSDB
 
@@ -148,10 +183,12 @@ The same scope differences as in the case of
 
 OpenTSDB's data model is almost identical to Prometheus's: time series are
 identified by a set of arbitrary key-value pairs (OpenTSDB "tags" are
-Prometheus "labels"). There are minor differences though, such as that
-Prometheus allows arbitrary characters in label values, while OpenTSDB is more
-restrictive. OpenTSDB is also lacking a full query language, only allowing
-simple aggregations via its API.
+Prometheus "labels"). All data for a metric is [stored
+together](http://opentsdb.net/docs/build/html/user_guide/writing/index.html#time-series-cardinality),
+limiting the cardinality of metrics. There are minor differences though,
+such as that Prometheus allows arbitrary characters in label values, while
+OpenTSDB is more restrictive. OpenTSDB is also lacking a full query language,
+only allowing simple aggregation and math via its API.
 
 ### Storage
 
@@ -160,6 +197,95 @@ simple aggregations via its API.
 means that it is easy to scale OpenTSDB horizontally, but you have to accept
 the overall complexity of running a Hadoop/HBase cluster from the beginning.
 
-Again, as in the case of InfluxDB, Prometheus will be simpler to run initially,
-but will require explicit sharding once the capacity of a single node is
-exceeded.
+Prometheus will be simpler to run initially, but will require explicit sharding
+once the capacity of a single node is exceeded.
+
+### Summary
+
+Prometheus offers a much richer query language, can handle higher cardinality
+metrics and forms part of a complete monitoring system. If you're already
+running Hadoop and value long term storage over these benefits, OpenTSDB is a
+good choice.
+
+
+## Prometheus vs. Nagios
+
+[Nagios](https://www.nagios.org/) is a monitoring system that originated in the
+90s as NetSaint.
+
+### Scope
+
+Nagios is primarily about alerting based on the exit codes of scripts. These are called “checks”.
+There is silencing of individual alerts, however no grouping, routing or deduplication.
+
+There are a variety of plugins. For example, piping the few kilobytes of
+perfData plugins are allowed to return [to a time series database such as
+Graphite](https://github.com/shawn-sterling/graphios) or using NRPE to [run
+checks on remote
+machines](https://exchange.nagios.org/directory/Addons/Monitoring-Agents/NRPE--2D-Nagios-Remote-Plugin-Executor/details).
+
+### Data model
+
+Nagios is host-based. Each host can have one or more services, which has one check.
+
+There is no notion of labels or a query language.
+
+### Storage
+
+Nagios has no storage per-se, beyond the current check state.
+There are plugins which can store data such as [for visualisation](https://docs.pnp4nagios.org/).
+
+### Architecture
+
+Nagios servers are standalone. All configuration of checks is via file.
+
+### Summary
+
+Nagios is suitable for basic monitoring of small and/or static systems where
+blackbox probing is sufficient.
+
+If you want to do whitebox monitoring, or have a dynamic or cloud based
+environment then Prometheus is a good choice.
+
+## Prometheus vs. Sensu
+
+[Sensu](https://sensuapp.org/) is broadly speaking a more modern Nagios.
+
+### Scope
+
+The same general scope differences as in the case of
+[Nagios](/docs/introduction/comparison/#prometheus-vs-nagios) apply here.
+
+The primary difference is that Sensu clients [register
+themselves](https://sensuapp.org/docs/0.27/reference/clients.html#what-is-a-sensu-client),
+and can determine the checks to run either from central or local configuration.
+Sensu does not have a limit on the amount of perfData.
+
+There is also a [client socket](https://sensuapp.org/docs/0.27/reference/clients.html#what-is-the-sensu-client-socket) permitting arbitrary check results to be pushed into Sensu.
+
+### Data model
+
+Sensu has the same rough data model as [Nagios](/docs/introduction/comparison/#prometheus-vs-nagios).
+
+### Storage
+
+Sensu has storage in Redis called stashes. These are used primarily for storing
+silences. It also stores all the clients that have registered with it.
+
+### Architecture
+
+Sensu has a [number of
+components](https://sensuapp.org/docs/0.27/overview/architecture.html). It uses
+RabbitMQ as a transport, Redis for current state, and a separate Server for
+processing.
+
+Both RabbitMQ and Redis can be clustered. Multiple copies of the server can be
+run for scaling and redundancy.
+
+### Summary
+
+If you have an existing Nagios setup that you wish to scale as-is or taking
+advantage of the registration feature of Sensu, then Sensu is a good choice.
+
+If you want to do whitebox monitoring, or have a very dynamic or cloud based
+environment, then Prometheus is a good choice.

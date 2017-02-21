@@ -46,7 +46,7 @@ At this time, metric types and other metadata are only used in the
 client libraries and in the exposition format, but not persisted or
 utilized in the Prometheus server. We plan on making use of this
 metadata in the future. The first step is to aggregate this data in-memory
-in Prometheus and provide it via an experimantal API endpoint.
+in Prometheus and provide it via an experimental API endpoint.
 
 ### Prometheus metrics format as a standard
 

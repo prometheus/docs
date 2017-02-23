@@ -93,10 +93,11 @@ InfluxDB offers continuous queries, which are equivalent to Prometheus
 recording rules.
 
 Kapacitor’s scope is a combination of Prometheus recording rules, alerting
-rules, and the Alertmanager's notification functionality. Prometheus offers a
-more powerful query language for graphing and alerting. The Prometheus
-Alertmanager additionally offers grouping, deduplication and silencing
-functionality.
+rules, and the Alertmanager's notification functionality. Prometheus offers [a
+more powerful query language for graphing and
+alerting](https://www.robustperception.io/translating-between-monitoring-languages/).
+The Prometheus Alertmanager additionally offers grouping, deduplication and
+silencing functionality.
 
 ### Data model / storage
 

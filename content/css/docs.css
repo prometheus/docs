@@ -210,6 +210,10 @@ footer {
   clear: both;
 }
 
+.download .alert {
+  clear: both;
+}
+
 .download-selection .btn-group {
   padding-right: 1em;
 }

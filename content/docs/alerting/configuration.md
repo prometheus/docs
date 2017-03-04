@@ -97,7 +97,7 @@ inhibit_rules:
 ```
 
 
-## Route `<route>`
+## `<route>`
 
 A route block defines a node in a routing tree and its children. Its optional
 configuration parameters are inherited from its parent node if not set.
@@ -177,7 +177,7 @@ route:
 
 
 
-## Inhibit rule `<inhibit_rule>`
+## `<inhibit_rule>`
 
 An inhibition rule is a rule that mutes an alert matching a set of matchers
 under the condition that an alert exists that matches another set of matchers.
@@ -204,7 +204,7 @@ source_match_re:
 ```
 
 
-## Receiver `<receiver>`
+## `<receiver>`
 
 Receiver is a named configuration of one or more notification integrations.
 
@@ -234,7 +234,7 @@ webhook_configs:
 ```
 
 
-## Email receiver `<email_config>`
+## `<email_config>`
 
 ```
 # Whether or not to notify about resolved alerts.
@@ -262,7 +262,7 @@ to: <tmpl_string>
 [ headers: { <string>: <tmpl_string>, ... } ]
 ```
 
-## HipChat receiver `<hipchat_config>`
+## `<hipchat_config>`
 
 HipChat notifications use a [Build Your Own](https://confluence.atlassian.com/hc/integrations-with-hipchat-server-683508267.html) integration.
 
@@ -290,7 +290,7 @@ room_id: <tmpl_string>
 [ color:  <tmpl_string> | default = '{{ if eq .Status "firing" }}red{{ else }}green{{ end }}' ]
 ```
 
-## PagerDuty receiver `<pagerduty_config>`
+## `<pagerduty_config>`
 
 PagerDuty notifications are sent via the [PagerDuty API](https://developer.pagerduty.com/documentation/integration/events).
 
@@ -321,7 +321,7 @@ service_key: <tmpl_string>
 } ]
 ```
 
-## Pushover receiver `<pushover_config>`
+## `<pushover_config>`
 
 Pushover notifications are sent via the [Pushover API](https://pushover.net/api).
 
@@ -353,7 +353,7 @@ token: <string>
 [ expire: <duration> | default = 1h ]
 ```
 
-## Slack receiver `<slack_config>`
+## `<slack_config>`
 
 Slack notifications are sent via [Slack webhooks](https://api.slack.com/incoming-webhooks).
 
@@ -380,7 +380,7 @@ channel: <tmpl_string>
 ```
 
 
-## OpsGenie receiver `<opsgenie_config>`
+## `<opsgenie_config>`
 
 OpsGenie notifications are sent via the [OpsGenie API](https://www.opsgenie.com/docs/web-api/alert-api).
 
@@ -410,7 +410,7 @@ api_key: <string>
 ```
 
 
-## Webhook receiver `<webhook_config>`
+## `<webhook_config>`
 
 The webhook receiver allows configuring a generic receiver.
 
@@ -447,4 +447,3 @@ endpoint:
   ]
 }
 ```
-

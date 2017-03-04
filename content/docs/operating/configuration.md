@@ -17,7 +17,7 @@ To view all available command-line flags, run `prometheus -h`.
 
 Prometheus can reload its configuration at runtime. If the new configuration
 is not well-formed, the changes will not be applied.
-A configuration reload is triggered by sending a `SIGHUP` to the Prometheus process or 
+A configuration reload is triggered by sending a `SIGHUP` to the Prometheus process or
 sending a HTTP POST request to the `/-/reload` endpoint.
 This will also reload any configured rule files.
 
@@ -33,11 +33,15 @@ value is set to the specified default.
 
 Generic placeholders are defined as follows:
 
+* `<boolean>`: a boolean that can take the values `true` or `false`
 * `<duration>`: a duration matching the regular expression `[0-9]+(ms|[smhdwy])`
 * `<labelname>`: a string matching the regular expression `[a-zA-Z_][a-zA-Z0-9_]*`
 * `<labelvalue>`: a string of unicode characters
 * `<filename>`: a valid path in the current working directory
-* `<boolean>`: a boolean that can take the values `true` or `false`
+* `<host>`: a valid string consisting of a hostname or IP followed by an optional port number
+* `<path>`: a valid URL path
+* `<scheme>`: a string that can take the values `http` or `https`
+* `<string>`: a regular string
 
 The other placeholders are specified separately.
 
@@ -77,7 +81,7 @@ alerting:
   alert_relabel_configs:
     [ - <relabel_config> ... ]
   alertmanagers:
-    [- <alertmanager_config> ... ]
+    [ - <alertmanager_config> ... ]
 
 # Settings related to the experimental remote write feature.
 remote_write:
@@ -107,7 +111,7 @@ target and its labels before scraping.
 
 ```
 # The job name assigned to scraped metrics by default.
-job_name: <name>
+job_name: <job_name>
 
 # How frequently to scrape targets from this job.
 [ scrape_interval: <duration> | default = <global_config.scrape_interval> ]
@@ -154,7 +158,7 @@ basic_auth:
 # the configured bearer token. It is mutually exclusive with `bearer_token_file`.
 [ bearer_token: <string> ]
 
-# Sets the `Authorization` header on every scrape request with the bearer token 
+# Sets the `Authorization` header on every scrape request with the bearer token
 # read from the configured file. It is mutually exclusive with `bearer_token`.
 [ bearer_token_file: /path/to/bearer/token/file ]
 
@@ -227,9 +231,7 @@ metric_relabel_configs:
 [ sample_limit: <int> | default = 0 ]
 ```
 
-Where `<scheme>` may be `http` or `https` and `<path>` is a valid URL path.
-`<job_name>` must be unique across all scrape configurations and adhere to the
-regex `[a-zA-Z_][a-zA-Z0-9_-]`.
+Where `<job_name>` must be unique across all scrape configurations.
 
 ### `<tls_config>`
 
@@ -726,6 +728,7 @@ paths:
 Serverset data must be in the JSON format, the Thrift format is not currently supported.
 
 ### `<triton_sd_config>`
+
 CAUTION: Triton SD is in beta: breaking changes to configuration are still
 likely in future releases.
 
@@ -782,10 +785,6 @@ targets:
 labels:
   [ <labelname>: <labelvalue> ... ]
 ```
-
-Where `<host>` is a valid string consisting of a hostname or IP followed by a port
-number.
-
 
 ### `<relabel_config>`
 
@@ -887,13 +886,13 @@ CAUTION: Dynamic discovery of Alertmanager instances is in alpha state. Breaking
 changes may happen in future releases. Use static configuration via the `-alertmanager.url` flag
 as a stable alternative.
 
-An `alertmanager_config` section specifies Alertmanager instances the Prometheus server sends 
+An `alertmanager_config` section specifies Alertmanager instances the Prometheus server sends
 alerts to. It also provides parameters to configure how to communicate with these Alertmanagers.
 
 Alertmanagers may be statically configured via the `static_configs` parameter or
 dynamically discovered using one of the supported service-discovery mechanisms.
 
-Additionally, `relabel_configs` allow selecting Alertmanagers from discovered 
+Additionally, `relabel_configs` allow selecting Alertmanagers from discovered
 entities and provide advanced modifications to the used API path, which is exposed
 through the `__alerts_path__` label.
 
@@ -901,7 +900,7 @@ through the `__alerts_path__` label.
 # Per-target Alertmanager timeout when pushing alerts.
 [ timeout: <duration> | default = 10s ]
 
-# Prefix for the HTTP path alerts are pushed to. 
+# Prefix for the HTTP path alerts are pushed to.
 [ path_prefix: <path> | default = / ]
 
 # Configures the protocol scheme used for requests.
@@ -917,7 +916,7 @@ basic_auth:
 # the configured bearer token. It is mutually exclusive with `bearer_token_file`.
 [ bearer_token: <string> ]
 
-# Sets the `Authorization` header on every request with the bearer token 
+# Sets the `Authorization` header on every request with the bearer token
 # read from the configured file. It is mutually exclusive with `bearer_token`.
 [ bearer_token_file: /path/to/bearer/token/file ]
 
@@ -981,9 +980,8 @@ relabel_configs:
   [ - <relabel_config> ... ]
 ```
 
-Where `<scheme>` may be `http` or `https` and `<path>` is a valid URL path.
-
 ### `<remote_write>`
+
 CAUTION: Remote write is experimental: breaking changes to configuration are
 likely in future releases.
 

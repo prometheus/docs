@@ -663,10 +663,10 @@ servers:
   - <string>
 
 # Optional bearer token authentication information.
-  [ bearer_token: <string> ]
+[ bearer_token: <string> ]
 
 # Optional bearer token file authentication information.
-  [ bearer_token_file: <filename>
+[ bearer_token_file: <filename>
 
 # Polling interval
 [ refresh_interval: <duration> | default = 30s ]

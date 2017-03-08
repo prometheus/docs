@@ -662,6 +662,14 @@ See below for the configuration options for Marathon discovery:
 servers:
   - <string>
 
+# Optional bearer token authentication information.
+# It is mutually exclusive with `bearer_token_file`.
+[ bearer_token: <string> ]
+
+# Optional bearer token file authentication information.
+# It is mutually exclusive with `bearer_token`.
+[ bearer_token_file: <filename> ]
+
 # Polling interval
 [ refresh_interval: <duration> | default = 30s ]
 ```

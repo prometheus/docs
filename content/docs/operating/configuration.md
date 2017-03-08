@@ -668,7 +668,7 @@ servers:
 
 # Optional bearer token file authentication information.
 # It is mutually exclusive with `bearer_token`.
-[ bearer_token_file: <filename>
+[ bearer_token_file: <filename> ]
 
 # Polling interval
 [ refresh_interval: <duration> | default = 30s ]

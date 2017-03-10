@@ -116,6 +116,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [rTorrent exporter](https://github.com/mdlayher/rtorrent_exporter)
    * [Script exporter](https://github.com/adhocteam/script_exporter)
    * [SMTP/Maildir MDA blackbox prober](https://github.com/cherti/mailexporter)
+   * [Transmission exporter](https://github.com/metalmatze/transmission-exporter)
    * [Unbound exporter](https://github.com/kumina/unbound_exporter)
    * [Xen exporter](https://github.com/lovoo/xenstats_exporter)
 

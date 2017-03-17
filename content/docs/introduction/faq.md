@@ -82,12 +82,9 @@ If you want to extract Prometheus metrics from application logs, Google's
 Prometheus was initially started privately by
 [Matt T. Proud](http://www.matttproud.com) and
 [Julius Volz](http://juliusv.com). The majority of its
-development has been sponsored by [SoundCloud](https://soundcloud.com).
+initial development was sponsored by [SoundCloud](https://soundcloud.com).
 
-Other companies making active contributions include [Boxever](http://www.boxever.com/)
-and [Docker](https://www.docker.com). A full list can be found in the
-[AUTHORS](https://github.com/prometheus/prometheus/blob/master/AUTHORS.md)
-file in each repository.
+It's now maintained and extended by a wide range of companies and individuals.
 
 ### What license is Prometheus released under?
 

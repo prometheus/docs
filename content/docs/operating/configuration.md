@@ -263,9 +263,10 @@ Azure SD configurations allow retrieving scrape targets from Azure VMs.
 The following meta labels are available on targets during relabeling:
 
 * `__meta_azure_machine_id`: the machine ID
-* `__meta_azure_machine_resource_group`: the machine's resource group
 * `__meta_azure_machine_location`: the location the machine runs in
+* `__meta_azure_machine_name`: the machine name
 * `__meta_azure_machine_private_ip`: the machine's private IP
+* `__meta_azure_machine_resource_group`: the machine's resource group
 * `__meta_azure_tag_<tagname>`: each tag value of the machine
 
 See below for the configuration options for Azure discovery:
@@ -294,16 +295,16 @@ client_secret: <string>
 Consul SD configurations allow retrieving scrape targets from [Consul's](https://www.consul.io)
 Catalog API.
 
-The following meta labels are available on targets during relabeling:
+The following meta labels are available on targets during [relabeling](#relabel_config):
 
 * `__meta_consul_address`: the address of the target
-* `__meta_consul_node`: the node name defined for the target
-* `__meta_consul_tags`: the list of tags of the target joined by the tag separator
-* `__meta_consul_service`: the name of the service the target belongs to
-* `__meta_consul_service_address`: the service address of the target
-* `__meta_consul_service_port`: the service port of the target
-* `__meta_consul_service_id`: the service ID of the target
 * `__meta_consul_dc`: the datacenter name for the target
+* `__meta_consul_node`: the node name defined for the target
+* `__meta_consul_service_address`: the service address of the target
+* `__meta_consul_service_id`: the service ID of the target
+* `__meta_consul_service_port`: the service port of the target
+* `__meta_consul_service`: the name of the service the target belongs to
+* `__meta_consul_tags`: the list of tags of the target joined by the tag separator
 
 ```
 # The information to access the Consul API. It is to be defined
@@ -368,7 +369,7 @@ EC2 SD configurations allow retrieving scrape targets from AWS EC2
 instances. The private IP address is used by default, but may be changed to
 the public IP address with relabeling.
 
-The following meta labels are available on targets during relabeling:
+The following meta labels are available on targets during [relabeling](#relabel_config):
 
 * `__meta_ec2_availability_zone`: the availability zone in which the instance is running
 * `__meta_ec2_instance_id`: the EC2 instance ID
@@ -380,8 +381,6 @@ The following meta labels are available on targets during relabeling:
 * `__meta_ec2_subnet_id`: comma separated list of subnets IDs in which the instance is running, if available
 * `__meta_ec2_tag_<tagkey>`: each tag value of the instance
 * `__meta_ec2_vpc_id`: the ID of the VPC in which the instance is running, if available
-
-
 
 See below for the configuration options for EC2 discovery:
 
@@ -460,18 +459,17 @@ likely in future releases.
 The private IP address is used by default, but may be changed to the public IP
 address with relabeling.
 
-The following meta labels are available on targets during relabeling:
+The following meta labels are available on targets during [relabeling](#relabel_config):
 
-* `__meta_gce_project`: the GCP project in which the instance is running
-* `__meta_gce_zone`: the GCE zone in which the instance is running
-* `__meta_gce_network`: the network of the instance
-* `__meta_gce_subnetwork`: the subnetwork of the instance
-* `__meta_gce_public_ip`: the public IP address of the instance, if present
-* `__meta_gce_private_ip`: the private IP address of the instance
 * `__meta_gce_instance_name`: the name of the instance
-* `__meta_gce_instance_tags`: comma separated list of instance tags
-
-
+* `__meta_gce_metadata_<name>`: each metadata item of the instance
+* `__meta_gce_network`: the network of the instance
+* `__meta_gce_private_ip`: the private IP address of the instance
+* `__meta_gce_project`: the GCP project in which the instance is running
+* `__meta_gce_public_ip`: the public IP address of the instance, if present
+* `__meta_gce_subnetwork`: the subnetwork of the instance
+* `__meta_gce_tags`: comma separated list of instance tags
+* `__meta_gce_zone`: the GCE zone in which the instance is running
 
 See below for the configuration options for GCE discovery:
 
@@ -648,7 +646,7 @@ Marathon SD configurations allow retrieving scrape targets using the
 will periodically check the REST endpoint for currently running tasks and
 create a target group for every app that has at least one healthy task.
 
-The following meta labels are available on targets during relabeling:
+The following meta labels are available on targets during [relabeling](#relabel_config):
 
 * `__meta_marathon_app`: the name of the app (with slashes replaced by dashes)
 * `__meta_marathon_image`: the name of the Docker image used (if available)
@@ -680,7 +678,7 @@ Nerve SD configurations allow retrieving scrape targets from [AirBnB's Nerve]
 (https://github.com/airbnb/nerve) which are stored in
 [Zookeeper](https://zookeeper.apache.org/).
 
-The following meta labels are available on targets during relabeling:
+The following meta labels are available on targets during [relabeling](#relabel_config):
 
 * `__meta_nerve_path`: the full path to the endpoint node in Zookeeper
 * `__meta_nerve_endpoint_host`: the host of the endpoint

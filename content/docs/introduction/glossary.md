@@ -52,8 +52,8 @@ to email, Pagerduty, Slack etc.
 
 ### Promdash
 
-[Promdash](../../visualization/promdash/) is a Ruby-on-Rails dashboard builder for Prometheus.
-It is similar at a high-level to Grafana, but is specific to Prometheus.
+Promdash was a native dashboard builder for Prometheus. It has been replaced by
+[Grafana](../../visualization/grafana/).
 
 ### Prometheus
 

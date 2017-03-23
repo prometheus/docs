@@ -41,10 +41,8 @@ optional:
 * the main [Prometheus server](https://github.com/prometheus/prometheus) which scrapes and stores time series data
 * [client libraries](/docs/instrumenting/clientlibs/) for instrumenting application code
 * a [push gateway](https://github.com/prometheus/pushgateway) for supporting short-lived jobs
-* a [GUI-based dashboard builder](/docs/visualization/promdash/) based on Rails/SQL
 * special-purpose [exporters](/docs/instrumenting/exporters/) (for HAProxy, StatsD, Graphite, etc.)
-* an (experimental) [alertmanager](https://github.com/prometheus/alertmanager)
-* a [command-line querying tool](https://github.com/prometheus/prometheus_cli)
+* an [alertmanager](https://github.com/prometheus/alertmanager)
 * various support tools
 
 Most Prometheus components are written in [Go](https://golang.org/), making
@@ -60,7 +58,7 @@ its ecosystem components:
 Prometheus scrapes metrics from instrumented jobs, either directly or via an
 intermediary push gateway for short-lived jobs. It stores all scraped samples
 locally and runs rules over this data to either record new time series from
-existing data or generate alerts. PromDash or other API consumers can be used
+existing data or generate alerts. Grafana or other API consumers can be used
 to visualize the collected data.
 
 ## When does it fit?

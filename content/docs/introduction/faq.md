@@ -118,7 +118,7 @@ Currently, the following external systems are supported:
 
 ### Can I create dashboards?
 
-Yes, we recommend [Grafana](/docs/visualization/grafana/) for production usage. [PromDash](/docs/visualization/promdash/) and [Console templates](/docs/visualization/consoles/) also exist.
+Yes, we recommend [Grafana](/docs/visualization/grafana/) for production usage. There are also [Console templates](/docs/visualization/consoles/).
 
 ### Can I change the timezone? Why is everything in UTC?
 

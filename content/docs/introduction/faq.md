@@ -114,7 +114,6 @@ Currently, the following external systems are supported:
 * [HipChat](https://www.hipchat.com/)
 * [Slack](https://slack.com/)
 * [Pushover](https://pushover.net/)
-* [Flowdock](https://www.flowdock.com/)
 
 ### Can I create dashboards?
 

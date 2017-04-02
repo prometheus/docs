@@ -81,16 +81,11 @@ alerting:
 
 # Settings related to the experimental remote write feature.
 remote_write:
-  [ url: <string> ]
-  [ remote_timeout: <duration> | default = 30s ]
-  tls_config:
-    [ <tls_config> ]
-  [ proxy_url: <string> ]
-  basic_auth:
-    [ username: <string> ]
-    [ password: <string> ]
-  write_relabel_configs:
-    [ - <relabel_config> ... ]
+  [ - <remote_write> ... ]
+
+# Settings related to the experimental remote read feature.
+remote_read:
+  [ - <remote_read> ... ]
 ```
 
 ### `<scrape_config>`
@@ -995,16 +990,77 @@ Where `<scheme>` may be `http` or `https` and `<path>` is a valid URL path.
 CAUTION: Remote write is experimental: breaking changes to configuration are
 likely in future releases.
 
-`url` is the URL of the endpoint to send samples to. `remote_timeout` specifies
-the timeout for sending requests to the URL. There are no retries.
-
-`basic_auth`, `tls_config` and `proxy_url` have the same meanings as in a
-`scrape_config`.
-
-`write_relabel_configs` is relabelling applied to samples before sending them
- to the URL. Write relabelling is applied after external labels. This could be
-used to limit which samples are sent.
+`write_relabel_configs` is relabeling applied to samples before sending them
+to the remote endpoint. Write relabeling is applied after external labels. This
+could be used to limit which samples are sent.
 
 There is a [small
 demo](https://github.com/prometheus/prometheus/tree/master/documentation/examples/remote_storage)
 of how to use this functionality.
+
+```
+# The URL of the endpoint to send samples to.
+url: <string>
+
+# Timeout for requests to the remote write endpoint.
+[ remote_timeout: <duration> | default = 30s ]
+
+# List of remote write relabel configurations.
+write_relabel_configs:
+  [ - <relabel_config> ... ]
+
+# Sets the `Authorization` header on every remote write request with the
+# configured username and password.
+basic_auth:
+  [ username: <string> ]
+  [ password: <string> ]
+
+# Sets the `Authorization` header on every remote write request with
+# the configured bearer token. It is mutually exclusive with `bearer_token_file`.
+[ bearer_token: <string> ]
+
+# Sets the `Authorization` header on every remote write request with the bearer token
+# read from the configured file. It is mutually exclusive with `bearer_token`.
+[ bearer_token_file: /path/to/bearer/token/file ]
+
+# Configures the remote write request's TLS settings.
+tls_config:
+  [ <tls_config> ]
+
+# Optional proxy URL.
+[ proxy_url: <string> ]
+```
+
+### `<remote_read>`
+
+CAUTION: Remote read is experimental: breaking changes to configuration are
+likely in future releases.
+
+```
+# The URL of the endpoint to query from.
+url: <string>
+
+# Timeout for requests to the remote read endpoint.
+[ remote_timeout: <duration> | default = 30s ]
+
+# Sets the `Authorization` header on every remote read request with the
+# configured username and password.
+basic_auth:
+  [ username: <string> ]
+  [ password: <string> ]
+
+# Sets the `Authorization` header on every remote read request with
+# the configured bearer token. It is mutually exclusive with `bearer_token_file`.
+[ bearer_token: <string> ]
+
+# Sets the `Authorization` header on every remote read request with the bearer token
+# read from the configured file. It is mutually exclusive with `bearer_token`.
+[ bearer_token_file: /path/to/bearer/token/file ]
+
+# Configures the remote read request's TLS settings.
+tls_config:
+  [ <tls_config> ]
+
+# Optional proxy URL.
+[ proxy_url: <string> ]
+```

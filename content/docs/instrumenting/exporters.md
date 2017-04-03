@@ -15,9 +15,15 @@ metrics directly (for example, HAProxy or Linux system stats).
 Some of these exporters are maintained as part of the official [Prometheus GitHub organization](https://github.com/prometheus),
 those are marked as *official*, others are externally contributed and maintained.
 
-We encourage the creation of more exporters but cannot
-vet all of them for [best practices](https://prometheus.io/docs/instrumenting/writing_exporters/). Commonly, those exporters are
-hosted outside of the Prometheus GitHub organization.
+We encourage the creation of more exporters but, cannot vet all of them for
+[best practices](https://prometheus.io/docs/instrumenting/writing_exporters/).
+Commonly, those exporters are hosted outside of the Prometheus GitHub
+organization.
+
+The [exporter default
+port](https://github.com/prometheus/prometheus/wiki/Default-port-allocations)
+wiki page has become another catalog of exporters, and may include exporters
+not listed here due to overlapping functionality or still being in development.
 
 The [JMX exporter](https://github.com/prometheus/jmx_exporter) can export from a
 wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.org/) and

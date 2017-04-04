@@ -71,6 +71,35 @@ The [Pushgateway](../../instrumenting/pushing/) persists the most recent push
 of metrics from batch jobs. This allows Prometheus to scrape their metrics
 after they have terminated.
 
+### Remote Read
+
+Remote read is a Prometheus feature that allows transparent reading of time series from
+other systems (such as long term storage) as part of queries.
+
+### Remote Read Adapter
+
+Not all systems directly support remote read. A remote read adapter sits between
+Prometheus and another system, converting time series requests and responses between them.
+
+### Remote Read Endpoint
+
+A remote read endpoint is what Prometheus talks to when doing a remote read.
+
+### Remote Write
+
+Remote write is a Prometheus feature that allows sending ingested samples on the
+fly to other systems, such as long term storage.
+
+### Remote Write Adapter
+
+Not all systems directly support remote write. A remote write adapter sits
+between Prometheus and another system, converting the samples in the remote
+write into a format the other system can understand.
+
+### Remote Write Endpoint
+
+A remote write endpoint is what Prometheus talks to when doing a remote write.
+
 ### Silence
 
 A silence in the Alertmanager prevents alerts with labels matching the silence from

@@ -161,5 +161,6 @@ practices.
    * Clojure: [prometheus-clj](https://github.com/soundcloud/prometheus-clj)
    * Go: [go-metrics instrumentation library](https://github.com/armon/go-metrics)
    * Go: [gokit](https://github.com/peterbourgon/gokit)
+   * Go: [prombolt](https://github.com/mdlayher/prombolt)
    * Java/JVM: [Hystrix metrics publisher](https://github.com/soundcloud/prometheus-hystrix)
    * Python-Django: [django-prometheus](https://github.com/korfuri/django-prometheus)

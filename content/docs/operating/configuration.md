@@ -442,8 +442,6 @@ files:
 Where `<filename_pattern>` may be a path ending in `.json`, `.yml` or `.yaml`. The last path segment
 may contain a single `*` that matches any character sequence, e.g. `my/path/tg_*.json`.
 
-NOTE: Prior to v0.20, `names:` was used instead of `files:`.
-
 ### `<gce_sd_config>`
 
 CAUTION: GCE SD is in beta: breaking changes to configuration are still

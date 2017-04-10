@@ -182,6 +182,12 @@ body {
   height: 30px;
 }
 
+@media screen and (max-width: 365px) {
+  .open-source img {
+    width: 90%;
+  }
+}
+
 .trusted-by {
   font-family: 'Lato', sans-serif;
   font-size: 20px;
@@ -193,8 +199,16 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 64px;
+  flex-flow: row wrap;
 }
+
+.logos img {
+  flex: 1 1 auto;
+  padding: 22px;
+  max-width: 220px;
+  max-height: 101px;
+}
+
 
 footer {
   font-size: 12px;

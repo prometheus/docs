@@ -40,14 +40,10 @@ Python, and Ruby.
 
 ### How stable are Prometheus features, storage formats, and APIs?
 
-Although Prometheus and many of its ecosystem components are already quite
-stable, we will still allow for occasional breaking changes until the
-Prometheus server reaches version 1.0.0. These breaking changes will be pointed
-out in release announcements for components that already have a proper release
-process (like the Prometheus server) or communicated clearly otherwise. After
-releasing version 1.0.0, breaking changes will be indicated by increments of
-the major version. See also the documentation for [semantic
-versioning](http://semver.org/), which we are following.
+Within any given major version, we will only introduce fully backwards
+compatible changes. Any breaking changes will be indicated by increments
+of the major version. See also the documentation for
+[semantic versioning](http://semver.org/), which we are following.
 
 ### Why do you pull rather than push?
 

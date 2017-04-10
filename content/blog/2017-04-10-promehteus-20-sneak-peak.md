@@ -5,7 +5,7 @@ kind: article
 author_name: Fabian Reinartz
 ---
 
-In July 2016 Prometheus reached a big milestone: its 1.0 release. Since then plenty of new features were added such as new service discovery integrations and our experimental remote APIs.  
+In July 2016 Prometheus reached a big milestone with its 1.0 release. Since then, plenty of new features like new service discovery integrations and our experimental remote APIs have been added.
 We also realized that new developments in the infrastructure space, in particular [Kubernetes](https://kubernetes.io), allowed monitored environments to become significantly more dynamic. Unsurprisingly, this also brings new challenges to Prometheus and we identified performance bottlenecks in its storage layer.
 
 Over the past few months we have been designing and implementing a new storage concept that addresses those bottlenecks and shows considerable performance improvements overall. It also paves the way to add features such as hot backups.
@@ -30,6 +30,6 @@ after:
 ./prometheus -storage.local.retention=200h -config.file=/etc/prometheus.yaml
 ```
 
-This is a very early version and crashes, data corruption, and bugs in general should be expected. Help us moving towards a stable release by submitting them to [our issue tracker](https://github.com/prometheus/prometheus/issues).  
+This is a very early version and crashes, data corruption, and bugs in general should be expected. Help us move towards a stable release by submitting them to [our issue tracker](https://github.com/prometheus/prometheus/issues).  
 
 The experimental remote storage APIs are disabled in this alpha release. The storage format is breaking and will break again between subsequent alpha releases. We plan to document an upgrade path from 1.0 to 2.0 once we are approaching a stable release.

@@ -447,3 +447,7 @@ endpoint:
   ]
 }
 ```
+
+## telergam notifications
+
+[Telergam](https://telegram.org/) [reporting bot](/inCaller/prometheus_bot) can be configured with [`<webhook_config>`](##`<webhook_config>`), see it's [repo](/inCaller/prometheus_bot) for more details.

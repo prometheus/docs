@@ -68,6 +68,7 @@ global:
   [ smtp_auth_username: <string> ]
   [ smtp_auth_password: <string> ]
   [ smtp_auth_secret: <string> ]
+  [ smtp_auth_identity: <string> ]
   # The default SMTP TLS requirement.
   [ smtp_require_tls: <bool> | default = true ]
 

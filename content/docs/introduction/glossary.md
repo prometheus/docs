@@ -90,15 +90,15 @@ A remote read endpoint is what Prometheus talks to when doing a remote read.
 Remote write is a Prometheus feature that allows sending ingested samples on the
 fly to other systems, such as long term storage.
 
-### Remote Write Adapter
-
-Not all systems directly support remote write. A remote write adapter sits
-between Prometheus and another system, converting the samples in the remote
-write into a format the other system can understand.
-
 ### Remote Write Endpoint
 
 A remote write endpoint is what Prometheus talks to when doing a remote write.
+
+### Remote Write Receiver
+
+Not all systems directly support remote write. A remote write receiver sits
+between Prometheus and another system, converting the samples it receives in
+the remote write into a format the other system can understand.
 
 ### Silence
 

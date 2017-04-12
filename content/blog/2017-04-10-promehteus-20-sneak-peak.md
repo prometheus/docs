@@ -32,4 +32,4 @@ after:
 
 This is a very early version and crashes, data corruption, and bugs in general should be expected. Help us move towards a stable release by submitting them to [our issue tracker](https://github.com/prometheus/prometheus/issues).  
 
-The experimental remote storage APIs are disabled in this alpha release. The storage format is breaking and will break again between subsequent alpha releases. We plan to document an upgrade path from 1.0 to 2.0 once we are approaching a stable release.
+The experimental remote storage APIs are disabled in this alpha release. Scraping targets exposing timestamps, such as federated Prometheus servers, does not yet work. The storage format is breaking and will break again between subsequent alpha releases. We plan to document an upgrade path from 1.0 to 2.0 once we are approaching a stable release.

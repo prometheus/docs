@@ -101,6 +101,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [Heka dashboard exporter](https://github.com/docker-infra/heka_exporter)
    * [Heka exporter](https://github.com/imgix/heka_exporter)
    * [InfluxDB exporter](https://github.com/prometheus/influxdb_exporter) (**official**)
+   * [JavaMelody exporter](https://github.com/fschlag/javamelody-prometheus-exporter)
    * [JMX exporter](https://github.com/prometheus/jmx_exporter) (**official**)
    * [Munin exporter](https://github.com/pvdh/munin_exporter)
    * [New Relic exporter](https://github.com/jfindley/newrelic_exporter)

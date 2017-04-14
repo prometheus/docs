@@ -71,6 +71,8 @@ URL query parameters:
 
 - `query=<string>`: Prometheus expression query string.
 - `time=<rfc3339 | unix_timestamp>`: Evaluation timestamp. Optional.
+- `timeout=<duration>`: Evaluation timeout. Optional. Defaults to and
+   is capped by the value of the `-query.timeout` flag.
 
 The current server time is used if the `time` parameter is omitted.
 
@@ -132,6 +134,8 @@ URL query parameters:
 - `start=<rfc3339 | unix_timestamp>`: Start timestamp.
 - `end=<rfc3339 | unix_timestamp>`: End timestamp.
 - `step=<duration>`: Query resolution step width.
+- `timeout=<duration>`: Evaluation timeout. Optional. Defaults to and
+   is capped by the value of the `-query.timeout` flag.
 
 The `data` section of the query result has the following format:
 

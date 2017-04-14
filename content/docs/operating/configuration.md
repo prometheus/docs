@@ -819,7 +819,7 @@ prefix is guaranteed to never be used by Prometheus itself.
 [ separator: <string> | default = ; ]
 
 # Label to which the resulting value is written in a replace action.
-# It is mandatory for replace actions.
+# It is mandatory for replace actions. Regex capture groups are available.
 [ target_label: <labelname> ]
 
 # Regular expression against which the extracted value is matched.
@@ -829,7 +829,7 @@ prefix is guaranteed to never be used by Prometheus itself.
 [ modulus: <uint64> ]
 
 # Replacement value against which a regex replace is performed if the
-# regular expression matches.
+# regular expression matches. Regex capture groups are available.
 [ replacement: <string> | default = $1 ]
 
 # Action to perform based on regex matching.

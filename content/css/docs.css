@@ -233,8 +233,9 @@ footer {
 }
 
 .downloads .checksum {
-  color: #aaa;
-  font-style: italic;
+  font-family: monospace;
+  font-size: .6em;
+  vertical-align: bottom;
 }
 
 /* Docs-related styles. */

@@ -1,9 +1,11 @@
+require 'fileutils'
 require 'json'
+require 'open-uri'
 
 module Downloads
   # repositories returns a list of all repositories with releases.
   def self.repositories
-    @repositories ||= begin
+    @_repositories ||= begin
       repos = Dir.glob('downloads/*').map { |dir| Repository.new(dir) }
       repos.sort_by { |r| r.name == 'prometheus' ? '0' : r.name }
     end
@@ -13,7 +15,7 @@ module Downloads
   # provided for.
   def self.operating_systems
     repositories.inject([]) do |list, repo|
-      list += repo.releases.map { |r| r.assets.map(&:os) }.flatten
+      list += repo.releases.map { |r| r.binaries.map(&:os) }.flatten
     end.uniq.sort
   end
 
@@ -21,8 +23,36 @@ module Downloads
   # provided for.
   def self.architectures
     repositories.inject([]) do |list, repo|
-      list += repo.releases.map { |r| r.assets.map(&:arch) }.flatten
+      list += repo.releases.map { |r| r.binaries.map(&:arch) }.flatten
     end.uniq.sort
+  end
+
+  # checksum returns the checksum for a given filename of a given release. It
+  # might try to download the sha256sums.txt from the given release if available
+  # and not already cached.
+  def self.checksum(release, name)
+    @_checksums ||= {}
+    @_checksums[release.id] ||= begin
+      asset = release.assets.find { |a| a['name'] == 'sha256sums.txt' }
+
+      if asset
+        cache = ['downloads', '.cache', release.id, 'sha256sums.txt'].join('/')
+        unless File.exists?(cache)
+          FileUtils.mkdir_p(File.dirname(cache))
+          File.open(cache, 'wb') do |file|
+            file.write(URI.parse(asset['browser_download_url']).read)
+          end
+        end
+
+        File.readlines(cache).each_with_object({}) do |line, memo|
+          checksum, filename = line.split(/\s+/)
+          memo[filename] = checksum
+        end
+      else
+        {}
+      end
+    end
+    @_checksums[release.id][name]
   end
 
   class Repository
@@ -66,6 +96,10 @@ module Downloads
       @data = data
     end
 
+    def id
+      @data['id']
+    end
+
     def name
       @data['name']
     end
@@ -79,11 +113,17 @@ module Downloads
     end
 
     def assets
-      @data['assets'].map { |d| Asset.new(d) }
+      @data['assets']
+    end
+
+    def binaries
+      assets.
+        select { |d| d['name'] && %w[.tar.gz .zip].any? { |ext| d['name'].end_with?(ext) } }.
+        map { |d| Binary.new(d) }
     end
   end
 
-  class Asset
+  class Binary
     def initialize(data)
       @data = data
     end

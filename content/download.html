@@ -29,11 +29,6 @@ title: Download
       the <a href="/docs/introduction/getting_started/">installation instructions</a>.
     </p>
 
-    <div class="alert alert-info" role="alert">
-      <strong>Work in progress!</strong>
-      We will provide more precompiled binary versions as well as checksums soon.
-    </div>
-
     <div class="panel panel-default download-selection">
       <div class="panel-body">
         Operating system <%= dropdown(:os, Downloads.operating_systems, :popular, popular: %w(darwin linux windows)) %>
@@ -64,13 +59,13 @@ title: Download
         </tr>
       </thead>
       <tbody>
-      <% release.assets.each do |asset| %>
-        <tr data-os="<%= asset.os %>" data-arch="<%= asset.arch %>">
-          <td class="filename"><a class="download" href="<%= asset.url %>"><%= asset.name %></a></td>
-          <td><%= asset.os %></td>
-          <td><%= asset.arch %></td>
-          <td><%= format_bytes asset.size %></td>
-          <td class="checksum">not available yet</td>
+      <% release.binaries.each do |binary| %>
+        <tr data-os="<%= binary.os %>" data-arch="<%= binary.arch %>">
+          <td class="filename"><a class="download" href="<%= binary.url %>"><%= binary.name %></a></td>
+          <td><%= binary.os %></td>
+          <td><%= binary.arch %></td>
+          <td><%= format_bytes binary.size %></td>
+          <td class="checksum"><%= Downloads.checksum(release, binary.name) %></td>
         </tr>
       <% end %>
       </tbody>

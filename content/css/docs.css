@@ -232,10 +232,18 @@ footer {
   padding-right: 1em;
 }
 
+.downloads td, .downloads th {
+  white-space: nowrap;
+}
+
+.downloads .filename {
+  width: 100%;
+}
+
 .downloads .checksum {
   font-family: monospace;
   font-size: .6em;
-  vertical-align: bottom;
+  vertical-align: inherit;
 }
 
 /* Docs-related styles. */

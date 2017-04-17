@@ -57,7 +57,7 @@ to be URL-encoded.
 
 Query language expressions may be evaluated at a single instant or over a range
 of time. The sections below describe the API endpoints for each type of
-expression query.
+expression query and how to filter their result.
 
 ### Instant queries
 
@@ -186,6 +186,40 @@ $ curl 'http://localhost:9090/api/v1/query_range?query=up&start=2015-07-01T20:10
       ]
    }
 }
+```
+
+
+
+### Filtering queries
+
+Queries can be filtered according to the returned metrics, to do so, just extend
+your query with the suitable operator.
+
+The following query returns the list of series associated to the "node" job
+which are UP.
+
+```
+curl -g 'http://localhost:9090/api/v1/query?query=(up{job="node"})>0'
+{
+  "data": {
+    "result": [
+      {
+        "value": [
+          1447414200,
+          "1"
+        ],
+        "metric": {
+          "job": "node",
+          "instance": "localhost:9100",
+          "__name__": "up"
+        }
+      }
+    ],
+    "resultType": "vector"
+  },
+  "status": "success"
+}
+</code></pre>
 ```
 
 ## Querying metadata

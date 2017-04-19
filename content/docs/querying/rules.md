@@ -8,9 +8,9 @@ sort_rank: 6
 ## Configuring rules
 Prometheus supports two types of rules which may be configured and then
 evaluated at regular intervals: recording rules and [alerting
-rules](../../alerting/rules). To include rules in Prometheus, create a file
+rules](/content/docs/alerting/rules.md). To include rules in Prometheus, create a file
 containing the necessary rule statements and have Prometheus load the file via
-the `rule_files` field in the [Prometheus configuration](/docs/operating/configuration).
+the `rule_files` field in the [Prometheus configuration](/content/docs/operating/configuration.md).
 
 The rule files can be reloaded at runtime by sending `SIGHUP` to the Prometheus
 process. The changes are only applied if all rule files are well-formatted.

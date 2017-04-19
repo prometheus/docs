@@ -132,9 +132,9 @@ match_re:
 # more initial alerts for the same group. (Usually ~0s to few minutes.)
 [ group_wait: <duration> ]
 
-# How long to wait before sending notification about new alerts that are
-# in are added to a group of alerts for which an initial notification
-# has already been sent. (Usually ~5min or more.)
+# How long to wait before sending a notification about new alerts that
+# are added to a group of alerts for which an initial notification has
+# already been sent. (Usually ~5min or more.)
 [ group_interval: <duration> ]
 
 # How long to wait before sending a notification again if it has already

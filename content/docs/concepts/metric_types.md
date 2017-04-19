@@ -48,6 +48,10 @@ A _histogram_ samples observations (usually things like request durations or
 response sizes) and counts them in configurable buckets. It also provides a sum
 of all observed values.
 
+Since each observation bucket holds the total count of observations less than or
+equal to the the bucket's upper bound, any individual bucket can be blacklisted
+without affecting the validity of the resulting histogram.
+
 A histogram with a base metric name of `<basename>` exposes multiple time series
 during a scrape:
 

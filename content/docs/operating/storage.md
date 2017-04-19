@@ -15,7 +15,7 @@ chunks are then stored on disk in one file per time series.
 This sections deals with the various configuration settings and issues you
 might run into. To dive deeper into the topic, check out the following talks:
 * [The Prometheus Time Series Database](https://www.youtube.com/watch?v=HbnGSNEjhUc).
-* [Configuring Prometheus for High Performance](https://www.youtube.com/watch?v=zop94VbeFeU).
+* [Configuring Prometheus for High Performance](https://www.youtube.com/watch?v=hPC60ldCGm8).
 
 ## Memory usage
 

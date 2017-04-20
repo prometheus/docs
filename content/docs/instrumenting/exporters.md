@@ -117,6 +117,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [BIND exporter](https://github.com/digitalocean/bind_exporter)
    * [Blackbox exporter](https://github.com/prometheus/blackbox_exporter) (**official**)
    * [BOSH exporter](https://github.com/cloudfoundry-community/bosh_exporter)
+   * [Custom exporter](https://github.com/orange-cloudfoundry/custom_exporter)
    * [Dovecot exporter](https://github.com/kumina/dovecot_exporter)
    * [Jenkins exporter](https://github.com/lovoo/jenkins_exporter)
    * [Kemp LoadBalancer exporter](https://github.com/giantswarm/prometheus-kemp-exporter)

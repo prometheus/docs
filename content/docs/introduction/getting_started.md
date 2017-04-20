@@ -203,7 +203,7 @@ scrape_configs:
 
 Go to the expression browser and verify that Prometheus now has information
 about time series that these example endpoints expose, such as the
-`rpc_durations_seconds` metric.
+`rpc_durations_microseconds` metric.
 
 ## Configure rules for aggregating scraped data into new time series
 
@@ -212,22 +212,22 @@ time series can get slow when computed ad-hoc. To make this more efficient,
 Prometheus allows you to prerecord expressions into completely new persisted
 time series via configured recording rules. Let's say we are interested in
 recording the per-second rate of example RPCs
-(`rpc_durations_seconds_count`) averaged over all instances (but
+(`rpc_durations_microseconds_count`) averaged over all instances (but
 preserving the `job` and `service` dimensions) as measured over a window of 5
 minutes. We could write this as:
 
 ```
-avg(rate(rpc_durations_seconds_count[5m])) by (job, service)
+avg(rate(rpc_durations_microseconds_count[5m])) by (job, service)
 ```
 
 Try graphing this expression.
 
 To record the time series resulting from this expression into a new metric
-called `job_service:rpc_durations_seconds_count:avg_rate5m`, create a file
+called `job_service:rpc_durations_microseconds_count:avg_rate5m`, create a file
 with the following recording rule and save it as `prometheus.rules`:
 
 ```
-job_service:rpc_durations_seconds_count:avg_rate5m = avg(rate(rpc_durations_seconds_count[5m])) by (job, service)
+job_service:rpc_durations_microseconds_count:avg_rate5m = avg(rate(rpc_durations_microseconds_count[5m])) by (job, service)
 ```
 
 To make Prometheus pick up this new rule, add a `rule_files` statement to the
@@ -271,5 +271,5 @@ scrape_configs:
 ```
 
 Restart Prometheus with the new configuration and verify that a new time series
-with the metric name `job_service:rpc_durations_seconds_count:avg_rate5m`
+with the metric name `job_service:rpc_durations_microseconds_count:avg_rate5m`
 is now available by querying it through the expression browser or graphing it.

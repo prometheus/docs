@@ -161,7 +161,6 @@ make use of one of the normal Prometheus client libraries under the hood. As
 for all independently maintained software, we cannot vet all of them for best
 practices.
 
-   * Clojure: [prometheus-clj](https://github.com/soundcloud/prometheus-clj)
    * Go: [go-metrics instrumentation library](https://github.com/armon/go-metrics)
    * Go: [gokit](https://github.com/peterbourgon/gokit)
    * Go: [prombolt](https://github.com/mdlayher/prombolt)

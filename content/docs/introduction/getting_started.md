@@ -56,7 +56,7 @@ scrape_configs:
 ```
 
 For a complete specification of configuration options, see the
-[configuration documentation](/docs/operating/configuration).
+[configuration documentation](/content/docs/operating/configuration.md).
 
 
 ## Starting Prometheus
@@ -87,7 +87,7 @@ FAQs](http://golang.org/doc/faq#Why_no_multi_CPU).
 
 Note that Prometheus by default uses around 3GB in memory. If you have a
 smaller machine, you can tune Prometheus to use less memory.  For details,
-see the [memory usage documentation](/docs/operating/storage/#memory-usage).
+see the [memory usage documentation](/content/docs/operating/storage.md#memory-usage).
 
 ## Using the expression browser
 
@@ -124,7 +124,7 @@ count(prometheus_target_interval_length_seconds)
 ```
 
 For more about the expression language, see the
-[expression language documentation](/docs/querying/basics/).
+[expression language documentation](/content/docs/querying/basics.md).
 
 ## Using the graphing interface
 

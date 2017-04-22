@@ -669,7 +669,7 @@ servers:
 
 By default every app listed in Marathon will be scraped by Prometheus. If not all
 of your services provide Prometheus metrics, you can use a Marathon label and
-Prometheus relabeling to control which instances will actually be scraped. Also
+Prometheus relabeling to control which instances will actually be scraped. Prometheus checks all the host ports of each application instance on Marathon for metrics. Also
 by default all apps will show up as a single job in Prometheus (the one specified
 in the configuration file), which can also be changed using relabeling.
 

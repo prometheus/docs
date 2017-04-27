@@ -55,7 +55,7 @@ Examples:
     ALERT InstanceDown
       IF up == 0
       FOR 5m
-      LABELS { severity = "page" }
+      LABELS { severity = "critical" }
       ANNOTATIONS {
         summary = "Instance {{ $labels.instance }} down",
         description = "{{ $labels.instance }} of job {{ $labels.job }} has been down for more than 5 minutes.",

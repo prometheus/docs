@@ -416,13 +416,13 @@ VictorOps notifications are sent out via the [VictorOps API](https://portal.vict
 # The API key to use when talking to the VictorOps API.
 api_key: <string>
 
-# The VictorOps webhook URL.
+# The VictorOps API URL.
 [ api_url: <string> ]
 
 # A key used to map the alert to a team.
 [ routing_key: <string> ]
 
-# Describes the behavior of the alert.
+# Describes the behavior of the alert (Critical, Acknowledgement, Info, Recovery).
 [ message_type: <string> ]
 
 # Contains explanation of the alerted problem.

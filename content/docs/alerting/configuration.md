@@ -369,7 +369,7 @@ channel: <tmpl_string>
 
 # API request data as defined by the Slack webhook API.
 [ color: <tmpl_string> | default = '{{ if eq .Status "firing" }}danger{{ else }}good{{ end }}' ]
-[ username: <tmpl_string> | default = '{{ template "slack.default.username" . }}'
+[ username: <tmpl_string> | default = '{{ template "slack.default.username" . }}' ]
 [ title: <tmpl_string> | default = '{{ template "slack.default.title" . }}' ]
 [ title_link: <tmpl_string> | default = '{{ template "slack.default.titlelink" . }}' ]
 [ icon_emoji: <tmpl_string> ]
@@ -407,6 +407,30 @@ api_key: <string>
 [ teams: <tmpl_string> ]
 # Comma separated list of tags attached to the notifications.
 [ tags: <tmpl_string> ]
+```
+## `<victor_ops_config>`
+
+VictorOps notifications are sent out via the [VictorOps API](https://portal.victorops.com/public/api-docs.html#/)
+
+```
+# The API key to use when talking to the VictorOps API.
+api_key: <string>
+
+# The VictorOps webhook URL.
+[ api_url: <string> ]
+
+# A key used to map the alert to a team.
+[ routing_key: <string> ]
+
+# Describes the behavior of the alert.
+[ message_type: <string> ]
+
+# Contains explanation of the alerted problem.
+[ state_message: <string> | default = '{{ template "victorops.default.state_message" . }}' ]
+
+# The monitoring tool the state message is from.
+[ monitoring_tool: <string> | default = '{{ template "victorops.default.monitoring_tool" . }}' ]
+
 ```
 
 

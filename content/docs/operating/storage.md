@@ -40,8 +40,11 @@ memory and thus will perform much worse than it could.
 Because Prometheus uses most of its heap for long-lived allocations of memory
 chunks, the
 [garbage collection target percentage](https://golang.org/pkg/runtime/debug/#SetGCPercent)
-is set to 40 by default. You can still override this setting via the `GOGC`
-environment variable as usual.
+is set to 40 by default (rather than the usual 100). You can still override
+this setting via the `GOGC` environment variable as usual. A higher value
+results in fewer memory chunks and less CPU usage, which makes sense in
+scenarios where you need to save CPU usage but can afford to have fewer memory
+chunks.
 
 For high-performance set-ups, you might need to adjust more flags. Please read
 through the sections below for details.

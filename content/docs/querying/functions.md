@@ -89,7 +89,9 @@ month for each of the given times in UTC. Returned values are from 28 to 31.
 `delta(v range-vector)` calculates the difference between the
 first and last value of each time series element in a range vector `v`,
 returning an instant vector with the given deltas and equivalent labels.
-The delta is interpolated to cover the full time range.
+The delta is extrapolated to cover the full time range as specified in
+the range vector selector, so that it is possible to get a non-integer
+result even if the sample values are all integers.
 
 The following example expression returns the difference in CPU temperature
 between now and 2 hours ago:
@@ -202,7 +204,11 @@ equivalent labels.
 
 `increase(v range-vector)` calculates the increase in the
 time series in the range vector. Breaks in monotonicity (such as counter
-resets due to target restarts) are automatically adjusted for.
+resets due to target restarts) are automatically adjusted for. The
+increase is extrapolated to cover the full time range as specified
+in the range vector selector, so that it is possible to get a
+non-integer result even if a counter increases only by integer
+increments.
 
 The following example expression returns the number of HTTP requests as measured
 over the last 5 minutes, per time series in the range vector:
@@ -211,9 +217,11 @@ over the last 5 minutes, per time series in the range vector:
 increase(http_requests_total{job="api-server"}[5m])
 ```
 
-`increase` should only be used with counters. It should be used primarily for
-human readability. Use `rate` in recording rules so that increases are tracked
-consistently on a per-second basis.
+`increase` should only be used with counters. It is syntactic sugar
+for `rate(v)` multiplied by the number of seconds under the specified
+time range window, and should be used primarily for human readability.
+Use `rate` in recording rules so that increases are tracked consistently
+on a per-second basis.
 
 ## `irate()`
 
@@ -299,7 +307,9 @@ regression](http://en.wikipedia.org/wiki/Simple_linear_regression).
 
 `rate(v range-vector)` calculates the per-second average rate of increase of the
 time series in the range vector. Breaks in monotonicity (such as counter
-resets due to target restarts) are automatically adjusted for.
+resets due to target restarts) are automatically adjusted for. Also, the
+calculation extrapolates to the ends of the time range, allowing for missed
+scrapes or imperfect alignment of scrape cycles with the range's time period.
 
 The following example expression returns the per-second rate of HTTP requests as measured
 over the last 5 minutes, per time series in the range vector:

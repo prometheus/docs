@@ -176,6 +176,10 @@ dns_sd_configs:
 ec2_sd_configs:
   [ - <ec2_sd_config> ... ]
 
+# List of OpenStack service discovery configurations.
+openstack_sd_configs:
+  [ - <openstack_sd_config> ... ]
+
 # List of file service discovery configurations.
 file_sd_configs:
   [ - <file_sd_config> ... ]
@@ -390,6 +394,65 @@ region: <string>
 [ secret_key: <string> ]
 # Named AWS profile used to connect to the API.
 [ profile: <string> ]
+
+# Refresh interval to re-read the instance list.
+[ refresh_interval: <duration> | default = 60s ]
+
+# The port to scrape metrics from. If using the public IP address, this must
+# instead be specified in the relabeling rule.
+[ port: <int> | default = 80 ]
+```
+
+### `<openstack_sd_config>`
+
+OpenStack SD configurations allow retrieving scrape targets from OpenStack Nova
+instances.
+
+The following meta labels are available on targets during [relabeling](#relabel_config):
+
+* `__meta_openstack_instance_id`: the OpenStack instance ID
+* `__meta_openstack_instance_name`: the OpenStack instance name
+* `__meta_openstack_instance_status`: the status of the OpenStack instance
+* `__meta_openstack_instance_flavor`: the flavor of the OpenStack instance
+* `__meta_openstack_public_ip`: the public IP of the OpenStack instance
+* `__meta_openstack_private_ip`: the private IP of the OpenStack instance
+* `__meta_openstack_tag_<tagkey>`: each tag value of the instance
+
+See below for the configuration options for OpenStack discovery:
+
+```
+# The information to access the OpenStack API.
+
+# The OpenStack Region.
+region: <string>
+
+# IdentityEndpoint specifies the HTTP endpoint that is required to work with
+# the Identity API of the appropriate version. While it's ultimately needed by
+# all of the identity services, it will often be populated by a provider-level
+# function.
+[ identity_endpoint: <string> ]
+
+# Username is required if using Identity V2 API. Consult with your provider's
+# control panel to discover your account's username. In Identity V3, either
+# UserID or a combination of Username and DomainID or DomainName are needed.
+[ username: <string> ]
+[ userid: <string> ]
+
+# Password for the Identity V2 and V3 APIs. Consult with your provider's
+# control panel to discover your account's preferred method of authentication.
+[ password: <string> ]
+
+# At most one of DomainID and DomainName must be provided if using Username
+# with Identity V3. Otherwise, either are optional.
+[ domain_name: <string> ]
+[ domain_id: <string> ]
+
+# The ProjectID and ProjectName fields are optional for the Identity V2 API.
+# Some providers allow you to specify a ProjectName instead of the ProjectId.
+# Some require both. Your provider's authentication policies will determine
+# how these fields influence authentication.
+[ project_name: <string> ]
+[ project_id: <string> ]
 
 # Refresh interval to re-read the instance list.
 [ refresh_interval: <duration> | default = 60s ]

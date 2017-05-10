@@ -619,6 +619,11 @@ basic_auth:
 # TLS configuration.
 tls_config:
   [ <tls_config> ]
+
+# Optional namespace discovery. If omitted, all namespaces are used.
+namespaces:
+  names:
+    [ - <string> ]
 ```
 
 Where `<role>` must be `endpoints`, `service`, `pod`, or `node`.

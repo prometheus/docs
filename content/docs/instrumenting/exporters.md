@@ -112,6 +112,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [scollector exporter](https://github.com/tgulacsi/prometheus_scollector)
    * [SNMP exporter](https://github.com/prometheus/snmp_exporter) (**official**)
    * [StatsD exporter](https://github.com/prometheus/statsd_exporter) (**official**)
+   * [Sensu exporter](https://github.com/reachlin/sensu_exporter)
 
 ### Miscellaneous
    * [BIG-IP exporter](https://github.com/ExpressenAB/bigip_exporter)

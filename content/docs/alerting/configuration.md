@@ -462,10 +462,12 @@ endpoint:
   "externalURL": <string>,  // backling to the Alertmanager.
   "alerts": [
     {
+      "status": "<resolved|firing>",
       "labels": <object>,
       "annotations": <object>,
       "startsAt": "<rfc3339>",
-      "endsAt": "<rfc3339>"
+      "endsAt": "<rfc3339>",
+      "generatorURL": "string", // backling to the prometheus graph
     },
     ...
   ]

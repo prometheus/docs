@@ -56,6 +56,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [Ubiquiti UniFi exporter](https://github.com/mdlayher/unifi_exporter)
 
 ### Messaging systems
+   * [Kafka consumer group exporter](https://github.com/kawamuray/prometheus-kafka-consumer-group-exporter)
    * [NATS exporter](https://github.com/lovoo/nats_exporter)
    * [NSQ exporter](https://github.com/lovoo/nsq_exporter)
    * [RabbitMQ exporter](https://github.com/kbudde/rabbitmq_exporter)

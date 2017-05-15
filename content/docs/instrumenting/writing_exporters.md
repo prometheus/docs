@@ -462,9 +462,7 @@ This is a registry to make our users’ lives a little easier, not a commitment
 to develop particular exporters.
 
 For exporters on internal applications we recommend using ports outside of the
-range of default ports. We suggest choosing a port above 9500 to leave room
-for more public exporters, but any port is fine as long as it complies with your
-organizations policy on port numbers.
+range of default ports. We suggest using a port above 9500.
 
 ## Announcing
 

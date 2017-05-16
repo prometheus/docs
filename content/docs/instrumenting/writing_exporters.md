@@ -459,7 +459,7 @@ preferably before publicly announcing it. If you’re not ready to release yet,
 putting your username and WIP is fine.
 
 This is a registry to make our users’ lives a little easier, not a commitment
-to develop particular exporters. For exporters on internal applications we
+to develop particular exporters. For exporters for internal applications we
 recommend using ports outside of the range of default port allocations.
 
 ## Announcing

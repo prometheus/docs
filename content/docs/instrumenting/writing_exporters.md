@@ -366,8 +366,7 @@ and pass on the target to be scraped. See the blackbox and SNMP exporters for
 examples.
 
 Note that it is only currently possible to write this type of exporter with the
-Python and Java client libraries (the blackbox exporter which is written in Go
-is doing the text format by hand, don’t do this).
+Go, Python and Java client libraries.
 
 The other is where you’re pulling some stats out of a random instance of a
 system and don’t care which one you’re talking to. Consider a set of MySQL

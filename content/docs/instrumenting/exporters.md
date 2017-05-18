@@ -156,6 +156,7 @@ separate exporters are needed:
    * [Quobyte](https://www.quobyte.com/)
    * [SkyDNS](https://github.com/skynetservices/skydns)
    * [Weave Flux](http://weaveworks.github.io/flux/)
+   * [Pretix](https://pretix.eu/)
 
 ## Other third-party utilities
 

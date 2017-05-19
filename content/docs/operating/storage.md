@@ -337,7 +337,7 @@ server has problems or is out of capacity.
 * `prometheus_local_storage_series_chunks_persisted`: A histogram of the number
   of chunks persisted per batch.
 * `prometheus_local_storage_persistence_urgency_score`: The urgency score as
-  discussed [above](#persistence-pressure-and-rushed-mode).
+  discussed [above](#persistence-urgency-and-rushed-mode).
 * `prometheus_local_storage_rushed_mode` is 1 if Prometheus is in “rushed
   mode”, 0 otherwise. Can be used to calculate the percentage of time
   Prometheus is in rushed mode.

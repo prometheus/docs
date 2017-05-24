@@ -154,6 +154,7 @@ separate exporters are needed:
    * [Kubernetes](https://github.com/kubernetes/kubernetes) (**direct**)
    * [Linkerd](https://github.com/BuoyantIO/linkerd)
    * [Netdata](https://github.com/firehol/netdata)
+   * [Pretix](https://pretix.eu/)
    * [Quobyte](https://www.quobyte.com/) (**direct**)
    * [RobustIRC](http://robustirc.net/)
    * [SkyDNS](https://github.com/skynetservices/skydns) (**direct**)

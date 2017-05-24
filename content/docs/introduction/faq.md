@@ -198,13 +198,13 @@ circumstances, but can take quite long under certain circumstances. See
 
 ### My Prometheus server runs out of memory.
 
-See [the section about memory usage](https://prometheus.io/docs/operating/storage/#memory-usage)
+See [the section about memory usage](/docs/operating/storage/#memory-usage)
 to configure Prometheus for the amount of memory you have available.
 
 ### My Prometheus server reports to be in “rushed mode” or that “storage needs throttling”.
 
 Your storage is under heavy load. Read
-[the section about configuring the local storage](https://prometheus.io/docs/operating/storage/)
+[the section about configuring the local storage](/docs/operating/storage/)
 to find out how you can tweak settings for better performance.
 
 ## Implementation

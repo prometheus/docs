@@ -42,7 +42,7 @@ example, a batch job that deletes a number of users for an entire service).
 Such a job's metrics should not include a machine or instance label to decouple
 the lifecycle of specific machines or instances from the pushed metrics. This
 decreases the burden for managing stale metrics in the Pushgateway. See also
-the [best practices for monitoring batch jobs](https://prometheus.io/docs/practices/instrumentation/#batch-jobs).
+the [best practices for monitoring batch jobs](/docs/practices/instrumentation/#batch-jobs).
 
 ## Alternative strategies
 

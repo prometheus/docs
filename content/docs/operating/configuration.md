@@ -426,29 +426,29 @@ See below for the configuration options for OpenStack discovery:
 # The OpenStack Region.
 region: <string>
 
-# IdentityEndpoint specifies the HTTP endpoint that is required to work with
+# identity_endpoint specifies the HTTP endpoint that is required to work with
 # the Identity API of the appropriate version. While it's ultimately needed by
 # all of the identity services, it will often be populated by a provider-level
 # function.
 [ identity_endpoint: <string> ]
 
-# Username is required if using Identity V2 API. Consult with your provider's
+# username is required if using Identity V2 API. Consult with your provider's
 # control panel to discover your account's username. In Identity V3, either
-# UserID or a combination of Username and DomainID or DomainName are needed.
+# userid or a combination of username and domain_id or domain_name are needed.
 [ username: <string> ]
 [ userid: <string> ]
 
-# Password for the Identity V2 and V3 APIs. Consult with your provider's
+# password for the Identity V2 and V3 APIs. Consult with your provider's
 # control panel to discover your account's preferred method of authentication.
 [ password: <string> ]
 
-# At most one of DomainID and DomainName must be provided if using Username
+# At most one of domain_id and domain_name must be provided if using username
 # with Identity V3. Otherwise, either are optional.
 [ domain_name: <string> ]
 [ domain_id: <string> ]
 
-# The ProjectID and ProjectName fields are optional for the Identity V2 API.
-# Some providers allow you to specify a ProjectName instead of the ProjectId.
+# The project_id and project_name fields are optional for the Identity V2 API.
+# Some providers allow you to specify a project_name instead of the project_id.
 # Some require both. Your provider's authentication policies will determine
 # how these fields influence authentication.
 [ project_name: <string> ]

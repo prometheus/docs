@@ -405,6 +405,9 @@ region: <string>
 
 ### `<openstack_sd_config>`
 
+CAUTION: OpenStack SD is in beta: breaking changes to configuration are still
+likely in future releases.
+
 OpenStack SD configurations allow retrieving scrape targets from OpenStack Nova
 instances.
 

@@ -409,7 +409,7 @@ api_key: <string>
 # Comma separated list of tags attached to the notifications.
 [ tags: <tmpl_string> ]
 ```
-## `<victor_ops_config>`
+## `<victorops_config>`
 
 VictorOps notifications are sent out via the [VictorOps API](https://help.victorops.com/knowledge-base/victorops-restendpoint-integration/)
 
@@ -418,7 +418,7 @@ VictorOps notifications are sent out via the [VictorOps API](https://help.victor
 api_key: <string>
 
 # The VictorOps API URL.
-[ api_url: <string> | default = global.victor_ops_api_url ]
+[ api_url: <string> | default = global.victorops_api_url ]
 
 # A key used to map the alert to a team.
 [ routing_key: <string> ]

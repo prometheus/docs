@@ -619,6 +619,15 @@ basic_auth:
 # TLS configuration.
 tls_config:
   [ <tls_config> ]
+
+# Optional namespace discovery. Currently, only a static list of namespaces
+# is supported. If set, discovery will be limited to these namespaces. If not
+# set, then all namespaces are used. Nodes are not namespaced, so this option is
+# ignored when `role: node` is set.
+namespaces:
+  names:
+    - kube-system
+    - default
 ```
 
 Where `<role>` must be `endpoints`, `service`, `pod`, or `node`.

@@ -461,6 +461,9 @@ This is a registry to make our users’ lives a little easier, not a commitment
 to develop particular exporters. For exporters for internal applications we
 recommend using ports outside of the range of default port allocations.
 
+For exporters on internal applications we recommend using ports outside of the
+range of default ports. Choosing ports above 9500 should be sufficient. 
+
 ## Announcing
 
 Once you’re ready to announce your exporter to the world, send an email to the

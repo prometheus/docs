@@ -18,11 +18,7 @@ that already implement the exposition formats.
 
 ## Format version 0.0.4
 
-This is the current metrics exposition format version.
-
-As of this version, there are two alternate formats understood by Prometheus: a
-protocol-buffer based format and a text format. Clients must support at least
-one of these two alternate formats.
+This is the current metrics exposition format version. A client must expose metrics in the below mentioned text format only.
 
 In addition, clients may optionally expose other text formats that are not
 understood by Prometheus. They exist solely for consumption by human beings and
@@ -32,31 +28,6 @@ should be the fallback in case the HTTP `Content-Type` header is not understood
 by the client library. The version `0.0.4` text format is generally considered
 human readable, so it is a good fallback candidate (and also understood by
 Prometheus).
-
-### Format variants comparison
-
-|               | Protocol buffer format | Text format |
-|---------------|------------------------|-------------|
-| **Inception** | April 2014 | April 2014  |
-| **Supported in** | Prometheus version `>=0.4.0` | Prometheus version `>=0.4.0` |
-| **Transmission** | HTTP | HTTP |
-| **Encoding** | [32-bit varint-encoded record length-delimited](https://developers.google.com/protocol-buffers/docs/reference/java/com/google/protobuf/AbstractMessageLite#writeDelimitedTo(java.io.OutputStream)) Protocol Buffer messages of type [io.prometheus.client.MetricFamily](https://github.com/prometheus/client_model/blob/086fe7ca28bde6cec2acd5223423c1475a362858/metrics.proto#L76-  L81) | UTF-8, `\n` line endings |
-| **HTTP `Content-Type`** | `application/vnd.google.protobuf; proto=io.prometheus.client.MetricFamily; encoding=delimited` | `text/plain; version=0.0.4` (A missing `version` value will lead to a fall-back to the most recent text format version.) |
-| **Optional HTTP `Content-Encoding`** | `gzip` | `gzip` |
-| **Advantages** | <ul><li>Cross-platform</li><li>Size</li><li>Encoding and decoding costs</li><li>Strict schema</li><li>Supports concatenation and theoretically streaming (only server-side behavior would need to change)</li></ul> | <ul><li>Human-readable</li><li>Easy to assemble, especially for minimalistic cases (no nesting required)</li><li>Readable line by line (with the exception of type hints and docstrings)</li></ul> |
-| **Limitations** | <ul><li>Not human-readable</li></ul> | <ul><li>Verbose</li><li>Types and docstrings not integral part of the syntax, meaning little-to-nonexistent metric contract validation</li><li>Parsing cost</li></ul>|
-| **Supported metric primitives** | <ul><li>Counter</li><li>Gauge</li><li>Histogram</li><li>Summary</li><li>Untyped</li></ul> | <ul><li>Counter</li><li>Gauge</li><li>Histogram</li><li>Summary</li><li>Untyped</li></ul> |
-| **Compatibility** | Version `0.0.3` protocol buffers are also valid version `0.0.4` protocol buffers. | none |
-
-### Protocol buffer format details
-
-Reproducible sorting of the protocol buffer fields in repeated expositions is
-preferred but not required, i.e. do not sort if the computational cost is
-prohibitive.
-
-Each `MetricFamily` within the same exposition must have a unique name. Each
-`Metric` within the same `MetricFamily` must have a unique set of `LabelPair`
-fields. Otherwise, the ingestion behavior is undefined.
 
 ### Text format details
 

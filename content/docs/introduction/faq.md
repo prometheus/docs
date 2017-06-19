@@ -184,29 +184,6 @@ indicate that incrementing a counter/gauge with the Java client will take
 12-17ns, depending on contention. This is negligible for all but the most
 latency-critical code.
 
-## Troubleshooting
-
-### My Prometheus server takes a long time to start up and spams the log with copious information about crash recovery.
-
-You are suffering from an unclean shutdown. Prometheus has to shut down cleanly
-after a `SIGTERM`, which might take a while for heavily used servers. If the
-server crashes or is killed hard (e.g. OOM kill by the kernel or your runlevel
-system got impatient while waiting for Prometheus to shutdown), a crash
-recovery has to be performed, which should take less than a minute under normal
-circumstances, but can take quite long under certain circumstances. See
-[crash recovery](/docs/operating/storage/#crash-recovery) for details.
-
-### My Prometheus server runs out of memory.
-
-See [the section about memory usage](/docs/operating/storage/#memory-usage)
-to configure Prometheus for the amount of memory you have available.
-
-### My Prometheus server reports to be in “rushed mode” or that “storage needs throttling”.
-
-Your storage is under heavy load. Read
-[the section about configuring the local storage](/docs/operating/storage/)
-to find out how you can tweak settings for better performance.
-
 ## Implementation
 
 ### Why are all sample values 64-bit floats? I want integers.
@@ -222,39 +199,6 @@ supporting even more than 64 bit) could be implemented, but it is not
 a priority right now. Note that a counter, even if incremented
 one million times per second, will only run into precision issues
 after over 285 years.
-
-### Why does Prometheus use a custom storage backend rather than [some other storage method]? Isn't the "one file per time series" approach killing performance?
-
-Initially, Prometheus ran completely on LevelDB, but to achieve better
-performance, we had to change the storage for bulk sample data. We evaluated
-many storage backends that were available at the time, without getting
-satisfactory results. So we implemented exactly the parts we needed, while
-keeping LevelDB for indexes and making heavy use of file system
-capabilities. Obviously, we could not evaluate every single storage backend out
-there, and storage backends have evolved meanwhile. However, the performance of
-the solution implemented now is satisfactory for most use-cases. Our most
-important requirements are an acceptable query speed for common queries and a
-sustainable ingestion rate of hundreds of thousands of samples per second. The
-latter depends on many parameters, like the compressibility of the sample data,
-the number of time series the samples belong to, the retention policy, and even
-more subtle aspects like how full your SSD is. If you want to know all the
-details, read
-[this document with detailed benchmark results](https://docs.google.com/document/d/1lRKBaz9oXI5nwFZfvSbPhpwzUbUr3-9qryQGG1C6ULk/edit?usp=sharing). The
-highlights:
-
-* On a typical bare-metal server with 64GiB RAM, 32 CPU cores, and SSD,
-  Prometheus sustained an ingestion rate of 900k samples per second, belonging
-  to 1M time series, scraped from 720 targets.
-
-* On a server with HDD and 128GiB RAM, Prometheus sustained an ingestion rate
-  of 250k samples per second, belonging to 1M time series, scraped from 720
-  targets.
-
-Running out of inodes is unlikely in a usual set-up. However, if you have a lot
-of short-lived time series, or you have configured your file system with an
-unusual low amount of inodes, you might run into inode depletion. Also, if you
-want to delete Prometheus's storage directory, you will notice that some file
-systems are very slow when deleting a large number of files.
 
 ### Why don't the Prometheus server components support TLS or authentication? Can I add those?
 

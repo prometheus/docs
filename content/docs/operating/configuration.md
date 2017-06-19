@@ -24,7 +24,7 @@ This will also reload any configured rule files.
 
 ## Configuration file
 
-To specify which configuration file to load, use the `-config.file` flag.
+To specify which configuration file to load, use the `--config.file` flag.
 
 The file is written in [YAML format](http://en.wikipedia.org/wiki/YAML),
 defined by the scheme described below.

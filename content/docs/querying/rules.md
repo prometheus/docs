@@ -22,7 +22,7 @@ utility tool:
 
 ```bash
 go get github.com/prometheus/prometheus/cmd/promtool
-promtool check-rules /path/to/example.rules
+promtool check-rules /path/to/example.rules.yaml
 ```
 
 When the file is syntactically valid, the checker prints a textual
@@ -41,20 +41,36 @@ the original expression every time it is needed. This is especially useful for
 dashboards, which need to query the same expression repeatedly every time they
 refresh.
 
-To add a new recording rule, add a line of the following syntax to your rule
-file:
+### Rule Groups
+You can group several rules into one group where the rules in one group are evaluated sequentially. You can also specify the evaluation interval of each group.
 
-    <new time series name>[{<label overrides>}] = <expression to record>
+To add a new recording rule:
+
+```yaml
+groups:
+- name: prom-core
+  rules:
+  - record: <new time series name>
+    expr: <expression to record>
+    labels:
+      <label-ovverides>
+```
 
 Some examples:
+```
+  # Saving the per-job HTTP in-progress request count as a new set of time series:
+  - record: job:http_inprogress_requests:sum
+    expr: sum(http_inprogress_requests) by (job)
+   
+  # Drop or rewrite labels in the result time series:
+  - record: new_time_series
+    expr:  old_time_series
+    labels:
+      label_to_change: new_value
+      label_to_drop: ""
+```
 
-    # Saving the per-job HTTP in-progress request count as a new set of time series:
-    job:http_inprogress_requests:sum = sum(http_inprogress_requests) by (job)
-
-    # Drop or rewrite labels in the result time series:
-    new_time_series{label_to_change="new_value",label_to_drop=""} = old_time_series
-
-Recording rules are evaluated at the interval specified by the
+Recording rules are evaluated at the interval specified in the rule-group or by the
 `evaluation_interval` field in the Prometheus configuration. During each
 evaluation cycle, the right-hand-side expression of the rule statement is
 evaluated at the current instant in time and the resulting sample vector is

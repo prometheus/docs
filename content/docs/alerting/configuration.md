@@ -276,7 +276,7 @@ room_id: <tmpl_string>
 # The auth token.
 [ auth_token: <string> | default = global.hipchat_auth_token ]
 # The URL to send API requests to.
-[ url: <string> | default = global.hipchat_url ]
+[ api_url: <string> | default = global.hipchat_url ]
 
 # See https://www.hipchat.com/docs/apiv2/method/send_room_notification
 # A label to be shown in addition to the sender's name.

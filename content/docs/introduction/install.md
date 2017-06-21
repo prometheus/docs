@@ -93,6 +93,10 @@ Chef:
 
 * [rayrod2030/chef-prometheus](https://github.com/rayrod2030/chef-prometheus)
 
+Puppet:
+
+* [puppet/prometheus](https://forge.puppet.com/puppet/prometheus)
+
 SaltStack:
 
 * [bechtoldt/saltstack-prometheus-formula](https://github.com/bechtoldt/saltstack-prometheus-formula)

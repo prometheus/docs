@@ -68,6 +68,7 @@ global:
   [ smtp_auth_username: <string> ]
   [ smtp_auth_password: <string> ]
   [ smtp_auth_secret: <string> ]
+  [ smtp_auth_identity: <string> ]
   # The default SMTP TLS requirement.
   [ smtp_require_tls: <bool> | default = true ]
 
@@ -97,7 +98,7 @@ inhibit_rules:
 ```
 
 
-## Route `<route>`
+## `<route>`
 
 A route block defines a node in a routing tree and its children. Its optional
 configuration parameters are inherited from its parent node if not set.
@@ -132,9 +133,9 @@ match_re:
 # more initial alerts for the same group. (Usually ~0s to few minutes.)
 [ group_wait: <duration> ]
 
-# How long to wait before sending notification about new alerts that are
-# in are added to a group of alerts for which an initial notification
-# has already been sent. (Usually ~5min or more.)
+# How long to wait before sending a notification about new alerts that
+# are added to a group of alerts for which an initial notification has
+# already been sent. (Usually ~5min or more.)
 [ group_interval: <duration> ]
 
 # How long to wait before sending a notification again if it has already
@@ -177,7 +178,7 @@ route:
 
 
 
-## Inhibit rule `<inhibit_rule>`
+## `<inhibit_rule>`
 
 An inhibition rule is a rule that mutes an alert matching a set of matchers
 under the condition that an alert exists that matches another set of matchers.
@@ -204,7 +205,7 @@ source_match_re:
 ```
 
 
-## Receiver `<receiver>`
+## `<receiver>`
 
 Receiver is a named configuration of one or more notification integrations.
 
@@ -234,7 +235,7 @@ webhook_configs:
 ```
 
 
-## Email receiver `<email_config>`
+## `<email_config>`
 
 ```
 # Whether or not to notify about resolved alerts.
@@ -255,14 +256,14 @@ to: <tmpl_string>
 [ require_tls: <bool> | default = global.smtp_require_tls ]
 
 # The HTML body of the email notification.
-[ html: <tmpl_string> | default = '{{ template "email.default.html" . }}' ] 
+[ html: <tmpl_string> | default = '{{ template "email.default.html" . }}' ]
 
 # Further headers email header key/value pairs. Overrides any headers
 # previously set by the notification implementation.
 [ headers: { <string>: <tmpl_string>, ... } ]
 ```
 
-## HipChat receiver `<hipchat_config>`
+## `<hipchat_config>`
 
 HipChat notifications use a [Build Your Own](https://confluence.atlassian.com/hc/integrations-with-hipchat-server-683508267.html) integration.
 
@@ -275,7 +276,7 @@ room_id: <tmpl_string>
 # The auth token.
 [ auth_token: <string> | default = global.hipchat_auth_token ]
 # The URL to send API requests to.
-[ url: <string> | default = global.hipchat_url ]
+[ api_url: <string> | default = global.hipchat_url ]
 
 # See https://www.hipchat.com/docs/apiv2/method/send_room_notification
 # A label to be shown in addition to the sender's name.
@@ -290,7 +291,7 @@ room_id: <tmpl_string>
 [ color:  <tmpl_string> | default = '{{ if eq .Status "firing" }}red{{ else }}green{{ end }}' ]
 ```
 
-## PagerDuty receiver `<pagerduty_config>`
+## `<pagerduty_config>`
 
 PagerDuty notifications are sent via the [PagerDuty API](https://developer.pagerduty.com/documentation/integration/events).
 
@@ -321,7 +322,7 @@ service_key: <tmpl_string>
 } ]
 ```
 
-## Pushover receiver `<pushover_config>`
+## `<pushover_config>`
 
 Pushover notifications are sent via the [Pushover API](https://pushover.net/api).
 
@@ -353,7 +354,7 @@ token: <string>
 [ expire: <duration> | default = 1h ]
 ```
 
-## Slack receiver `<slack_config>`
+## `<slack_config>`
 
 Slack notifications are sent via [Slack webhooks](https://api.slack.com/incoming-webhooks).
 
@@ -369,17 +370,18 @@ channel: <tmpl_string>
 
 # API request data as defined by the Slack webhook API.
 [ color: <tmpl_string> | default = '{{ if eq .Status "firing" }}danger{{ else }}good{{ end }}' ]
-[ username: <tmpl_string> | default = '{{ template "slack.default.username" . }}'
+[ username: <tmpl_string> | default = '{{ template "slack.default.username" . }}' ]
 [ title: <tmpl_string> | default = '{{ template "slack.default.title" . }}' ]
 [ title_link: <tmpl_string> | default = '{{ template "slack.default.titlelink" . }}' ]
 [ icon_emoji: <tmpl_string> ]
+[ icon_url: <tmpl_string> ]
 [ pretext: <tmpl_string> | default = '{{ template "slack.default.pretext" . }}' ]
 [ text: <tmpl_string> | default = '{{ template "slack.default.text" . }}' ]
 [ fallback: <tmpl_string> | default = '{{ template "slack.default.fallback" . }}' ]
 ```
 
 
-## OpsGenie receiver `<opsgenie_config>`
+## `<opsgenie_config>`
 
 OpsGenie notifications are sent via the [OpsGenie API](https://www.opsgenie.com/docs/web-api/alert-api).
 
@@ -407,11 +409,35 @@ api_key: <string>
 # Comma separated list of tags attached to the notifications.
 [ tags: <tmpl_string> ]
 ```
+## `<victorops_config>`
+
+VictorOps notifications are sent out via the [VictorOps API](https://help.victorops.com/knowledge-base/victorops-restendpoint-integration/)
+
+```
+# The API key to use when talking to the VictorOps API.
+api_key: <string>
+
+# The VictorOps API URL.
+[ api_url: <string> | default = global.victorops_api_url ]
+
+# A key used to map the alert to a team.
+[ routing_key: <string> ]
+
+# Describes the behavior of the alert (Critical, Acknowledgement, Info, Recovery).
+[ message_type: <string> ]
+
+# Contains explanation of the alerted problem.
+[ state_message: <string> | default = '{{ template "victorops.default.state_message" . }}' ]
+
+# The monitoring tool the state message is from.
+[ monitoring_tool: <string> | default = '{{ template "victorops.default.monitoring_tool" . }}' ]
+
+```
 
 
-## Webhook receiver `<webhook_config>`
+## `<webhook_config>`
 
-The webhook receiver allows configuring a generic receiver. 
+The webhook receiver allows configuring a generic receiver.
 
 ```
 # Whether or not to notify about resolved alerts.
@@ -446,4 +472,3 @@ endpoint:
   ]
 }
 ```
-

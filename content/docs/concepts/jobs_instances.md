@@ -37,5 +37,9 @@ time series:
    healthy, i.e. reachable, or `0` if the scrape failed.
 * `scrape_duration_seconds{job="<job-name>", instance="<instance-id>"}`:
    duration of the scrape.
+* `scrape_samples_post_metric_relabeling{job="<job-name>", instance="<instance-id>"}`:
+   the number of samples remaining after metric relabeling was applied.
+* `scrape_samples_scraped{job="<job-name>", instance="<instance-id>"}`:
+   the number of samples the target exposed.
 
 The `up` time series is useful for instance availability monitoring.

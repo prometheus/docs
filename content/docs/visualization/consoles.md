@@ -11,7 +11,8 @@ from the Prometheus server.
 
 Console templates are the most powerful way to create templates that can be
 easily managed in source control. There is a learning curve though, so users new
-to this style of monitoring should try out [PromDash](/docs/visualization/promdash/) first.
+to this style of monitoring should try out
+[Grafana](/docs/visualization/grafana/) first.
 
 ## Getting started
 

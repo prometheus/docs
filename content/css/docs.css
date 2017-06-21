@@ -117,6 +117,7 @@ body {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  line-height: normal;
 }
 
 .feature-item .fa {
@@ -181,6 +182,12 @@ body {
   height: 30px;
 }
 
+@media screen and (max-width: 365px) {
+  .open-source img {
+    width: 90%;
+  }
+}
+
 .trusted-by {
   font-family: 'Lato', sans-serif;
   font-size: 20px;
@@ -192,8 +199,16 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 64px;
+  flex-flow: row wrap;
 }
+
+.logos img {
+  flex: 1 1 auto;
+  padding: 22px;
+  max-width: 220px;
+  max-height: 101px;
+}
+
 
 footer {
   font-size: 12px;
@@ -209,13 +224,26 @@ footer {
   clear: both;
 }
 
+.download .alert {
+  clear: both;
+}
+
 .download-selection .btn-group {
   padding-right: 1em;
 }
 
+.downloads td, .downloads th {
+  white-space: nowrap;
+}
+
+.downloads .filename {
+  width: 100%;
+}
+
 .downloads .checksum {
-  color: #aaa;
-  font-style: italic;
+  font-family: monospace;
+  font-size: .6em;
+  vertical-align: inherit;
 }
 
 /* Docs-related styles. */

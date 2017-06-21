@@ -14,8 +14,9 @@ chunks are then stored on disk in one file per time series.
 
 This sections deals with the various configuration settings and issues you
 might run into. To dive deeper into the topic, check out the following talks:
+
 * [The Prometheus Time Series Database](https://www.youtube.com/watch?v=HbnGSNEjhUc).
-* [Configuring Prometheus for High Performance](https://www.youtube.com/watch?v=zop94VbeFeU).
+* [Configuring Prometheus for High Performance](https://www.youtube.com/watch?v=hPC60ldCGm8).
 
 ## Memory usage
 
@@ -41,7 +42,8 @@ Because Prometheus uses most of its heap for long-lived allocations of memory
 chunks, the
 [garbage collection target percentage](https://golang.org/pkg/runtime/debug/#SetGCPercent)
 is set to 40 by default. You can still override this setting via the `GOGC`
-environment variable as usual.
+environment variable as usual. If you need to conserve CPU capacity and can
+accept running with fewer memory chunks, try higher values.
 
 For high-performance set-ups, you might need to adjust more flags. Please read
 through the sections below for details.
@@ -144,6 +146,7 @@ that situation._
 Open head chunks, chunks still waiting for persistence, and chunks being used
 in a query are not evictable. Thus, the reasons for the inability to evict
 enough chunks include the following:
+
 1. Queries that use too many chunks.
 2. Chunks are piling up waiting for persistence because the storage layer
    cannot keep up writing chunks.
@@ -159,10 +162,10 @@ in the next section.
 Case (3) depends on the targets you monitor. To mitigate an unplanned explosion
 of the number of series, you can limit the number of samples per individual
 scrape (see `sample_limit` in the
-[scrape config](https://prometheus.io/docs/operating/configuration/#scrape_config)).
+[scrape config](/docs/operating/configuration/#scrape_config)).
 If the number of active time series exceeds the number of memory chunks the
 Prometheus server can afford, the server will quickly throttle ingestion as
-described above. The only way out if this is to give Prometheus more RAM or
+described above. The only way out of this is to give Prometheus more RAM or
 reduce the number of time series to ingest.
 
 In fact, you want many more memory chunks than you have series in
@@ -334,7 +337,7 @@ server has problems or is out of capacity.
 * `prometheus_local_storage_series_chunks_persisted`: A histogram of the number
   of chunks persisted per batch.
 * `prometheus_local_storage_persistence_urgency_score`: The urgency score as
-  discussed [above](#persistence-pressure-and-rushed-mode).
+  discussed [above](#persistence-urgency-and-rushed-mode).
 * `prometheus_local_storage_rushed_mode` is 1 if Prometheus is in “rushed
   mode”, 0 otherwise. Can be used to calculate the percentage of time
   Prometheus is in rushed mode.

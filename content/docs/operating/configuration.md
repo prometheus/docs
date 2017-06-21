@@ -17,7 +17,7 @@ To view all available command-line flags, run `prometheus -h`.
 
 Prometheus can reload its configuration at runtime. If the new configuration
 is not well-formed, the changes will not be applied.
-A configuration reload is triggered by sending a `SIGHUP` to the Prometheus process or 
+A configuration reload is triggered by sending a `SIGHUP` to the Prometheus process or
 sending a HTTP POST request to the `/-/reload` endpoint.
 This will also reload any configured rule files.
 
@@ -33,11 +33,15 @@ value is set to the specified default.
 
 Generic placeholders are defined as follows:
 
+* `<boolean>`: a boolean that can take the values `true` or `false`
 * `<duration>`: a duration matching the regular expression `[0-9]+(ms|[smhdwy])`
 * `<labelname>`: a string matching the regular expression `[a-zA-Z_][a-zA-Z0-9_]*`
 * `<labelvalue>`: a string of unicode characters
 * `<filename>`: a valid path in the current working directory
-* `<boolean>`: a boolean that can take the values `true` or `false`
+* `<host>`: a valid string consisting of a hostname or IP followed by an optional port number
+* `<path>`: a valid URL path
+* `<scheme>`: a string that can take the values `http` or `https`
+* `<string>`: a regular string
 
 The other placeholders are specified separately.
 
@@ -77,7 +81,7 @@ alerting:
   alert_relabel_configs:
     [ - <relabel_config> ... ]
   alertmanagers:
-    [- <alertmanager_config> ... ]
+    [ - <alertmanager_config> ... ]
 
 # Settings related to the experimental remote write feature.
 remote_write:
@@ -102,7 +106,7 @@ target and its labels before scraping.
 
 ```
 # The job name assigned to scraped metrics by default.
-job_name: <name>
+job_name: <job_name>
 
 # How frequently to scrape targets from this job.
 [ scrape_interval: <duration> | default = <global_config.scrape_interval> ]
@@ -149,7 +153,7 @@ basic_auth:
 # the configured bearer token. It is mutually exclusive with `bearer_token_file`.
 [ bearer_token: <string> ]
 
-# Sets the `Authorization` header on every scrape request with the bearer token 
+# Sets the `Authorization` header on every scrape request with the bearer token
 # read from the configured file. It is mutually exclusive with `bearer_token`.
 [ bearer_token_file: /path/to/bearer/token/file ]
 
@@ -226,9 +230,7 @@ metric_relabel_configs:
 [ sample_limit: <int> | default = 0 ]
 ```
 
-Where `<scheme>` may be `http` or `https` and `<path>` is a valid URL path.
-`<job_name>` must be unique across all scrape configurations and adhere to the
-regex `[a-zA-Z_][a-zA-Z0-9_-]`.
+Where `<job_name>` must be unique across all scrape configurations.
 
 ### `<tls_config>`
 
@@ -260,9 +262,10 @@ Azure SD configurations allow retrieving scrape targets from Azure VMs.
 The following meta labels are available on targets during relabeling:
 
 * `__meta_azure_machine_id`: the machine ID
-* `__meta_azure_machine_resource_group`: the machine's resource group
 * `__meta_azure_machine_location`: the location the machine runs in
+* `__meta_azure_machine_name`: the machine name
 * `__meta_azure_machine_private_ip`: the machine's private IP
+* `__meta_azure_machine_resource_group`: the machine's resource group
 * `__meta_azure_tag_<tagname>`: each tag value of the machine
 
 See below for the configuration options for Azure discovery:
@@ -291,16 +294,16 @@ client_secret: <string>
 Consul SD configurations allow retrieving scrape targets from [Consul's](https://www.consul.io)
 Catalog API.
 
-The following meta labels are available on targets during relabeling:
+The following meta labels are available on targets during [relabeling](#relabel_config):
 
 * `__meta_consul_address`: the address of the target
-* `__meta_consul_node`: the node name defined for the target
-* `__meta_consul_tags`: the list of tags of the target joined by the tag separator
-* `__meta_consul_service`: the name of the service the target belongs to
-* `__meta_consul_service_address`: the service address of the target
-* `__meta_consul_service_port`: the service port of the target
-* `__meta_consul_service_id`: the service ID of the target
 * `__meta_consul_dc`: the datacenter name for the target
+* `__meta_consul_node`: the node name defined for the target
+* `__meta_consul_service_address`: the service address of the target
+* `__meta_consul_service_id`: the service ID of the target
+* `__meta_consul_service_port`: the service port of the target
+* `__meta_consul_service`: the name of the service the target belongs to
+* `__meta_consul_tags`: the list of tags of the target joined by the tag separator
 
 ```
 # The information to access the Consul API. It is to be defined
@@ -365,7 +368,7 @@ EC2 SD configurations allow retrieving scrape targets from AWS EC2
 instances. The private IP address is used by default, but may be changed to
 the public IP address with relabeling.
 
-The following meta labels are available on targets during relabeling:
+The following meta labels are available on targets during [relabeling](#relabel_config):
 
 * `__meta_ec2_availability_zone`: the availability zone in which the instance is running
 * `__meta_ec2_instance_id`: the EC2 instance ID
@@ -377,8 +380,6 @@ The following meta labels are available on targets during relabeling:
 * `__meta_ec2_subnet_id`: comma separated list of subnets IDs in which the instance is running, if available
 * `__meta_ec2_tag_<tagkey>`: each tag value of the instance
 * `__meta_ec2_vpc_id`: the ID of the VPC in which the instance is running, if available
-
-
 
 See below for the configuration options for EC2 discovery:
 
@@ -517,18 +518,17 @@ likely in future releases.
 The private IP address is used by default, but may be changed to the public IP
 address with relabeling.
 
-The following meta labels are available on targets during relabeling:
+The following meta labels are available on targets during [relabeling](#relabel_config):
 
-* `__meta_gce_project`: the GCP project in which the instance is running
-* `__meta_gce_zone`: the GCE zone in which the instance is running
-* `__meta_gce_network`: the network of the instance
-* `__meta_gce_subnetwork`: the subnetwork of the instance
-* `__meta_gce_public_ip`: the public IP address of the instance, if present
-* `__meta_gce_private_ip`: the private IP address of the instance
 * `__meta_gce_instance_name`: the name of the instance
-* `__meta_gce_instance_tags`: comma separated list of instance tags
-
-
+* `__meta_gce_metadata_<name>`: each metadata item of the instance
+* `__meta_gce_network`: the network of the instance
+* `__meta_gce_private_ip`: the private IP address of the instance
+* `__meta_gce_project`: the GCP project in which the instance is running
+* `__meta_gce_public_ip`: the public IP address of the instance, if present
+* `__meta_gce_subnetwork`: the subnetwork of the instance
+* `__meta_gce_tags`: comma separated list of instance tags
+* `__meta_gce_zone`: the GCE zone in which the instance is running
 
 See below for the configuration options for GCE discovery:
 
@@ -710,12 +710,13 @@ Marathon SD configurations allow retrieving scrape targets using the
 will periodically check the REST endpoint for currently running tasks and
 create a target group for every app that has at least one healthy task.
 
-The following meta labels are available on targets during relabeling:
+The following meta labels are available on targets during [relabeling](#relabel_config):
 
 * `__meta_marathon_app`: the name of the app (with slashes replaced by dashes)
 * `__meta_marathon_image`: the name of the Docker image used (if available)
 * `__meta_marathon_task`: the ID of the Mesos task
 * `__meta_marathon_app_label_<labelname>`: any Marathon labels attached to the app
+* `__meta_marathon_port_ordinal`: the ordinal port index number (e.g. `1` for `PORT1`)
 
 See below for the configuration options for Marathon discovery:
 
@@ -750,7 +751,7 @@ Nerve SD configurations allow retrieving scrape targets from [AirBnB's Nerve]
 (https://github.com/airbnb/nerve) which are stored in
 [Zookeeper](https://zookeeper.apache.org/).
 
-The following meta labels are available on targets during relabeling:
+The following meta labels are available on targets during [relabeling](#relabel_config):
 
 * `__meta_nerve_path`: the full path to the endpoint node in Zookeeper
 * `__meta_nerve_endpoint_host`: the host of the endpoint
@@ -798,6 +799,7 @@ paths:
 Serverset data must be in the JSON format, the Thrift format is not currently supported.
 
 ### `<triton_sd_config>`
+
 CAUTION: Triton SD is in beta: breaking changes to configuration are still
 likely in future releases.
 
@@ -855,10 +857,6 @@ labels:
   [ <labelname>: <labelvalue> ... ]
 ```
 
-Where `<host>` is a valid string consisting of a hostname or IP followed by a port
-number.
-
-
 ### `<relabel_config>`
 
 Relabeling is a powerful tool to dynamically rewrite the label set of a target before
@@ -894,7 +892,7 @@ prefix is guaranteed to never be used by Prometheus itself.
 [ separator: <string> | default = ; ]
 
 # Label to which the resulting value is written in a replace action.
-# It is mandatory for replace actions.
+# It is mandatory for replace actions. Regex capture groups are available.
 [ target_label: <labelname> ]
 
 # Regular expression against which the extracted value is matched.
@@ -904,7 +902,7 @@ prefix is guaranteed to never be used by Prometheus itself.
 [ modulus: <uint64> ]
 
 # Replacement value against which a regex replace is performed if the
-# regular expression matches.
+# regular expression matches. Regex capture groups are available.
 [ replacement: <string> | default = $1 ]
 
 # Action to perform based on regex matching.
@@ -959,13 +957,13 @@ CAUTION: Dynamic discovery of Alertmanager instances is in alpha state. Breaking
 changes may happen in future releases. Use static configuration via the `-alertmanager.url` flag
 as a stable alternative.
 
-An `alertmanager_config` section specifies Alertmanager instances the Prometheus server sends 
+An `alertmanager_config` section specifies Alertmanager instances the Prometheus server sends
 alerts to. It also provides parameters to configure how to communicate with these Alertmanagers.
 
 Alertmanagers may be statically configured via the `static_configs` parameter or
 dynamically discovered using one of the supported service-discovery mechanisms.
 
-Additionally, `relabel_configs` allow selecting Alertmanagers from discovered 
+Additionally, `relabel_configs` allow selecting Alertmanagers from discovered
 entities and provide advanced modifications to the used API path, which is exposed
 through the `__alerts_path__` label.
 
@@ -973,7 +971,7 @@ through the `__alerts_path__` label.
 # Per-target Alertmanager timeout when pushing alerts.
 [ timeout: <duration> | default = 10s ]
 
-# Prefix for the HTTP path alerts are pushed to. 
+# Prefix for the HTTP path alerts are pushed to.
 [ path_prefix: <path> | default = / ]
 
 # Configures the protocol scheme used for requests.
@@ -989,7 +987,7 @@ basic_auth:
 # the configured bearer token. It is mutually exclusive with `bearer_token_file`.
 [ bearer_token: <string> ]
 
-# Sets the `Authorization` header on every request with the bearer token 
+# Sets the `Authorization` header on every request with the bearer token
 # read from the configured file. It is mutually exclusive with `bearer_token`.
 [ bearer_token_file: /path/to/bearer/token/file ]
 
@@ -1053,9 +1051,8 @@ relabel_configs:
   [ - <relabel_config> ... ]
 ```
 
-Where `<scheme>` may be `http` or `https` and `<path>` is a valid URL path.
-
 ### `<remote_write>`
+
 CAUTION: Remote write is experimental: breaking changes to configuration are
 likely in future releases.
 

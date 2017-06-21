@@ -42,6 +42,7 @@ Generic placeholders are defined as follows:
 * `<path>`: a valid URL path
 * `<scheme>`: a string that can take the values `http` or `https`
 * `<string>`: a regular string
+* `<secret>`: a regular string that is a secret, such as a password
 
 The other placeholders are specified separately.
 
@@ -147,11 +148,11 @@ params:
 # configured username and password.
 basic_auth:
   [ username: <string> ]
-  [ password: <string> ]
+  [ password: <secret> ]
 
 # Sets the `Authorization` header on every scrape request with
 # the configured bearer token. It is mutually exclusive with `bearer_token_file`.
-[ bearer_token: <string> ]
+[ bearer_token: <secret> ]
 
 # Sets the `Authorization` header on every scrape request with the bearer token
 # read from the configured file. It is mutually exclusive with `bearer_token`.
@@ -279,7 +280,7 @@ tenant_id: <string>
 # The client ID.
 client_id: <string>
 # The client secret.
-client_secret: <string>
+client_secret: <secret>
 
 # Refresh interval to re-read the instance list.
 [ refresh_interval: <duration> | default = 300s ]
@@ -309,11 +310,11 @@ The following meta labels are available on targets during [relabeling](#relabel_
 # The information to access the Consul API. It is to be defined
 # as the Consul documentation requires.
 server: <host>
-[ token: <string> ]
+[ token: <secret> ]
 [ datacenter: <string> ]
 [ scheme: <string> ]
 [ username: <string> ]
-[ password: <string> ]
+[ password: <secret> ]
 
 # A list of services for which targets are retrieved. If omitted, all services
 # are scraped.
@@ -392,7 +393,7 @@ region: <string>
 # The AWS API keys. If blank, the environment variables `AWS_ACCESS_KEY_ID`
 # and `AWS_SECRET_ACCESS_KEY` are used.
 [ access_key: <string> ]
-[ secret_key: <string> ]
+[ secret_key: <secret> ]
 # Named AWS profile used to connect to the API.
 [ profile: <string> ]
 
@@ -444,7 +445,7 @@ region: <string>
 
 # password for the Identity V2 and V3 APIs. Consult with your provider's
 # control panel to discover your account's preferred method of authentication.
-[ password: <string> ]
+[ password: <secret> ]
 
 # At most one of domain_id and domain_name must be provided if using username
 # with Identity V3. Otherwise, either are optional.
@@ -674,10 +675,10 @@ role: <role>
 # Optional HTTP basic authentication information.
 basic_auth:
   [ username: <string> ]
-  [ password: <string> ]
+  [ password: <secret> ]
 
 # Optional bearer token authentication information.
-[ bearer_token: <string> ]
+[ bearer_token: <secret> ]
 
 # Optional bearer token file authentication information.
 [ bearer_token_file: <filename> ]
@@ -728,7 +729,7 @@ servers:
 
 # Optional bearer token authentication information.
 # It is mutually exclusive with `bearer_token_file`.
-[ bearer_token: <string> ]
+[ bearer_token: <secret> ]
 
 # Optional bearer token file authentication information.
 # It is mutually exclusive with `bearer_token`.

@@ -716,6 +716,7 @@ The following meta labels are available on targets during relabeling:
 * `__meta_marathon_image`: the name of the Docker image used (if available)
 * `__meta_marathon_task`: the ID of the Mesos task
 * `__meta_marathon_app_label_<labelname>`: any Marathon labels attached to the app
+* `__meta_marathon_port_ordinal`: the ordinal port index number (e.g. `1` for `PORT1`)
 
 See below for the configuration options for Marathon discovery:
 

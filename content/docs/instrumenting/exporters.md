@@ -89,6 +89,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [GitHub exporter](https://github.com/infinityworksltd/github-exporter)
    * [Mozilla Observatory exporter](https://github.com/Jimdo/observatory-exporter)
    * [OpenWeatherMap exporter](https://github.com/RichiH/openweathermap_exporter)
+   * [Pagespeed exporter](https://github.com/foomo/pagespeed_exporter)
    * [Rancher exporter](https://github.com/infinityworksltd/prometheus-rancher-exporter)
    * [Speedtest.net exporter](https://github.com/RichiH/speedtest_exporter)
 

@@ -89,6 +89,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [GitHub exporter](https://github.com/infinityworksltd/github-exporter)
    * [Mozilla Observatory exporter](https://github.com/Jimdo/observatory-exporter)
    * [OpenWeatherMap exporter](https://github.com/RichiH/openweathermap_exporter)
+   * [Pagespeed exporter](https://github.com/foomo/pagespeed_exporter)
    * [Rancher exporter](https://github.com/infinityworksltd/prometheus-rancher-exporter)
    * [Speedtest.net exporter](https://github.com/RichiH/speedtest_exporter)
 
@@ -115,7 +116,6 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [Sensu exporter](https://github.com/reachlin/sensu_exporter)
    * [SNMP exporter](https://github.com/prometheus/snmp_exporter) (**official**)
    * [StatsD exporter](https://github.com/prometheus/statsd_exporter) (**official**)
-   * [Pagespeed exporter](https://github.com/foomo/pagespeed_exporter)
 
 ### Miscellaneous
    * [BIG-IP exporter](https://github.com/ExpressenAB/bigip_exporter)

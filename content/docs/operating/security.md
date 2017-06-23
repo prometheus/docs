@@ -12,7 +12,7 @@ environments.
 This page describes the general security assumptions of Prometheus and the
 attack vectors that some configurations may enable.
 
-As with any complex systems it is not possible to gaurantee that there are no
+As with any complex systems it is not possible to guarantee that there are no
 bugs. If you find a security bug, please file it in the issue tracker of the
 relevant component.
 
@@ -24,7 +24,7 @@ database, plus a variety of operational/debugging information.
 
 It is also presumed that only trusted users have the ability to change the
 command line, configuration file, rule files and other aspects of the runtime
-enviroment of Prometheus and other components.
+environment of Prometheus and other components.
 
 Which targets Prometheus scrapes, how often and with what other settings is
 determined entirely via the configuration file. The administrator may
@@ -80,7 +80,7 @@ authentication mechanisms such as TLS are not affected by this.
 
 ## Client Libraries
 
-Client libaries are intended to be included in users' applications.
+Client libraries are intended to be included in users' applications.
 
 If using a client-library-provided HTTP handler, it should not be possible for
 malicious requests that reach that handler to cause issues beyond those
@@ -109,7 +109,7 @@ should not be placed in other configuration fields, as it is common for
 components to expose their configuration over their HTTP endpoint.
 
 Secrets from other sources used by dependencies (e.g. the `AWS_SECRET_KEY`
-enviroment vabiable as used by EC2 service discovery) may end up exposed due to
+environment variable as used by EC2 service discovery) may end up exposed due to
 code outside of our control or due to functionality that happens to expose
 wherever it is stored.
 
@@ -120,7 +120,7 @@ However, if too many or too expensive queries/metrics are provided components
 will fall over. It is more likely that a component will be accidentally taken
 out by a trusted user than by malicious action.
 
-It is the responsibility of the the user to ensure they provide components with
+It is the responsibility of the user to ensure they provide components with
 sufficient resources including CPU, RAM, disk space, IOPS, file descriptors,
 and bandwidth.
 

@@ -150,6 +150,7 @@ Some third-party software exposes metrics in the Prometheus format, so no
 separate exporters are needed:
 
    * [Collectd](https://collectd.org/wiki/index.php/Plugin:Write_Prometheus)
+   * [CRG Roller Derby Scoreboard](https://github.com/rollerderby/scoreboard) (**direct**)
    * [Doorman](https://github.com/youtube/doorman) (**direct**)
    * [Etcd](https://github.com/coreos/etcd) (**direct**)
    * [Kubernetes](https://github.com/kubernetes/kubernetes) (**direct**)

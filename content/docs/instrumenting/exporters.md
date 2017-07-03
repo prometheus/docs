@@ -133,6 +133,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [Process exporter](https://github.com/ncabatoff/process-exporter)
    * [rTorrent exporter](https://github.com/mdlayher/rtorrent_exporter)
    * [Script exporter](https://github.com/adhocteam/script_exporter)
+   * [Shield exporter](https://github.com/cloudfoundry-community/shield_exporter)
    * [SMTP/Maildir MDA blackbox prober](https://github.com/cherti/mailexporter)
    * [Transmission exporter](https://github.com/metalmatze/transmission-exporter)
    * [Unbound exporter](https://github.com/kumina/unbound_exporter)

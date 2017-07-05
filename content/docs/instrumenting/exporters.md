@@ -89,6 +89,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [GitHub exporter](https://github.com/infinityworksltd/github-exporter)
    * [Mozilla Observatory exporter](https://github.com/Jimdo/observatory-exporter)
    * [OpenWeatherMap exporter](https://github.com/RichiH/openweathermap_exporter)
+   * [Pagespeed exporter](https://github.com/foomo/pagespeed_exporter)
    * [Rancher exporter](https://github.com/infinityworksltd/prometheus-rancher-exporter)
    * [Speedtest.net exporter](https://github.com/RichiH/speedtest_exporter)
 
@@ -101,6 +102,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [AWS CloudWatch exporter](https://github.com/prometheus/cloudwatch_exporter) (**official**)
    * [Cloud Foundry Firehose exporter](https://github.com/cloudfoundry-community/firehose_exporter)
    * [Collectd exporter](https://github.com/prometheus/collectd_exporter) (**official**)
+   * [Google Stackdriver exporter](https://github.com/frodenas/stackdriver_exporter)
    * [Graphite exporter](https://github.com/prometheus/graphite_exporter) (**official**)
    * [Heka dashboard exporter](https://github.com/docker-infra/heka_exporter)
    * [Heka exporter](https://github.com/imgix/heka_exporter)
@@ -131,6 +133,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [Process exporter](https://github.com/ncabatoff/process-exporter)
    * [rTorrent exporter](https://github.com/mdlayher/rtorrent_exporter)
    * [Script exporter](https://github.com/adhocteam/script_exporter)
+   * [Shield exporter](https://github.com/cloudfoundry-community/shield_exporter)
    * [SMTP/Maildir MDA blackbox prober](https://github.com/cherti/mailexporter)
    * [Transmission exporter](https://github.com/metalmatze/transmission-exporter)
    * [Unbound exporter](https://github.com/kumina/unbound_exporter)
@@ -149,6 +152,7 @@ Some third-party software exposes metrics in the Prometheus format, so no
 separate exporters are needed:
 
    * [Collectd](https://collectd.org/wiki/index.php/Plugin:Write_Prometheus)
+   * [CRG Roller Derby Scoreboard](https://github.com/rollerderby/scoreboard) (**direct**)
    * [Doorman](https://github.com/youtube/doorman) (**direct**)
    * [Etcd](https://github.com/coreos/etcd) (**direct**)
    * [Kubernetes](https://github.com/kubernetes/kubernetes) (**direct**)

@@ -159,6 +159,7 @@ Parameters to the graph library:
 | yTitle        | Optional. Title of the y-axis. Defaults to empty.
 | yAxisFormatter | Optional. Number formatter for the y-axis. Defaults to `PromConsole.NumberFormatter.humanize`.
 | yHoverFormatter | Optional. Number formatter for the hover detail. Defaults to `PromConsole.NumberFormatter.humanizeExact`.
+| colorScheme   | Optional. Color scheme to be used by the plots. Can be either a list of hex color codes or one of the [color scheme names](https://github.com/shutterstock/rickshaw/blob/master/src/js/Rickshaw.Fixtures.Color.js) supported by Rickshaw. Defaults to `'colorwheel'`.
 
 If both `expr` and `name` are lists, they must be of the same length. The name
 will be applied to the plots for the corresponding expression.

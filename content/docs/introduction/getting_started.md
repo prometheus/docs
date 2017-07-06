@@ -85,10 +85,6 @@ Blindly setting `GOMAXPROCS` to a high value can be
 counterproductive. See the relevant [Go
 FAQs](http://golang.org/doc/faq#Why_no_multi_CPU).
 
-Note that Prometheus by default uses around 3GB in memory. If you have a
-smaller machine, you can tune Prometheus to use less memory.  For details,
-see the [memory usage documentation](/docs/operating/storage/#memory-usage).
-
 ## Using the expression browser
 
 Let us try looking at some data that Prometheus has collected about itself. To
@@ -131,11 +127,10 @@ For more about the expression language, see the
 To graph expressions, navigate to http://localhost:9090/graph and use the "Graph"
 tab.
 
-For example, enter the following expression to graph the per-second rate of all
-storage chunk operations happening in the self-scraped Prometheus:
+For example, enter the following expression to graph the per-second rate of the samples being ingested in the self-scraped Prometheus:
 
 ```
-rate(prometheus_local_storage_chunk_ops_total[1m])
+rate(tsdb_samples_appended_total[1m])
 ```
 
 Experiment with the graph range parameters and other settings.
@@ -224,10 +219,15 @@ Try graphing this expression.
 
 To record the time series resulting from this expression into a new metric
 called `job_service:rpc_durations_seconds_count:avg_rate5m`, create a file
-with the following recording rule and save it as `prometheus.rules`:
+with the following recording rule and save it as `prometheus.rules.yaml`:
 
-```
-job_service:rpc_durations_seconds_count:avg_rate5m = avg(rate(rpc_durations_seconds_count[5m])) by (job, service)
+```yaml
+version: 1
+groups:
+- name: group-name
+  rules:
+  - record: job_service:rpc_durations_seconds_count:avg_rate5m
+    expr: avg(rate(rpc_durations_seconds_count[5m])) by (job, service)
 ```
 
 To make Prometheus pick up this new rule, add a `rule_files` statement to the
@@ -244,7 +244,7 @@ global:
     monitor: 'codelab-monitor'
 
 rule_files:
-  - 'prometheus.rules'
+  - 'prometheus.rules.yaml'
 
 scrape_configs:
   - job_name: 'prometheus'

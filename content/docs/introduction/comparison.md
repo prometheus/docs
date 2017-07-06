@@ -110,8 +110,7 @@ strings, and millisecond resolution timestamps.
 
 InfluxDB uses a variant of a [log-structured merge tree for storage with a
 write ahead log](https://docs.influxdata.com/influxdb/v1.2/concepts/storage_engine/),
-sharded by time. This is much more suitable to event logging than Prometheus's
-append-only file per time series approach.
+sharded by time. This is much more suitable to event logging than Prometheus's approach.
 
 
 [Logs and Metrics and Graphs, Oh My!](https://blog.raintank.io/logs-and-metrics-and-graphs-oh-my/)

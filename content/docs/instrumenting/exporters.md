@@ -92,6 +92,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [Pagespeed exporter](https://github.com/foomo/pagespeed_exporter)
    * [Rancher exporter](https://github.com/infinityworksltd/prometheus-rancher-exporter)
    * [Speedtest.net exporter](https://github.com/RichiH/speedtest_exporter)
+   * [InstaClustr exporter](https://github.com/fcgravalos/instaclustr_exporter)
 
 ### Logging
    * [Google's mtail log data extractor](https://github.com/google/mtail)

@@ -48,6 +48,23 @@ utilized in the Prometheus server. We plan on making use of this
 metadata in the future. The first step is to aggregate this data in-memory
 in Prometheus and provide it via an experimental API endpoint.
 
+### First-class metric type support
+
+Prometheus breaks up notions of first class metric types such as Histograms or Summaries
+into a flattened time series based representation in various places. Prometheus' database
+and query language are both time-series oriented. The exposition formats provide different
+degrees of first-class metrics.
+  
+The protocol buffer exposition format provides full first-class metrics. The text format
+reduces them into a time series representation and merely provieds typing hints. Providing
+stronger typing for the text format is one potential goal of the [OpenMetrics intiative](https://github.com/RichiH/OpenMetrics).
+Adapting such first-class metrics in the storage layer may provide significant performance
+benefits through a reduced number of time series and specialized compression algorithms.
+This can likely be implemented as transparently to the user.  
+Stronger typing in the query language may enhance expressiveness and prevent many cases of
+semantically invalid queries. It is unclear whether PromQL can be adapted to
+support true metric types or whether a new query language should be developed.
+
 ### Prometheus metrics format as a standard
 
 We intend to submit a cleaned up version of our format for standardization

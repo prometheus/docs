@@ -722,6 +722,8 @@ See below for the configuration options for Marathon discovery:
 
 ```
 # List of URLs to be used to contact Marathon servers.
+# A server will be selected randomly; it is assumed that all servers are
+# responsible for the same tasks.
 # You need to provide at least one server URL, but should provide URLs for
 # all masters you have running.
 servers:

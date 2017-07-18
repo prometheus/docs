@@ -296,6 +296,7 @@ room_id: <tmpl_string>
 ## `<pagerduty_config>`
 
 PagerDuty notifications are sent via the [PagerDuty API](https://developer.pagerduty.com/documentation/integration/events).
+PagerDuty provides documentation on how to integrate [here](https://www.pagerduty.com/docs/guides/prometheus-integration-guide/).
 
 ```
 # Whether or not to notify about resolved alerts.

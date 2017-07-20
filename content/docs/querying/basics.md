@@ -9,12 +9,12 @@ sort_rank: 1
 Prometheus provides a functional expression language that lets the user select
 and aggregate time series data in real time. The result of an expression can
 either be shown as a graph, viewed as tabular data in Prometheus's expression
-browser, or consumed by external systems via the [HTTP API](/docs/querying/api/).
+browser, or consumed by external systems via the [HTTP API](/content/docs/querying/api.md).
 
 ## Examples
 
 This document is meant as a reference. For learning, it might be easier to
-start with a couple of [examples](/docs/querying/examples/).
+start with a couple of [examples](/content/docs/querying/examples.md).
 
 ## Expression language data types
 
@@ -169,12 +169,12 @@ The same works for range vectors. This returns the 5-minutes rate that
 ## Operators
 
 Prometheus supports many binary and aggregation operators. These are described
-in detail in the [expression language operators](/docs/querying/operators/) page.
+in detail in the [expression language operators](/content/docs/querying/operators.md) page.
 
 ## Functions
 
 Prometheus supports several functions to operate on data. These are described
-in detail in the [expression language functions](/docs/querying/functions/) page.
+in detail in the [expression language functions](/content/docs/querying/functions.md) page.
 
 ## Gotchas
 
@@ -205,7 +205,7 @@ Prometheus's expression browser until the result set seems reasonable
 (hundreds, not thousands, of time series at most).  Only when you have filtered
 or aggregated your data sufficiently, switch to graph mode. If the expression
 still takes too long to graph ad-hoc, pre-record it via a [recording
-rule](/docs/querying/rules/#recording-rules).
+rule](/content/docs/querying/rules.md#recording-rules).
 
 This is especially relevant for Prometheus's query language, where a bare
 metric name selector like `api_http_requests_total` could expand to thousands

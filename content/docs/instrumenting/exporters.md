@@ -119,6 +119,9 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [SNMP exporter](https://github.com/prometheus/snmp_exporter) (**official**)
    * [StatsD exporter](https://github.com/prometheus/statsd_exporter) (**official**)
 
+### Interpreters 
+   * [PHP-FPM exporter](https://github.com/bakins/php-fpm-exporter)
+
 ### Miscellaneous
    * [BIG-IP exporter](https://github.com/ExpressenAB/bigip_exporter)
    * [BIND exporter](https://github.com/digitalocean/bind_exporter)

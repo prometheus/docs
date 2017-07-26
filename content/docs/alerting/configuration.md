@@ -459,7 +459,7 @@ endpoint:
 
 ```
 {
-  "version": "3",
+  "version": "4",
   "groupKey": <number>     // key identifying the group of alerts (e.g. to deduplicate)
   "status": "<resolved|firing>",
   "receiver": <string>,
@@ -469,10 +469,12 @@ endpoint:
   "externalURL": <string>,  // backling to the Alertmanager.
   "alerts": [
     {
+      "status": "<resolved|firing>",
       "labels": <object>,
       "annotations": <object>,
       "startsAt": "<rfc3339>",
-      "endsAt": "<rfc3339>"
+      "endsAt": "<rfc3339>",
+      "generatorURL": "string", // backling to the prometheus graph
     },
     ...
   ]

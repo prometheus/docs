@@ -267,7 +267,7 @@ The following meta labels are available on targets during relabeling:
 * `__meta_azure_machine_name`: the machine name
 * `__meta_azure_machine_private_ip`: the machine's private IP
 * `__meta_azure_machine_resource_group`: the machine's resource group
-* `__meta_azure_tag_<tagname>`: each tag value of the machine
+* `__meta_azure_machine_tag_<tagname>`: each tag value of the machine
 
 See below for the configuration options for Azure discovery:
 

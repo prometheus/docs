@@ -460,7 +460,7 @@ endpoint:
 ```
 {
   "version": "4",
-  "groupKey": <string>    // key identifying the group of alerts (e.g. to deduplicate)
+  "groupKey": <string>,    // key identifying the group of alerts (e.g. to deduplicate)
   "status": "<resolved|firing>",
   "receiver": <string>,
   "groupLabels": <object>,

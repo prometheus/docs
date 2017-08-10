@@ -26,7 +26,7 @@ A metric name...
  * <code><b>http</b>\_request\_duration\_seconds</code>
    (for all HTTP requests)
 * ...must have a single unit (i.e. do not mix seconds with milliseconds, or seconds with bytes).
-* ...should use base units (e.g. seconds, bytes, meters - not milliseconds, megabytes, kilometers).
+* ...should use base units (e.g. seconds, bytes, meters - not milliseconds, megabytes, kilometers). See below for a list of base units.
 * ...should have a suffix describing the unit, in plural form. Note that an accumulating count has `total` as a suffix, in addition to the unit if applicable.
  * <code>http\_request\_duration\_<b>seconds</b></code>
  * <code>node\_memory\_usage\_<b>bytes</b></code>
@@ -61,3 +61,24 @@ pairs represents a new time series, which can dramatically increase the amount
 of data stored. Do not use labels to store dimensions with high cardinality
 (many different label values), such as user IDs, email addresses, or other
 unbounded sets of values.
+
+
+## Base units
+
+Prometheus does not have any units hard coded. For better compability, base
+units should be used. The following lists some metrics families with their base unit.
+The list is not exhaustive.
+
+| Family | Base unit | Remark | 
+| -------| --------- | ------ |
+| Time   | seconds   |        |
+| Temperature | celsius | Celsius is the most common one encountered in practice |
+| Length | meters | |
+| Bytes  | bytes | | 
+| Bits   | bytes | |
+| Percent | ratio(*) | Values are 0-1. <br/> *) Usually 'ratio' is not used as suffix, but rather A\_per\_B. Exceptions are e.g. disk\_usage\_ratio  |
+| Voltage | volts | |
+| Electric current | amperes | | 
+| Energy | joules | |
+| Weight | grams | |
+ 

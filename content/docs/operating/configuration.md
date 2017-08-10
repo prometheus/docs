@@ -531,11 +531,6 @@ The following meta labels are available on targets during [relabeling](#relabel_
 * `__meta_gce_tags`: comma separated list of instance tags
 * `__meta_gce_zone`: the GCE zone URL in which the instance is running
 
-For meta labels returning an URL the format is as follows:
-* `__meta_gce_network`: `https://www.googleapis.com/compute/v1/projects/<project>/global/networks/<network>`
-* `__meta_gce_subnetwork`: `https://www.googleapis.com/compute/v1/projects/<project>/regions/<region>/subnetworks/<subnetwork>`
-* `__meta_gce_zone`: `https://www.googleapis.com/compute/v1/projects/<project>/zones/<zone>`
-
 See below for the configuration options for GCE discovery:
 
 ```

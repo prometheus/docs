@@ -523,13 +523,18 @@ The following meta labels are available on targets during [relabeling](#relabel_
 
 * `__meta_gce_instance_name`: the name of the instance
 * `__meta_gce_metadata_<name>`: each metadata item of the instance
-* `__meta_gce_network`: the network of the instance
+* `__meta_gce_network`: the network URL of the instance
 * `__meta_gce_private_ip`: the private IP address of the instance
 * `__meta_gce_project`: the GCP project in which the instance is running
 * `__meta_gce_public_ip`: the public IP address of the instance, if present
-* `__meta_gce_subnetwork`: the subnetwork of the instance
+* `__meta_gce_subnetwork`: the subnetwork URL of the instance
 * `__meta_gce_tags`: comma separated list of instance tags
-* `__meta_gce_zone`: the GCE zone in which the instance is running
+* `__meta_gce_zone`: the GCE zone URL in which the instance is running
+
+For meta labels returning an URL the format is as follows:
+* `__meta_gce_network`: `https://www.googleapis.com/compute/v1/projects/<project>/global/networks/<network>`
+* `__meta_gce_subnetwork`: `https://www.googleapis.com/compute/v1/projects/<project>/regions/<region>/subnetworks/<subnetwork>`
+* `__meta_gce_zone`: `https://www.googleapis.com/compute/v1/projects/<project>/zones/<zone>`
 
 See below for the configuration options for GCE discovery:
 

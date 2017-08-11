@@ -5,6 +5,13 @@ sort_rank: 4
 
 # Comparison to alternatives
 
+> **Important note**
+> Prometheus focuses on monitoring the "here-and-now" it is designed to capture
+> data for a limited number of days. If you need long-term trends you will need
+> to consider using a remote data adapter and a time series database that supports
+> downsampling metrics and dropping fidelity over time such as Graphite Carbon or 
+> InfluxDB
+
 ## Prometheus vs. Graphite
 
 ### Scope

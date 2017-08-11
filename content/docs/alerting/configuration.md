@@ -466,7 +466,7 @@ endpoint:
   "groupLabels": <object>,
   "commonLabels": <object>,
   "commonAnnotations": <object>,
-  "externalURL": <string>,  // backling to the Alertmanager.
+  "externalURL": <string>,  // backlink to the Alertmanager.
   "alerts": [
     {
       "labels": <object>,

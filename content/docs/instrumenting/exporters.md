@@ -70,6 +70,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [ScaleIO exporter](https://github.com/syepes/sio2prom)
    * [Gluster exporter](https://github.com/ofesseler/gluster_exporter)
    * [Lustre exporter](https://github.com/HewlettPackard/lustre_exporter)
+   * [Hadoop HDFS FSImage exporter](https://github.com/marcelmay/hadoop-hdfs-fsimage-exporter)
 
 ### HTTP
    * [Apache exporter](https://github.com/neezgee/apache_exporter)
@@ -141,7 +142,6 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [Transmission exporter](https://github.com/metalmatze/transmission-exporter)
    * [Unbound exporter](https://github.com/kumina/unbound_exporter)
    * [Xen exporter](https://github.com/lovoo/xenstats_exporter)
-   * [Hadoop HDFS FSImage exporter](https://github.com/marcelmay/hadoop-hdfs-fsimage-exporter)
 
 When implementing a new Prometheus exporter, please follow the
 [guidelines on writing exporters](/docs/instrumenting/writing_exporters)

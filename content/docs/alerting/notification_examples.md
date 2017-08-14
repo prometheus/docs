@@ -1,6 +1,6 @@
 ---
 title: Notification template examples
-sort_rank: 7
+sort_rank: 8
 ---
 # Notification Template Examples
 

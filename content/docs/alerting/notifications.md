@@ -1,6 +1,6 @@
 ---
 title: Notification template reference
-sort_rank: 6
+sort_rank: 7
 ---
 # Notification Template Reference
 

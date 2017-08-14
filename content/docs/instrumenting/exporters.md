@@ -67,10 +67,10 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
 
 ### Storage
    * [Ceph exporter](https://github.com/digitalocean/ceph_exporter)
-   * [ScaleIO exporter](https://github.com/syepes/sio2prom)
    * [Gluster exporter](https://github.com/ofesseler/gluster_exporter)
-   * [Lustre exporter](https://github.com/HewlettPackard/lustre_exporter)
    * [Hadoop HDFS FSImage exporter](https://github.com/marcelmay/hadoop-hdfs-fsimage-exporter)
+   * [Lustre exporter](https://github.com/HewlettPackard/lustre_exporter)
+   * [ScaleIO exporter](https://github.com/syepes/sio2prom)
 
 ### HTTP
    * [Apache exporter](https://github.com/neezgee/apache_exporter)

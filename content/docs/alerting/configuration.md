@@ -478,3 +478,8 @@ endpoint:
   ]
 }
 ```
+
+
+There is a list of
+[integrations](/docs/operating/integrations/#alertmanager-webhook-receiver) with
+this feature.

@@ -159,6 +159,7 @@ separate exporters are needed:
    * [CRG Roller Derby Scoreboard](https://github.com/rollerderby/scoreboard) (**direct**)
    * [Doorman](https://github.com/youtube/doorman) (**direct**)
    * [Etcd](https://github.com/coreos/etcd) (**direct**)
+   * [FreeBSD Kernel](https://reviews.freebsd.org/D8792)
    * [Kubernetes](https://github.com/kubernetes/kubernetes) (**direct**)
    * [Linkerd](https://github.com/BuoyantIO/linkerd)
    * [Netdata](https://github.com/firehol/netdata)

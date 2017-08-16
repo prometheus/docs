@@ -186,6 +186,9 @@ An inhibition rule is a rule that mutes an alert matching a set of matchers
 under the condition that an alert exists that matches another set of matchers.
 Both alerts must have a set of equal labels.
 
+__Alerts can inhibit themselves. Avoid writing inhibition rules where
+an alert matches both source and target.__
+
 ```
 # Matchers that have to be fulfilled in the alerts to be muted.
 target_match:

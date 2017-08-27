@@ -198,7 +198,9 @@ in the tens of timeseries for, say, `node_filesystem_avail`. If you have
 
 If you were to now add quota per user, you would quickly reach a double digit
 number of millions with 10,000 users on 10,000 nodes. This is too much for the
-current implementation of Prometheus.
+current implementation of Prometheus. Even with smaller numbers, there's an
+opportunity cost as you can't have other, potentially more useful metrics on
+this machine any more.
 
 If you are unsure, start with no labels and add more labels over time as
 concrete use cases arise.

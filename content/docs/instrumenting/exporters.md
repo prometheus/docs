@@ -114,7 +114,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [JavaMelody exporter](https://github.com/fschlag/javamelody-prometheus-exporter)
    * [JMX exporter](https://github.com/prometheus/jmx_exporter) (**official**)
    * [Munin exporter](https://github.com/pvdh/munin_exporter)
-   * [Naemon / Nagios exporter](https://github.com/Griesbacher/Iapetos)
+   * [Nagios / Naemon exporter](https://github.com/Griesbacher/Iapetos)
    * [New Relic exporter](https://github.com/jfindley/newrelic_exporter)
    * [Pingdom exporter](https://github.com/giantswarm/prometheus-pingdom-exporter)
    * [scollector exporter](https://github.com/tgulacsi/prometheus_scollector)

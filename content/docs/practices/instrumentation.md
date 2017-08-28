@@ -190,8 +190,20 @@ that large, investigate alternate solutions such as reducing the number of
 dimensions or moving the analysis away from monitoring and to a general-purpose
 processing system.
 
-If you are unsure, start with no labels and add more
-labels over time as concrete use cases arise.
+To give you a better idea of the underlying numbers, let's look at node_exporter.
+node_exporter exposes metrics for every mounted filesystem. Every node will have
+in the tens of timeseries for, say, `node_filesystem_avail`. If you have
+10,000 nodes, you will end up with roughly 100,000 timeseries for
+`node_filesystem_avail`, which is fine for Prometheus to handle.
+
+If you were to now add quota per user, you would quickly reach a double digit
+number of millions with 10,000 users on 10,000 nodes. This is too much for the
+current implementation of Prometheus. Even with smaller numbers, there's an
+opportunity cost as you can't have other, potentially more useful metrics on
+this machine any more.
+
+If you are unsure, start with no labels and add more labels over time as
+concrete use cases arise.
 
 ### Counter vs. gauge, summary vs. histogram
 

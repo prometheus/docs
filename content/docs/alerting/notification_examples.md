@@ -64,8 +64,8 @@ Receiver
 - name: 'default-receiver'
   slack_configs:
   - channel: '#alerts'
-  - title: "{{ range .Alerts }}{{ .Annotations.summary }}\n{{ end }}"
-  - text: "{{ range .Alerts }}{{ .Annotations.description }}\n{{ end }}"
+    title: "{{ range .Alerts }}{{ .Annotations.summary }}\n{{ end }}"
+    text: "{{ range .Alerts }}{{ .Annotations.description }}\n{{ end }}"
 ```
 
 ## Defining reusable templates

@@ -613,7 +613,7 @@ Available meta labels:
 * `__meta_kubernetes_service_annotation_<annotationname>`: The annotation of the service object.
 * `__meta_kubernetes_service_port_name`: Name of the service port for the target.
 * `__meta_kubernetes_service_port_number`: Number of the service port for the target.
-* `__meta_kubernetes_service_port_portocol`: Protocol of the service port for the target.
+* `__meta_kubernetes_service_port_protocol`: Protocol of the service port for the target.
 
 #### `pod`
 

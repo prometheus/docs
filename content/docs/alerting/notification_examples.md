@@ -94,7 +94,7 @@ receivers:
     text: '{{ template "slack.myorg.text" . }}'
 
 templates:
-- '/etc/alertmanager/templates/myorg.tmpl
+- '/etc/alertmanager/templates/myorg.tmpl'
 ```
 
 This example is explained in further detail in this [blogpost](https://prometheus.io/blog/2016/03/03/custom-alertmanager-templates/).

@@ -59,7 +59,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
 ### Messaging systems
    * [Kafka consumer group exporter](https://github.com/kawamuray/prometheus-kafka-consumer-group-exporter)
    * [Kafka ZooKeeper exporter](https://github.com/cloudflare/kafka_zookeeper_exporter)
-   * [NATS exporter](https://github.com/lovoo/nats_exporter)
+   * [NATS exporter](https://github.com/nats-io/prometheus-nats-exporter)
    * [NSQ exporter](https://github.com/lovoo/nsq_exporter)
    * [RabbitMQ exporter](https://github.com/kbudde/rabbitmq_exporter)
    * [RabbitMQ Management Plugin exporter](https://github.com/deadtrickster/prometheus_rabbitmq_exporter)

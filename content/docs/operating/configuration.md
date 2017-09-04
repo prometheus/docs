@@ -498,6 +498,10 @@ Each target has a meta label `__meta_filepath` during the
 [relabeling phase](#relabel_config). Its value is set to the
 filepath from which the target was extracted.
 
+There is a list of
+[integrations](/docs/operating/configuration/#<file_sd_config>) with this
+discovery mechanism.
+
 ```
 # Patterns for files from which target groups are extracted.
 files:
@@ -1098,6 +1102,9 @@ tls_config:
 # Optional proxy URL.
 [ proxy_url: <string> ]
 ```
+There is a list of
+[integrations](/docs/operating/integrations/#remote-endpoints-and-storage) with
+this feature.
 
 ### `<remote_read>`
 
@@ -1132,3 +1139,7 @@ tls_config:
 # Optional proxy URL.
 [ proxy_url: <string> ]
 ```
+
+There is a list of
+[integrations](/docs/operating/integrations/#remote-endpoints-and-storage) with
+this feature.

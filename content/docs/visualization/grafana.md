@@ -68,11 +68,11 @@ Follow the standard way of adding a new Grafana graph. Then:
 The following shows an example Prometheus graph configuration:
 [![Prometheus graph creation](/assets/grafana_qps_graph.png)](/assets/grafana_qps_graph.png)
 
-### Importing pre-built dashboards from Grafana.net
+### Importing pre-built dashboards from Grafana.com
 
-Grafana.net maintains [a collection of shared dashboards](https://grafana.net/dashboards)
+Grafana.com maintains [a collection of shared dashboards](https://grafana.com/dashboards)
 which can be downloaded and used with standalone instances of Grafana.  Use
-the Grafana.net "Filter" option to browse dashboards for the "Prometheus"
+the Grafana.com "Filter" option to browse dashboards for the "Prometheus"
 data source only.
 
 You must currently manually edit the downloaded JSON files and correct the

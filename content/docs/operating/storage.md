@@ -162,10 +162,10 @@ in the next section.
 Case (3) depends on the targets you monitor. To mitigate an unplanned explosion
 of the number of series, you can limit the number of samples per individual
 scrape (see `sample_limit` in the
-[scrape config](https://prometheus.io/docs/operating/configuration/#scrape_config)).
+[scrape config](/docs/operating/configuration/#scrape_config)).
 If the number of active time series exceeds the number of memory chunks the
 Prometheus server can afford, the server will quickly throttle ingestion as
-described above. The only way out if this is to give Prometheus more RAM or
+described above. The only way out of this is to give Prometheus more RAM or
 reduce the number of time series to ingest.
 
 In fact, you want many more memory chunks than you have series in
@@ -337,7 +337,7 @@ server has problems or is out of capacity.
 * `prometheus_local_storage_series_chunks_persisted`: A histogram of the number
   of chunks persisted per batch.
 * `prometheus_local_storage_persistence_urgency_score`: The urgency score as
-  discussed [above](#persistence-pressure-and-rushed-mode).
+  discussed [above](#persistence-urgency-and-rushed-mode).
 * `prometheus_local_storage_rushed_mode` is 1 if Prometheus is in “rushed
   mode”, 0 otherwise. Can be used to calculate the percentage of time
   Prometheus is in rushed mode.

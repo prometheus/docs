@@ -42,6 +42,7 @@ Generic placeholders are defined as follows:
 * `<path>`: a valid URL path
 * `<scheme>`: a string that can take the values `http` or `https`
 * `<string>`: a regular string
+* `<secret>`: a regular string that is a secret, such as a password
 
 The other placeholders are specified separately.
 
@@ -147,11 +148,11 @@ params:
 # configured username and password.
 basic_auth:
   [ username: <string> ]
-  [ password: <string> ]
+  [ password: <secret> ]
 
 # Sets the `Authorization` header on every scrape request with
 # the configured bearer token. It is mutually exclusive with `bearer_token_file`.
-[ bearer_token: <string> ]
+[ bearer_token: <secret> ]
 
 # Sets the `Authorization` header on every scrape request with the bearer token
 # read from the configured file. It is mutually exclusive with `bearer_token`.
@@ -179,6 +180,10 @@ dns_sd_configs:
 # List of EC2 service discovery configurations.
 ec2_sd_configs:
   [ - <ec2_sd_config> ... ]
+
+# List of OpenStack service discovery configurations.
+openstack_sd_configs:
+  [ - <openstack_sd_config> ... ]
 
 # List of file service discovery configurations.
 file_sd_configs:
@@ -262,7 +267,7 @@ The following meta labels are available on targets during relabeling:
 * `__meta_azure_machine_name`: the machine name
 * `__meta_azure_machine_private_ip`: the machine's private IP
 * `__meta_azure_machine_resource_group`: the machine's resource group
-* `__meta_azure_tag_<tagname>`: each tag value of the machine
+* `__meta_azure_machine_tag_<tagname>`: each tag value of the machine
 
 See below for the configuration options for Azure discovery:
 
@@ -275,7 +280,7 @@ tenant_id: <string>
 # The client ID.
 client_id: <string>
 # The client secret.
-client_secret: <string>
+client_secret: <secret>
 
 # Refresh interval to re-read the instance list.
 [ refresh_interval: <duration> | default = 300s ]
@@ -305,11 +310,11 @@ The following meta labels are available on targets during [relabeling](#relabel_
 # The information to access the Consul API. It is to be defined
 # as the Consul documentation requires.
 server: <host>
-[ token: <string> ]
+[ token: <secret> ]
 [ datacenter: <string> ]
 [ scheme: <string> ]
 [ username: <string> ]
-[ password: <string> ]
+[ password: <secret> ]
 
 # A list of services for which targets are retrieved. If omitted, all services
 # are scraped.
@@ -388,9 +393,71 @@ region: <string>
 # The AWS API keys. If blank, the environment variables `AWS_ACCESS_KEY_ID`
 # and `AWS_SECRET_ACCESS_KEY` are used.
 [ access_key: <string> ]
-[ secret_key: <string> ]
+[ secret_key: <secret> ]
 # Named AWS profile used to connect to the API.
 [ profile: <string> ]
+
+# Refresh interval to re-read the instance list.
+[ refresh_interval: <duration> | default = 60s ]
+
+# The port to scrape metrics from. If using the public IP address, this must
+# instead be specified in the relabeling rule.
+[ port: <int> | default = 80 ]
+```
+
+### `<openstack_sd_config>`
+
+CAUTION: OpenStack SD is in beta: breaking changes to configuration are still
+likely in future releases.
+
+OpenStack SD configurations allow retrieving scrape targets from OpenStack Nova
+instances.
+
+The following meta labels are available on targets during [relabeling](#relabel_config):
+
+* `__meta_openstack_instance_id`: the OpenStack instance ID
+* `__meta_openstack_instance_name`: the OpenStack instance name
+* `__meta_openstack_instance_status`: the status of the OpenStack instance
+* `__meta_openstack_instance_flavor`: the flavor of the OpenStack instance
+* `__meta_openstack_public_ip`: the public IP of the OpenStack instance
+* `__meta_openstack_private_ip`: the private IP of the OpenStack instance
+* `__meta_openstack_tag_<tagkey>`: each tag value of the instance
+
+See below for the configuration options for OpenStack discovery:
+
+```
+# The information to access the OpenStack API.
+
+# The OpenStack Region.
+region: <string>
+
+# identity_endpoint specifies the HTTP endpoint that is required to work with
+# the Identity API of the appropriate version. While it's ultimately needed by
+# all of the identity services, it will often be populated by a provider-level
+# function.
+[ identity_endpoint: <string> ]
+
+# username is required if using Identity V2 API. Consult with your provider's
+# control panel to discover your account's username. In Identity V3, either
+# userid or a combination of username and domain_id or domain_name are needed.
+[ username: <string> ]
+[ userid: <string> ]
+
+# password for the Identity V2 and V3 APIs. Consult with your provider's
+# control panel to discover your account's preferred method of authentication.
+[ password: <secret> ]
+
+# At most one of domain_id and domain_name must be provided if using username
+# with Identity V3. Otherwise, either are optional.
+[ domain_name: <string> ]
+[ domain_id: <string> ]
+
+# The project_id and project_name fields are optional for the Identity V2 API.
+# Some providers allow you to specify a project_name instead of the project_id.
+# Some require both. Your provider's authentication policies will determine
+# how these fields influence authentication.
+[ project_name: <string> ]
+[ project_id: <string> ]
 
 # Refresh interval to re-read the instance list.
 [ refresh_interval: <duration> | default = 60s ]
@@ -431,6 +498,10 @@ Each target has a meta label `__meta_filepath` during the
 [relabeling phase](#relabel_config). Its value is set to the
 filepath from which the target was extracted.
 
+There is a list of
+[integrations](/docs/operating/configuration/#<file_sd_config>) with this
+discovery mechanism.
+
 ```
 # Patterns for files from which target groups are extracted.
 files:
@@ -456,13 +527,13 @@ The following meta labels are available on targets during [relabeling](#relabel_
 
 * `__meta_gce_instance_name`: the name of the instance
 * `__meta_gce_metadata_<name>`: each metadata item of the instance
-* `__meta_gce_network`: the network of the instance
+* `__meta_gce_network`: the network URL of the instance
 * `__meta_gce_private_ip`: the private IP address of the instance
 * `__meta_gce_project`: the GCP project in which the instance is running
 * `__meta_gce_public_ip`: the public IP address of the instance, if present
-* `__meta_gce_subnetwork`: the subnetwork of the instance
+* `__meta_gce_subnetwork`: the subnetwork URL of the instance
 * `__meta_gce_tags`: comma separated list of instance tags
-* `__meta_gce_zone`: the GCE zone in which the instance is running
+* `__meta_gce_zone`: the GCE zone URL in which the instance is running
 
 See below for the configuration options for GCE discovery:
 
@@ -546,7 +617,7 @@ Available meta labels:
 * `__meta_kubernetes_service_annotation_<annotationname>`: The annotation of the service object.
 * `__meta_kubernetes_service_port_name`: Name of the service port for the target.
 * `__meta_kubernetes_service_port_number`: Number of the service port for the target.
-* `__meta_kubernetes_service_port_portocol`: Protocol of the service port for the target.
+* `__meta_kubernetes_service_port_protocol`: Protocol of the service port for the target.
 
 #### `pod`
 
@@ -608,10 +679,10 @@ role: <role>
 # Optional HTTP basic authentication information.
 basic_auth:
   [ username: <string> ]
-  [ password: <string> ]
+  [ password: <secret> ]
 
 # Optional bearer token authentication information.
-[ bearer_token: <string> ]
+[ bearer_token: <secret> ]
 
 # Optional bearer token file authentication information.
 [ bearer_token_file: <filename> ]
@@ -619,6 +690,11 @@ basic_auth:
 # TLS configuration.
 tls_config:
   [ <tls_config> ]
+
+# Optional namespace discovery. If omitted, all namespaces are used.
+namespaces:
+  names:
+    [ - <string> ]
 ```
 
 Where `<role>` must be `endpoints`, `service`, `pod`, or `node`.
@@ -645,6 +721,8 @@ The following meta labels are available on targets during [relabeling](#relabel_
 * `__meta_marathon_image`: the name of the Docker image used (if available)
 * `__meta_marathon_task`: the ID of the Mesos task
 * `__meta_marathon_app_label_<labelname>`: any Marathon labels attached to the app
+* `__meta_marathon_port_definition_label_<labelname>`: the port definition labels
+* `__meta_marathon_port_mapping_label_<labelname>`: the port mapping labels
 
 See below for the configuration options for Marathon discovery:
 
@@ -657,7 +735,7 @@ servers:
 
 # Optional bearer token authentication information.
 # It is mutually exclusive with `bearer_token_file`.
-[ bearer_token: <string> ]
+[ bearer_token: <secret> ]
 
 # Optional bearer token file authentication information.
 # It is mutually exclusive with `bearer_token`.
@@ -1024,6 +1102,9 @@ tls_config:
 # Optional proxy URL.
 [ proxy_url: <string> ]
 ```
+There is a list of
+[integrations](/docs/operating/integrations/#remote-endpoints-and-storage) with
+this feature.
 
 ### `<remote_read>`
 
@@ -1058,3 +1139,7 @@ tls_config:
 # Optional proxy URL.
 [ proxy_url: <string> ]
 ```
+
+There is a list of
+[integrations](/docs/operating/integrations/#remote-endpoints-and-storage) with
+this feature.

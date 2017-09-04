@@ -43,7 +43,9 @@ Generic placeholders are defined as follows:
 * `<filepath>`: a valid path in the current working directory
 * `<boolean>`: a boolean that can take the values `true` or `false`
 * `<string>`: a regular string
+* `<secret>`: a regular string that is a secret, such as a password
 * `<tmpl_string>`: a string which is template-expanded before usage
+* `<tmpl_secret>`: a string which is template-expanded before usage that is a secret
 
 The other placeholders are specified separately.
 
@@ -66,8 +68,9 @@ global:
   [ smtp_smarthost: <string> ]
   # SMTP authentication information.
   [ smtp_auth_username: <string> ]
-  [ smtp_auth_password: <string> ]
-  [ smtp_auth_secret: <string> ]
+  [ smtp_auth_password: <secret> ]
+  [ smtp_auth_secret: <secret> ]
+  [ smtp_auth_identity: <string> ]
   # The default SMTP TLS requirement.
   [ smtp_require_tls: <bool> | default = true ]
 
@@ -77,7 +80,7 @@ global:
   [ pagerduty_url: <string> | default = "https://events.pagerduty.com/generic/2010-04-15/create_event.json" ]
   [ opsgenie_api_host: <string> | default = "https://api.opsgenie.com/" ]
   [ hipchat_url: <string> | default = "https://api.hipchat.com/" ]
-  [ hipchat_auth_token: <string> ]
+  [ hipchat_auth_token: <secret> ]
 
 # Files from which custom notification template definitions are read.
 # The last component may use a wildcard matcher, e.g. 'templates/*.tmpl'.
@@ -183,6 +186,9 @@ An inhibition rule is a rule that mutes an alert matching a set of matchers
 under the condition that an alert exists that matches another set of matchers.
 Both alerts must have a set of equal labels.
 
+__Alerts can inhibit themselves. Avoid writing inhibition rules where
+an alert matches both source and target.__
+
 ```
 # Matchers that have to be fulfilled in the alerts to be muted.
 target_match:
@@ -248,8 +254,8 @@ to: <tmpl_string>
 [ smarthost: <string> | default = global.smtp_smarthost ]
 # SMTP authentication information.
 [ auth_username: <string> ]
-[ auth_password: <string> ]
-[ auth_secret: <string> ]
+[ auth_password: <secret> ]
+[ auth_secret: <secret> ]
 [ auth_identity: <string> ]
 
 [ require_tls: <bool> | default = global.smtp_require_tls ]
@@ -273,9 +279,9 @@ HipChat notifications use a [Build Your Own](https://confluence.atlassian.com/hc
 # The HipChat Room ID.
 room_id: <tmpl_string>
 # The auth token.
-[ auth_token: <string> | default = global.hipchat_auth_token ]
+[ auth_token: <secret> | default = global.hipchat_auth_token ]
 # The URL to send API requests to.
-[ url: <string> | default = global.hipchat_url ]
+[ api_url: <string> | default = global.hipchat_url ]
 
 # See https://www.hipchat.com/docs/apiv2/method/send_room_notification
 # A label to be shown in addition to the sender's name.
@@ -293,13 +299,14 @@ room_id: <tmpl_string>
 ## `<pagerduty_config>`
 
 PagerDuty notifications are sent via the [PagerDuty API](https://developer.pagerduty.com/documentation/integration/events).
+PagerDuty provides documentation on how to integrate [here](https://www.pagerduty.com/docs/guides/prometheus-integration-guide/).
 
 ```
 # Whether or not to notify about resolved alerts.
 [ send_resolved: <boolean> | default = true ]
 
 # The PagerDuty service key.
-service_key: <tmpl_string>
+service_key: <tmpl_secret>
 # The URL to send API requests to
 [ url: <string> | default = global.pagerduty_url ]
 
@@ -327,10 +334,10 @@ Pushover notifications are sent via the [Pushover API](https://pushover.net/api)
 
 ```
 # The recipient user’s user key.
-user_key: <string>
+user_key: <secret>
 
 # Your registered application’s API token, see https://pushover.net/apps
-token: <string>
+token: <secret>
 
 # Notification title.
 [ title: <tmpl_string> | default = '{{ template "pushover.default.title" . }}' ]
@@ -362,7 +369,7 @@ Slack notifications are sent via [Slack webhooks](https://api.slack.com/incoming
 [ send_resolved: <boolean> | default = false ]
 
 # The Slack webhook URL.
-[ api_url: <string> | default = global.slack_api_url ]
+[ api_url: <secret> | default = global.slack_api_url ]
 
 # The channel or user to send notifications to.
 channel: <tmpl_string>
@@ -389,7 +396,7 @@ OpsGenie notifications are sent via the [OpsGenie API](https://www.opsgenie.com/
 [ send_resolved: <boolean> | default = true ]
 
 # The API key to use when talking to the OpsGenie API.
-api_key: <string>
+api_key: <secret>
 
 # The host to send OpsGenie API requests to.
 [ api_host: <string> | default = global.opsgenie_api_host ]
@@ -408,16 +415,16 @@ api_key: <string>
 # Comma separated list of tags attached to the notifications.
 [ tags: <tmpl_string> ]
 ```
-## `<victor_ops_config>`
+## `<victorops_config>`
 
 VictorOps notifications are sent out via the [VictorOps API](https://help.victorops.com/knowledge-base/victorops-restendpoint-integration/)
 
 ```
 # The API key to use when talking to the VictorOps API.
-api_key: <string>
+api_key: <secret>
 
 # The VictorOps API URL.
-[ api_url: <string> | default = global.victor_ops_api_url ]
+[ api_url: <string> | default = global.victorops_api_url ]
 
 # A key used to map the alert to a team.
 [ routing_key: <string> ]
@@ -425,7 +432,10 @@ api_key: <string>
 # Describes the behavior of the alert (Critical, Acknowledgement, Info, Recovery).
 [ message_type: <string> ]
 
-# Contains explanation of the alerted problem.
+# Contains summary of the alerted problem.
+[ entity_display_name: <string> | default = '{{ template "victorops.default.entity_display_name" . }}' ]
+
+# Contains long explanation of the alerted problem.
 [ state_message: <string> | default = '{{ template "victorops.default.state_message" . }}' ]
 
 # The monitoring tool the state message is from.
@@ -452,14 +462,14 @@ endpoint:
 
 ```
 {
-  "version": "3",
-  "groupKey": <number>     // key identifying the group of alerts (e.g. to deduplicate)
+  "version": "4",
+  "groupKey": <string>,    // key identifying the group of alerts (e.g. to deduplicate)
   "status": "<resolved|firing>",
   "receiver": <string>,
   "groupLabels": <object>,
   "commonLabels": <object>,
   "commonAnnotations": <object>,
-  "externalURL": <string>,  // backling to the Alertmanager.
+  "externalURL": <string>,  // backlink to the Alertmanager.
   "alerts": [
     {
       "labels": <object>,
@@ -471,3 +481,8 @@ endpoint:
   ]
 }
 ```
+
+
+There is a list of
+[integrations](/docs/operating/integrations/#alertmanager-webhook-receiver) with
+this feature.

@@ -243,8 +243,7 @@ counter resets when your target restarts.
 
 ## `label_join()`
 
-For each timeseries in `v`, `label_join(v instant-vector, dst_label string, separator  string,
-src_label_1 string, src_label_2 string , ...)` joins all the values of all the `src_labels` 
+For each timeseries in `v`, `label_join(v instant-vector, dst_label string, separator string, src_label_1 string, src_label_2 string, ...)` joins all the values of all the `src_labels` 
 using `separator` and returns the timeseries with the label `dst_label` containing the joined value.
 There can be any number of `src_labels` in this function.
 

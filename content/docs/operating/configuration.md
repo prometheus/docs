@@ -294,13 +294,14 @@ Catalog API.
 The following meta labels are available on targets during relabeling:
 
 * `__meta_consul_address`: the address of the target
-* `__meta_consul_node`: the node name defined for the target
-* `__meta_consul_tags`: the list of tags of the target joined by the tag separator
-* `__meta_consul_service`: the name of the service the target belongs to
-* `__meta_consul_service_address`: the service address of the target
-* `__meta_consul_service_port`: the service port of the target
-* `__meta_consul_service_id`: the service ID of the target
 * `__meta_consul_dc`: the datacenter name for the target
+* `__meta_consul_metadata_<key>`: each metadata key value of the target
+* `__meta_consul_node`: the node name defined for the target
+* `__meta_consul_service_address`: the service address of the target
+* `__meta_consul_service_id`: the service ID of the target
+* `__meta_consul_service_port`: the service port of the target
+* `__meta_consul_service`: the name of the service the target belongs to
+* `__meta_consul_tags`: the list of tags of the target joined by the tag separator
 
 ```
 # The information to access the Consul API. It is to be defined

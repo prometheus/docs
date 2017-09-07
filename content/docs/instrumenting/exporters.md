@@ -85,6 +85,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
 
 ### APIs
    * [AWS ECS exporter](https://github.com/slok/ecs-exporter)
+   * [AWS Health exporter](https://github.com/Jimdo/aws-health-exporter)
    * [Cloudflare exporter](https://github.com/wehkamp/docker-prometheus-cloudflare-exporter)
    * [DigitalOcean exporter](https://github.com/metalmatze/digitalocean_exporter)
    * [Docker Cloud exporter](https://github.com/infinityworksltd/docker-cloud-exporter)

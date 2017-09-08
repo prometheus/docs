@@ -78,6 +78,7 @@ global:
   [ slack_api_url: <string> ]
 
   [ pagerduty_url: <string> | default = "https://events.pagerduty.com/generic/2010-04-15/create_event.json" ]
+  [ pagertree_url: <string> ]
   [ opsgenie_api_host: <string> | default = "https://api.opsgenie.com/" ]
   [ hipchat_url: <string> | default = "https://api.hipchat.com/" ]
   [ hipchat_auth_token: <secret> ]
@@ -229,6 +230,8 @@ hipchat_configs:
   [ - <hipchat_config>, ... ]
 pagerduty_configs:
   [ - <pagerduty_config>, ... ]
+pagertree_configs:
+  [ - <pagertree_config>, ... ]
 pushover_configs:
   [ - <pushover_config>, ... ]
 slack_configs:
@@ -326,6 +329,19 @@ service_key: <tmpl_secret>
   num_firing:   '{{ .Alerts.Firing | len }}'
   num_resolved: '{{ .Alerts.Resolved | len }}'
 } ]
+```
+
+## `<pagertree_config>`
+
+PagerTree provides documentation on how to integrate [here](https://pagertree.com/knowledge-base/integration-prometheus/).
+
+```
+# Whether or not to notify about resolved alerts.
+[ send_resolved: <boolean> | default = true ]
+
+# The PagerTree service key.
+# The URL to send API requests to
+[ url: <string> | default = global.pagertree_url ]
 ```
 
 ## `<pushover_config>`

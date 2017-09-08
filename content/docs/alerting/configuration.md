@@ -339,8 +339,7 @@ PagerTree provides documentation on how to integrate [here](https://pagertree.co
 # Whether or not to notify about resolved alerts.
 [ send_resolved: <boolean> | default = true ]
 
-# The PagerTree service key.
-# The URL to send API requests to
+# The PagerTree Integration URL
 [ url: <string> | default = global.pagertree_url ]
 ```
 

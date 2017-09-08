@@ -119,7 +119,7 @@ Currently, the following external systems are supported:
 * [HipChat](https://www.hipchat.com/)
 * [OpsGenie](https://www.opsgenie.com/)
 * [PagerDuty](http://www.pagerduty.com/)
-* [PagerTree](https://www.pagertree.com/)
+* [PagerTree](https://pagertree.com/)
 * [Pushover](https://pushover.net/)
 * [Slack](https://slack.com/)
 

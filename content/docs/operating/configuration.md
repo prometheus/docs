@@ -396,6 +396,9 @@ region: <string>
 # Named AWS profile used to connect to the API.
 [ profile: <string> ]
 
+# AWS Role ARN, an alternative to using AWS API keys.
+[ role_arn: <string> ]
+
 # Refresh interval to re-read the instance list.
 [ refresh_interval: <duration> | default = 60s ]
 

@@ -67,7 +67,7 @@ Prometheus build directory and run:
 ```language-bash
 # Start Prometheus.
 # By default, Prometheus stores its database in ./data (flag -storage.local.path).
-./prometheus -config.file=prometheus.yml
+./prometheus --config.file=prometheus.yml
 ```
 
 Prometheus should start up and it should show a status page about itself at

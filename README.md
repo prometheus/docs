@@ -5,7 +5,7 @@ Prometheus documentation site.
 
 ## Prerequisites
 
-You need to have a working Ruby environment set up and then install the
+You need to have a working Ruby 2.4.x environment set up and then install the
 necessary gems:
 
 ```bash

@@ -64,7 +64,7 @@ groups:
     labels:
       severity: critical
     annotations:
-      description: "stuff's happening with {{ $.labels.service }}"      
+      description: "stuff's happening with {{ $labels.service }}"      
 ```
  
 The rules in each group are executed sequentially and you can have an evaluation interval per group.

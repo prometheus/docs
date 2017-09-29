@@ -237,6 +237,8 @@ opsgenie_configs:
   [ - <opsgenie_config>, ... ]
 webhook_configs:
   [ - <webhook_config>, ... ]
+victorops_configs:
+  [ - <victorops_config>, ... ]
 ```
 
 

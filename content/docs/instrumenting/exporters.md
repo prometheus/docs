@@ -172,7 +172,7 @@ separate exporters are needed:
    * [SkyDNS](https://github.com/skynetservices/skydns) (**direct**)
    * [Telegraf](https://github.com/influxdata/telegraf/tree/master/plugins/outputs/prometheus_client)
    * [Weave Flux](https://github.com/weaveworks/flux)
-
+   
 The software marked *direct* is also directly instrumented with a Prometheus client library.
 
 ## Other third-party utilities
@@ -189,3 +189,5 @@ practices.
    * Go: [prombolt](https://github.com/mdlayher/prombolt)
    * Java/JVM: [Hystrix metrics publisher](https://github.com/ahus1/prometheus-hystrix)
    * Python-Django: [django-prometheus](https://github.com/korfuri/django-prometheus)
+   * Node.js: [swagger-stats](https://github.com/slanatech/swagger-stats)
+   

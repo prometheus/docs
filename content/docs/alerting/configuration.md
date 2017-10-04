@@ -214,9 +214,7 @@ source_match_re:
 
 Receiver is a named configuration of one or more notification integrations.
 
-__Other receiver implementations available in version 0.0.4 of Alertmanager
-are not implemented yet. We are gladly accepting any contributions to add them
-to the new implementation.__
+__We're not actively adding new receivers, we recommend implementing custom notification integrations via the [webhook](/docs/alerting/configuration/#webhook_config) receiver.__
 
 ```
 # The unique name of the receiver.

@@ -270,6 +270,10 @@ scrape_configs:
           group: 'canary'
 ```
 
+Prometheus 2.0 brings [some breaking changes](https://prometheus.io/blog/2017/06/21/prometheus-20-alpha3-new-rule-format/) 
+to the rules file format, making it YAML-compatible, so old rules has to be updated by promtool command: `promtool update rules <filenames>`
+The converted files have the .yml suffix appended and the rule_files clause in your Prometheus configuration has to be adapted.
+
 Restart Prometheus with the new configuration and verify that a new time series
 with the metric name `job_service:rpc_durations_seconds_count:avg_rate5m`
 is now available by querying it through the expression browser or graphing it.

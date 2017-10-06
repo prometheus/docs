@@ -67,3 +67,8 @@ Silences are configured in the web interface of the Alertmanager.
 The Alertmanager has [special requirements](../clients) for behavior of its
 client. Those are only relevant for advanced use cases where Prometheus
 is not used to send alerts.
+
+## High Availability
+
+Alertmanager supports a mesh configuration to create a cluster for high availability.
+This can be configured using the [-mesh-*](https://github.com/prometheus/alertmanager#high-availability) flags.

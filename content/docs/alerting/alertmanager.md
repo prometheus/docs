@@ -72,3 +72,5 @@ is not used to send alerts.
 
 Alertmanager supports a mesh configuration to create a cluster for high availability.
 This can be configured using the [-mesh-*](https://github.com/prometheus/alertmanager#high-availability) flags.
+
+It's important not to load balance traffic between Prometheus and its Alertmanagers, but instead, point Prometheus to a list of all Alertmanagers.

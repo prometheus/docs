@@ -158,6 +158,7 @@ possible.
 Some third-party software exposes metrics in the Prometheus format, so no
 separate exporters are needed:
 
+   * [Ceph](http://docs.ceph.com/docs/master/mgr/prometheus/)
    * [Collectd](https://collectd.org/wiki/index.php/Plugin:Write_Prometheus)
    * [CRG Roller Derby Scoreboard](https://github.com/rollerderby/scoreboard) (**direct**)
    * [Doorman](https://github.com/youtube/doorman) (**direct**)

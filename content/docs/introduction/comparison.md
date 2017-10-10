@@ -24,17 +24,17 @@ to find faults.
 Graphite stores numeric samples for named time series, much like Prometheus
 does. However, Prometheus's metadata model is richer: while Graphite metric
 names consist of dot-separated components which implicitly encode dimensions,
-Prometheus encodes dimensions explicitly as key-value pairs (labels) attached
+Prometheus encodes dimensions explicitly as key-value pairs, called labels, attached
 to a metric name. This allows easy filtering, grouping, and matching by these
-labels via in the query language.
+labels via the query language.
 
 Further, especially when Graphite is used in combination with
 [StatsD](https://github.com/etsy/statsd/), it is common to store only
 aggregated data over all monitored instances, rather than preserving the
 instance as a dimension and being able to drill down into individual
-problematic ones.
+problematic instances.
 
-As an example, storing the number of HTTP requests to API servers with the
+For example, storing the number of HTTP requests to API servers with the
 response code `500` and the method `POST` to the `/tracks` endpoint would
 commonly be encoded like this in Graphite/StatsD:
 
@@ -102,20 +102,18 @@ silencing functionality.
 ### Data model / storage
 
 Like Prometheus, the InfluxDB data model has key-value pairs as labels, which
-are called tags. In addition InfluxDB has a second level of labels called
+are called tags. In addition, InfluxDB has a second level of labels called
 fields, which are more limited in use. InfluxDB supports timestamps with up to
 nanosecond resolution, and float64, int64, bool, and string data types.
-Prometheus by contrast supports the float64 data type with limited support for
+Prometheus, by contrast, supports the float64 data type with limited support for
 strings, and millisecond resolution timestamps.
 
-InfluxDB uses a variant of a [log-structured merge tree for storage with a
-write ahead log](https://docs.influxdata.com/influxdb/v1.2/concepts/storage_engine/),
+InfluxDB uses a variant of a [log-structured merge tree for storage with a write ahead log](https://docs.influxdata.com/influxdb/v1.2/concepts/storage_engine/),
 sharded by time. This is much more suitable to event logging than Prometheus's
 append-only file per time series approach.
 
-
 [Logs and Metrics and Graphs, Oh My!](https://blog.raintank.io/logs-and-metrics-and-graphs-oh-my/)
-describes the difference between event logging and metrics recording.
+describes the differences between event logging and metrics recording.
 
 ### Architecture
 
@@ -123,7 +121,7 @@ Prometheus servers run independently of each other and only rely on their local
 storage for their core functionality: scraping, rule processing, and alerting.
 The open source version of InfluxDB is similar.
 
-The commercial InfluxDB offering is by design a distributed storage cluster
+The commercial InfluxDB offering is, by design, a distributed storage cluster
 with storage and queries being handled by many nodes at once.
 
 This means that the commercial InfluxDB will be easier to scale horizontally,
@@ -136,7 +134,7 @@ you better reliability and failure isolation.
 
 Kapacitor currently has no [built-in distributed/redundant
 options](https://github.com/influxdata/kapacitor/issues/277) for rules,
-alerting or notifications. Prometheus and the Alertmanager by contrast offer a
+alerting, or notifications. Prometheus and the Alertmanager by contrast offer a
 redundant option via running redundant replicas of Prometheus and using the
 Alertmanager's [High
 Availability](https://github.com/prometheus/alertmanager#high-availability)
@@ -149,7 +147,7 @@ There are many similarities between the systems. Both have labels (called tags
 in InfluxDB) to efficiently support multi-dimensional metrics. Both use
 basically the same data compression algorithms. Both have extensive
 integrations, including with each other. Both have hooks allowing you to extend
-them further, such as analysing data in statistical tools or performing
+them further, such as analyzing data in statistical tools or performing
 automated actions.
 
 Where InfluxDB is better:
@@ -183,12 +181,10 @@ The same scope differences as in the case of
 ### Data model
 
 OpenTSDB's data model is almost identical to Prometheus's: time series are
-identified by a set of arbitrary key-value pairs (OpenTSDB "tags" are
-Prometheus "labels"). All data for a metric is [stored
-together](http://opentsdb.net/docs/build/html/user_guide/writing/index.html#time-series-cardinality),
-limiting the cardinality of metrics. There are minor differences though,
-such as that Prometheus allows arbitrary characters in label values, while
-OpenTSDB is more restrictive. OpenTSDB is also lacking a full query language,
+identified by a set of arbitrary key-value pairs (OpenTSDB tags are
+Prometheus labels). All data for a metric is [stored together](http://opentsdb.net/docs/build/html/user_guide/writing/index.html#time-series-cardinality),
+limiting the cardinality of metrics. There are minor differences though: Prometheus allows arbitrary characters in label values, while
+OpenTSDB is more restrictive. OpenTSDB also lacks a full query language,
 only allowing simple aggregation and math via its API.
 
 ### Storage
@@ -204,15 +200,14 @@ once the capacity of a single node is exceeded.
 ### Summary
 
 Prometheus offers a much richer query language, can handle higher cardinality
-metrics and forms part of a complete monitoring system. If you're already
+metrics, and forms part of a complete monitoring system. If you're already
 running Hadoop and value long term storage over these benefits, OpenTSDB is a
 good choice.
-
 
 ## Prometheus vs. Nagios
 
 [Nagios](https://www.nagios.org/) is a monitoring system that originated in the
-90s as NetSaint.
+1990s as NetSaint.
 
 ### Scope
 
@@ -220,14 +215,11 @@ Nagios is primarily about alerting based on the exit codes of scripts. These are
 There is silencing of individual alerts, however no grouping, routing or deduplication.
 
 There are a variety of plugins. For example, piping the few kilobytes of
-perfData plugins are allowed to return [to a time series database such as
-Graphite](https://github.com/shawn-sterling/graphios) or using NRPE to [run
-checks on remote
-machines](https://exchange.nagios.org/directory/Addons/Monitoring-Agents/NRPE--2D-Nagios-Remote-Plugin-Executor/details).
+perfData plugins are allowed to return [to a time series database such as Graphite](https://github.com/shawn-sterling/graphios) or using NRPE to [run checks on remote machines](https://exchange.nagios.org/directory/Addons/Monitoring-Agents/NRPE--2D-Nagios-Remote-Plugin-Executor/details).
 
 ### Data model
 
-Nagios is host-based. Each host can have one or more services, which has one check.
+Nagios is host-based. Each host can have one or more services.
 
 There is no notion of labels or a query language.
 
@@ -246,7 +238,7 @@ Nagios is suitable for basic monitoring of small and/or static systems where
 blackbox probing is sufficient.
 
 If you want to do whitebox monitoring, or have a dynamic or cloud based
-environment then Prometheus is a good choice.
+environment, then Prometheus is a good choice.
 
 ## Prometheus vs. Sensu
 
@@ -257,8 +249,7 @@ environment then Prometheus is a good choice.
 The same general scope differences as in the case of
 [Nagios](/docs/introduction/comparison/#prometheus-vs-nagios) apply here.
 
-The primary difference is that Sensu clients [register
-themselves](https://sensuapp.org/docs/0.27/reference/clients.html#what-is-a-sensu-client),
+The primary difference is that Sensu clients [register themselves](https://sensuapp.org/docs/0.27/reference/clients.html#what-is-a-sensu-client),
 and can determine the checks to run either from central or local configuration.
 Sensu does not have a limit on the amount of perfData.
 
@@ -275,9 +266,8 @@ silences. It also stores all the clients that have registered with it.
 
 ### Architecture
 
-Sensu has a [number of
-components](https://sensuapp.org/docs/0.27/overview/architecture.html). It uses
-RabbitMQ as a transport, Redis for current state, and a separate Server for
+Sensu has a [number of components](https://sensuapp.org/docs/0.27/overview/architecture.html). It uses
+RabbitMQ as a transport, Redis for current state, and a separate server for
 processing.
 
 Both RabbitMQ and Redis can be clustered. Multiple copies of the server can be
@@ -285,8 +275,7 @@ run for scaling and redundancy.
 
 ### Summary
 
-If you have an existing Nagios setup that you wish to scale as-is or taking
-advantage of the registration feature of Sensu, then Sensu is a good choice.
+If you have an existing Nagios setup that you wish to scale as-is, or want to take advantage of the registration feature of Sensu, then Sensu is a good choice.
 
 If you want to do whitebox monitoring, or have a very dynamic or cloud based
 environment, then Prometheus is a good choice.

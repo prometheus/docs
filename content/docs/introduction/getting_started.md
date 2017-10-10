@@ -7,7 +7,7 @@ sort_rank: 3
 
 This guide is a "Hello World"-style tutorial which shows how to install,
 configure, and use Prometheus in a simple example setup. You will download and run
-Prometheus locally, configure it to scrape itself and an example application,
+Prometheus locally. You'll configure it to scrape itself and an example application,
 and then work with queries, rules, and graphs to make use of the collected time
 series data.
 
@@ -16,7 +16,7 @@ series data.
 [Download the latest release](/download) of Prometheus for your platform, then
 extract and run it:
 
-```
+```language-bash
 tar xvfz prometheus-*.tar.gz
 cd prometheus-*
 ```
@@ -25,7 +25,7 @@ Before starting Prometheus, let's configure it.
 
 ## Configuring Prometheus to monitor itself
 
-Prometheus collects metrics from monitored targets by scraping metrics HTTP
+Prometheus collects metrics from monitored targets by scraping metrics from HTTP
 endpoints on these targets. Since Prometheus also exposes data in the same
 manner about itself, it can also scrape and monitor its own health.
 
@@ -33,7 +33,7 @@ While a Prometheus server that collects only data about itself is not very
 useful in practice, it is a good starting example. Save the following basic
 Prometheus configuration as a file named `prometheus.yml`:
 
-```
+```language-yaml
 global:
   scrape_interval:     15s # By default, scrape targets every 15 seconds.
 
@@ -58,11 +58,9 @@ scrape_configs:
 For a complete specification of configuration options, see the
 [configuration documentation](/docs/operating/configuration).
 
-
 ## Starting Prometheus
 
-To start Prometheus with your newly created configuration file, change to your
-Prometheus build directory and run:
+To start Prometheus with your newly created configuration file, change to the directory containing the Prometheus binary and run:
 
 ```language-bash
 # Start Prometheus.
@@ -70,9 +68,7 @@ Prometheus build directory and run:
 ./prometheus -config.file=prometheus.yml
 ```
 
-Prometheus should start up and it should show a status page about itself at
-http://localhost:9090. Give it a couple of seconds to collect data about itself
-from its own HTTP metrics endpoint.
+Prometheus should start up. You should also be able to browse to a status page about itself at http://localhost:9090. Give it a couple of seconds to collect data about itself from its own HTTP metrics endpoint.
 
 You can also verify that Prometheus is serving metrics about itself by
 navigating to its metrics endpoint: http://localhost:9090/metrics
@@ -82,10 +78,9 @@ The number of OS threads executed by Prometheus is controlled by the
 the number of cores available.
 
 Blindly setting `GOMAXPROCS` to a high value can be
-counterproductive. See the relevant [Go
-FAQs](http://golang.org/doc/faq#Why_no_multi_CPU).
+counterproductive. See the relevant [Go FAQs](http://golang.org/doc/faq#Why_no_multi_CPU).
 
-Note that Prometheus by default uses around 3GB in memory. If you have a
+NOTE: **Note:** Prometheus by default uses around 3GB in memory. If you have a
 smaller machine, you can tune Prometheus to use less memory.  For details,
 see the [memory usage documentation](/docs/operating/storage/#memory-usage).
 
@@ -105,7 +100,7 @@ target scrapes). Go ahead and enter this into the expression console:
 prometheus_target_interval_length_seconds
 ```
 
-This should return a lot of different time series (along with the latest value
+This should return a number of different time series (along with the latest value
 recorded for each), all with the metric name
 `prometheus_target_interval_length_seconds`, but with different labels. These
 labels designate different latency percentiles and target group intervals.
@@ -155,7 +150,7 @@ correct `GOPATH`) set up.
 Download the Go client library for Prometheus and run three of these example
 processes:
 
-```bash
+```language-bash
 # Fetch the client library code and compile example.
 git clone https://github.com/prometheus/client_golang.git
 cd client_golang/examples/random
@@ -231,10 +226,10 @@ job_service:rpc_durations_seconds_count:avg_rate5m = avg(rate(rpc_durations_seco
 ```
 
 To make Prometheus pick up this new rule, add a `rule_files` statement to the
-global configuration section in your `prometheus.yml`. The config should now
+`global` configuration section in your `prometheus.yml`. The config should now
 look like this:
 
-```
+```language-yaml
 global:
   scrape_interval:     15s # By default, scrape targets every 15 seconds.
   evaluation_interval: 15s # Evaluate rules every 15 seconds.

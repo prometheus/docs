@@ -45,6 +45,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [ProxySQL exporter](https://github.com/percona/proxysql_exporter)
    * [Redis exporter](https://github.com/oliver006/redis_exporter)
    * [RethinkDB exporter](https://github.com/oliver006/rethinkdb_exporter)
+   * [Solr exporter](https://github.com/noony/prometheus-solr-exporter)
    * [SQL query result set metrics exporter](https://github.com/chop-dbhi/prometheus-sql)
    * [Tarantool metric library](https://github.com/tarantool/prometheus)
 

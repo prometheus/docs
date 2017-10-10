@@ -3,6 +3,14 @@ def nav(root_item, buffer='', layer=0)
 
   children = nav_children(root_item)
 
+  # Strip item from menu.
+  if root_item[:nav] && root_item[:nav][:strip]
+    children.each do |child|
+      nav(child, buffer, layer)
+    end
+    return buffer
+  end
+
   if nav_active?(root_item)
     buffer << "<li class=\"active\">"
   else

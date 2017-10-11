@@ -429,14 +429,14 @@ api_key: <secret>
 # A key used to map the alert to a team.
 [ routing_key: <string> ]
 
-# Describes the behavior of the alert (Critical, Acknowledgement, Info, Recovery).
-[ message_type: <string> ]
+# Describes the behavior of the alert (CRITICAL, WARNING, INFO).
+[ message_type: <tmpl_string> | default = 'CRITICAL' ]
 
 # Contains summary of the alerted problem.
 [ entity_display_name: <string> | default = '{{ template "victorops.default.entity_display_name" . }}' ]
 
 # Contains long explanation of the alerted problem.
-[ state_message: <string> | default = '{{ template "victorops.default.state_message" . }}' ]
+[ state_message: <tmpl_string> | default = '{{ template "victorops.default.state_message" . }}' ]
 
 # The monitoring tool the state message is from.
 [ monitoring_tool: <string> | default = '{{ template "victorops.default.monitoring_tool" . }}' ]

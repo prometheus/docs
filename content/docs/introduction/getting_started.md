@@ -25,7 +25,7 @@ Before starting Prometheus, let's configure it.
 
 ## Configuring Prometheus to monitor itself
 
-Prometheus collects metrics from monitored targets by scraping metrics from HTTP
+Prometheus collects metrics from monitored targets by scraping metrics HTTP
 endpoints on these targets. Since Prometheus also exposes data in the same
 manner about itself, it can also scrape and monitor its own health.
 

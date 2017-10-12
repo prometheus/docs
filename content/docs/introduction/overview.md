@@ -31,7 +31,7 @@ Prometheus's main features are:
 * time series collection happens via a pull model over HTTP
 * [pushing time series](/docs/instrumenting/pushing/) is supported via an intermediary gateway
 * targets are discovered via service discovery or static configuration
-* multiple modes of graphing and dashboard support
+* multiple modes of graphing and dashboarding support
 
 ### Components
 

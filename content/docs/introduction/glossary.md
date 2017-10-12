@@ -45,11 +45,11 @@ metrics that are exposed in a non-Prometheus format into a format Prometheus sup
 
 ### Instance
 
-An individually scraped target, usually corresponding to a single process.
+A source of metrics than can be scraped, usually corresponding to a single process.
 
 ### Job
 
-A collection of instances of the same type, for example replicated for scalability or reliability, is called a job.
+A collection of targets with the same purpose, for example a group of like processes replicated for scalability or reliability, is called a job.
 
 ### Notification
 
@@ -111,4 +111,4 @@ being included in notifications.
 
 ### Target
 
-One application, server or endpoint that Prometheus is scraping. Any individually scraped target is called an instance, usually corresponding to a single process.
+The method by which Prometheus scrapes an instance.

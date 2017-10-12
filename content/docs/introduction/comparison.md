@@ -219,7 +219,7 @@ perfData plugins are allowed to return [to a time series database such as Graphi
 
 ### Data model
 
-Nagios is host-based. Each host can have one or more services.
+Nagios is host-based. Each host can have one or more services and each service can perform one check.
 
 There is no notion of labels or a query language.
 

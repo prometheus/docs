@@ -7,7 +7,7 @@ sort_rank: 3
 
 This guide is a "Hello World"-style tutorial which shows how to install,
 configure, and use Prometheus in a simple example setup. You will download and run
-Prometheus locally. You'll configure it to scrape itself and an example application,
+Prometheus locally, configure it to scrape itself and an example application,
 and then work with queries, rules, and graphs to make use of the collected time
 series data.
 

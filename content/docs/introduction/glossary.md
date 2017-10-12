@@ -20,8 +20,7 @@ notifications to email, Pagerduty, Slack etc.
 ### Bridge
 
 A bridge is a component that takes samples from a client library and
-exposes them to a non-Prometheus monitoring system. For example, the Python
-client can export metrics to Graphite.
+exposes them to a non-Prometheus monitoring system. For example, the Python, Go, and Java clients can export metrics to Graphite.
 
 ### Client library
 

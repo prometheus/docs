@@ -71,7 +71,7 @@ For cases where you must push, we offer the [Pushgateway](/docs/instrumenting/pu
 
 ### How to feed logs into Prometheus?
 
-Short answer: Don't! Use something like the [ELK stack(https://www.elastic.co/products) instead.
+Short answer: Don't! Use something like the [ELK stack](https://www.elastic.co/products) instead.
 
 Longer answer: Prometheus is a system to collect and process metrics, not an
 event logging system. The Raintank blog post
@@ -216,11 +216,8 @@ native 64 bit integers would (only) help if you need integer precision
 above 2<sup>53</sup> but below 2<sup>63</sup>. In principle, support
 for different sample value types (including some kind of big integer,
 supporting even more than 64 bit) could be implemented, but it is not
-a priority right now. 
-
-NOTE: **Note:** A counter, even if incremented
-one million times per second, will only run into precision issues
-after over 285 years.
+a priority right now. A counter, even if incremented one million times per
+second, will only run into precision issues after over 285 years.
 
 ### Why does Prometheus use a custom storage backend rather than [some other storage method]? Isn't the "one file per time series" approach killing performance?
 

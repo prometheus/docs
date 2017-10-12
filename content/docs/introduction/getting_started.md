@@ -77,10 +77,9 @@ The number of OS threads executed by Prometheus is controlled by the
 `GOMAXPROCS` environment variable. As of Go 1.5 the default value is
 the number of cores available.
 
-Blindly setting `GOMAXPROCS` to a high value can be
-counterproductive. See the relevant [Go FAQs](http://golang.org/doc/faq#Why_no_multi_CPU).
+Blindly setting `GOMAXPROCS` to a high value can be counterproductive. See the relevant [Go FAQs](http://golang.org/doc/faq#Why_no_multi_CPU).
 
-NOTE: **Note:** Prometheus by default uses around 3GB in memory. If you have a
+Prometheus by default uses around 3GB in memory. If you have a
 smaller machine, you can tune Prometheus to use less memory.  For details,
 see the [memory usage documentation](/docs/operating/storage/#memory-usage).
 

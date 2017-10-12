@@ -38,6 +38,10 @@ a single metric if it is part of direct instrumentation, or many metrics if it i
 Direct instrumentation is instrumentation added inline as part the source code
 of a program.
 
+### Endpoint
+
+A source of metrics than can be scraped, usually corresponding to a single process.
+
 ### Exporter
 
 An exporter is a binary that exposes Prometheus metrics, commonly by converting
@@ -45,11 +49,11 @@ metrics that are exposed in a non-Prometheus format into a format Prometheus sup
 
 ### Instance
 
-A source of metrics than can be scraped, usually corresponding to a single process.
+An instance is a label name that uniquely identifies a target in a job.
 
 ### Job
 
-A collection of targets with the same purpose, for example a group of like processes replicated for scalability or reliability, is called a job.
+A collection of targets with the same purpose, for example monitoring a group of like processes replicated for scalability or reliability, is called a job.
 
 ### Notification
 
@@ -111,4 +115,4 @@ being included in notifications.
 
 ### Target
 
-The method by which Prometheus scrapes an instance.
+A target is the definition of a scrape. For example, what labels to apply, any authentication required to connect, or other information that defines how the scrape will occur.

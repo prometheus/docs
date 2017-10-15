@@ -100,3 +100,7 @@ Puppet:
 SaltStack:
 
 * [bechtoldt/saltstack-prometheus-formula](https://github.com/bechtoldt/saltstack-prometheus-formula)
+
+Sparrowdo:
+
+* [melezhik/sparrowdo-prometheus](https://github.com/melezhik/sparrowdo-prometheus)

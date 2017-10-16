@@ -118,6 +118,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [Munin exporter](https://github.com/pvdh/munin_exporter)
    * [Nagios / Naemon exporter](https://github.com/Griesbacher/Iapetos)
    * [New Relic exporter](https://github.com/jfindley/newrelic_exporter)
+   * [NRPE exporter](https://github.com/robustperception/nrpe_exporter)
    * [Pingdom exporter](https://github.com/giantswarm/prometheus-pingdom-exporter)
    * [scollector exporter](https://github.com/tgulacsi/prometheus_scollector)
    * [Sensu exporter](https://github.com/reachlin/sensu_exporter)

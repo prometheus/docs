@@ -334,6 +334,9 @@ service_key: <tmpl_secret>
 Pushover notifications are sent via the [Pushover API](https://pushover.net/api).
 
 ```
+# Whether or not to notify about resolved alerts.
+[ send_resolved: <boolean> | default = true ]
+
 # The recipient user’s user key.
 user_key: <secret>
 
@@ -421,6 +424,9 @@ api_key: <secret>
 VictorOps notifications are sent out via the [VictorOps API](https://help.victorops.com/knowledge-base/victorops-restendpoint-integration/)
 
 ```
+# Whether or not to notify about resolved alerts.
+[ send_resolved: <boolean> | default = true ]
+
 # The API key to use when talking to the VictorOps API.
 [ api_key: <secret> | default = global.victorops_api_key ]
 

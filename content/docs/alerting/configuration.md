@@ -76,7 +76,8 @@ global:
 
   # The API URL to use for Slack notifications.
   [ slack_api_url: <string> ]
-
+  [ victorops_api_key: <string> ]
+  [ victorops_api_url: <string> | default = "https://alert.victorops.com/integrations/generic/20131114/alert/" ]
   [ pagerduty_url: <string> | default = "https://events.pagerduty.com/generic/2010-04-15/create_event.json" ]
   [ opsgenie_api_host: <string> | default = "https://api.opsgenie.com/" ]
   [ hipchat_url: <string> | default = "https://api.hipchat.com/" ]
@@ -421,13 +422,13 @@ VictorOps notifications are sent out via the [VictorOps API](https://help.victor
 
 ```
 # The API key to use when talking to the VictorOps API.
-api_key: <secret>
+[ api_key: <secret> | default = global.victorops_api_key ]
 
 # The VictorOps API URL.
 [ api_url: <string> | default = global.victorops_api_url ]
 
 # A key used to map the alert to a team.
-[ routing_key: <string> ]
+routing_key: <string>
 
 # Describes the behavior of the alert (CRITICAL, WARNING, INFO).
 [ message_type: <tmpl_string> | default = 'CRITICAL' ]

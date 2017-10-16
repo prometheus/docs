@@ -20,8 +20,7 @@ notifications to email, Pagerduty, Slack etc.
 ### Bridge
 
 A bridge is a component that takes samples from a client library and
-exposes them to a non-Prometheus monitoring system. For example the Python
-client can export metrics to Graphite.
+exposes them to a non-Prometheus monitoring system. For example, the Python, Go, and Java clients can export metrics to Graphite.
 
 ### Client library
 
@@ -32,28 +31,37 @@ pull metrics from other systems and expose the metrics to Prometheus.
 ### Collector
 
 A collector is a part of an exporter that represents a set of metrics. It may be
-a single metric as part of direct instrumentation, or many metrics if it is pulling
-metrics from another system.
+a single metric if it is part of direct instrumentation, or many metrics if it is pulling metrics from another system.
 
 ### Direct instrumentation
 
-Direct instrumentation is when instrumentation is added inline as part the source code
+Direct instrumentation is instrumentation added inline as part the source code
 of a program.
+
+### Endpoint
+
+A source of metrics than can be scraped, usually corresponding to a single process.
 
 ### Exporter
 
 An exporter is a binary that exposes Prometheus metrics, commonly by converting
 metrics that are exposed in a non-Prometheus format into a format Prometheus supports.
 
+### Instance
+
+An instance is a label that uniquely identifies a target in a job.
+
+### Job
+
+A collection of targets with the same purpose, for example monitoring a group of like processes replicated for scalability or reliability, is called a job.
+
 ### Notification
 
-A notification represents a group or one of more alerts, and is sent by the Alertmanager
-to email, Pagerduty, Slack etc.
+A notification represents a group of one of more alerts, and is sent by the Alertmanager to email, Pagerduty, Slack etc.
 
 ### Promdash
 
-Promdash was a native dashboard builder for Prometheus. It has been replaced by
-[Grafana](../../visualization/grafana/).
+Promdash was a native dashboard builder for Prometheus. It has been deprecated and replaced by [Grafana](../../visualization/grafana/).
 
 ### Prometheus
 
@@ -102,9 +110,9 @@ A remote write endpoint is what Prometheus talks to when doing a remote write.
 
 ### Silence
 
-A silence in the Alertmanager prevents alerts with labels matching the silence from
+A silence in the Alertmanager prevents alerts, with labels matching the silence, from
 being included in notifications.
 
 ### Target
 
-One application, server or endpoint that Prometheus is scraping.
+A target is the definition of an object to scrape. For example, what labels to apply, any authentication required to connect, or other information that defines how the scrape will occur.

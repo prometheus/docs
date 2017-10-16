@@ -9,6 +9,7 @@ toc: full-width
 ## General
 
 ### What is Prometheus?
+
 Prometheus is an open-source systems monitoring and alerting toolkit
 with an active ecosystem. See the [overview](/docs/introduction/overview/).
 
@@ -49,7 +50,7 @@ version 1.0.0 broadly follow
 increments of the major version. Exceptions are possible for experimental
 components, which are clearly marked as such in announcements.
 
-Even repositories that have not yet reached version 1.0.0 are in general quite
+Even repositories that have not yet reached version 1.0.0 are, in general, quite
 stable. We aim for a proper release process and an eventual 1.0.0 release for
 each repository. In any case, breaking changes will be pointed out in release
 notes (marked by `[CHANGE]`) or communicated clearly for components that do not
@@ -63,17 +64,14 @@ Pulling over HTTP offers a number of advantages:
 * You can more easily tell if a target is down.
 * You can manually go to a target and inspect its health with a web browser.
 
-Overall we believe that pulling is slightly better than pushing, but it should
+Overall, we believe that pulling is slightly better than pushing, but it should
 not be considered a major point when considering a monitoring system.
-
-The [Push vs Pull for Monitoring](http://www.boxever.com/push-vs-pull-for-monitoring)
-blog post by Brian Brazil goes into more detail.
 
 For cases where you must push, we offer the [Pushgateway](/docs/instrumenting/pushing/).
 
 ### How to feed logs into Prometheus?
 
-Short answer: Don't! Use something like the ELK stack instead.
+Short answer: Don't! Use something like the [ELK stack](https://www.elastic.co/products) instead.
 
 Longer answer: Prometheus is a system to collect and process metrics, not an
 event logging system. The Raintank blog post
@@ -104,7 +102,7 @@ that the correct plural of 'Prometheus' is 'Prometheis'.
 
 ### Can I reload Prometheus's configuration?
 
-Yes, sending SIGHUP to the Prometheus process or an HTTP POST request to the
+Yes, sending `SIGHUP` to the Prometheus process or an HTTP POST request to the
 `/-/reload` endpoint will reload and apply the configuration file. The
 various components attempt to handle failing changes gracefully.
 
@@ -152,7 +150,7 @@ the [exposition formats](/docs/instrumenting/exposition_formats/).
 
 Yes, the [Node Exporter](https://github.com/prometheus/node_exporter) exposes
 an extensive set of machine-level metrics on Linux and other Unix systems such
-as CPU usage, memory, disk utilization, filesystem fullness and network
+as CPU usage, memory, disk utilization, filesystem fullness, and network
 bandwidth.
 
 ### Can I monitor network devices?
@@ -172,8 +170,7 @@ See [the list of exporters and integrations](/docs/instrumenting/exporters/).
 
 ### Can I monitor JVM applications via JMX?
 
-Yes, for applications that you cannot instrument directly with the Java client
-you can use the [JMX Exporter](https://github.com/prometheus/jmx_exporter)
+Yes, for applications that you cannot instrument directly with the Java client, you can use the [JMX Exporter](https://github.com/prometheus/jmx_exporter)
 either standalone or as a Java Agent.
 
 ### What is the performance impact of instrumentation?
@@ -219,9 +216,8 @@ native 64 bit integers would (only) help if you need integer precision
 above 2<sup>53</sup> but below 2<sup>63</sup>. In principle, support
 for different sample value types (including some kind of big integer,
 supporting even more than 64 bit) could be implemented, but it is not
-a priority right now. Note that a counter, even if incremented
-one million times per second, will only run into precision issues
-after over 285 years.
+a priority right now. A counter, even if incremented one million times per
+second, will only run into precision issues after over 285 years.
 
 ### Why does Prometheus use a custom storage backend rather than [some other storage method]? Isn't the "one file per time series" approach killing performance?
 
@@ -239,8 +235,7 @@ latter depends on many parameters, like the compressibility of the sample data,
 the number of time series the samples belong to, the retention policy, and even
 more subtle aspects like how full your SSD is. If you want to know all the
 details, read
-[this document with detailed benchmark results](https://docs.google.com/document/d/1lRKBaz9oXI5nwFZfvSbPhpwzUbUr3-9qryQGG1C6ULk/edit?usp=sharing). The
-highlights:
+[this document with detailed benchmark results](https://docs.google.com/document/d/1lRKBaz9oXI5nwFZfvSbPhpwzUbUr3-9qryQGG1C6ULk/edit?usp=sharing). The highlights:
 
 * On a typical bare-metal server with 64GiB RAM, 32 CPU cores, and SSD,
   Prometheus sustained an ingestion rate of 900k samples per second, belonging
@@ -266,10 +261,9 @@ monitoring system possible rather than supporting fully generic TLS and
 authentication solutions in every server component.
 
 If you need TLS or authentication, we recommend putting a reverse proxy in
-front of Prometheus. See for example [Adding Basic Auth to Prometheus with
+front of Prometheus. See, for example [Adding Basic Auth to Prometheus with
 Nginx](https://www.robustperception.io/adding-basic-auth-to-prometheus-with-nginx/).
 
-Note that this applies only to inbound connections. Prometheus does support
-[scraping TLS- and auth-enabled
-targets](/docs/operating/configuration/#%3Cscrape_config%3E), and other
+This applies only to inbound connections. Prometheus does support
+[scraping TLS- and auth-enabled targets](/docs/operating/configuration/#%3Cscrape_config%3E), and other
 Prometheus components that create outbound connections have similar support.

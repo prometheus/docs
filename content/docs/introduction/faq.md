@@ -264,6 +264,6 @@ If you need TLS or authentication, we recommend putting a reverse proxy in
 front of Prometheus. See, for example [Adding Basic Auth to Prometheus with
 Nginx](https://www.robustperception.io/adding-basic-auth-to-prometheus-with-nginx/).
 
-NOTE: **Note:** This applies only to inbound connections. Prometheus does support
+This applies only to inbound connections. Prometheus does support
 [scraping TLS- and auth-enabled targets](/docs/operating/configuration/#%3Cscrape_config%3E), and other
 Prometheus components that create outbound connections have similar support.

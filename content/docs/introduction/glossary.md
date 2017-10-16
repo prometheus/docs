@@ -49,7 +49,7 @@ metrics that are exposed in a non-Prometheus format into a format Prometheus sup
 
 ### Instance
 
-An instance is a label name that uniquely identifies a target in a job.
+An instance is a label that uniquely identifies a target in a job.
 
 ### Job
 
@@ -115,4 +115,4 @@ being included in notifications.
 
 ### Target
 
-A target is the definition of a scrape. For example, what labels to apply, any authentication required to connect, or other information that defines how the scrape will occur.
+A target is the definition of an object to scrape. For example, what labels to apply, any authentication required to connect, or other information that defines how the scrape will occur.

@@ -388,6 +388,7 @@ channel: <tmpl_string>
 [ pretext: <tmpl_string> | default = '{{ template "slack.default.pretext" . }}' ]
 [ text: <tmpl_string> | default = '{{ template "slack.default.text" . }}' ]
 [ fallback: <tmpl_string> | default = '{{ template "slack.default.fallback" . }}' ]
+[ link_names: <boolean> | default = false ]
 ```
 
 

@@ -405,8 +405,12 @@ api_key: <secret>
 # The host to send OpsGenie API requests to.
 [ api_host: <string> | default = global.opsgenie_api_host ]
 
+# Alert text limited to 130 characters.
+[ message: <tmpl_string> ]
+
 # A description of the incident.
 [ description: <tmpl_string> | default = '{{ template "opsgenie.default.description" . }}' ]
+
 # A backlink to the sender of the notification.
 [ source: <tmpl_string> | default = '{{ template "opsgenie.default.source" . }}' ]
 
@@ -416,8 +420,12 @@ api_key: <secret>
 
 # Comma separated list of team responsible for notifications.
 [ teams: <tmpl_string> ]
+
 # Comma separated list of tags attached to the notifications.
 [ tags: <tmpl_string> ]
+
+# Additional alert note.
+[ note: <tmpl_string> ]
 ```
 ## `<victorops_config>`
 

@@ -552,6 +552,8 @@ project: <string>
 zone: <string>
 
 # Filter can be used optionally to filter the instance list by other criteria
+# Syntax of this filter string is described here in the filter query parameter section:
+# https://cloud.google.com/compute/docs/reference/latest/instances/list
 [ filter: <string> ]
 
 # Refresh interval to re-read the instance list

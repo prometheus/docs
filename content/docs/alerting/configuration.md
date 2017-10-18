@@ -440,13 +440,13 @@ routing_key: <string>
 [ message_type: <tmpl_string> | default = 'CRITICAL' ]
 
 # Contains summary of the alerted problem.
-[ entity_display_name: <string> | default = '{{ template "victorops.default.entity_display_name" . }}' ]
+[ entity_display_name: <tmpl_string> | default = '{{ template "victorops.default.entity_display_name" . }}' ]
 
 # Contains long explanation of the alerted problem.
 [ state_message: <tmpl_string> | default = '{{ template "victorops.default.state_message" . }}' ]
 
 # The monitoring tool the state message is from.
-[ monitoring_tool: <string> | default = '{{ template "victorops.default.monitoring_tool" . }}' ]
+[ monitoring_tool: <tmpl_string> | default = '{{ template "victorops.default.monitoring_tool" . }}' ]
 
 ```
 

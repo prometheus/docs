@@ -100,6 +100,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [Speedtest exporter](https://github.com/nlamirault/speedtest_exporter)
 
 ### Logging
+   * [Fluentd exporter](https://github.com/V3ckt0r/fluentd_exporter)
    * [Google's mtail log data extractor](https://github.com/google/mtail)
    * [Grok exporter](https://github.com/fstab/grok_exporter)
 

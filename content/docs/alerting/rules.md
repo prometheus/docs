@@ -24,6 +24,8 @@ Alerting rules are defined in the following syntax:
       [ LABELS <label set> ]
       [ ANNOTATIONS <label set> ]
 
+The alert name must be a valid metric name.
+
 The optional `FOR` clause causes Prometheus to wait for a certain duration
 between first encountering a new expression output vector element (like an
 instance with a high HTTP error rate) and counting an alert as firing for this

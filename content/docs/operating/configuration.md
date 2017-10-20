@@ -750,9 +750,8 @@ The following meta labels are available on targets during [relabeling](#relabel_
 See below for the configuration options for Marathon discovery:
 
 ```
-# List of URLs to be used to contact Marathon servers.
-# You need to provide at least one server URL, but should provide URLs for
-# all masters you have running.
+# List of URLs to be used to contact Marathon servers in a cluster.
+# You need to provide at least one server URL.
 servers:
   - <string>
 

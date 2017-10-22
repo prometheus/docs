@@ -17,11 +17,11 @@ process. The changes are only applied if all rule files are well-formatted.
 
 ## Syntax-checking rules
 To quickly check whether a rule file is syntactically correct without starting
-a Prometheus server, install and run Prometheus's `promtool` command-line
-utility tool:
+a Prometheus server you can run Prometheus's `promtool` command-line
+utility tool. The `promtool` binary ships with the Prometheus server
+download.
 
 ```bash
-go get github.com/prometheus/prometheus/cmd/promtool
 promtool check-rules /path/to/example.rules
 ```
 

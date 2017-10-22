@@ -141,6 +141,8 @@ a `job` label set to `prometheus`:
 
     http_requests_total{job="prometheus"}[5m]
 
+Note: range vector selectors can be used in tabular view and not in graphical view.
+
 ### Offset modifier
 
 The `offset` modifier allows changing the time offset for individual

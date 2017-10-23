@@ -57,14 +57,15 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [Ubiquiti UniFi exporter](https://github.com/mdlayher/unifi_exporter)
 
 ### Messaging systems
+   * [Beanstalkd exporter](https://github.com/messagebird/beanstalkd_exporter)
    * [Kafka consumer group exporter](https://github.com/kawamuray/prometheus-kafka-consumer-group-exporter)
    * [Kafka ZooKeeper exporter](https://github.com/cloudflare/kafka_zookeeper_exporter)
    * [NATS exporter](https://github.com/nats-io/prometheus-nats-exporter)
    * [NSQ exporter](https://github.com/lovoo/nsq_exporter)
-   * [RabbitMQ exporter](https://github.com/kbudde/rabbitmq_exporter)
-   * [RabbitMQ Management Plugin exporter](https://github.com/deadtrickster/prometheus_rabbitmq_exporter)
    * [Mirth Connect exporter](https://github.com/vynca/mirth_exporter)
    * [MQTT blackbox exporter](https://github.com/inovex/mqtt_blackbox_exporter)
+   * [RabbitMQ exporter](https://github.com/kbudde/rabbitmq_exporter)
+   * [RabbitMQ Management Plugin exporter](https://github.com/deadtrickster/prometheus_rabbitmq_exporter)
 
 ### Storage
    * [Ceph exporter](https://github.com/digitalocean/ceph_exporter)

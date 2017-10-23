@@ -5,9 +5,8 @@ sort_rank: 3
 
 # Jobs and instances
 
-In Prometheus terms, any individually scraped target is called an _instance_,
-usually corresponding to a single process. A collection of instances of the
-same type (replicated for scalability or reliability) is called a _job_.
+In Prometheus terms, an endpoint you can scrape is called an _instance_,
+usually corresponding to a single process. A collection of instances with the same purpose, a process replicated for scalability or reliability for example, is called a _job_.
 
 For example, an API server job with four replicated instances:
 
@@ -37,5 +36,9 @@ time series:
    healthy, i.e. reachable, or `0` if the scrape failed.
 * `scrape_duration_seconds{job="<job-name>", instance="<instance-id>"}`:
    duration of the scrape.
+* `scrape_samples_post_metric_relabeling{job="<job-name>", instance="<instance-id>"}`:
+   the number of samples remaining after metric relabeling was applied.
+* `scrape_samples_scraped{job="<job-name>", instance="<instance-id>"}`:
+   the number of samples the target exposed.
 
 The `up` time series is useful for instance availability monitoring.

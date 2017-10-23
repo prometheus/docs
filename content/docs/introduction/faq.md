@@ -9,6 +9,7 @@ toc: full-width
 ## General
 
 ### What is Prometheus?
+
 Prometheus is an open-source systems monitoring and alerting toolkit
 with an active ecosystem. See the [overview](/docs/introduction/overview/).
 
@@ -25,12 +26,15 @@ The main Prometheus server runs standalone and has no external dependencies.
 Yes, run identical Prometheus servers on two or more separate machines.
 Identical alerts will be deduplicated by the [Alertmanager](https://github.com/prometheus/alertmanager).
 
-The Alertmanager cannot currently be made highly available, but this is a goal.
+For [high availability of the Alertmanager](https://github.com/prometheus/alertmanager#high-availability),
+you can run multiple instances in a
+[Mesh cluster](https://github.com/weaveworks/mesh) and configure the Prometheus
+servers to send notifications to each of them.
 
 ### I was told Prometheus “doesn't scale”.
 
 There are in fact various ways to scale and federate
-Prometheus. Read [Scaling and Federating Prometheus](http://www.robustperception.io/scaling-and-federating-prometheus/)
+Prometheus. Read [Scaling and Federating Prometheus](https://www.robustperception.io/scaling-and-federating-prometheus/)
 on the Robust Perception blog to get started.
 
 ### What language is Prometheus written in?
@@ -40,14 +44,17 @@ Python, and Ruby.
 
 ### How stable are Prometheus features, storage formats, and APIs?
 
-Although Prometheus and many of its ecosystem components are already quite
-stable, we will still allow for occasional breaking changes until the
-Prometheus server reaches version 1.0.0. These breaking changes will be pointed
-out in release announcements for components that already have a proper release
-process (like the Prometheus server) or communicated clearly otherwise. After
-releasing version 1.0.0, breaking changes will be indicated by increments of
-the major version. See also the documentation for [semantic
-versioning](http://semver.org/), which we are following.
+All repositories in the Prometheus GitHub organization that have reached
+version 1.0.0 broadly follow
+[semantic versioning](http://semver.org/). Breaking changes are indicated by
+increments of the major version. Exceptions are possible for experimental
+components, which are clearly marked as such in announcements.
+
+Even repositories that have not yet reached version 1.0.0 are, in general, quite
+stable. We aim for a proper release process and an eventual 1.0.0 release for
+each repository. In any case, breaking changes will be pointed out in release
+notes (marked by `[CHANGE]`) or communicated clearly for components that do not
+have formal releases yet.
 
 ### Why do you pull rather than push?
 
@@ -57,17 +64,14 @@ Pulling over HTTP offers a number of advantages:
 * You can more easily tell if a target is down.
 * You can manually go to a target and inspect its health with a web browser.
 
-Overall we believe that pulling is slightly better than pushing, but it should
+Overall, we believe that pulling is slightly better than pushing, but it should
 not be considered a major point when considering a monitoring system.
-
-The [Push vs Pull for Monitoring](http://www.boxever.com/push-vs-pull-for-monitoring)
-blog post by Brian Brazil goes into more detail.
 
 For cases where you must push, we offer the [Pushgateway](/docs/instrumenting/pushing/).
 
 ### How to feed logs into Prometheus?
 
-Short answer: Don't! Use something like the ELK stack instead.
+Short answer: Don't! Use something like the [ELK stack](https://www.elastic.co/products) instead.
 
 Longer answer: Prometheus is a system to collect and process metrics, not an
 event logging system. The Raintank blog post
@@ -82,12 +86,9 @@ If you want to extract Prometheus metrics from application logs, Google's
 Prometheus was initially started privately by
 [Matt T. Proud](http://www.matttproud.com) and
 [Julius Volz](http://juliusv.com). The majority of its
-development has been sponsored by [SoundCloud](https://soundcloud.com).
+initial development was sponsored by [SoundCloud](https://soundcloud.com).
 
-Other companies making active contributions include [Boxever](http://www.boxever.com/)
-and [Docker](https://www.docker.com). A full list can be found in the
-[AUTHORS](https://github.com/prometheus/prometheus/blob/master/AUTHORS.md)
-file in each repository.
+It's now maintained and extended by a wide range of companies and individuals.
 
 ### What license is Prometheus released under?
 
@@ -96,32 +97,33 @@ Prometheus is released under the
 
 ### What is the plural of Prometheus?
 
-After extensive research it has been determined that the correct plural of
-'Prometheus' is 'Prometheis'.
+After [extensive research](https://youtu.be/B_CDeYrqxjQ), it has been determined
+that the correct plural of 'Prometheus' is 'Prometheis'.
 
 ### Can I reload Prometheus's configuration?
 
-Yes, sending SIGHUP to the Prometheus process will reload
-and apply the configuration file. The different components attempt
-to handle failing changes gracefully.
+Yes, sending `SIGHUP` to the Prometheus process or an HTTP POST request to the
+`/-/reload` endpoint will reload and apply the configuration file. The
+various components attempt to handle failing changes gracefully.
 
 ### Can I send alerts?
 
-Yes, with the experimental [Alertmanager](https://github.com/prometheus/alertmanager).
+Yes, with the [Alertmanager](https://github.com/prometheus/alertmanager).
 
 Currently, the following external systems are supported:
 
 * Email
 * Generic Webhooks
-* [PagerDuty](http://www.pagerduty.com/)
 * [HipChat](https://www.hipchat.com/)
-* [Slack](https://slack.com/)
+* [OpsGenie](https://www.opsgenie.com/)
+* [PagerDuty](http://www.pagerduty.com/)
 * [Pushover](https://pushover.net/)
-* [Flowdock](https://www.flowdock.com/)
+* [Slack](https://slack.com/)
 
 ### Can I create dashboards?
 
-Yes, we recommend [Grafana](/docs/visualization/grafana/) for production usage. [PromDash](/docs/visualization/promdash/) and [Console templates](/docs/visualization/consoles/) also exist.
+Yes, we recommend [Grafana](/docs/visualization/grafana/) for production
+usage. There are also [Console templates](/docs/visualization/consoles/).
 
 ### Can I change the timezone? Why is everything in UTC?
 
@@ -148,7 +150,7 @@ the [exposition formats](/docs/instrumenting/exposition_formats/).
 
 Yes, the [Node Exporter](https://github.com/prometheus/node_exporter) exposes
 an extensive set of machine-level metrics on Linux and other Unix systems such
-as CPU usage, memory, disk utilization, filesystem fullness and network
+as CPU usage, memory, disk utilization, filesystem fullness, and network
 bandwidth.
 
 ### Can I monitor network devices?
@@ -164,12 +166,11 @@ jobs.
 
 ### What applications can Prometheus monitor out of the box?
 
-See [exporters for third-party systems](/docs/instrumenting/exporters/).
+See [the list of exporters and integrations](/docs/instrumenting/exporters/).
 
 ### Can I monitor JVM applications via JMX?
 
-Yes, for applications that you cannot instrument directly with the Java client
-you can use the [JMX Exporter](https://github.com/prometheus/jmx_exporter)
+Yes, for applications that you cannot instrument directly with the Java client, you can use the [JMX Exporter](https://github.com/prometheus/jmx_exporter)
 either standalone or as a Java Agent.
 
 ### What is the performance impact of instrumentation?
@@ -182,19 +183,26 @@ latency-critical code.
 
 ## Troubleshooting
 
-### My server takes a long time to start up and spams the log with copious information about crash recovery.
+### My Prometheus server takes a long time to start up and spams the log with copious information about crash recovery.
 
-You are suffering from an unclean shutdown. Prometheus has to shut
-down cleanly after a `SIGTERM`, which might take a while for heavily
-used servers. If the server crashes or is killed hard (e.g. OOM kill
-by the kernel or your runlevel system got impatient while waiting for
-Prometheus to shutdown), a crash recovery has to be performed, which
-should take less than a minute under normal circumstances. See [crash recovery](/docs/operating/storage/#crash-recovery) for details.
+You are suffering from an unclean shutdown. Prometheus has to shut down cleanly
+after a `SIGTERM`, which might take a while for heavily used servers. If the
+server crashes or is killed hard (e.g. OOM kill by the kernel or your runlevel
+system got impatient while waiting for Prometheus to shutdown), a crash
+recovery has to be performed, which should take less than a minute under normal
+circumstances, but can take quite long under certain circumstances. See
+[crash recovery](/docs/operating/storage/#crash-recovery) for details.
 
-### I am using ZFS on Linux, and the unit test `TestPersistLoadDropChunks` fails. If I run Prometheus despite the failing test, the weirdest things happen.
+### My Prometheus server runs out of memory.
 
-You have run into a bug of ZFS on Linux. See [issue #484](https://github.com/prometheus/prometheus/issues/484)
-for details. Upgrading to ZFS on Linux v0.6.4 should fix the issue.
+See [the section about memory usage](/docs/operating/storage/#memory-usage)
+to configure Prometheus for the amount of memory you have available.
+
+### My Prometheus server reports to be in “rushed mode” or that “storage needs throttling”.
+
+Your storage is under heavy load. Read
+[the section about configuring the local storage](/docs/operating/storage/)
+to find out how you can tweak settings for better performance.
 
 ## Implementation
 
@@ -208,44 +216,40 @@ native 64 bit integers would (only) help if you need integer precision
 above 2<sup>53</sup> but below 2<sup>63</sup>. In principle, support
 for different sample value types (including some kind of big integer,
 supporting even more than 64 bit) could be implemented, but it is not
-a priority right now. Note that a counter, even if incremented
-one million times per second, will only run into precision issues
-after over 285 years.
+a priority right now. A counter, even if incremented one million times per
+second, will only run into precision issues after over 285 years.
 
 ### Why does Prometheus use a custom storage backend rather than [some other storage method]? Isn't the "one file per time series" approach killing performance?
 
 Initially, Prometheus ran completely on LevelDB, but to achieve better
-performance, we had to change the storage for bulk sample data. We
-evaluated many storage backends that were available at the time,
-without getting satisfactory results. So we implemented exactly the
-parts we needed, while keeping LevelDB for indexes and making heavy
-use of file system capabilities. Obviously, we could not evaluate
-every single storage backend out there, and storage backends have
-evolved meanwhile. However, the performance of the solution
-implemented now is satisfactory for most use-cases. Our most important
-requirements are an acceptable query speed for common queries and a
-sustainable ingestion rate of many thousands of samples per
-second. The latter depends on the compressibility of the sample data
-and on the number of time series the samples belong to, but to give
-you an idea, here are some results from benchmarks:
+performance, we had to change the storage for bulk sample data. We evaluated
+many storage backends that were available at the time, without getting
+satisfactory results. So we implemented exactly the parts we needed, while
+keeping LevelDB for indexes and making heavy use of file system
+capabilities. Obviously, we could not evaluate every single storage backend out
+there, and storage backends have evolved meanwhile. However, the performance of
+the solution implemented now is satisfactory for most use-cases. Our most
+important requirements are an acceptable query speed for common queries and a
+sustainable ingestion rate of hundreds of thousands of samples per second. The
+latter depends on many parameters, like the compressibility of the sample data,
+the number of time series the samples belong to, the retention policy, and even
+more subtle aspects like how full your SSD is. If you want to know all the
+details, read
+[this document with detailed benchmark results](https://docs.google.com/document/d/1lRKBaz9oXI5nwFZfvSbPhpwzUbUr3-9qryQGG1C6ULk/edit?usp=sharing). The highlights:
 
-* On an older 8-core machine with Intel Core i7 CPUs, 8GiB RAM, and
-  two spinning disks (Samsung HD753LJ) in a RAID-1 setup, Prometheus
-  sustained an ingestion rate of 34k samples per second, belonging to
-  170k time series, scraped from 600 targets.
+* On a typical bare-metal server with 64GiB RAM, 32 CPU cores, and SSD,
+  Prometheus sustained an ingestion rate of 900k samples per second, belonging
+  to 1M time series, scraped from 720 targets.
 
-* On a modern server with 64GiB RAM, 32 CPU cores, and SSD, Prometheus
-  sustained an ingestion rate of 525k samples per second, belonging to 1.4M
-  time series, scraped from 1650 targets.
+* On a server with HDD and 128GiB RAM, Prometheus sustained an ingestion rate
+  of 250k samples per second, belonging to 1M time series, scraped from 720
+  targets.
 
-In both cases, there were no obvious bottlenecks. Various stages of the
-processing pipelines reached their limits more or less at the same
-ingestion rate.
-
-Running out of inodes is highly unlikely in a usual set-up. There is a
-possible downside: If you want to delete Prometheus's storage
-directory, you will notice that some file systems are very slow when
-deleting files.
+Running out of inodes is unlikely in a usual set-up. However, if you have a lot
+of short-lived time series, or you have configured your file system with an
+unusual low amount of inodes, you might run into inode depletion. Also, if you
+want to delete Prometheus's storage directory, you will notice that some file
+systems are very slow when deleting a large number of files.
 
 ### Why don't the Prometheus server components support TLS or authentication? Can I add those?
 
@@ -257,10 +261,9 @@ monitoring system possible rather than supporting fully generic TLS and
 authentication solutions in every server component.
 
 If you need TLS or authentication, we recommend putting a reverse proxy in
-front of Prometheus. See for example [Adding Basic Auth to Prometheus with
-Nginx](http://www.robustperception.io/adding-basic-auth-to-prometheus-with-nginx/).
+front of Prometheus. See, for example [Adding Basic Auth to Prometheus with
+Nginx](https://www.robustperception.io/adding-basic-auth-to-prometheus-with-nginx/).
 
-Note that this applies only to inbound connections. Prometheus does support
-[scraping TLS- and auth-enabled
-targets](/docs/operating/configuration/#%3Cscrape_config%3E), and other
+This applies only to inbound connections. Prometheus does support
+[scraping TLS- and auth-enabled targets](/docs/operating/configuration/#%3Cscrape_config%3E), and other
 Prometheus components that create outbound connections have similar support.

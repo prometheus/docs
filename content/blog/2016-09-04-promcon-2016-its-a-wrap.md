@@ -122,7 +122,7 @@ swag possible:
 
 <h3>Diamond</h3>
 <div class="sponsor-logos">
-  <a href="http://www.robustperception.io/"><img src="/assets/blog/2016-09-02/robust_perception_logo.png"/></a>
+  <a href="https://www.robustperception.io/"><img src="/assets/blog/2016-09-02/robust_perception_logo.png"/></a>
   <a href="https://www.weave.works/"><img src="/assets/blog/2016-09-02/weave_logo.png"/></a>
 </div>
 

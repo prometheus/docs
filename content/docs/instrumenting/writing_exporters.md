@@ -215,7 +215,7 @@ There’s generally two cases where this comes up.
 
 The first is some label it’d be useful to have on the metrics that are about,
 such as the version number of the software. Use the approach described at
-[http://www.robustperception.io/how-to-have-labels-for-machine-roles/](http://www.robustperception.io/how-to-have-labels-for-machine-roles/)
+[https://www.robustperception.io/how-to-have-labels-for-machine-roles/](http://www.robustperception.io/how-to-have-labels-for-machine-roles/)
 instead.
 
 The other case are what are really target labels. These are things like region,
@@ -366,8 +366,7 @@ and pass on the target to be scraped. See the blackbox and SNMP exporters for
 examples.
 
 Note that it is only currently possible to write this type of exporter with the
-Python and Java client libraries (the blackbox exporter which is written in Go
-is doing the text format by hand, don’t do this).
+Go, Python and Java client libraries.
 
 The other is where you’re pulling some stats out of a random instance of a
 system and don’t care which one you’re talking to. Consider a set of MySQL
@@ -459,7 +458,8 @@ preferably before publicly announcing it. If you’re not ready to release yet,
 putting your username and WIP is fine.
 
 This is a registry to make our users’ lives a little easier, not a commitment
-to develop particular exporters.
+to develop particular exporters. For exporters for internal applications we
+recommend using ports outside of the range of default port allocations.
 
 ## Announcing
 

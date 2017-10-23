@@ -135,8 +135,8 @@ counter. It MUST NOT allow the value to decrease, however it MAY be reset to 0
 
 A counter MUST have the following methods:
 
-- `inc()`: Increment the counter by 1
-- `inc(double v)`: Increment the counter by the given amount. MUST check that v >= 0.
+* `inc()`: Increment the counter by 1
+* `inc(double v)`: Increment the counter by the given amount. MUST check that v >= 0.
 
 A counter is ENCOURAGED to have:
 
@@ -152,18 +152,18 @@ and down.
 
 A gauge MUST have the following methods:
 
-- `inc()`: Increment the gauge by 1
-- `inc(double v)`: Increment the gauge by the given amount
-- `dec()`: Decrement the gauge by 1
-- `dec(double v)`: Decrement the gauge by the given amount
-- `set(double v)`: Set the gauge to the given value
+* `inc()`: Increment the gauge by 1
+* `inc(double v)`: Increment the gauge by the given amount
+* `dec()`: Decrement the gauge by 1
+* `dec(double v)`: Decrement the gauge by the given amount
+* `set(double v)`: Set the gauge to the given value
 
 Gauges MUST start at 0, you MAY offer a way for a given gauge to start at a
 different number.
 
 A gauge SHOULD have the following methods:
 
-- `set_to_current_time()`: Set the gauge to the current unixtime in seconds.
+* `set_to_current_time()`: Set the gauge to the current unixtime in seconds.
 
 A gauge is ENCOURAGED to have:
 
@@ -189,7 +189,7 @@ quite useful and this MUST be the default.
 
 A summary MUST have the following methods:
 
-- `observe(double v)`: Observe the given amount
+* `observe(double v)`: Observe the given amount
 
 A summary SHOULD have the following methods:
 
@@ -218,7 +218,7 @@ Buckets MUST NOT be changeable once the metric is created.
 
 A histogram MUST have the following methods:
 
-- `observe(double v)`: Observe the given amount
+* `observe(double v)`: Observe the given amount
 
 A histogram SHOULD have the following methods:
 
@@ -333,11 +333,11 @@ These SHOULD be implemented as custom Collectors, and registered by default on
 the default CollectorRegistry. There SHOULD be a way to disable these, as there
 are some very niche use cases where they get in the way.
 
+### Process metrics
+
 These exports should have the prefix `process_`. If a language or runtime
 doesn't expose one of the variables it'd just not export it. All memory values
 in bytes, all times in unixtime/seconds.
-
-## Metrics
 
 | Metric name                     | Help string                                            | Unit             |
 | ------------------------------- | ------------------------------------------------------ | ---------------  |
@@ -349,9 +349,11 @@ in bytes, all times in unixtime/seconds.
 | `process_heap_bytes`            | Process heap size in bytes.                            | bytes            |
 | `process_start_time_seconds`    | Start time of the process since unix epoch in seconds. | seconds          |
 
+### Runtime metrics
+
 In addition, client libraries are ENCOURAGED to also offer whatever makes sense
 in terms of metrics for their language’s runtime (e.g. garbage collection
-stats), with an appropriate prefix such as `go_`, `hostspot_` etc. 
+stats), with an appropriate prefix such as `go_`, `hostspot_` etc.
 
 ## Unit tests
 

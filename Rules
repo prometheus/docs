@@ -50,6 +50,7 @@ compile '*' do
     filter :bootstrappify
     filter :admonition
     filter :colorize_syntax, :default_colorizer => :pygmentsrb
+    filter :config_linker if item[:title] == 'Configuration'
     filter :toc, style: item[:toc]
     if item[:kind] == 'article'
       layout 'blog'

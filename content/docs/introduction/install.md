@@ -32,7 +32,7 @@ exposes it on port 9090.
 
 The Prometheus image uses a volume to store the actual metrics. For
 production deployments it is highly recommended to use the
-[Data Volume Container](https://docs.docker.com/engine/userguide/containers/dockervolumes/#creating-and-mounting-a-data-volume-container)
+[Data Volume Container](https://docs.docker.com/engine/admin/volumes/volumes/)
 pattern to ease managing the data on Prometheus upgrades.
 
 To provide your own configuration, there are several options. Here are
@@ -40,7 +40,7 @@ two examples.
 
 ### Volumes & bind-mount
 
-Bind-mount your prometheus.yml from the host by running:
+Bind-mount your `prometheus.yml` from the host by running:
 
 ```
 docker run -p 9090:9090 -v /tmp/prometheus.yml:/etc/prometheus/prometheus.yml \
@@ -62,7 +62,7 @@ configuration itself is rather static and the same across all
 environments.
 
 For this, create a new directory with a Prometheus configuration and a
-Dockerfile like this:
+`Dockerfile` like this:
 
 ```
 FROM prom/prometheus
@@ -76,7 +76,7 @@ docker build -t my-prometheus .
 docker run -p 9090:9090 my-prometheus
 ```
 
-A more advanced option is to render the config dynamically on start
+A more advanced option is to render the configuration dynamically on start
 with some tooling or even have a daemon update it periodically.
 
 ## Using configuration management systems
@@ -84,15 +84,19 @@ with some tooling or even have a daemon update it periodically.
 If you prefer using configuration management systems you might be interested in
 the following third-party contributions:
 
-Ansible:
+### Ansible
 
 * [griggheo/ansible-prometheus](https://github.com/griggheo/ansible-prometheus)
 * [William-Yeh/ansible-prometheus](https://github.com/William-Yeh/ansible-prometheus)
 
-Chef:
+### Chef
 
 * [rayrod2030/chef-prometheus](https://github.com/rayrod2030/chef-prometheus)
 
-SaltStack:
+### Puppet
+
+* [puppet/prometheus](https://forge.puppet.com/puppet/prometheus)
+
+### SaltStack
 
 * [bechtoldt/saltstack-prometheus-formula](https://github.com/bechtoldt/saltstack-prometheus-formula)

@@ -71,6 +71,8 @@ URL query parameters:
 
 - `query=<string>`: Prometheus expression query string.
 - `time=<rfc3339 | unix_timestamp>`: Evaluation timestamp. Optional.
+- `timeout=<duration>`: Evaluation timeout. Optional. Defaults to and
+   is capped by the value of the `-query.timeout` flag.
 
 The current server time is used if the `time` parameter is omitted.
 
@@ -132,6 +134,8 @@ URL query parameters:
 - `start=<rfc3339 | unix_timestamp>`: Start timestamp.
 - `end=<rfc3339 | unix_timestamp>`: End timestamp.
 - `step=<duration>`: Query resolution step width.
+- `timeout=<duration>`: Evaluation timeout. Optional. Defaults to and
+   is capped by the value of the `-query.timeout` flag.
 
 The `data` section of the query result has the following format:
 
@@ -198,6 +202,8 @@ URL query parameters:
 
 - `match[]=<series_selector>`: Repeated series selector argument that selects the
   series to return. At least one `match[]` argument must be provided.
+- `start=<rfc3339 | unix_timestamp>`: Start timestamp.
+- `end=<rfc3339 | unix_timestamp>`: End timestamp.
 
 The `data` section of the query result consists of a list of objects that
 contain the label name/value pairs which identify each series.
@@ -336,4 +342,74 @@ String results are returned as result type `string`. The corresponding
 
 ```
 [ <unix_time>, "<string_value>" ]
+```
+
+
+## Targets
+
+> This API is experimental as it is intended to be extended with targets
+> dropped due to relabelling in the future.
+
+The following endpoint returns an overview of the current state of the
+Prometheus target discovery:
+
+```
+GET /api/v1/targets
+```
+
+Currently only the active targets are part of the response.
+
+```
+$ curl http://localhost:9090/api/v1/targets
+{
+  "status": "success",                                                                                                                                [3/11]
+  "data": {
+    "activeTargets": [
+      {
+        "discoveredLabels": {
+          "__address__": "127.0.0.1:9090",
+          "__metrics_path__": "/metrics",
+          "__scheme__": "http",
+          "job": "prometheus"
+        },
+        "labels": {
+          "instance": "127.0.0.1:9090",
+          "job": "prometheus"
+        },
+        "scrapeUrl": "http://127.0.0.1:9090/metrics",
+        "lastError": "",
+        "lastScrape": "2017-01-17T15:07:44.723715405+01:00",
+        "health": "up"
+      }
+    ]
+  }
+}
+```
+
+## Alertmanagers
+
+> This API is experimental as it is intended to be extended with Alertmanagers
+> dropped due to relabelling in the future.
+
+The following endpoint returns an overview of the current state of the
+Prometheus alertmanager discovery:
+
+```
+GET /api/v1/alertmanagers
+```
+
+Currently only the active Alertmanagers are part of the response.
+
+```
+$ curl http://localhost:9090/api/v1/alertmanagers
+{
+  "status": "success",
+  "data": {
+    "activeAlertmanagers": [
+      {
+        "url": "http://127.0.0.1:9090/api/v1/alerts"
+      }
+    ]
+  }
+}
 ```

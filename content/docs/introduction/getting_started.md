@@ -65,7 +65,7 @@ To start Prometheus with your newly created configuration file, change to the di
 ```language-bash
 # Start Prometheus.
 # By default, Prometheus stores its database in ./data (flag -storage.local.path).
-./prometheus -config.file=prometheus.yml
+./prometheus --config.file=prometheus.yml
 ```
 
 Prometheus should start up. You should also be able to browse to a status page about itself at http://localhost:9090. Give it a couple of seconds to collect data about itself from its own HTTP metrics endpoint.

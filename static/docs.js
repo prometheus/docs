@@ -15,7 +15,7 @@ $(document).ready(function() {
     }
   };
 
-  $('.nav-header span').each(function() {
+  $('.nav-header span,.nav-subheader').each(function() {
     var link = $('<a href="#">').text($(this).text()).click(navToggle);
     $(this).replaceWith(link);
   });

@@ -12,14 +12,18 @@ def nav(root_item, buffer='', layer=0)
   end
 
   if nav_active?(root_item)
-    buffer << "<li class=\"active\">"
+    buffer << "<li class=\"active #{"current" unless children.any?}\">"
   else
     buffer << "<li>"
   end
 
   title = nav_title_of(root_item)
-  if layer == 0
-    buffer << "<span class=\"nav-header\"><i class=\"fa fa-#{root_item[:nav_icon]}\"></i> <span>#{title}</span></span>"
+  if children.any?
+    if layer == 0
+      buffer << "<span class=\"nav-header\"><i class=\"fa fa-#{root_item[:nav_icon]}\"></i> <span>#{title}</span></span>"
+    else
+      buffer << "<span class=\"nav-subheader\">#{title}</span>"
+    end
   else
     buffer << link_to(title, root_item.path)
   end

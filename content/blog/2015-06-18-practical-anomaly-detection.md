@@ -16,7 +16,7 @@ real-world systems.
 
 All hope is not lost though. There are many common anomalies which you can
 detect and handle with custom-built rules. The Prometheus [query
-language](../../../../../docs/querying/basics/) gives you the tools to discover
+language](/docs/prometheus/latest/querying/basics/) gives you the tools to discover
 these anomalies while avoiding false positives.
 
 <!-- more -->
@@ -28,7 +28,7 @@ performing as well as the rest, such as responding with increased latency.
 
 Let us say that we have a metric `instance:latency_seconds:mean5m` representing the
 average query latency for each instance of a service, calculated via a
-[recording rule](/docs/querying/rules/) from a
+[recording rule](/docs/prometheus/latest/querying/rules/) from a
 [Summary](/docs/concepts/metric_types/#summary) metric.
 
 A simple way to start would be to look for instances with a latency
@@ -115,7 +115,6 @@ receivers:
 route:
   receiver: restart_webhook
 ```
-
 
 ## Summary
 

@@ -128,7 +128,7 @@ However, if your dashboard query doesn't only touch a single time series but
 aggregates over thousands of time series, the number of chunks to access
 multiplies accordingly, and the overhead of the sequential scan will become
 dominant. (Such queries are frowned upon, and we usually recommend to use a
-[recording rule](https://prometheus.io/docs/querying/rules/#recording-rules)
+[recording rule](https://prometheus.io/docs/prometheus/latest/querying/rules/#recording-rules)
 for queries of that kind that are used frequently, e.g. in a dashboard.)  But
 with the double-delta encoding, the query time might still have been
 acceptable, let's say around one second. After the switch to varbit encoding,
@@ -147,7 +147,7 @@ encoding. Start your Prometheus server with
 `-storage.local.chunk-encoding-version=2` and wait for a while until you have
 enough new chunks with varbit encoding to vet the effects. If you see queries
 that are becoming unacceptably slow, check if you can use
-[recording rules](https://prometheus.io/docs/querying/rules/#recording-rules)
+[recording rules](https://prometheus.io/docs/prometheus/latest/querying/rules/#recording-rules)
 to speed them up. Most likely, those queries will gain a lot from that even
 with the old double-delta encoding.
 

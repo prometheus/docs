@@ -142,7 +142,7 @@ to finish within a reasonable amount of time. This happened to us when we wanted
 to graph the top 5 utilized links out of ~18,000 in total. While the query
 worked, it would take roughly the amount of time we set our timeout limit to,
 meaning it was both slow and flaky. We decided to use Prometheus' [recording
-rules](/docs/querying/rules/) for precomputing heavy queries.
+rules](/docs/prometheus/latest/querying/rules/) for precomputing heavy queries.
 
     precomputed_link_utilization_percent = rate(ifHCOutOctets{layer!='access'}[10m])*8/1000/1000
                                              / on (device,interface,alias)

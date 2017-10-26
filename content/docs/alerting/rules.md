@@ -12,7 +12,7 @@ vector elements at a given point in time, the alert counts as active for these
 elements' label sets.
 
 Alerting rules are configured in Prometheus in the same way as [recording
-rules](../../querying/rules).
+rules](/docs/prometheus/latest/querying/rules).
 
 ### Defining alerting rules
 
@@ -42,7 +42,7 @@ can be templated.
 
 #### Templating
 
-Label and annotation values can be templated using [console templates](../../visualization/consoles).
+Label and annotation values can be templated using [console templates](/docs/visualization/consoles).
 The `$labels` variable holds the label key/value pairs of an alert instance
 and `$value` holds the evaluated value of an alert instance.
 
@@ -91,7 +91,7 @@ Prometheus's alerting rules are good at figuring what is broken *right now*,
 but they are not a fully-fledged notification solution. Another layer is needed
 to add summarization, notification rate limiting, silencing and alert
 dependencies on top of the simple alert definitions. In Prometheus's ecosystem,
-the [Alertmanager](../alertmanager) takes on this
+the [Alertmanager](/docs/alertmanager) takes on this
 role. Thus, Prometheus may be configured to periodically send information about
 alert states to an Alertmanager instance, which then takes care of dispatching
 the right notifications. The Alertmanager instance may be configured via the

@@ -26,7 +26,7 @@ sending a HTTP POST request to the `/-/reload` endpoint.
 
 To specify which configuration file to load, use the `-config.file` flag.
 
-```
+```bash
 ./alertmanager -config.file=simple.yml
 ```
 
@@ -55,8 +55,7 @@ The global configuration specifies parameters that are valid in all other
 configuration contexts. They also serve as defaults for other configuration
 sections.
 
-
-```
+```yaml
 global:
   # ResolveTimeout is the time after which an alert is declared resolved
   # if it has not been updated.
@@ -100,7 +99,6 @@ inhibit_rules:
   [ - <inhibit_rule> ... ]
 ```
 
-
 ## `<route>`
 
 A route block defines a node in a routing tree and its children. Its optional
@@ -115,8 +113,7 @@ If an alert does not match any children of a node (no matching child nodes, or
 none exist), the alert is handled based on the configuration parameters of the
 current node.
 
-
-```
+```yaml
 [ receiver: <string> ]
 [ group_by: '[' <labelname>, ... ']' ]
 
@@ -152,7 +149,7 @@ routes:
 
 ### Example
 
-```
+```yaml
 # The root route with all parameters, which are inherited by the child
 # routes if they are not overwritten.
 route:
@@ -179,8 +176,6 @@ route:
       team: frontend
 ```
 
-
-
 ## `<inhibit_rule>`
 
 An inhibition rule is a rule that mutes an alert matching a set of matchers
@@ -190,7 +185,7 @@ Both alerts must have a set of equal labels.
 __Alerts can inhibit themselves. Avoid writing inhibition rules where
 an alert matches both source and target.__
 
-```
+```yaml
 # Matchers that have to be fulfilled in the alerts to be muted.
 target_match:
   [ <labelname>: <labelvalue>, ... ]
@@ -210,14 +205,13 @@ source_match_re:
 
 ```
 
-
 ## `<receiver>`
 
 Receiver is a named configuration of one or more notification integrations.
 
 __We're not actively adding new receivers, we recommend implementing custom notification integrations via the [webhook](/docs/alerting/configuration/#webhook_config) receiver.__
 
-```
+```yaml
 # The unique name of the receiver.
 name: <string>
 
@@ -240,10 +234,9 @@ victorops_configs:
   [ - <victorops_config>, ... ]
 ```
 
-
 ## `<email_config>`
 
-```
+```yaml
 # Whether or not to notify about resolved alerts.
 [ send_resolved: <boolean> | default = false ]
 
@@ -273,7 +266,7 @@ to: <tmpl_string>
 
 HipChat notifications use a [Build Your Own](https://confluence.atlassian.com/hc/integrations-with-hipchat-server-683508267.html) integration.
 
-```
+```yaml
 # Whether or not to notify about resolved alerts.
 [ send_resolved: <boolean> | default = false ]
 
@@ -302,7 +295,7 @@ room_id: <tmpl_string>
 PagerDuty notifications are sent via the [PagerDuty API](https://developer.pagerduty.com/documentation/integration/events).
 PagerDuty provides documentation on how to integrate [here](https://www.pagerduty.com/docs/guides/prometheus-integration-guide/).
 
-```
+```yaml
 # Whether or not to notify about resolved alerts.
 [ send_resolved: <boolean> | default = true ]
 
@@ -333,7 +326,7 @@ service_key: <tmpl_secret>
 
 Pushover notifications are sent via the [Pushover API](https://pushover.net/api).
 
-```
+```yaml
 # Whether or not to notify about resolved alerts.
 [ send_resolved: <boolean> | default = true ]
 
@@ -368,7 +361,7 @@ token: <secret>
 
 Slack notifications are sent via [Slack webhooks](https://api.slack.com/incoming-webhooks).
 
-```
+```yaml
 # Whether or not to notify about resolved alerts.
 [ send_resolved: <boolean> | default = false ]
 
@@ -390,12 +383,11 @@ channel: <tmpl_string>
 [ fallback: <tmpl_string> | default = '{{ template "slack.default.fallback" . }}' ]
 ```
 
-
 ## `<opsgenie_config>`
 
 OpsGenie notifications are sent via the [OpsGenie API](https://www.opsgenie.com/docs/web-api/alert-api).
 
-```
+```yaml
 # Whether or not to notify about resolved alerts.
 [ send_resolved: <boolean> | default = true ]
 
@@ -427,11 +419,12 @@ api_key: <secret>
 # Additional alert note.
 [ note: <tmpl_string> ]
 ```
+
 ## `<victorops_config>`
 
 VictorOps notifications are sent out via the [VictorOps API](https://help.victorops.com/knowledge-base/victorops-restendpoint-integration/)
 
-```
+```yaml
 # Whether or not to notify about resolved alerts.
 [ send_resolved: <boolean> | default = true ]
 
@@ -458,12 +451,11 @@ routing_key: <string>
 
 ```
 
-
 ## `<webhook_config>`
 
 The webhook receiver allows configuring a generic receiver.
 
-```
+```yaml
 # Whether or not to notify about resolved alerts.
 [ send_resolved: <boolean> | default = true ]
 
@@ -497,7 +489,6 @@ endpoint:
 }
 ```
 
-
 There is a list of
-[integrations](/docs/operating/integrations/#alertmanager-webhook-receiver) with
+[integrations](/docs/instrumenting/integrations/#alertmanager-webhook-receiver) with
 this feature.

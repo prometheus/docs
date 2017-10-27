@@ -13,7 +13,7 @@ them to the correct receiver integration such as email, PagerDuty, or OpsGenie.
 It also takes care of silencing and inhibition of alerts.
 
 The following describes the core concepts the Alertmanager implements. Consult
-the [configuration documentation](../configuration) to learn how to use them
+the [configuration documentation](https://prometheus.io/docs/alerting/configuration/) to learn how to use them
 in more detail.
 
 ## Grouping

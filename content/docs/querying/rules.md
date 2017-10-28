@@ -18,8 +18,8 @@ process. The changes are only applied if all rule files are well-formatted.
 ## Syntax-checking rules
 To quickly check whether a rule file is syntactically correct without starting
 a Prometheus server you can run Prometheus's `promtool` command-line
-utility tool. The `promtool` binary ships with the Prometheus server
-download.
+utility tool. The `promtool` binary ships with the Prometheus
+server tarball.
 
 ```bash
 promtool check-rules /path/to/example.rules

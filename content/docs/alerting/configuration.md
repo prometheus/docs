@@ -249,16 +249,20 @@ victorops_configs:
 
 # The email address to send notifications to.
 to: <tmpl_string>
+
 # The sender address.
 [ from: <tmpl_string> | default = global.smtp_from ]
+
 # The SMTP host through which emails are sent.
 [ smarthost: <string> | default = global.smtp_smarthost ]
-# SMTP authentication information.
-[ auth_username: <string> ]
-[ auth_password: <secret> ]
-[ auth_secret: <secret> ]
-[ auth_identity: <string> ]
 
+# SMTP authentication information.
+[ auth_username: <string> | default = global.smtp_auth_username ]
+[ auth_password: <secret> | default = global.smtp_auth_password ]
+[ auth_secret: <secret> | default = global.smtp_auth_secret ]
+[ auth_identity: <string> | default = global.smtp_auth_identity ]
+
+# The SMTP TLS requirement.
 [ require_tls: <bool> | default = global.smtp_require_tls ]
 
 # The HTML body of the email notification.

@@ -59,8 +59,7 @@ alerts are checked whether they match all the equality or regular expression
 matchers of an active silence.
 If they do, no notifications will be sent out for that alert.
 
-Silences are configured in the web interface of the Alertmanager.
-
+Silences are configured in the web interface of the Alertmanager.  Note that because silence state is updated on each group interval, it may take a few minutes for silences to be reflected in the UI.
 
 ## Client behavior
 

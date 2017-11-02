@@ -215,7 +215,7 @@ source_match_re:
 
 Receiver is a named configuration of one or more notification integrations.
 
-__We're not actively adding new receivers, we recommend implementing custom notification integrations via the [webhook](/docs/alerting/configuration/#webhook_config) receiver.__
+__We're not actively adding new receivers, we recommend implementing custom notification integrations via the [webhook](/docs/alerting/configuration/#webhook_config) receiver. Check [this list](https://prometheus.io/docs/operating/integrations/#alertmanager-webhook-receiver) for already implemented webhook receiver integrations.__
 
 ```
 # The unique name of the receiver.

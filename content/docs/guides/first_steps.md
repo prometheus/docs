@@ -1,0 +1,186 @@
+---
+title: First steps
+sort_rank: 3
+---
+
+# First steps with Prometheus
+
+Welcome to Prometheus! Prometheus is a monitoring platform that collects metrics from monitored targets by scraping metrics HTTP endpoints on these targets. This guide will show you to how to install, configure and monitor our first resource with Prometheus. You'll download, install and run Prometheus. You'll also download and install an exporter, plugins that expose time series data on hosts and services. Our first exporter will be the Node Exporter. This exporter exposes host-level metrics like CPU, memory, and disk. 
+
+## Downloading Prometheus
+
+[Download the latest release](/download) of Prometheus for your platform, then
+extract it:
+
+```language-bash
+tar xvfz prometheus-*.tar.gz
+cd prometheus-*
+```
+
+The Prometheus server is a single binary called `prometheus` (or `prometheus.exe` on Microsoft Windows). We can run the binary and see help on its options by passing the `--help` flag.
+
+```language-bash
+./prometheus --help
+usage: prometheus [<flags>]
+
+The Prometheus monitoring server
+
+. . .
+```
+
+Before starting Prometheus, let's configure it. 
+
+## Configuring Prometheus
+
+Prometheus configuration is [YAML](http://www.yaml.org/start.html). The Prometheus download comes with a sample configuration in a file called `prometheus.yml` that's a good place to get started.
+
+We've stripped out the comments in the example file to make it more succinct.
+
+```language-yaml
+global:
+  scrape_interval:     15s
+  evaluation_interval: 15s
+  external_labels:
+      monitor: 'codelab-monitor'
+
+rule_files:
+  # - "first.rules"
+  # - "second.rules"
+
+scrape_configs:
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
+```
+
+There are three blocks of configuration in the example configuration file: `global`, `rule_files`, and `scrape_configs`. 
+
+The `global` block controls the Prometheus server's global configuration. We have three options present. The first, `scrape_interval`, controls how often Prometheus will scrape targets. You can override this for individual targets. In this case the global setting is to scrape every 15 seconds. The `evaluation_interval` option controls how often Prometheus will evaluate rules. Prometheus uses rules to create new time series and to generate alerts. The last option, `external_labels`, adds labels to time series or alerts that leave the Prometheus server.
+
+The `rule_files` block specifies the location of any rules we want the Prometheus server to load. For now we've got no rules.
+
+The last block, `scrape_configs`, controls what resources Prometheus monitors. Since Prometheus also exposes data about itself as an HTTP endpoint it can scrape and monitor its own health. In the default configuration there is a single job, called `prometheus`, which scrapes the time series data exposed by the Prometheus server. The job contains a single, statically configured, target, the `localhost` on port `9090`. Prometheus expects metrics to be available on targets on a path of `/metrics`. So this default job is scraping via the URL:
+
+`http://localhost:9090/metrics`
+
+The time series data returned will detail the state and performance of the Prometheus server.
+
+For a complete specification of configuration options, see the
+[configuration documentation](/docs/operating/configuration).
+
+## Starting Prometheus
+
+To start Prometheus with our newly created configuration file, change to the directory containing the Prometheus binary and run:
+
+```language-bash
+./prometheus --config.file=prometheus.yml
+```
+
+Prometheus should start up. You should also be able to browse to a status page about itself at http://localhost:9090. Give it a couple of seconds to collect data about itself from its own HTTP metrics endpoint.
+
+You can also verify that Prometheus is serving metrics about itself by
+navigating to its own metrics endpoint: http://localhost:9090/metrics
+
+## Using the expression browser
+
+Let us try looking at some data that Prometheus has collected about itself. To
+use Prometheus's built-in expression browser, navigate to
+http://localhost:9090/graph and choose the "Console" view within the "Graph"
+tab.
+
+As you can gather from http://localhost:9090/metrics, one metric that
+Prometheus exports about itself is called
+`prometheus_target_interval_length_seconds` (the actual amount of time between
+target scrapes). Go ahead and enter this into the expression console:
+
+```
+prometheus_target_interval_length_seconds
+```
+
+This should return a number of different time series (along with the latest value
+recorded for each), all with the metric name
+`prometheus_target_interval_length_seconds`, but with different labels. These
+labels designate different latency percentiles and target group intervals.
+
+If we were only interested in the 99th percentile latencies, we could use this
+query to retrieve that information:
+
+```
+prometheus_target_interval_length_seconds{quantile="0.99"}
+```
+
+To count the number of returned time series, you could write:
+
+```
+count(prometheus_target_interval_length_seconds)
+```
+
+For more about the expression language, see the
+[expression language documentation](/docs/querying/basics/).
+
+## Using the graphing interface
+
+To graph expressions, navigate to http://localhost:9090/graph and use the "Graph"
+tab.
+
+For example, enter the following expression to graph the per-second rate of all
+storage chunk operations happening in the self-scraped Prometheus:
+
+```
+rate(prometheus_local_storage_chunk_ops_total[1m])
+```
+
+You can experiment with the graph range parameters and other settings.
+
+## Installing the Node Exporter
+
+Collecting metrics from Prometheus alone isn't a good representation of Prometheus' capabilities. So let's use the Node Exporter to monitor our first resource. We're going to monitor a Linux host called `node.example.com` but you could monitor any Linux or OS X host. There's also [a WMI exporter](https://github.com/martinlindhe/wmi_exporter) for Microsoft Windows hosts too.
+
+[Download the latest release of the Node Exporter](/download/#node_exporter) of Prometheus for your platform, then extract it:
+
+```language-bash
+tar xvfz node_exporter-*.tar.gz
+cd node_exporter-*
+```
+
+The Node Exporter is a single binary, `node_exporter`, and has a configurable set of collectors for gathering various types of host-based metrics. By default, collectors gather [CPU, memory, disk, and other metrics](https://github.com/prometheus/node_exporter#enabled-by-default) and expose them for scraping.
+
+Let's start the node exporter now on our Linux host.
+
+```language-bash
+./node_exporter
+```
+
+The Node Exporter's metrics are available on port `9100` on the host at the `/metrics` path. In our case this is:
+
+`http://node.example.com:9100/metrics`
+
+You can browse to this URL to see the metrics being exposed.
+
+We now need to tell Prometheus about our new target.
+
+## Configuring Prometheus to monitor the host
+
+We will configure Prometheus to scrape this new target. To achieve this, add the following job definition to the `scrape_configs` section in our `prometheus.yml`:
+
+```
+scrape_configs:
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
+  - job_name:  'node-example'
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['node.example.com:9100']
+        labels:
+          group: 'nodes'
+```
+
+Our new job is called `node-example`. It scrapes a static target, `node.example.com` on port `9100`. You would replace this name with the name or IP address of the host you're monitoring. We also add a label, `group` with a value of `nodes`, to our time series.
+
+Now we restart or `SIGHUP` our Prometheus instance to activate our new job.
+
+Go to the expression browser and verify that Prometheus now has information
+about the time series that this endpoint exposes, you'll see a collection of new metrics, such as the `node_cpu` metric.
+
+More?

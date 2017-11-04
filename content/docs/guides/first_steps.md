@@ -5,7 +5,7 @@ sort_rank: 3
 
 # First steps with Prometheus
 
-Welcome to Prometheus! Prometheus is a monitoring platform that collects metrics from monitored targets by scraping metrics HTTP endpoints on these targets. This guide will show you to how to install, configure and monitor our first resource with Prometheus. You'll download, install and run Prometheus. You'll also download and install an exporter, plugins that expose time series data on hosts and services. Our first exporter will be the Node Exporter. This exporter exposes host-level metrics like CPU, memory, and disk. 
+Welcome to Prometheus! Prometheus is a monitoring platform that collects metrics from monitored targets by scraping metrics HTTP endpoints on these targets. This guide will show you to how to install, configure and monitor our first resource with Prometheus. You'll download, install and run Prometheus. You'll also download and install an exporter, tools that expose time series data on hosts and services. Our first exporter will be the Node Exporter, which exposes host-level metrics like CPU, memory, and disk. 
 
 ## Downloading Prometheus
 
@@ -76,7 +76,7 @@ To start Prometheus with our newly created configuration file, change to the dir
 ./prometheus --config.file=prometheus.yml
 ```
 
-Prometheus should start up. You should also be able to browse to a status page about itself at `http://localhost:9090`. Give it a couple of seconds to collect data about itself from its own HTTP metrics endpoint.
+Prometheus should start up. You should also be able to browse to a status page about itself at `http://localhost:9090`. Give it about 30 seconds to collect data about itself from its own HTTP metrics endpoint.
 
 You can also verify that Prometheus is serving metrics about itself by
 navigating to its own metrics endpoint: `http://localhost:9090/metrics`.
@@ -90,29 +90,24 @@ tab.
 
 As you can gather from `http://localhost:9090/metrics`, one metric that
 Prometheus exports about itself is called
-`prometheus_target_interval_length_seconds` (the actual amount of time between
-target scrapes). Go ahead and enter this into the expression console:
+`http_requests_total` (the total number of HTTP requests the Prometheus server has made). Go ahead and enter this into the expression console:
 
 ```
-prometheus_target_interval_length_seconds
+http_requests_total
 ```
 
-This should return a number of different time series (along with the latest value
-recorded for each), all with the metric name
-`prometheus_target_interval_length_seconds`, but with different labels. These
-labels designate different latency percentiles and target group intervals.
+This should return a number of different time series (along with the latest value recorded for each), all with the metric name `http_requests_total`, but with different labels. These labels designate different types of requests.
 
-If we were only interested in the 99th percentile latencies, we could use this
-query to retrieve that information:
+If we were only interested in requests that resulted in HTTP code `200`, we could use this query to retrieve that information:
 
 ```
-prometheus_target_interval_length_seconds{quantile="0.99"}
+http_requests_total{code="200"}
 ```
 
 To count the number of returned time series, you could write:
 
 ```
-count(prometheus_target_interval_length_seconds)
+count(http_requests_total)
 ```
 
 For more about the expression language, see the
@@ -122,18 +117,17 @@ For more about the expression language, see the
 
 To graph expressions, navigate to `http://localhost:9090/graph` and use the "Graph" tab.
 
-For example, enter the following expression to graph the per-second rate of all
-storage chunk operations happening in the self-scraped Prometheus:
+For example, enter the following expression to graph the per-second HTTP request rate happening in the self-scraped Prometheus:
 
 ```
-rate(prometheus_local_storage_chunk_ops_total[1m])
+rate(http_requests_total[1m])
 ```
 
 You can experiment with the graph range parameters and other settings.
 
 ## Installing the Node Exporter
 
-Collecting metrics from Prometheus alone isn't a good representation of Prometheus' capabilities. So let's use the Node Exporter to monitor our first resource. We're going to monitor a Linux host called `node.example.com` but you could monitor any Linux or OS X host. There's also [a WMI exporter](https://github.com/martinlindhe/wmi_exporter) for Microsoft Windows hosts too.
+Collecting metrics from Prometheus alone is not a good representation of Prometheus' capabilities. So let's use the Node Exporter to monitor our first resource. We're going to monitor the local Linux host that the Prometheus server is running on but you could monitor any Linux or OS X host. There's also [a WMI exporter](https://github.com/martinlindhe/wmi_exporter) for Microsoft Windows hosts too.
 
 [Download the latest release of the Node Exporter](/download/#node_exporter) of Prometheus for your platform, then extract it:
 
@@ -152,7 +146,7 @@ Let's start the node exporter now on our Linux host.
 
 The Node Exporter's metrics are available on port `9100` on the host at the `/metrics` path. In our case this is:
 
-`http://node.example.com:9100/metrics`
+`http://localhost:9100/metrics`
 
 You can browse to this URL to see the metrics being exposed.
 
@@ -167,17 +161,16 @@ scrape_configs:
   - job_name: 'prometheus'
     static_configs:
       - targets: ['localhost:9090']
-  - job_name:  'node-example'
-    scrape_interval: 5s
+  - job_name:  'node'
     static_configs:
-      - targets: ['node.example.com:9100']
+      - targets: ['localhost:9100']
         labels:
-          group: 'nodes'
+          role: 'monitoring'
 ```
 
-Our new job is called `node-example`. It scrapes a static target, `node.example.com` on port `9100`. You would replace this name with the name or IP address of the host you're monitoring. We also add a label, `group` with a value of `nodes`, to our time series.
+Our new job is called `node`. It scrapes a static target, `localhost` on port `9100`. You would replace this name with the name or IP address of the host you're monitoring. We also add a label, `role` with a value of `monitoring`, to our time series.
 
-Now we restart or `SIGHUP` our Prometheus instance to activate our new job.
+Now we restart our Prometheus server to activate our new job.
 
 Go to the expression browser and verify that Prometheus now has information
 about the time series that this endpoint exposes, you'll see a collection of new metrics, such as the `node_cpu` metric.

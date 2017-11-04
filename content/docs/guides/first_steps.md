@@ -76,19 +76,19 @@ To start Prometheus with our newly created configuration file, change to the dir
 ./prometheus --config.file=prometheus.yml
 ```
 
-Prometheus should start up. You should also be able to browse to a status page about itself at http://localhost:9090. Give it a couple of seconds to collect data about itself from its own HTTP metrics endpoint.
+Prometheus should start up. You should also be able to browse to a status page about itself at `http://localhost:9090`. Give it a couple of seconds to collect data about itself from its own HTTP metrics endpoint.
 
 You can also verify that Prometheus is serving metrics about itself by
-navigating to its own metrics endpoint: http://localhost:9090/metrics
+navigating to its own metrics endpoint: `http://localhost:9090/metrics`.
 
 ## Using the expression browser
 
 Let us try looking at some data that Prometheus has collected about itself. To
 use Prometheus's built-in expression browser, navigate to
-http://localhost:9090/graph and choose the "Console" view within the "Graph"
+`http://localhost:9090/graph` and choose the "Console" view within the "Graph"
 tab.
 
-As you can gather from http://localhost:9090/metrics, one metric that
+As you can gather from `http://localhost:9090/metrics`, one metric that
 Prometheus exports about itself is called
 `prometheus_target_interval_length_seconds` (the actual amount of time between
 target scrapes). Go ahead and enter this into the expression console:
@@ -120,8 +120,7 @@ For more about the expression language, see the
 
 ## Using the graphing interface
 
-To graph expressions, navigate to http://localhost:9090/graph and use the "Graph"
-tab.
+To graph expressions, navigate to `http://localhost:9090/graph` and use the "Graph" tab.
 
 For example, enter the following expression to graph the per-second rate of all
 storage chunk operations happening in the self-scraped Prometheus:

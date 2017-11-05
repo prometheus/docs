@@ -168,11 +168,11 @@ scrape_configs:
           role: 'monitoring'
 ```
 
-Our new job is called `node`. It scrapes a static target, `localhost` on port `9100`. You would replace this name with the name or IP address of the host you're monitoring. We also add a label, `role` with a value of `monitoring`, to our time series.
+Our new job is called `node`. It scrapes a static target, `localhost` on port `9100`. You would replace this name with the name or IP address of the host you're monitoring. We also add a label, `role` with a value of `monitoring`, to our time series. We're using this label to identify the role of the host being as being our monitoring server. You could add any label you want to the time series to help identify its origin.
 
 Now we restart our Prometheus server to activate our new job.
 
 Go to the expression browser and verify that Prometheus now has information
-about the time series that this endpoint exposes, you'll see a collection of new metrics, such as the `node_cpu` metric.
+about the time series that this endpoint exposes, you'll see a collection of new metrics, such as the `node_cpu` and `up` metrics. The `up` metric is useful and can be used to track the status of the node.
 
 More?

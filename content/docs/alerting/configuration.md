@@ -490,5 +490,5 @@ endpoint:
 ```
 
 There is a list of
-[integrations](/docs/instrumenting/integrations/#alertmanager-webhook-receiver) with
+[integrations](/docs/operating/integrations/#alertmanager-webhook-receiver) with
 this feature.

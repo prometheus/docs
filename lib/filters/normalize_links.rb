@@ -9,9 +9,8 @@ class NormalizeLinks < ::Nanoc::Filter
 
   def run(content, config = {})
     doc = Nokogiri::HTML(content)
-    links = doc.xpath('//a')
 
-    links.each do |link|
+    doc.xpath('//a').each do |link|
       link['href'] =
         case
         when link['href'].start_with?(DOMAIN)
@@ -24,6 +23,11 @@ class NormalizeLinks < ::Nanoc::Filter
         else
           link['href']
         end
+    end
+
+    doc.xpath('//img').each do |img|
+      next if img['src'].start_with?('/') || img['src'].start_with?('http')
+      img['src'] = File.join("../", img['src'])
     end
 
     doc.to_s

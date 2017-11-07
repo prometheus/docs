@@ -33,6 +33,14 @@ route '/assets/*' do
   end
 end
 
+# TODO(ts): Remove these hacks once the nanoc4 upgrade is done.
+compile '*/images/*' do
+end
+
+route '*/images/*' do
+  item.identifier.chop + '.' + item[:extension]
+end
+
 route '/README/' do
     '/README.md'
 end

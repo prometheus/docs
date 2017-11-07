@@ -65,7 +65,7 @@ data_sources:
     type: repo_docs
     items_root: /docs/prometheus/2.0/
     config:
-      name: '2.0-rc.3'
+      name: '2.0'
       repository: https://github.com/prometheus/prometheus.git
       refspec: master
   -

@@ -62,6 +62,30 @@ data_sources:
     # UTF-8 (which they should be!), change this.
     encoding: utf-8
   -
+    type: repo_docs
+    items_root: /docs/prometheus/2.0/
+    config:
+      name: '2.0'
+      repository: https://github.com/prometheus/prometheus.git
+      refspec: master
+      canonical: /docs/prometheus/latest/
+  -
+    type: repo_docs
+    items_root: /docs/prometheus/latest/
+    config:
+      name: 'latest (1.8)'
+      repository: https://github.com/prometheus/prometheus.git
+      refspec: release-1.8
+  -
+    type: repo_docs
+    items_root: /docs/prometheus/1.8/
+    config:
+      name: '1.8'
+      repository: https://github.com/prometheus/prometheus.git
+      refspec: release-1.8
+      canonical: /docs/prometheus/latest/
+      outdated: /docs/prometheus/latest/
+  -
     type: static
     items_root: /assets/
 

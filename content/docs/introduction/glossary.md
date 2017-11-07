@@ -70,7 +70,7 @@ also refer to the Prometheus monitoring system as a whole.
 
 ### PromQL
 
-[PromQL](../../querying/basics/) is the Prometheus Query Language. It allows for
+[PromQL](/docs/prometheus/latest/querying/basics/) is the Prometheus Query Language. It allows for
 a wide range of operations including aggregation, slicing and dicing, prediction and joins.
 
 ### Pushgateway

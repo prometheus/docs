@@ -25,6 +25,7 @@
     <link rel="icon" type="image/png" href="/assets/favicons/favicon-96x96.png" sizes="96x96">
     <link rel="icon" type="image/png" href="/assets/favicons/favicon-16x16.png" sizes="16x16">
     <link rel="manifest" href="/assets/favicons/android-chrome-manifest.json">
+    <% if (c = @item[:repo_docs]) && c[:canonical] %><link rel="canonical" href="<%= @item.path.sub(c[:items_root], c[:canonical]) %>" /><% end %>
     <meta name="msapplication-TileColor" content="#da532c">
     <meta name="msapplication-TileImage" content="/assets/favicons/mstile-144x144.png">
     <meta name="theme-color" content="#ffffff">
@@ -43,7 +44,7 @@
     <link href="/css/routing-tree-editor.css" rel="stylesheet">
 
     <!-- Custom Fonts -->
-    <link href="/assets/font-awesome-4.2.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="/assets/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Lato:300,300italic,400' rel='stylesheet' type='text/css'>
 

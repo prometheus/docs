@@ -5,9 +5,9 @@ sort_rank: 6
 
 # Recording rules
 
-A consistent naming scheme for [recording rules](/docs/querying/rules/) makes it
-easier to interpret the meaning of a rule at a glance. It also avoids mistakes by 
-making incorrect or meaningless calculations stand out. 
+A consistent naming scheme for [recording rules](/docs/prometheus/latest/querying/rules/)
+makes it easier to interpret the meaning of a rule at a glance. It also avoids
+mistakes by making incorrect or meaningless calculations stand out.
 
 This page documents how to correctly do aggregation and suggests a naming
 convention.
@@ -21,7 +21,7 @@ Recording rules should be of the general form `level:metric:operations`.
 of operations that were applied to the metric, newest operation first.
 
 Keeping the metric name unchanged makes it easy to know what a metric is and
-easy to find in the codebase. 
+easy to find in the codebase.
 
 To keep the operations clean, `_sum` is omitted if there are other operations,
 as `sum()`. Associative operations can be merged (for example `min_min` is the
@@ -29,7 +29,7 @@ same as `min`).
 
 If there is no obvious operation to use, use `sum`.  When taking a ratio by
 doing division, separate the metrics using `_per_` and call the operation
-`ratio`. 
+`ratio`.
 
 When aggregating up ratios, aggregate up the numerator and denominator
 separately and then divide. Do not take the average of a ratio or average of an

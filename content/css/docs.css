@@ -269,6 +269,11 @@ footer {
   width: 100%;
 }
 
+.side-nav div {
+  padding: 10px 15px;
+  background-color: #eee;
+}
+
 .side-nav .nav-header {
   display: block;
   margin: 20px auto 15px auto;
@@ -281,7 +286,7 @@ footer {
   text-decoration: none;
 }
 
-.side-nav ul.active li.active {
+.side-nav li.current {
   border-left: 3px solid #e6522c;
   margin-left: -2px;
   font-weight: bold;
@@ -289,6 +294,10 @@ footer {
 
 .side-nav li ul li {
   border-left: 1px solid #e9eff2;
+}
+
+.side-nav li li li a {
+  padding: 5px 15px 5px 40px;
 }
 
 .doc-content {

@@ -99,7 +99,7 @@ calculate streaming φ-quantiles on the client side and expose them directly,
 while histograms expose bucketed observation counts and the calculation of
 quantiles from the buckets of a histogram happens on the server side using the
 [`histogram_quantile()`
-function](/docs/querying/functions/#histogram_quantile).
+function](/docs/prometheus/latest/querying/functions/#histogram_quantile).
 
 The two approaches have a number of different implications:
 
@@ -107,11 +107,11 @@ The two approaches have a number of different implications:
 |---|-----------|---------
 | Required configuration | Pick buckets suitable for the expected range of observed values. | Pick desired φ-quantiles and sliding window. Other φ-quantiles and sliding windows cannot be calculated later.
 | Client performance | Observations are very cheap as they only need to increment counters. | Observations are expensive due to the streaming quantile calculation.
-| Server performance | The server has to calculate quantiles. You can use [recording rules](/docs/querying/rules/#recording-rules) should the ad-hoc calculation take too long (e.g. in a large dashboard). | Low server-side cost.
+| Server performance | The server has to calculate quantiles. You can use [recording rules](/docs/prometheus/latest/querying/rules/#recording-rules) should the ad-hoc calculation take too long (e.g. in a large dashboard). | Low server-side cost.
 | Number of time series (in addition to the `_sum` and `_count` series) | One time series per configured bucket. | One time series per configured quantile.
 | Quantile error (see below for details) | Error is limited in the dimension of observed values by the width of the relevant bucket. | Error is limited in the dimension of φ by a configurable value.
-| Specification of φ-quantile and sliding time-window | Ad-hoc with [Prometheus expressions](/docs/querying/functions/#histogram_quantile). | Preconfigured by the client.
-| Aggregation | Ad-hoc with [Prometheus expressions](/docs/querying/functions/#histogram_quantile). | In general [not aggregatable](http://latencytipoftheday.blogspot.de/2014/06/latencytipoftheday-you-cant-average.html).
+| Specification of φ-quantile and sliding time-window | Ad-hoc with [Prometheus expressions](/docs/prometheus/latest/querying/functions/#histogram_quantile). | Preconfigured by the client.
+| Aggregation | Ad-hoc with [Prometheus expressions](/docs/prometheus/latest/querying/functions/#histogram_quantile). | In general [not aggregatable](http://latencytipoftheday.blogspot.de/2014/06/latencytipoftheday-you-cant-average.html).
 
 Note the importance of the last item in the table. Let us return to
 the SLA of serving 95% of requests within 300ms. This time, you do not
@@ -132,7 +132,7 @@ quantiles yields statistically nonsensical values.
 
 Using histograms, the aggregation is perfectly possible with the
 [`histogram_quantile()`
-function](/docs/querying/functions/#histogram_quantile).
+function](/docs/prometheus/latest/querying/functions/#histogram_quantile).
 
     histogram_quantile(0.95, sum(rate(http_request_duration_seconds_bucket[5m])) by (le)) // GOOD.
 

@@ -5,7 +5,8 @@ output/
 
 # Temporary file directory
 tmp/
-downloads/
+/downloads/
+/repositories/
 
 # Crash Log
 crash.log

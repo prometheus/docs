@@ -52,4 +52,8 @@ git init
 git config core.sparsecheckout true
 echo "${DIRECTORY}" > .git/info/sparse-checkout
 
-git pull --depth=1 "${REPOSITORY}" "${REFSPEC}"
+if ! git remote | grep -q origin; then
+  git remote add origin "${REPOSITORY}"
+fi
+git fetch --depth=1 origin "${REFSPEC}"
+git reset --hard origin/"${REFSPEC}"

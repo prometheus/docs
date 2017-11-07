@@ -3,7 +3,7 @@
 /docs/introduction/install/                 /docs/prometheus/latest/installation/
 /docs/operating/configuration/              /docs/prometheus/latest/configuration/configuration/
 /docs/operating/federation/                 /docs/prometheus/latest/federation/
-/docs/operating/storage/                    /docs/prometheus/1.8/storage/
+/docs/operating/storage/                    /docs/prometheus/latest/storage/
 /docs/querying/api/                         /docs/prometheus/latest/querying/api/
 /docs/querying/basics/                      /docs/prometheus/latest/querying/basics/
 /docs/querying/examples/                    /docs/prometheus/latest/querying/examples/
@@ -24,4 +24,9 @@
 /docs/alerting/             /docs/alerting/overview/                    302
 /docs/practices/            /docs/practices/naming/                     302
 
-/:path/index.html /:path/
+# Redirects for index.hml pages.
+/:foo/index.html                        /:foo/
+/:foo/:bar/index.html                   /:foo/:bar/
+/:foo/:bar/:baz/index.html              /:foo/:bar/:baz/
+/:foo/:bar/:baz/:qux/index.html         /:foo/:bar/:baz/:qux/
+/:foo/:bar/:baz/:qux/:quux/index.html   /:foo/:bar/:baz/:qux/:quux/

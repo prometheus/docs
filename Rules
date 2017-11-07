@@ -13,6 +13,13 @@
 #   item, use the pattern “/about/*/”; “/about/*” will also select the parent,
 #   because “*” matches zero or more characters.
 
+compile '/_redirects/' do
+end
+
+route '/_redirects/' do
+  '/_redirects'
+end
+
 compile '/assets/*' do
 end
 

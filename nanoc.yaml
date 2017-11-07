@@ -82,6 +82,7 @@ data_sources:
       name: '1.8'
       repository: https://github.com/prometheus/prometheus.git
       refspec: release-1.8
+      outdated: /docs/prometheus/latest/
   -
     type: static
     items_root: /assets/

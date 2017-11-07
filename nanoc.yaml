@@ -68,6 +68,7 @@ data_sources:
       name: '2.0'
       repository: https://github.com/prometheus/prometheus.git
       refspec: master
+      canonical: /docs/prometheus/latest/
   -
     type: repo_docs
     items_root: /docs/prometheus/latest/
@@ -82,6 +83,7 @@ data_sources:
       name: '1.8'
       repository: https://github.com/prometheus/prometheus.git
       refspec: release-1.8
+      canonical: /docs/prometheus/latest/
       outdated: /docs/prometheus/latest/
   -
     type: static

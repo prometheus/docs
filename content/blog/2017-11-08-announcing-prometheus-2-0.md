@@ -41,7 +41,7 @@ Prometheus 2.0 also comes with built-in support for [snapshot backups of the ent
 
 We also migrated our recording and alerting rules from a custom format to the ubiquitous YAML format. This makes it easier to integrate with configuration management and templating.
 
-A lot of additional smaller changes and cleanups happened. Check the [Prometheus 1.x to 2.0](TODO: migration guide) migration guide for a full overview of changes and how to adapt your setup to them. But do not worry, Prometheus 2 is still the Prometheus you have learned to love — just a lot faster and even easier to operate and use.
+A lot of additional smaller changes and cleanups happened. Check the [Prometheus 1.x to 2.0](/docs/prometheus/2.0/migration/) migration guide for a full overview of changes and how to adapt your setup to them. But do not worry, Prometheus 2 is still the Prometheus you have learned to love — just a lot faster and even easier to operate and use.
 
 ## What's next
 
@@ -52,7 +52,7 @@ The remote APIs will continue to evolve to satisfy requirements for long term st
 
 ## Try it out!
 
-You can try out Prometheus 2.0 as usual by downloading our [official binaries](https://prometheus.io/download/#prometheus) and [container images](https://quay.io/repository/prometheus/prometheus?tab=tags). See the [Getting started](/docs/prometheus/2.0/getting_started/) page for a tutorial on how to get up and running with Prometheus.
+You can try out Prometheus 2.0 as usual by downloading our [official binaries](https://prometheus.io/download/#prometheus) and [container images](https://quay.io/repository/prometheus/prometheus?tab=tags). See the [Getting started](/docs/prometheus/2.0/migration/) page for a tutorial on how to get up and running with Prometheus.
 
 If you are upgrading from Prometheus 1.x, check our [migration guide](TODO: migration guide) to learn about adjustments that you will have to make and how to use the remote APIs to [read data from old Prometheus servers](https://www.robustperception.io/accessing-data-from-prometheus-1-x-in-prometheus-2-0/) during the migration period.
 

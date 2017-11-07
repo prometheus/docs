@@ -63,11 +63,25 @@ data_sources:
     encoding: utf-8
   -
     type: repo_docs
+    items_root: /docs/prometheus/2.0/
+    config:
+      name: '2.0-rc.3'
+      repository: https://github.com/prometheus/prometheus.git
+      refspec: master
+  -
+    type: repo_docs
     items_root: /docs/prometheus/latest/
+    config:
+      name: 'latest (1.8)'
+      repository: https://github.com/prometheus/prometheus.git
+      refspec: release-1.8
+  -
+    type: repo_docs
+    items_root: /docs/prometheus/1.8/
     config:
       name: '1.8'
       repository: https://github.com/prometheus/prometheus.git
-      refspec: docs
+      refspec: release-1.8
   -
     type: static
     items_root: /assets/

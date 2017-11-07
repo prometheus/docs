@@ -269,6 +269,11 @@ footer {
   width: 100%;
 }
 
+.side-nav div {
+  padding: 10px 15px;
+  background-color: #eee;
+}
+
 .side-nav .nav-header {
   display: block;
   margin: 20px auto 15px auto;

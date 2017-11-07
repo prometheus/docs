@@ -1,3 +1,5 @@
+# TODO(ts): Rewrite data source and use one single instance to combine all
+# different versions for a given path.
 class RepoDocsDataSource < ::Nanoc::DataSources::FilesystemUnified
   identifier :repo_docs
 
@@ -23,6 +25,9 @@ class RepoDocsDataSource < ::Nanoc::DataSources::FilesystemUnified
     c = config.fetch(:config)
     super.map do |item|
       item[:repo_docs] = c
+      item[:repo_docs][:items_root] = config.fetch(:items_root)
+      # TODO(ts): Remove assumptions about the path layout, rewrite datasource.
+      item[:repo_docs][:version_root] = config.fetch(:items_root).sub(%r{(.+/)[^/]+/\Z}, '\\1')
       # TODO(ts): Document that repo doc index.md will be ignored.
       if item.identifier == '/'
         item[:nav] = { strip: true }

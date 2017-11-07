@@ -76,19 +76,19 @@ To start Prometheus with our newly created configuration file, change to the dir
 ./prometheus --config.file=prometheus.yml
 ```
 
-Prometheus should start up. You should also be able to browse to a status page about itself at `http://localhost:9090`. Give it about 30 seconds to collect data about itself from its own HTTP metrics endpoint.
+Prometheus should start up. You should also be able to browse to a status page about itself at http://localhost:9090. Give it about 30 seconds to collect data about itself from its own HTTP metrics endpoint.
 
 You can also verify that Prometheus is serving metrics about itself by
-navigating to its own metrics endpoint: `http://localhost:9090/metrics`.
+navigating to its own metrics endpoint: http://localhost:9090/metrics.
 
 ## Using the expression browser
 
 Let us try looking at some data that Prometheus has collected about itself. To
 use Prometheus's built-in expression browser, navigate to
-`http://localhost:9090/graph` and choose the "Console" view within the "Graph"
+http://localhost:9090/graph and choose the "Console" view within the "Graph"
 tab.
 
-As you can gather from `http://localhost:9090/metrics`, one metric that
+As you can gather from http://localhost:9090/metrics, one metric that
 Prometheus exports about itself is called
 `http_requests_total` (the total number of HTTP requests the Prometheus server has made). Go ahead and enter this into the expression console:
 
@@ -138,7 +138,7 @@ cd node_exporter-*
 
 The Node Exporter is a single binary, `node_exporter`, and has a configurable set of collectors for gathering various types of host-based metrics. By default, collectors gather [CPU, memory, disk, and other metrics](https://github.com/prometheus/node_exporter#enabled-by-default) and expose them for scraping.
 
-Let's start the node exporter now on our Linux host.
+Let's start the Node Exporter now on our Linux host.
 
 ```language-bash
 ./node_exporter
@@ -154,25 +154,20 @@ We now need to tell Prometheus about our new target.
 
 ## Configuring Prometheus to monitor the host
 
-We will configure Prometheus to scrape this new target. To achieve this, add the following job definition to the `scrape_configs` section in our `prometheus.yml`:
+We will configure Prometheus to scrape this new target. To achieve this, add a new job definition to the `scrape_configs` section in our `prometheus.yml`:
 
 ```
-scrape_configs:
-  - job_name: 'prometheus'
-    static_configs:
-      - targets: ['localhost:9090']
   - job_name:  'node'
     static_configs:
       - targets: ['localhost:9100']
-        labels:
-          role: 'monitoring'
 ```
 
-Our new job is called `node`. It scrapes a static target, `localhost` on port `9100`. You would replace this name with the name or IP address of the host you're monitoring. We also add a label, `role` with a value of `monitoring`, to our time series. We're using this label to identify the role of the host being as being our monitoring server. You could add any label you want to the time series to help identify its origin.
+Our new job is called `node`. It scrapes a static target, `localhost` on port `9100`. You would replace this name with the name or IP address of the host you're monitoring. 
 
 Now we restart our Prometheus server to activate our new job.
 
 Go to the expression browser and verify that Prometheus now has information
-about the time series that this endpoint exposes, you'll see a collection of new metrics, such as the `node_cpu` and `up` metrics. The `up` metric is useful and can be used to track the status of the node.
+about the time series that this endpoint exposes. Navigate to
+http://localhost:9090/graph and use the dropdown next to the "Execute" button to see a list of metrics this server is collecting. In the list you'll see a number of metrics prefixed with `node_`, that have been collected by the Node Exporter by our `node` job. For example, you can see the node's CPU usage via the `node_cpu` metric. 
 
-More?
+One useful metric to look for is the `up` metric. The `up` metric can be used to track the status of the target. If the metric has a value of `1` then the scrape of the target was successful, if `0` it failed. This can help give you an indication of the status of the target. You'll see two `up` metrics, one for each target we're scraping: the Prometheus server and the metrics exported by the Node Exporter.

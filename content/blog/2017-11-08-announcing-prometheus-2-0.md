@@ -37,7 +37,7 @@ Additionally, many small and big changes have happened to make the Prometheus ex
 
 ### Other improvements
 
-Prometheus 2.0 also comes with built-in support for [snapshot backups of the entire database](TODO: link to docs).
+Prometheus 2.0 also comes with built-in support for [snapshot backups of the entire database](https://www.youtube.com/watch?v=15uc8oTMgPY).
 
 We also migrated our recording and alerting rules from a custom format to the ubiquitous YAML format. This makes it easier to integrate with configuration management and templating.
 
@@ -52,13 +52,8 @@ The remote APIs will continue to evolve to satisfy requirements for long term st
 
 ## Try it out!
 
-You can try it out Prometheus 2.0 as usual by downloading our [official binaries](https://prometheus.io/download/#prometheus) and [container images](https://quay.io/repository/prometheus/prometheus?tab=tags).
+You can try out Prometheus 2.0 as usual by downloading our [official binaries](https://prometheus.io/download/#prometheus) and [container images](https://quay.io/repository/prometheus/prometheus?tab=tags). See the [Getting started](/docs/prometheus/2.0/getting_started/) page for a tutorial on how to get up and running with Prometheus.
 
-```bash
-$ TODO: instructions to download and run Prometheus 2
-$ ….
-```
-
-Check our [migration guide](...) to learn about adjustments that you will have to make compared to Prometheus 1.x and how to use the remote APIs to read data from old Prometheus servers during the migration period.
+If you are upgrading from Prometheus 1.x, check our [migration guide](TODO: migration guide) to learn about adjustments that you will have to make and how to use the remote APIs to [read data from old Prometheus servers](https://www.robustperception.io/accessing-data-from-prometheus-1-x-in-prometheus-2-0/) during the migration period.
 
 Finally, we would like to thank all our users who extensively tested the pre-releases and helped us in debugging issues. This huge milestone would not have been possible without you!

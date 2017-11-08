@@ -63,19 +63,19 @@ data_sources:
     encoding: utf-8
   -
     type: repo_docs
+    items_root: /docs/prometheus/latest/
+    config:
+      name: 'latest (2.0)'
+      repository: https://github.com/prometheus/prometheus.git
+      refspec: release-2.0
+  -
+    type: repo_docs
     items_root: /docs/prometheus/2.0/
     config:
       name: '2.0'
       repository: https://github.com/prometheus/prometheus.git
-      refspec: master
+      refspec: release-2.0
       canonical: /docs/prometheus/latest/
-  -
-    type: repo_docs
-    items_root: /docs/prometheus/latest/
-    config:
-      name: 'latest (1.8)'
-      repository: https://github.com/prometheus/prometheus.git
-      refspec: release-1.8
   -
     type: repo_docs
     items_root: /docs/prometheus/1.8/

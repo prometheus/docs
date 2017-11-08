@@ -1,4 +1,4 @@
-# Prometheus Documentation [![Build Status](https://travis-ci.org/prometheus/docs.svg?branch=master)](https://travis-ci.org/prometheus/docs)
+# Prometheus Documentation
 
 This repository contains both the content and the static-site generator code for the
 Prometheus documentation site.
@@ -18,7 +18,7 @@ bundle
 To generate the static site, run:
 
 ```bash
-bundle exec nanoc
+make build
 ```
 
 The resulting static site will be stored in the `output` directory.

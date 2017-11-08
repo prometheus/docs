@@ -56,7 +56,7 @@ The remote APIs will continue to evolve to satisfy requirements for long-term st
 
 ## Try it out!
 
-You can try out Prometheus 2.0 as usual by downloading our [official binaries](https://prometheus.io/download/#prometheus) and [container images](https://quay.io/repository/prometheus/prometheus?tab=tags). See the [Getting started](/docs/prometheus/2.0/migration/) page for a tutorial on how to get up and running with Prometheus.
+You can try out Prometheus 2.0 as usual by downloading our [official binaries](https://prometheus.io/download/#prometheus) and [container images](https://quay.io/repository/prometheus/prometheus?tab=tags). See the [Getting started](/docs/prometheus/latest/getting_started/) page for a tutorial on how to get up and running with Prometheus.
 
 If you are upgrading from Prometheus 1.x, check our [migration guide](/docs/prometheus/2.0/migration/) to learn about adjustments that you will have to make and how to use the remote APIs to [read data from old Prometheus servers](https://www.robustperception.io/accessing-data-from-prometheus-1-x-in-prometheus-2-0/) during the migration period.
 

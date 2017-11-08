@@ -41,10 +41,6 @@ route '*/images/*' do
   item.identifier.chop + '.' + item[:extension]
 end
 
-route '/README/' do
-    '/README.md'
-end
-
 # RSS Feed
 compile '/blog/feed/' do
     filter :erb
@@ -57,9 +53,7 @@ end
 compile '*' do
   filter :erb
 
-  if item[:title] == 'README.md'
-    # Don't filter; this should propagate verbatim to the output GitHub repository.
-  elsif item[:extension] == 'md'
+  if item[:extension] == 'md'
     filter :redcarpet, options: {filter_html: true, autolink: true, no_intraemphasis: true, fenced_code_blocks: true, gh_blockcode: true, tables: true}, renderer_options: {with_toc_data: true}
     filter :normalize_links, item[:repo_docs] if item[:repo_docs]
     filter :outdated_content, item[:repo_docs] if item[:repo_docs] && item[:repo_docs][:outdated]
@@ -111,7 +105,5 @@ route '*' do
     item.identifier + 'index.html'
   end
 end
-
-#passthrough '/assets/*'
 
 layout '*', :erb

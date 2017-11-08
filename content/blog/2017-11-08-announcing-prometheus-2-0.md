@@ -25,9 +25,13 @@ More and more we felt the strain this put on Prometheus' performance. The storag
 
 In early 2017, things started moving under the hood. What first began as an experiment for a new, more performant time series database quickly got confirmed in practical benchmarks.
 Over the past six months we have been busy stabilizing this work as an [independent time series database](https://www.youtube.com/watch?v=b_pEevMAC3I&list=PLoz-W_CUquUlnvoEBbqChb7A0ZEZsWSXt&index=29) and re-integrating this into Prometheus itself.
-The result is a significantly better performing Prometheus 2.0 with improvements along virtually all dimensions. Query latency is more consistent and it especially scales better in the face of high series churn. Resource consumption also decreased significantly:
+The result is a significantly better performing Prometheus 2.0 with improvements along virtually all dimensions. Query latency is more consistent and it especially scales better in the face of high series churn. Resource consumption, as measured in different real-world production scenarios, also decreased significantly:
 
-* TODO: insert some stats; cpu, mem, i/o
+* **CPU usage** reduced to **20% - 40%** compared to Prometheus 1.8
+* **Disk space usage** reduced to **33% - 50%** compared to Prometheus 1.8
+* **Disk I/O** without much query load is usually **<1%** on average
+
+![Prometheus 1.8 vs 2.0 resource comparison](/assets/blog/2017-11-08/resource-comparison.png)
 
 It is also well-equipped to handle the increasingly dynamic characteristics of modern computing environments for years to come.
 
@@ -48,12 +52,12 @@ A lot of additional smaller changes and cleanups happened. Check the [Prometheus
 The new storage subsystem is designed to be accessible and extensible. This goes for new features directly integrated into Prometheus as well as custom tools that can be built on top of it.
 The simple and open storage format and library also allows users to easily build custom extensions like dynamic retention policies. This enables the storage layer to meet a wide array of requirements without drawing complexity into Prometheus itself; allowing it to focus on its core goals.
 
-The remote APIs will continue to evolve to satisfy requirements for long term storage without sacrificing Prometheus' model of reliability through simplicity.
+The remote APIs will continue to evolve to satisfy requirements for long-term storage without sacrificing Prometheus' model of reliability through simplicity.
 
 ## Try it out!
 
 You can try out Prometheus 2.0 as usual by downloading our [official binaries](https://prometheus.io/download/#prometheus) and [container images](https://quay.io/repository/prometheus/prometheus?tab=tags). See the [Getting started](/docs/prometheus/2.0/migration/) page for a tutorial on how to get up and running with Prometheus.
 
-If you are upgrading from Prometheus 1.x, check our [migration guide](TODO: migration guide) to learn about adjustments that you will have to make and how to use the remote APIs to [read data from old Prometheus servers](https://www.robustperception.io/accessing-data-from-prometheus-1-x-in-prometheus-2-0/) during the migration period.
+If you are upgrading from Prometheus 1.x, check our [migration guide](/docs/prometheus/2.0/migration/) to learn about adjustments that you will have to make and how to use the remote APIs to [read data from old Prometheus servers](https://www.robustperception.io/accessing-data-from-prometheus-1-x-in-prometheus-2-0/) during the migration period.
 
 Finally, we would like to thank all our users who extensively tested the pre-releases and helped us in debugging issues. This huge milestone would not have been possible without you!

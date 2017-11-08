@@ -32,9 +32,9 @@ Before starting Prometheus, let's configure it.
 
 ## Configuring Prometheus
 
-Prometheus configuration is [YAML](http://www.yaml.org/start.html). The Prometheus download comes with a sample configuration in a file called `prometheus.yml` that's a good place to get started.
+Prometheus configuration is [YAML](http://www.yaml.org/start.html). The Prometheus download comes with a sample configuration in a file called `prometheus.yml` that is a good place to get started.
 
-We've stripped out the comments in the example file to make it more succinct.
+We've stripped out most of the comments in the example file to make it more succinct (comments are the lines prefixed with a `#`).
 
 ```language-yaml
 global:
@@ -57,9 +57,7 @@ The `global` block controls the Prometheus server's global configuration. We hav
 
 The `rule_files` block specifies the location of any rules we want the Prometheus server to load. For now we've got no rules.
 
-The last block, `scrape_configs`, controls what resources Prometheus monitors. Since Prometheus also exposes data about itself as an HTTP endpoint it can scrape and monitor its own health. In the default configuration there is a single job, called `prometheus`, which scrapes the time series data exposed by the Prometheus server. The job contains a single, statically configured, target, the `localhost` on port `9090`. Prometheus expects metrics to be available on targets on a path of `/metrics`. So this default job is scraping via the URL:
-
-`http://localhost:9090/metrics`
+The last block, `scrape_configs`, controls what resources Prometheus monitors. Since Prometheus also exposes data about itself as an HTTP endpoint it can scrape and monitor its own health. In the default configuration there is a single job, called `prometheus`, which scrapes the time series data exposed by the Prometheus server. The job contains a single, statically configured, target, the `localhost` on port `9090`. Prometheus expects metrics to be available on targets on a path of `/metrics`. So this default job is scraping via the URL: http://localhost:9090/metrics.
 
 The time series data returned will detail the state and performance of the Prometheus server.
 
@@ -148,14 +146,14 @@ The Node Exporter's metrics are available on port `9100` on the host at the `/me
 
 You can browse to this URL to see the metrics being exposed.
 
-We now need to tell Prometheus about our new target.
+We now need to tell Prometheus about our new exporter.
 
 ## Configuring Prometheus to monitor the host
 
 We will configure Prometheus to scrape this new target. To achieve this, add a new job definition to the `scrape_configs` section in our `prometheus.yml`:
 
 ```
-  - job_name:  'node'
+- job_name: node
     static_configs:
       - targets: ['localhost:9100']
 ```

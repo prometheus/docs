@@ -28,7 +28,7 @@ performing as well as the rest, such as responding with increased latency.
 
 Let us say that we have a metric `instance:latency_seconds:mean5m` representing the
 average query latency for each instance of a service, calculated via a
-[recording rule](/docs/prometheus/latest/querying/rules/) from a
+[recording rule](/docs/prometheus/latest/configuration/recording_rules/) from a
 [Summary](/docs/concepts/metric_types/#summary) metric.
 
 A simple way to start would be to look for instances with a latency

@@ -12,7 +12,7 @@ vector elements at a given point in time, the alert counts as active for these
 elements' label sets.
 
 Alerting rules are configured in Prometheus in the same way as [recording
-rules](/docs/prometheus/latest/querying/rules).
+rules](/docs/prometheus/latest/configuration/recording_rules).
 
 ### Defining alerting rules
 

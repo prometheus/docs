@@ -53,7 +53,7 @@ scrape_configs:
 
 There are three blocks of configuration in the example configuration file: `global`, `rule_files`, and `scrape_configs`. 
 
-The `global` block controls the Prometheus server's global configuration. We have three options present. The first, `scrape_interval`, controls how often Prometheus will scrape targets. You can override this for individual targets. In this case the global setting is to scrape every 15 seconds. The `evaluation_interval` option controls how often Prometheus will evaluate rules. Prometheus uses rules to create new time series and to generate alerts. The last option, `external_labels`, adds labels to time series or alerts that leave the Prometheus server.
+The `global` block controls the Prometheus server's global configuration. We have three options present. The first, `scrape_interval`, controls how often Prometheus will scrape targets. You can override this for individual targets. In this case the global setting is to scrape every 15 seconds. The `evaluation_interval` option controls how often Prometheus will evaluate rules. Prometheus uses rules to create new time series and to generate alerts.
 
 The `rule_files` block specifies the location of any rules we want the Prometheus server to load. For now we've got no rules.
 
@@ -111,7 +111,7 @@ For more about the expression language, see the
 
 ## Using the graphing interface
 
-To graph expressions, navigate to `http://localhost:9090/graph` and use the "Graph" tab.
+To graph expressions, navigate to http://localhost:9090/graph and use the "Graph" tab.
 
 For example, enter the following expression to graph the per-second HTTP request rate happening in the self-scraped Prometheus:
 
@@ -140,9 +140,7 @@ Let's start the Node Exporter now on our Linux host.
 ./node_exporter
 ```
 
-The Node Exporter's metrics are available on port `9100` on the host at the `/metrics` path. In our case this is:
-
-`http://localhost:9100/metrics`
+The Node Exporter's metrics are available on port `9100` on the host at the `/metrics` path. In our case this is: http://localhost:9100/metrics.
 
 You can browse to this URL to see the metrics being exposed.
 

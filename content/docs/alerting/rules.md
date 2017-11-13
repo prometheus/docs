@@ -91,7 +91,7 @@ Prometheus's alerting rules are good at figuring what is broken *right now*,
 but they are not a fully-fledged notification solution. Another layer is needed
 to add summarization, notification rate limiting, silencing and alert
 dependencies on top of the simple alert definitions. In Prometheus's ecosystem,
-the [Alertmanager](/docs/alertmanager) takes on this
+the [Alertmanager](/docs/alerting/alertmanager) takes on this
 role. Thus, Prometheus may be configured to periodically send information about
 alert states to an Alertmanager instance, which then takes care of dispatching
 the right notifications. The Alertmanager instance may be configured via the

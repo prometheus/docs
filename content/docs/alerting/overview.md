@@ -14,5 +14,5 @@ sending out notifications via methods such as email, PagerDuty and HipChat.
 The main steps to setting up alerting and notifications are:
 
 * Setup and [configure](../configuration) the Alertmanager
-* Configure Prometheus to talk to the Alertmanager with the `-alertmanager.url` flag
+* [Configure Prometheus](../prometheus/latest/configuration/configuration/#<alertmanager_config>) to talk to the Alertmanager
 * Create [alerting rules](../rules) in Prometheus

@@ -16,7 +16,7 @@ global:
   slack_api_url: '<slack_webhook_url>'
 
 route:
-- receiver: 'slack-notifications'
+  receiver: 'slack-notifications'
   group_by: [alertname, datacenter, app]
 
 receivers:
@@ -84,7 +84,7 @@ global:
   slack_api_url: '<slack_webhook_url>'
 
 route:
-- receiver: 'slack-notifications'
+  receiver: 'slack-notifications'
   group_by: [alertname, datacenter, app]
 
 receivers:

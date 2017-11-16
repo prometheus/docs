@@ -5,11 +5,10 @@ sort_rank: 3
 
 # Pushing metrics
 
-Occasionally you will need to monitor components which cannot be scraped. They
-might live behind a firewall, or they might be too short-lived to expose data
-reliably via the pull model. The
-[Prometheus Pushgateway](https://github.com/prometheus/pushgateway) allows you to push
-time series from these components to an intermediary job which Prometheus can
+Occasionally you will need to monitor components which cannot be scraped. The
+[Prometheus Pushgateway](https://github.com/prometheus/pushgateway) allows you
+to push time series from [short-lived service-level batch
+jobs](/docs/practices/pushing/) to an intermediary job which Prometheus can
 scrape. Combined with Prometheus's simple text-based exposition format, this
 makes it easy to instrument even shell scripts without a client library.
 

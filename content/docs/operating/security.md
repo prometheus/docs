@@ -37,11 +37,12 @@ possible for a target to expose data that impersonates a different target.  The
 `honor_labels` option removes this protection, as can certain relabelling
 setups.
 
-As of Prometheus 2.0, the `--web.enable-admin-api` flag by default disables the
+As of Prometheus 2.0, the `--web.enable-admin-api` flag controls access to the
 administrative HTTP API which includes functionality such as deleting time
-series. If enabled administrative and mutating functionality will be accessible
-under the `/api/*/admin/` paths.  The `--web.enable-lifecycle` flag by default
-disallows HTTP reloads and shutdowns of Prometheus, and if enabled they will be
+series. This is disabled by default. If enabled, administrative and mutating
+functionality will be accessible under the `/api/*/admin/` paths. The
+`--web.enable-lifecycle` flag controls HTTP reloads and shutdowns of
+Prometheus. This is also disabled by default. If enabled they will be
 accessible under the `/-/reload` and `/-/quit` paths.
 
 In Prometheus 1.x, `/-/reload` and using `DELETE` on `/api/v1/series` are
@@ -65,7 +66,18 @@ Where notifications are sent to is determined by the configuration file. With
 certain templating setups it is possible for notifications to end up at an
 alert-defined destination. For example if notifications use an alert label as
 the destination email address, anyone who can send alerts to the Alertmanager
-can send notifications to any email address.
+can send notifications to any email address. If the alert-defined destination
+is a templatable secret field, anyone with access to either Prometheus or
+Alertmanager will be able to view the secrets.
+
+Any secret fields which are templatable are intended for routing notifcations
+in the above use case. They are not intended as a way for secrets to be
+separated out from the configuration files using the template file feature. Any
+secrets stored in template files could be exfiltrated by anyone able to
+configure receivers in the Alertmanager configuration file. For example in
+large setups, each team might have an alertmanager configuration file fragment
+which they fully control, that are then combined into the full final
+configuration file.
 
 ## Pushgateway
 

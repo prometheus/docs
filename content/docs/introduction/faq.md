@@ -219,40 +219,6 @@ supporting even more than 64 bit) could be implemented, but it is not
 a priority right now. A counter, even if incremented one million times per
 second, will only run into precision issues after over 285 years.
 
-### Why does Prometheus use a custom storage backend rather than [some other storage method]? Isn't the "one file per time series" approach killing performance?
-
-NOTE: **NOTE:** This FAQ entry is about Prometheus 1.x. Prometheus 2.0 uses a different (but also custom-built) storage engine, for much of the same reasons. The performance numbers and characteristics differ.
-
-Initially, Prometheus ran completely on LevelDB, but to achieve better
-performance, we had to change the storage for bulk sample data. We evaluated
-many storage backends that were available at the time, without getting
-satisfactory results. So we implemented exactly the parts we needed, while
-keeping LevelDB for indexes and making heavy use of file system
-capabilities. Obviously, we could not evaluate every single storage backend out
-there, and storage backends have evolved meanwhile. However, the performance of
-the solution implemented now is satisfactory for most use-cases. Our most
-important requirements are an acceptable query speed for common queries and a
-sustainable ingestion rate of hundreds of thousands of samples per second. The
-latter depends on many parameters, like the compressibility of the sample data,
-the number of time series the samples belong to, the retention policy, and even
-more subtle aspects like how full your SSD is. If you want to know all the
-details, read
-[this document with detailed benchmark results](https://docs.google.com/document/d/1lRKBaz9oXI5nwFZfvSbPhpwzUbUr3-9qryQGG1C6ULk/edit?usp=sharing). The highlights:
-
-* On a typical bare-metal server with 64GiB RAM, 32 CPU cores, and SSD,
-  Prometheus sustained an ingestion rate of 900k samples per second, belonging
-  to 1M time series, scraped from 720 targets.
-
-* On a server with HDD and 128GiB RAM, Prometheus sustained an ingestion rate
-  of 250k samples per second, belonging to 1M time series, scraped from 720
-  targets.
-
-Running out of inodes is unlikely in a usual set-up. However, if you have a lot
-of short-lived time series, or you have configured your file system with an
-unusual low amount of inodes, you might run into inode depletion. Also, if you
-want to delete Prometheus's storage directory, you will notice that some file
-systems are very slow when deleting a large number of files.
-
 ### Why don't the Prometheus server components support TLS or authentication? Can I add those?
 
 While TLS and authentication are frequently requested features, we have

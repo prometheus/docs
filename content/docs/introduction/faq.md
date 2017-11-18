@@ -221,6 +221,8 @@ second, will only run into precision issues after over 285 years.
 
 ### Why does Prometheus use a custom storage backend rather than [some other storage method]? Isn't the "one file per time series" approach killing performance?
 
+NOTE: **NOTE:** This FAQ entry is about Prometheus 1.x. Prometheus 2.0 uses a different (but also custom-built) storage engine, for much of the same reasons. The performance numbers and characteristics differ.
+
 Initially, Prometheus ran completely on LevelDB, but to achieve better
 performance, we had to change the storage for bulk sample data. We evaluated
 many storage backends that were available at the time, without getting

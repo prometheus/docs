@@ -399,17 +399,17 @@ docs.
 
 ### Pushes
 
-Some applications and monitoring systems only push metrics e.g. statsd,
-graphite and collectd.
+Some applications and monitoring systems only push metrics e.g. `statsd`,
+`graphite` and `collectd`.
 
 There’s two considerations here.
 
-Firstly, when do you expire metrics? Collected and things talking to Graphite
+Firstly, when do you expire metrics? `collectd` and things talking to `graphite`
 both export regularly, and when they stop we want to stop exposing the metrics.
-Collected includes an expiry time so we use that, Graphite doesn’t so it’s a
+`collectd` includes an expiry time so we use that, but `graphite` doesn’t so it’s a
 flag on the exporter.
 
-Statsd is a bit different, as it’s dealing with events rather than metrics. The
+`statsd` is a bit different, as it’s dealing with events rather than metrics. The
 best model is to run one exporter beside each application and restart them when
 the application restarts so that state is cleared.
 

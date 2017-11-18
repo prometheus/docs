@@ -46,7 +46,7 @@ data volumes.
 For notification mechanisms not natively supported by the Alertmanager, the
 [webhook receiver](/docs/alerting/configuration/#webhook_config) allows for integration.
 
-  * [JIRAlert](https://github.com/alin-sinpalean/jiralert)
+  * [JIRAlert](https://github.com/free/jiralert)
   * [Phabricator / Maniphest](https://github.com/knyar/phalerts)
   * [SMS](https://github.com/messagebird/sachet): supports [multiple providers](https://github.com/messagebird/sachet/blob/master/examples/config.yaml)
   * [Telegram bot](https://github.com/inCaller/prometheus_bot)

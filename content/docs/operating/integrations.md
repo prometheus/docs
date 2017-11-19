@@ -48,9 +48,9 @@ For notification mechanisms not natively supported by the Alertmanager, the
 
   * [JIRAlert](https://github.com/free/jiralert)
   * [Phabricator / Maniphest](https://github.com/knyar/phalerts)
+  * [prom2teams](https://github.com/idealista/prom2teams): forwards notifications to Microsoft Teams
   * [SMS](https://github.com/messagebird/sachet): supports [multiple providers](https://github.com/messagebird/sachet/blob/master/examples/config.yaml)
   * [Telegram bot](https://github.com/inCaller/prometheus_bot)
-  * [prom2teams](https://github.com/idealista/prom2teams): forwards alerts to Microsoft Teams
 
 ## Management
 

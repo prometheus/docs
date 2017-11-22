@@ -154,9 +154,9 @@ advice](/docs/practices/instrumentation/#things-to-watch-out-for) on labels.
 Avoid `type` as a label name, it’s too generic and meaningless. You should also
 try where possible to avoid names that are likely to clash with target labels,
 such as `region`, `zone`, `cluster`, `availability_zone`, `az`, `datacenter`,
-`dc`, `owner`, `customer`, `stage`, `environment` and `env` - though if that’s
-what the application calls something it’s best not to cause confusion by
-renaming it.
+`dc`, `owner`, `customer`, `stage`, `service`, `environment` and `env` - though
+if that’s what the application calls something it’s best not to cause confusion
+by renaming it.
 
 Avoid the temptation to put things into one metric just because they share a
 prefix. Unless you’re sure something makes sense as one metric, multiple
@@ -205,6 +205,22 @@ instead.
 If your monitoring exposes a total like this, drop the total. If you have to
 keep it around for some reason (e.g. the total includes things not counted
 individually), use different metric names.
+
+Instrumentation labels should be minimal, every extra label is one more that
+users need to consider when writing their PromQL. Accordingly, avoid having
+instrumentation labels which could be removed without affecting uniqueness of
+time series. Additional information around a metric can be added via an info
+metric, see below around how to handle version numbers.
+
+However there are cases where it is expected that virtually all users of a
+metric will want the additional information a non-unique label could add, so an
+info metric is not the right tradeoff. For example the mysqld_exporter's
+`mysqld_perf_schema_events_statements_total`'s `digest` label is a hash of the
+full query pattern and is sufficient for uniqueness. However it is of little
+use without the human readable `digest_text` label, which for long queries will
+contain only the start of the query pattern and is thus not unique. Thus we end
+up with both the `digest_text` for humans and the `digest` label for
+uniqueness.
 
 ### Target labels, not static scraped labels
 

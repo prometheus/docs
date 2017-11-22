@@ -33,6 +33,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [Aerospike exporter](https://github.com/alicebob/asprom)
    * [ClickHouse exporter](https://github.com/f1yegor/clickhouse_exporter)
    * [Consul exporter](https://github.com/prometheus/consul_exporter) (**official**)
+   * [Consul telemetry exporter](https://github.com/SWCE/consul_telemetry_exporter)
    * [CouchDB exporter](https://github.com/gesellix/couchdb-exporter)
    * [ElasticSearch exporter](https://github.com/justwatchcom/elasticsearch_exporter)
    * [Memcached exporter](https://github.com/prometheus/memcached_exporter) (**official**)

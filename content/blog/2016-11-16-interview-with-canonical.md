@@ -36,7 +36,7 @@ We’d evaluated a few alternatives, including
 Graphite, but our first experiences with Prometheus proved it to have the
 combination of simplicity and power that we were looking for.  We especially
 appreciate the convenience of labels, the simple HTTP protocol, and the out of
-box [timeseries alerting](https://prometheus.io/docs/alerting/rules/). The
+box [timeseries alerting](https://prometheus.io/docs/prometheus/latest/configuration/alerting_rules/). The
 potential with Prometheus to replace 2 different tools (alerting and trending)
 with one is particularly appealing.
 
@@ -77,4 +77,3 @@ We expect Prometheus to be a significant part of our monitoring and reporting
 infrastructure, providing the metrics gathering and storage for numerous
 current and future systems. We see it potentially replacing Nagios as for
 alerting.
-

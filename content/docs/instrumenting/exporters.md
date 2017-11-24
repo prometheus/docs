@@ -46,6 +46,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [Redis exporter](https://github.com/oliver006/redis_exporter)
    * [RethinkDB exporter](https://github.com/oliver006/rethinkdb_exporter)
    * [SQL query result set metrics exporter](https://github.com/chop-dbhi/prometheus-sql)
+   * [SQL exporter](https://github.com/justwatchcom/sql_exporter)
    * [Tarantool metric library](https://github.com/tarantool/prometheus)
 
 ### Hardware related

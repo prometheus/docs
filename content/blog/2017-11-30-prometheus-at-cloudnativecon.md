@@ -44,11 +44,11 @@ how simple it is to instrument an app, using a very generic Node.js app as refer
 The French FedEx company uses Prometheus to monitor their infrastructure.  This talk
 will discuss the use of Prometheus in production, why they chose Prometheus, how they
 integrated it, configured it and what kind of insights they extracted from the
-whole infrastructure.  In addition, this talk with discuss how Prometheus changed
+whole infrastructure.  In addition, this talk will discuss how Prometheus changed
 their way of working, how they implemented self-healing based on Prometheus, how they
 configured systemd to trigger AlertManager API, integration with slack and other cool stuff.
 
 ## [Prometheus Happy Hour](http://kubecon.freshtracks.io/) (8-10pm)
 
-After such a busy day, we'll be off to Westin rooftop at Azul to soak up the
-Austin skyline, drink in hand!  Go and [reserve you spot now](http://kubecon.freshtracks.io/).
+After such a busy day, we'll be off to the Westin rooftop at Azul to soak up the
+Austin skyline, drink in hand!  Go and [reserve your spot now](http://kubecon.freshtracks.io/).

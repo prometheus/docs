@@ -15,7 +15,7 @@ booth, all followed by the Prometheus Happy Hour.  Read on for more details...
 
 <!-- more -->
 
-## [Prometheus Salon](https://kccncna17.sched.com/event/Cs4d/prometheus-salon-hosted-by-frederic-branczyk-coreos-bob-cotton-freshtracksio-goutham-veeramanchaneni-tom-wilkie-kausal) (11:10am - 12:30pm)
+##  [Prometheus Salon](https://kccncna17.sched.com/event/Cs4d/prometheus-salon-hosted-by-frederic-branczyk-coreos-bob-cotton-freshtracksio-goutham-veeramanchaneni-tom-wilkie-kausal) (11:10am - 12:30pm)
 
 Featuring talks from Prometheus developers, this salon will include an introduction
 to Prometheus, a closer look at how you can use Prometheus to monitor your Kubernetes
@@ -48,7 +48,7 @@ whole infrastructure.  In addition, this talk with discuss how Prometheus change
 their way of working, how they implemented self-healing based on Prometheus, how they
 configured systemd to trigger AlertManager API, integration with slack and other cool stuff.
 
-## [Prometheus Happy Hour](http://kubecon.freshtracks.io/) (Wed 8-10pm)
+## [Prometheus Happy Hour](http://kubecon.freshtracks.io/) (8-10pm)
 
 After such a busy day, we'll be off to Westin rooftop at Azul to soak up the
 Austin skyline, drink in hand!  Go and [reserve you spot now](http://kubecon.freshtracks.io/).

@@ -15,7 +15,7 @@ metrics directly (for example, HAProxy or Linux system stats).
 Some of these exporters are maintained as part of the official [Prometheus GitHub organization](https://github.com/prometheus),
 those are marked as *official*, others are externally contributed and maintained.
 
-We encourage the creation of more exporters but, cannot vet all of them for
+We encourage the creation of more exporters but cannot vet all of them for
 [best practices](/docs/instrumenting/writing_exporters/).
 Commonly, those exporters are hosted outside of the Prometheus GitHub
 organization.
@@ -45,7 +45,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [ProxySQL exporter](https://github.com/percona/proxysql_exporter)
    * [Redis exporter](https://github.com/oliver006/redis_exporter)
    * [RethinkDB exporter](https://github.com/oliver006/rethinkdb_exporter)
-   * [SQL query result set metrics exporter](https://github.com/chop-dbhi/prometheus-sql)
+   * [SQL exporter](https://github.com/free/sql_exporter)
    * [Tarantool metric library](https://github.com/tarantool/prometheus)
 
 ### Hardware related

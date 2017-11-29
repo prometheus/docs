@@ -29,8 +29,11 @@ Tom from Kausal will cover patterns of application instrumentation, where and wh
 
 ## Meet the Maintainers (3:30pm)
 
-Prometheus developers Frederic Branczyk, Goutham Veeramachaneni and Tom Wilkie will
-be at the CNCF booth to field all your Prometheus-related questions.  Come say hi!
+Prometheus developers Frederic Branczyk ([@brancz](https://github.com/brancz)),
+Goutham Veeramachaneni ([@Ggouthamve](https://github.com/gouthamve)) and Tom Wilkie
+([@tomwilkie](https://github.com/tomwilkie)) will be at the 'Meet the Maintainers'
+lounges in the Sponsor Showcase to field all your Prometheus-related questions.
+Come say hi!
 
 ## [A Practical Guide to Prometheus for App Developers](https://kccncna17.sched.com/event/CU5y/a-practical-guide-to-prometheus-for-app-developers-b-ilya-dmitrichenko-weaveworks) (Wed 4:25pm - 5:00pm)
 

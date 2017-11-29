@@ -30,7 +30,7 @@ Tom from Kausal will cover patterns of application instrumentation, where and wh
 ## Meet the Maintainers (3:30pm)
 
 Prometheus developers Frederic Branczyk ([@brancz](https://github.com/brancz)),
-Goutham Veeramachaneni ([@Ggouthamve](https://github.com/gouthamve)) and Tom Wilkie
+Goutham Veeramachaneni ([@Gouthamve](https://github.com/gouthamve)) and Tom Wilkie
 ([@tomwilkie](https://github.com/tomwilkie)) will be at the 'Meet the Maintainers'
 lounges in the Sponsor Showcase to field all your Prometheus-related questions.
 Come say hi!

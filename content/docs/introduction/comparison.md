@@ -132,14 +132,13 @@ boundaries like products, services, datacenters, or similar aspects.
 Independent servers (which can be run redundantly in parallel) may also give
 you better reliability and failure isolation.
 
-Kapacitor currently has no [built-in distributed/redundant
+Kapacitor's open-source release currently has no [built-in distributed/redundant
 options](https://github.com/influxdata/kapacitor/issues/277) for rules,
-alerting, or notifications. Prometheus and the Alertmanager by contrast offer a
-redundant option via running redundant replicas of Prometheus and using the
-Alertmanager's [High
-Availability](https://github.com/prometheus/alertmanager#high-availability)
-mode. In addition, Kapacitor can be scaled via manual sharding by the user,
-similar to Prometheus itself.
+alerting, or notifications.  Prometheus and the Alertmanager by contrast offer a 
+redundant option via running redundant replicas of Prometheus and using the 
+Alertmanager's [High Availability](https://github.com/prometheus/alertmanager#high-availability)
+mode. In addition, Kapacitor can be scaled via manual sharding by the user, similar 
+to Prometheus itself. 
 
 ### Summary
 

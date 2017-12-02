@@ -115,7 +115,10 @@ function matchLabels(matchers, labelSet) {
 
 // Compare single matcher to labelSet
 function matchLabel(matcher, labelSet) {
-  var v = labelSet[matcher.name];
+  var v = "";
+  if (matcher.name in labelSet) {
+    v = labelSet[matcher.name];
+  }
 
   if (matcher.isRegex) {
     return matcher.value.test(v)

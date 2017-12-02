@@ -159,7 +159,7 @@ function massage(root) {
     for (var key in root.match_re) {
       var o = {};
       o.isRegex = true;
-      o.value = new RegExp(root.match_re[key]);
+      o.value = new RegExp("^(?:" + root.match_re[key] + ")$");
       o.name = key;
       matchers.push(o);
     }

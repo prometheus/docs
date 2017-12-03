@@ -19,10 +19,14 @@ these categories.
 
 ## File Service Discovery
 
-For service discovery mechanisms not natively supported by Prometheus,
-[file-based service discovery](/docs/operating/configuration/#<file_sd_config>) provides an interface for integrating.
+For service discovery mechanisms that are not natively supported by Prometheus,
+[file-based service discovery](/docs/operating/configuration/#<file_sd_config>) provides an interface for integration.
 
+ * [Amazon ECS](https://github.com/teralytics/prometheus-ecs-discovery)
+ * [Apache CloudStack](https://github.com/tsuru/prometheus-cloudstack-discovery)
+ * [Docker Cloud](https://github.com/rayhou/prometheus-file-sd)
  * [Docker Swarm](https://github.com/ContainerSolutions/prometheus-swarm-discovery)
+ * [PuppetDB](https://github.com/camptocamp/prometheus-puppetdb)
 
 ## Remote Endpoints and Storage
 

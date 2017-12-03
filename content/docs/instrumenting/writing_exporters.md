@@ -125,8 +125,7 @@ The label `le` has special meaning for Histograms, and `quantile` for
 Summaries. Avoid these labels generally.
 
 Read/write and send/receive are best as separate metrics, rather than as a
-label. This is usually because you care about only one of them at a time, and
-it is easier to use them that way.
+label. This is usually because you care about only one of them at a time, and it is easier to use them that way.
 
 The rule of thumb is that one metric should make sense when summed or averaged.
 There is one other case that comes up with exporters, and that’s where the data

@@ -281,8 +281,8 @@ quantiles. Histograms are rare, if you come across one remember that the
 exposition format exposes cumulative values.
 
 Often it won’t be obvious what the type of metric is, especially if
-you’re automatically processing a set of metrics, use `UNTYPED` in that
-case. In general `UNTYPED` is a safe default.
+you’re automatically processing a set of metrics. In general `UNTYPED`
+is a safe default.
 
 Counters can’t go down, so if you have a counter type coming from
 another instrumentation system that can be decremented, for example

@@ -29,8 +29,8 @@ change, then getting everything perfect is an easy choice, a good
 example of this is the [HAProxy
 exporter](https://github.com/prometheus/haproxy_exporter).
 
-If, on the other hand, the system has hundreds of metrics that change
-frequently with new versions, if you try to get things perfect then
+On the other hand, if you try to get things perfect when the system has
+hundreds of metrics that change frequently with new versions, then
 you’ve signed yourself up for a lot of ongoing work. The [MySQL
 exporter](https://github.com/prometheus/mysqld_exporter) is on this end
 of the spectrum.
@@ -51,7 +51,7 @@ application is.  You may also need to offer the ability to filter out
 certain metrics if they may be too granular and expensive on large
 setups, for example the [HAProxy
 exporter](https://github.com/prometheus/haproxy_exporter) allows
-filtering of per-server stats. Similarly there may be expensive metrics
+filtering of per-server stats. Similarly, there may be expensive metrics
 that are disabled by default.
 
 When working with other monitoring systems, frameworks and protocols you
@@ -88,7 +88,7 @@ should use YAML by default.
 
 Follow the [best practices on metric naming](/docs/practices/naming).
 
-Generally metric names should allow someone who’s familiar with
+Generally metric names should allow someone who is familiar with
 Prometheus but not a particular system to make a good guess as to what a
 metric means.  A metric named `http_requests_total` is not extremely
 useful - are these being measured as they come in, in some filter or
@@ -96,7 +96,7 @@ when they get to the user’s code?  And `requests_total` is even worse,
 what type of requests?
 
 With direct instrumentation, a given metric should exist within exactly
-one file. Accordingly within exporters and collectors, a metric should
+one file. Accordingly, within exporters and collectors, a metric should
 apply to exactly one subsystem and be named accordingly.
 
 Metric names should never be procedurally generated, except when writing
@@ -106,13 +106,13 @@ Metric names for applications should generally be prefixed by the
 exporter name, e.g. `haproxy_up`.
 
 Metrics must use base units (e.g. seconds, bytes) and leave converting
-them to something more readable to upstream tools. No matter what units
+them to something more readable to graphing tools. No matter what units
 you end up using, the units in the metric name must match the units in
-use. Similarly expose ratios, not percentages. Even better, specify a
+use. Similarly, expose ratios, not percentages. Even better, specify a
 counter for each of the two components of the ratio.
 
 Metric names should not include the labels that they’re exported with,
-e.g.  `by_type`, as that won’t make sense if the label is aggregated
+e.g. `by_type`, as that won’t make sense if the label is aggregated
 away.
 
 The one exception is when you’re exporting the same data with different
@@ -126,8 +126,8 @@ Converting `camelCase` to `snake_case` is desirable, though doing so
 automatically doesn’t always produce nice results for things like
 `myTCPExample` or `isNaN` so sometimes it’s best to leave them as-is.
 
-Exposed metrics should not contain colons, these are reserved for use
-when aggregating.
+Exposed metrics should not contain colons, these are reserved for users
+to use when aggregating.
 
 Only `[a-zA-Z0-9:_]` are valid in metric names, any other characters
 should be sanitized to an underscore.
@@ -143,7 +143,7 @@ The `process_` and `scrape_` prefixes are reserved. It’s okay to add
 your own prefix on to these if they follow the [matching
 semantics](https://docs.google.com/document/d/1Q0MXWdwp1mdXCzNRak6bW5LLVylVRXhdi7_21Sg15xQ/edit).
 For example, Prometheus has `scrape_duration_seconds` for how long a
-scrape took, it’s good practice to also have an exporter-centric metric,
+scrape took, it's good practice to also have an exporter-centric metric,
 e.g. `jmx_scrape_duration_seconds`, saying how long the specific
 exporter took to do its thing. For process stats where you have access
 to the PID, both Go and Python offer collectors that’ll handle this for
@@ -153,12 +153,12 @@ exporter](https://github.com/prometheus/haproxy_exporter).
 When you have a successful request count and a failed request count, the
 best way to expose this is as one metric for total requests and another
 metric for failed requests. This makes it easy to calculate the failure
-ratio. Do not use one metric with a failed or success label. Similarly
-with hit/miss for caches, it’s better to have one metric for total and
+ratio. Do not use one metric with a failed or success label. Similarly,
+with hit or miss for caches, it’s better to have one metric for total and
 another for hits.
 
 Consider the likelihood that someone using monitoring will do a code or
-web search for the metric name. If the names are very well established
+web search for the metric name. If the names are very well-established
 and unlikely to be used outside of the realm of people used to those
 names, for example SNMP and network engineers, then leaving them as-is
 may be a good idea. This logic doesn’t apply for all exporters, for
@@ -187,7 +187,7 @@ multiple metrics is safer.
 The label `le` has special meaning for Histograms, and `quantile` for
 Summaries. Avoid these labels generally.
 
-Read/write and send/receive are best as separate metrics, rather than as
+Read or write and send or receive are best as separate metrics, rather than as
 a label. This is usually because you care about only one of them at a
 time, and it is easier to use them that way.
 
@@ -236,13 +236,13 @@ affecting the uniqueness of the time series. Additional information
 around a metric can be added via an info metric, for an example see
 below how to handle version numbers.
 
-However there are cases where it is expected that virtually all users of
+However, there are cases where it is expected that virtually all users of
 a metric will want the additional information. If so, adding a
 non-unique label, rather than an info metric, is the right solution. For
 example the
 [mysqld_exporter](https://github.com/prometheus/mysqld_exporter)'s
 `mysqld_perf_schema_events_statements_total`'s `digest` label is a hash
-of the full query pattern and is sufficient for uniqueness. However it
+of the full query pattern and is sufficient for uniqueness. However, it
 is of little use without the human readable `digest_text` label, which
 for long queries will contain only the start of the query pattern and is
 thus not unique. Thus we end up with both the `digest_text` label for
@@ -270,7 +270,7 @@ monitoring the same application may give it different names.
 Accordingly, these labels belong up in the scrape configs of Prometheus
 via whatever service discovery you’re using. It’s okay to apply the
 concept of machine roles here as well, as it’s likely useful information
-for at least some of the people scraping it.
+for at least some people scraping it.
 
 ### Types
 
@@ -280,7 +280,7 @@ of summaries are also relatively common, and on occasion you’ll see
 quantiles. Histograms are rare, if you come across one remember that the
 exposition format exposes cumulative values.
 
-Often it won’t be obvious what the type of a metric is, especially if
+Often it won’t be obvious what the type of metric is, especially if
 you’re automatically processing a set of metrics, use `UNTYPED` in that
 case. In general `UNTYPED` is a safe default.
 
@@ -295,8 +295,8 @@ it were being used as a counter.
 When you’re transforming metrics it’s useful for users to be able to
 track back to what the original was, and what rules were in play that
 caused that transformation. Putting in the name of the
-collector/exporter, the ID of any rule that was applied and the
-name/details of the original metric into the help string will greatly
+collector or exporter, the ID of any rule that was applied and the
+name and details of the original metric into the help string will greatly
 aid users.
 
 Prometheus doesn’t like one metric having different help strings. If
@@ -312,14 +312,14 @@ variety of examples.
 
 ### Drop less useful statistics
 
-Some instrumentation systems expose 1m/5m/15m rates, average rates since
+Some instrumentation systems expose 1m, 5m, 15m rates, average rates since
 application start (these are called `mean` in Dropwizard metrics for
 example) in addition to minimums, maximums and standard deviations.
 
 These should all be dropped, as they’re not very useful and add clutter.
 Prometheus can calculate rates itself, and usually more accurately as
 the averages exposed are usually exponentially decaying. You don’t know
-what time the min/max were calculated over, and the standard deviation
+what time the min or max were calculated over, and the standard deviation
 is statistically useless and you can always expose sum of squares,
 `_sum` and `_count` if you ever need to calculate it.
 
@@ -359,7 +359,7 @@ file-level global variables, so you’ll get race conditions. Secondly, if
 a label value disappears, it’ll still be exported.
 
 Instrumenting your exporter itself via direct instrumentation is fine,
-e.g.  total bytes transferred or calls performed by the exporter across
+e.g. total bytes transferred or calls performed by the exporter across
 all scrapes.  For exporters such as the [blackbox
 exporter](https://github.com/prometheus/blackbox_exporter) and [SMNP
 exporter](https://github.com/prometheus/snmp_exporter), which aren’t
@@ -426,13 +426,13 @@ with the Go, Python and Java client libraries.
 
 The second exception is where you’re pulling some stats out of a random
 instance of a system and don’t care which one you’re talking to.
-Consider a set of MySQL slaves you wanted to run some business queries
+Consider a set of MySQL replicas you wanted to run some business queries
 against the data to then export. Having an exporter that uses your usual
-load balancing approach to talk to one slave is the sanest approach.
+load balancing approach to talk to one replica is the sanest approach.
 
 This doesn’t apply when you’re monitoring a system with master-election,
 in that case you should monitor each instance individually and deal with
-the "masterness" in Prometheus.  This is as there isn’t always exactly
+the "masterness" in Prometheus. This is as there isn’t always exactly
 one master, and changing what a target is underneath Prometheus’s feet
 will cause oddities.
 
@@ -442,7 +442,7 @@ Metrics should only be pulled from the application when Prometheus
 scrapes them, exporters should not perform scrapes based on their own
 timers. That is, all scrapes should be synchronous.
 
-Accordingly you should not set timestamps on the metrics you expose, let
+Accordingly, you should not set timestamps on the metrics you expose, let
 Prometheus take care of that. If you think you need timestamps, then you
 probably need the
 [Pushgateway](https://prometheus.io/docs/instrumenting/pushing/)
@@ -463,9 +463,9 @@ StatsD, Graphite and collectd.
 
 There are two considerations here.
 
-Firstly, when do you expire metrics? Collected and things talking to
+Firstly, when do you expire metrics? Collectd and things talking to
 Graphite both export regularly, and when they stop we want to stop
-exposing the metrics.  Collected includes an expiry time so we use that,
+exposing the metrics.  Collectd includes an expiry time so we use that,
 Graphite doesn’t so it is a flag on the exporter.
 
 StatsD is a bit different, as it is dealing with events rather than
@@ -473,7 +473,7 @@ metrics. The best model is to run one exporter beside each application
 and restart them when the application restarts so that the state is
 cleared.
 
-Secondly,  these sort of systems tend to allow your users to send either
+Secondly, these sort of systems tend to allow your users to send either
 deltas or raw counters. You should rely on the raw counters as far as
 possible, as that’s the general Prometheus model.
 
@@ -492,7 +492,7 @@ application you’re talking to doesn’t respond or has other problems.
 
 The first is to return a 5xx error.
 
-The seconds is to have an `myexporter_up`, e.g. `haproxy_up`, variable
+The second is to have a `myexporter_up`, e.g. `haproxy_up`, variable
 that has a value of 0 or 1 depending on whether the scrape worked.
 
 The latter is better where there’s still some useful metrics you can get
@@ -526,6 +526,6 @@ port allocations.
 
 ## Announcing
 
-Once you’re ready to announce your exporter to the world, send an email
-to the mailing list and send a PR to add it to [the list of available
+Once you’re ready to announce your exporter to the world, email the
+mailing list and send a PR to add it to [the list of available
 exporters](https://github.com/prometheus/docs/blob/master/content/docs/instrumenting/exporters.md).

@@ -118,6 +118,9 @@ function matchLabel(matcher, labelSet) {
   var v = labelSet[matcher.name];
 
   if (matcher.isRegex) {
+    // Prevent regex matches on undefined labels.
+    if (undefined === v) v = '';
+
     return matcher.value.test(v)
   }
 

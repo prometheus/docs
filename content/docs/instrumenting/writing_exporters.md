@@ -74,13 +74,14 @@ offender here, with the
 [StatsD](https://github.com/prometheus/statsd_exporter) exporters also
 requiring configuration to extract labels.
 
-Providing a configuration that produces some output automatically and a
-selection of example configurations for transformation, if required, is
-advised. Here are some guidelines for writing or adapting custom
-exporters.
+Ensuring the exporter works out of the box without configuration, and
+providing a selection of example configurations for transformation if
+required, is advised.
 
 YAML is the standard Prometheus configuration format, all configuration
 should use YAML by default.
+
+Here are some guidelines for writing or adapting custom exporters.
 
 ## Metrics
 
@@ -187,7 +188,7 @@ multiple metrics is safer.
 The label `le` has special meaning for Histograms, and `quantile` for
 Summaries. Avoid these labels generally.
 
-Read or write and send or receive are best as separate metrics, rather than as
+Read/write and send/receive are best as separate metrics, rather than as
 a label. This is usually because you care about only one of them at a
 time, and it is easier to use them that way.
 
@@ -221,8 +222,8 @@ my_metric{label=b} 6
 The former breaks for people who do a `sum()` over your metric, and the
 latter breaks sum and is quite difficult to work with. Some client
 libraries, for example Go, will actively try to stop you doing the
-latter in a custom collector, and all client libraries should stop you
-from doing the former with direct instrumentation. Never do either of
+former in a custom collector, and all client libraries should stop you
+from doing the latter with direct instrumentation. Never do either of
 these, rely on Prometheus aggregation instead.
 
 If your monitoring exposes a total like this, drop the total. If you

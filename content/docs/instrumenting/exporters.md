@@ -166,6 +166,7 @@ separate exporters are needed:
 
    * [Ceph](http://docs.ceph.com/docs/master/mgr/prometheus/)
    * [Collectd](https://collectd.org/wiki/index.php/Plugin:Write_Prometheus)
+   * [Concourse](https://concourse.ci/)
    * [CRG Roller Derby Scoreboard](https://github.com/rollerderby/scoreboard) (**direct**)
    * [Doorman](https://github.com/youtube/doorman) (**direct**)
    * [Etcd](https://github.com/coreos/etcd) (**direct**)

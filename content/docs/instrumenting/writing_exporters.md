@@ -81,8 +81,6 @@ required, is advised.
 YAML is the standard Prometheus configuration format, all configuration
 should use YAML by default.
 
-Here are some guidelines for writing or adapting custom exporters.
-
 ## Metrics
 
 ### Naming
@@ -222,7 +220,7 @@ my_metric{label=b} 6
 The former breaks for people who do a `sum()` over your metric, and the
 latter breaks sum and is quite difficult to work with. Some client
 libraries, for example Go, will actively try to stop you doing the
-former in a custom collector, and all client libraries should stop you
+latter in a custom collector, and all client libraries should stop you
 from doing the latter with direct instrumentation. Never do either of
 these, rely on Prometheus aggregation instead.
 

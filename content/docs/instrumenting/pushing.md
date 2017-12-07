@@ -44,7 +44,6 @@ If using Maven, add the following to `pom.xml`:
         </dependency>
 ```
 
-
 Instrument your batch job's code:
 
 ```java

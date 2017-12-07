@@ -8,7 +8,7 @@ sort_rank: 6
 Prometheus implements two different wire formats which clients may use to
 expose metrics to a Prometheus server: a simple text-based format and a more
 efficient and robust protocol-buffer format. Prometheus servers and clients use
-[content negotation](http://en.wikipedia.org/wiki/Content_negotiation) to
+[content negotiation](http://en.wikipedia.org/wiki/Content_negotiation) to
 establish the actual format to use. A server will prefer receiving the
 protocol-buffer format, and will fall back to the text-based format if the
 client does not support the former.

@@ -132,11 +132,10 @@ boundaries like products, services, datacenters, or similar aspects.
 Independent servers (which can be run redundantly in parallel) may also give
 you better reliability and failure isolation.
 
-Kapacitor's open-source release currently has no [built-in distributed/redundant
-options](https://github.com/influxdata/kapacitor/issues/277) for rules,
-alerting, or notifications.  Prometheus and the Alertmanager by contrast offer a 
-redundant option via running redundant replicas of Prometheus and using the 
-Alertmanager's [High Availability](https://github.com/prometheus/alertmanager#high-availability)
+Kapacitor's open-source release has no built-in distributed/redundant
+options for rules,  alerting, or notifications.  Prometheus and the Alertmanager 
+by contrast offer a redundant option via running redundant replicas of Prometheus 
+and using the Alertmanager's [High Availability](https://github.com/prometheus/alertmanager#high-availability)
 mode. In addition, Kapacitor can be scaled via manual sharding by the user, similar 
 to Prometheus itself. 
 
@@ -163,8 +162,12 @@ Where Prometheus is better:
 
 InfluxDB is maintained by a single commercial company following the open-core
 model, offering premium features like closed-source clustering, hosting and
-support. Prometheus is a [fully open source and independent project](/community/), maintained
-by a number of companies and individuals, some of whom also offer commercial
+support. For example, [Enterprise InfluxDB](https://docs.influxdata.com/enterprise_influxdb/v1.3/) 
+and [Enterprise Kapacitor](https://docs.influxdata.com/enterprise_kapacitor) are 
+[Influxdata](https://docs.influxdata.com)'s commercial options, which add support for 
+clustering, HA, alert deduplication, etc. Prometheus is a 
+[fully open source and independent project](/community/), maintained by a 
+number of companies and individuals, some of whom also offer commercial 
 services and support.
 
 ## Prometheus vs. OpenTSDB
@@ -181,10 +184,10 @@ The same scope differences as in the case of
 
 OpenTSDB's data model is almost identical to Prometheus's: time series are
 identified by a set of arbitrary key-value pairs (OpenTSDB tags are
-Prometheus labels). All data for a metric is [stored together](http://opentsdb.net/docs/build/html/user_guide/writing/index.html#time-series-cardinality),
-limiting the cardinality of metrics. There are minor differences though: Prometheus allows arbitrary characters in label values, while
-OpenTSDB is more restrictive. OpenTSDB also lacks a full query language,
-only allowing simple aggregation and math via its API.
+Prometheus labels). All data for a metric is [stored together](http://opentsdb.net/docs/build/html/user_guide/writing/index.html#time-series-cardinality), limiting the cardinality of metrics. There are minor 
+differences though: Prometheus allows arbitrary characters in label values, while 
+OpenTSDB is more restrictive. OpenTSDB also lacks a full query language, only 
+allowing simple aggregation and math via its API.
 
 ### Storage
 

@@ -29,7 +29,7 @@ For service discovery mechanisms not natively supported by Prometheus,
 The [remote write](/docs/operating/configuration/#%3Cremote_write%3E) and [remote read](/docs/operating/configuration/#%3Cremote_read%3E)
 features of Prometheus allow transparently sending and receiving samples. This
 is primarily intended for long term storage. It is recommended that you perform
-careful evaulation of any solution in this space to confirm it can handle your
+careful evaluation of any solution in this space to confirm it can handle your
 data volumes.
 
   * [AppOptics](https://github.com/solarwinds/prometheus2appoptics): write

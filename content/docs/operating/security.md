@@ -70,7 +70,7 @@ can send notifications to any email address. If the alert-defined destination
 is a templatable secret field, anyone with access to either Prometheus or
 Alertmanager will be able to view the secrets.
 
-Any secret fields which are templatable are intended for routing notifcations
+Any secret fields which are templatable are intended for routing notifications
 in the above use case. They are not intended as a way for secrets to be
 separated out from the configuration files using the template file feature. Any
 secrets stored in template files could be exfiltrated by anyone able to

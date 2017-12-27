@@ -130,6 +130,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
 ### Miscellaneous
    * [BIG-IP exporter](https://github.com/ExpressenAB/bigip_exporter)
    * [BIND exporter](https://github.com/digitalocean/bind_exporter)
+   * [Bitbucket exporter](https://github.com/AndreyVMarkelov/prom-bitbucket-exporter)
    * [Blackbox exporter](https://github.com/prometheus/blackbox_exporter) (**official**)
    * [BOSH exporter](https://github.com/cloudfoundry-community/bosh_exporter)
    * [cAdvisor](https://github.com/google/cadvisor)

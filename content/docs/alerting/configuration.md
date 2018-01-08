@@ -78,7 +78,7 @@ global:
   [ victorops_api_key: <string> ]
   [ victorops_api_url: <string> | default = "https://alert.victorops.com/integrations/generic/20131114/alert/" ]
   [ pagerduty_url: <string> | default = "https://events.pagerduty.com/generic/2010-04-15/create_event.json" ]
-  [ opsgenie_api_host: <string> | default = "https://api.opsgenie.com/" ]
+  [ opsgenie_api_url: <string> | default = "https://api.opsgenie.com/" ]
   [ hipchat_url: <string> | default = "https://api.hipchat.com/" ]
   [ hipchat_auth_token: <secret> ]
 
@@ -399,7 +399,7 @@ OpsGenie notifications are sent via the [OpsGenie API](https://www.opsgenie.com/
 api_key: <secret>
 
 # The host to send OpsGenie API requests to.
-[ api_host: <string> | default = global.opsgenie_api_host ]
+[ api_url: <string> | default = global.opsgenie_api_url ]
 
 # Alert text limited to 130 characters.
 [ message: <tmpl_string> ]
@@ -422,6 +422,9 @@ api_key: <secret>
 
 # Additional alert note.
 [ note: <tmpl_string> ]
+
+# Priority level of alert. Possible values are P1, P2, P3, P4, and P5.
+[ priority: <tmpl_string> ]
 ```
 
 ## `<victorops_config>`

@@ -1,5 +1,6 @@
 ---
 title: Governance
+layout: default
 
 ---
 

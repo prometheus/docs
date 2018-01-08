@@ -1,4 +1,9 @@
-# Prometheus Governance v1.0
+---
+title: Governance
+
+---
+
+# Governance
 
 This document describes the rules and governance of the project. It is meant to be followed by all the developers of the project and the Prometheus community. Common terminology used in this governance document are listed below:
 

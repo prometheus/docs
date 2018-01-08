@@ -1,7 +1,11 @@
 <%= render 'header' %>
 
 <div class="container">
-  <%= yield %>
+  <div class="row">
+    <div class="col-md-12 doc-content">
+      <%= yield %>
+    </div>
+  </div>
   <%= render 'container_footer' %>
 </div>
 

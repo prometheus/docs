@@ -36,7 +36,25 @@ Upon death of a member, their team membership ends automatically.
 
 Unless voted upon otherwise, membership changes take effect immediately.
 
-A public list of team members is kept on the [community page][community] or linked from it.
+The current team members are:
+
+* Ben Kochie
+* Björn Rabenstein
+* Brian Brazil
+* Conor Broderick
+* Fabian Reinartz
+* Frederic Branczyk
+* Goutham Veeramachaneni
+* Johannes Ziemke
+* Julius Volz
+* Matt Layher
+* Matthias Rampke
+* Max Inden
+* Richard Hartmann
+* Steve Durrheimer
+* Stuart Nelson
+* Tobias Schmidt
+* Tom Wilkie
 
 ### Maintainers
 
@@ -149,4 +167,3 @@ Team members may resign by notifying the [team mailing list][team]. If you think
 [charter]: https://www.cncf.io/about/charter/
 [coc]: https://github.com/cncf/foundation/blob/master/code-of-conduct.md
 [lazy]: https://couchdb.apache.org/bylaws.html#lazy
-[community]: https://prometheus.io/community/

@@ -132,12 +132,16 @@ boundaries like products, services, datacenters, or similar aspects.
 Independent servers (which can be run redundantly in parallel) may also give
 you better reliability and failure isolation.
 
-Kapacitor's open-source release has no built-in distributed/redundant
-options for rules,  alerting, or notifications.  Prometheus and the Alertmanager 
-by contrast offer a redundant option via running redundant replicas of Prometheus 
-and using the Alertmanager's [High Availability](https://github.com/prometheus/alertmanager#high-availability)
-mode. In addition, Kapacitor can be scaled via manual sharding by the user, similar 
-to Prometheus itself. 
+Kapacitor's open-source release has no built-in distributed/redundant options for 
+rules,  alerting, or notifications.  The open-source release of Kapacitor can 
+be scaled via manual sharding by the user, similar to Prometheus itself.
+Influx does also now offer [Enterprise Kapacitor](https://docs.influxdata.com/enterprise_kapacitor), which supports an 
+HA/redundant alerting system.
+
+Prometheus and the Alertmanager by contrast offer a fully open-source redundant 
+option via running redundant replicas of Prometheus and using the Alertmanager's 
+[High Availability](https://github.com/prometheus/alertmanager#high-availability)
+mode. 
 
 ### Summary
 

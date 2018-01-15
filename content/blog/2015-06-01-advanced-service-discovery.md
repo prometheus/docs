@@ -147,7 +147,7 @@ Prometheus 0.14.0 allows you to specify multiple SRV records to be queried in a
 single scrape configuration, and also provides service-discovery-specific meta
 information that is helpful during the relabeling phase.
 
-When querying the the DNS-SRV records, a label named `__meta_dns_srv_name` is
+When querying the the DNS-SRV records, a label named `__meta_dns_name` is
 attached to each target. Its value is set to the SRV record name for which it was
 returned. If we have structured SRV record names like `telemetry.<zone>.<job>.srv.example.org`,
 we can extract relevant labels from it those names:
@@ -164,11 +164,11 @@ scrape_configs:
     - 'telemetry.us-east.auth.srv.example.org'
 
   relabel_configs:
-  - source_labels: ['__meta_dns_srv_name']
+  - source_labels: ['__meta_dns_name']
     regex:         'telemetry\.(.+?)\..+?\.srv\.example\.org'
     target_label:  'zone'
     replacement:   '$1'
-  - source_labels: ['__meta_dns_srv_name']
+  - source_labels: ['__meta_dns_name']
     regex:         'telemetry\..+?\.(.+?)\.srv\.example\.org'
     target_label:  'job'
     replacement:   '$1'

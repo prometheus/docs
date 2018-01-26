@@ -77,7 +77,7 @@ global:
   [ slack_api_url: <string> ]
   [ victorops_api_key: <string> ]
   [ victorops_api_url: <string> | default = "https://alert.victorops.com/integrations/generic/20131114/alert/" ]
-  [ pagerduty_url: <string> | default = "https://events.pagerduty.com/generic/2010-04-15/create_event.json" ]
+  [ pagerduty_url: <string> | default = "https://events.pagerduty.com/v2/enqueue" ]
   [ opsgenie_api_url: <string> | default = "https://api.opsgenie.com/" ]
   [ hipchat_url: <string> | default = "https://api.hipchat.com/" ]
   [ hipchat_auth_token: <secret> ]

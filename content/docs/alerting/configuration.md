@@ -316,6 +316,9 @@ service_key: <tmpl_secret>
 # A description of the incident.
 [ description: <tmpl_string> | default = '{{ template "pagerduty.default.description" .}}' ]
 
+# Severity of the incident.
+[ priority: <tmpl_string> | default = 'error' ]
+
 # A set of arbitrary key/value pairs that provide further detail
 # about the incident.
 [ details: { <string>: <tmpl_string>, ... } | default = {

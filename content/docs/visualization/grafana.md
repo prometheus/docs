@@ -79,3 +79,21 @@ You must currently manually edit the downloaded JSON files and correct the
 `datasource:` entries to reflect the Grafana data source name which you
 chose for your Prometheus server.  Use the "Dashboards" → "Home" → "Import"
 option to import the edited dashboard file into your Grafana install.
+
+### Functioning Dashboards for Prometheus 2.0
+
+While many of the dashboards from the Grafana shared dashboards do work out of
+the box, many don't have unified labels and many were designed for Prometheus
+1.x and don't yet support Prometheus 2.x.
+
+Scalefastr (which uses Prometheus as part of their infrastructure) 
+[provides their dashboards](https://www.scalefastr.io/single-post/2018/01/26/Scalefastr-Grafana-Dashboards-for-Prometheus-20-and-Grafana) 
+for the node export, haproxy, cassandra, and elasticsearch exporters known to work properly with Prometheus 2.0.
+
+They also 
+[provide their Prometheus configuration and raw JSON dashboard sources](https://github.com/scalefastr/scalefastr-prometheus-grafana-dashboards)
+which are required to make sure the dashboards work properly as specific labels 
+are required.
+
+
+

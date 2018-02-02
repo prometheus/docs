@@ -33,15 +33,18 @@ In this example we again customize the text sent to our Slack receiver accessing
 Alert
 
 ```
-ALERT InstanceDown
-  IF up == 0
-  FOR 5m
-  LABELS { severity = "page" }
-  ANNOTATIONS {
+groups:
+- name: Instances
+  rules:
+  - alert: InstanceDown
+    expr: up == 0
+    for: 5m
+    labels:
+      severity: page
     # Prometheus templates apply here in the annotation and label fields of the alert.
-    summary = "Instance {{ $labels.instance }} down",
-    description = "{{ $labels.instance }} of job {{ $labels.job }} has been down for more than 5 minutes."
-  }
+    annotations:
+      description: '{{ $labels.instance }} of job {{ $labels.job }} has been down for more than 5 minutes.'
+      summary: 'Instance {{ $labels.instance }} down'
 ```
 
 Receiver

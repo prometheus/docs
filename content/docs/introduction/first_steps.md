@@ -53,7 +53,7 @@ scrape_configs:
 
 There are three blocks of configuration in the example configuration file: `global`, `rule_files`, and `scrape_configs`. 
 
-The `global` block controls the Prometheus server's global configuration. We have three options present. The first, `scrape_interval`, controls how often Prometheus will scrape targets. You can override this for individual targets. In this case the global setting is to scrape every 15 seconds. The `evaluation_interval` option controls how often Prometheus will evaluate rules. Prometheus uses rules to create new time series and to generate alerts.
+The `global` block controls the Prometheus server's global configuration. We have two options present. The first, `scrape_interval`, controls how often Prometheus will scrape targets. You can override this for individual targets. In this case the global setting is to scrape every 15 seconds. The `evaluation_interval` option controls how often Prometheus will evaluate rules. Prometheus uses rules to create new time series and to generate alerts.
 
 The `rule_files` block specifies the location of any rules we want the Prometheus server to load. For now we've got no rules.
 

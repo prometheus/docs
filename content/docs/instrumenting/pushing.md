@@ -82,9 +82,14 @@ Set up an alert to fire if the job has not run recently. Add the following to
 the rules of a Prometheus server that is scraping the Pushgateway:
 
 ```
-ALERT MyBatchJobNotCompleted
-  IF min(time() - my_batch_job_last_success_unixtime{job="my_batch_job"}) > 60 * 60
-  FOR 5m
-  WITH { severity="page" }
-  SUMMARY "MyBatchJob has not completed successfully in over an hour"
+groups:
+- name: MyBatchJob
+  rules:
+  - alert: MyBatchJobNotCompleted
+    expr: min(time() - my_batch_job_last_success_unixtime{job="my_batch_job"}) > 60 * 60
+    for: 5m
+    labels:
+      severity: page
+    annotations:
+      summary: MyBatchJob has not completed successfully in over an hour
 ```

@@ -10,7 +10,7 @@ The Grafana data source for Prometheus is included since Grafana 2.5.0 (2015-10-
 
 The following shows an example Grafana dashboard which queries Prometheus for data:
 
-[![Grafana screenshot](/assets/grafana_prometheus.png)](/assets/grafana_prometheus.png)
+[![Grafana screenshot](/static/grafana_prometheus.png)](/static/grafana_prometheus.png)
 
 ## Installing
 

@@ -82,6 +82,8 @@ global:
   [ hipchat_url: <string> | default = "https://api.hipchat.com/" ]
   [ hipchat_auth_token: <secret> ]
 
+  [ http_config: <http_config> ]
+
 # Files from which custom notification template definitions are read.
 # The last component may use a wildcard matcher, e.g. 'templates/*.tmpl'.
 templates:
@@ -205,6 +207,43 @@ source_match_re:
 
 ```
 
+## `<http_config>`
+
+A `http_config` allows configuring the HTTP client that the receiver uses to
+communicate with HTTP-based API services.
+
+```yaml
+# Note that `basic_auth`, `bearer_token` and `bearer_token_file` options are
+# mutually exclusive.
+
+# Sets the `Authorization` header with the configured username and password.
+basic_auth:
+  [ username: <string> ]
+  [ password: <secret> ]
+
+# Sets the `Authorization` header with the configured bearer token.
+[ bearer_token: <secret> ]
+
+# Sets the `Authorization` header with the bearer token read from the configured file.
+[ bearer_token_file: <filepath> ]
+
+# Configures the TLS settings.
+tls_config:
+  # CA certificate to validate the server certificate with.
+  [ ca_file: <filepath> ]
+  # Certificate and key files for client cert authentication to the server.
+  [ cert_file: <filepath> ]
+  [ key_file: <filepath> ]
+  # ServerName extension to indicate the name of the server.
+  # http://tools.ietf.org/html/rfc4366#section-3.1
+  [ server_name: <string> ]
+  # Disable validation of the server certificate.
+  [ insecure_skip_verity: <boolean> | default = false]
+
+# Optional proxy URL.
+[ proxy_url: <string> ]
+```
+
 ## `<receiver>`
 
 Receiver is a named configuration of one or more notification integrations.
@@ -292,6 +331,9 @@ room_id: <tmpl_string>
 [ message_format:  <string> | default = 'text' ]
 # Background color for message.
 [ color:  <tmpl_string> | default = '{{ if eq .Status "firing" }}red{{ else }}green{{ end }}' ]
+
+# The HTTP client's configuration.
+[ http_config: <http_config> | default = global.http_config ]
 ```
 
 ## `<pagerduty_config>`
@@ -327,6 +369,9 @@ service_key: <tmpl_secret>
   num_firing:   '{{ .Alerts.Firing | len }}'
   num_resolved: '{{ .Alerts.Resolved | len }}'
 } ]
+
+# The HTTP client's configuration.
+[ http_config: <http_config> | default = global.http_config ]
 ```
 
 ## `<pushover_config>`
@@ -362,6 +407,9 @@ token: <secret>
 # How long your notification will continue to be retried for, unless the user
 # acknowledges the notification.
 [ expire: <duration> | default = 1h ]
+
+# The HTTP client's configuration.
+[ http_config: <http_config> | default = global.http_config ]
 ```
 
 ## `<slack_config>`
@@ -388,6 +436,9 @@ channel: <tmpl_string>
 [ pretext: <tmpl_string> | default = '{{ template "slack.default.pretext" . }}' ]
 [ text: <tmpl_string> | default = '{{ template "slack.default.text" . }}' ]
 [ fallback: <tmpl_string> | default = '{{ template "slack.default.fallback" . }}' ]
+
+# The HTTP client's configuration.
+[ http_config: <http_config> | default = global.http_config ]
 ```
 
 ## `<opsgenie_config>`
@@ -428,6 +479,9 @@ api_key: <secret>
 
 # Priority level of alert. Possible values are P1, P2, P3, P4, and P5.
 [ priority: <tmpl_string> ]
+
+# The HTTP client's configuration.
+[ http_config: <http_config> | default = global.http_config ]
 ```
 
 ## `<victorops_config>`
@@ -459,6 +513,8 @@ routing_key: <string>
 # The monitoring tool the state message is from.
 [ monitoring_tool: <tmpl_string> | default = '{{ template "victorops.default.monitoring_tool" . }}' ]
 
+# The HTTP client's configuration.
+[ http_config: <http_config> | default = global.http_config ]
 ```
 
 ## `<webhook_config>`
@@ -471,6 +527,9 @@ The webhook receiver allows configuring a generic receiver.
 
 # The endpoint to send HTTP POST requests to.
 url: <string>
+
+# The HTTP client's configuration.
+[ http_config: <http_config> | default = global.http_config ]
 ```
 
 The Alertmanager

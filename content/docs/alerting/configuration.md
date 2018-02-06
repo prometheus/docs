@@ -82,6 +82,7 @@ global:
   [ hipchat_url: <string> | default = "https://api.hipchat.com/" ]
   [ hipchat_auth_token: <secret> ]
 
+  # The default HTTP client configuration
   [ http_config: <http_config> ]
 
 # Files from which custom notification template definitions are read.

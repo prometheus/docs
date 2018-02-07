@@ -303,8 +303,12 @@ PagerDuty provides documentation on how to integrate [here](https://www.pagerdut
 # Whether or not to notify about resolved alerts.
 [ send_resolved: <boolean> | default = true ]
 
-# The PagerDuty service key.
+# The following two options are mututally exclusive.
+# The PagerDuty integration key (when using PagerDuty integration type `Events API v2`).
+routing_key: <tmpl_secret>
+# The PagerDuty integration key (when using PagerDuty integration type `Prometheus`).
 service_key: <tmpl_secret>
+
 # The URL to send API requests to
 [ url: <string> | default = global.pagerduty_url ]
 

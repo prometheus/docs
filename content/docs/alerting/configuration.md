@@ -24,7 +24,7 @@ sending a HTTP POST request to the `/-/reload` endpoint.
 
 ## Configuration file
 
-To specify which configuration file to load, use the `-config.file` flag.
+To specify which configuration file to load, use the `--config.file` flag.
 
 ```bash
 ./alertmanager --config.file=simple.yml

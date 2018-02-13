@@ -13,6 +13,9 @@ establish the actual format to use. A server will prefer receiving the
 protocol-buffer format, and will fall back to the text-based format if the
 client does not support the former.
 
+NOTE: **NOTE:** Prometheus 2.0 removed support for the protocol-buffer format
+and only supports the text-based format.
+
 The majority of users should use the existing [client libraries](/docs/instrumenting/clientlibs/)
 that already implement the exposition formats.
 
@@ -38,7 +41,7 @@ Prometheus).
 |               | Protocol buffer format | Text format |
 |---------------|------------------------|-------------|
 | **Inception** | April 2014 | April 2014  |
-| **Supported in** | Prometheus version `>=0.4.0` | Prometheus version `>=0.4.0` |
+| **Supported in** | Prometheus version `>=0.4.0`, `<2.0.0` | Prometheus version `>=0.4.0` |
 | **Transmission** | HTTP | HTTP |
 | **Encoding** | [32-bit varint-encoded record length-delimited](https://developers.google.com/protocol-buffers/docs/reference/java/com/google/protobuf/AbstractMessageLite#writeDelimitedTo(java.io.OutputStream)) Protocol Buffer messages of type [io.prometheus.client.MetricFamily](https://github.com/prometheus/client_model/blob/086fe7ca28bde6cec2acd5223423c1475a362858/metrics.proto#L76-  L81) | UTF-8, `\n` line endings |
 | **HTTP `Content-Type`** | `application/vnd.google.protobuf; proto=io.prometheus.client.MetricFamily; encoding=delimited` | `text/plain; version=0.0.4` (A missing `version` value will lead to a fall-back to the most recent text format version.) |

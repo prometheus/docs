@@ -129,7 +129,6 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
 
 ### Miscellaneous
    * [Apache Airflow exporter](https://github.com/PBWebMedia/airflow-prometheus-exporter)
-   * [Apache Hadoop YARN exporter](https://github.com/PBWebMedia/yarn-prometheus-exporter)
    * [BIG-IP exporter](https://github.com/ExpressenAB/bigip_exporter)
    * [BIND exporter](https://github.com/digitalocean/bind_exporter)
    * [Bitbucket exporter](https://github.com/AndreyVMarkelov/prom-bitbucket-exporter)

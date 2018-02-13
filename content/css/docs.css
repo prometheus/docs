@@ -195,6 +195,13 @@ body {
   padding-bottom: 10px;
 }
 
+.add-yourself {
+  font-family: 'Lato', sans-serif;
+  font-size: 14px;
+  font-weight: 300;
+}
+
+
 .logos {
   display: flex;
   align-items: center;

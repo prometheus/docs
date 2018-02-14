@@ -39,10 +39,12 @@ The labels are used to identify identical instances of an alert and to perform
 deduplication. The annotations are always set to those received most recently
 and are not identifying an alert.
 
-Both timestamps are optional. If `startsAt` is omitted, the current time
-is assigned by the Alertmanager. `endsAt` is only set if the end time of an
-alert is known. Otherwise it will be set to a configurable timeout period from
-the time since the alert was last received.
+Both timestamps are optional. `startsAt` indicates the time at which the alert
+has started. If `startsAt` is omitted, AlertManager will set it to `endsAt` or
+the current time if `endsAt` is missing. `endsAt` is only set if the client
+knows that a previously firing alert has been resolved. Otherwise it will be
+set to a configurable timeout period from the time since the alert was last
+received.
 
 The `generatorURL` field is a unique back-link which identifies the causing
 entity of this alert in the client.

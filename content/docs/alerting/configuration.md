@@ -78,6 +78,7 @@ global:
   [ victorops_api_key: <string> ]
   [ victorops_api_url: <string> | default = "https://alert.victorops.com/integrations/generic/20131114/alert/" ]
   [ pagerduty_url: <string> | default = "https://events.pagerduty.com/v2/enqueue" ]
+  [ opsgenie_api_key: <string> ]
   [ opsgenie_api_url: <string> | default = "https://api.opsgenie.com/" ]
   [ hipchat_url: <string> | default = "https://api.hipchat.com/" ]
   [ hipchat_auth_token: <secret> ]
@@ -403,7 +404,7 @@ OpsGenie notifications are sent via the [OpsGenie API](https://www.opsgenie.com/
 [ send_resolved: <boolean> | default = true ]
 
 # The API key to use when talking to the OpsGenie API.
-api_key: <secret>
+[ api_key: <secret> | default = global.opsgenie_api_key ]
 
 # The host to send OpsGenie API requests to.
 [ api_url: <string> | default = global.opsgenie_api_url ]

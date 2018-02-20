@@ -88,6 +88,9 @@ global:
   [ opsgenie_api_url: <string> | default = "https://api.opsgenie.com/" ]
   [ hipchat_api_url: <string> | default = "https://api.hipchat.com/" ]
   [ hipchat_auth_token: <secret> ]
+  [ wechat_api_url: <string> | default = "https://qyapi.weixin.qq.com/cgi-bin/" ]
+  [ wechat_api_secret: <secret> ]
+  [ wechat_api_corp_id: <string> ]
 
   # The default HTTP client configuration
   [ http_config: <http_config> ]
@@ -279,6 +282,8 @@ webhook_configs:
   [ - <webhook_config>, ... ]
 victorops_configs:
   [ - <victorops_config>, ... ]
+wechat_configs:
+  [ - <wechat_config>, ... ]
 ```
 
 ## `<email_config>`
@@ -578,3 +583,29 @@ endpoint:
 There is a list of
 [integrations](/docs/operating/integrations/#alertmanager-webhook-receiver) with
 this feature.
+
+## `<wechat_config>`
+
+Wechat notifications are sent via the [Wechat
+API](http://admin.wechat.com/wiki/index.php?title=Customer_Service_Messages).
+
+```yaml
+# Whether or not to notify about resolved alerts.
+[ send_resolved: <boolean> | default = false ]
+
+# The API key to use when talking to the Wechat API.
+[ api_secret: <secret> | default = global.wechat_secret_url ]
+
+# The Wechat API URL.
+[ api_url: <string> | default = global.wechat_api_url ]
+
+# The corp id for authentication
+[ corp_id: <string> | default = global.wechat_api_corp_id ]
+
+# API request data as defined by the Wechat API.
+[ message: <tmpl_string> | default = '{{ template "wechat.default.message" . }}' ]
+[ agent_id: <string> ]
+[ to_user: <string> ]
+[ to_party: <string> ]
+[ to_tag: <string> ]
+```

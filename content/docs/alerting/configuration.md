@@ -80,7 +80,7 @@ global:
   [ pagerduty_url: <string> | default = "https://events.pagerduty.com/v2/enqueue" ]
   [ opsgenie_api_key: <string> ]
   [ opsgenie_api_url: <string> | default = "https://api.opsgenie.com/" ]
-  [ hipchat_url: <string> | default = "https://api.hipchat.com/" ]
+  [ hipchat_api_url: <string> | default = "https://api.hipchat.com/" ]
   [ hipchat_auth_token: <secret> ]
 
   # The default HTTP client configuration
@@ -320,7 +320,7 @@ room_id: <tmpl_string>
 # The auth token.
 [ auth_token: <secret> | default = global.hipchat_auth_token ]
 # The URL to send API requests to.
-[ api_url: <string> | default = global.hipchat_url ]
+[ api_url: <string> | default = global.hipchat_api_url ]
 
 # See https://www.hipchat.com/docs/apiv2/method/send_room_notification
 # A label to be shown in addition to the sender's name.

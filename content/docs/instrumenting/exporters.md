@@ -143,7 +143,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [Kemp LoadBalancer exporter](https://github.com/giantswarm/prometheus-kemp-exporter)
    * [Meteor JS web framework exporter](https://atmospherejs.com/sevki/prometheus-exporter)
    * [Minecraft exporter module](https://github.com/Baughn/PrometheusIntegration)
-   * [PHP-FPM exporter](https://github.com/bakins/php-fpm-exporter)
+   * [PHP-FPM exporter](https://github.com/bakins/php-fpm-exporter) ([alternative](https://github.com/hipages/php-fpm_exporter))
    * [PowerDNS exporter](https://github.com/ledgr/powerdns_exporter)
    * [Process exporter](https://github.com/ncabatoff/process-exporter)
    * [rTorrent exporter](https://github.com/mdlayher/rtorrent_exporter)

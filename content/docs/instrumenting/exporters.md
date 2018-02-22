@@ -177,6 +177,7 @@ separate exporters are needed:
    * [Doorman](https://github.com/youtube/doorman) (**direct**)
    * [Etcd](https://github.com/coreos/etcd) (**direct**)
    * [FreeBSD Kernel](https://www.freebsd.org/cgi/man.cgi?query=prometheus_sysctl_exporter&apropos=0&sektion=8&manpath=FreeBSD+12-current&arch=default&format=html)
+   * [Gitlab runner](https://docs.gitlab.com/runner/monitoring/README.html) (**direct**) 
    * [Grafana](http://docs.grafana.org/administration/metrics/)
    * [Kubernetes](https://github.com/kubernetes/kubernetes) (**direct**)
    * [Linkerd](https://github.com/BuoyantIO/linkerd)
@@ -189,7 +190,6 @@ separate exporters are needed:
    * [SkyDNS](https://github.com/skynetservices/skydns) (**direct**)
    * [Telegraf](https://github.com/influxdata/telegraf/tree/master/plugins/outputs/prometheus_client)
    * [Weave Flux](https://github.com/weaveworks/flux)
-   * [Gitlab runner](https://docs.gitlab.com/runner/monitoring/README.html) (**direct**)
    
 The software marked *direct* is also directly instrumented with a Prometheus client library.
 

@@ -189,6 +189,7 @@ separate exporters are needed:
    * [SkyDNS](https://github.com/skynetservices/skydns) (**direct**)
    * [Telegraf](https://github.com/influxdata/telegraf/tree/master/plugins/outputs/prometheus_client)
    * [Weave Flux](https://github.com/weaveworks/flux)
+   * [Gitlab runner](https://docs.gitlab.com/runner/monitoring/README.html) (**direct**)
    
 The software marked *direct* is also directly instrumented with a Prometheus client library.
 

@@ -105,6 +105,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [Fluentd exporter](https://github.com/V3ckt0r/fluentd_exporter)
    * [Google's mtail log data extractor](https://github.com/google/mtail)
    * [Grok exporter](https://github.com/fstab/grok_exporter)
+   * [IIS exporter] (https://github.com/GrupaPracuj/iislog-prometheus-exporter)
 
 ### Other monitoring systems
    * [Akamai Cloudmonitor exporter](https://github.com/ExpressenAB/cloudmonitor_exporter)

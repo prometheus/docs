@@ -65,6 +65,8 @@ global:
   [ smtp_from: <tmpl_string> ]
   # The default SMTP smarthost used for sending emails.
   [ smtp_smarthost: <string> ]
+  # The default hostname to identify to the SMTP server.
+  [ smtp_hello: <string> | default = "localhost" ]
   # SMTP authentication information.
   [ smtp_auth_username: <string> ]
   [ smtp_auth_password: <secret> ]
@@ -290,6 +292,9 @@ to: <tmpl_string>
 # The SMTP host through which emails are sent.
 [ smarthost: <string> | default = global.smtp_smarthost ]
 
+# The hostname to identify to the SMTP server.
+[ hello: <string> | default = global.smtp_hello ]
+
 # SMTP authentication information.
 [ auth_username: <string> | default = global.smtp_auth_username ]
 [ auth_password: <secret> | default = global.smtp_auth_password ]
@@ -301,6 +306,8 @@ to: <tmpl_string>
 
 # The HTML body of the email notification.
 [ html: <tmpl_string> | default = '{{ template "email.default.html" . }}' ]
+# The text body of the email notification.
+[ text: <tmpl_string> ]
 
 # Further headers email header key/value pairs. Overrides any headers
 # previously set by the notification implementation.

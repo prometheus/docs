@@ -132,14 +132,16 @@ boundaries like products, services, datacenters, or similar aspects.
 Independent servers (which can be run redundantly in parallel) may also give
 you better reliability and failure isolation.
 
-Kapacitor currently has no [built-in distributed/redundant
-options](https://github.com/influxdata/kapacitor/issues/277) for rules,
-alerting, or notifications. Prometheus and the Alertmanager by contrast offer a
-redundant option via running redundant replicas of Prometheus and using the
-Alertmanager's [High
-Availability](https://github.com/prometheus/alertmanager#high-availability)
-mode. In addition, Kapacitor can be scaled via manual sharding by the user,
-similar to Prometheus itself.
+Kapacitor's open-source release has no built-in distributed/redundant options for 
+rules,  alerting, or notifications.  The open-source release of Kapacitor can 
+be scaled via manual sharding by the user, similar to Prometheus itself.
+Influx offers [Enterprise Kapacitor](https://docs.influxdata.com/enterprise_kapacitor), which supports an 
+HA/redundant alerting system.
+
+Prometheus and the Alertmanager by contrast offer a fully open-source redundant 
+option via running redundant replicas of Prometheus and using the Alertmanager's 
+[High Availability](https://github.com/prometheus/alertmanager#high-availability)
+mode. 
 
 ### Summary
 
@@ -165,8 +167,7 @@ Where Prometheus is better:
 InfluxDB is maintained by a single commercial company following the open-core
 model, offering premium features like closed-source clustering, hosting and
 support. Prometheus is a [fully open source and independent project](/community/), maintained
-by a number of companies and individuals, some of whom also offer commercial
-services and support.
+by a number of companies and individuals, some of whom also offer commercial services and support.
 
 ## Prometheus vs. OpenTSDB
 
@@ -182,10 +183,11 @@ The same scope differences as in the case of
 
 OpenTSDB's data model is almost identical to Prometheus's: time series are
 identified by a set of arbitrary key-value pairs (OpenTSDB tags are
-Prometheus labels). All data for a metric is [stored together](http://opentsdb.net/docs/build/html/user_guide/writing/index.html#time-series-cardinality),
-limiting the cardinality of metrics. There are minor differences though: Prometheus allows arbitrary characters in label values, while
-OpenTSDB is more restrictive. OpenTSDB also lacks a full query language,
-only allowing simple aggregation and math via its API.
+Prometheus labels). All data for a metric is 
+[stored together](http://opentsdb.net/docs/build/html/user_guide/writing/index.html#time-series-cardinality),
+limiting the cardinality of metrics. There are minor differences though: Prometheus
+allows arbitrary characters in label values, while OpenTSDB is more restrictive. 
+OpenTSDB also lacks a full query language, only allowing simple aggregation and math via its API.
 
 ### Storage
 
@@ -211,15 +213,17 @@ good choice.
 
 ### Scope
 
-Nagios is primarily about alerting based on the exit codes of scripts. These are called “checks”.
-There is silencing of individual alerts, however no grouping, routing or deduplication.
+Nagios is primarily about alerting based on the exit codes of scripts. These are 
+called “checks”. There is silencing of individual alerts, however no grouping, 
+routing or deduplication.
 
 There are a variety of plugins. For example, piping the few kilobytes of
 perfData plugins are allowed to return [to a time series database such as Graphite](https://github.com/shawn-sterling/graphios) or using NRPE to [run checks on remote machines](https://exchange.nagios.org/directory/Addons/Monitoring-Agents/NRPE--2D-Nagios-Remote-Plugin-Executor/details).
 
 ### Data model
 
-Nagios is host-based. Each host can have one or more services and each service can perform one check.
+Nagios is host-based. Each host can have one or more services and each service
+can perform one check.
 
 There is no notion of labels or a query language.
 
@@ -275,7 +279,8 @@ run for scaling and redundancy.
 
 ### Summary
 
-If you have an existing Nagios setup that you wish to scale as-is, or want to take advantage of the registration feature of Sensu, then Sensu is a good choice.
+If you have an existing Nagios setup that you wish to scale as-is, or want to 
+take advantage of the registration feature of Sensu, then Sensu is a good choice.
 
 If you want to do whitebox monitoring, or have a very dynamic or cloud based
 environment, then Prometheus is a good choice.

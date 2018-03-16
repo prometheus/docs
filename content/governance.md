@@ -51,6 +51,7 @@ The current team members are:
 * Goutham Veeramachaneni
 * Johannes Ziemke
 * Julius Volz
+* Krasi Georgiev
 * Matt Layher
 * Matthias Rampke
 * Max Inden

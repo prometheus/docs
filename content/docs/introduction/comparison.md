@@ -135,7 +135,7 @@ you better reliability and failure isolation.
 Kapacitor's open-source release has no built-in distributed/redundant options for 
 rules,  alerting, or notifications.  The open-source release of Kapacitor can 
 be scaled via manual sharding by the user, similar to Prometheus itself.
-Influx does also now offer [Enterprise Kapacitor](https://docs.influxdata.com/enterprise_kapacitor), which supports an 
+Influx offers [Enterprise Kapacitor](https://docs.influxdata.com/enterprise_kapacitor), which supports an 
 HA/redundant alerting system.
 
 Prometheus and the Alertmanager by contrast offer a fully open-source redundant 
@@ -155,8 +155,7 @@ automated actions.
 Where InfluxDB is better:
 
   * If you're doing event logging.
-  * Commercial option offers clustering for InfluxDB, which is also better for 
-  long term data storage.
+  * Commercial option offers clustering for InfluxDB, which is also better for long term data storage.
   * Eventually consistent view of data between replicas.
 
 Where Prometheus is better:
@@ -167,13 +166,8 @@ Where Prometheus is better:
 
 InfluxDB is maintained by a single commercial company following the open-core
 model, offering premium features like closed-source clustering, hosting and
-support. For example, [Enterprise InfluxDB](https://docs.influxdata.com/enterprise_influxdb/v1.3/) 
-and [Enterprise Kapacitor](https://docs.influxdata.com/enterprise_kapacitor) are 
-[Influxdata](https://docs.influxdata.com)'s commercial options, which add support for 
-clustering, HA, alert deduplication, etc. Prometheus is a 
-[fully open source and independent project](/community/), maintained by a 
-number of companies and individuals, some of whom also offer commercial 
-services and support.
+support. Prometheus is a [fully open source and independent project](/community/), maintained
+by a number of companies and individuals, some of whom also offer commercial
 
 ## Prometheus vs. OpenTSDB
 

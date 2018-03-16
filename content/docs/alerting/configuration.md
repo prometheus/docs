@@ -306,6 +306,8 @@ to: <tmpl_string>
 
 # The HTML body of the email notification.
 [ html: <tmpl_string> | default = '{{ template "email.default.html" . }}' ]
+# The text body of the email notification.
+[ text: <tmpl_string> ]
 
 # Further headers email header key/value pairs. Overrides any headers
 # previously set by the notification implementation.

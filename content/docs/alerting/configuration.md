@@ -604,8 +604,8 @@ API](http://admin.wechat.com/wiki/index.php?title=Customer_Service_Messages).
 
 # API request data as defined by the Wechat API.
 [ message: <tmpl_string> | default = '{{ template "wechat.default.message" . }}' ]
-[ agent_id: <string> ]
-[ to_user: <string> ]
-[ to_party: <string> ]
-[ to_tag: <string> ]
+[ agent_id: <string> | default = '{{ template "wechat.default.agent_id" . }}' ]
+[ to_user: <string> | default = '{{ template "wechat.default.to_user" . }}' ]
+[ to_party: <string> | default = '{{ template "wechat.default.to_party" . }}' ]
+[ to_tag: <string> | default = '{{ template "wechat.default.to_tag" . }}' ]
 ```

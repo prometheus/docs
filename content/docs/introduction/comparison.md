@@ -167,7 +167,7 @@ Where Prometheus is better:
 InfluxDB is maintained by a single commercial company following the open-core
 model, offering premium features like closed-source clustering, hosting and
 support. Prometheus is a [fully open source and independent project](/community/), maintained
-by a number of companies and individuals, some of whom also offer commercial
+by a number of companies and individuals, some of whom also offer commercial services and support.
 
 ## Prometheus vs. OpenTSDB
 

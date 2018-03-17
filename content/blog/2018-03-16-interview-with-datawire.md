@@ -60,9 +60,9 @@ Prometheus was a natural fit.
 We knew we wanted to start by integrating Prometheus with our API Gateway. Our
 API Gateway uses Envoy for proxying, and Envoy automatically emits metrics
 using the statsd protocol. We installed the Prometheus Operator (some detailed
-notes [here](https://www.cncf.io/)) and configured it to start collecting stats
+notes [here](https://www.datawire.io/faster/ambassador-prometheus/)) and configured it to start collecting stats
 from Envoy. We also set up a Grafana dashboard [based on some
-work](https://www.cncf.io/) from another Ambassador contributor.
+work](https://grafana.com/dashboards/4698/) from another Ambassador contributor.
 
 
 ## What improvements have you seen since switching?

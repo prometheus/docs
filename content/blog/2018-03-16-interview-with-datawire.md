@@ -5,8 +5,8 @@ kind: article
 author_name: Brian Brazil
 ---
 
-*Continuing our series of interviews with users of Prometheus, Kevin Burton
-from Richard Li talks about how they transitioned to Prometheus.*
+*Continuing our series of interviews with users of Prometheus, Richard Li
+from Datawire talks about how they transitioned to Prometheus.*
 
 ## Can you tell us about yourself and what Datawire does?
 

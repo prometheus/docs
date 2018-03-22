@@ -14,13 +14,15 @@ attack vectors that some configurations may enable.
 
 As with any complex systems it is not possible to guarantee that there are no
 bugs. If you find a security bug, please file it in the issue tracker of the
-relevant component.
+relevant component. If you prefer to report security issues in secret, you may
+email the non-public [Prometheus team mailing list](mailto:prometheus-team@googlegroups.com).
 
 ### Prometheus
 
 It is presumed that untrusted users have access to the Prometheus HTTP endpoint
 and logs. They have access to all time series information contained in the
-database, plus a variety of operational/debugging information.
+database, plus a variety of operational/debugging information, including all
+targets and alerts.
 
 It is also presumed that only trusted users have the ability to change the
 command line, configuration file, rule files and other aspects of the runtime
@@ -34,10 +36,10 @@ that service discovery system.
 
 Scraped targets may be run by untrusted users. It should not by default be
 possible for a target to expose data that impersonates a different target.  The
-`honor_labels` option removes this protection, as can certain relabelling
-setups.
+`honor_labels` option removes and certain relabelling setups remove this
+protection.
 
-As of Prometheus 2.0, the `--web.enable-admin-api` flag controls access to the
+As of Prometheus 2.x, the `--web.enable-admin-api` flag controls access to the
 administrative HTTP API which includes functionality such as deleting time
 series. This is disabled by default. If enabled, administrative and mutating
 functionality will be accessible under the `/api/*/admin/` paths. The
@@ -84,7 +86,8 @@ configuration file.
 Any user with access to the Pushgateway HTTP endpoint can create, modify and
 delete the metrics contained within. As the Pushgateway is usually scraped with
 `honor_labels` enabled, this means anyone with access to the Pushgateway can
-create any time series in Prometheus.
+create any time series in Prometheus, including impersonating other targets or
+generating alerts.
 
 ## Exporters
 
@@ -125,7 +128,7 @@ secret. Throughout the Prometheus system, metrics are not considered secret.
 
 Fields containing secrets in configuration files (marked explicitly as such in
 the documentation) will not be exposed in logs or via the HTTP API. Secrets
-should not be placed in other configuration fields, as it is common for
+should not be placed in any other configuration fields, as it is common for
 components to expose their configuration over their HTTP endpoint.
 
 Secrets from other sources used by dependencies (e.g. the `AWS_SECRET_KEY`
@@ -136,7 +139,7 @@ wherever it is stored.
 ## Denial of Service
 
 There are some mitigations in place for excess load or expensive queries.
-However, if too many or too expensive queries/metrics are provided components
+However, if too many or too expensive queries/metrics are provided, components
 will fall over. It is more likely that a component will be accidentally taken
 out by a trusted user than by malicious action.
 

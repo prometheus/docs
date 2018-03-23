@@ -32,7 +32,7 @@ Team member status may be given to those who have made ongoing contributions to 
 
 New members may be proposed by any existing member by email to [prometheus-team][team]. It is highly desirable to reach consensus about acceptance of a new member. However, the proposal is ultimately voted on by a formal [supermajority vote](#supermajority-vote).
 
-If the new member proposal is accepted, the proposed team member should be contacted privately via email to confirm or deny their acceptance of team membership. This email should also be CC'd to [prometheus-team][team] for record keeping purposes.
+If the new member proposal is accepted, the proposed team member should be contacted privately via email to confirm or deny their acceptance of team membership. This email will also be CC'd to [prometheus-team][team] for record keeping purposes.
 
 If they choose to accept, the following steps are taken:
 

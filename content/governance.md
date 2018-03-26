@@ -32,7 +32,14 @@ Team member status may be given to those who have made ongoing contributions to 
 
 New members may be proposed by any existing member by email to [prometheus-team][team]. It is highly desirable to reach consensus about acceptance of a new member. However, the proposal is ultimately voted on by a formal [supermajority vote](#supermajority-vote).
 
-Team members are added to the [GitHub organization][gh] as _Owner_. They should however respect the maintainers of each project.
+If the new member proposal is accepted, the proposed team member should be contacted privately via email to confirm or deny their acceptance of team membership. This email will also be CC'd to [prometheus-team][team] for record-keeping purposes.
+
+If they choose to accept, the following steps are taken:
+
+* Team members are added to the [GitHub organization][gh] as _Owner_.
+* Team members are added to the [team mailing list][team].
+* Team members are added to the list of team members in this document.
+* New team members are announced on the [developers mailing list][devs] by an existing team member.
 
 Team members may retire at any time by emailing [the team][team].
 

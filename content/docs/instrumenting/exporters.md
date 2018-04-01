@@ -88,7 +88,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
 ### APIs
    * [AWS ECS exporter](https://github.com/slok/ecs-exporter)
    * [AWS Health exporter](https://github.com/Jimdo/aws-health-exporter)
-   * [AWS SQS exporter](https://github.com/jmal98/sqs_exporter)
+   * [AWS SQS exporter](https://github.com/ashiddo11/sqs-exporter)
    * [Cloudflare exporter](https://github.com/wehkamp/docker-prometheus-cloudflare-exporter)
    * [DigitalOcean exporter](https://github.com/metalmatze/digitalocean_exporter)
    * [Docker Cloud exporter](https://github.com/infinityworksltd/docker-cloud-exporter)
@@ -209,4 +209,3 @@ practices.
    * Java/JVM: [Hystrix metrics publisher](https://github.com/ahus1/prometheus-hystrix)
    * Python-Django: [django-prometheus](https://github.com/korfuri/django-prometheus)
    * Node.js: [swagger-stats](https://github.com/slanatech/swagger-stats)
-   

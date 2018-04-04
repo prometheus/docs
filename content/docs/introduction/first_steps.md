@@ -151,7 +151,7 @@ We now need to tell Prometheus about our new exporter.
 We will configure Prometheus to scrape this new target. To achieve this, add a new job definition to the `scrape_configs` section in our `prometheus.yml`:
 
 ```
-- job_name: node
+- job_name: 'node'
     static_configs:
       - targets: ['localhost:9100']
 ```

@@ -46,7 +46,7 @@ rule_files:
   # - "second.rules"
 
 scrape_configs:
-  - job_name: 'prometheus'
+  - job_name: prometheus
     static_configs:
       - targets: ['localhost:9090']
 ```

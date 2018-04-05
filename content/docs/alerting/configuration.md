@@ -63,15 +63,19 @@ global:
 
   # The default SMTP From header field.
   [ smtp_from: <tmpl_string> ]
-  # The default SMTP smarthost used for sending emails.
+  # The default SMTP smarthost used for sending emails, including port number.
+  # Port number usually is 25, or 587 for SMTP over TLS (sometimes referred to as STARTTLS).
+  # Example: smtp.example.org:587
   [ smtp_smarthost: <string> ]
   # The default hostname to identify to the SMTP server.
   [ smtp_hello: <string> | default = "localhost" ]
-  # SMTP authentication information.
   [ smtp_auth_username: <string> ]
+  # SMTP Auth using LOGIN and PLAIN.
   [ smtp_auth_password: <secret> ]
-  [ smtp_auth_secret: <secret> ]
+  # SMTP Auth using PLAIN.
   [ smtp_auth_identity: <string> ]
+  # SMTP Auth using CRAM-MD5. 
+  [ smtp_auth_secret: <secret> ]
   # The default SMTP TLS requirement.
   [ smtp_require_tls: <bool> | default = true ]
 

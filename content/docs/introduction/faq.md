@@ -183,7 +183,7 @@ latency-critical code.
 
 ## Troubleshooting
 
-### My Prometheus server takes a long time to start up and spams the log with copious information about crash recovery.
+### My Prometheus 1.x server takes a long time to start up and spams the log with copious information about crash recovery.
 
 You are suffering from an unclean shutdown. Prometheus has to shut down cleanly
 after a `SIGTERM`, which might take a while for heavily used servers. If the
@@ -191,17 +191,17 @@ server crashes or is killed hard (e.g. OOM kill by the kernel or your runlevel
 system got impatient while waiting for Prometheus to shutdown), a crash
 recovery has to be performed, which should take less than a minute under normal
 circumstances, but can take quite long under certain circumstances. See
-[crash recovery](/docs/operating/storage/#crash-recovery) for details.
+[crash recovery](/docs/prometheus/1.8/storage/#crash-recovery) for details.
 
-### My Prometheus server runs out of memory.
+### My Prometheus 1.x server runs out of memory.
 
-See [the section about memory usage](/docs/operating/storage/#memory-usage)
+See [the section about memory usage](/docs/prometheus/1.8/storage/#memory-usage)
 to configure Prometheus for the amount of memory you have available.
 
-### My Prometheus server reports to be in “rushed mode” or that “storage needs throttling”.
+### My Prometheus 1.x server reports to be in “rushed mode” or that “storage needs throttling”.
 
 Your storage is under heavy load. Read
-[the section about configuring the local storage](/docs/operating/storage/)
+[the section about configuring the local storage](/docs/prometheus/1.8/storage/)
 to find out how you can tweak settings for better performance.
 
 ## Implementation

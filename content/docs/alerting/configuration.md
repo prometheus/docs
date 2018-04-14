@@ -454,6 +454,23 @@ channel: <tmpl_string>
 [ text: <tmpl_string> | default = '{{ template "slack.default.text" . }}' ]
 [ fallback: <tmpl_string> | default = '{{ template "slack.default.fallback" . }}' ]
 
+# An optional flag indicating whether the value(s) of all fields defined
+# are short enough to be displayed side-by-side with any other value(s).
+[ short_fields: <boolean> ]
+
+# An optional list of key/value pairs to provide further details about the incident.
+# The key/value pairs contained within it will be displayed in a table inside the
+# message attachment.
+[ fields:
+  - # Title is shown as a bold heading above the value text.
+    # It cannot contain markup and will be escaped for you.
+    title: <tmpl_string>
+    # The text value of the field. It may contain standard message
+    # markup and must be escaped as normal. May be multi-line.
+    value: <tmpl_string>
+]
+
+
 # The HTTP client's configuration.
 [ http_config: <http_config> | default = global.http_config ]
 ```

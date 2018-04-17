@@ -246,7 +246,7 @@ tls_config:
   # http://tools.ietf.org/html/rfc4366#section-3.1
   [ server_name: <string> ]
   # Disable validation of the server certificate.
-  [ insecure_skip_verity: <boolean> | default = false]
+  [ insecure_skip_verify: <boolean> | default = false]
 
 # Optional proxy URL.
 [ proxy_url: <string> ]

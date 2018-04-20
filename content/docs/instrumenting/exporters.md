@@ -16,7 +16,7 @@ Some of these exporters are maintained as part of the official [Prometheus GitHu
 those are marked as *official*, others are externally contributed and maintained.
 
 We encourage the creation of more exporters but cannot vet all of them for
-[best practices](/docs/instrumenting/writing_exporters/).
+[best practices](/content/docs/instrumenting/writing_exporters.md).
 Commonly, those exporters are hosted outside of the Prometheus GitHub
 organization.
 

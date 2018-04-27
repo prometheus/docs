@@ -139,6 +139,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [cAdvisor](https://github.com/google/cadvisor)
    * [Confluence exporter](https://github.com/AndreyVMarkelov/prom-confluence-exporter)
    * [Dovecot exporter](https://github.com/kumina/dovecot_exporter)
+   * [eBPF exporter](https://github.com/cloudflare/ebpf_exporter)
    * [Jenkins exporter](https://github.com/lovoo/jenkins_exporter)
    * [JIRA exporter](https://github.com/AndreyVMarkelov/jira-prometheus-exporter)
    * [Kannel exporter](https://github.com/apostvav/kannel_exporter)

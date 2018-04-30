@@ -152,8 +152,8 @@ We will configure Prometheus to scrape this new target. To achieve this, add a n
 
 ```
 - job_name: node
-    static_configs:
-      - targets: ['localhost:9100']
+  static_configs:
+    - targets: ['localhost:9100']
 ```
 
 Our new job is called `node`. It scrapes a static target, `localhost` on port `9100`. You would replace this name with the name or IP address of the host you're monitoring. 

@@ -70,6 +70,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
 
 ### Storage
    * [Ceph exporter](https://github.com/digitalocean/ceph_exporter)
+   * [Ceph RADOSGW Usage Exporter](https://github.com/blemmenes/radosgw_usage_exporter)
    * [Gluster exporter](https://github.com/ofesseler/gluster_exporter)
    * [Hadoop HDFS FSImage exporter](https://github.com/marcelmay/hadoop-hdfs-fsimage-exporter)
    * [Lustre exporter](https://github.com/HewlettPackard/lustre_exporter)
@@ -158,7 +159,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [Transmission exporter](https://github.com/metalmatze/transmission-exporter)
    * [Unbound exporter](https://github.com/kumina/unbound_exporter)
    * [Xen exporter](https://github.com/lovoo/xenstats_exporter)
-   
+
 
 When implementing a new Prometheus exporter, please follow the
 [guidelines on writing exporters](/docs/instrumenting/writing_exporters)
@@ -192,7 +193,7 @@ separate exporters are needed:
    * [SkyDNS](https://github.com/skynetservices/skydns) (**direct**)
    * [Telegraf](https://github.com/influxdata/telegraf/tree/master/plugins/outputs/prometheus_client)
    * [Weave Flux](https://github.com/weaveworks/flux)
-   
+
 The software marked *direct* is also directly instrumented with a Prometheus client library.
 
 ## Other third-party utilities
@@ -210,4 +211,3 @@ practices.
    * Java/JVM: [Hystrix metrics publisher](https://github.com/ahus1/prometheus-hystrix)
    * Python-Django: [django-prometheus](https://github.com/korfuri/django-prometheus)
    * Node.js: [swagger-stats](https://github.com/slanatech/swagger-stats)
-   

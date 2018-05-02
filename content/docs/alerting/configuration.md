@@ -586,23 +586,23 @@ this feature.
 
 ## `<wechat_config>`
 
-Wechat notifications are sent via the [Wechat
+WeChat notifications are sent via the [WeChat
 API](http://admin.wechat.com/wiki/index.php?title=Customer_Service_Messages).
 
 ```yaml
 # Whether or not to notify about resolved alerts.
 [ send_resolved: <boolean> | default = false ]
 
-# The API key to use when talking to the Wechat API.
+# The API key to use when talking to the WeChat API.
 [ api_secret: <secret> | default = global.wechat_secret_url ]
 
-# The Wechat API URL.
+# The WeChat API URL.
 [ api_url: <string> | default = global.wechat_api_url ]
 
-# The corp id for authentication
+# The corp id for authentication.
 [ corp_id: <string> | default = global.wechat_api_corp_id ]
 
-# API request data as defined by the Wechat API.
+# API request data as defined by the WeChat API.
 [ message: <tmpl_string> | default = '{{ template "wechat.default.message" . }}' ]
 [ agent_id: <string> | default = '{{ template "wechat.default.agent_id" . }}' ]
 [ to_user: <string> | default = '{{ template "wechat.default.to_user" . }}' ]

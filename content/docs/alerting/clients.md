@@ -1,6 +1,6 @@
 ---
 title: Clients
-sort_rank: 6
+sort_rank: 5
 nav_icon: sliders
 ---
 

@@ -48,6 +48,7 @@ data volumes.
 For notification mechanisms not natively supported by the Alertmanager, the
 [webhook receiver](/docs/alerting/configuration/#webhook_config) allows for integration.
 
+  * [IRC Bot](https://github.com/multimfi/bot)
   * [JIRAlert](https://github.com/free/jiralert)
   * [Phabricator / Maniphest](https://github.com/knyar/phalerts)
   * [prom2teams](https://github.com/idealista/prom2teams): forwards notifications to Microsoft Teams

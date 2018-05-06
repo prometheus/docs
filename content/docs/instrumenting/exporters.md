@@ -195,6 +195,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [Locust Exporter](https://github.com/ContainerSolutions/locust_exporter)
    * [Meteor JS web framework exporter](https://atmospherejs.com/sevki/prometheus-exporter)
    * [Minecraft exporter module](https://github.com/Baughn/PrometheusIntegration)
+   * [Nomad exporter](https://gitlab.com/yakshaving.art/nomad-exporter)
    * [nftables exporter](https://github.com/Intrinsec/nftables_exporter)
    * [OpenStack exporter](https://github.com/openstack-exporter/openstack-exporter)
    * [OpenStack blackbox exporter](https://github.com/infraly/openstack_client_exporter)
@@ -277,7 +278,7 @@ make use of one of the normal Prometheus client libraries under the hood. As
 for all independently maintained software, we cannot vet all of them for best
 practices.
 
-   * Clojure: [iapetos](https://github.com/clj-commons/iapetos) 
+   * Clojure: [iapetos](https://github.com/clj-commons/iapetos)
    * Go: [go-metrics instrumentation library](https://github.com/armon/go-metrics)
    * Go: [gokit](https://github.com/peterbourgon/gokit)
    * Go: [prombolt](https://github.com/mdlayher/prombolt)
@@ -287,3 +288,4 @@ practices.
    * Java/JVM: [Micrometer Prometheus Registry](https://micrometer.io/docs/registry/prometheus)
    * Python-Django: [django-prometheus](https://github.com/korfuri/django-prometheus)
    * Node.js: [swagger-stats](https://github.com/slanatech/swagger-stats)
+

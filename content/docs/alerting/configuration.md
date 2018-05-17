@@ -436,7 +436,9 @@ token: <secret>
 
 ## `<slack_config>`
 
-Slack notifications are sent via [Slack webhooks](https://api.slack.com/incoming-webhooks).
+Slack notifications are sent via [Slack
+webhooks](https://api.slack.com/incoming-webhooks). The notification contains
+an [attachment](https://api.slack.com/docs/message-attachments).
 
 ```yaml
 # Whether or not to notify about resolved alerts.
@@ -449,18 +451,47 @@ Slack notifications are sent via [Slack webhooks](https://api.slack.com/incoming
 channel: <tmpl_string>
 
 # API request data as defined by the Slack webhook API.
-[ color: <tmpl_string> | default = '{{ if eq .Status "firing" }}danger{{ else }}good{{ end }}' ]
-[ username: <tmpl_string> | default = '{{ template "slack.default.username" . }}' ]
-[ title: <tmpl_string> | default = '{{ template "slack.default.title" . }}' ]
-[ title_link: <tmpl_string> | default = '{{ template "slack.default.titlelink" . }}' ]
 [ icon_emoji: <tmpl_string> ]
 [ icon_url: <tmpl_string> ]
+[ link_names: <boolean> | default = false ]
+[ username: <tmpl_string> | default = '{{ template "slack.default.username" . }}' ]
+# The following parameters define the attachment.
+[ color: <tmpl_string> | default = '{{ if eq .Status "firing" }}danger{{ else }}good{{ end }}' ]
+[ title: <tmpl_string> | default = '{{ template "slack.default.title" . }}' ]
+[ title_link: <tmpl_string> | default = '{{ template "slack.default.titlelink" . }}' ]
 [ pretext: <tmpl_string> | default = '{{ template "slack.default.pretext" . }}' ]
 [ text: <tmpl_string> | default = '{{ template "slack.default.text" . }}' ]
 [ fallback: <tmpl_string> | default = '{{ template "slack.default.fallback" . }}' ]
+[ footer: <tmpl_string> | default = '{{ template "slack.default.footer" . }}' ]
+fields:
+  [ <field_config> ... ]
+actions:
+  [ <action_config> ... ]
+[ short_fields: <boolean> | default = false ]
 
 # The HTTP client's configuration.
 [ http_config: <http_config> | default = global.http_config ]
+```
+
+### `<action_config>`
+
+The fields are documented in the [Slack API documentation](https://api.slack.com/docs/message-attachments#action_fields).
+
+```yaml
+type: <tmpl_string>
+text: <tmpl_string>
+url: <tmpl_string>
+[ style: <tmpl_string> [ default = '' ]
+```
+
+### `<field_config>`
+
+The fields are documented in the [Slack API documentation](https://api.slack.com/docs/message-attachments#fields).
+
+```yaml
+title: <tmpl_string>
+value: <tmpl_string>
+[ short: <boolean> | default = slack_config.short_fields ]
 ```
 
 ## `<opsgenie_config>`

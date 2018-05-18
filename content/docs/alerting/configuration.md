@@ -456,18 +456,18 @@ channel: <tmpl_string>
 [ link_names: <boolean> | default = false ]
 [ username: <tmpl_string> | default = '{{ template "slack.default.username" . }}' ]
 # The following parameters define the attachment.
-[ color: <tmpl_string> | default = '{{ if eq .Status "firing" }}danger{{ else }}good{{ end }}' ]
-[ title: <tmpl_string> | default = '{{ template "slack.default.title" . }}' ]
-[ title_link: <tmpl_string> | default = '{{ template "slack.default.titlelink" . }}' ]
-[ pretext: <tmpl_string> | default = '{{ template "slack.default.pretext" . }}' ]
-[ text: <tmpl_string> | default = '{{ template "slack.default.text" . }}' ]
-[ fallback: <tmpl_string> | default = '{{ template "slack.default.fallback" . }}' ]
-[ footer: <tmpl_string> | default = '{{ template "slack.default.footer" . }}' ]
-fields:
-  [ <field_config> ... ]
 actions:
   [ <action_config> ... ]
+[ color: <tmpl_string> | default = '{{ if eq .Status "firing" }}danger{{ else }}good{{ end }}' ]
+[ fallback: <tmpl_string> | default = '{{ template "slack.default.fallback" . }}' ]
+fields:
+  [ <field_config> ... ]
+[ footer: <tmpl_string> | default = '{{ template "slack.default.footer" . }}' ]
+[ pretext: <tmpl_string> | default = '{{ template "slack.default.pretext" . }}' ]
 [ short_fields: <boolean> | default = false ]
+[ text: <tmpl_string> | default = '{{ template "slack.default.text" . }}' ]
+[ title: <tmpl_string> | default = '{{ template "slack.default.title" . }}' ]
+[ title_link: <tmpl_string> | default = '{{ template "slack.default.titlelink" . }}' ]
 
 # The HTTP client's configuration.
 [ http_config: <http_config> | default = global.http_config ]

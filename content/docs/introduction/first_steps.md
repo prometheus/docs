@@ -168,4 +168,4 @@ One useful metric to look for is the `up` metric. The `up` metric can be used to
 
 ## Summary
 
-Now you've been introduced to Prometheus, installed it, and configured it to monitor your first resources. We've also installed our first exporter and seen the basics of how to work with time series data scraped using the expression browser. You can find more [documentation](/docs/introduction/overview/) and [guides](/docs/guides/) to help you continue to learn more about Prometheus. 
+Now you've been introduced to Prometheus, installed it, and configured it to monitor your first resources. We've also installed our first exporter and seen the basics of how to work with time series data scraped using the expression browser. You can find more [documentation](/docs/introduction/overview/) to help you continue to learn more about Prometheus. 

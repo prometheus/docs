@@ -41,7 +41,7 @@ Console URLs can be shared and will show the same graphs for others.
 
 The main content is usually graphs. There is a configurable JavaScript graphing
 library provided that will handle requesting data from Prometheus, and rendering
-it via [Rickshaw](http://code.shutterstock.com/rickshaw/).
+it via [Rickshaw](https://shutterstock.github.io/rickshaw/).
 
 Finally, the table on the right can be used to display statistics in a more
 compact form than graphs.

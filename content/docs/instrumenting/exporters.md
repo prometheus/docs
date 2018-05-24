@@ -54,7 +54,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [apcupsd exporter](https://github.com/mdlayher/apcupsd_exporter)
    * [Collins exporter](https://github.com/soundcloud/collins_exporter)
    * [IoT Edison exporter](https://github.com/roman-vynar/edison_exporter)
-   * [IPMI exporter](https://github.com/lovoo/ipmi_exporter)
+   * [IPMI exporter](https://github.com/soundcloud/ipmi_exporter)
    * [knxd exporter](https://github.com/RichiH/knxd_exporter)
    * [Node/system metrics exporter](https://github.com/prometheus/node_exporter) (**official**)
    * [Ubiquiti UniFi exporter](https://github.com/mdlayher/unifi_exporter)

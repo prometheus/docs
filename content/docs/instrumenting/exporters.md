@@ -72,7 +72,8 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
 
 ### Storage
    * [Ceph exporter](https://github.com/digitalocean/ceph_exporter)
-   * [Ceph RADOSGW Usage Exporter](https://github.com/blemmenes/radosgw_usage_exporter)
+   * [Ceph RADOSGW Usage exporter](https://github.com/blemmenes/docs)
+>>>>>>> 327f65bb9c9094a158e1d1306330073d209c89c2
    * [Gluster exporter](https://github.com/ofesseler/gluster_exporter)
    * [Hadoop HDFS FSImage exporter](https://github.com/marcelmay/hadoop-hdfs-fsimage-exporter)
    * [Lustre exporter](https://github.com/HewlettPackard/lustre_exporter)

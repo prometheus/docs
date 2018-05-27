@@ -36,6 +36,7 @@ data volumes.
   * [Chronix](https://github.com/ChronixDB/chronix.ingester): write
   * [Cortex](https://github.com/weaveworks/cortex): read and write
   * [CrateDB](https://github.com/crate/crate_adapter): read and write
+  * [Elasticsearch](https://github.com/infonova/prometheusbeat): write
   * [Gnocchi](https://gnocchi.xyz/prometheus.html): write
   * [Graphite](https://github.com/prometheus/prometheus/tree/master/documentation/examples/remote_storage/remote_storage_adapter): write
   * [InfluxDB](https://docs.influxdata.com/influxdb/v1.4/supported_protocols/prometheus): read and write

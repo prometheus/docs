@@ -3,6 +3,16 @@
 This repository contains both the content and the static-site generator code for the
 Prometheus documentation site.
 
+## Contributing Changes
+
+See [`CONTRIBUTING.md`](CONTRIBUTING.md) for general instructions for new Prometheus contributors.
+
+The main documentation contents of this website are located in the [`content/docs`](content/docs) directory.
+
+Documentation concerning the Prometheus server is [maintained in the Prometheus server repository](https://github.com/prometheus/prometheus/tree/master/docs) and cloned into the website at build time.
+
+As a guideline, please keep the documentation generally applicable and avoid use-case-specific changes.
+
 ## Prerequisites
 
 You need to have a working Ruby environment set up and then install the

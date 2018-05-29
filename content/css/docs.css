@@ -398,6 +398,14 @@ footer {
   margin-left: 0;
 }
 
+.doc-content .open-source-notice {
+  color: #666;
+  background-color: #f5f5f5;
+  text-align: center;
+  padding: 0.8em;
+  margin-top: 1.5em;
+}
+
 .toc {
   padding: 1em;
   background-color: #f5f5f5;

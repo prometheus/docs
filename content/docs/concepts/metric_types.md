@@ -19,8 +19,9 @@ value can only increase or be reset to zero on restart. For example, you can
 use a counter to represent the number of requests served, tasks completed, or
 errors.
 
-Do not use a counter to expose a value that decreases. For example, do not use
-a counter for the number of currently running processes, but use a gauge instead.
+Do not use a counter to expose a value that can decrease. For example, do not
+use a counter for the number of currently running processes, but use a gauge
+instead.
 
 Client library usage documentation for counters:
 

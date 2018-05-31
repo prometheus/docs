@@ -161,7 +161,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [Transmission exporter](https://github.com/metalmatze/transmission-exporter)
    * [Unbound exporter](https://github.com/kumina/unbound_exporter)
    * [Xen exporter](https://github.com/lovoo/xenstats_exporter)
-   
+
 
 When implementing a new Prometheus exporter, please follow the
 [guidelines on writing exporters](/docs/instrumenting/writing_exporters)
@@ -182,6 +182,7 @@ separate exporters are needed:
    * [Docker Daemon](https://docs.docker.com/engine/reference/commandline/dockerd/#daemon-metrics)
    * [Doorman](https://github.com/youtube/doorman) (**direct**)
    * [Etcd](https://github.com/coreos/etcd) (**direct**)
+   * [Flink](https://github.com/apache/flink) (**direct**)
    * [FreeBSD Kernel](https://www.freebsd.org/cgi/man.cgi?query=prometheus_sysctl_exporter&apropos=0&sektion=8&manpath=FreeBSD+12-current&arch=default&format=html)
    * [Grafana](http://docs.grafana.org/administration/metrics/)
    * [Kubernetes](https://github.com/kubernetes/kubernetes) (**direct**)
@@ -196,7 +197,7 @@ separate exporters are needed:
    * [SkyDNS](https://github.com/skynetservices/skydns) (**direct**)
    * [Telegraf](https://github.com/influxdata/telegraf/tree/master/plugins/outputs/prometheus_client)
    * [Weave Flux](https://github.com/weaveworks/flux)
-   
+
 The software marked *direct* is also directly instrumented with a Prometheus client library.
 
 ## Other third-party utilities
@@ -214,4 +215,3 @@ practices.
    * Java/JVM: [Hystrix metrics publisher](https://github.com/ahus1/prometheus-hystrix)
    * Python-Django: [django-prometheus](https://github.com/korfuri/django-prometheus)
    * Node.js: [swagger-stats](https://github.com/slanatech/swagger-stats)
-   

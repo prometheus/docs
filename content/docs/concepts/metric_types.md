@@ -13,11 +13,15 @@ untyped time series. This may change in the future.
 
 ## Counter
 
-A _counter_ is a cumulative metric that represents a single numerical value
-that only ever goes up. A counter is typically used to count requests served,
-tasks completed, errors occurred, etc. Counters should not be used to expose
-current counts of items whose number can also go down, e.g. the number of
-currently running goroutines. Use gauges for this use case.
+A _counter_ is a cumulative metric that represents a single [monotonically 
+increasing counter](https://en.wikipedia.org/wiki/Monotonic_function) whose
+value can only increase or be reset to zero on restart. For example, you can
+use a counter to represent the number of requests served, tasks completed, or
+errors.
+
+Do not use a counter to expose a value that can decrease. For example, do not
+use a counter for the number of currently running processes, but use a gauge
+instead.
 
 Client library usage documentation for counters:
 

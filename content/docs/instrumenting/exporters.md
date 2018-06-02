@@ -35,6 +35,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [Consul exporter](https://github.com/prometheus/consul_exporter) (**official**)
    * [CouchDB exporter](https://github.com/gesellix/couchdb-exporter)
    * [ElasticSearch exporter](https://github.com/justwatchcom/elasticsearch_exporter)
+   * [EventStore exporter](https://github.com/marcinbudny/eventstore_exporter)
    * [Memcached exporter](https://github.com/prometheus/memcached_exporter) (**official**)
    * [MongoDB exporter](https://github.com/dcu/mongodb_exporter)
    * [MSSQL server exporter](https://github.com/awaragi/prometheus-mssql-exporter)

@@ -10,7 +10,7 @@ This page provides an opinionated set of guidelines for instrumenting your code.
 ## How to instrument
 
 The short answer is to instrument everything. Every library, subsystem and
-service should expose at least a few metrics to give you a rough idea of how it is
+service should have at least a few metrics to give you a rough idea of how it is
 performing.
 
 Instrumentation should be an integral part of your code. Instantiate the metric
@@ -36,7 +36,7 @@ For counting failed queries, see section [Failures](#failures) below.
 
 Online-serving systems should be monitored on both the client and server side.
 If the two sides see different behaviors, that is very useful information for debugging.
-If a service has many clients, it is also not practical for the service to track them
+If a service has many clients, it is not practical for the service to track them
 individually, so they have to rely on their own stats.
 
 Be consistent in whether you count queries when they start or when they end.

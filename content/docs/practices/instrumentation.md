@@ -10,7 +10,7 @@ This page provides an opinionated set of guidelines for instrumenting your code.
 ## How to instrument
 
 The short answer is to instrument everything. Every library, subsystem and
-service should have at least a few metrics to give you a rough idea of how it is
+service should expose at least a few metrics to give you a rough idea of how it is
 performing.
 
 Instrumentation should be an integral part of your code. Instantiate the metric

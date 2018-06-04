@@ -133,6 +133,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [StatsD exporter](https://github.com/prometheus/statsd_exporter) (**official**)
 
 ### Miscellaneous
+   * [ACT Fibernet Exporter](https://git.captnemo.in/nemo/prometheus-act-exporter)
    * [Bamboo exporter](https://github.com/AndreyVMarkelov/bamboo-prometheus-exporter)
    * [BIG-IP exporter](https://github.com/ExpressenAB/bigip_exporter)
    * [BIND exporter](https://github.com/digitalocean/bind_exporter)

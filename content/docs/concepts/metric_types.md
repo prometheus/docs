@@ -20,8 +20,7 @@ use a counter to represent the number of requests served, tasks completed, or
 errors.
 
 Do not use a counter to expose a value that can decrease. For example, do not
-use a counter for the number of currently running processes, but use a gauge
-instead.
+use a counter for the number of currently running processes; instead use a gauge.
 
 Client library usage documentation for counters:
 

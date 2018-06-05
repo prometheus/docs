@@ -250,8 +250,9 @@ Client libraries MUST NOT under any circumstances allow users to have different
 label names for the same metric for Gauge/Counter/Summary/Histogram or any
 other Collector offered by the library.
 
-If your client library does validation of metrics at collect time, it MAY also
-verify this for custom Collectors.
+Metrics from custom collectors should almost always have consistent label
+names. As there are still rare but valid use cases where this is not the case,
+client libraries should not verify this.
 
 While labels are powerful, the majority of metrics will not have labels.
 Accordingly the API should allow for labels but not dominate it.

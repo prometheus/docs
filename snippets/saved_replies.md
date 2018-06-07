@@ -5,7 +5,7 @@ If should be possible to combine any of these snippets. Simply cut off the initi
 All these snippets follow the same basic layout
 
 1. Thank people.
-They actually took the time to create an issue/PR. Some took more time, some less time; for some it was hard, for others it was trivial. Disregarding all this, we simply thank the first as they are doing more than 99% or our userbase.
+They actually took the time to create an issue/PR. Some took more time, some less time; for some it was hard, for others it was trivial. Disregarding all this, we simply thank them first as they are doing more than 99% of our userbase.
 2. Acknowledge their need for help.
 Unless it's a PR for a typo, most likely they actually feel a need for whatever they are asking about.
 2. Give context.
@@ -13,7 +13,7 @@ Considerations, better places to go with this, etc. If it's anything we have doc
 3. Provide a course of action.
 At the least, if we close anything quickly, we should tell them they can ask to re-open, or where else to take this. Again, take into account that there's a need they feel they need to address, somehow.
 
-It's not always feasible, or even possible, to fill out the XXX. Still, we should try to.
+It's not always feasible, or even possible, to fill out the XXX used in the snippets below. Still, we should try to make it point to relevant URLs/information. People will land on these issues via search engines for a long time and this builds knowledge in our userbase, so this will hopefully even save us time in the long run.
 
 
 
@@ -22,7 +22,7 @@ It's not always feasible, or even possible, to fill out the XXX. Still, we shoul
 
 ## User Support
 
-Thanks for your report. It looks as if this is actually a question about usage and not development.
+Thanks for your report. It looks as if this is actually a question about usage and not development because XXX
 
 To make your question, and all replies, easier to find, we suggest you move this over to our [user mailing list](https://groups.google.com/forum/#!forum/prometheus-users), which you can also search. If you prefer more interactive help, join or our [IRC channel](https://webchat.freenode.org/?channels=prometheus), #prometheus on irc.freenode.net. Please be aware that our IRC channel has no logs, is not searchable, and that people might not answer quickly if they are busy or asleep. If in doubt, you should choose the mailing list.
 
@@ -61,7 +61,7 @@ Thanks for suggesting this change. Unfortunately, we are currently not accepting
 
 We can only provide the stability and performance we want to provide if we can test integrations in an automated and scalable fashion. For this reason, we are suggesting people integrate with the help of our generic interfaces by either integrating natively or putting a rewriting proxy in the middle. We would be more than happy to list this on our integrations page.
 
-Even if existing integrations can not be tested in an automated fashion, we will not remove them for reasons of compability. This also means that any additions we take on, or any changes to existing integrations we make or accept, will mean maintaining and testing these until at least the next major version, realistically even beyond that.
+Even if existing integrations can not be tested in an automated fashion, we will not remove them for reasons of compatibility. This also means that any additions we take on, or any changes to existing integrations we make or accept, will mean maintaining and testing these until at least the next major version, realistically even beyond that.
 
 Feel free to question this answer on our [developer mailing list](https://groups.google.com/forum/#!forum/prometheus-developers), but be aware it's unlikely that you will get a different answer.
 

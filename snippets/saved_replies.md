@@ -80,6 +80,8 @@ Thus, we are closing this one for now. If you think this was in error, don't hes
 
 Thanks for this. This topic is not as easy as it looks; we actually already had some discussions and considerations about this topic, for more context please look here XXX
 
+You are also welcome to discuss this further on our [developer mailing list](https://groups.google.com/forum/#!forum/prometheus-developers).
+
 
 ## Out of scope
 
@@ -95,7 +97,7 @@ You might want to look at an alternative, such as XXX
 
 #### Non-Goal
 
-This is actually one of our non-goals. we are unlikely to change our minds on this, but feel free to raise this issue on our [developer mailing list](https://groups.google.com/forum/#!forum/prometheus-developers). Please understand if the answer still remains a simple "no" pointing to our docs.
+This is actually one of our non-goals. We are unlikely to change our minds on this, but feel free to raise this issue on our [developer mailing list](https://groups.google.com/forum/#!forum/prometheus-developers). Please understand if the answer still remains a simple "no" pointing to our docs.
 
 
 #### Against goal / design decision

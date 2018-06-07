@@ -1,4 +1,4 @@
-This document is useful for copy and pasting into https://github.com/settings/replies - feel free to change wording to your preference.
+This document is useful for copy and pasting into https://github.com/settings/replies - feel free to change wording to your own preference.
 It's good to have a bit of variety in our responses, anyway.
 If should be possible to combine any of these snippets. Simply cut off the initial thank you blurb from a snippet and replace with "Also,". Any combination should create a sane flow, even if most of them obviously wouldn't make much sense.
 

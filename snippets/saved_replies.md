@@ -1,6 +1,6 @@
-This document is useful for copy and pasting into https://github.com/settings/replies - feel free to chnage wording to your preference.
+This document is useful for copy and pasting into https://github.com/settings/replies - feel free to change wording to your preference.
 It's good to have a bit of variety in our responses, anyway.
-If you are are using more than one response at the same time, cutting out the initial thank you and replacing it with "Also, " should be enough. Any combination should create a sane flow, even if most obviously wouldn't make much sense.
+If should be possible to combine any of these snippets. Simply cut off the initial thank you blurb from a snippet and replace with "Also,". Any combination should create a sane flow, even if most of them obviously wouldn't make much sense.
 
 All these snippets follow the same basic layout
 
@@ -63,7 +63,7 @@ We can only provide the stability and performance we want to provide if we can t
 
 Even if existing integrations can not be tested in an automated fashion, we will not remove them for reasons of compability. This also means that any additions we take on, or any changes to existing integrations we make or accept, will mean maintaining and testing these until at least the next major version, realistically even beyond that.
 
-You are free to question this answer on our [developer mailing list](https://groups.google.com/forum/#!forum/prometheus-developers), but it's unlikely that you will get a different answer.
+Feel free to question this answer on our [developer mailing list](https://groups.google.com/forum/#!forum/prometheus-developers), but be aware it's unlikely that you will get a different answer.
 
 
 # Issue or PR
@@ -97,7 +97,7 @@ You might want to look at an alternative, such as XXX
 
 #### Non-Goal
 
-This is actually one of our non-goals. We are unlikely to change our minds on this, but feel free to raise this issue on our [developer mailing list](https://groups.google.com/forum/#!forum/prometheus-developers). Please understand if the answer still remains a simple "no" pointing to our docs.
+This is actually one of our non-goals. We are unlikely to change our minds on this, but feel free to raise this issue on our [developer mailing list](https://groups.google.com/forum/#!forum/prometheus-developers). Please do not be surprised if the answer still remains a simple "no" along with pointing to our docs.
 
 
 #### Against goal / design decision

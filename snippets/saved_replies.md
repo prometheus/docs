@@ -5,7 +5,7 @@ If you are are using more than one response at the same time, cutting out the in
 All these snippets follow the same basic layout
 
 1. Thank people.
-They actually took the time to create an issue/PR. Some took more time, some less time; for some it was hard, for others it was trivial. Disregaring all this, we simply thank the first as they are doing more than 99% or our userbase.
+They actually took the time to create an issue/PR. Some took more time, some less time; for some it was hard, for others it was trivial. Disregarding all this, we simply thank the first as they are doing more than 99% or our userbase.
 2. Acknowledge their need for help.
 Unless it's a PR for a typo, most likely they actually feel a need for whatever they are asking about.
 2. Give context.
@@ -24,7 +24,7 @@ It's not always feasible, or even possible, to fill out the XXX. Still, we shoul
 
 Thanks for your report. It looks as if this is actually a question about usage and not development.
 
-To make your question, and all replies, easier to find, we suggest you move this over to our [user mailing list](https://groups.google.com/forum/#!forum/prometheus-users); for more interactive help, but no long-term archive, or search function, join or our [IRC channel](https://webchat.freenode.org/?channels=prometheus), #prometheus on irc.freenode.net.
+To make your question, and all replies, easier to find, we suggest you move this over to our [user mailing list](https://groups.google.com/forum/#!forum/prometheus-users), which you can also search. If you prefer more interactive help, join or our [IRC channel](https://webchat.freenode.org/?channels=prometheus), #prometheus on irc.freenode.net. Please be aware that our IRC channel has no logs, is not searchable, and that people might not answer quickly if they are busy or asleep. If in doubt, you should choose the mailing list.
 
 If you think this is not purely a support question, feel free to comment in here or take the underlying issues to our [developer mailing list](https://groups.google.com/forum/#!forum/prometheus-developers).
 
@@ -100,4 +100,4 @@ This is actually one of our non-goals. we are unlikely to change our minds on th
 
 #### Against goal / design decision
 
-As this goes against one of our stated goals/deisgn decisions, we are unlikely to change our minds on this, but feel free to raise this issue on our [developer mailing list](https://groups.google.com/forum/#!forum/prometheus-developers). Please understand if the answer still remains a simple "no" pointing to our docs.
+As this goes against one of our stated goals/design decisions, we are unlikely to change our minds on this, but feel free to raise this issue on our [developer mailing list](https://groups.google.com/forum/#!forum/prometheus-developers). Please understand if the answer still remains a simple "no" pointing to our docs.

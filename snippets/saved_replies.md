@@ -38,7 +38,7 @@ All that being said, in your specific case, it might make sense to / please look
 
 ## DCO
 
-Thanks for your PR. For legal reasons, we require that all commits are signed with a [DCO](https://developercertificate.org/) before we can merge them.
+Thanks for your PR. For legal reasons, we require that all commits are signed with a [DCO](https://developercertificate.org/) before we can merge them. See [this blog post](https://www.cncf.io/blog/2016/11/08/cloud-native-software-can-trust/) for considerations around this.
 
 This means that the last line of your commit message should read like:
 

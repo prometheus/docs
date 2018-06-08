@@ -552,7 +552,7 @@ VictorOps notifications are sent out via the [VictorOps API](https://help.victor
 [ api_url: <string> | default = global.victorops_api_url ]
 
 # A key used to map the alert to a team.
-routing_key: <string>
+routing_key: <tmpl_string>
 
 # Describes the behavior of the alert (CRITICAL, WARNING, INFO).
 [ message_type: <tmpl_string> | default = 'CRITICAL' ]

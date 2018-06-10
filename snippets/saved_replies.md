@@ -57,7 +57,7 @@ As always, be careful when force-pushing.
 
 Thanks for suggesting this change. Unfortunately, we are currently not accepting new integrations.
 
-We can only provide the stability and performance we want to provide if we can test integrations in an automated and scalable fashion. For this reason, we are suggesting people integrate with the help of our generic interfaces by either integrating natively or putting a rewriting proxy in the middle. We would be more than happy to list this on our integrations page.
+We can only provide the stability and performance we want to provide if we can properly maintain the codebase. This includes, amongst others, test integrations in an automated and scalable fashion. For this reason, we are suggesting people integrate with the help of our generic interfaces. We would be more than happy to list this on our integrations page.
 
 Even if existing integrations can not be tested in an automated fashion, we will not remove them for reasons of compatibility. This also means that any additions we take on, or any changes to existing integrations we make or accept, will mean maintaining and testing these until at least the next major version, realistically even beyond that.
 

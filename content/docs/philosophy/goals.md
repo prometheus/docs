@@ -46,7 +46,8 @@ dynamically-built ones.
 
 Any non-trivial system needs to integrate with other systems. To keep the
 resulting complexity low, we will always try to have the fewest interfaces
-possible and keep their resulting complexity as low as possible.
+possible and keep their resulting complexity as low as possible. This makes
+understanding the system and thus working on and with it easier.
 
 ## Automation
 

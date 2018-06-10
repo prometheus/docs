@@ -26,8 +26,6 @@ Thanks for your report. It looks as if this is actually a question about usage a
 
 To make your question, and all replies, easier to find, we suggest you move this over to our [user mailing list](https://groups.google.com/forum/#!forum/prometheus-users), which you can also search. If you prefer more interactive help, join or our [IRC channel](https://webchat.freenode.net/?randomnick=1&channels=prometheus), #prometheus on irc.freenode.net. Please be aware that our IRC channel has no logs, is not searchable, and that people might not answer quickly if they are busy or asleep. If in doubt, you should choose the mailing list.
 
-If you think this is not purely a support question, feel free to comment in here or take the underlying issues to our [developer mailing list](https://groups.google.com/forum/#!forum/prometheus-developers).
-
 Once your questions have been answered, please add a short line pointing to relevant replies in case anyone stumbles here via a search engine in the future.
 
 All that being said, in your specific case, it might make sense to / please look at / our reasoning can be found at XXX

@@ -16,7 +16,7 @@ As a monitoring system, Prometheus is being relied upon to alert humans that
 they need to take action in order to prevent undesired system state.
 
 Thus, its most important function is to keep the pipeline of ingestion, rule
-evaluation, and alert hand-off working.
+evaluation, and alert notifications working.
 
 The second most important function is to give humans context about these alerts
 by allowing access to the most recent data Prometheus ingested
@@ -27,7 +27,7 @@ Note that this goal might result in widely different design decisions and thus
 operational patterns for different parts of our ecosystem:
 
 For Prometheus itself, this means running every instance as an island of data
-completely detached from every other instance, except for optional federation.
+completely detached from every other instance.
 
 For Alertmanager on the other hand, it means the exact opposite: meshing all
 instances closely together, sharing knowledge about alerts and their
@@ -35,12 +35,18 @@ notifications.
 
 ## Simple operation
 
-Operation of Prometheus should be as easy and failure-tolerant as possible. We
+Operation of Prometheus should be as simple and failure-tolerant as possible. We
 try to put required complexity into earlier phases, going through them less
 often and ideally still while under the control of a smaller subset of people.
 
 One example of this would be the preference of statically linked binaries over
 dynamically-built ones.
+
+## Keep dependencies clear and limited
+
+Any non-trivial system needs to integrate with other systems. To keep the
+resulting complexity low, we will always try to have the fewest interfaces
+possible and keep their resulting complexity as low as possible.
 
 ## Automation
 

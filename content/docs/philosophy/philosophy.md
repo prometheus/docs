@@ -30,12 +30,12 @@ McIlroy's initial version from 1978](http://emulator.pdp-11.org.ru/misc/1978.07_
 
 ## Embrace cloud-native technologies
 
-In many ways, the cloud-native approach mirrors the Unix philosphy, updating it
+In many ways, the cloud-native approach mirrors the Unix philosophy, updating it
 for the modern world.
 
 1. Micro-services are the equivalent of doing one thing well
-2. Ubiquitous APIs enable interoperatbility in the cloud-native world
-3. Releasing early, realeasing often, and failing quickly is important when
+2. Ubiquitous APIs enable interoperability in the cloud-native world
+3. Releasing early, releasing often, and failing quickly is important when
 failure is part of expected operations
 4. Automation is key, freeing up humans to make more useful use of their time
 
@@ -54,7 +54,7 @@ charge.
 
 Prometheus is a project of convicted and passionate individuals. As we do not
 have a profit motive, nor quarterly projections, or any other requirement to
-meet arbitrary business requirements, we can foxus on getting things right. This
+meet arbitrary business requirements, we can focus on getting things right. This
 also means that we are free to suggest other implementations and projects if
 they are a better fit for a particular use-case.
 
@@ -66,4 +66,4 @@ will always strive to be welcoming to everyone.
 As an example of this, many of us are investing their personal time helping
 individuals or communities by educating and helping them to be more productive
 in the tech sector, as well as sponsoring diversity efforts, for example paying
-for travel and accomodation at [PromCon](https://promcon.io).
+for travel and accommodation at [PromCon](https://promcon.io).

@@ -3,7 +3,7 @@ title: Philosophy overview
 sort_rank: 1
 ---
 
-We have structured our considerations for developing and working with Promethues
+We have structured our considerations for developing and working with Prometheus
 into four groups in decreasing order of importance, and likelihood to change.
 
 1. Philosophy

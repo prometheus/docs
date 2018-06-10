@@ -47,12 +47,12 @@ can do and not do.
 # Be open
 
 We will always put as much of our code, discussions, presentations, and other
-content into a form and place which is accessible in the long term, free of
-charge.
+content as possible into a form and place which is accessible in the long term,
+free of charge.
 
 # Play well with others
 
-Prometheus is a project of convicted and passionate individuals. As we do not
+Prometheus is a project of convinced and passionate individuals. As we do not
 have a profit motive, nor quarterly projections, or any other requirement to
 meet arbitrary business requirements, we can focus on getting things right. This
 also means that we are free to suggest other implementations and projects if

@@ -24,9 +24,12 @@ It's not always feasible, or even possible, to fill out the XXX used in the snip
 
 Thanks for your report. It looks as if this is actually a question about usage and not development because XXX
 
-To make your question, and all replies, easier to find, we suggest you move this over to our [user mailing list](https://groups.google.com/forum/#!forum/prometheus-users), which you can also search. If you prefer more interactive help, join or our [IRC channel](https://webchat.freenode.net/?randomnick=1&channels=prometheus), #prometheus on irc.freenode.net. Please be aware that our IRC channel has no logs, is not searchable, and that people might not answer quickly if they are busy or asleep. If in doubt, you should choose the mailing list.
+To make your question, and all replies, easier to find, I suggest you move this over to our `[user mailing list](https://groups.google.com/forum/#!forum/prometheus-users)`.
 
-Once your questions have been answered, please add a short line pointing to relevant replies in case anyone stumbles here via a search engine in the future.
+If you haven't looked already you might find your answer in the `[official docs and examples](https://prometheus.io/docs/introduction/overview/)` or by searching in the `[users](https://groups.google.com/forum/#!forum/prometheus-users)` or `[devs](https://groups.google.com/forum/#!forum/prometheus-developers)` groups.<br/>
+The #prometheus `[IRC channel ](https://webchat.freenode.net/?channels=prometheus)` is also a great place to  mix up with the community and ask questions(don't be afraid to answers few while waiting) `:+1:`.
+
+Once your questions have been answered, please add a link to the solution to help other Prometheans in trouble reaching this from a search.
 
 All that being said, in your specific case, it might make sense to / please look at / our reasoning can be found at XXX
 
@@ -36,7 +39,7 @@ All that being said, in your specific case, it might make sense to / please look
 
 ## DCO
 
-Thanks for your PR. For legal reasons, we require that all commits are signed with a [DCO](https://developercertificate.org/) before we can merge them. See [this blog post](https://www.cncf.io/blog/2016/11/08/cloud-native-software-can-trust/) for considerations around this.
+Thanks for your PR. For legal reasons, we require that all commits are signed with a `[DCO](https://developercertificate.org/)` before we can merge them. See `[this blog post](https://www.cncf.io/blog/2016/11/08/cloud-native-software-can-trust/)` for considerations around this.
 
 This means that the last line of your commit message should read like:
 
@@ -61,7 +64,7 @@ We can only provide the stability and performance we want to provide if we can p
 
 Even if existing integrations can not be tested in an automated fashion, we will not remove them for reasons of compatibility. This also means that any additions we take on, or any changes to existing integrations we make or accept, will mean maintaining and testing these until at least the next major version, realistically even beyond that.
 
-Feel free to question this answer on our [developer mailing list](https://groups.google.com/forum/#!forum/prometheus-developers), but be aware it's unlikely that you will get a different answer.
+Feel free to question this answer on our `[developer mailing list](https://groups.google.com/forum/#!forum/prometheus-developers)`, but be aware it's unlikely that you will get a different answer.
 
 
 # Issue or PR
@@ -78,7 +81,7 @@ Thus, we are closing this one for now. If you think this was in error, don't hes
 
 Thanks for this. This topic is not as easy as it looks; we actually already had some discussions and considerations about this topic, for more context please look here XXX
 
-You are also welcome to discuss this further on our [developer mailing list](https://groups.google.com/forum/#!forum/prometheus-developers).
+You are also welcome to discuss this further on our `[developer mailing list](https://groups.google.com/forum/#!forum/prometheus-developers)`.
 
 
 ## Out of scope
@@ -95,9 +98,9 @@ You might want to look at an alternative, such as XXX
 
 #### Non-Goal
 
-This is actually one of our non-goals. We are unlikely to change our minds on this, but feel free to raise this issue on our [developer mailing list](https://groups.google.com/forum/#!forum/prometheus-developers). Please do not be surprised if the answer still remains a simple "no" along with pointing to our docs.
+This is actually one of our non-goals. We are unlikely to change our minds on this, but feel free to raise this issue on our `[developer mailing list](https://groups.google.com/forum/#!forum/prometheus-developers)`. Please do not be surprised if the answer still remains a simple "no" along with pointing to our docs.
 
 
 #### Against goal / design decision
 
-As this goes against one of our stated goals/design decisions, we are unlikely to change our minds on this, but feel free to raise this issue on our [developer mailing list](https://groups.google.com/forum/#!forum/prometheus-developers). Please understand if the answer still remains a simple "no" pointing to our docs.
+As this goes against one of our stated goals/design decisions, we are unlikely to change our minds on this, but feel free to raise this issue on our `[developer mailing list](https://groups.google.com/forum/#!forum/prometheus-developers)`. Please understand if the answer still remains a simple "no" pointing to our docs.

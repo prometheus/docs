@@ -27,7 +27,7 @@ Thanks for your report. It looks as if this is actually a question about usage a
 To make your question, and all replies, easier to find, I suggest you move this over to our `[user mailing list](https://groups.google.com/forum/#!forum/prometheus-users)`.
 
 If you haven't looked already you might find your answer in the `[official docs and examples](https://prometheus.io/docs/introduction/overview/)` or by searching in the `[users](https://groups.google.com/forum/#!forum/prometheus-users)` or `[devs](https://groups.google.com/forum/#!forum/prometheus-developers)` groups.<br/>
-The #prometheus `[IRC channel ](https://webchat.freenode.net/?channels=prometheus)` is also a great place to  mix up with the community. (don't be afraid to answers few questions while waiting) `:+1:`.
+The #prometheus `[IRC channel ](https://webchat.freenode.net/?channels=prometheus)` is also a great place to  mix up with the community and ask questions(don't be afraid to answers few while waiting) `:+1:`.
 
 Once your questions have been answered, please add a link to the solution to help other Prometheans in trouble reaching this from a search.
 

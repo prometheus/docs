@@ -24,20 +24,15 @@ McIlroy's initial version from 1978](http://emulator.pdp-11.org.ru/misc/1978.07_
   We ensure that master always builds, called Continuous Integration these days,
   and we not afraid to replace whole sections of our codebase, e.g. our storage
   engine.
-4. Use tools in preference to unskilled help to lighten a programming task, even if you have to detour to build the tools and expect to throw some of them out after you've finished using them.
-  While this is an outdated way of stating the goal, automation where possible
-  is still one of the core characteristics any modern philosophy.
+4. Use tools in preference to \[manual work\]
+  Automation where possible is still one of the core characteristics any modern
+  philosophy.
 
-## Embrace cloud-native technologies
+# Work well across a variety of paradigms
 
-In many ways, the cloud-native approach mirrors the Unix philosophy, updating it
-for the modern world.
-
-1. Micro-services are the equivalent of doing one thing well
-2. Ubiquitous APIs enable interoperability in the cloud-native world
-3. Releasing early, releasing often, and failing quickly is important when
-failure is part of expected operations
-4. Automation is key, freeing up humans to make more useful use of their time
+There are a lot of paragims which fundamentally try to achieve clean design,
+implementation, and operation. We are not bound to any single of them, but
+Prometheus tends to work well with any good practice.
 
 # Be pragmatic
 
@@ -50,6 +45,11 @@ We will always put as much of our code, discussions, presentations, and other
 content as possible into a form and place which is accessible in the long term,
 free of charge.
 
+# Be opionated
+
+One size does never fit all, so we need to deliberately choose what we want to
+achieve and what not. We can not, and do not try to, fill every single niche.
+
 # Play well with others
 
 Prometheus is a project of convinced and passionate individuals. As we do not
@@ -58,7 +58,7 @@ meet arbitrary business requirements, we can focus on getting things right. This
 also means that we are free to suggest other implementations and projects if
 they are a better fit for a particular use-case.
 
-# Be inclusive
+# Be inclusive - TODO, move elsewhere
 
 We strongly believe that technology should be accessible to all. As such, we
 will always strive to be welcoming to everyone.

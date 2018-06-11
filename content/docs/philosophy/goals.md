@@ -74,6 +74,8 @@ For ways to deal with events, see TODO patterns.
 # Push-type system
 
 Prometheus is, and always will be, a pull-type system. We strongly believe that
-this makes operational sense in all but the very largest of scales.
+this makes operational sense for what we are trying to achieve. Prometheus will
+never become a push-type system, but we will make a reasonable effort to
+integrate with other push-type systems.
 
 For ways to integrate with push-type systems, see TODO patterns.

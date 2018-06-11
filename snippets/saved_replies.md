@@ -24,7 +24,7 @@ It's not always feasible, or even possible, to fill out the XXX used in the snip
 
 Thanks for your report. It looks as if this is actually a question about usage and not development because XXX
 
-To make your question, and all replies, easier to find, we suggest you move this over to our `[user mailing list](https://groups.google.com/forum/#!forum/prometheus-users)`.
+To make your question, and all replies, easier to find, I suggest you move this over to our `[user mailing list](https://groups.google.com/forum/#!forum/prometheus-users)`.
 
 If you haven't looked already you might find your answer in the `[official docs and examples](https://prometheus.io/docs/introduction/overview/)` or by searching in the `[users](https://groups.google.com/forum/#!forum/prometheus-users)` or `[devs](https://groups.google.com/forum/#!forum/prometheus-developers)` groups.<br/>
 The #prometheus `[IRC channel ](https://webchat.freenode.net/?channels=prometheus)` is also a great place to  mix up with the community. (don't be afraid to answers few questions while waiting) `:+1:`.

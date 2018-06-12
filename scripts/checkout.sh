@@ -7,8 +7,11 @@ Usage:
   $me [ options ] <repository> [ <refspec> ]
 
 Options:
-  -d <directory>  Remote directory name of the sparse-checlout. Default: docs/
+  -d <directory>  Remote directory name of the sparse-checkout. Default: docs/
   -t <path>       Target path of the checkout. Default: repository basename
+
+Example:
+ ./checkout.sh https://github.com/prometheus/docs.git
 EOF
 
 exit 1

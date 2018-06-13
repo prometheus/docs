@@ -180,7 +180,7 @@ separate exporters are needed:
 
    * [Ceph](http://docs.ceph.com/docs/master/mgr/prometheus/)
    * [Collectd](https://collectd.org/wiki/index.php/Plugin:Write_Prometheus)
-   * [Concourse](https://concourse.ci/)
+   * [Concourse](https://concourse-ci.org/)
    * [CRG Roller Derby Scoreboard](https://github.com/rollerderby/scoreboard) (**direct**)
    * [Docker Daemon](https://docs.docker.com/engine/reference/commandline/dockerd/#daemon-metrics)
    * [Doorman](https://github.com/youtube/doorman) (**direct**)

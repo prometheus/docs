@@ -83,7 +83,7 @@ data_sources:
       name: '2.2'
       repository: https://github.com/prometheus/prometheus.git
       refspec: release-2.2
-      canonical: /docs/prometheus/2.2/
+      canonical: /docs/prometheus/latest/
   -
     type: repo_docs
     items_root: /docs/prometheus/2.1/

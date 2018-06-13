@@ -42,7 +42,7 @@ function resetSVG() {
     .attr("width", diameter)
     .attr("height", diameter - 150)
     .append("g")
-    .attr("transform", "translate(" + diameter / 2 + "," + (diameter / 2 - 200) + ")");
+    .attr("transform", "translate(" + diameter / 2 + "," + (diameter / 2) + ")");
 }
 
 // Click handler for reading config.yml

@@ -178,6 +178,7 @@ possible.
 Some third-party software exposes metrics in the Prometheus format, so no
 separate exporters are needed:
 
+   * [Ballerina](https://ballerina.io/)
    * [Ceph](http://docs.ceph.com/docs/master/mgr/prometheus/)
    * [Collectd](https://collectd.org/wiki/index.php/Plugin:Write_Prometheus)
    * [Concourse](https://concourse-ci.org/)

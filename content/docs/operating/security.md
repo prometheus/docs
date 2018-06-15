@@ -106,7 +106,7 @@ If using a client-library-provided HTTP handler, it should not be possible for
 malicious requests that reach that handler to cause issues beyond those
 resulting from additional load and failed scrapes.
 
-## Authentication/Authorisation/Encryption
+## Authentication, Authorisation, and Encryption
 
 Prometheus and its components do not provide any server-side
 authentication, authorisation or encryption. If you require this, it is

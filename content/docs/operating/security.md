@@ -14,7 +14,8 @@ attack vectors that some configurations may enable.
 
 As with any complex systems it is not possible to guarantee that there are no
 bugs. If you find a security bug, please file it in the issue tracker of the
-relevant component.
+relevant component. If you prefer to report privately, please do so to the
+maintainers listed in the MAINTAINERS.md of the relevant repository.
 
 ### Prometheus
 
@@ -111,6 +112,28 @@ resulting from additional load and failed scrapes.
 Prometheus and its components do not provide any server-side
 authentication, authorisation or encryption. If you require this, it is
 recommended to use a reverse proxy.
+
+As administrative and mutating endpoints are intended to be accessed via simple
+tools such as cURL, there is no built in
+[CSRF](https://en.wikipedia.org/wiki/Cross-site_request_forgery) protection as
+that would break such use cases. Accordingly when using a reverse proxy, you
+may wish to block such paths to prevent CSRF.
+
+For non-mutating endpoints, you may wish to set [CORS
+headers](https://fetch.spec.whatwg.org/#http-cors-protocol) such as
+`Access-Control-Allow-Origin` in your reverse proxy to prevent
+[XSS](https://en.wikipedia.org/wiki/Cross-site_scripting).
+
+If you are composing PromQL queries that include input from untrusted users
+(e.g. URL paramaters to console templates, or something you built yourself) who
+are not meant to be able to run aribtrary PromQL queries make sure any
+untrusted input is appropriately escaped to prevent injection attacks. For
+example `up{job="<user_input>"}` would become `up{job=""} or
+some_metric{zzz=""}` if the `<user_input>` was `"} or some_metric{zzz="`.
+
+For those using Grafana note that [dashboard permissions are not data source
+permissions](http://docs.grafana.org/administration/permissions/#data-source-permissions),
+so do not limit a user's ability to run arbitrary queries in proxy mode.
 
 Various Prometheus components support client-side authentication and
 encryption. If TLS client support is offered, there is often also an option

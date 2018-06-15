@@ -106,7 +106,7 @@ If using a client-library-provided HTTP handler, it should not be possible for
 malicious requests that reach that handler to cause issues beyond those
 resulting from additional load and failed scrapes.
 
-## Authentication, Authorisation, and Encryption
+## Authentication, Authorization, and Encryption
 
 Prometheus and its components do not provide any server-side
 authentication, authorisation or encryption. If you require this, it is
@@ -165,6 +165,6 @@ pre-built binaries provided by the project.
 ## External audits
 
 [CNCF](https://cncf.io) sponsored an external security audit by
-[cure53](https://cure53.de) which ran from April 2018 to June 2018. You can
-find the final report of the audit
-[here](assets/downloads/2018-06-11--cure53_security_audit.pdf).
+[cure53](https://cure53.de) which ran from April 2018 to June 2018. The results
+cab be found in the
+[final report of the audit](assets/downloads/2018-06-11--cure53_security_audit.pdf).

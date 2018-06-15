@@ -25,10 +25,10 @@ the following format:
       ...
     },
     "annotations": {
-      "<labelname>": "<labelvalue>",
+      "<annotationname>": "<annotationvalue>",
     },
     "startsAt": "<rfc3339>",
-    "endsAt": "<rfc3339>"
+    "endsAt": "<rfc3339>",
     "generatorURL": "<generator_url>"
   },
   ...

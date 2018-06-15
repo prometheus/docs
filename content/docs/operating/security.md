@@ -161,3 +161,9 @@ members of the Prometheus development team and the staff of those providers
 have access. If you are concerned about the exact provenance of your binaries,
 it is recommended to build them yourself rather than relying on the
 pre-built binaries provided by the project.
+
+## External audits
+
+CNCF sponsored an external security audit by cure53 which ran from April 2018
+to June 2018. You can find the final report of the audit
+[here](assets/downloads/2018-06-11--cure53_security_audit.pdf).

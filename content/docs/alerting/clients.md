@@ -25,7 +25,7 @@ the following format:
       ...
     },
     "annotations": {
-      "<annotationname>": "<annotationvalue>",
+      "<labelname>": "<labelvalue>",
     },
     "startsAt": "<rfc3339>",
     "endsAt": "<rfc3339>",

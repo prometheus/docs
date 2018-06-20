@@ -162,7 +162,7 @@ Now we restart our Prometheus server to activate our new job.
 
 Go to the expression browser and verify that Prometheus now has information
 about the time series that this endpoint exposes. Navigate to
-http://localhost:9090/graph and use the dropdown next to the "Execute" button to see a list of metrics this server is collecting. In the list you'll see a number of metrics prefixed with `node_`, that have been collected by the Node Exporter by our `node` job. For example, you can see the node's CPU usage via the `node_cpu` metric. 
+http://localhost:9090/graph and use the dropdown next to the "Execute" button to see a list of metrics this server is collecting. In the list you'll see a number of metrics prefixed with `node_`, that have been collected by the Node Exporter by our `node` job. For example, you can see the node's CPU usage via the `node_cpu_seconds_total` or `node_exporter_build_info` metric. 
 
 One useful metric to look for is the `up` metric. The `up` metric can be used to track the status of the target. If the metric has a value of `1` then the scrape of the target was successful, if `0` it failed. This can help give you an indication of the status of the target. You'll see two `up` metrics, one for each target we're scraping: the Prometheus server and the Node Exporter.
 

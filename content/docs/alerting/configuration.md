@@ -601,10 +601,12 @@ endpoint:
   "externalURL": <string>,  // backlink to the Alertmanager.
   "alerts": [
     {
+      "status": "<resolved|firing>",
       "labels": <object>,
       "annotations": <object>,
       "startsAt": "<rfc3339>",
-      "endsAt": "<rfc3339>"
+      "endsAt": "<rfc3339>",
+      "generatorURL": <string> // identifies the entity that caused the alert
     },
     ...
   ]

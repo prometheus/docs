@@ -19,10 +19,10 @@ utilized in the Prometheus server. We plan on making use of this
 metadata in the future. The first step is to aggregate this data in-memory
 in Prometheus and provide it via an experimental API endpoint.
 
-### Prometheus metrics format as a standard
+### Adopt OpenMetrics
 
-We intend to submit a cleaned up version of our format for standardization
-to a group such as the IETF.
+The OpenMetrics working group is developing a new standard for metric exposition.
+We plan to support this format in our client libraries and Prometheus itself.
 
 ### Backfill time series
 

@@ -86,24 +86,24 @@ tab.
 
 As you can gather from http://localhost:9090/metrics, one metric that
 Prometheus exports about itself is called
-`http_requests_total` (the total number of HTTP requests the Prometheus server has made). Go ahead and enter this into the expression console:
+`promhttp_metric_handler_requests_total` (the total number of scrapes the Prometheus server has made). Go ahead and enter this into the expression console:
 
 ```
-http_requests_total
+promhttp_metric_handler_requests_total
 ```
 
-This should return a number of different time series (along with the latest value recorded for each), all with the metric name `http_requests_total`, but with different labels. These labels designate different types of requests.
+This should return a number of different time series (along with the latest value recorded for each), all with the metric name `promhttp_metric_handler_requests_total`, but with different labels. These labels designate different requests statuses.
 
 If we were only interested in requests that resulted in HTTP code `200`, we could use this query to retrieve that information:
 
 ```
-http_requests_total{code="200"}
+promhttp_metric_handler_requests_total{code="200"}
 ```
 
 To count the number of returned time series, you could write:
 
 ```
-count(http_requests_total)
+count(promhttp_metric_handler_requests_total)
 ```
 
 For more about the expression language, see the
@@ -113,10 +113,10 @@ For more about the expression language, see the
 
 To graph expressions, navigate to http://localhost:9090/graph and use the "Graph" tab.
 
-For example, enter the following expression to graph the per-second HTTP request rate happening in the self-scraped Prometheus:
+For example, enter the following expression to graph the per-second HTTP request rate returning status code 200 happening in the self-scraped Prometheus:
 
 ```
-rate(http_requests_total[1m])
+rate(promhttp_metric_handler_requests_total{code="200"}[1m])
 ```
 
 You can experiment with the graph range parameters and other settings.

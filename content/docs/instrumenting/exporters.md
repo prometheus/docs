@@ -216,6 +216,8 @@ practices.
    * Go: [go-metrics instrumentation library](https://github.com/armon/go-metrics)
    * Go: [gokit](https://github.com/peterbourgon/gokit)
    * Go: [prombolt](https://github.com/mdlayher/prombolt)
+   * Java/JVM: [EclipseLink metrics collector](https://github.com/VitaNuova/eclipselinkexporter)
    * Java/JVM: [Hystrix metrics publisher](https://github.com/ahus1/prometheus-hystrix)
+   * Java/JVM: [Jersey metrics collector](https://github.com/VitaNuova/jerseyexporter)
    * Python-Django: [django-prometheus](https://github.com/korfuri/django-prometheus)
    * Node.js: [swagger-stats](https://github.com/slanatech/swagger-stats)

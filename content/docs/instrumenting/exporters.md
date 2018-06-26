@@ -219,3 +219,5 @@ practices.
    * Java/JVM: [Hystrix metrics publisher](https://github.com/ahus1/prometheus-hystrix)
    * Python-Django: [django-prometheus](https://github.com/korfuri/django-prometheus)
    * Node.js: [swagger-stats](https://github.com/slanatech/swagger-stats)
+   * Java/JVM: [EclipseLink metrics publisher](https://github.com/VitaNuova/eclipselinkexporter)
+   * Java/JVM: [Jersey metrics publisher](https://github.com/VitaNuova/jerseyexporter)

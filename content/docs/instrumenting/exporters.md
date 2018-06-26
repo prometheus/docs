@@ -221,4 +221,3 @@ practices.
    * Java/JVM: [Jersey metrics collector](https://github.com/VitaNuova/jerseyexporter)
    * Python-Django: [django-prometheus](https://github.com/korfuri/django-prometheus)
    * Node.js: [swagger-stats](https://github.com/slanatech/swagger-stats)
-  

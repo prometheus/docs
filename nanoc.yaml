@@ -61,6 +61,16 @@ data_sources:
     # The encoding to use for input files. If your input files are not in
     # UTF-8 (which they should be!), change this.
     encoding: utf-8
+
+  # Alertmanager documentation (/docs/alerting)
+  - type: repo_docs
+    items_root: /docs/alerting/latest/
+    config:
+      name: 'latest (0.16)'
+      repository: https://github.com/prometheus/alertmanager.git
+      refspec: release-0.16
+
+  # Prometheus documentation (/docs/prometheus)
   -
     type: repo_docs
     items_root: /docs/prometheus/latest/

@@ -108,6 +108,13 @@ write into a format the other system can understand.
 
 A remote write endpoint is what Prometheus talks to when doing a remote write.
 
+### Sample
+
+A sample is the smallest unit of time series data in Prometheus. Each sample consists of:
+
+* A float64 value
+* A millisecond-precision timestamp
+
 ### Silence
 
 A silence in the Alertmanager prevents alerts, with labels matching the silence, from

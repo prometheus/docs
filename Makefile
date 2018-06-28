@@ -1,12 +1,15 @@
 DOWNLOADS := prometheus alertmanager blackbox_exporter consul_exporter graphite_exporter haproxy_exporter memcached_exporter mysqld_exporter node_exporter pushgateway statsd_exporter
 
-build: clean downloads compile
+build: clean downloads clone-docs compile
 
 clean:
 	rm -rf output downloads repositories
 
 compile:
 	bundle exec nanoc
+
+clone-docs:
+	scripts/clone-docs.sh
 
 downloads: $(DOWNLOADS:%=downloads/%/repo.json) $(DOWNLOADS:%=downloads/%/releases.json)
 

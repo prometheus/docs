@@ -62,55 +62,6 @@ data_sources:
     # UTF-8 (which they should be!), change this.
     encoding: utf-8
   -
-    type: repo_docs
-    items_root: /docs/prometheus/latest/
-    config:
-      name: 'latest (2.3)'
-      repository: https://github.com/prometheus/prometheus.git
-      refspec: release-2.3
-  -
-    type: repo_docs
-    items_root: /docs/prometheus/2.3/
-    config:
-      name: '2.3'
-      repository: https://github.com/prometheus/prometheus.git
-      refspec: release-2.3
-      canonical: /docs/prometheus/latest/
-  -
-    type: repo_docs
-    items_root: /docs/prometheus/2.2/
-    config:
-      name: '2.2'
-      repository: https://github.com/prometheus/prometheus.git
-      refspec: release-2.2
-      canonical: /docs/prometheus/latest/
-  -
-    type: repo_docs
-    items_root: /docs/prometheus/2.1/
-    config:
-      name: '2.1'
-      repository: https://github.com/prometheus/prometheus.git
-      refspec: release-2.1
-      canonical: /docs/prometheus/latest/
-  -
-    type: repo_docs
-    items_root: /docs/prometheus/2.0/
-    config:
-      name: '2.0'
-      repository: https://github.com/prometheus/prometheus.git
-      refspec: release-2.0
-      canonical: /docs/prometheus/latest/
-      outdated: /docs/prometheus/latest/
-  -
-    type: repo_docs
-    items_root: /docs/prometheus/1.8/
-    config:
-      name: '1.8'
-      repository: https://github.com/prometheus/prometheus.git
-      refspec: release-1.8
-      canonical: /docs/prometheus/latest/
-      outdated: /docs/prometheus/latest/
-  -
     type: static
     items_root: /assets/
 

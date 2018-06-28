@@ -13,7 +13,7 @@ establish the actual format to use. A server will prefer receiving the
 protocol-buffer format, and will fall back to the text-based format if the
 client does not support the former.
 
-NOTE: **NOTE:** Prometheus 2.0 removed support for the protocol-buffer format
+NOTE: Prometheus 2.0 removed support for the protocol-buffer format
 and only supports the text-based format.
 
 The majority of users should use the existing [client libraries](/docs/instrumenting/clientlibs/)

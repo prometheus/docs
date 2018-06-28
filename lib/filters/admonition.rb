@@ -28,6 +28,7 @@ class AdmonitionFilter < Nanoc::Filter
   def generate(kind, content)
     %[<div class="admonition-wrapper #{kind}">] +
     %[<div class="admonition alert alert-#{BOOSTRAP_MAPPING[kind]}">] +
+    "<strong>#{kind.upcase}:</strong> " +
     content +
     %[</div></div>]
   end

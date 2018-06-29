@@ -11,7 +11,11 @@ tmp/
 # Crash Log
 crash.log
 
-# OS X file
-static/.DS_Store
+# macOS artifacts
+.DS_Store
 
 prometheus_rsa
+
+# Ruby artifacts
+.bundle/
+vendor/

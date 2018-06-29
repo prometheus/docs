@@ -15,12 +15,12 @@ As a guideline, please keep the documentation generally applicable and avoid use
 
 ## Prerequisites
 
-You need to have a working Ruby environment set up and then install the
-necessary gems:
+You need to have a working Ruby environment set up (including [bundler](https://bundler.io/))
+and then install the necessary gems:
 
 ```bash
 cd docs
-bundle
+make bundle
 ```
 
 ## Building
@@ -39,9 +39,9 @@ To run a local server that displays the generated site, run:
 
 ```bash
 # Rebuild the site whenever relevant files change:
-bundle exec guard
-# Start the local development server:
-bundle exec nanoc view
+make guard
+# Start the local development server in a separate shell:
+make serve
 ```
 
 You should now be able to view the generated site at

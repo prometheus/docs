@@ -63,7 +63,7 @@ The current team members are:
 * Matthias Rampke
 * Max Inden
 * Richard Hartmann
-* Simon Pasquer
+* Simon Pasquier
 * Steve Durrheimer
 * Stuart Nelson
 * Tobias Schmidt

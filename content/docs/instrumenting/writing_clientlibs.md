@@ -312,15 +312,8 @@ descriptions, to lead by example.
 
 ## Exposition
 
-Clients MUST implement one of the documented [exposition
-formats](/docs/instrumenting/exposition_formats).
-
-Clients MAY implement more than one format. There SHOULD be a human readable
-format offered.
-
-If in doubt, go for the text format. It doesn’t have a dependency (protobuf),
-tends to be easy to produce, is human readable and the performance benefits of
-protobuf are not that significant for most use cases.
+Clients MUST implement the text-based exposition format outlined in the
+[exposition formats](/docs/instrumenting/exposition_formats) documentation.
 
 Reproducible order of the exposed metrics is ENCOURAGED (especially for human
 readable formats) if it can be implemented without a significant resource cost.
@@ -368,12 +361,12 @@ unit-test their use of the instrumentation code. For example, the
 ## Packaging and dependencies
 
 Ideally, a client library can be included in any application to add some
-instrumentation, without having to worry about it breaking the application.
+instrumentation without breaking the application.
 
 Accordingly, caution is advised when adding dependencies to the client library.
-For example, if a user adds a library that uses a Prometheus client that
-requires version 1.4 of protobuf but the application uses 1.2 elsewhere, what
-will happen?
+For example, if you add a library that uses a Prometheus client that requires
+version x.y of a library but the application uses x.z elsewhere, will that have
+an adverse impact on the application?
 
 It is suggested that where this may arise, that the core instrumentation is
 separated from the bridges/exposition of metrics in a given format. For

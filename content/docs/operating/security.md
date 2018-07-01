@@ -167,10 +167,10 @@ pre-built binaries provided by the project.
 [CNCF](https://cncf.io) sponsored an external security audit by
 [cure53](https://cure53.de) which ran from April 2018 to June 2018.
 
-The audit found no major concerns outside of the scope of this document. It
-re-iterated on the importance of following what is layed out here.
+The audit found concerns regarding Prometheus' secrity model, but following
+what is layed out in this document should guard against most of them.
+In particular, the CORS (PRM-01-001) and CSRF (PRM-01-003) attack vectors might
+be non-obvious.
 
 For more details, please read the
 [final report of the audit](assets/downloads/2018-06-11--cure53_security_audit.pdf).
-
-

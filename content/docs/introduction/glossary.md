@@ -122,3 +122,4 @@ being included in notifications.
 ### Target
 
 A target is the definition of an object to scrape. For example, what labels to apply, any authentication required to connect, or other information that defines how the scrape will occur.
+

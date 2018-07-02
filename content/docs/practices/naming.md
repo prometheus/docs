@@ -56,7 +56,7 @@ Use labels to differentiate the characteristics of the thing that is being measu
 Do not put the label names in the metric name, as this introduces redundancy
 and will cause confusion if the respective labels are aggregated away.
 
-CAUTION: **CAUTION:** Remember that every unique combination of key-value label
+CAUTION: Remember that every unique combination of key-value label
 pairs represents a new time series, which can dramatically increase the amount
 of data stored. Do not use labels to store dimensions with high cardinality
 (many different label values), such as user IDs, email addresses, or other

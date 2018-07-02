@@ -82,8 +82,8 @@ In the sample syntax:
 
 *  `metric_name` and `label_name` carry the usual Prometheus expression language restrictions.
 * `label_value` can be any sequence of UTF-8 characters, but the backslash (`\`, double-quote (`"`}, and line feed (`\n`) characters have to be escaped as `\\`, `\"`, and `\n`, respectively.
-* `value` is a float.
-* the `timestamp` is an `int64` (milliseconds since epoch, i.e. 1970-01-01 00:00:00 UTC, excluding leap seconds), represented as required by the [Go strconv package](http://golang.org/pkg/strconv/) (see functions [`ParseInt`](https://golang.org/pkg/strconv/#ParseInt) and [`ParseFloat`](https://golang.org/pkg/strconv/#ParseFloat)). In addition to standard integers, `Nan`, `+Inf`, and `-Inf` are valid values representing not a number, positive infinity, and negative infinity, respectively.
+* `value` is a float represented as required by Go's [`ParseFloat()`](https://golang.org/pkg/strconv/#ParseFloat) function. In addition to standard numerical values, `Nan`, `+Inf`, and `-Inf` are valid values representing not a number, positive infinity, and negative infinity, respectively.
+* The `timestamp` is an `int64` (milliseconds since epoch, i.e. 1970-01-01 00:00:00 UTC, excluding leap seconds), represented as required by Go's [`ParseInt()`](https://golang.org/pkg/strconv/#ParseInt) function.
 
 #### Grouping and sorting
 

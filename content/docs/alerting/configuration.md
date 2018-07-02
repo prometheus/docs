@@ -627,7 +627,7 @@ API](http://admin.wechat.com/wiki/index.php?title=Customer_Service_Messages).
 [ send_resolved: <boolean> | default = false ]
 
 # The API key to use when talking to the WeChat API.
-[ api_secret: <secret> | default = global.wechat_secret_url ]
+[ api_secret: <secret> | default = global.wechat_api_secret ]
 
 # The WeChat API URL.
 [ api_url: <string> | default = global.wechat_api_url ]

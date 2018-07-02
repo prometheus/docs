@@ -10,7 +10,7 @@ exposition format. There's a variety of [client libraries](/docs/instrumenting/c
 that implement this format for you. If your preferred language doesn't have a client
 library you can [create your own](/docs/instrumenting/writing_clientlibs/).
 
-NOTE: **NOTE** Some earlier versions of Prometheus supported an exposition format based on
+NOTE: Some earlier versions of Prometheus supported an exposition format based on
 [Protocol Buffers](https://developers.google.com/protocol-buffers/) (aka Protobuf) in
 addition to the current text-based format. As of version 2.0, however, Prometheus no
 longer supports the Protobuf-based format. You can read about the reasoning behind

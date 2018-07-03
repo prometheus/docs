@@ -81,8 +81,9 @@ templating.
 | Name          | Arguments     | Returns  | Notes    |
 | ------------- | ------------- | -------- | -------- |
 | title | string |[strings.Title](http://golang.org/pkg/strings/#Title), capitalises first character of each word. |
-| join | sep string, s []string | [strings.Join](http://golang.org/pkg/strings/#Join), concatenates the elements of s to create a single string. The separator string sep is placed between elements in the resulting string. (note: argument order inverted for easier pipelining in templates.) |
 | toUpper | string | [strings.ToUpper](http://golang.org/pkg/strings/#ToUpper), converts all characters to upper case. |
 | toLower | string | [strings.ToLower](http://golang.org/pkg/strings/#ToLower), converts all characters to lower case. |
+| match | pattern, string | [Regexp.MatchString](https://golang.org/pkg/regexp/#MatchString). Match a string using Regexp. |
+| reReplaceAll | pattern, replacement, text | [Regexp.ReplaceAllString](http://golang.org/pkg/regexp/#Regexp.ReplaceAllString) Regexp substitution, unanchored. |
+| join | sep string, s []string | [strings.Join](http://golang.org/pkg/strings/#Join), concatenates the elements of s to create a single string. The separator string sep is placed between elements in the resulting string. (note: argument order inverted for easier pipelining in templates.) |
 | safeHtml | text string | [html/template.HTML](https://golang.org/pkg/html/template/#HTML), Marks string as HTML not requiring auto-escaping. |
-|reReplaceAll | pattern, replacement, text | [Regexp.ReplaceAllString](http://golang.org/pkg/regexp/#Regexp.ReplaceAllString) Regexp substitution, unanchored. |

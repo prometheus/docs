@@ -4,25 +4,17 @@ title: Slack notifications
 
 # Setting up Slack notifications
 
-The Prometheus [AlertManager](../../alerting/overview) can be used to post notifications to [Slack](https://slack.com) channels.
+The Prometheus [AlertManager](../../alerting/overview) can be used to post notifications to a variety of targets, including [Slack](https://slack.com) channels. This guide walks you through adding a [webhook](https://api.slack.com/incoming-webhooks) to an existing Slack app, configuring [Alertmanager](#alertmanager) to post to the webhook, and finally configuring [Prometheus](#prometheus) to send templatized messages to Alertmanager.
 
 ## Scenario
 
-You've created a Slack app for your startup 
-
-* https://hooks.slack.com/services/abc/123/def
-
-CAUTION: You should make sure to always keep your Slack webhook URLs secret.
-
-## Set up a Slack webhook
-
-To set up an incoming webhook in Slack, go to the incoming webhooks page associated with your app, which is located at:
+Let's say that you've created a Slack app and a channel on that app called `#ops`. To set up Prometheus/Alertmanager notifications to that channel, you first need to create an incoming [webhook](https://api.slack.com/incoming-webhooks) for the app. Navigate to the webhooks page associated with your app, which is located at:
 
 ```
 https://<your-slack-app>.slack.com/apps/A0F7XDUAZ-incoming-webhooks
 ```
 
-Click on **Add Configuration** to add a new webhook. Under **Post to Channel**, select the channel for which you'd like to create the webhook (or click **create a new channel** if it doesn't already exist). When you click **Create** you'll be brought to a success page that provides you with a webhook URL with this basic format:
+Click on **Add Configuration** to add a new webhook. Under **Post to Channel**, select the channel for which you'd like to create the webhook (or click **Create a new channel** if it doesn't already exist). When you click **Create** you'll be brought to a success page that provides you with a webhook URL with this basic format:
 
 ```
 https://hooks.slack.com/services/.../.../...
@@ -30,15 +22,18 @@ https://hooks.slack.com/services/.../.../...
 
 This webhook URL is the unique "address" to which the Prometheus Alertmanager will send notifications. Make sure to save this URL as you'll need it when [configuring AlertManager](#alertmanager).
 
+CAUTION: Make sure to always **keep your Slack webhook URLs secret**. Webhooks don't require an API key or any authentication information, instead relying on the obscurity of the URL to provide security.
+
 ### Alertmanager
+
+
 
 [Run](/docs/alerting/configuration/)
 
 
-Here's an example config file:
+Here's an example config file (at `./prometheus.yml`):
 
 ```yaml
-# alertmanager.yml
 route:
 - receiver: slack_ops_channel
   group_by: [cluster]
@@ -46,15 +41,14 @@ route:
 receivers:
 - name: slack_ops_channel
   slack_configs:
-  - api_url: https://hooks.slack.com/services/...
+  - api_url: https://hooks.slack.com/services/.../.../...
     channel: '#ops'
     text: ''
 ```
 
-Alternative, you can set the Slack URL as a `global` parameter:
+Alternatively, you can set the Slack URL as a `global` parameter:
 
 ```yaml
-# alertmanager.yml
 global:
   slack_api_url: https://hooks.slack.com/services/...
 
@@ -63,6 +57,12 @@ receivers:
   slack_configs:
   - channel: '#ops'
 ```
+
+```bash
+alertmanager --config.file=./alertmanager.yml
+```
+
+
 ### Prometheus
 
 [Run](/docs/introduction/first_steps)
@@ -80,7 +80,7 @@ alerting:
 
 ## Multiple Slack channels
 
-```
+```yaml
 route:
   routes:
   - match:
@@ -102,6 +102,7 @@ receivers:
 [Configurable parameters](/docs/alerting/configuration/#<slack_config>)
 
 ## Messages from templates
+
 
 
 Alert:

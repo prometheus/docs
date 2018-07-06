@@ -57,7 +57,7 @@ go_gc_duration_seconds{quantile="0.5"} 5.846e-05
 Success! The Node Exporter is now exposing metrics that Prometheus can scrape, including a wide variety of system metrics further down in the output (prefixed with `node_`). To view those metrics (along with help and type information):
 
 ```bash
-curl http://localhost:9100/metrics | grep "node_*"
+curl http://localhost:9100/metrics | grep "node_"
 ```
 
 ## Configuring your Prometheus instances

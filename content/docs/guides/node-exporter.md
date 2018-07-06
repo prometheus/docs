@@ -1,21 +1,21 @@
 ---
-title: Monitoring Linux host metrics with the node exporter
+title: Monitoring Linux host metrics with the Node Exporter
 ---
 
-# Monitoring Linux host metrics with the node exporter
+# Monitoring Linux host metrics with the Node Exporter
 
-The Prometheus [**node exporter**](https://github.com/prometheus/node_exporter) exposes a wide variety of hardware- and kernel-related metrics.
+The Prometheus [**Node Exporter**](https://github.com/prometheus/node_exporter) exposes a wide variety of hardware- and kernel-related metrics.
 
 In this guide, you will:
 
-* Start up a node exporter on `localhost`
-* Start up a Prometheus instance on `localhost` that's configured to scrape metrics from the running node exporter
+* Start up a Node Exporter on `localhost`
+* Start up a Prometheus instance on `localhost` that's configured to scrape metrics from the running Node Exporter
 
-NOTE: While the Prometheus node exporter is for *nix systems, there is a [WMI exporter](https://github.com/martinlindhe/wmi_exporter) for Windows that serves an analogous purpose.
+NOTE: While the Prometheus Node Exporter is for *nix systems, there is a [WMI exporter](https://github.com/martinlindhe/wmi_exporter) for Windows that serves an analogous purpose.
 
-## Installing and running the node exporter
+## Installing and running the Node Exporter
 
-The Prometheus node exporter is a single static binary that you can install [via tarball](#tarball-installation). You can [download](/downloads#node_exporter) page, extract it, and run it:
+The Prometheus Node Exporter is a single static binary that you can install [via tarball](#tarball-installation). You can [download](/downloads#node_exporter) page, extract it, and run it:
 
 ```bash
 wget https://github.com/prometheus/node_exporter/releases/download/v*/node_exporter-*.*-amd64.tar.gz
@@ -24,7 +24,7 @@ cd node_exporter-*.*-amd64
 ./node_exporter
 ```
 
-You should see output like this indicating that the node exporter is now running and exposing metrics on port 9100:
+You should see output like this indicating that the Node Exporter is now running and exposing metrics on port 9100:
 
 ```
 INFO[0000] Starting node_exporter (version=0.16.0, branch=HEAD, revision=d42bd70f4363dced6b77d8fc311ea57b63387e4f)  source="node_exporter.go:82"
@@ -35,9 +35,9 @@ INFO[0000]  - boottime                                   source="node_exporter.g
 INFO[0000] Listening on :9100                            source="node_exporter.go:111"
 ```
 
-## Node exporter metrics
+## Node Exporter metrics
 
-Once the node exporter is installed and running, you can verify that metrics are being exported by cURLing the `/metrics` endpoint:
+Once the Node Exporter is installed and running, you can verify that metrics are being exported by cURLing the `/metrics` endpoint:
 
 ```bash
 curl http://localhost:9100/metrics
@@ -54,7 +54,7 @@ go_gc_duration_seconds{quantile="0.5"} 5.846e-05
 # etc.
 ```
 
-Success! The node exporter is now exposing metrics that Prometheus can scrape, including a wide variety of system metrics further down in the output (prefixed with `node_`). To view those metrics (along with help and type information):
+Success! The Node Exporter is now exposing metrics that Prometheus can scrape, including a wide variety of system metrics further down in the output (prefixed with `node_`). To view those metrics (along with help and type information):
 
 ```bash
 curl http://localhost:9100/metrics | grep "node_*"
@@ -62,7 +62,7 @@ curl http://localhost:9100/metrics | grep "node_*"
 
 ## Configuring your Prometheus instances
 
-Your locally running Prometheus instance needs to be properly configured in order to access node exporter metrics. The following [`scrape_config`](../prometheus/latest/configuration/configuration/#<scrape_config>) block will tell Prometheus that scrape from the node exporter via `localhost:9100`:
+Your locally running Prometheus instance needs to be properly configured in order to access Node Exporter metrics. The following [`scrape_config`](../prometheus/latest/configuration/configuration/#<scrape_config>) block will tell Prometheus that scrape from the Node Exporter via `localhost:9100`:
 
 ```yaml
 scrape_configs:
@@ -84,13 +84,13 @@ Once Prometheus is installed you can start it up, using the `--config.file` flag
 ./prometheus --config.file=./prometheus.yml
 ```
 
-## Exploring node exporter metrics through the Prometheus expression browser
+## Exploring Node Exporter metrics through the Prometheus expression browser
 
-Now that Prometheus is scraping metrics from a running node exporter instance, you can explore those metrics using the Prometheus UI (aka the [expression browser](/docs/visualization/expression-browser)). Navigate to `localhost:9090/graph` in your browser and use the main expression bar at the top of the page to enter expressions, which looks like this:
+Now that Prometheus is scraping metrics from a running Node Exporter instance, you can explore those metrics using the Prometheus UI (aka the [expression browser](/docs/visualization/expression-browser)). Navigate to `localhost:9090/graph` in your browser and use the main expression bar at the top of the page to enter expressions, which looks like this:
 
 ![](/assets/prometheus-expression-bar.png)
 
-Metrics specific to the node exporter are prefixed with `node_` and include metrics like `node_cpu_seconds_total` and `node_exporter_build_info`.
+Metrics specific to the Node Exporter are prefixed with `node_` and include metrics like `node_cpu_seconds_total` and `node_exporter_build_info`.
 
 Click on the links below to see some example metrics:
 

@@ -94,7 +94,8 @@ Metrics specific to the node exporter are prefixed with `node_` and include metr
 
 Click on the links below to see some example metrics:
 
-* [`node_cpu_seconds_total{mode="system"}`](http://localhost:9090/graph?g0.range_input=1h&g0.expr=node_cpu_seconds_total%7Bmode%3D%22system%22%7D&g0.tab=1)
-* [`node_filesystem_avail_bytes`](http://localhost:9090/graph?g0.range_input=1h&g0.expr=node_filesystem_avail_bytes&g0.tab=1)
-* [`node_memory_bytes_total`](http://localhost:9090/graph?g0.range_input=1h&g0.expr=node_memory_bytes_total&g0.tab=1)
-* [`node_network_receive_bytes_total`](http://localhost:9090/graph?g0.range_input=1h&g0.expr=node_network_receive_bytes_total&g0.tab=1)
+Metric | Type | Meaning
+:------|:-----|:-------
+[`rate(node_cpu_seconds_total{mode="system"}[1m])`](http://localhost:9090/graph?g0.range_input=1h&g0.expr=rate(node_cpu_seconds_total%7Bmode%3D%22system%22%7D%5B1m%5D)&g0.tab=1) | counter | The number of seconds CPUs have spent in `system` mode in the last minute
+[`node_filesystem_avail_bytes`](http://localhost:9090/graph?g0.range_input=1h&g0.expr=node_filesystem_avail_bytes&g0.tab=1) | gauge | The filesystem space available to non-root users (in bytes)
+[`node_network_receive_bytes_total`](http://localhost:9090/graph?g0.range_input=1h&g0.expr=node_network_receive_bytes_total&g0.tab=1) | counter |

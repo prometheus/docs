@@ -84,42 +84,49 @@ use Prometheus's built-in expression browser, navigate to
 http://localhost:9090/graph and choose the "Console" view within the "Graph"
 tab.
 
-As you can gather from http://localhost:9090/metrics, one metric that
-Prometheus exports about itself is called
-`http_requests_total` (the total number of HTTP requests the Prometheus server has made). Go ahead and enter this into the expression console:
+As you can gather from [localhost:9090/metrics](http://localhost:9090/metrics),
+one metric that Prometheus exports about itself is called
+`prometheus_target_interval_length_seconds` (the actual amount of time between
+target scrapes). Go ahead and enter this into the expression console:
 
 ```
-http_requests_total
+prometheus_target_interval_length_seconds
 ```
 
-This should return a number of different time series (along with the latest value recorded for each), all with the metric name `http_requests_total`, but with different labels. These labels designate different types of requests.
+This should return a number of different time series (along with the latest value
+recorded for each), all with the metric name
+`prometheus_target_interval_length_seconds`, but with different labels. These
+labels designate different latency percentiles and target group intervals.
 
-If we were only interested in requests that resulted in HTTP code `200`, we could use this query to retrieve that information:
+If we were only interested in the 99th percentile latencies, we could use this
+query to retrieve that information:
 
 ```
-http_requests_total{code="200"}
+prometheus_target_interval_length_seconds{quantile="0.99"}
 ```
 
 To count the number of returned time series, you could write:
 
 ```
-count(http_requests_total)
+count(prometheus_target_interval_length_seconds)
 ```
 
 For more about the expression language, see the
-[expression language documentation](/docs/querying/basics/).
+[expression language documentation](querying/basics.md).
 
 ## Using the graphing interface
 
-To graph expressions, navigate to http://localhost:9090/graph and use the "Graph" tab.
+To graph expressions, navigate to http://localhost:9090/graph and use the "Graph"
+tab.
 
-For example, enter the following expression to graph the per-second HTTP request rate happening in the self-scraped Prometheus:
+For example, enter the following expression to graph the per-second rate of chunks 
+being created in the self-scraped Prometheus:
 
 ```
-rate(http_requests_total[1m])
+rate(prometheus_tsdb_head_chunks_created_total[1m])
 ```
 
-You can experiment with the graph range parameters and other settings.
+Experiment with the graph range parameters and other settings.
 
 ## Installing the Node Exporter
 

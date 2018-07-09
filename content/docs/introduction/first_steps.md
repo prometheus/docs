@@ -86,7 +86,7 @@ tab.
 
 As you can gather from http://localhost:9090/metrics, one metric that
 Prometheus exports about itself is called
-`promhttp_metric_handler_requests_total` (the total number of `/metrics` requests the Prometheus server has made). Go ahead and enter this into the expression console:
+`promhttp_metric_handler_requests_total` (the total number of `/metrics` requests the Prometheus server has served). Go ahead and enter this into the expression console:
 
 ```
 promhttp_metric_handler_requests_total

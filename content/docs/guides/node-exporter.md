@@ -15,7 +15,7 @@ NOTE: While the Prometheus Node Exporter is for *nix systems, there is a [WMI ex
 
 ## Installing and running the Node Exporter
 
-The Prometheus Node Exporter is a single static binary that you can install [via tarball](#tarball-installation). You can [download](/downloads#node_exporter) page, extract it, and run it:
+The Prometheus Node Exporter is a single static binary that you can install [via tarball](#tarball-installation). Once you've downloaded it from the Prometheus [downloads page](/downloads#node_exporter) extract it, and run it:
 
 ```bash
 wget https://github.com/prometheus/node_exporter/releases/download/v*/node_exporter-*.*-amd64.tar.gz
@@ -62,8 +62,9 @@ curl http://localhost:9100/metrics | grep "node_"
 
 ## Configuring your Prometheus instances
 
-Your locally running Prometheus instance needs to be properly configured in order to access Node Exporter metrics. The following [`scrape_config`](../prometheus/latest/configuration/configuration/#<scrape_config>) block will tell Prometheus that scrape from the Node Exporter via `localhost:9100`:
+Your locally running Prometheus instance needs to be properly configured in order to access Node Exporter metrics. The following [`scrape_config`](../prometheus/latest/configuration/configuration/#<scrape_config>) block (in a `prometheus.yml` configuration file) will tell the Prometheus instance to scrape from the Node Exporter via `localhost:9100`:
 
+<a id="config"></a>
 ```yaml
 scrape_configs:
 - job_name: 'node'
@@ -71,14 +72,15 @@ scrape_configs:
   - targets: ['localhost:9100']
 ```
 
-To install Prometheus, [download the latest release](/download) for your platform,
+To install Prometheus, [download the latest release](/download) for your platform and untar it:
 
 ```bash
+wget https://github.com/prometheus/prometheus/releases/download/v*/prometheus-*.*-amd64.tar.gz
 tar xvf prometheus-*.*-amd64.tar.gz
 cd prometheus-*.*
 ```
 
-Once Prometheus is installed you can start it up, using the `--config.file` flag to point to the Prometheus configuration that you created:
+Once Prometheus is installed you can start it up, using the `--config.file` flag to point to the Prometheus configuration that you created [above](#config):
 
 ```bash
 ./prometheus --config.file=./prometheus.yml
@@ -86,16 +88,16 @@ Once Prometheus is installed you can start it up, using the `--config.file` flag
 
 ## Exploring Node Exporter metrics through the Prometheus expression browser
 
-Now that Prometheus is scraping metrics from a running Node Exporter instance, you can explore those metrics using the Prometheus UI (aka the [expression browser](/docs/visualization/expression-browser)). Navigate to `localhost:9090/graph` in your browser and use the main expression bar at the top of the page to enter expressions, which looks like this:
+Now that Prometheus is scraping metrics from a running Node Exporter instance, you can explore those metrics using the Prometheus UI (aka the [expression browser](/docs/visualization/expression-browser)). Navigate to `localhost:9090/graph` in your browser and use the main expression bar at the top of the page to enter expressions. The expression bar looks like this:
 
-![](/assets/prometheus-expression-bar.png)
+![Prometheus expressions browser](/assets/prometheus-expression-bar.png)
 
 Metrics specific to the Node Exporter are prefixed with `node_` and include metrics like `node_cpu_seconds_total` and `node_exporter_build_info`.
 
 Click on the links below to see some example metrics:
 
-Metric | Type | Meaning
-:------|:-----|:-------
-[`rate(node_cpu_seconds_total{mode="system"}[1m])`](http://localhost:9090/graph?g0.range_input=1h&g0.expr=rate(node_cpu_seconds_total%7Bmode%3D%22system%22%7D%5B1m%5D)&g0.tab=1) | counter | The number of seconds CPUs have spent in `system` mode in the last minute
-[`node_filesystem_avail_bytes`](http://localhost:9090/graph?g0.range_input=1h&g0.expr=node_filesystem_avail_bytes&g0.tab=1) | gauge | The filesystem space available to non-root users (in bytes)
-[`node_network_receive_bytes_total`](http://localhost:9090/graph?g0.range_input=1h&g0.expr=node_network_receive_bytes_total&g0.tab=1) | counter |
+Metric | Meaning
+:------|:-------
+[`rate(node_cpu_seconds_total{mode="system"}[1m])`](http://localhost:9090/graph?g0.range_input=1h&g0.expr=rate(node_cpu_seconds_total%7Bmode%3D%22system%22%7D%5B1m%5D)&g0.tab=1) | The average number of CPU seconds spent in system per second over the last minute
+[`node_filesystem_avail_bytes`](http://localhost:9090/graph?g0.range_input=1h&g0.expr=node_filesystem_avail_bytes&g0.tab=1) | The filesystem space available to non-root users (in bytes)
+[`rate(node_network_receive_bytes_total[30s])`](http://localhost:9090/graph?g0.range_input=1h&g0.expr=node_network_receive_bytes_total&g0.tab=1) | 

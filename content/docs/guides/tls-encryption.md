@@ -60,7 +60,7 @@ http {
 }
 ```
 
-NOTE: The nginx configuration above is incomplete and intended for example purposes. We recommend consulting the [official nginx documentation](http://nginx.org/en/docs/http/ngx_http_ssl_module.html#ssl_certificate) when configuring nginx for TLS.
+NOTE: The nginx configuration above can be used as-is but is intended for example purposes. We recommend consulting the [official nginx documentation](http://nginx.org/en/docs/http/ngx_http_ssl_module.html) when configuring nginx for TLS, as you may want to enable specific SSL [ciphers](http://nginx.org/en/docs/http/ngx_http_ssl_module.html#ssl_ciphers) and [protocols](http://nginx.org/en/docs/http/ngx_http_ssl_module.html#ssl_protocols).
 
 Start nginx as root (since nginx will need to bind to port 443):
 

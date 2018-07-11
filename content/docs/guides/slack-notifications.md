@@ -4,7 +4,7 @@ title: Slack notifications
 
 # Setting up Slack notifications
 
-The Prometheus [AlertManager](../../alerting/overview) can be used to post notifications to a variety of targets, including [Slack](https://slack.com) channels. This guide walks you through adding a [webhook](https://api.slack.com/incoming-webhooks) to an existing Slack app, configuring [Alertmanager](#alertmanager) to post to the webhook, and finally configuring [Prometheus](#prometheus) to send templatized messages to Alertmanager.
+The Prometheus [AlertManager](../../alerting/overview) can be used to post notifications to a variety of targets, including [Slack](https://slack.com) channels. This guide walks you through adding a [webhook](https://api.slack.com/incoming-webhooks) to an existing Slack app, configuring [Alertmanager](#alertmanager) to post to the webhook, and finally configuring [Prometheus](#prometheus) to send messages to Alertmanager.
 
 ## Scenario
 
@@ -26,25 +26,32 @@ CAUTION: Make sure to always **keep your Slack webhook URLs secret**. Webhooks d
 
 ### Alertmanager
 
+The Prometheus [Alertmanager](/docs/alerting/alertmanager) is responsible for sending notifications to your Slack channel (Prometheus instances don't send those messages directly). 
+
+To install Alertmanager, first copy the proper [download URL](/download#alertmanager) and then download and untar the tarball:
+
+```bash
+wget https://github.com/prometheus/alertmanager/releases/download/v*/alertmanager-*.*-amd64.tar.gz
+tar xvf alertmanager-*.*-amd64.tar.gz && cd alertmanager-*.*-amd64
+```
+
+Here's an example config file (at `./alertmanager.yml`):
 
 
-[Run](/docs/alerting/configuration/)
-
-
-Here's an example config file (at `./prometheus.yml`):
+[config](/docs/alerting/configuration/)
 
 ```yaml
 route:
 - receiver: slack_ops_channel
-  group_by: [cluster]
 
 receivers:
 - name: slack_ops_channel
   slack_configs:
   - api_url: https://hooks.slack.com/services/.../.../...
     channel: '#ops'
-    text: ''
+    text: 'This is a test!'
 ```
+
 
 Alternatively, you can set the Slack URL as a `global` parameter:
 
@@ -58,12 +65,21 @@ receivers:
   - channel: '#ops'
 ```
 
+Now you can run Alertmanager, specifying the configuration file you created above:
+
 ```bash
-alertmanager --config.file=./alertmanager.yml
+./alertmanager --config.file=./alertmanager.yml
 ```
 
 
 ### Prometheus
+
+To install Prometheus, first copy the proper [download URL](/download#prometheus) and then download and untar the tarball:
+
+```bash
+wget https://github.com/prometheus/alertmanager/releases/download/v*/prometheus-*.*-amd64.tar.gz
+tar xvf prometheus-*.*-amd64.tar.gz && cd prometheus-*.*-amd64
+```
 
 [Run](/docs/introduction/first_steps)
 
@@ -101,9 +117,9 @@ receivers:
 
 [Configurable parameters](/docs/alerting/configuration/#<slack_config>)
 
-## Messages from templates
+## Notifications from templates
 
-
+[notification template examples](/docs/alerting/notification_examples)
 
 Alert:
 

@@ -98,6 +98,6 @@ Click on the links below to see some example metrics:
 
 Metric | Meaning
 :------|:-------
-[`rate(node_cpu_seconds_total{mode="system"}[1m])`](http://localhost:9090/graph?g0.range_input=1h&g0.expr=rate(node_cpu_seconds_total%7Bmode%3D%22system%22%7D%5B1m%5D)&g0.tab=1) | The average number of CPU seconds spent in system per second over the last minute
+[`rate(node_cpu_seconds_total{mode="system"}[1m])`](http://localhost:9090/graph?g0.range_input=1h&g0.expr=rate(node_cpu_seconds_total%7Bmode%3D%22system%22%7D%5B1m%5D)&g0.tab=1) | The average number of CPU seconds spent in system, per second, over the last minute
 [`node_filesystem_avail_bytes`](http://localhost:9090/graph?g0.range_input=1h&g0.expr=node_filesystem_avail_bytes&g0.tab=1) | The filesystem space available to non-root users (in bytes)
-[`rate(node_network_receive_bytes_total[30s])`](http://localhost:9090/graph?g0.range_input=1h&g0.expr=node_network_receive_bytes_total&g0.tab=1) | 
+[`rate(node_network_receive_bytes_total[1m])`](http://localhost:9090/graph?g0.range_input=1h&g0.expr=rate(node_network_receive_bytes_total%5B1m%5D)&g0.tab=1) | The average network traffic received, per second, over the last minute (in bytes)

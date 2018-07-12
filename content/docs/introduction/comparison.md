@@ -244,43 +244,39 @@ blackbox probing is sufficient.
 If you want to do whitebox monitoring, or have a dynamic or cloud based
 environment, then Prometheus is a good choice.
 
+From https://prometheus.io/docs/introduction/comparison/
+
 ## Prometheus vs. Sensu
 
-[Sensu](https://sensuapp.org/) is broadly speaking a more modern Nagios.
+[Sensu](https://sensu.io) is a composable monitoring pipeline that can reuse existing Nagios checks.
 
 ### Scope
 
-The same general scope differences as in the case of
-[Nagios](/docs/introduction/comparison/#prometheus-vs-nagios) apply here.
+Sensu checks adhere to the Nagios check specification (https://assets.nagios.com/downloads/nagioscore/docs/nagioscore/3/en/pluginapi.html). Sensu checks operate on two different models: publish and subscribe or standalone. It is possible to silence not just individual checks, but entire subscriptions. 
 
-The primary difference is that Sensu clients [register themselves](https://sensuapp.org/docs/0.27/reference/clients.html#what-is-a-sensu-client),
-and can determine the checks to run either from central or local configuration.
-Sensu does not have a limit on the amount of perfData.
+The primary difference is that Sensu clients [register themselves](https://docs.sensu.io/sensu-core/latest/reference/clients),
+and can determine the checks to run either from central or local configuration. Sensu clients are also able to be automatically deregistered using a number of [plugins](https://github.com/sensu-plugins/sensu-plugins-sensu) and [integrations](https://docs.sensu.io/sensu-enterprise/latest/built-in-handlers/)
 
-There is also a [client socket](https://sensuapp.org/docs/0.27/reference/clients.html#what-is-the-sensu-client-socket) permitting arbitrary check results to be pushed into Sensu.
+There is also a [client socket](https://docs.sensu.io/sensu-core/latest/reference/clients/#what-is-the-sensu-client-socket) permitting ad-hoc check results to be pushed into Sensu. The client socket can also be used as a receiver for alerts generated via applications emitting JSON formatted data, [SNMP traps](https://docs.sensu.io/sensu-core/latest/guides/snmp-sensu-guide/), or serve as a way to [create proxy (just-in-time) clients](https://docs.sensu.io/sensu-core/1.4/reference/clients/#proxy-clients).
 
 ### Data model
 
-Sensu has the same rough data model as [Nagios](/docs/introduction/comparison/#prometheus-vs-nagios).
+Similar to Nagios, Sensu is host-based. The default [Sensu package](https://sensu.io/features/downloads) contains the [`sensu-api` process](https://docs.sensu.io/sensu-core/latest/api/overview/), which allows for programmatic interaction with Sensu. Sensu clients and check are also able make use of custom attributes, which function as tags and labels. These can be queried using the Sensu API.
+
+Some Sensu plugins (https://github.com/sensu-plugins) also perform contact routing-like functions.
 
 ### Storage
 
-Sensu has storage in Redis called stashes. These are used primarily for storing
-silences. It also stores all the clients that have registered with it.
+Sensu uses Redis to persist monitoring data, including the Sensu client registry, check results, check execution history, and current event data. By default, the last 21 check results are stored. Sensu provides a dashboard ([Uchiwa](https://uchiwa.io/#/)) for check data visualization.
 
 ### Architecture
 
-Sensu has a [number of components](https://sensuapp.org/docs/0.27/overview/architecture.html). It uses
+Sensu has a [number of components](https://docs.sensu.io/sensu-core/latest/overview/architecture/). It uses
 RabbitMQ as a transport, Redis for current state, and a separate server for
-processing.
+processing and API access. 
 
-Both RabbitMQ and Redis can be clustered. Multiple copies of the server can be
-run for scaling and redundancy.
+All components of a Sensu deployment (RabbitMQ, Redis, and Sensu Server/API) can be clustered for highly available and redundant configurations. The Sensu Server process, when in a clustered configuration, performs its own internal leader election for check request scheduling and event processing.
 
 ### Summary
-
-If you have an existing Nagios setup that you wish to scale as-is, or want to 
-take advantage of the registration feature of Sensu, then Sensu is a good choice.
-
-If you want to do whitebox monitoring, or have a very dynamic or cloud based
-environment, then Prometheus is a good choice.
+If you have an existing Nagios setup that you wish to scale as-is, or want to take advantage of the automatic registration feature of Sensu, then Sensu is a good choice. 
+If you want to do whitebox monitoring, or have a very dynamic or cloud based environment, then Prometheus is a good choice.

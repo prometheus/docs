@@ -265,16 +265,17 @@ Some Sensu plugins (https://github.com/sensu-plugins) also perform contact routi
 
 ### Storage
 
-Sensu uses Redis to persist monitoring data, including the Sensu client registry, check results, check execution history, and current event data. By default, the last 21 check results are stored. Sensu provides a dashboard ([Uchiwa](https://uchiwa.io/#/)) for check data visualization.
+Sensu uses Redis to persist monitoring data, including the Sensu client registry, check results, check execution history, and current event data.
 
 ### Architecture
 
 Sensu has a [number of components](https://docs.sensu.io/sensu-core/latest/overview/architecture/). It uses
 RabbitMQ as a transport, Redis for current state, and a separate server for
-processing and API access. 
+processing and API access.
 
-All components of a Sensu deployment (RabbitMQ, Redis, and Sensu Server/API) can be clustered for highly available and redundant configurations. The Sensu Server process, when in a clustered configuration, performs its own internal leader election for check request scheduling and event processing.
+All components of a Sensu deployment (RabbitMQ, Redis, and Sensu Server/API) can be clustered for highly available and redundant configurations.
 
 ### Summary
-If you have an existing Nagios setup that you wish to scale as-is, or want to take advantage of the automatic registration feature of Sensu, then Sensu is a good choice. 
+If you have an existing Nagios setup that you wish to scale as-is, or want to take advantage of the automatic registration feature of Sensu, then Sensu is a good choice.
+
 If you want to do whitebox monitoring, or have a very dynamic or cloud based environment, then Prometheus is a good choice.

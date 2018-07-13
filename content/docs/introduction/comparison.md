@@ -246,18 +246,13 @@ environment, then Prometheus is a good choice.
 
 ## Prometheus vs. Sensu
 
-[Sensu](https://sensuapp.org/) is broadly speaking a more modern Nagios.
+[Sensu](https://sensu.io) is a composable monitoring pipeline that can reuse existing Nagios checks.
 
 ### Scope
 
-The same general scope differences as in the case of
-[Nagios](/docs/introduction/comparison/#prometheus-vs-nagios) apply here.
+The same general scope differences as in the case of Nagios apply here.
 
-The primary difference is that Sensu clients [register themselves](https://sensuapp.org/docs/0.27/reference/clients.html#what-is-a-sensu-client),
-and can determine the checks to run either from central or local configuration.
-Sensu does not have a limit on the amount of perfData.
-
-There is also a [client socket](https://sensuapp.org/docs/0.27/reference/clients.html#what-is-the-sensu-client-socket) permitting arbitrary check results to be pushed into Sensu.
+There is also a [client socket](https://docs.sensu.io/sensu-core/latest/reference/clients/#what-is-the-sensu-client-socket) permitting ad-hoc check results to be pushed into Sensu. 
 
 ### Data model
 
@@ -265,22 +260,17 @@ Sensu has the same rough data model as [Nagios](/docs/introduction/comparison/#p
 
 ### Storage
 
-Sensu has storage in Redis called stashes. These are used primarily for storing
-silences. It also stores all the clients that have registered with it.
+Sensu uses Redis to persist monitoring data, including the Sensu client registry, check results, check execution history, and current event data.
 
 ### Architecture
 
-Sensu has a [number of components](https://sensuapp.org/docs/0.27/overview/architecture.html). It uses
+Sensu has a [number of components](https://docs.sensu.io/sensu-core/latest/overview/architecture/). It uses
 RabbitMQ as a transport, Redis for current state, and a separate server for
-processing.
+processing and API access.
 
-Both RabbitMQ and Redis can be clustered. Multiple copies of the server can be
-run for scaling and redundancy.
+All components of a Sensu deployment (RabbitMQ, Redis, and Sensu Server/API) can be clustered for highly available and redundant configurations.
 
 ### Summary
+If you have an existing Nagios setup that you wish to scale as-is, or want to take advantage of the automatic registration feature of Sensu, then Sensu is a good choice.
 
-If you have an existing Nagios setup that you wish to scale as-is, or want to 
-take advantage of the registration feature of Sensu, then Sensu is a good choice.
-
-If you want to do whitebox monitoring, or have a very dynamic or cloud based
-environment, then Prometheus is a good choice.
+If you want to do whitebox monitoring, or have a very dynamic or cloud based environment, then Prometheus is a good choice.

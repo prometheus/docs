@@ -252,9 +252,6 @@ environment, then Prometheus is a good choice.
 
 The same general scope differences as in the case of Nagios apply here.
 
-The primary difference is that Sensu clients [register themselves](https://docs.sensu.io/sensu-core/latest/reference/clients)
-and can determine the checks to run either from central or local configuration. Sensu clients can also be automatically deregistered using a number of [plugins](https://github.com/sensu-plugins/sensu-plugins-sensu) and [integrations](https://docs.sensu.io/sensu-enterprise/latest/built-in-handlers/)
-
 There is also a [client socket](https://docs.sensu.io/sensu-core/latest/reference/clients/#what-is-the-sensu-client-socket) permitting ad-hoc check results to be pushed into Sensu. 
 
 ### Data model

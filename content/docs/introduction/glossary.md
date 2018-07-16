@@ -40,7 +40,7 @@ of a program.
 
 ### Endpoint
 
-A source of metrics than can be scraped, usually corresponding to a single process.
+A source of metrics that can be scraped, usually corresponding to a single process.
 
 ### Exporter
 

@@ -68,3 +68,4 @@ you to integrate it with your existing systems or build on top of it.
 ## Other
 
   * [PushProx](https://github.com/RobustPerception/PushProx): Proxy to transverse NAT and similar network setups
+  * [sshified](https://github.com/hoffie/sshified): Proxies scrapes over SSH for authentication, encryption and simplification of firewall rules

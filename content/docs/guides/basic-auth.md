@@ -33,8 +33,6 @@ NOTE: This example uses `/usr/local/etc/nginx` as the location of the nginx conf
 Below is an example [`nginx.conf`](https://www.nginx.com/resources/wiki/start/topics/examples/full/) configuration file. With this configuration, nginx will enforce basic auth for all connections to the `/prometheus` endpoint (which proxies to Prometheus):
 
 ```conf
-events {}
-
 http {
     server {
         listen              80;
@@ -48,6 +46,8 @@ http {
         }
     }
 }
+
+events {}
 ```
 
 Start nginx as root (since nginx will need to bind to port 443):
@@ -87,3 +87,6 @@ To access Prometheus endpoints using basic auth, for example the `/metrics` endp
 curl -u admin:<password> http://localhost/prometheus/metrics
 ```
 
+## Summary
+
+In this guide, you stored a username and password in a `.htpasswd` file, configured nginx to use the credentials in that file to authenticate users accessing Prometheus' HTTP endpoints, started up nginx, and configured Prometheus for reverse proxying.

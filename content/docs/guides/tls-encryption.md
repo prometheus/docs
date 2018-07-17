@@ -44,8 +44,6 @@ Below is an example [`nginx.conf`](https://www.nginx.com/resources/wiki/start/to
 * proxy all connections to the `/prometheus` endpoint to a Prometheus server running on the same host (while removing the `/prometheus` from the URL)
 
 ```conf
-events {}
-
 http {
     server {
         listen              443 ssl;
@@ -58,6 +56,8 @@ http {
         }
     }
 }
+
+events {}
 ```
 
 Start nginx as root (since nginx will need to bind to port 443):

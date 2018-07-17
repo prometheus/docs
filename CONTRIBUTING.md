@@ -10,3 +10,5 @@ Prometheus uses GitHub to manage reviews of pull requests.
   on our [mailing list](https://groups.google.com/forum/?fromgroups#!forum/prometheus-developers).
   This will avoid unnecessary work and surely give you and us a good deal
   of inspiration.
+ 
+* Be sure to sign off on the [DCO](https://github.com/probot/dco#how-it-works)

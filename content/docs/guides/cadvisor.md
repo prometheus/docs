@@ -111,12 +111,14 @@ NOTE: A full listing of cAdvisor-gathered container metrics exposed to Prometheu
 
 ## Other expressions
 
-The table below lists some other example expressions for the `redis` container:
+The table below lists some other example expressions
 
-Expression | Description
-:----------|:-----------
-[`rate(container_cpu_usage_seconds_total{name="redis"}[1m])`](http://localhost:9090/graph?g0.range_input=1h&g0.expr=rate(container_cpu_usage_seconds_total%7Bname%3D%22redis%22%7D%5B1m%5D)&g0.tab=1) | The [cgroup](https://en.wikipedia.org/wiki/Cgroups)'s CPU usage by core and cgroup ID (in the last minute)
-[`container_memory_usage_bytes{name="redis"}`](http://localhost:9090/graph?g0.range_input=1h&g0.expr=container_memory_usage_bytes%7Bname%3D%22redis%22%7D&g0.tab=1) | The cgroup's total memory usage (in bytes)
+Expression | Description | For
+:----------|:------------|:---
+[`rate(container_cpu_usage_seconds_total{name="redis"}[1m])`](http://localhost:9090/graph?g0.range_input=1h&g0.expr=rate(container_cpu_usage_seconds_total%7Bname%3D%22redis%22%7D%5B1m%5D)&g0.tab=1) | The [cgroup](https://en.wikipedia.org/wiki/Cgroups)'s CPU usage in the last minute (split up by core) | The `redis` container
+[`container_memory_usage_bytes{name="redis"}`](http://localhost:9090/graph?g0.range_input=1h&g0.expr=container_memory_usage_bytes%7Bname%3D%22redis%22%7D&g0.tab=1) | The cgroup's total memory usage (in bytes) | The `redis` container
+[`rate(container_network_transmit_bytes_total[1m])`](http://localhost:9090/graph?g0.range_input=1h&g0.expr=rate(container_network_transmit_bytes_total%5B1m%5D)&g0.tab=1) | Bytes transmitted over the network by the container per second in the last minute | All containers
+[`rate(container_network_receive_bytes_total[1m])`](http://localhost:9090/graph?g0.range_input=1h&g0.expr=rate(container_network_receive_bytes_total%5B1m%5D)&g0.tab=1) | Bytes received over the network by the container per second in the last minute | All containers
 
 ## Summary
 

@@ -105,9 +105,7 @@ cAdvisor's web UI is a useful interface for exploring the kinds of things that c
 
 ![Prometheus expression bar](/assets/prometheus-expression-bar.png)
 
-Let's start by exploring the `container_start_time_seconds` metric, which records the start time of containers (in seconds). The [`container_start_time_seconds{name="redis"}`](http://localhost:9090/graph?g0.range_input=1h&g0.expr=container_start_time_seconds%7Bname%3D%22redis%22%7D&g0.tab=1) expression shows the start time for the `redis` container.
-
-NOTE: You can select for specific containers by name using the `name="<container_name>"`. The container name corresponds to the `container_name` parameter in the Docker Compose configuration. You can see all available metrics for a given container using the `{name="<container_name>"}` expression, for example [`{name="redis"}`](http://localhost:9090/graph?g0.range_input=1h&g0.expr=%7Bname%3D%22redis%22%7D&g0.tab=1).
+Let's start by exploring the `container_start_time_seconds` metric, which records the start time of containers (in seconds). You can select for specific containers by name using the `name="<container_name>"` expression. The container name corresponds to the `container_name` parameter in the Docker Compose configuration. The [`container_start_time_seconds{name="redis"}`](http://localhost:9090/graph?g0.range_input=1h&g0.expr=container_start_time_seconds%7Bname%3D%22redis%22%7D&g0.tab=1) expression, for example, shows the start time for the `redis` container.
 
 NOTE: A full listing of cAdvisor-gathered container metrics exposed to Prometheus can be found in the [cAdvisor documentation](https://github.com/google/cadvisor/blob/master/docs/storage/prometheus.md).
 

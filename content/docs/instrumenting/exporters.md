@@ -198,6 +198,7 @@ separate exporters are needed:
    * [Pretix](https://pretix.eu/)
    * [Quobyte](https://www.quobyte.com/) (**direct**)
    * [RobustIRC](http://robustirc.net/)
+   * [ScyllaDB](http://github.com/scylladb/scylla)
    * [Skipper](https://github.com/zalando/skipper)
    * [SkyDNS](https://github.com/skynetservices/skydns) (**direct**)
    * [Telegraf](https://github.com/influxdata/telegraf/tree/master/plugins/outputs/prometheus_client)

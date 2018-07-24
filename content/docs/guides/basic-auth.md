@@ -48,10 +48,10 @@ http {
 events {}
 ```
 
-Start nginx as root (since nginx will need to bind to port 443):
+Start nginx using the configuration from above:
 
 ```bash
-sudo nginx -c /etc/nginx/nginx.conf
+nginx -c /etc/nginx/nginx.conf
 ```
 
 ## Prometheus configuration
@@ -67,16 +67,30 @@ prometheus \
 
 ## Testing
 
-You can use cURL to interact with your local nginx/Prometheus setup. The following request will return a `401 Unauthorized` response, because you've failed to supply a valid username and password, and also bear a `WWW-Authenticate: Basic realm="Prometheus"` header:
+You can use cURL to interact with your local nginx/Prometheus setup. Try this request:
 
 ```bash
-curl --head http://localhost/prometheus/metrics
+curl --head http://localhost/prometheus/graph
 ```
 
-To access Prometheus endpoints using basic auth, for example the `/metrics` endpoint, supply the proper username and password using the `-u` flag:
+This will return a `401 Unauthorized` response because you've failed to supply a valid username and password. The response will also contain a `WWW-Authenticate: Basic realm="Prometheus"` header supplied by nginx, indicating that the `Prometheus` basic auth realm, specified by the `auth_basic` parameter for nginx, is enforced.
+
+To successfully access Prometheus endpoints using basic auth, for example the `/metrics` endpoint, supply the proper username using the `-u` flag and supply the password when prompted:
 
 ```bash
-curl -u admin:<password> http://localhost/prometheus/metrics
+curl -u admin http://localhost/prometheus/metrics
+Enter host password for user 'admin':
+```
+
+That should return Prometheus metrics output, which should look something like this:
+
+```
+# HELP go_gc_duration_seconds A summary of the GC invocation durations.
+# TYPE go_gc_duration_seconds summary
+go_gc_duration_seconds{quantile="0"} 0.0001343
+go_gc_duration_seconds{quantile="0.25"} 0.0002032
+go_gc_duration_seconds{quantile="0.5"} 0.0004485
+...
 ```
 
 ## Summary

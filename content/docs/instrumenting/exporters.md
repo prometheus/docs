@@ -193,6 +193,7 @@ separate exporters are needed:
    * [Kubernetes](https://github.com/kubernetes/kubernetes) (**direct**)
    * [Linkerd](https://github.com/BuoyantIO/linkerd)
    * [mgmt](https://github.com/purpleidea/mgmt/blob/master/docs/prometheus.md)
+   * [MidoNet](https://github.com/midonet/midonet)
    * [midonet-kubernetes](https://github.com/midonet/midonet-kubernetes) (**direct**)
    * [Minio](https://github.com/minio/minio)
    * [Netdata](https://github.com/firehol/netdata)

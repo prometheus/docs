@@ -4,23 +4,22 @@ title: Instrumenting a Go application
 
 # Instrumenting a Go application for Prometheus
 
-Prometheus has an official [Go client library](https://github.com/prometheus/client_golang) that you can use to [instrument](/docs/instrumenting/pushing) Go applications. In this guide, we'll create a simple Go application that exposes Prometheus metrics via HTTP.
+Prometheus has an official [Go client library](https://github.com/prometheus/client_golang) that you can use to instrument Go applications. In this guide, we'll create a simple Go application that exposes Prometheus metrics via HTTP.
 
 NOTE: For comprehensive API documentation, see the [GoDoc](https://godoc.org/github.com/prometheus/client_golang) for Prometheus' various Go libraries.
 
 ## Installation
 
-You can install the main `prometheus` library using [`go get`](https://golang.org/doc/articles/go_command.html):
+You can install the main `prometheus` and `promhttp` libraries necessary for the guide using [`go get`](https://golang.org/doc/articles/go_command.html):
 
 ```bash
 go get github.com/prometheus/client_golang/prometheus
+go get github.com/prometheus/client_golang/prometheus/promhttp
 ```
 
-See the [GoDoc](https://godoc.org/github.com/prometheus/client_golang#pkg-subdirectories) for a listing of other libraries you may need to install.
+## How Go exposition works
 
-## How Go instrumentation works
-
-To instrument a Go application, you need to expose a `/metrics` HTTP endpoint that serves Prometheus metrics using the [`prometheus/promhttp`](https://godoc.org/github.com/prometheus/client_golang/prometheus/promhttp) library.
+To expose Prometheus metrics in a Go application, you need to provide a `/metrics` HTTP endpoint. You can use the [`prometheus/promhttp`](https://godoc.org/github.com/prometheus/client_golang/prometheus/promhttp) library's HTTP [`Handler`](https://godoc.org/github.com/prometheus/client_golang/prometheus/promhttp#Handler) as the handler function.
 
 This minimal application, for example, would expose the default metrics for Go applications via `localhost:2112/metrics`:
 
@@ -51,9 +50,9 @@ To access the metrics:
 curl http://localhost:2112/metrics
 ```
 
-## Example application with non-default metrics
+## Adding your own metrics
 
-The application [above](#how-go-instrumentation-works) exposes only the default Go metrics. You can also register your own custom application-specific metrics. This example application exposes an `opsQueued` [gauge](/docs/concepts/metric_types/#gauge) that registers the number of currently queued operations. Every 2 seconds, the gauge is incremented by one.
+The application [above](#how-go-exposition-works) exposes only the default Go metrics. You can also register your own custom application-specific metrics. This example application exposes a `myapp_queued_ops` [gauge](/docs/concepts/metric_types/#gauge) that registers the number of currently queued operations. Every 2 seconds, the gauge is incremented by one.
 
 ```go
 package main
@@ -68,7 +67,7 @@ import (
 
 var (
         opsQueued = prometheus.NewGauge(prometheus.GaugeOpts{
-                Name: "ops_queued",
+                Name: "myapp_queued_ops",
                 Help: "The number of operations currently queued",
         })
 )
@@ -82,9 +81,11 @@ func recordMetrics() {
         }()
 }
 
-func main() {
+func init() {
         prometheus.MustRegister(opsQueued)
+}
 
+func main() {
         recordMetrics()
 
         http.Handle("/metrics", promhttp.Handler())
@@ -104,10 +105,21 @@ To access the metrics:
 curl http://localhost:2112/metrics
 ```
 
-In the metrics output, you'll see the help text, type information, and current value of the `ops_queued` gauge:
+In the metrics output, you'll see the help text, type information, and current value of the `myapp_queued_ops` gauge:
 
 ```
-# HELP ops_queued The number of operations currently queued
-# TYPE ops_queued gauge
-ops_queued 1
+# HELP myapp_queued_ops The number of operations currently queued
+# TYPE myapp_queued_ops gauge
+myapp_queued_ops 1
+```
+
+You can [configure](/docs/prometheus/latest/configuration/configuration/#<scrape_config>) a locally running Prometheus instance to scrape metrics from the application. Here's an example `prometheus.yml` configuration:
+
+```yaml
+scrape_configs:
+- job_name: myapp
+  scrape_interval: 10s
+  static_configs:
+  - targets:
+    - localhost:2112
 ```

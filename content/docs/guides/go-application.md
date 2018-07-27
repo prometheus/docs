@@ -65,13 +65,6 @@ import (
         "github.com/prometheus/client_golang/prometheus/promhttp"
 )
 
-var (
-        opsQueued = prometheus.NewGauge(prometheus.GaugeOpts{
-                Name: "myapp_queued_ops",
-                Help: "The number of operations currently queued",
-        })
-)
-
 func recordMetrics() {
         go func() {
                 for {
@@ -80,6 +73,13 @@ func recordMetrics() {
                 }
         }()
 }
+
+var (
+        opsQueued = prometheus.NewGauge(prometheus.GaugeOpts{
+                Name: "myapp_queued_ops",
+                Help: "The number of operations currently queued",
+        })
+)
 
 func init() {
         prometheus.MustRegister(opsQueued)

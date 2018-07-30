@@ -22,7 +22,7 @@ go get github.com/prometheus/client_golang/prometheus/promhttp
 
 To expose Prometheus metrics in a Go application, you need to provide a `/metrics` HTTP endpoint. You can use the [`prometheus/promhttp`](https://godoc.org/github.com/prometheus/client_golang/prometheus/promhttp) library's HTTP [`Handler`](https://godoc.org/github.com/prometheus/client_golang/prometheus/promhttp#Handler) as the handler function.
 
-This minimal application, for example, would expose the default metrics for Go applications via `localhost:2112/metrics`:
+This minimal application, for example, would expose the default metrics for Go applications via `http://localhost:2112/metrics`:
 
 ```go
 package main
@@ -70,14 +70,14 @@ import (
 func recordMetrics() {
         go func() {
                 for {
-                        opsQueued.Inc()
+                        opsProcessed.Inc()
                         time.Sleep(2 * time.Second)
                 }
         }()
 }
 
 var (
-        opsQueued = promauto.NewCounter(prometheus.GaugeOpts{
+        opsProcessed = promauto.NewCounter(prometheus.CounterOpts{
                 Name: "myapp_processed_ops_total",
                 Help: "The total number of processed events",
         })
@@ -103,7 +103,7 @@ To access the metrics:
 curl http://localhost:2112/metrics
 ```
 
-In the metrics output, you'll see the help text, type information, and current value of the `myapp_processed_ops_total` gauge:
+In the metrics output, you'll see the help text, type information, and current value of the `myapp_processed_ops_total` counter:
 
 ```
 # HELP myapp_processed_ops_total The total number of processed events

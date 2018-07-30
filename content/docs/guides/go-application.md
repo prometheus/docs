@@ -53,7 +53,7 @@ curl http://localhost:2112/metrics
 
 ## Adding your own metrics
 
-The application [above](#how-go-exposition-works) exposes only the default Go metrics. You can also register your own custom application-specific metrics. This example application exposes a `myapp_queued_ops` [gauge](/docs/concepts/metric_types/#gauge) that registers the number of currently queued operations. Every 2 seconds, the gauge is incremented by one.
+The application [above](#how-go-exposition-works) exposes only the default Go metrics. You can also register your own custom application-specific metrics. This example application exposes a `myapp_queued_ops` [counter](/docs/concepts/metric_types/#counter) that counts the number of operations that have been queued thus far. Every 2 seconds, the counter is incremented by one.
 
 ```go
 package main
@@ -70,14 +70,14 @@ import (
 func recordMetrics() {
         go func() {
                 for {
-                        opsQueued.Add(1)
+                        opsQueued.Inc()
                         time.Sleep(2 * time.Second)
                 }
         }()
 }
 
 var (
-        opsQueued = promauto.NewGauge(prometheus.GaugeOpts{
+        opsQueued = promauto.Counter(prometheus.GaugeOpts{
                 Name: "myapp_queued_ops",
                 Help: "The number of operations currently queued",
         })

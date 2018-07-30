@@ -53,7 +53,7 @@ curl http://localhost:2112/metrics
 
 ## Adding your own metrics
 
-The application [above](#how-go-exposition-works) exposes only the default Go metrics. You can also register your own custom application-specific metrics. This example application exposes a `myapp_queued_ops` [counter](/docs/concepts/metric_types/#counter) that counts the number of operations that have been queued thus far. Every 2 seconds, the counter is incremented by one.
+The application [above](#how-go-exposition-works) exposes only the default Go metrics. You can also register your own custom application-specific metrics. This example application exposes a `myapp_processed_ops_total` [counter](/docs/concepts/metric_types/#counter) that counts the number of operations that have been processed thus far. Every 2 seconds, the counter is incremented by one.
 
 ```go
 package main
@@ -77,9 +77,9 @@ func recordMetrics() {
 }
 
 var (
-        opsQueued = promauto.Counter(prometheus.GaugeOpts{
-                Name: "myapp_queued_ops",
-                Help: "The number of operations currently queued",
+        opsQueued = promauto.NewCounter(prometheus.GaugeOpts{
+                Name: "myapp_processed_ops_total",
+                Help: "The total number of processed events",
         })
 )
 
@@ -103,12 +103,12 @@ To access the metrics:
 curl http://localhost:2112/metrics
 ```
 
-In the metrics output, you'll see the help text, type information, and current value of the `myapp_queued_ops` gauge:
+In the metrics output, you'll see the help text, type information, and current value of the `myapp_processed_ops_total` gauge:
 
 ```
-# HELP myapp_queued_ops The number of operations currently queued
-# TYPE myapp_queued_ops gauge
-myapp_queued_ops 1
+# HELP myapp_processed_ops_total The total number of processed events
+# TYPE myapp_processed_ops_total counter
+myapp_processed_ops_total 5
 ```
 
 You can [configure](/docs/prometheus/latest/configuration/configuration/#<scrape_config>) a locally running Prometheus instance to scrape metrics from the application. Here's an example `prometheus.yml` configuration:
@@ -121,3 +121,7 @@ scrape_configs:
   - targets:
     - localhost:2112
 ```
+
+## Summary
+
+In this guide, you created two sample Go applications that expose metrics to Prometheus---one that exposes only the default Go metrics and one that also exposes a custom Prometheus counter---and configured a Prometheus instance to scrape metrics from those applications.

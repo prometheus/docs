@@ -10,10 +10,11 @@ NOTE: For comprehensive API documentation, see the [GoDoc](https://godoc.org/git
 
 ## Installation
 
-You can install the main `prometheus` and `promhttp` libraries necessary for the guide using [`go get`](https://golang.org/doc/articles/go_command.html):
+You can install the `prometheus`, `promauto`, and `promhttp` libraries necessary for the guide using [`go get`](https://golang.org/doc/articles/go_command.html):
 
 ```bash
 go get github.com/prometheus/client_golang/prometheus
+go get github.com/prometheus/client_golang/prometheus/promauto
 go get github.com/prometheus/client_golang/prometheus/promhttp
 ```
 
@@ -62,6 +63,7 @@ import (
         "time"
 
         "github.com/prometheus/client_golang/prometheus"
+        "github.com/prometheus/client_golang/prometheus/promauto"
         "github.com/prometheus/client_golang/prometheus/promhttp"
 )
 
@@ -75,15 +77,11 @@ func recordMetrics() {
 }
 
 var (
-        opsQueued = prometheus.NewGauge(prometheus.GaugeOpts{
+        opsQueued = promauto.NewGauge(prometheus.GaugeOpts{
                 Name: "myapp_queued_ops",
                 Help: "The number of operations currently queued",
         })
 )
-
-func init() {
-        prometheus.MustRegister(opsQueued)
-}
 
 func main() {
         recordMetrics()

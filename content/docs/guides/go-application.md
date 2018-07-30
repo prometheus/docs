@@ -122,6 +122,10 @@ scrape_configs:
     - localhost:2112
 ```
 
+## Other Go client features
+
+In this guide we covered just a small handful of features available in the Prometheus Go client libraries. You can also expose other metrics types, such as [gauges](https://godoc.org/github.com/prometheus/client_golang/prometheus#Gauge) and [histograms](https://godoc.org/github.com/prometheus/client_golang/prometheus#Histogram), [non-global registries](https://godoc.org/github.com/prometheus/client_golang/prometheus#Registry), functions for [pushing metrics](https://godoc.org/github.com/prometheus/client_golang/prometheus/push) to Prometheus [PushGateways](/docs/instrumenting/pushing/), bridging Prometheus and [Graphite](https://godoc.org/github.com/prometheus/client_golang/prometheus/graphite), and more.
+
 ## Summary
 
 In this guide, you created two sample Go applications that expose metrics to Prometheus---one that exposes only the default Go metrics and one that also exposes a custom Prometheus counter---and configured a Prometheus instance to scrape metrics from those applications.

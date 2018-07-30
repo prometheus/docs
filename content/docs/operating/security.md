@@ -17,7 +17,7 @@ bugs. If you find a security bug, please file it in the issue tracker of the
 relevant component. If you prefer to report privately, please do so to the
 maintainers listed in the MAINTAINERS.md of the relevant repository.
 
-### Prometheus
+## Prometheus
 
 It is presumed that untrusted users have access to the Prometheus HTTP endpoint
 and logs. They have access to all time series information contained in the

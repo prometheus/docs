@@ -12,6 +12,7 @@ Besides stored time series, Prometheus may generate temporary derived time serie
 as the result of queries.
 
 ## Metric names and labels
+
 Every time series is uniquely identified by its _metric name_ and a set of
 _key-value pairs_, also known as _labels_.
 

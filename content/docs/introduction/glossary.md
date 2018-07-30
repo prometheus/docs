@@ -40,7 +40,7 @@ of a program.
 
 ### Endpoint
 
-A source of metrics than can be scraped, usually corresponding to a single process.
+A source of metrics that can be scraped, usually corresponding to a single process.
 
 ### Exporter
 
@@ -108,6 +108,12 @@ write into a format the other system can understand.
 
 A remote write endpoint is what Prometheus talks to when doing a remote write.
 
+### Sample
+
+A sample is a single value at a point in time in a time series.
+
+In Prometheus, each sample consists of a float64 value and a millisecond-precision timestamp.
+
 ### Silence
 
 A silence in the Alertmanager prevents alerts, with labels matching the silence, from
@@ -116,3 +122,4 @@ being included in notifications.
 ### Target
 
 A target is the definition of an object to scrape. For example, what labels to apply, any authentication required to connect, or other information that defines how the scrape will occur.
+

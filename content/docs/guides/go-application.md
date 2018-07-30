@@ -30,7 +30,7 @@ package main
 import (
         "net/http"
 
-	      "github.com/prometheus/client_golang/prometheus/promhttp"
+        "github.com/prometheus/client_golang/prometheus/promhttp"
 )
 
 func main() {

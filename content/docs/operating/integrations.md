@@ -23,6 +23,7 @@ For service discovery mechanisms not natively supported by Prometheus,
 [file-based service discovery](/docs/operating/configuration/#<file_sd_config>) provides an interface for integrating.
 
  * [Docker Swarm](https://github.com/ContainerSolutions/prometheus-swarm-discovery)
+ * [Scaleway](https://github.com/simonpasquier/prometheus-scaleway-sd)
 
 ## Remote Endpoints and Storage
 

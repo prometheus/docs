@@ -204,7 +204,7 @@ separate exporters are needed:
    * [Skipper](https://github.com/zalando/skipper)
    * [SkyDNS](https://github.com/skynetservices/skydns) (**direct**)
    * [Telegraf](https://github.com/influxdata/telegraf/tree/master/plugins/outputs/prometheus_client)
-   * [Traefik](https://github.com/containous/traefik) (**direct**)
+   * [Traefik](https://github.com/containous/traefik)
    * [Weave Flux](https://github.com/weaveworks/flux)
 
 The software marked *direct* is also directly instrumented with a Prometheus client library.

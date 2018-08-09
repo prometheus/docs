@@ -14,7 +14,7 @@ This also acts as an external verification of quality for anyone in internal dis
 Since reaching incubation level, a lot of things happened; some of which stand out:
 
 * We completely rewrote our storage back-end to support high churn in services
-* We had a large push towards stability, with 2.3.2 having only onw known bug
+* We had a large push towards stability, especially with 2.3.2
 * We started a documentation push with a special focus on making Prometheus adoption and joining the community easier
 
 Especially the last point is important as we currently enter our fourth phase of adoption. These phases were adoption by

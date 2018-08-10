@@ -128,6 +128,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [New Relic exporter](https://github.com/jfindley/newrelic_exporter)
    * [NRPE exporter](https://github.com/robustperception/nrpe_exporter)
    * [Osquery exporter](https://github.com/zwopir/osquery_exporter)
+   * [OTC CloudEye exporter](https://github.com/tiagoReichert/otc-cloudeye-prometheus-exporter)
    * [Pingdom exporter](https://github.com/giantswarm/prometheus-pingdom-exporter)
    * [scollector exporter](https://github.com/tgulacsi/prometheus_scollector)
    * [Sensu exporter](https://github.com/reachlin/sensu_exporter)

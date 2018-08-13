@@ -469,6 +469,8 @@ fields:
 [ text: <tmpl_string> | default = '{{ template "slack.default.text" . }}' ]
 [ title: <tmpl_string> | default = '{{ template "slack.default.title" . }}' ]
 [ title_link: <tmpl_string> | default = '{{ template "slack.default.titlelink" . }}' ]
+[ image_url: <tmpl_string> ]
+[ thumb_url: <tmpl_string> ]
 
 # The HTTP client's configuration.
 [ http_config: <http_config> | default = global.http_config ]

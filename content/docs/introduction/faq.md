@@ -221,10 +221,10 @@ second, will only run into precision issues after over 285 years.
 
 ### Why don't the Prometheus server components support TLS or authentication? Can I add those?
 
-Note: The Prometheus team has recently changed their stance on this and
-support for TLS and authentication in serving endpoints is now on the
+Note: The Prometheus team has changed their stance on this in its development summit on
+August 11, 2018, and support for TLS and authentication in serving endpoints is now on the
 [project's roadmap](/docs/introduction/roadmap/#tls-and-authentication-in-http-serving-endpoints).
-As long as this is not implemented yet, the advice below still applies.
+This document will be updated once code changes have been made.
 
 While TLS and authentication are frequently requested features, we have
 intentionally not implemented them in any of Prometheus's server-side

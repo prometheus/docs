@@ -191,9 +191,10 @@ route:
 
 ## `<inhibit_rule>`
 
-An inhibition rule is a rule that mutes an alert matching a set of matchers
-under the condition that an alert exists that matches another set of matchers.
-Both alerts must have a set of equal labels.
+An inhibition rule mutes an alert (target) matching a set of matchers
+when an alert (source) exists that matches another set of matchers.
+Both target and source alerts must have the same label values 
+for the label names in the `equal` list.
 
 __Alerts can inhibit themselves. Avoid writing inhibition rules where
 an alert matches both source and target.__
@@ -468,6 +469,8 @@ fields:
 [ text: <tmpl_string> | default = '{{ template "slack.default.text" . }}' ]
 [ title: <tmpl_string> | default = '{{ template "slack.default.title" . }}' ]
 [ title_link: <tmpl_string> | default = '{{ template "slack.default.titlelink" . }}' ]
+[ image_url: <tmpl_string> ]
+[ thumb_url: <tmpl_string> ]
 
 # The HTTP client's configuration.
 [ http_config: <http_config> | default = global.http_config ]

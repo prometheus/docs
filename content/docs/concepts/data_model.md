@@ -12,6 +12,7 @@ Besides stored time series, Prometheus may generate temporary derived time serie
 as the result of queries.
 
 ## Metric names and labels
+
 Every time series is uniquely identified by its _metric name_ and a set of
 _key-value pairs_, also known as _labels_.
 
@@ -19,6 +20,9 @@ The _metric name_ specifies the general feature of a system that is measured
 (e.g. `http_requests_total` - the total number of HTTP requests received). It
 may contain ASCII letters and digits, as well as underscores and colons. It
 must match the regex `[a-zA-Z_:][a-zA-Z0-9_:]*`.
+
+Note: The colons are reserved for user defined recording rules. They should not
+be used by exporters or direct instrumentation.
 
 Labels enable Prometheus's dimensional data model: any given combination of
 labels for the same metric name identifies a particular dimensional

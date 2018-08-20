@@ -125,8 +125,8 @@ Converting `camelCase` to `snake_case` is desirable, though doing so
 automatically doesn’t always produce nice results for things like
 `myTCPExample` or `isNaN` so sometimes it’s best to leave them as-is.
 
-Exposed metrics should not contain colons, these are reserved for users
-to use when aggregating.
+Exposed metrics should not contain colons, these are reserved for user
+defined recording rules to use when aggregating.
 
 Only `[a-zA-Z0-9:_]` are valid in metric names, any other characters
 should be sanitized to an underscore.

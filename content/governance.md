@@ -52,7 +52,6 @@ The current team members are:
 * Ben Kochie
 * Björn Rabenstein
 * Brian Brazil
-* Conor Broderick
 * Fabian Reinartz
 * Frederic Branczyk
 * Goutham Veeramachaneni

@@ -21,7 +21,7 @@ The _metric name_ specifies the general feature of a system that is measured
 may contain ASCII letters and digits, as well as underscores and colons. It
 must match the regex `[a-zA-Z_:][a-zA-Z0-9_:]*`.
 
-Note: The colons are reserved user defined recording rules. They should not
+Note: The colons are reserved for user defined recording rules. They should not
 be used by exporters or direct instrumentation.
 
 Labels enable Prometheus's dimensional data model: any given combination of

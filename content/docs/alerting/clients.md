@@ -46,6 +46,3 @@ the time since the alert was last received.
 
 The `generatorURL` field is a unique back-link which identifies the causing
 entity of this alert in the client.
-
-Alertmanager also supports a legacy endpoint on `/api/alerts` which is
-compatible with Prometheus versions 0.16.2 and lower.

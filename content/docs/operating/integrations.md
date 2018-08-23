@@ -39,7 +39,7 @@ data volumes.
   * [Elasticsearch](https://github.com/infonova/prometheusbeat): write
   * [Gnocchi](https://gnocchi.xyz/prometheus.html): write
   * [Graphite](https://github.com/prometheus/prometheus/tree/master/documentation/examples/remote_storage/remote_storage_adapter): write
-  * [InfluxDB](https://docs.influxdata.com/influxdb/v1.4/supported_protocols/prometheus): read and write
+  * [InfluxDB](https://docs.influxdata.com/influxdb/latest/supported_protocols/prometheus): read and write
   * [IRONdb](https://github.com/circonus-labs/irondb-prometheus-adapter): read and write
   * [M3DB](https://m3db.github.io/m3/integrations/prometheus): read and write
   * [OpenTSDB](https://github.com/prometheus/prometheus/tree/master/documentation/examples/remote_storage/remote_storage_adapter): write

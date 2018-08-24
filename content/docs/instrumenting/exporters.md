@@ -54,6 +54,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
 ### Hardware related
    * [apcupsd exporter](https://github.com/mdlayher/apcupsd_exporter)
    * [Collins exporter](https://github.com/soundcloud/collins_exporter)
+   * [IBM Z HMC exporter](https://github.com/zhmcclient/zhmc-prometheus-exporter)
    * [IoT Edison exporter](https://github.com/roman-vynar/edison_exporter)
    * [IPMI exporter](https://github.com/lovoo/ipmi_exporter)
    * [knxd exporter](https://github.com/RichiH/knxd_exporter)
@@ -148,7 +149,6 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [Confluence exporter](https://github.com/AndreyVMarkelov/prom-confluence-exporter)
    * [Dovecot exporter](https://github.com/kumina/dovecot_exporter)
    * [eBPF exporter](https://github.com/cloudflare/ebpf_exporter)
-   * [IBM Z HMC exporter](https://github.com/zhmcclient/zhmc-prometheus-exporter)
    * [Jenkins exporter](https://github.com/lovoo/jenkins_exporter)
    * [JIRA exporter](https://github.com/AndreyVMarkelov/jira-prometheus-exporter)
    * [Kannel exporter](https://github.com/apostvav/kannel_exporter)

@@ -16,6 +16,17 @@ There are a number of ways to achieve this (in alphabetical order):
 * [M3](http://m3db.github.io/m3/integrations/prometheus/)
 * [Thanos](https://github.com/improbable-eng/thanos)
 
+## Cortex
+
+## InfluxDB
+
+## M3
+
+## Thanos
+
+
 Last but not least, have a look at the PromCon 2018 panel on this topic:
 
 > TODO: embed the video URL of the panel here
+
+> TODO: What else is missing? What other LTS do we want to cover here?

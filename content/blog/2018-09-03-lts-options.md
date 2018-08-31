@@ -20,8 +20,8 @@ Prometheus [stores](https://prometheus.io/docs/prometheus/latest/storage/) data 
 
 Further references:
 
-* Tom Wilkie: Cortex: open-source, horizontally-scalable, distributed Prometheus [video](https://www.youtube.com/watch?v=Xi4jq2IUbLs), 06/2017
-* PromCon 2016 Talk: "Project Frankenstein: Multitenant, Scale-Out Prometheus": [video](https://youtu.be/3Tb4Wc0kfCM) | [slides](http://www.slideshare.net/weaveworks/project-frankenstein-a-multitenant-horizontally-scalable-prometheus-as-a-service), 09/2016
+* Tom Wilkie: [Cortex: open-source, horizontally-scalable, distributed Prometheus](https://www.youtube.com/watch?v=Xi4jq2IUbLs), 06/2017
+* Project Frankenstein: Multitenant, Scale-Out Prometheus: [video](https://youtu.be/3Tb4Wc0kfCM) | [slides](http://www.slideshare.net/weaveworks/project-frankenstein-a-multitenant-horizontally-scalable-prometheus-as-a-service), 09/2016
 
 
 ## InfluxDB
@@ -53,6 +53,8 @@ Further references:
 
 ## PromCon 2018 panel discussion
 
-Last but not least, have a look at the PromCon 2018 panel on this topic:
+Last but not least, have a look at this [PromCon 2018 panel on LTS approaches](https://youtu.be/VvJx0WTiGcA?t=23774) to understand the motivation and design considerations behind each of the above listed offerings better:
 
-> TODO: embed the video URL of the panel here
+<iframe width="560" height="315" src="https://www.youtube.com/embed/VvJx0WTiGcA?start=23775" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+
+In a nutshell: while Prometheus itself does not support long-term retention of your timeseries data, there are a number of solutions you can choose from to make this possible.

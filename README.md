@@ -33,6 +33,11 @@ make build
 
 The resulting static site will be stored in the `output` directory.
 
+Optionally, you can use an API token to avoid rate limits on the API. You can get an API token from https://github.com/settings/tokens/new.
+```bash
+export GITHUB_AUTHENTICATION='-u user:token'
+```
+
 ## Development Server
 
 To run a local server that displays the generated site, run:

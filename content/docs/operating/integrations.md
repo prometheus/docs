@@ -71,3 +71,4 @@ you to integrate it with your existing systems or build on top of it.
 ## Other
 
   * [PushProx](https://github.com/RobustPerception/PushProx): Proxy to transverse NAT and similar network setups
+  * [trovilo](https://github.com/inovex/trovilo): trovilo collects and prepares files from Kubernetes ConfigMaps (e.g. alert rules) for Prometheus & friends

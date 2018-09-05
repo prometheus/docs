@@ -146,6 +146,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [Blackbox exporter](https://github.com/prometheus/blackbox_exporter) (**official**)
    * [BOSH exporter](https://github.com/cloudfoundry-community/bosh_exporter)
    * [cAdvisor](https://github.com/google/cadvisor)
+   * [Cachet exporter](https://github.com/ContaAzul/cachet_exporter)
    * [Confluence exporter](https://github.com/AndreyVMarkelov/prom-confluence-exporter)
    * [Dovecot exporter](https://github.com/kumina/dovecot_exporter)
    * [eBPF exporter](https://github.com/cloudflare/ebpf_exporter)

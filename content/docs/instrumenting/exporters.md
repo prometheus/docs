@@ -159,6 +159,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [Minecraft exporter module](https://github.com/Baughn/PrometheusIntegration)
    * [PHP-FPM exporter](https://github.com/bakins/php-fpm-exporter)
    * [PowerDNS exporter](https://github.com/ledgr/powerdns_exporter)
+   * [Presto exporter](https://github.com/yahoojapan/presto_exporter)
    * [Process exporter](https://github.com/ncabatoff/process-exporter)
    * [rTorrent exporter](https://github.com/mdlayher/rtorrent_exporter)
    * [SABnzbd exporter](https://github.com/msroest/sabnzbd_exporter)
@@ -169,7 +170,6 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [Transmission exporter](https://github.com/metalmatze/transmission-exporter)
    * [Unbound exporter](https://github.com/kumina/unbound_exporter)
    * [Xen exporter](https://github.com/lovoo/xenstats_exporter)
-
 
 When implementing a new Prometheus exporter, please follow the
 [guidelines on writing exporters](/docs/instrumenting/writing_exporters)

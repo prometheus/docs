@@ -65,6 +65,7 @@ curl http://localhost:9100/metrics | grep "node_"
 Your locally running Prometheus instance needs to be properly configured in order to access Node Exporter metrics. The following [`scrape_config`](../prometheus/latest/configuration/configuration/#<scrape_config>) block (in a `prometheus.yml` configuration file) will tell the Prometheus instance to scrape from the Node Exporter via `localhost:9100`:
 
 <a id="config"></a>
+
 ```yaml
 scrape_configs:
 - job_name: 'node'

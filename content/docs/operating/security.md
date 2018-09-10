@@ -168,4 +168,4 @@ pre-built binaries provided by the project.
 [cure53](https://cure53.de) which ran from April 2018 to June 2018.
 
 For more details, please read the
-[final report of the audit](assets/downloads/2018-06-11--cure53_security_audit.pdf).
+[final report of the audit](/assets/downloads/2018-06-11--cure53_security_audit.pdf).

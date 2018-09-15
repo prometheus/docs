@@ -7,7 +7,7 @@ sort_rank: 5
 
 If you are instrumenting your own code, the [general rules of how to
 instrument code with a Prometheus client
-library](/docs/practices/instrumentation/) should be followed. When
+library](/content/docs/practices/instrumentation.md) should be followed. When
 taking metrics from another monitoring or instrumentation system, things
 tend not to be so black and white.
 

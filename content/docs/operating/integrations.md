@@ -70,4 +70,5 @@ you to integrate it with your existing systems or build on top of it.
 
 ## Other
 
+  * [karma](https://github.com/prymitive/karma): alert dashboard
   * [PushProx](https://github.com/RobustPerception/PushProx): Proxy to transverse NAT and similar network setups

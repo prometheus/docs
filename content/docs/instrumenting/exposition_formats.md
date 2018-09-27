@@ -10,12 +10,12 @@ exposition format. There's a variety of [client libraries](/docs/instrumenting/c
 that implement this format for you. If your preferred language doesn't have a client
 library you can [create your own](/docs/instrumenting/writing_clientlibs/).
 
-NOTE: **NOTE** Some earlier versions of Prometheus supported an exposition format based on
+NOTE: Some earlier versions of Prometheus supported an exposition format based on
 [Protocol Buffers](https://developers.google.com/protocol-buffers/) (aka Protobuf) in
 addition to the current text-based format. As of version 2.0, however, Prometheus no
 longer supports the Protobuf-based format. You can read about the reasoning behind
 this change in [this
-document](https://github.com/RichiH/OpenMetrics/blob/master/protobuf_vs_text.md).
+document](https://github.com/RichiH/OpenMetrics/blob/master/markdown/protobuf_vs_text.md).
 
 ## Text-based format
 
@@ -82,8 +82,8 @@ In the sample syntax:
 
 *  `metric_name` and `label_name` carry the usual Prometheus expression language restrictions.
 * `label_value` can be any sequence of UTF-8 characters, but the backslash (`\`, double-quote (`"`}, and line feed (`\n`) characters have to be escaped as `\\`, `\"`, and `\n`, respectively.
-* `value` is a float.
-* the `timestamp` is an `int64` (milliseconds since epoch, i.e. 1970-01-01 00:00:00 UTC, excluding leap seconds), represented as required by the [Go strconv package](http://golang.org/pkg/strconv/) (see functions [`ParseInt`](https://golang.org/pkg/strconv/#ParseInt) and [`ParseFloat`](https://golang.org/pkg/strconv/#ParseFloat)). In addition to standard integers, `Nan`, `+Inf`, and `-Inf` are valid values representing not a number, positive infinity, and negative infinity, respectively.
+* `value` is a float represented as required by Go's [`ParseFloat()`](https://golang.org/pkg/strconv/#ParseFloat) function. In addition to standard numerical values, `Nan`, `+Inf`, and `-Inf` are valid values representing not a number, positive infinity, and negative infinity, respectively.
+* The `timestamp` is an `int64` (milliseconds since epoch, i.e. 1970-01-01 00:00:00 UTC, excluding leap seconds), represented as required by Go's [`ParseInt()`](https://golang.org/pkg/strconv/#ParseInt) function.
 
 #### Grouping and sorting
 

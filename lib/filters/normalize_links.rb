@@ -1,6 +1,7 @@
 # encoding: utf-8
 
 require 'nokogiri'
+require 'uri'
 
 class NormalizeLinks < ::Nanoc::Filter
   identifier :normalize_links
@@ -18,7 +19,7 @@ class NormalizeLinks < ::Nanoc::Filter
         when link['href'].start_with?('/')
           # TODO(ts): It's not guaranteed that a repository is hosted on Github.
           github_link_to(link['href'], config)
-        when link['href'].include?('.md')
+        when link['href'].include?('.md') && !URI.parse(link['href']).absolute?
           relative_link_to(link['href'])
         else
           link['href']

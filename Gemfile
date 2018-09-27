@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'nanoc'
+gem 'nanoc', '~> 4.0'
 gem 'adsf'
 gem 'kramdown'
 gem 'guard-nanoc'
@@ -12,7 +12,6 @@ gem 'builder'
 gem 'rb-inotify', :require => false
 gem 'rb-fsevent', :require => false
 gem 'rb-fchange', :require => false
-gem 'nanoc-cachebuster'
 
 group :test do
   gem 'rspec'

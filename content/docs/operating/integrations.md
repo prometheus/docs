@@ -20,9 +20,10 @@ these categories.
 ## File Service Discovery
 
 For service discovery mechanisms not natively supported by Prometheus,
-[file-based service discovery](/docs/operating/configuration/#<file_sd_config>) provides an interface for integrating.
+[file-based service discovery](/docs/operating/configuration/#%3Cfile_sd_config%3E) provides an interface for integrating.
 
  * [Docker Swarm](https://github.com/ContainerSolutions/prometheus-swarm-discovery)
+ * [Scaleway](https://github.com/scaleway/prometheus-scw-sd)
 
 ## Remote Endpoints and Storage
 
@@ -39,7 +40,9 @@ data volumes.
   * [Elasticsearch](https://github.com/infonova/prometheusbeat): write
   * [Gnocchi](https://gnocchi.xyz/prometheus.html): write
   * [Graphite](https://github.com/prometheus/prometheus/tree/master/documentation/examples/remote_storage/remote_storage_adapter): write
-  * [InfluxDB](https://docs.influxdata.com/influxdb/v1.4/supported_protocols/prometheus): read and write
+  * [InfluxDB](https://docs.influxdata.com/influxdb/latest/supported_protocols/prometheus): read and write
+  * [IRONdb](https://github.com/circonus-labs/irondb-prometheus-adapter): read and write
+  * [M3DB](https://m3db.github.io/m3/integrations/prometheus): read and write
   * [OpenTSDB](https://github.com/prometheus/prometheus/tree/master/documentation/examples/remote_storage/remote_storage_adapter): write
   * [PostgreSQL/TimescaleDB](https://github.com/timescale/prometheus-postgresql-adapter): read and write
   * [SignalFx](https://github.com/signalfx/metricproxy#prometheus): write
@@ -67,4 +70,5 @@ you to integrate it with your existing systems or build on top of it.
 
 ## Other
 
+  * [karma](https://github.com/prymitive/karma): alert dashboard
   * [PushProx](https://github.com/RobustPerception/PushProx): Proxy to transverse NAT and similar network setups

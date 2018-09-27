@@ -13,24 +13,13 @@
 #   item, use the pattern “/about/*/”; “/about/*” will also select the parent,
 #   because “*” matches zero or more characters.
 
+passthrough '/assets/**'
+
 compile '/_redirects/' do
 end
 
 route '/_redirects/' do
   '/_redirects'
-end
-
-compile '/assets/*' do
-end
-
-route '/assets/*' do
-  # Cachebuster currently doesn't fingerprint all needed files (SVG and font
-  # extensions are missing), so we need to differentiate here.
-  if Nanoc::Cachebuster::FILETYPES_TO_FINGERPRINT.include?(item[:extension])
-    item.identifier[0..-(3 + item[:extension].length)] + fingerprint(item[:filename]) + '.' + item[:extension]
-  else
-    item.identifier[0..-2]
-  end
 end
 
 # TODO(ts): Remove these hacks once the nanoc4 upgrade is done.
@@ -78,8 +67,6 @@ compile '*' do
   else
     layout 'default'
   end
-
-  filter :cache_buster
 end
 
 route '/blog/' do
@@ -97,10 +84,10 @@ end
 route '*' do
   if item[:extension] == 'css'
     # Write item with identifier /foo/ to /foo.css
-    item.identifier.chop + fingerprint(item[:filename]) + '.css'
+    item.identifier.chop + '.css'
   elsif item.binary?
-    # Write item with identifier /foo/ to /foo.ext
-    item.identifier.chop + '.' + item[:extension]
+    # Write item with identifier /foo.dat to /foo.dat
+    item.identifier.to_s
   else
     # Write item with identifier /foo/ to /foo/index.html
     item.identifier + 'index.html'

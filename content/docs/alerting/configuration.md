@@ -241,19 +241,30 @@ basic_auth:
 
 # Configures the TLS settings.
 tls_config:
-  # CA certificate to validate the server certificate with.
-  [ ca_file: <filepath> ]
-  # Certificate and key files for client cert authentication to the server.
-  [ cert_file: <filepath> ]
-  [ key_file: <filepath> ]
-  # ServerName extension to indicate the name of the server.
-  # http://tools.ietf.org/html/rfc4366#section-3.1
-  [ server_name: <string> ]
-  # Disable validation of the server certificate.
-  [ insecure_skip_verify: <boolean> | default = false]
+  [ <tls_config> ]
 
 # Optional proxy URL.
 [ proxy_url: <string> ]
+```
+
+## `<tls_config>`
+
+A `tls_config` allows configuring TLS connections.
+
+```yaml
+# CA certificate to validate the server certificate with.
+[ ca_file: <filepath> ]
+
+# Certificate and key files for client cert authentication to the server.
+[ cert_file: <filepath> ]
+[ key_file: <filepath> ]
+
+# ServerName extension to indicate the name of the server.
+# http://tools.ietf.org/html/rfc4366#section-3.1
+[ server_name: <string> ]
+
+# Disable validation of the server certificate.
+[ insecure_skip_verify: <boolean> | default = false]
 ```
 
 ## `<receiver>`
@@ -313,6 +324,10 @@ to: <tmpl_string>
 
 # The SMTP TLS requirement.
 [ require_tls: <bool> | default = global.smtp_require_tls ]
+
+# TLS configuration.
+tls_config:
+  [ <tls_config> ]
 
 # The HTML body of the email notification.
 [ html: <tmpl_string> | default = '{{ template "email.default.html" . }}' ]

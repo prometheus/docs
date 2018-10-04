@@ -408,8 +408,35 @@ service_key: <tmpl_secret>
   num_resolved: '{{ .Alerts.Resolved | len }}'
 } ]
 
+# Images to attach to the incident.
+images:
+  [ <image_config> ... ]
+
+# Links to attach to the incident.
+links:
+  [ <link_config> ... ]
+
 # The HTTP client's configuration.
 [ http_config: <http_config> | default = global.http_config ]
+```
+
+### `<image_config>`
+
+The fields are documented in the [PagerDuty API documentation](https://v2.developer.pagerduty.com/v2/docs/send-an-event-events-api-v2#section-the-images-property).
+
+```yaml
+source: <tmpl_string>
+alt: <tmpl_string>
+text: <tmpl_string>
+```
+
+### `<link_config>`
+
+The fields are documented in the [PagerDuty API documentation](https://v2.developer.pagerduty.com/v2/docs/send-an-event-events-api-v2#section-the-links-property).
+
+```yaml
+href: <tmpl_string>
+text: <tmpl_string>
 ```
 
 ## `<pushover_config>`

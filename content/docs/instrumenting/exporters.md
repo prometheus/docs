@@ -148,6 +148,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [BOSH exporter](https://github.com/cloudfoundry-community/bosh_exporter)
    * [cAdvisor](https://github.com/google/cadvisor)
    * [Cachet exporter](https://github.com/ContaAzul/cachet_exporter)
+   * [ccache exporter](https://github.com/virtualtam/ccache_exporter)
    * [Confluence exporter](https://github.com/AndreyVMarkelov/prom-confluence-exporter)
    * [Dovecot exporter](https://github.com/kumina/dovecot_exporter)
    * [eBPF exporter](https://github.com/cloudflare/ebpf_exporter)

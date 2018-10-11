@@ -30,6 +30,7 @@ Unofficial third-party client libraries:
 * [Lua](https://github.com/tarantool/prometheus) for Tarantool
 * [.NET / C#](https://github.com/andrasm/prometheus-net)
 * [Node.js](https://github.com/siimon/prom-client)
+* [Perl](https://metacpan.org/pod/Net::Prometheus)
 * [PHP](https://github.com/Jimdo/prometheus_client_php)
 * [Rust](https://github.com/pingcap/rust-prometheus)
 

@@ -80,11 +80,11 @@ global:
   [ smtp_require_tls: <bool> | default = true ]
 
   # The API URL to use for Slack notifications.
-  [ slack_api_url: <string> ]
-  [ victorops_api_key: <string> ]
+  [ slack_api_url: <secret> ]
+  [ victorops_api_key: <secret> ]
   [ victorops_api_url: <string> | default = "https://alert.victorops.com/integrations/generic/20131114/alert/" ]
   [ pagerduty_url: <string> | default = "https://events.pagerduty.com/v2/enqueue" ]
-  [ opsgenie_api_key: <string> ]
+  [ opsgenie_api_key: <secret> ]
   [ opsgenie_api_url: <string> | default = "https://api.opsgenie.com/" ]
   [ hipchat_api_url: <string> | default = "https://api.hipchat.com/" ]
   [ hipchat_auth_token: <secret> ]

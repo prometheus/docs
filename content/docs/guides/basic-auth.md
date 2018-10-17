@@ -70,7 +70,7 @@ prometheus \
 You can use cURL to interact with your local nginx/Prometheus setup. Try this request:
 
 ```bash
-curl --head http://localhost/prometheus/graph
+curl --head http://localhost:12321/prometheus/graph
 ```
 
 This will return a `401 Unauthorized` response because you've failed to supply a valid username and password. The response will also contain a `WWW-Authenticate: Basic realm="Prometheus"` header supplied by nginx, indicating that the `Prometheus` basic auth realm, specified by the `auth_basic` parameter for nginx, is enforced.
@@ -78,7 +78,7 @@ This will return a `401 Unauthorized` response because you've failed to supply a
 To successfully access Prometheus endpoints using basic auth, for example the `/metrics` endpoint, supply the proper username using the `-u` flag and supply the password when prompted:
 
 ```bash
-curl -u admin http://localhost/prometheus/metrics
+curl -u admin http://localhost:12321/prometheus/metrics
 Enter host password for user 'admin':
 ```
 

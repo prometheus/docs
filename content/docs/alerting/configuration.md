@@ -521,13 +521,29 @@ fields:
 
 ### `<action_config>`
 
-The fields are documented in the [Slack API documentation](https://api.slack.com/docs/message-attachments#action_fields).
+The fields are documented in the Slack API documentation for [message attachments](https://api.slack.com/docs/message-attachments#action_fields) and [interactive messages](https://api.slack.com/docs/interactive-message-field-guide#action_fields).
 
 ```yaml
-type: <tmpl_string>
 text: <tmpl_string>
-url: <tmpl_string>
-[ style: <tmpl_string> [ default = '' ]
+type: <tmpl_string>
+# Either url or name and value are mandatory.
+[ url: <tmpl_string> ]
+[ name: <tmpl_string> ]
+[ value: <tmpl_string> ]
+
+[ confirm: <action_confirm_field_config> ]
+[ style: <tmpl_string> | default = '' ]
+```
+
+#### `<action_confirm_field_config>`
+
+The fields are documented in the [Slack API documentation](https://api.slack.com/docs/interactive-message-field-guide#confirmation_fields).
+
+```yaml
+text: <tmpl_string>
+[ dismiss_text: <tmpl_string> | default '' ]
+[ ok_text: <tmpl_string> | default '' ]
+[ title: <tmpl_string> | default '' ]
 ```
 
 ### `<field_config>`

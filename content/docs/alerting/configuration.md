@@ -503,6 +503,7 @@ actions:
   [ <action_config> ... ]
 [ color: <tmpl_string> | default = '{{ if eq .Status "firing" }}danger{{ else }}good{{ end }}' ]
 [ fallback: <tmpl_string> | default = '{{ template "slack.default.fallback" . }}' ]
+[ callback_id: <tmpl_string> | default = '{{ template "slack.default.callbackid" . }}' ]
 fields:
   [ <field_config> ... ]
 [ footer: <tmpl_string> | default = '{{ template "slack.default.footer" . }}' ]

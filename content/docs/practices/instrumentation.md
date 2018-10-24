@@ -190,8 +190,8 @@ that large, investigate alternate solutions such as reducing the number of
 dimensions or moving the analysis away from monitoring and to a general-purpose
 processing system.
 
-To give you a better idea of the underlying numbers, let's look at node_exporter.
-node_exporter exposes metrics for every mounted filesystem. Every node will have
+To give you a better idea of the underlying numbers, let's look at node\_exporter.
+node\_exporter exposes metrics for every mounted filesystem. Every node will have
 in the tens of timeseries for, say, `node_filesystem_avail`. If you have
 10,000 nodes, you will end up with roughly 100,000 timeseries for
 `node_filesystem_avail`, which is fine for Prometheus to handle.

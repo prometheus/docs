@@ -29,7 +29,7 @@ function parseSearch(searchString) {
   var labels = searchString.replace(/{|}|\"|\'/g, "").split(",");
   var o = {};
   labels.forEach(function(label) {
-    var l = label.split("=");
+    var l = label.trim().split("=");
     o[l[0]] = l[1];
   });
   return o;

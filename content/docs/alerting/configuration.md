@@ -501,6 +501,7 @@ channel: <tmpl_string>
 # The following parameters define the attachment.
 actions:
   [ <action_config> ... ]
+[ callback_id: <tmpl_string> | default = '{{ template "slack.default.callbackid" . }}' ]
 [ color: <tmpl_string> | default = '{{ if eq .Status "firing" }}danger{{ else }}good{{ end }}' ]
 [ fallback: <tmpl_string> | default = '{{ template "slack.default.fallback" . }}' ]
 fields:

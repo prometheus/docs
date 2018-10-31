@@ -61,6 +61,7 @@ For notification mechanisms not natively supported by the Alertmanager, the
   * [prom2teams](https://github.com/idealista/prom2teams): forwards notifications to Microsoft Teams
   * [SMS](https://github.com/messagebird/sachet): supports [multiple providers](https://github.com/messagebird/sachet/blob/master/examples/config.yaml)
   * [Telegram bot](https://github.com/inCaller/prometheus_bot)
+  * [XMPP Bot](https://github.com/jelmer/prometheus-xmpp-alerts)
 
 ## Management
 

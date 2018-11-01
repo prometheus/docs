@@ -70,6 +70,7 @@ you to integrate it with your existing systems or build on top of it.
 
   * [Prometheus Operator](https://github.com/coreos/prometheus-operator): Manages Prometheus on top of Kubernetes
   * [Promgen](https://github.com/line/promgen): Web UI and configuration generator for Prometheus and Alertmanager
+  * [Butler CMS](https://github.com/adobe/butler): CMS for managing cluster Prometheus and Alertmanager configurations.
 
 ## Other
 

@@ -55,7 +55,7 @@ You can manually try the first query type with curl in another terminal. If you 
 <a name="query-exporter"></a>
 
 ```bash
-curl "localhost:9115/metrics"
+curl 'localhost:9115/metrics'
 ```
 
 The response should be a list of metrics of mostly starting with `go_` and `process_` in the Prometheus [format](/docs/instrumenting/exposition_formats/#text-format-example).
@@ -66,7 +66,7 @@ We will use the target `prometheus.io` and the predefined module `http_2xx`. It 
 You can now tell your blackbox exporter to query `prometheus.io` in the terminal with curl:
 
 ```bash
-curl "localhost:9115/probe?target=prometheus.io&module=http_2xx"
+curl 'localhost:9115/probe?target=prometheus.io&module=http_2xx'
 ```
 
 This will return a lot of metrics:

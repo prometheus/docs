@@ -21,9 +21,9 @@ Any exporter receives requests from Prometheus and answers them with data forwar
 * the exporter gets the targets and a query config string as parameters of Prometheus’ GET request.
 * the exporter subsequently starts the scrape after getting Prometheus’ GET requests and once it is done with scraping.
 
-This pattern is only used for certain exporters, namely the [blackbox](https://github.com/prometheus/blackbox_exporter), the [SNMP](https://github.com/prometheus/snmp_exporter) and the [IPMI exporter](https://github.com/soundcloud/ipmi_exporter).
+This pattern is only used for certain exporters, namely the [blackbox](https://github.com/prometheus/blackbox_exporter) and the [SNMP exporter](https://github.com/prometheus/snmp_exporter).
 
-The reason is that we either can’t run the exporter on the targets, e.g. network gear speaking SNMP or servers whose OS we don’t have access too speaking IPMI, or that we are explicitly interested in the distance, e.g. latency and reachability of a website from a specific point outside of our network.
+The reason is that we either can’t run the exporter on the targets, e.g. network gear speaking SNMP, or that we are explicitly interested in the distance, e.g. latency and reachability of a website from a specific point outside of our network.
 
 ## Running proxy exporters
 

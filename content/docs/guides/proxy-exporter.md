@@ -50,7 +50,7 @@ There are two ways of querying:
 1. Querying the exporter itself. It has its own metrics, usually available at `/metrics`.
 1. Querying the exporter to scrape another target. Usually available at a "descriptive" endpoint, e.g. `/probe`.
 
-You can manually try the first query type with curl in another terminal. If you don’t have curl, you can also copy the part between the `"` into a browser’s address bar:
+You can manually try the first query type with curl in another terminal. If you don’t have curl, you can also copy the part between the `'` into a browser’s address bar:
 
 <a name="query-exporter"></a>
 

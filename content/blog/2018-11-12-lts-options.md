@@ -1,6 +1,6 @@
 ---
 title: Prometheus Long-Term Storage Options
-created_at: 2018-09-03
+created_at: 2018-11-12
 kind: article
 author_name: Michael Hausenblas
 ---
@@ -55,6 +55,6 @@ Further references:
 
 Last but not least, have a look at this [PromCon 2018 panel on LTS approaches](https://youtu.be/VvJx0WTiGcA?t=23774) to understand the motivation and design considerations behind each of the above listed offerings better:
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/VvJx0WTiGcA?start=23775" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+<iframe width="560" height="315" src="https://www.youtube.com/watch?v=3pTG_N8yGSU" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
 
-In a nutshell: while Prometheus itself does not support long-term retention of your timeseries data, there are a number of solutions you can choose from to make this possible.
+In a nutshell: while Prometheus itself does not support long-term retention of your time series data, there are a number of solutions you can choose from to make this possible.

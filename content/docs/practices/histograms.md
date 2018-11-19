@@ -22,7 +22,7 @@ only in a limited fashion (lacking [quantile calculation](#quantiles)).
 
 ## Count and sum of observations
 
-Histograms and summaries both sample observations, typically request
+Histograms and summaries are both sample observations - typically request
 durations or response sizes. They track the number of observations
 *and* the sum of the observed values, allowing you to calculate the
 *average* of the observed values. Note that the number of observations

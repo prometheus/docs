@@ -35,7 +35,7 @@ data volumes.
 
   * [AppOptics](https://github.com/solarwinds/prometheus2appoptics): write
   * [Chronix](https://github.com/ChronixDB/chronix.ingester): write
-  * [Cortex](https://github.com/weaveworks/cortex): read and write
+  * [Cortex](https://github.com/cortexproject/cortex): read and write
   * [CrateDB](https://github.com/crate/crate_adapter): read and write
   * [Elasticsearch](https://github.com/infonova/prometheusbeat): write
   * [Gnocchi](https://gnocchi.xyz/prometheus.html): write

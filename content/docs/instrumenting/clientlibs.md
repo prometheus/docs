@@ -31,7 +31,7 @@ Unofficial third-party client libraries:
 * [.NET / C#](https://github.com/andrasm/prometheus-net)
 * [Node.js](https://github.com/siimon/prom-client)
 * [Perl](https://metacpan.org/pod/Net::Prometheus)
-* [PHP](https://github.com/Jimdo/prometheus_client_php)
+* PHP - [Jimdo](https://github.com/Jimdo/prometheus_client_php) / [openmetrics-php](https://github.com/openmetrics-php/exposition-text)
 * [Rust](https://github.com/pingcap/rust-prometheus)
 
 When Prometheus scrapes your instance's HTTP endpoint, the client library

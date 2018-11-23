@@ -9,6 +9,7 @@ Prometheus does not directly support [Transport Layer Security](https://en.wikip
 
 NOTE: Although TLS connections *to* Prometheus instances are not supported, TLS is supported for connections *from* Prometheus instances to [scrape targets](../../prometheus/latest/configuration/configuration/#<tls_config>).
 
+
 ## nginx example
 
 Let's say that you want to run a Prometheus instance behind an [nginx](https://www.nginx.com/) server available at the `example.com` domain (which you own), and for all Prometheus endpoints to be available via the `/prometheus` endpoint. The full URL for Prometheus' `/metrics` endpoint would thus be:

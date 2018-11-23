@@ -6,7 +6,7 @@ title: Basic auth
 
 Prometheus does not directly support [basic authentication](https://en.wikipedia.org/wiki/Basic_access_authentication) (aka "basic auth") for connections to the Prometheus [expression browser](/docs/visualization/browser) and [HTTP API](/docs/prometheus/latest/querying/api). If you'd like to enforce basic auth for those connections, we recommend using Prometheus in conjunction with a [reverse proxy](https://www.nginx.com/resources/glossary/reverse-proxy-server/) and applying authentication at the proxy layer. You can use any reverse proxy you like with Prometheus, but in this guide we'll provide an [nginx example](#nginx-example).
 
-NOTE: Although basic auth connections *to* Prometheus instances are not supported, basic auth is supported for connections *from* Prometheus instances to [scrape targets](../prometheus/latest/configuration/configuration/#<scrape_config>).
+NOTE: Although basic auth connections *to* Prometheus instances are not supported, basic auth is supported for connections *from* Prometheus instances to [scrape targets](../../prometheus/latest/configuration/configuration/#<scrape_config>).
 
 ## nginx example
 

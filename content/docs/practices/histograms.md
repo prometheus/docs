@@ -75,8 +75,11 @@ following expression yields the Apdex score for each job over the last
     (
       sum(rate(http_request_duration_seconds_bucket{le="0.3"}[5m])) by (job)
     +
-      sum(rate(http_request_duration_seconds_bucket{le="1.2"}[5m])) by (job)
-    ) / 2 / sum(rate(http_request_duration_seconds_count[5m])) by (job)
+      (sum(rate(http_request_duration_seconds_bucket{le="1.2"}[5m])) by (job)
+      -
+      sum(rate(http_request_duration_seconds_bucket{le="0.3"}[5m])) by (job)
+      ) / 2 
+    ) / sum(rate(http_request_duration_seconds_count[5m])) by (job)
 
 Note that we divide the sum of both buckets. The reason is that the histogram
 buckets are

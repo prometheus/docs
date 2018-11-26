@@ -159,6 +159,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [Kannel exporter](https://github.com/apostvav/kannel_exporter)
    * [Kemp LoadBalancer exporter](https://github.com/giantswarm/prometheus-kemp-exporter)
    * [Kibana Exporter](https://github.com/pjhampton/kibana-prometheus-exporter)
+   * [libvirt Exporter](https://github.com/sunnoy/prometheus-libvirt-exporter)
    * [Meteor JS web framework exporter](https://atmospherejs.com/sevki/prometheus-exporter)
    * [Minecraft exporter module](https://github.com/Baughn/PrometheusIntegration)
    * [PHP-FPM exporter](https://github.com/bakins/php-fpm-exporter)

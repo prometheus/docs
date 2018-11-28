@@ -224,7 +224,6 @@ separate exporters are needed:
 ### Storage
    * [Ceph](http://docs.ceph.com/docs/master/mgr/prometheus/)
    * [Minio](https://github.com/minio/minio)
-   * [Portworx](https://github.com/portworx/px-dev)
    * [Quobyte](https://www.quobyte.com/) (**direct**)
 
 The software marked *direct* is also directly instrumented with a Prometheus client library.

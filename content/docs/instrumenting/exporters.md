@@ -154,6 +154,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [Dovecot exporter](https://github.com/kumina/dovecot_exporter)
    * [eBPF exporter](https://github.com/cloudflare/ebpf_exporter)
    * [Ethereum Client exporter](https://github.com/31z4/ethereum-prometheus-exporter)
+   * [FreeRADIUS exporter](https://github.com/bvantagelimited/freeradius_exporter)
    * [Jenkins exporter](https://github.com/lovoo/jenkins_exporter)
    * [JIRA exporter](https://github.com/AndreyVMarkelov/jira-prometheus-exporter)
    * [Kannel exporter](https://github.com/apostvav/kannel_exporter)

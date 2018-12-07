@@ -48,6 +48,7 @@ data volumes.
   * [PostgreSQL/TimescaleDB](https://github.com/timescale/prometheus-postgresql-adapter): read and write
   * [SignalFx](https://github.com/signalfx/metricproxy#prometheus): write
   * [VictoriaMetrics](https://github.com/VictoriaMetrics/VictoriaMetrics): write
+  * [Wavefront](https://github.com/wavefrontHQ/prometheus-storage-adapter): write
 
 ## Alertmanager Webhook Receiver
 

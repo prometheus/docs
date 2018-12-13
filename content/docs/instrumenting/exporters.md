@@ -66,6 +66,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [Ubiquiti UniFi exporter](https://github.com/mdlayher/unifi_exporter)
 
 ### Messaging systems
+   * [App Connect Enterprise exporter](https://github.com/ot4i/ace-docker)
    * [Beanstalkd exporter](https://github.com/messagebird/beanstalkd_exporter)
    * [Gearman exporter](https://github.com/bakins/gearman-exporter)
    * [Kafka exporter](https://github.com/danielqsj/kafka_exporter)

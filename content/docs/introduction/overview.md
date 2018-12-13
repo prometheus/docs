@@ -25,7 +25,7 @@ For more elaborate overviews of Prometheus, see the resources linked from the
 Prometheus's main features are:
 
 * a multi-dimensional [data model](/docs/concepts/data_model/) with time series data identified by metric name and key/value pairs
-* a [flexible query language](/docs/prometheus/latest/querying/basics/)
+* PromQL, a [flexible query language](/docs/prometheus/latest/querying/basics/)
   to leverage this dimensionality
 * no reliance on distributed storage; single server nodes are autonomous
 * time series collection happens via a pull model over HTTP

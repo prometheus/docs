@@ -84,7 +84,7 @@ Since all the data is available through the HTTP protocol, we wrote a
 store it in a [MySQL](https://www.mysql.com/) database accessed via a web
 application that creates a live floor map. This allows us to know with a simple
 mouse over which user is seated where with what type of hardware.  We also
-created another page with user’s picture & departement information, it helps
+created another page with user’s picture & department information, it helps
 new employees know who’s their neighbour.  The website is still an ongoing
 project so please don’t judge the look, we’re sysadmins after all not web
 designers :-)

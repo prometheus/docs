@@ -379,7 +379,7 @@ PagerDuty provides documentation on how to integrate [here](https://www.pagerdut
 # Whether or not to notify about resolved alerts.
 [ send_resolved: <boolean> | default = true ]
 
-# The following two options are mututally exclusive.
+# The following two options are mutually exclusive.
 # The PagerDuty integration key (when using PagerDuty integration type `Events API v2`).
 routing_key: <tmpl_secret>
 # The PagerDuty integration key (when using PagerDuty integration type `Prometheus`).

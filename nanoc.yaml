@@ -113,36 +113,6 @@ data_sources:
   -
     type: repo_docs
     identifier_type: legacy
-    items_root: /docs/prometheus/2.2/
-    config:
-      name: '2.2'
-      repository: https://github.com/prometheus/prometheus.git
-      refspec: release-2.2
-      canonical: /docs/prometheus/latest/
-      outdated: /docs/prometheus/latest/
-  -
-    type: repo_docs
-    identifier_type: legacy
-    items_root: /docs/prometheus/2.1/
-    config:
-      name: '2.1'
-      repository: https://github.com/prometheus/prometheus.git
-      refspec: release-2.1
-      canonical: /docs/prometheus/latest/
-      outdated: /docs/prometheus/latest/
-  -
-    type: repo_docs
-    identifier_type: legacy
-    items_root: /docs/prometheus/2.0/
-    config:
-      name: '2.0'
-      repository: https://github.com/prometheus/prometheus.git
-      refspec: release-2.0
-      canonical: /docs/prometheus/latest/
-      outdated: /docs/prometheus/latest/
-  -
-    type: repo_docs
-    identifier_type: legacy
     items_root: /docs/prometheus/1.8/
     config:
       name: '1.8'

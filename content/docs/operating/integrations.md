@@ -50,6 +50,7 @@ data volumes.
   * [TiKV](https://github.com/bragfoo/TiPrometheus): read and write
   * [VictoriaMetrics](https://github.com/VictoriaMetrics/VictoriaMetrics): write
   * [Wavefront](https://github.com/wavefrontHQ/prometheus-storage-adapter): write
+  * [Splunk](https://github.com/lukemonahan/splunk_modinput_prometheus#prometheus-remote-write): write
 
 ## Alertmanager Webhook Receiver
 

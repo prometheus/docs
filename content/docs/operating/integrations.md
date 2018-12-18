@@ -47,10 +47,10 @@ data volumes.
   * [OpenTSDB](https://github.com/prometheus/prometheus/tree/master/documentation/examples/remote_storage/remote_storage_adapter): write
   * [PostgreSQL/TimescaleDB](https://github.com/timescale/prometheus-postgresql-adapter): read and write
   * [SignalFx](https://github.com/signalfx/metricproxy#prometheus): write
+  * [Splunk](https://github.com/lukemonahan/splunk_modinput_prometheus#prometheus-remote-write): write
   * [TiKV](https://github.com/bragfoo/TiPrometheus): read and write
   * [VictoriaMetrics](https://github.com/VictoriaMetrics/VictoriaMetrics): write
   * [Wavefront](https://github.com/wavefrontHQ/prometheus-storage-adapter): write
-  * [Splunk](https://github.com/lukemonahan/splunk_modinput_prometheus#prometheus-remote-write): write
 
 ## Alertmanager Webhook Receiver
 

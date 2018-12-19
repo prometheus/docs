@@ -13,7 +13,7 @@ Weaveworks talks about how they choose Prometheus and are now building on it.*
 
 [Weaveworks](https://www.weave.works/) offers [Weave
 Cloud](https://www.weave.works/solution/cloud/), a service which
-"operationalizes" microservices through a combination of open source projects
+"operationalize" microservices through a combination of open source projects
 and software as a service.
 
 Weave Cloud consists of: 

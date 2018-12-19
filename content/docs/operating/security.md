@@ -125,7 +125,7 @@ headers](https://fetch.spec.whatwg.org/#http-cors-protocol) such as
 [XSS](https://en.wikipedia.org/wiki/Cross-site_scripting).
 
 If you are composing PromQL queries that include input from untrusted users
-(e.g. URL paramaters to console templates, or something you built yourself) who
+(e.g. URL parameters to console templates, or something you built yourself) who
 are not meant to be able to run aribtrary PromQL queries make sure any
 untrusted input is appropriately escaped to prevent injection attacks. For
 example `up{job="<user_input>"}` would become `up{job=""} or

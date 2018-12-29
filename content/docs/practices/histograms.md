@@ -85,7 +85,7 @@ buckets are
 corrects for that.
 
 The calculation does not exactly match the traditional Apdex score, as it
-includes errors in the satisified and tolerable parts of the calculation.
+includes errors in the satisfied and tolerable parts of the calculation.
 
 ## Quantiles
 

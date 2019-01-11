@@ -10,7 +10,7 @@ should offer, with the aim of consistency across libraries, making the easy use
 cases easy and avoiding offering functionality that may lead users down the
 wrong path.
 
-There are [10 languages already supported](/docs/instrumenting/clientlibs) at
+There are [10 languages already supported](/content/docs/instrumenting/clientlibs.md) at
 the time of writing, so we’ve gotten a good sense by now of how to write a
 client. These guidelines aim to help authors of new client libraries produce
 good libraries.
@@ -313,7 +313,7 @@ descriptions, to lead by example.
 ## Exposition
 
 Clients MUST implement the text-based exposition format outlined in the
-[exposition formats](/docs/instrumenting/exposition_formats) documentation.
+[exposition formats](/content/docs/instrumenting/exposition_formats.md) documentation.
 
 Reproducible order of the exposed metrics is ENCOURAGED (especially for human
 readable formats) if it can be implemented without a significant resource cost.

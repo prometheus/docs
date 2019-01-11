@@ -39,10 +39,10 @@ sends the current state of all tracked metrics to the server.
 
 If no client library is available for your language, or you want to avoid
 dependencies, you may also implement one of the supported [exposition
-formats](/docs/instrumenting/exposition_formats/) yourself to expose metrics.
+formats](/content/docs/instrumenting/exposition_formats.md) yourself to expose metrics.
 
 When implementing a new Prometheus client library, please follow the
-[guidelines on writing client libraries](/docs/instrumenting/writing_clientlibs).
+[guidelines on writing client libraries](/content/docs/instrumenting/writing_clientlibs.md).
 Note that this document is still a work in progress. Please also consider
 consulting the [development mailing list](https://groups.google.com/forum/#!forum/prometheus-developers).
 We are happy to give advice on how to make your library as useful and

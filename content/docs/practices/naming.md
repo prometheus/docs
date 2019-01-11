@@ -65,7 +65,7 @@ unbounded sets of values.
 
 ## Base units
 
-Prometheus does not have any units hard coded. For better compability, base
+Prometheus does not have any units hard coded. For better compatibility, base
 units should be used. The following lists some metrics families with their base unit.
 The list is not exhaustive.
 

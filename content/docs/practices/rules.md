@@ -50,66 +50,81 @@ conflicts and give you more useful metrics and alerts.
 Aggregating up requests per second that has a `path` label:
 
 ```
-instance_path:requests:rate5m =
-  rate(requests_total{job="myjob"}[5m])
+- record: instance_path:requests:rate5m
+  expr: rate(requests_total{job="myjob"}[5m])
 
-path:requests:rate5m =
-  sum without (instance)(instance_path:requests:rate5m{job="myjob"})
+- record: path:requests:rate5m
+  expr: sum without (instance)(instance_path:requests:rate5m{job="myjob"})
 ```
 
 Calculating a request failure ratio and aggregating up to the job-level failure ratio:
 
 ```
-instance_path:request_failures:rate5m =
-  rate(request_failures_total{job="myjob"}[5m])
+- record: instance_path:request_failures:rate5m
+  expr: rate(request_failures_total{job="myjob"}[5m])
 
-instance_path:request_failures_per_requests:ratio_rate5m =
-    instance_path:request_failures:rate5m{job="myjob"}
-  /
-    instance_path:requests:rate5m{job="myjob"}
+- record: instance_path:request_failures_per_requests:ratio_rate5m
+  expr: |
+    (
+        instance_path:request_failures:rate5m{job="myjob"}
+      /
+        instance_path:requests:rate5m{job="myjob"}
+    )
 
-// Aggregate up numerator and denominator, then divide to get path-level ratio.
-path:request_failures_per_requests:ratio_rate5m =
-    sum without (instance)(instance_path:request_failures:rate5m{job="myjob"})
-  /
-    sum without (instance)(instance_path:requests:rate5m{job="myjob"})
+# Aggregate up numerator and denominator, then divide to get path-level ratio.
+- record: path:request_failures_per_requests:ratio_rate5m
+  expr: |
+    (
+        sum without (instance)(instance_path:request_failures:rate5m{job="myjob"})
+      /
+        sum without (instance)(instance_path:requests:rate5m{job="myjob"})
+    )
 
-// No labels left from instrumentation or distinguishing instances,
-// so we use 'job' as the level.
-job:request_failures_per_requests:ratio_rate5m =
-    sum without (instance, path)(instance_path:request_failures:rate5m{job="myjob"})
-  /
-    sum without (instance, path)(instance_path:requests:rate5m{job="myjob"})
+# No labels left from instrumentation or distinguishing instances,
+# so we use 'job' as the level.
+- record: job:request_failures_per_requests:ratio_rate5m
+  expr: |
+    (
+        sum without (instance, path)(instance_path:request_failures:rate5m{job="myjob"})
+      /
+        sum without (instance, path)(instance_path:requests:rate5m{job="myjob"})
+    )
 ```
 
 
 Calculating average latency over a time period from a Summary:
 
 ```
-instance_path:request_latency_seconds_count:rate5m =
-  rate(request_latency_seconds_count{job="myjob"}[5m])
+- record: instance_path:request_latency_seconds_count:rate5m
+  expr: rate(request_latency_seconds_count{job="myjob"}[5m])
 
-instance_path:request_latency_seconds_sum:rate5m =
-  rate(request_latency_seconds_sum{job="myjob"}[5m])
+- record: instance_path:request_latency_seconds_sum:rate5m
+  expr: rate(request_latency_seconds_sum{job="myjob"}[5m])
 
-instance_path:request_latency_seconds:mean5m =
-    instance_path:request_latency_seconds_sum:rate5m{job="myjob"}
-  /
-    instance_path:request_latency_seconds_count:rate5m{job="myjob"}
+- record: instance_path:request_latency_seconds:mean5m
+  expr: |
+    (
+        instance_path:request_latency_seconds_sum:rate5m{job="myjob"}
+      /
+        instance_path:request_latency_seconds_count:rate5m{job="myjob"}
+    )
 
-// Aggregate up numerator and denominator, then divide.
-path:request_latency_seconds:mean5m =
-    sum without (instance)(instance_path:request_latency_seconds_sum:rate5m{job="myjob"})
-  /
-    sum without (instance)(instance_path:request_latency_seconds_count:rate5m{job="myjob"})
+# Aggregate up numerator and denominator, then divide.
+- record: path:request_latency_seconds:mean5m
+  expr: |
+    (
+        sum without (instance)(instance_path:request_latency_seconds_sum:rate5m{job="myjob"})
+      /
+        sum without (instance)(instance_path:request_latency_seconds_count:rate5m{job="myjob"})
+    )
 ```
 
 Calculating the average query rate across instances and paths is done using the
 `avg()` function:
 
 ```
-job:request_latency_seconds_count:avg_rate5m =
-  avg without (instance, path)(instance:request_latency_seconds_count:rate5m{job="myjob"})
+- record: job:request_latency_seconds_count:avg_rate5m
+  expr: avg without (instance, path)(instance:request_latency_seconds_count:rate5m{job="myjob"})
 ```
 
 Notice that when aggregating that the labels in the `without` clause are removed

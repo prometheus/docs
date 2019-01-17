@@ -54,6 +54,7 @@ The current team members are:
 * Brian Brazil
 * Fabian Reinartz
 * Frederic Branczyk
+* Ganesh Vernekar
 * Goutham Veeramachaneni
 * Johannes Ziemke
 * Julius Volz

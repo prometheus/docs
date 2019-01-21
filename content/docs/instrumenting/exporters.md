@@ -164,6 +164,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [Kibana Exporter](https://github.com/pjhampton/kibana-prometheus-exporter)
    * [Meteor JS web framework exporter](https://atmospherejs.com/sevki/prometheus-exporter)
    * [Minecraft exporter module](https://github.com/Baughn/PrometheusIntegration)
+   * [OpenStack exporter](https://github.com/Linaro/openstack-exporter)
    * [PHP-FPM exporter](https://github.com/bakins/php-fpm-exporter)
    * [PowerDNS exporter](https://github.com/ledgr/powerdns_exporter)
    * [Presto exporter](https://github.com/yahoojapan/presto_exporter)

@@ -229,9 +229,11 @@ communicate with HTTP-based API services.
 # mutually exclusive.
 
 # Sets the `Authorization` header with the configured username and password.
+# password and password_file are mutually exclusive.
 basic_auth:
   [ username: <string> ]
   [ password: <secret> ]
+  [ password_file: <string> ]
 
 # Sets the `Authorization` header with the configured bearer token.
 [ bearer_token: <secret> ]

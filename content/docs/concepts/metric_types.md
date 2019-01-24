@@ -36,7 +36,7 @@ arbitrarily go up and down.
 
 Gauges are typically used for measured values like temperatures or current
 memory usage, but also "counts" that can go up and down, like the number of
-running goroutines.
+concurrent requests.
 
 Client library usage documentation for gauges:
 

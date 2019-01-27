@@ -1,6 +1,6 @@
 ---
 title: Subquery Support
-created_at: 2018-12-28
+created_at: 2019-1-28
 kind: article
 author_name: Ganesh Vernekar
 ---

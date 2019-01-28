@@ -1,6 +1,6 @@
 ---
 title: Subquery Support
-created_at: 2019-1-28
+created_at: 2019-01-28
 kind: article
 author_name: Ganesh Vernekar
 ---
@@ -15,9 +15,9 @@ The pull request for subquery support was recently merged into Prometheus [prome
 
 Previously if you wanted to have a range selection on a query for your alerting rules or graphing, it would require you to have a recording rule based on that query, and perform range selection on the metrics created by the recording rules. Example `max_over_time(rate(my_counter_total[5m])[1h])`.
 
-When you want some quick results on data spanning days or weeks, it can be quite a bit of wait until you have enough data in your recording rules before it can be used. Forgetting to add recording rules can be frustrating. And it would be tedious to create a recording rule for each step of a query.
+When you want some quick results on data spanning days or weeks, it can be quite a bit of a wait until you have enough data in your recording rules before it can be used. Forgetting to add recording rules can be frustrating. And it would be tedious to create a recording rule for each step of a query.
 
-With subquery support, all the wait and frustration is taken care of.
+With subquery support, all the waiting and frustration is taken care of.
 
 ## Subqueries
 

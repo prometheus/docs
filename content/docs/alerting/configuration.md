@@ -196,8 +196,9 @@ when an alert (source) exists that matches another set of matchers.
 Both target and source alerts must have the same label values 
 for the label names in the `equal` list.
 
-__Alerts can inhibit themselves. Avoid writing inhibition rules where
-an alert matches both source and target.__
+Semantically, a missing label and a label with an empty value are the same
+thing. Therefore, if all the label names listed in `equal` are missing from
+both the source and target alerts, the inhibition rule will apply.
 
 ```yaml
 # Matchers that have to be fulfilled in the alerts to be muted.

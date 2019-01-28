@@ -13,7 +13,9 @@ The [pull request](https://github.com/prometheus/prometheus/pull/4831) for subqu
 
 ## Motivation
 
-Previously if you wanted to have a range selection on a query for your alerting rules or graphing, it would require you to have a recording rule based on that query, and perform range selection on the metrics created by the recording rules. Example: `max_over_time(rate(my_counter_total[5m])[1h])`.
+Sometimes, there are cases when you want to spot a problem using `rate` with lower resolution/range (e.g. `5m`) while aggregating this data for higher range (e.g. `max_over_time` for `1h`).
+
+Previously, the above was not possible for a single *PromQL* query. If you wanted to have a range selection on a query for your alerting rules or graphing, it would require you to have a recording rule based on that query, and perform range selection on the metrics created by the recording rules. Example: `max_over_time(rate(my_counter_total[5m])[1h])`.
 
 When you want some quick results on data spanning days or weeks, it can be quite a bit of a wait until you have enough data in your recording rules before it can be used. Forgetting to add recording rules can be frustrating. And it would be tedious to create a recording rule for each step of a query.
 

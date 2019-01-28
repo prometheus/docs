@@ -7,13 +7,13 @@ author_name: Ganesh Vernekar
 
 ## Introduction
 
-As the title suggests, a subquery is a part of a query, and allows you to do a range query within a query, which was not possible before. It has been a long-standing feature request [prometheus/prometheus/1227](https://github.com/prometheus/prometheus/issues/1227).
+As the title suggests, a subquery is a part of a query, and allows you to do a range query within a query, which was not possible before. It has been a long-standing feature request: [prometheus/prometheus/1227](https://github.com/prometheus/prometheus/issues/1227).
 
-The pull request for subquery support was recently merged into Prometheus [prometheus/prometheus/4831](https://github.com/prometheus/prometheus/pull/4831) and will be available in Prometheus 2.7. Let’s learn more about it below.
+The [pull request](https://github.com/prometheus/prometheus/pull/4831) for subquery support was recently merged into Prometheus and will be available in Prometheus 2.7. Let’s learn more about it below.
 
 ## Motivation
 
-Previously if you wanted to have a range selection on a query for your alerting rules or graphing, it would require you to have a recording rule based on that query, and perform range selection on the metrics created by the recording rules. Example `max_over_time(rate(my_counter_total[5m])[1h])`.
+Previously if you wanted to have a range selection on a query for your alerting rules or graphing, it would require you to have a recording rule based on that query, and perform range selection on the metrics created by the recording rules. Example: `max_over_time(rate(my_counter_total[5m])[1h])`.
 
 When you want some quick results on data spanning days or weeks, it can be quite a bit of a wait until you have enough data in your recording rules before it can be used. Forgetting to add recording rules can be frustrating. And it would be tedious to create a recording rule for each step of a query.
 
@@ -39,10 +39,10 @@ The subquery inside the `min_over_time` function returns the 5-minute rate of th
 
     min_over_time( rate(http_requests_total[5m])[30m:1m] )
 
-Breakdown
+Breakdown:
 
 * `rate(http_requests_total[5m])[30m:1m]` is the subquery, where `rate(http_requests_total[5m])` is the query to be executed.
-* `rate(http_requests_total[5m])` is executed from `start=<now>-30m` to `end=<now>`, at a resolution of `1m`. Note that `start` time is aligned independantly with step of `1m` (aligned steps are `0m 1m 2m 3m ...`).
+* `rate(http_requests_total[5m])` is executed from `start=<now>-30m` to `end=<now>`, at a resolution of `1m`. Note that `start` time is aligned independently with step of `1m` (aligned steps are `0m 1m 2m 3m ...`).
 * Finally the result of all the evaluations above are passed to `min_over_time()`.
 
 Below is an example of a nested subquery, and usage of default resolution. The innermost subquery gets the rate of `distance_covered_meters_total` over a range of time. We use that to get `deriv()` of the rates, again for a range of time. And finally take the max of all the derivatives.
@@ -50,10 +50,10 @@ Note that the `<now>` time for the innermost subquery is relative to the evaluat
 
     max_over_time( deriv( rate(distance_covered_meters_total[1m])[5m:1m] )[10m:] )
 
-In most cases you would require the default evaluation interval, which is the interval at which rules are evaluated by default. Custom resolution will be helpful in cases where you want to compute less/more frequently, e.g. expensive queries which you might want to compute less frequently.
+In most cases you would require the default evaluation interval, which is the interval at which rules are evaluated by default. Custom resolutions will be helpful in cases where you want to compute less/more frequently, e.g. expensive queries which you might want to compute less frequently.
 
 ## Epilogue
 
-Though subqueries are very convenient to use in place of recording rules, using it unnecessarily has performance implications. Heavy subqueries should eventually be converted to recording rules for efficiency.
+Though subqueries are very convenient to use in place of recording rules, using them unnecessarily has performance implications. Heavy subqueries should eventually be converted to recording rules for efficiency.
 
 It is also not recommended to have subqueries inside a recording rule. Rather create more recording rules if you do need to use subqueries in a recording rule.

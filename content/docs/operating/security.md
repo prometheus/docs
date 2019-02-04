@@ -13,9 +13,8 @@ This page describes the general security assumptions of Prometheus and the
 attack vectors that some configurations may enable.
 
 As with any complex systems it is not possible to guarantee that there are no
-bugs. If you find a security bug, please file it in the issue tracker of the
-relevant component. If you prefer to report privately, please do so to the
-maintainers listed in the MAINTAINERS.md of the relevant repository.
+bugs. If you find a security bug please report it privately to the maintainers
+listed in the MAINTAINERS.md of the relevant repository.
 
 ## Prometheus
 

@@ -61,6 +61,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [IPMI exporter](https://github.com/soundcloud/ipmi_exporter)
    * [knxd exporter](https://github.com/RichiH/knxd_exporter)
    * [Netgear Cable Modem Exporter](https://github.com/ickymettle/netgear_cm_exporter)
+   * [Netgear Router exporter](https://github.com/DRuggeri/netgear_exporter)
    * [Node/system metrics exporter](https://github.com/prometheus/node_exporter) (**official**)
    * [NVIDIA GPU exporter](https://github.com/mindprince/nvidia_gpu_prometheus_exporter)
    * [ProSAFE exporter](https://github.com/dalance/prosafe_exporter)

@@ -69,6 +69,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
 
 ### Messaging systems
    * [Beanstalkd exporter](https://github.com/messagebird/beanstalkd_exporter)
+   * [EMQ exporter](https://github.com/nuvo/emq_exporter)
    * [Gearman exporter](https://github.com/bakins/gearman-exporter)
    * [Kafka exporter](https://github.com/danielqsj/kafka_exporter)
    * [NATS exporter](https://github.com/nats-io/prometheus-nats-exporter)

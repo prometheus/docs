@@ -14,7 +14,10 @@ attack vectors that some configurations may enable.
 
 As with any complex systems it is not possible to guarantee that there are no
 bugs. If you find a security bug please report it privately to the maintainers
-listed in the MAINTAINERS.md of the relevant repository.
+listed in the MAINTAINERS.md of the relevant repository and CC
+prometheus-team@googlegroups.com. We will fix the issue and coordinate a
+release date with you, acknowledging your effort and mentioning you by name
+if you want.
 
 ## Prometheus
 

@@ -21,6 +21,7 @@ the following format:
 [
   {
     "labels": {
+      "alertname": "<requiredAlertName>",
       "<labelname>": "<labelvalue>",
       ...
     },

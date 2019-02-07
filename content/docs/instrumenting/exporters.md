@@ -42,6 +42,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [MSSQL server exporter](https://github.com/awaragi/prometheus-mssql-exporter)
    * [MySQL server exporter](https://github.com/prometheus/mysqld_exporter) (**official**)
    * [OpenTSDB Exporter](https://github.com/cloudflare/opentsdb_exporter)
+   * [Oracle Database Exporter](https://github.com/freenetdigital/prometheus_oracle_exporter)
    * [Oracle DB Exporter](https://github.com/iamseth/oracledb_exporter)
    * [PgBouncer exporter](http://git.cbaines.net/prometheus-pgbouncer-exporter/about)
    * [PostgreSQL exporter](https://github.com/wrouesnel/postgres_exporter)

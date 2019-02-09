@@ -1,5 +1,7 @@
 # Prometheus Documentation
 
+![GitHub release](https://img.shields.io/badge/release-latest-green.svg)
+
 This repository contains both the content and the static-site generator code for the
 Prometheus documentation site.
 

@@ -161,7 +161,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [Ethereum Client exporter](https://github.com/31z4/ethereum-prometheus-exporter)
    * [Jenkins exporter](https://github.com/lovoo/jenkins_exporter)
    * [JIRA exporter](https://github.com/AndreyVMarkelov/jira-prometheus-exporter)
-   * [JMeter exporter](https://github.com/johrstrom/jmeter-prometheus-plugin)
+   * [JMeter plugin](https://github.com/johrstrom/jmeter-prometheus-plugin)
    * [Kannel exporter](https://github.com/apostvav/kannel_exporter)
    * [Kemp LoadBalancer exporter](https://github.com/giantswarm/prometheus-kemp-exporter)
    * [Kibana Exporter](https://github.com/pjhampton/kibana-prometheus-exporter)

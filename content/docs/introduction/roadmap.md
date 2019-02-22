@@ -37,14 +37,6 @@ do not have built-in support for TLS and authentication yet. Adding this support
 will make it easier for people to deploy Prometheus components securely without
 requiring a reverse proxy to add those features externally.
 
-### Ranged subqueries
-
-Currently PromQL only allows range selectors on raw series selectors, not on
-arbitrary PromQL expressions. This makes it necessary to introduce intermediary
-recording rules to compute some results (like the `max_over_time()` of
-a `rate()`). [Subquery support](https://github.com/prometheus/prometheus/issues/1227)
-will enable computing those results in a single query.
-
 ### Support the Ecosystem
 
 Prometheus has a range of client libraries and exporters. There are always more

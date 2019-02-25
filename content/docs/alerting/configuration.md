@@ -551,7 +551,7 @@ value: <tmpl_string>
 
 ## `<opsgenie_config>`
 
-OpsGenie notifications are sent via the [OpsGenie API](https://www.opsgenie.com/docs/web-api/alert-api).
+OpsGenie notifications are sent via the [OpsGenie API](https://docs.opsgenie.com/docs/alert-api).
 
 ```yaml
 # Whether or not to notify about resolved alerts.

@@ -128,6 +128,16 @@ current node.
 
 ```yaml
 [ receiver: <string> ]
+# The labels by which incoming alerts are grouped together. For example,
+# multiple alerts coming in for cluster=A and alertname=LatencyHigh would
+# be batched into a single group.
+#
+# To aggregate by all possible labels use the special value '...' as the sole label name, for example:
+# group_by: ['...'] 
+# This effectively disables aggregation entirely, passing through all 
+# alerts as-is. This is unlikely to be what you want, unless you have 
+# a very low alert volume or your upstream notification system performs 
+# its own grouping.
 [ group_by: '[' <labelname>, ... ']' ]
 
 # Whether an alert should continue matching subsequent sibling nodes.

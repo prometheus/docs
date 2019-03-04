@@ -242,5 +242,6 @@ practices.
    * Java/JVM: [EclipseLink metrics collector](https://github.com/VitaNuova/eclipselinkexporter)
    * Java/JVM: [Hystrix metrics publisher](https://github.com/ahus1/prometheus-hystrix)
    * Java/JVM: [Jersey metrics collector](https://github.com/VitaNuova/jerseyexporter)
+   * Java/JVM: [Micrometer Prometheus Registry](https://micrometer.io/docs/registry/prometheus)
    * Python-Django: [django-prometheus](https://github.com/korfuri/django-prometheus)
    * Node.js: [swagger-stats](https://github.com/slanatech/swagger-stats)

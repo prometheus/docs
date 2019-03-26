@@ -4,12 +4,12 @@ title: Understanding and using the proxy exporter pattern
 
 # Understanding and using the proxy exporter pattern
 
-Exporters that follow the proxy exporter pattern are those who get their target from the Prometheus GET request and scrape these targets while running on a different machine via a network. In this guide, we will:
+This guide will introduce you to the proxy exporter pattern. To achieve this we will:
 
 * describe the proxy exporter pattern and why it is used,
 * run the [blackbox](https://github.com/prometheus/blackbox_exporter) exporter as an example of the pattern,
-* let the blackbox exporter run basic metric queries against the Prometheus [website](https://prometheus.io),
 * configure a custom query module for the blackbox exporter,
+* let the blackbox exporter run basic metric queries against the Prometheus [website](https://prometheus.io),
 * examine a popular pattern of configuring Prometheus to scrape exporters using relabeling.
 
 ## The proxy exporter pattern?

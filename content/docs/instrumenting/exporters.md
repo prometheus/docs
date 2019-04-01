@@ -184,7 +184,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [Xen exporter](https://github.com/lovoo/xenstats_exporter)
 
 When implementing a new Prometheus exporter, please follow the
-[guidelines on writing exporters](/docs/instrumenting/writing_exporters)
+[guidelines on writing exporters](/content/docs/instrumenting/writing_exporters.md)
 Please also consider consulting the [development mailing
 list](https://groups.google.com/forum/#!forum/prometheus-developers).  We are
 happy to give advice on how to make your exporter as useful and consistent as

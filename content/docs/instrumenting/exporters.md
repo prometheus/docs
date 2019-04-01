@@ -66,6 +66,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [NVIDIA GPU exporter](https://github.com/mindprince/nvidia_gpu_prometheus_exporter)
    * [ProSAFE exporter](https://github.com/dalance/prosafe_exporter)
    * [Ubiquiti UniFi exporter](https://github.com/mdlayher/unifi_exporter)
+   * [Hostapd Exporter](https://stash.i2cat.net/scm/~miguel_catalan/hostapd_prometheus_exporter.git)
 
 ### Messaging systems
    * [Beanstalkd exporter](https://github.com/messagebird/beanstalkd_exporter)

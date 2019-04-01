@@ -90,6 +90,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
 ### HTTP
    * [Apache exporter](https://github.com/Lusitaniae/apache_exporter)
    * [HAProxy exporter](https://github.com/prometheus/haproxy_exporter) (**official**)
+   * [Nginx exporter](https://github.com/nginxinc/nginx-prometheus-exporter)
    * [Nginx metric library](https://github.com/knyar/nginx-lua-prometheus)
    * [Nginx VTS exporter](https://github.com/hnlq715/nginx-vts-exporter)
    * [Passenger exporter](https://github.com/stuartnelson3/passenger_exporter)

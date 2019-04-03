@@ -177,6 +177,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [SABnzbd exporter](https://github.com/msroest/sabnzbd_exporter)
    * [Script exporter](https://github.com/adhocteam/script_exporter)
    * [Shield exporter](https://github.com/cloudfoundry-community/shield_exporter)
+   * [Smokeping prober](https://github.com/SuperQ/smokeping_prober)
    * [SMTP/Maildir MDA blackbox prober](https://github.com/cherti/mailexporter)
    * [SoftEther exporter](https://github.com/dalance/softether_exporter)
    * [Transmission exporter](https://github.com/metalmatze/transmission-exporter)

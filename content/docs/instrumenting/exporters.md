@@ -56,6 +56,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
 
 ### Hardware related
    * [apcupsd exporter](https://github.com/mdlayher/apcupsd_exporter)
+   * [BIG-IP exporter](https://github.com/ExpressenAB/bigip_exporter)
    * [Collins exporter](https://github.com/soundcloud/collins_exporter)
    * [IBM Z HMC exporter](https://github.com/zhmcclient/zhmc-prometheus-exporter)
    * [IoT Edison exporter](https://github.com/roman-vynar/edison_exporter)
@@ -155,7 +156,6 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
 
 ### Miscellaneous
    * [ACT Fibernet Exporter](https://git.captnemo.in/nemo/prometheus-act-exporter)
-   * [BIG-IP exporter](https://github.com/ExpressenAB/bigip_exporter)
    * [BIND exporter](https://github.com/digitalocean/bind_exporter)
    * [Blackbox exporter](https://github.com/prometheus/blackbox_exporter) (**official**)
    * [BOSH exporter](https://github.com/cloudfoundry-community/bosh_exporter)

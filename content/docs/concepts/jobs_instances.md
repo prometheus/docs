@@ -6,7 +6,7 @@ sort_rank: 3
 # Jobs and instances
 
 In Prometheus terms, an endpoint you can scrape is called an _instance_,
-usually corresponding to a single process. A collection of instances with the same purpose, a process replicated for scalability or reliability for example, is called a _job_.
+usually corresponding to a single process. An instance is also sometimes referred to as a _target_. A collection of instances with the same purpose, a process replicated for scalability or reliability for example, is called a _job_.
 
 For example, an API server job with four replicated instances:
 

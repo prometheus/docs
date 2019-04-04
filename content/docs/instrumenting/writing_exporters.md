@@ -378,7 +378,7 @@ definitely exclude it.
 
 ### Machine and process metrics
 
-Many systems, for example Elasticsearch, expose machine metrics such a
+Many systems, for example Elasticsearch, expose machine metrics such as
 CPU, memory and filesystem information. As the [node
 exporter](https://github.com/prometheus/node_exporter) provides these in
 the Prometheus ecosystem, such metrics should be dropped.

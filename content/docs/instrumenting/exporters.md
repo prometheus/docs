@@ -45,6 +45,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [Oracle DB Exporter](https://github.com/iamseth/oracledb_exporter)
    * [PgBouncer exporter](http://git.cbaines.net/prometheus-pgbouncer-exporter/about)
    * [PostgreSQL exporter](https://github.com/wrouesnel/postgres_exporter)
+   * [Presto exporter](https://github.com/yahoojapan/presto_exporter)
    * [ProxySQL exporter](https://github.com/percona/proxysql_exporter)
    * [RavenDB exporter](https://github.com/marcinbudny/ravendb_exporter)
    * [Redis exporter](https://github.com/oliver006/redis_exporter)
@@ -55,6 +56,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
 
 ### Hardware related
    * [apcupsd exporter](https://github.com/mdlayher/apcupsd_exporter)
+   * [BIG-IP exporter](https://github.com/ExpressenAB/bigip_exporter)
    * [Collins exporter](https://github.com/soundcloud/collins_exporter)
    * [IBM Z HMC exporter](https://github.com/zhmcclient/zhmc-prometheus-exporter)
    * [IoT Edison exporter](https://github.com/roman-vynar/edison_exporter)
@@ -66,6 +68,14 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [NVIDIA GPU exporter](https://github.com/mindprince/nvidia_gpu_prometheus_exporter)
    * [ProSAFE exporter](https://github.com/dalance/prosafe_exporter)
    * [Ubiquiti UniFi exporter](https://github.com/mdlayher/unifi_exporter)
+
+### Issue trackers and continuous integration
+
+   * [Bamboo exporter](https://github.com/AndreyVMarkelov/bamboo-prometheus-exporter)
+   * [Bitbucket exporter](https://github.com/AndreyVMarkelov/prom-bitbucket-exporter)
+   * [Confluence exporter](https://github.com/AndreyVMarkelov/prom-confluence-exporter)
+   * [Jenkins exporter](https://github.com/lovoo/jenkins_exporter)
+   * [JIRA exporter](https://github.com/AndreyVMarkelov/jira-prometheus-exporter)
 
 ### Messaging systems
    * [Beanstalkd exporter](https://github.com/messagebird/beanstalkd_exporter)
@@ -146,21 +156,15 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
 
 ### Miscellaneous
    * [ACT Fibernet Exporter](https://git.captnemo.in/nemo/prometheus-act-exporter)
-   * [Bamboo exporter](https://github.com/AndreyVMarkelov/bamboo-prometheus-exporter)
-   * [BIG-IP exporter](https://github.com/ExpressenAB/bigip_exporter)
    * [BIND exporter](https://github.com/digitalocean/bind_exporter)
-   * [Bitbucket exporter](https://github.com/AndreyVMarkelov/prom-bitbucket-exporter)
    * [Blackbox exporter](https://github.com/prometheus/blackbox_exporter) (**official**)
    * [BOSH exporter](https://github.com/cloudfoundry-community/bosh_exporter)
    * [cAdvisor](https://github.com/google/cadvisor)
    * [Cachet exporter](https://github.com/ContaAzul/cachet_exporter)
    * [ccache exporter](https://github.com/virtualtam/ccache_exporter)
-   * [Confluence exporter](https://github.com/AndreyVMarkelov/prom-confluence-exporter)
    * [Dovecot exporter](https://github.com/kumina/dovecot_exporter)
    * [eBPF exporter](https://github.com/cloudflare/ebpf_exporter)
    * [Ethereum Client exporter](https://github.com/31z4/ethereum-prometheus-exporter)
-   * [Jenkins exporter](https://github.com/lovoo/jenkins_exporter)
-   * [JIRA exporter](https://github.com/AndreyVMarkelov/jira-prometheus-exporter)
    * [JMeter plugin](https://github.com/johrstrom/jmeter-prometheus-plugin)
    * [Kannel exporter](https://github.com/apostvav/kannel_exporter)
    * [Kemp LoadBalancer exporter](https://github.com/giantswarm/prometheus-kemp-exporter)
@@ -171,7 +175,6 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [OpenStack exporter](https://github.com/Linaro/openstack-exporter)
    * [PHP-FPM exporter](https://github.com/bakins/php-fpm-exporter)
    * [PowerDNS exporter](https://github.com/ledgr/powerdns_exporter)
-   * [Presto exporter](https://github.com/yahoojapan/presto_exporter)
    * [Process exporter](https://github.com/ncabatoff/process-exporter)
    * [rTorrent exporter](https://github.com/mdlayher/rtorrent_exporter)
    * [SABnzbd exporter](https://github.com/msroest/sabnzbd_exporter)

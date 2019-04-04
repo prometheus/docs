@@ -68,6 +68,14 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [ProSAFE exporter](https://github.com/dalance/prosafe_exporter)
    * [Ubiquiti UniFi exporter](https://github.com/mdlayher/unifi_exporter)
 
+### Issue trackers and continuous integration
+
+   * [Bamboo exporter](https://github.com/AndreyVMarkelov/bamboo-prometheus-exporter)
+   * [Bitbucket exporter](https://github.com/AndreyVMarkelov/prom-bitbucket-exporter)
+   * [Confluence exporter](https://github.com/AndreyVMarkelov/prom-confluence-exporter)
+   * [Jenkins exporter](https://github.com/lovoo/jenkins_exporter)
+   * [JIRA exporter](https://github.com/AndreyVMarkelov/jira-prometheus-exporter)
+
 ### Messaging systems
    * [Beanstalkd exporter](https://github.com/messagebird/beanstalkd_exporter)
    * [EMQ exporter](https://github.com/nuvo/emq_exporter)
@@ -147,21 +155,16 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
 
 ### Miscellaneous
    * [ACT Fibernet Exporter](https://git.captnemo.in/nemo/prometheus-act-exporter)
-   * [Bamboo exporter](https://github.com/AndreyVMarkelov/bamboo-prometheus-exporter)
    * [BIG-IP exporter](https://github.com/ExpressenAB/bigip_exporter)
    * [BIND exporter](https://github.com/digitalocean/bind_exporter)
-   * [Bitbucket exporter](https://github.com/AndreyVMarkelov/prom-bitbucket-exporter)
    * [Blackbox exporter](https://github.com/prometheus/blackbox_exporter) (**official**)
    * [BOSH exporter](https://github.com/cloudfoundry-community/bosh_exporter)
    * [cAdvisor](https://github.com/google/cadvisor)
    * [Cachet exporter](https://github.com/ContaAzul/cachet_exporter)
    * [ccache exporter](https://github.com/virtualtam/ccache_exporter)
-   * [Confluence exporter](https://github.com/AndreyVMarkelov/prom-confluence-exporter)
    * [Dovecot exporter](https://github.com/kumina/dovecot_exporter)
    * [eBPF exporter](https://github.com/cloudflare/ebpf_exporter)
    * [Ethereum Client exporter](https://github.com/31z4/ethereum-prometheus-exporter)
-   * [Jenkins exporter](https://github.com/lovoo/jenkins_exporter)
-   * [JIRA exporter](https://github.com/AndreyVMarkelov/jira-prometheus-exporter)
    * [JMeter plugin](https://github.com/johrstrom/jmeter-prometheus-plugin)
    * [Kannel exporter](https://github.com/apostvav/kannel_exporter)
    * [Kemp LoadBalancer exporter](https://github.com/giantswarm/prometheus-kemp-exporter)

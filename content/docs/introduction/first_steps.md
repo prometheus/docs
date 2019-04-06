@@ -9,7 +9,7 @@ Welcome to Prometheus! Prometheus is a monitoring platform that collects metrics
 
 ## Downloading Prometheus
 
-[Download the latest release](/download) of Prometheus for your platform, then
+[Download the latest release](https://github.com/prometheus/prometheus/releases) of Prometheus for your platform, then
 extract it:
 
 ```language-bash

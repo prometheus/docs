@@ -57,6 +57,7 @@ data volumes.
 For notification mechanisms not natively supported by the Alertmanager, the
 [webhook receiver](/docs/alerting/configuration/#webhook_config) allows for integration.
 
+  * [Alertsnitch](https://gitlab.com/yakshaving.art/alertsnitch): saves alerts to a MySQL database
   * [AWS SNS](https://github.com/DataReply/alertmanager-sns-forwarder)
   * [DingTalk](https://github.com/timonwong/prometheus-webhook-dingtalk)
   * [IRC Bot](https://github.com/multimfi/bot)

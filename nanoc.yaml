@@ -68,9 +68,18 @@ data_sources:
     identifier_type: legacy
     items_root: /docs/prometheus/latest/
     config:
-      name: 'latest (2.8)'
+      name: 'latest (2.9)'
       repository: https://github.com/prometheus/prometheus.git
-      refspec: release-2.8
+      refspec: release-2.9
+  -
+    type: repo_docs
+    identifier_type: legacy
+    items_root: /docs/prometheus/2.9/
+    config:
+      name: '2.9'
+      repository: https://github.com/prometheus/prometheus.git
+      refspec: release-2.9
+      canonical: /docs/prometheus/latest/
   -
     type: repo_docs
     identifier_type: legacy
@@ -80,6 +89,7 @@ data_sources:
       repository: https://github.com/prometheus/prometheus.git
       refspec: release-2.8
       canonical: /docs/prometheus/latest/
+      outdated: /docs/prometheus/latest/
   -
     type: repo_docs
     identifier_type: legacy

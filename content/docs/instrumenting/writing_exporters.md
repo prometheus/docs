@@ -161,7 +161,7 @@ web search for the metric name. If the names are very well-established
 and unlikely to be used outside of the realm of people used to those
 names, for example SNMP and network engineers, then leaving them as-is
 may be a good idea. This logic doesn’t apply for all exporters, for
-example the MySQL exporter metric's may be used by a variety of people,
+example the MySQL exporter metrics may be used by a variety of people,
 not just DBAs. A `HELP` string with the original name can provide most
 of the same benefits as using the original names.
 

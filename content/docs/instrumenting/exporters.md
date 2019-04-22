@@ -217,6 +217,7 @@ separate exporters are needed:
    * [Grafana](http://docs.grafana.org/administration/metrics/)
    * [JavaMelody](https://github.com/javamelody/javamelody/wiki/UserGuideAdvanced#exposing-metrics-to-prometheus)
    * [Kubernetes](https://github.com/kubernetes/kubernetes) (**direct**)
+   * [Lastmile](https://github.com/coliquio/lastmile)
    * [Linkerd](https://github.com/BuoyantIO/linkerd)
    * [mgmt](https://github.com/purpleidea/mgmt/blob/master/docs/prometheus.md)
    * [MidoNet](https://github.com/midonet/midonet)

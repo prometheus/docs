@@ -12,7 +12,7 @@ environments.
 This page describes the general security assumptions of Prometheus and the
 attack vectors that some configurations may enable.
 
-As with any complex systems it is not possible to guarantee that there are no
+As with any complex system, it is not possible to guarantee that there are no
 bugs. If you find a security bug please report it privately to the maintainers
 listed in the MAINTAINERS.md of the relevant repository and CC
 prometheus-team@googlegroups.com. We will fix the issue and coordinate a

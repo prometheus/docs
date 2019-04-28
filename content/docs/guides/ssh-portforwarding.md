@@ -179,7 +179,6 @@ With your standard user account on your local machine, run:
 
 ```
 user@localhost:~$ ssh -i ~/.ssh/id_rsa -L 8080:localhost:9090 prometheus-tunnel@123.45.6.7
-[sudo] Password for user: [the password of your local user on your local machine to gain sudo-rights]
 Enter passphrase for key '/home/user/.ssh/id_rsa': [the passphrase for for rsa-secret-key]
 Linux prometheus 4.15.[...]
 prometheus-tunnel@prometheus:~$

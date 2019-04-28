@@ -8,6 +8,8 @@ Prometheus does not directly support [basic authentication](https://en.wikipedia
 
 NOTE: Although basic auth connections *to* Prometheus instances are not supported, basic auth is supported for connections *from* Prometheus instances to [scrape targets](../prometheus/latest/configuration/configuration/#<scrape_config>).
 
+Alternatively, you may want to take a look at the [SSH port forwarding Guide](/docs/guides/ssh-portforwarding).
+
 ## nginx example
 
 Let's say that you want to run a Prometheus instance behind an [nginx](https://www.nginx.com/) server running on `localhost:12321`, and for all Prometheus endpoints to be available via the `/prometheus` endpoint. The full URL for Prometheus' `/metrics` endpoint would thus be:

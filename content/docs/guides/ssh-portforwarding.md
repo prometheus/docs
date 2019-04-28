@@ -193,7 +193,7 @@ On Windows you might use
 
 ##### Test connection
 
-In your favorite webbrowser on your local maschine, go to:
+In your favorite webbrowser on your local machine, go to:
 
 <http://localhost:8080/>
 

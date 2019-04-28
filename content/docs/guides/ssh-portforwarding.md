@@ -13,7 +13,7 @@ Quote from [offical Prometheus Documentation](/docs/operating/security/#authenti
 Prometheus does not directly support any authentication for connections to the
 Prometheus [expression browser](/docs/visualization/browser) and [HTTP API](/docs/prometheus/latest/querying/api). If
 you'd like to enforce encryption and authentication for those connections, you may use the "SSH port forwarding"
-technique and  also set  up a local firewall (aka packet filter) to deny any other incoming connections but SSH.
+technique and  also set up a local firewall (aka packet filter) to deny any other incoming connections but SSH.
 
 Alternatively, you may want to take a look at the [Ngnix-Reverse-Proxy Basic-Auth Guide](/docs/guides/basic-auth).
 
@@ -30,7 +30,7 @@ least `apt install fail2ban` with `[sshd] enabled = true`.
 
 #### 1.) Create id_rsa
 
-If you already have your id_rsa in place (`cat ~/.ssh/id_rsa`), skip this step.
+If you already have your id_rsa in place ( `cat ~/.ssh/id_rsa` ), skip this step.
 
 To create a new keypair, run `ssh-keygen` on your local machine, logged in with your standard user account:
 
@@ -103,18 +103,18 @@ root@prometheus:~#
 
 Upload your (new) public key to your machine in your data center.
 
-Replace `123.45.6.7` with the IP or DNS name of your prometheus host:
+Replace `203.0.113.1` with the IP or DNS name of your prometheus host:
 
 ```
-user@localhost:~$ ssh-copy-id -i ~/.ssh/id_rsa prometheus-tunnel@123.45.6.7
+user@localhost:~$ ssh-copy-id -i ~/.ssh/id_rsa prometheus-tunnel@203.0.113.1
 /usr/bin/ssh-copy-id: INFO: Source of key(s) to be installed: "/home/user/.ssh/id_rsa.pub"
 /usr/bin/ssh-copy-id: INFO: attempting to log in with the new key(s), to filter out any that are already installed
 /usr/bin/ssh-copy-id: INFO: 1 key(s) remain to be installed -- if you are prompted now it is to install the new keys
-prometheus-tunnel@123.45.6.7's password: [type the unique strong password you just set in the previous step]
+prometheus-tunnel@203.0.113.1's password: [type the unique strong password you just set in the previous step]
 Number of key(s) added: 1
-Now try logging into the machine, with: "ssh 'prometheus-tunnel@123.45.6.7'"
+Now try logging into the machine, with: "ssh 'prometheus-tunnel@203.0.113.1'"
 and check to make sure that only the key(s) you wanted were added.
-user@localhost:~$ ssh prometheus-tunnel@123.45.6.7
+user@localhost:~$ ssh prometheus-tunnel@203.0.113.1
 Enter passphrase for key '/home/user/.ssh/id_rsa':
 [...]
 prometheus-tunnel@prometheus:~$ 
@@ -178,7 +178,7 @@ level=info ts=2019-04-13T16:21:50.948Z caller=main.go:609 msg="Server is ready t
 With your standard user account on your local machine, run:
 
 ```
-user@localhost:~$ ssh -i ~/.ssh/id_rsa -L 8080:localhost:9090 prometheus-tunnel@123.45.6.7
+user@localhost:~$ ssh -i ~/.ssh/id_rsa -L 8080:localhost:9090 prometheus-tunnel@203.0.113.1
 Enter passphrase for key '/home/user/.ssh/id_rsa': [the passphrase for your rsa-secret-key]
 Linux prometheus 4.15.[...]
 prometheus-tunnel@prometheus:~$

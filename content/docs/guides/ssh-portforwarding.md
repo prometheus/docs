@@ -122,8 +122,11 @@ prometheus-tunnel@prometheus:~$
 
 See also <https://www.ssh.com/ssh/copy-id>
 
-You can also always upload more public id_rsa keys from other users by adding their keys
-to `/home/prometheus-tunnel/.ssh/authorized_keys` if you want to enable access to your prometheus instance for them.
+You may also upload more public keys for other persons by adding their keys
+to `/home/prometheus-tunnel/.ssh/authorized_keys` if you want to allow access to your prometheus instance for them.
+
+Keep in mind that those users will be able to use these credentials to run any command as `prometheus-tunnel` on
+your prometheus host!
 
 ### 4.) Setup UFW on prometheus host
 

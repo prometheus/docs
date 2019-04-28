@@ -28,11 +28,11 @@ least `apt install fail2ban` with `[sshd] enabled = true`.
 
 ## Setup "SSH port forwarding" for Prometheus in 5 steps
 
-### 1.) Create id_rsa
+### 1.) Create id_rsa key pair
 
-If you already have your id_rsa in place ( `cat ~/.ssh/id_rsa` ), skip this step.
+If you already have your public key in place (`cat ~/.ssh/id_rsa`), skip this step.
 
-To create a new keypair, run `ssh-keygen` on your local machine, logged in with your standard user account:
+To create a new key pair, run `ssh-keygen` on your local machine, logged in with your standard user account:
 
 ```
 user@localhost:~$ ssh-keygen 

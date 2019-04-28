@@ -99,7 +99,7 @@ passwd: password updated successfully
 root@prometheus:~# 
 ```
 
-### 3.) Upload your id_rsa to the prometheus host
+### 3.) Upload your id_rsa.pub to the prometheus host
 
 Upload your (new) public key to your machine in your data center.
 

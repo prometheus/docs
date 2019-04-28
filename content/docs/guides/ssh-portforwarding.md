@@ -179,7 +179,7 @@ With your standard user account on your local machine, run:
 
 ```
 user@localhost:~$ ssh -i ~/.ssh/id_rsa -L 8080:localhost:9090 prometheus-tunnel@123.45.6.7
-Enter passphrase for key '/home/user/.ssh/id_rsa': [the passphrase for for rsa-secret-key]
+Enter passphrase for key '/home/user/.ssh/id_rsa': [the passphrase for your rsa-secret-key]
 Linux prometheus 4.15.[...]
 prometheus-tunnel@prometheus:~$
 ```

@@ -150,10 +150,10 @@ lock out yourself!
 
 ##### Start prometheus
 
-https://prometheus.io/docs/prometheus/latest/getting_started/#starting-prometheus
+Also see [Starting Prometheus ](https://prometheus.io/docs/prometheus/latest/getting_started/#starting-prometheus).
 
 As user on your prometheus host, in
-the [appropriate directory](https://prometheus.io/docs/prometheus/latest/getting_started/#starting-prometheus), run:
+the [appropriate directory](/docs/prometheus/latest/getting_started#starting-prometheus), run:
 
 ```
 prometheus@prometheus:~/prometheus-2.9.0-rc.0.linux-amd64$ ./prometheus --config.file=prometheus.yml \
@@ -183,6 +183,9 @@ Enter passphrase for key '/home/user/.ssh/id_rsa': [the passphrase for your rsa-
 Linux prometheus 4.15.[...]
 prometheus-tunnel@prometheus:~$
 ```
+
+You may choose a different port than 8080; If you use a port below 1024, you have to run the ssh command as root on
+your local machine.
 
 On Windows you might use
 [Putty](https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html): See
@@ -230,7 +233,7 @@ like [NoScript for Firefox](https://addons.mozilla.org/de/firefox/addon/noscript
 measures (disconnect your local host from any other network traffic?), from issuing any requests that may
 trigger any CSRF/XSS vulnerabilitiy! Prometheus *is* vulnerable to those kind of attacks!
 
-Also see <https://prometheus.io/docs/operating/security/#authentication-authorization-and-encryption>
+Also see [Security / Authentication, Authorization, and Encryption](/docs/operating/security#authentication-authorization-and-encryption)
 
 ## Summary
 

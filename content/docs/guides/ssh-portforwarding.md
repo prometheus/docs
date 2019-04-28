@@ -17,12 +17,12 @@ technique and  also set up a local firewall (aka packet filter) to deny any othe
 
 Alternatively, you may want to take a look at the [Ngnix-Reverse-Proxy Basic-Auth Guide](/docs/guides/basic-auth).
 
-For the "SSH port forwarding" approch described here, you may use any operating system, but in this guide we'll
+For the "SSH port forwarding" approch described here you may use any operating system, but in this guide we'll
 provide an example for linux (debian 9 prometheus host and kubuntu 18 on local laptop).
 
 For more details on SSH port forwarding, see <https://www.ssh.com/ssh/tunneling/example> for example.
 
-Also think about [hardening your SSH](https://medium.com/@jasonrigden/hardening-ssh-1bcb99cd4cef); At
+Also think about [hardening your SSH](https://medium.com/@jasonrigden/hardening-ssh-1bcb99cd4cef); at
 least `apt install fail2ban` with `[sshd] enabled = true`.
 
 
@@ -64,7 +64,7 @@ use [Putty](https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html): See
 
 #### 2.) Create new user on prometheus host
 
-In order to create a new, unprivileged user, as root on your prometheus host, run:
+In order to create a new unprivileged user as root on your prometheus host run:
 
 ```
 root@prometheus:~# adduser prometheus-tunnel
@@ -89,7 +89,7 @@ root@prometheus:~#
 
 Set a strong password! You won't need to type it very often. We will use your id_rsa key instead.
 
-As root on your prometheus host, you can also always reset the password for the user if you need to:
+As root on your prometheus host you can also always reset the password for the user if you need to:
     
 ```
 root@prometheus:~# passwd prometheus-tunnel
@@ -127,7 +127,7 @@ to `/home/prometheus-tunnel/.ssh/authorized_keys` if you want to enable access t
 
 #### 4.) Setup UFW on prometheus host
 
-In order to set up a firewall (aka packet filter) on your prometheus host, as root, run:
+In order to set up a firewall (aka packet filter) on your prometheus host run as root:
 
 ```
 root@prometheus:~# apt install ufw
@@ -138,44 +138,31 @@ Rules updated (v6)
 root@prometheus:~# ufw enable
 Command may disrupt existing ssh connections. Proceed with operation (y|n)? y
 Firewall is active and enabled on system startup
+root@prometheus:~#
 ```
 
 This will block all incoming traffic to your prometheus host, expect connections to the SSH port 22/tcp.
 
 Make sure you do not need any other ports for crucial access to your host. Your SSH may be configured to be on a
-non-standart port. You may be using a hosted service, where access to port 80 or 443 may be indispensable. Do not
+non-standart port. You may be using a hosted service where access to port 80 or 443 may be indispensable. Do not
 lock out yourself!
 
 #### 5.) Open tunnel to prometheus host
 
 ##### Start prometheus
 
-Also see [Starting Prometheus ](https://prometheus.io/docs/prometheus/latest/getting_started/#starting-prometheus).
-
-As user on your prometheus host, in
-the [appropriate directory](/docs/prometheus/latest/getting_started#starting-prometheus), run:
+As user on your prometheus host in
+the [appropriate directory](/docs/prometheus/latest/getting_started#starting-prometheus) run:
 
 ```
 prometheus@prometheus:~/prometheus-2.9.0-rc.0.linux-amd64$ ./prometheus --config.file=prometheus.yml \
 --web.external-url=http://localhost:8080/ \
 --web.route-prefix="/"
-level=info ts=2019-04-13T16:21:50.936Z caller=main.go:285 msg="no time or size retention was set so using the default time retention" duration=15d
-level=info ts=2019-04-13T16:21:50.936Z caller=main.go:321 msg="Starting Prometheus" version="(version=2.9.0-rc.0, branch=HEAD, revision=46660a07457a2f08b8fc9fa65ca8847663457e97)"
-level=info ts=2019-04-13T16:21:50.936Z caller=main.go:322 build_context="(go=go1.12.3, user=root@1c501f205676, date=20190410-20:24:08)"
-level=info ts=2019-04-13T16:21:50.936Z caller=main.go:323 host_details="(Linux 4.15.18-9-pve #1 SMP PVE 4.15.18-30 (Thu, 15 Nov 2018 13:32:46 +0100) x86_64 prometheus (none))"
-level=info ts=2019-04-13T16:21:50.936Z caller=main.go:324 fd_limits="(soft=1024, hard=4096)"
-level=info ts=2019-04-13T16:21:50.936Z caller=main.go:325 vm_limits="(soft=unlimited, hard=unlimited)"
-level=info ts=2019-04-13T16:21:50.938Z caller=main.go:640 msg="Starting TSDB ..."
-level=info ts=2019-04-13T16:21:50.943Z caller=web.go:416 component=web msg="Start listening for connections" address=0.0.0.0:9090
-level=info ts=2019-04-13T16:21:50.946Z caller=main.go:655 msg="TSDB started"
-level=info ts=2019-04-13T16:21:50.946Z caller=main.go:724 msg="Loading configuration file" filename=prometheus.yml
-level=info ts=2019-04-13T16:21:50.948Z caller=main.go:751 msg="Completed loading of configuration file" filename=prometheus.yml
-level=info ts=2019-04-13T16:21:50.948Z caller=main.go:609 msg="Server is ready to receive web requests."
 ```
 
 ##### Open the tunnel
 
-With your standard user account on your local machine, run:
+With your standard user account on your local machine run:
 
 ```
 user@localhost:~$ ssh -i ~/.ssh/id_rsa -L 8080:localhost:9090 prometheus-tunnel@203.0.113.1
@@ -184,7 +171,7 @@ Linux prometheus 4.15.[...]
 prometheus-tunnel@prometheus:~$
 ```
 
-You may choose a different port than 8080; If you use a port below 1024, you have to run the ssh command as root on
+You may choose a different port than 8080; if you use a port below 1024, you have to run the ssh command as root on
 your local machine.
 
 On Windows you might use
@@ -193,7 +180,7 @@ On Windows you might use
 
 ##### Test connection
 
-In your favorite webbrowser on your local machine, go to:
+In your favorite webbrowser on your local machine go to:
 
 <http://localhost:8080/>
 
@@ -207,7 +194,7 @@ You can use cURL to interact with your Prometheus setup. Try this request:
 curl --head http://localhost:8080/graph/
 ```
 
-That should return Prometheus metrics output, which should look something like this:
+That should return Prometheus metrics output which should look something like this:
 
 ```
 # HELP go_gc_duration_seconds A summary of the GC invocation durations.
@@ -215,7 +202,7 @@ That should return Prometheus metrics output, which should look something like t
 go_gc_duration_seconds{quantile="0"} 0.0001343
 go_gc_duration_seconds{quantile="0.25"} 0.0002032
 go_gc_duration_seconds{quantile="0.5"} 0.0004485
-...
+[...]
 ```
 
 ## Problems
@@ -223,19 +210,19 @@ go_gc_duration_seconds{quantile="0.5"} 0.0004485
 ### Connection timeout / Enable SSH keep alive
 
 If you experience occasionally disconnects due to timeouts on your tunnel: On your local machine, as root,
-edit `/etc/ssh/ssh_config` to make sure, it contains the line `ServerAliveInterval 120`. Or read the documenation of
+edit `/etc/ssh/ssh_config` to make sure it contains the line `ServerAliveInterval 120`. Or read the documenation of
 your SSH Client Software for other operating systems or SSH client software.
 
 ### Known Issue: CSRF/XSS vulnerabilities
 
-You need to secure your browser with an apporiate plugin,
-like [NoScript for Firefox](https://addons.mozilla.org/de/firefox/addon/noscript/), or other
-measures (disconnect your local host from any other network traffic?), from issuing any requests that may
+You need to secure your browser with an apporiate plugin
+like [NoScript for Firefox](https://addons.mozilla.org/de/firefox/addon/noscript/) or other
+measures (disconnect your local host from any other network traffic?) from issuing any requests that may
 trigger any CSRF/XSS vulnerabilitiy! Prometheus *is* vulnerable to those kind of attacks!
 
 Also see [Security / Authentication, Authorization, and Encryption](/docs/operating/security#authentication-authorization-and-encryption)
 
 ## Summary
 
-In this guide, we set up a secure tunnel from your local machine to your new prometheus host in your data center
+In this guide we set up a secure tunnel from your local machine to your new prometheus host in your data center
 and block all other incoming traffic to that host to protect it from unauthorized access.

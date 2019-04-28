@@ -26,9 +26,9 @@ Also think about [hardening your SSH](https://medium.com/@jasonrigden/hardening-
 least `apt install fail2ban` with `[sshd] enabled = true`.
 
 
-### Setup "SSH port forwarding" for Prometheus in 5 steps
+## Setup "SSH port forwarding" for Prometheus in 5 steps
 
-#### 1.) Create id_rsa
+### 1.) Create id_rsa
 
 If you already have your id_rsa in place ( `cat ~/.ssh/id_rsa` ), skip this step.
 
@@ -62,7 +62,7 @@ user@localhost:~$
 On Windows you might
 use [Putty](https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html): See <https://www.ssh.com/ssh/putty/windows/puttygen>
 
-#### 2.) Create new user on prometheus host
+### 2.) Create new user on prometheus host
 
 In order to create a new unprivileged user as root on your prometheus host run:
 
@@ -99,7 +99,7 @@ passwd: password updated successfully
 root@prometheus:~# 
 ```
 
-#### 3.) Upload your id_rsa to the prometheus host
+### 3.) Upload your id_rsa to the prometheus host
 
 Upload your (new) public key to your machine in your data center.
 
@@ -125,7 +125,7 @@ See also <https://www.ssh.com/ssh/copy-id>
 You can also always upload more public id_rsa keys from other users by adding their keys
 to `/home/prometheus-tunnel/.ssh/authorized_keys` if you want to enable access to your prometheus instance for them.
 
-#### 4.) Setup UFW on prometheus host
+### 4.) Setup UFW on prometheus host
 
 In order to set up a firewall (aka packet filter) on your prometheus host run as root:
 
@@ -147,9 +147,9 @@ Make sure you do not need any other ports for crucial access to your host. Your 
 non-standart port. You may be using a hosted service where access to port 80 or 443 may be indispensable. Do not
 lock out yourself!
 
-#### 5.) Open tunnel to prometheus host
+### 5.) Open tunnel to prometheus host
 
-##### Start prometheus
+#### Start prometheus
 
 As user on your prometheus host in
 the [appropriate directory](/docs/prometheus/latest/getting_started#starting-prometheus) run:
@@ -160,7 +160,7 @@ prometheus@prometheus:~/prometheus-2.9.0-rc.0.linux-amd64$ ./prometheus --config
 --web.route-prefix="/"
 ```
 
-##### Open the tunnel
+#### Open the tunnel
 
 With your standard user account on your local machine run:
 
@@ -178,7 +178,7 @@ On Windows you might use
 [Putty](https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html): See
 <https://blog.devolutions.net/2017/4/how-to-configure-an-ssh-tunnel-on-putty>
 
-##### Test connection
+#### Test connection
 
 In your favorite webbrowser on your local machine go to:
 
@@ -186,7 +186,7 @@ In your favorite webbrowser on your local machine go to:
 
 NOTE: Even if we don't use HTTPS, the traffic to your prometheus host will be encrypted by the SSH tunnel.
 
-##### Test API
+#### Test API
 
 You can use cURL to interact with your Prometheus setup. Try this request:
 

@@ -30,7 +30,7 @@ least `apt install fail2ban` with `[sshd] enabled = true`.
 
 ### 1.) Create id_rsa key pair
 
-If you already have your public key in place (`cat ~/.ssh/id_rsa`), skip this step.
+If you already have your public key in place (`cat ~/.ssh/id_rsa.pub`), skip this step.
 
 To create a new key pair, run `ssh-keygen` on your local machine, logged in with your standard user account:
 

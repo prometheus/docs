@@ -210,11 +210,11 @@ Semantically, a missing label and a label with an empty value are the same
 thing. Therefore, if all the label names listed in `equal` are missing from
 both the source and target alerts, the inhibition rule will apply.
 
-To prevent an alert from inhibiting itself, an inhibition rule will never
-inhibit an alert that matches _both_ the target and the source side of the
-rule. However, we recommend to choose target and source matchers in a way that
-alerts never match both sides. It is much easier to reason about and does not
-trigger this special case.
+To prevent an alert from inhibiting itself, an alert that matches _both_ the
+target and the source side of a rule cannot be inhibited by alerts for which
+the same is true (including itself). However, we recommend to choose target and
+source matchers in a way that alerts never match both sides. It is much easier
+to reason about and does not trigger this special case.
 
 ```yaml
 # Matchers that have to be fulfilled in the alerts to be muted.

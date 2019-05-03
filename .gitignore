@@ -19,6 +19,3 @@ prometheus_rsa
 # Ruby artifacts
 .bundle/
 vendor/
-
-# IDEA
-.idea/

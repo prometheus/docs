@@ -1,3 +1,4 @@
+ 
 ---
 title: SSH port forwarding
 ---
@@ -15,15 +16,14 @@ Prometheus [expression browser](/docs/visualization/browser) and [HTTP API](/doc
 you'd like to enforce encryption and authentication for those connections, you may use the "SSH port forwarding"
 technique and  also set up a local firewall (aka packet filter) to deny any other incoming connections but SSH.
 
-Alternatively, you may want to take a look at the [Ngnix-Reverse-Proxy Basic-Auth Guide](/docs/guides/basic-auth).
+Alternatively, you may want to take a look at the [Ngnix-Reverse-Proxy Basic-Auth Guide](/docs/guides/basic-auth)
+and the [TLS encryption Guide](/docs/content/docs/guides/tls-encryption).
 
 For the "SSH port forwarding" approch described here you may use any operating system, but in this guide we'll
-provide an example for linux (debian 9 prometheus host and kubuntu 18 on local laptop).
+provide an example for linux (debian 9 prometheus host and kubuntu 18 on local laptop). We assume your prometheus host
+to be a machine in a remote data center.
 
-For more details on SSH port forwarding, see <https://www.ssh.com/ssh/tunneling/example> for example.
-
-Also think about [hardening your SSH](https://medium.com/@jasonrigden/hardening-ssh-1bcb99cd4cef); at
-least `apt install fail2ban` with `[sshd] enabled = true`.
+Also think about hardening your SSH; at least `apt install fail2ban` with `[sshd] enabled = true`.
 
 
 ## Setup "SSH port forwarding" for Prometheus in 5 steps
@@ -59,8 +59,7 @@ The key's randomart image is:
 user@localhost:~$
 ```
 
-On Windows you might
-use [Putty](https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html): See <https://www.ssh.com/ssh/putty/windows/puttygen>
+On Windows you might use [PuTTYgen](https://www.puttygen.com/).
 
 ### 2.) Create new user on prometheus host
 
@@ -89,15 +88,15 @@ root@prometheus:~#
 
 Set a strong password! You won't need to type it very often. We will use your id_rsa key instead.
 
-As root on your prometheus host you can also always reset the password for the user if you need to:
-    
-```
-root@prometheus:~# passwd prometheus-tunnel
-Enter new UNIX password: [new strong unique password]
-Retype new UNIX password: [new strong unique password]
-passwd: password updated successfully
-root@prometheus:~# 
-```
+> As root on your prometheus host you can also always reset the password for the user if you need to:
+>     
+> ```
+> root@prometheus:~# passwd prometheus-tunnel
+> Enter new UNIX password: [new strong unique password]
+> Retype new UNIX password: [new strong unique password]
+> passwd: password updated successfully
+> root@prometheus:~# 
+> ```
 
 ### 3.) Upload your id_rsa.pub to the prometheus host
 
@@ -119,8 +118,6 @@ Enter passphrase for key '/home/user/.ssh/id_rsa':
 [...]
 prometheus-tunnel@prometheus:~$ 
 ```
-
-See also <https://www.ssh.com/ssh/copy-id>
 
 You may also upload more public keys for other persons by adding their keys
 to `/home/prometheus-tunnel/.ssh/authorized_keys` if you want to allow access to your prometheus instance for them.
@@ -149,6 +146,9 @@ This will block all incoming traffic to your prometheus host, expect connections
 Make sure you do not need any other ports for crucial access to your host. Your SSH may be configured to be on a
 non-standart port. You may be using a hosted service where access to port 80 or 443 may be indispensable. Do not
 lock out yourself!
+
+Do not allow incoming traffic on port 9090/tcp. This is the port prometheus uses and therefor the one
+we want to protect.
 
 ### 5.) Open tunnel to prometheus host
 
@@ -179,7 +179,8 @@ your local machine.
 
 On Windows you might use
 [Putty](https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html): See
-<https://blog.devolutions.net/2017/4/how-to-configure-an-ssh-tunnel-on-putty>
+<https://www.skyverge.com/blog/how-to-set-up-an-ssh-tunnel-with-putty/> (where it says "Destination: 10.0.0.1:8080" 
+put IP or DNS name of your prometheus host and port 9090 instead of 8080)
 
 #### Test connection
 
@@ -193,8 +194,8 @@ NOTE: Even if we don't use HTTPS, the traffic to your prometheus host will be en
 
 You can use cURL to interact with your Prometheus setup. Try this request:
 
-```bash
-curl --head http://localhost:8080/graph/
+```
+user@localhost:~$ curl --head http://localhost:8080/graph/
 ```
 
 That should return Prometheus metrics output which should look something like this:

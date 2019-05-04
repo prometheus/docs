@@ -8,7 +8,7 @@ Prometheus does not directly support [basic authentication](https://en.wikipedia
 
 NOTE: Although basic auth connections *to* Prometheus instances are not supported, basic auth is supported for connections *from* Prometheus instances to [scrape targets](../prometheus/latest/configuration/configuration/#<scrape_config>).
 
-Alternatively, you may want to take a look at the [SSH port forwarding Guide](/docs/guides/ssh-portforwarding).
+Alternatively, you may want to take a look at the [SSH port forwarding Guide](/docs/guides/ssh-portforwarding). Also see the [TLS encryption Guide](/docs/content/docs/guides/tls-encryption).
 
 ## nginx example
 

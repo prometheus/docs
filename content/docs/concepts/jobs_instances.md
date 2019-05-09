@@ -40,5 +40,7 @@ the following time series:
    the number of samples remaining after metric relabeling was applied.
 * `scrape_samples_scraped{job="<job-name>", instance="<instance-id>"}`:
    the number of samples the target exposed.
+* `scrape_series_added{job="<job-name>", instance="<instance-id>"}`:
+   the approximate number of new series in this scrape. *New in v2.10*
 
 The `up` time series is useful for instance availability monitoring.

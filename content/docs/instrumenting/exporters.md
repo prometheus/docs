@@ -81,6 +81,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [Beanstalkd exporter](https://github.com/messagebird/beanstalkd_exporter)
    * [EMQ exporter](https://github.com/nuvo/emq_exporter)
    * [Gearman exporter](https://github.com/bakins/gearman-exporter)
+   * [IBM MQ metrics sample](https://github.com/ibm-messaging/mq-metric-samples/tree/master/cmd/mq_prometheus)
    * [Kafka exporter](https://github.com/danielqsj/kafka_exporter)
    * [NATS exporter](https://github.com/nats-io/prometheus-nats-exporter)
    * [NSQ exporter](https://github.com/lovoo/nsq_exporter)
@@ -88,7 +89,6 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [MQTT blackbox exporter](https://github.com/inovex/mqtt_blackbox_exporter)
    * [RabbitMQ exporter](https://github.com/kbudde/rabbitmq_exporter)
    * [RabbitMQ Management Plugin exporter](https://github.com/deadtrickster/prometheus_rabbitmq_exporter)
-   * [IBM MQ metrics sample](https://github.com/ibm-messaging/mq-metric-samples)
 
 ### Storage
    * [Ceph exporter](https://github.com/digitalocean/ceph_exporter)

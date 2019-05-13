@@ -88,6 +88,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [MQTT blackbox exporter](https://github.com/inovex/mqtt_blackbox_exporter)
    * [RabbitMQ exporter](https://github.com/kbudde/rabbitmq_exporter)
    * [RabbitMQ Management Plugin exporter](https://github.com/deadtrickster/prometheus_rabbitmq_exporter)
+   * [IBM MQ metrics sample](https://github.com/ibm-messaging/mq-metric-samples)
 
 ### Storage
    * [Ceph exporter](https://github.com/digitalocean/ceph_exporter)
@@ -234,6 +235,7 @@ separate exporters are needed:
    * [Traefik](https://github.com/containous/traefik)
    * [VerneMQ](https://github.com/vernemq/vernemq)
    * [Weave Flux](https://github.com/weaveworks/flux)
+   * [Flink](https://ci.apache.org/projects/flink/flink-docs-release-1.8/monitoring/metrics.html#prometheus-orgapacheflinkmetricsprometheusprometheusreporter)
 
 The software marked *direct* is also directly instrumented with a Prometheus client library.
 

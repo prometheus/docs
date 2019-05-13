@@ -235,7 +235,6 @@ separate exporters are needed:
    * [Traefik](https://github.com/containous/traefik)
    * [VerneMQ](https://github.com/vernemq/vernemq)
    * [Weave Flux](https://github.com/weaveworks/flux)
-   * [Flink](https://ci.apache.org/projects/flink/flink-docs-release-1.8/monitoring/metrics.html#prometheus-orgapacheflinkmetricsprometheusprometheusreporter)
 
 The software marked *direct* is also directly instrumented with a Prometheus client library.
 

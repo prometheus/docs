@@ -25,6 +25,7 @@ Unofficial third-party client libraries:
 * [Common Lisp](https://github.com/deadtrickster/prometheus.cl)
 * [Elixir](https://github.com/deadtrickster/prometheus.ex)
 * [Erlang](https://github.com/deadtrickster/prometheus.erl)
+* [Go](https://github.com/VictoriaMetrics/metrics) - less powerful than the official Go library, but easier to use
 * [Haskell](https://github.com/fimad/prometheus-haskell)
 * [Lua](https://github.com/knyar/nginx-lua-prometheus) for Nginx
 * [Lua](https://github.com/tarantool/prometheus) for Tarantool

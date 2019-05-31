@@ -189,8 +189,8 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [SoftEther exporter](https://github.com/dalance/softether_exporter)
    * [Transmission exporter](https://github.com/metalmatze/transmission-exporter)
    * [Unbound exporter](https://github.com/kumina/unbound_exporter)
-   * [Xen exporter](https://github.com/lovoo/xenstats_exporter)
    * [WireGuard exporter](https://github.com/MindFlavor/prometheus_wireguard_exporter)
+   * [Xen exporter](https://github.com/lovoo/xenstats_exporter)
 
 When implementing a new Prometheus exporter, please follow the
 [guidelines on writing exporters](/docs/instrumenting/writing_exporters)

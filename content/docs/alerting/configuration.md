@@ -49,7 +49,8 @@ Generic placeholders are defined as follows:
 
 The other placeholders are specified separately.
 
-A valid example file can be found [here](https://github.com/prometheus/alertmanager/blob/master/doc/examples/simple.yml).
+A provided [valid example file](https://github.com/prometheus/alertmanager/blob/master/doc/examples/simple.yml)
+shows usage in context.
 
 The global configuration specifies parameters that are valid in all other
 configuration contexts. They also serve as defaults for other configuration
@@ -392,7 +393,7 @@ room_id: <tmpl_string>
 ## `<pagerduty_config>`
 
 PagerDuty notifications are sent via the [PagerDuty API](https://developer.pagerduty.com/documentation/integration/events).
-PagerDuty provides documentation on how to integrate [here](https://www.pagerduty.com/docs/guides/prometheus-integration-guide/).
+PagerDuty provides [documentation](https://www.pagerduty.com/docs/guides/prometheus-integration-guide/) on how to integrate. There are important differences with Alertmanager's v0.11 and greater support of PagerDuty's Events API v2.
 
 ```yaml
 # Whether or not to notify about resolved alerts.

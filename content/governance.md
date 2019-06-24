@@ -49,6 +49,7 @@ Upon death of a member, their team membership ends automatically.
 
 The current team members are:
 
+* Bartłomiej Płotka
 * Ben Kochie
 * Björn Rabenstein
 * Brian Brazil

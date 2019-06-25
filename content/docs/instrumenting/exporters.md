@@ -31,6 +31,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
 
 ### Databases
    * [Aerospike exporter](https://github.com/alicebob/asprom)
+   * [Cassandra exporter](https://github.com/criteo/cassandra_exporter)
    * [ClickHouse exporter](https://github.com/f1yegor/clickhouse_exporter)
    * [Consul exporter](https://github.com/prometheus/consul_exporter) (**official**)
    * [Couchbase exporter](https://github.com/blakelead/couchbase_exporter)

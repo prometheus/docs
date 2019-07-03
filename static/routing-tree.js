@@ -291,6 +291,7 @@ function aggregateMatchers(node) {
 }
 
 function getReceiverConfigs(name, receivers) {
+  if (!receivers) return;
   return receivers.find(function(e){
     return e.name == name;
   });

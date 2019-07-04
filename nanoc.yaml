@@ -71,6 +71,7 @@ data_sources:
       name: 'latest (2.10)'
       repository: https://github.com/prometheus/prometheus.git
       refspec: release-2.10
+    encoding: utf-8
   -
     type: repo_docs
     identifier_type: legacy
@@ -80,6 +81,7 @@ data_sources:
       repository: https://github.com/prometheus/prometheus.git
       refspec: release-2.10
       canonical: /docs/prometheus/latest/
+    encoding: utf-8
   -
     type: repo_docs
     identifier_type: legacy
@@ -90,6 +92,7 @@ data_sources:
       refspec: release-2.9
       canonical: /docs/prometheus/latest/
       outdated: /docs/prometheus/latest/
+    encoding: utf-8
   -
     type: repo_docs
     identifier_type: legacy
@@ -100,6 +103,7 @@ data_sources:
       refspec: release-2.8
       canonical: /docs/prometheus/latest/
       outdated: /docs/prometheus/latest/
+    encoding: utf-8
   -
     type: repo_docs
     identifier_type: legacy
@@ -110,6 +114,7 @@ data_sources:
       refspec: release-2.7
       canonical: /docs/prometheus/latest/
       outdated: /docs/prometheus/latest/
+    encoding: utf-8
   -
     type: repo_docs
     identifier_type: legacy
@@ -120,6 +125,7 @@ data_sources:
       refspec: release-2.6
       canonical: /docs/prometheus/latest/
       outdated: /docs/prometheus/latest/
+    encoding: utf-8
   -
     type: repo_docs
     identifier_type: legacy
@@ -130,6 +136,7 @@ data_sources:
       refspec: release-2.5
       canonical: /docs/prometheus/latest/
       outdated: /docs/prometheus/latest/
+    encoding: utf-8
   -
     type: repo_docs
     identifier_type: legacy
@@ -140,6 +147,7 @@ data_sources:
       refspec: release-2.4
       canonical: /docs/prometheus/latest/
       outdated: /docs/prometheus/latest/
+    encoding: utf-8
   -
     type: repo_docs
     identifier_type: legacy
@@ -150,6 +158,7 @@ data_sources:
       refspec: release-2.3
       canonical: /docs/prometheus/latest/
       outdated: /docs/prometheus/latest/
+    encoding: utf-8
   -
     type: repo_docs
     identifier_type: legacy
@@ -160,6 +169,7 @@ data_sources:
       refspec: release-2.2
       canonical: /docs/prometheus/latest/
       outdated: /docs/prometheus/latest/
+    encoding: utf-8
   -
     type: repo_docs
     identifier_type: legacy
@@ -170,6 +180,7 @@ data_sources:
       refspec: release-2.1
       canonical: /docs/prometheus/latest/
       outdated: /docs/prometheus/latest/
+    encoding: utf-8
   -
     type: repo_docs
     identifier_type: legacy
@@ -180,6 +191,7 @@ data_sources:
       refspec: release-2.0
       canonical: /docs/prometheus/latest/
       outdated: /docs/prometheus/latest/
+    encoding: utf-8
   -
     type: repo_docs
     identifier_type: legacy
@@ -190,11 +202,13 @@ data_sources:
       refspec: release-1.8
       canonical: /docs/prometheus/latest/
       outdated: /docs/prometheus/latest/
+    encoding: utf-8
   -
     type: filesystem
     items_root: /assets
     content_dir: static
     layouts_dir: null
+    encoding: utf-8
 
 # Configuration for the “check” command, which run unit tests on the site.
 checks:

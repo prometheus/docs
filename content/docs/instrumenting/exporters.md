@@ -180,6 +180,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [Meteor JS web framework exporter](https://atmospherejs.com/sevki/prometheus-exporter)
    * [Minecraft exporter module](https://github.com/Baughn/PrometheusIntegration)
    * [OpenStack exporter](https://github.com/Linaro/openstack-exporter)
+   * [oVirt exporter](https://github.com/czerwonk/ovirt_exporter)
    * [PHP-FPM exporter](https://github.com/bakins/php-fpm-exporter)
    * [PowerDNS exporter](https://github.com/ledgr/powerdns_exporter)
    * [Process exporter](https://github.com/ncabatoff/process-exporter)

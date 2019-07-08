@@ -447,7 +447,7 @@ The fields are documented in the [PagerDuty API documentation](https://v2.develo
 ```yaml
 source: <tmpl_string>
 alt: <tmpl_string>
-text: <tmpl_string>
+href: <tmpl_string>
 ```
 
 ### `<link_config>`

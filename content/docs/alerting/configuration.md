@@ -607,7 +607,7 @@ responders:
 ### `<responder>`
 
 ```yaml
-# One of these fields should be defined.
+# Exactly one of these fields should be defined.
 [ id: <tmpl_string> ]
 [ name: <tmpl_string> ]
 [ username: <tmpl_string> ]

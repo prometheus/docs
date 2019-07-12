@@ -35,6 +35,8 @@ A metric name...
    (for a unit-less accumulating count)
  * <code>process\_cpu\_<b>seconds\_total</b></code>
    (for an accumulating count with unit)
+ * <code>foobar_build<b>\_info</b></code>
+   (for a pseudo-metric that provides [metadata](https://www.robustperception.io/exposing-the-software-version-to-prometheus) about the running binary)
 * ...should represent the same logical thing-being-measured across all label
   dimensions.
  * request duration

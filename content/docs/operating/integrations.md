@@ -70,6 +70,7 @@ For notification mechanisms not natively supported by the Alertmanager, the
   * [SNMP traps](https://github.com/maxwo/snmp_notifier)
   * [Telegram bot](https://github.com/inCaller/prometheus_bot)
   * [XMPP Bot](https://github.com/jelmer/prometheus-xmpp-alerts)
+  * [WorkWechat Bot](https://github.com/daozzg/work_wechat_robot)
 
 ## Management
 

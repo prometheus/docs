@@ -196,7 +196,7 @@ that’s where the data is fundamentally tabular and doing otherwise would
 require users to do regexes on metric names to be usable. Consider the
 voltage sensors on your motherboard, while doing math across them is
 meaningless, it makes sense to have them in one metric rather than
-having one metric per sensor. All values within a metrics should
+having one metric per sensor. All values within a metric should
 (almost) always have the same unit, for example consider if fan speeds
 were mixed in with the voltages, and you had no way to automatically
 separate them.

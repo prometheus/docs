@@ -16,7 +16,7 @@ Some of these exporters are maintained as part of the official [Prometheus GitHu
 those are marked as *official*, others are externally contributed and maintained.
 
 We encourage the creation of more exporters but cannot vet all of them for
-[best practices](/docs/instrumenting/writing_exporters/).
+[best practices](/content/docs/instrumenting/writing_exporters.md).
 Commonly, those exporters are hosted outside of the Prometheus GitHub
 organization.
 
@@ -197,7 +197,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [Xen exporter](https://github.com/lovoo/xenstats_exporter)
 
 When implementing a new Prometheus exporter, please follow the
-[guidelines on writing exporters](/docs/instrumenting/writing_exporters)
+[guidelines on writing exporters](/content/docs/instrumenting/writing_exporters.md)
 Please also consider consulting the [development mailing
 list](https://groups.google.com/forum/#!forum/prometheus-developers).  We are
 happy to give advice on how to make your exporter as useful and consistent as

@@ -35,7 +35,7 @@ a single metric if it is part of direct instrumentation, or many metrics if it i
 
 ### Direct instrumentation
 
-Direct instrumentation is instrumentation added inline as part the source code
+Direct instrumentation is instrumentation added inline as part of the source code
 of a program.
 
 ### Endpoint
@@ -57,7 +57,7 @@ A collection of targets with the same purpose, for example monitoring a group of
 
 ### Notification
 
-A notification represents a group of one of more alerts, and is sent by the Alertmanager to email, Pagerduty, Slack etc.
+A notification represents a group of one or more alerts, and is sent by the Alertmanager to email, Pagerduty, Slack etc.
 
 ### Promdash
 

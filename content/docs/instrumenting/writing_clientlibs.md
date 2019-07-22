@@ -329,9 +329,11 @@ are some very niche use cases where they get in the way.
 
 ### Process metrics
 
-These exports should have the prefix `process_`. If a language or runtime
-doesn't expose one of the variables it'd just not export it. All memory values
-in bytes, all times in unixtime/seconds.
+These metrics have the prefix `process_`. If obtaining a necessary value is
+problematic or even impossible with the used language or runtime, client
+libraries SHOULD prefer leaving out the corresponding metric over exporting
+bogus, inaccurate, or special values (like `NaN`). All memory values in bytes,
+all times in unixtime/seconds.
 
 | Metric name                        | Help string                                            | Unit             |
 | ---------------------------------- | ------------------------------------------------------ | ---------------  |

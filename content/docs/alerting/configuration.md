@@ -588,7 +588,8 @@ OpsGenie notifications are sent via the [OpsGenie API](https://docs.opsgenie.com
 [ details: { <string>: <tmpl_string>, ... } ]
 
 # A list of responders responsible for notifications.
-[ responders: <responder_config> ]
+responders:
+  [ - <responder_config> ... ]
 
 # Comma separated list of tags attached to the notifications.
 [ tags: <tmpl_string> ]

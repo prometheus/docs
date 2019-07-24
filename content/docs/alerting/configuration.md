@@ -587,8 +587,8 @@ OpsGenie notifications are sent via the [OpsGenie API](https://docs.opsgenie.com
 # about the incident.
 [ details: { <string>: <tmpl_string>, ... } ]
 
-# Comma separated list of team responsible for notifications.
-[ teams: <tmpl_string> ]
+# A list of responders responsible for notifications.
+[ responders: <responder_config> ]
 
 # Comma separated list of tags attached to the notifications.
 [ tags: <tmpl_string> ]
@@ -601,6 +601,17 @@ OpsGenie notifications are sent via the [OpsGenie API](https://docs.opsgenie.com
 
 # The HTTP client's configuration.
 [ http_config: <http_config> | default = global.http_config ]
+```
+
+### `<responder_config>`
+
+The responders field is documented in the [OpsGenie API documentation](https://docs.opsgenie.com/docs/alert-api#section-create-alert).
+
+```yaml
+[ id: <string> ]
+[ name: <string> ]
+[ username: <string> ]
+[ type: <string> ]
 ```
 
 ## `<victorops_config>`

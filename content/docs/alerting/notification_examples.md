@@ -101,3 +101,7 @@ templates:
 ```
 
 This example is explained in further detail in this [blogpost](https://prometheus.io/blog/2016/03/03/custom-alertmanager-templates/).
+
+## More alerting rules examples
+
+[Awesome Prometheus Alerts](https://awesome-prometheus-alerts.grep.to/): a collection of awesome Prometheus alerting rules for popular exporters.

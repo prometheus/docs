@@ -24,3 +24,5 @@ class.
  * For use from Python see [Exporting to a Pushgateway](https://github.com/prometheus/client_python#exporting-to-a-pushgateway).
 
  * For use from Ruby see the [Pushgateway documentation](https://github.com/prometheus/client_ruby#pushgateway).
+ 
+ * For use from Node.js see the [Pushgateway documentation](https://github.com/siimon/prom-client#pushgateway).

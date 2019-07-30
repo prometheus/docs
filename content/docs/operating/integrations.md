@@ -28,7 +28,7 @@ For service discovery mechanisms not natively supported by Prometheus,
 
 ## Remote Endpoints and Storage
 
-The [remote write](/docs/operating/configuration/#%3Cremote_write%3E) and [remote read](/docs/operating/configuration/#%3Cremote_read%3E)
+The [remote write](/docs/operating/configuration/#remote_write) and [remote read](/docs/operating/configuration/#remote_read)
 features of Prometheus allow transparently sending and receiving samples. This
 is primarily intended for long term storage. It is recommended that you perform
 careful evaluation of any solution in this space to confirm it can handle your

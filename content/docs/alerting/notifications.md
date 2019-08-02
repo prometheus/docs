@@ -24,7 +24,9 @@ Note that some fields are evaluated as text, and others as HTML which will affec
 | ------------- | ------------- | -------- |
 | Receiver | string | Defines the receiver's name that the notification will be sent to (slack, email etc.). |
 | Status | string | Defined as firing if at least one alert is firing, otherwise resolved. |
-| Alerts | [Alert](#alert) | List of alert objects ([see below](#alert)). |
+| Alerts | [Alert](#alert) | List of all alert objects in this group ([see below](#alert)). |
+| Alerts.Firing | [Alert](#alert) | List of currently firing alert objects in this group ([see below](#alert)). |
+| Alerts.Resolved | [Alert](#alert) | List of resolved alert objects in this group ([see below](#alert)). |
 | GroupLabels | [KV](#kv) | The labels these alerts were grouped by. |
 | CommonLabels | [KV](#kv) | The labels common to all of the alerts. |
 | CommonAnnotations | [KV](#kv) | Set of common annotations to all of the alerts. Used for longer additional strings of information about the alert. |

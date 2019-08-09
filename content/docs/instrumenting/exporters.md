@@ -234,6 +234,7 @@ separate exporters are needed:
    * [Netdata](https://github.com/firehol/netdata)
    * [Pretix](https://pretix.eu/)
    * [Quobyte](https://www.quobyte.com/) (**direct**)
+   * [RabbitMQ](https://rabbitmq.com/prometheus.html)
    * [RobustIRC](http://robustirc.net/)
    * [ScyllaDB](http://github.com/scylladb/scylla)
    * [Skipper](https://github.com/zalando/skipper)

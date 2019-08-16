@@ -50,7 +50,7 @@ data volumes.
   * [SignalFx](https://github.com/signalfx/metricproxy#prometheus): write
   * [Splunk](https://github.com/kebe7jun/ropee): read and write
   * [TiKV](https://github.com/bragfoo/TiPrometheus): read and write
-  * [Thanos](http://github.com/improbable-eng/thanos): write
+  * [Thanos](https://github.com/thanos-io/thanos): write
   * [VictoriaMetrics](https://github.com/VictoriaMetrics/VictoriaMetrics): write
   * [Wavefront](https://github.com/wavefrontHQ/prometheus-storage-adapter): write
 

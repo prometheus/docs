@@ -112,6 +112,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [WebDriver exporter](https://github.com/mattbostock/webdriver_exporter)
 
 ### APIs
+   * [AWS EC2 security group exporter](https://github.com/cytopia/aws-ec2-sg-exporter)
    * [AWS ECS exporter](https://github.com/slok/ecs-exporter)
    * [AWS Health exporter](https://github.com/Jimdo/aws-health-exporter)
    * [AWS SQS exporter](https://github.com/jmal98/sqs_exporter)

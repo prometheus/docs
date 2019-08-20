@@ -35,6 +35,7 @@ careful evaluation of any solution in this space to confirm it can handle your
 data volumes.
 
   * [AppOptics](https://github.com/solarwinds/prometheus2appoptics): write
+  * [Azure Data Explorer](https://github.com/cosh/PrometheusToAdx): read and write
   * [Chronix](https://github.com/ChronixDB/chronix.ingester): write
   * [Cortex](https://github.com/cortexproject/cortex): read and write
   * [CrateDB](https://github.com/crate/crate_adapter): read and write

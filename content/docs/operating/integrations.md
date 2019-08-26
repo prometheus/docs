@@ -72,6 +72,7 @@ For notification mechanisms not natively supported by the Alertmanager, the
   * [SNMP traps](https://github.com/maxwo/snmp_notifier)
   * [Telegram bot](https://github.com/inCaller/prometheus_bot)
   * [XMPP Bot](https://github.com/jelmer/prometheus-xmpp-alerts)
+  * [Zoom](https://github.com/Code2Life/nodess-apps/tree/master/src/zoom-alert-2.0)
 
 ## Management
 

@@ -40,6 +40,7 @@ data volumes.
   * [Cortex](https://github.com/cortexproject/cortex): read and write
   * [CrateDB](https://github.com/crate/crate_adapter): read and write
   * [Elasticsearch](https://github.com/infonova/prometheusbeat): write
+  * [Elasticsearch/Metricbeat](https://www.elastic.co/guide/en/beats/metricbeat/current/metricbeat-module-prometheus.html): read
   * [Gnocchi](https://gnocchi.xyz/prometheus.html): write
   * [Graphite](https://github.com/prometheus/prometheus/tree/master/documentation/examples/remote_storage/remote_storage_adapter): write
   * [InfluxDB](https://docs.influxdata.com/influxdb/latest/supported_protocols/prometheus): read and write

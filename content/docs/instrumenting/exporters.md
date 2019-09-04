@@ -197,7 +197,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [Unbound exporter](https://github.com/kumina/unbound_exporter)
    * [WireGuard exporter](https://github.com/MindFlavor/prometheus_wireguard_exporter)
    * [Xen exporter](https://github.com/lovoo/xenstats_exporter)
-   * [Pact Broker exporter](https://github.com/pperzyna/pactbroker_exporter)
+   * [Pact Broker exporter](https://github.com/ContainerSolutions/pactbroker_exporter)
 
 When implementing a new Prometheus exporter, please follow the
 [guidelines on writing exporters](/docs/instrumenting/writing_exporters)

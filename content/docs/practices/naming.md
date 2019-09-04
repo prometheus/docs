@@ -53,7 +53,7 @@ queue with the current number of elements in the queue is not.
 
 Use labels to differentiate the characteristics of the thing that is being measured:
 
- * `api_http_requests_total` - differentiate request types: `type="create|update|delete"`
+ * `api_http_requests_total` - differentiate request types: `operation="create|update|delete"`
  * `api_request_duration_seconds` - differentiate request stages: `stage="extract|transform|load"`
 
 Do not put the label names in the metric name, as this introduces redundancy

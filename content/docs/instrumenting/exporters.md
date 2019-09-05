@@ -183,6 +183,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [OpenStack exporter](https://github.com/Linaro/openstack-exporter)
    * [OpenStack blackbox exporter](https://github.com/infraly/openstack_client_exporter)
    * [oVirt exporter](https://github.com/czerwonk/ovirt_exporter)
+   * [Pact Broker exporter](https://github.com/ContainerSolutions/pactbroker_exporter)
    * [PHP-FPM exporter](https://github.com/bakins/php-fpm-exporter)
    * [PowerDNS exporter](https://github.com/ledgr/powerdns_exporter)
    * [Process exporter](https://github.com/ncabatoff/process-exporter)
@@ -197,7 +198,6 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [Unbound exporter](https://github.com/kumina/unbound_exporter)
    * [WireGuard exporter](https://github.com/MindFlavor/prometheus_wireguard_exporter)
    * [Xen exporter](https://github.com/lovoo/xenstats_exporter)
-   * [Pact Broker exporter](https://github.com/ContainerSolutions/pactbroker_exporter)
 
 When implementing a new Prometheus exporter, please follow the
 [guidelines on writing exporters](/docs/instrumenting/writing_exporters)

@@ -49,9 +49,7 @@ Prometheus. This is also disabled by default. If enabled they will be
 accessible under the `/-/reload` and `/-/quit` paths.
 
 In Prometheus 1.x, `/-/reload` and using `DELETE` on `/api/v1/series` are
-accessible to anyone with access to the HTTP API. The `/-/quit` endpoint is
-disabled by default, but can be enabled with the `-web.enable-remote-shutdown`
-flag.
+accessible to anyone with access to the HTTP API.
 
 The remote read feature allows anyone with HTTP access to send queries to the
 remote read endpoint. If for example the PromQL queries were ending up directly

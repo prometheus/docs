@@ -24,3 +24,5 @@ class.
  * For use from Python see [Exporting to a Pushgateway](https://github.com/prometheus/client_python#exporting-to-a-pushgateway).
 
  * For use from Ruby see the [Pushgateway documentation](https://github.com/prometheus/client_ruby#pushgateway).
+
+* To find out about Pushgateway support of [client libraries maintained outside of the Prometheus project](/docs/instrumenting/clientlibs/), refer to their respective documentation.

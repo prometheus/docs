@@ -89,6 +89,11 @@ delete the metrics contained within. As the Pushgateway is usually scraped with
 `honor_labels` enabled, this means anyone with access to the Pushgateway can
 create any time series in Prometheus.
 
+The `--web.enable-admin-api` flag controls access to the
+administrative HTTP API which includes functionality such as to wipe all the existing
+metric groups. This is disabled by default. If enabled, administrative
+functionality will be accessible under the `/api/*/admin/` paths.
+
 ## Exporters
 
 Exporters generally only talk to one configured instance with a preset set of

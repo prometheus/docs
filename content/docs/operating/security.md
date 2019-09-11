@@ -90,7 +90,7 @@ delete the metrics contained within. As the Pushgateway is usually scraped with
 create any time series in Prometheus.
 
 The `--web.enable-admin-api` flag controls access to the
-administrative HTTP API which includes functionality as wiping all the existing
+administrative HTTP API which includes functionality such as wiping all the existing
 metric groups. This is disabled by default. If enabled, administrative
 functionality will be accessible under the `/api/*/admin/` paths.
 

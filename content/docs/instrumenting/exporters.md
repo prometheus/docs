@@ -182,7 +182,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [Locust Exporter](https://github.com/ContainerSolutions/locust_exporter)
    * [Meteor JS web framework exporter](https://atmospherejs.com/sevki/prometheus-exporter)
    * [Minecraft exporter module](https://github.com/Baughn/PrometheusIntegration)
-   * [OpenStack exporter](https://github.com/Linaro/openstack-exporter)
+   * [OpenStack exporter](https://github.com/openstack-exporter/openstack-exporter)
    * [OpenStack blackbox exporter](https://github.com/infraly/openstack_client_exporter)
    * [oVirt exporter](https://github.com/czerwonk/ovirt_exporter)
    * [Pact Broker exporter](https://github.com/ContainerSolutions/pactbroker_exporter)

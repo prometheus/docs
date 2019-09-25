@@ -29,6 +29,7 @@ Unofficial third-party client libraries:
 * [Lua](https://github.com/knyar/nginx-lua-prometheus) for Nginx
 * [Lua](https://github.com/tarantool/prometheus) for Tarantool
 * [.NET / C#](https://github.com/andrasm/prometheus-net)
+* [Nim](https://github.com/status-im/nim-metrics)
 * [Node.js](https://github.com/siimon/prom-client)
 * [Perl](https://metacpan.org/pod/Net::Prometheus)
 * [PHP](https://github.com/Jimdo/prometheus_client_php)

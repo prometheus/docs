@@ -133,6 +133,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [Fluentd exporter](https://github.com/V3ckt0r/fluentd_exporter)
    * [Google's mtail log data extractor](https://github.com/google/mtail)
    * [Grok exporter](https://github.com/fstab/grok_exporter)
+   * [Logstash exporter](https://github.com/Wing924/logstash-exporter)
 
 ### Other monitoring systems
    * [Akamai Cloudmonitor exporter](https://github.com/ExpressenAB/cloudmonitor_exporter)
@@ -256,7 +257,7 @@ make use of one of the normal Prometheus client libraries under the hood. As
 for all independently maintained software, we cannot vet all of them for best
 practices.
 
-   * Clojure: [iapetos](https://github.com/clj-commons/iapetos) 
+   * Clojure: [iapetos](https://github.com/clj-commons/iapetos)
    * Go: [go-metrics instrumentation library](https://github.com/armon/go-metrics)
    * Go: [gokit](https://github.com/peterbourgon/gokit)
    * Go: [prombolt](https://github.com/mdlayher/prombolt)

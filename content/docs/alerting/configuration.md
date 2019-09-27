@@ -70,6 +70,7 @@ global:
   [ smtp_smarthost: <string> ]
   # The default hostname to identify to the SMTP server.
   [ smtp_hello: <string> | default = "localhost" ]
+  # SMTP Auth using CRAM-MD5, LOGIN and PLAIN. If empty, Alertmanager doesn't authenticate to the SMTP server.
   [ smtp_auth_username: <string> ]
   # SMTP Auth using LOGIN and PLAIN.
   [ smtp_auth_password: <secret> ]

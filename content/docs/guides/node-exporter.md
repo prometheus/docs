@@ -89,7 +89,7 @@ Once Prometheus is installed you can start it up, using the `--config.file` flag
 
 ## Exploring Node Exporter metrics through the Prometheus expression browser
 
-Now that Prometheus is scraping metrics from a running Node Exporter instance, you can explore those metrics using the Prometheus UI (aka the [expression browser](/docs/visualization/expression-browser)). Navigate to `localhost:9090/graph` in your browser and use the main expression bar at the top of the page to enter expressions. The expression bar looks like this:
+Now that Prometheus is scraping metrics from a running Node Exporter instance, you can explore those metrics using the Prometheus UI (aka the [expression browser](/docs/visualization/browser)). Navigate to `localhost:9090/graph` in your browser and use the main expression bar at the top of the page to enter expressions. The expression bar looks like this:
 
 ![Prometheus expressions browser](/assets/prometheus-expression-bar.png)
 

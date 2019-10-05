@@ -219,6 +219,7 @@ separate exporters are needed:
    * [Collectd](https://collectd.org/wiki/index.php/Plugin:Write_Prometheus)
    * [Concourse](https://concourse-ci.org/)
    * [CRG Roller Derby Scoreboard](https://github.com/rollerderby/scoreboard) (**direct**)
+   * [Diffusion](https://https://developers.pushtechnology.com)
    * [Docker Daemon](https://docs.docker.com/engine/reference/commandline/dockerd/#daemon-metrics)
    * [Doorman](https://github.com/youtube/doorman) (**direct**)
    * [Envoy](https://www.envoyproxy.io/docs/envoy/latest/operations/admin.html#get--stats?format=prometheus)

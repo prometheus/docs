@@ -51,6 +51,14 @@ metrics that are exposed in a non-Prometheus format into a format Prometheus sup
 
 An instance is a label that uniquely identifies a target in a job.
 
+### Label
+
+A label is a key-value pair you can associate to your metric, allowing to provide more details by appending those additional fields.
+
+For example, describing the CPU rate you could append the core number as a label.
+
+You can then aggregate and filter metrics based on labels.
+
 ### Job
 
 A collection of targets with the same purpose, for example monitoring a group of like processes replicated for scalability or reliability, is called a job.

@@ -53,11 +53,9 @@ An instance is a label that uniquely identifies a target in a job.
 
 ### Label
 
-A label is a key-value pair you can associate to your metric, allowing to provide more details by appending those additional fields.
+A label is a key-value pair associated with a metric. Labels allow for identification of different instances of the same metric.
 
-For example, describing the CPU rate you could append the core number as a label.
-
-You can then aggregate and filter metrics based on labels.
+For example, different CPUs on a node, or different nodes in a cluster.
 
 ### Job
 

@@ -50,7 +50,7 @@ A straight-forward use of histograms (but not summaries) is to count
 observations falling into particular buckets of observation
 values.
 
-You might have an SLA to serve 95% of requests within 300ms. In that
+You might have an SLO to serve 95% of requests within 300ms. In that
 case, configure a histogram to have a bucket with an upper limit of
 0.3 seconds. You can then directly express the relative amount of
 requests served within 300ms and easily alert if the value drops below

@@ -50,9 +50,13 @@ This essentially allows read access of time series in TSDB that Prometheus colle
 * Prometheus being able to read from 3rd party long term storage systems e.g InfluxDB.
 * 3rd party system querying data from Prometheus e.g [Thanos](https://thanos.io).
 
-The remote read API exposes a simple HTTP endpoint that expects following protobuf payload:
+The remote read API exposed a simple HTTP endpoint that expects following protobuf payload:
 
 ```
+message ReadRequest {
+  repeated Query queries = 1;
+}
+
 message Query {
   int64 start_timestamp_ms = 1;
   int64 end_timestamp_ms = 2;
@@ -66,6 +70,11 @@ With this payload, the client can request certain series matching given `matcher
 The response is equally simple:
 
 ```
+message ReadResponse {
+  // In same order as the request's queries.
+  repeated QueryResult results = 1;
+}
+
 message Sample {
   double value    = 1;
   int64 timestamp = 2;
@@ -101,9 +110,9 @@ The server algorithm for remote read without streaming was:
 1. Snappy compress.
 1. Send back the HTTP response.  
  
-The whole response of the remote read had to be buffered in raw, uncompressed form to marshal it 
-in a potentially huge protobuf message before sending it to the client. The whole response has to then be fully buffered in the client again to be able
-to unmarshal it from protobuf. Only after that the client could access raw samples.
+The whole response of the remote read had to be buffered in a raw, uncompressed format in order to marshsal it in a
+potentially huge protobuf message before sending it to the client. The whole response has to then be fully buffered in the client again to be able
+to unmarshal it from the received protobuf. Only after that the client was able to use raw samples.
 
 What does it mean? It means that requests for, let's say, only 8 hours that matches 10,000 series can take up to **2.5GB** of memory allocated by both client and server each!
 
@@ -235,7 +244,10 @@ Thanos gRPC StoreAPI, sidecar is now a very simple proxy.
 
 Additionally, I tried different time ranges and number of series, but as expected I kept seeing
 a maximum of 50MB in allocations for Prometheus and nothing really visible for Thanos. This proves that our remote read
-uses **constant memory per request** allowing straightforward capacity planning against user traffic, with help of the concurrency limit. 
+uses **constant memory per request no matter how many samples you ask for**. Allocated memory per request is also drastically less
+influenced by the cardinality of the data, so number of series fetched like it used to be.
+ 
+This allowing easier capacity planning against user traffic, with help of the concurrency limit. 
 
 ### CPU
 
@@ -269,8 +281,8 @@ And with 2h time range:
 | user | 0m6.236s         | 0m4.322s         |
 | sys  | 0m0.973s         | 0m0.536s         |
 
-Additionally to the ~2.5x lower latency, we can see that response is streamed immediately in comparison to the non-streamed
-version where the client latency was 27s (`real` minus `user` time) just on processing and marshaling on Prometheus and then on the Thanos side. 
+Additionally to the ~2.5x lower latency, the response is streamed immediately in comparison to the non-streamed
+version where the client latency was 27s (`real` minus `user` time) just on processing and marshaling on Prometheus and on the Thanos side. 
 
 ## Compatibility
 
@@ -313,10 +325,10 @@ there are still few items to do in order to fully get advantage from the extende
 
 To sum up, the main benefits of chunked, streaming of remote read are:
 
-* Both client and server are capable to use **constant memory size and per request**. This is because Prometheus processes
+* Both client and server are capable to use **practically constant memory size and per request**. This is because Prometheus processes
 and sends just single small frames one by one instead of the whole response during remote read. This massively helps with
-capacity planning, especially for non-compressible resource like memory.
+capacity planning, especially for a non-compressible resource like memory.
 * Prometheus server does not need to decode chunks to raw samples anymore during remote read. The same for client side for
 encoding, **if** the system is reusing native TSDB XOR compression (like Thanos does). 
 
-As always, if you have any issues or feedback, feel free to submit a ticket on GitHub or ask qyestuibs us on the mailing list.
+As always, if you have any issues or feedback, feel free to submit a ticket on GitHub or ask questions on the mailing list.

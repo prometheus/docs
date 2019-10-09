@@ -50,7 +50,7 @@ This essentially allows read access of time series in TSDB that Prometheus colle
 * Prometheus being able to read from 3rd party long term storage systems e.g InfluxDB.
 * 3rd party system querying data from Prometheus e.g [Thanos](https://thanos.io).
 
-The remote read API exposed a simple HTTP endpoint that expects following protobuf payload:
+The remote read API exposes a simple HTTP endpoint that expects following protobuf payload:
 
 ```
 message ReadRequest {

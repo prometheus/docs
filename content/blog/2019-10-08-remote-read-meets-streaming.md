@@ -29,22 +29,22 @@ The request and response for both methods are compressed using [snappy](https://
 This is the most popular way to replicate Prometheus data into 3rd party system. In this mode, Prometheus streams samples, 
 by periodically sending a batch of samples to the given endpoint. 
 
-Remote read was recently improved massively in March with [WAL-based remote read](https://grafana.com/blog/2019/03/25/whats-new-in-prometheus-2.8-wal-based-remote-write/) which
-improved the reliability and resource consumption. It is also worth to note that Write is supported by almost all 3rd 
+Remote write was recently improved massively in March with [WAL-based remote write](https://grafana.com/blog/2019/03/25/whats-new-in-prometheus-2.8-wal-based-remote-write/) which
+improved the reliability and resource consumption. It is also worth to note that the remote write is supported by almost all 3rd 
 party integrations mentioned [here](https://prometheus.io/docs/operating/integrations/#remote-endpoints-and-storage).
 
 ### Remote Read
 
-Read method is less common. It was added in [March 2017](https://github.com/prometheus/prometheus/commit/febed48703b6f82b54b4e1927c53ab6c46257c2f) (server side) and
+The read method is less common. It was added in [March 2017](https://github.com/prometheus/prometheus/commit/febed48703b6f82b54b4e1927c53ab6c46257c2f) (server side) and
 has not seen significant development since then. 
 
-The release of Prometheus 2.13.0 includes a fix for known resource bottlenecks in the Read API. This article will focus on the improvements made to the Read method.
+The release of Prometheus 2.13.0 includes a fix for known resource bottlenecks in the Read API. This article will focus on these improvements.
 
-The key idea of the remote read is to allow querying Prometheus storage, [the TSDB](https://github.com/prometheus/prometheus/tree/master/tsdb) directly without PromQL evaluation. 
-This is similar to the [`Querier`](https://github.com/prometheus/prometheus/blob/91d7175eaac18b00e370965f3a8186cc40bf9f55/storage/interface.go#L53) interface
+The key idea of the remote read is to allow querying Prometheus storage ([TSDB](https://github.com/prometheus/prometheus/tree/master/tsdb)) directly without PromQL evaluation. 
+It is similar to the [`Querier`](https://github.com/prometheus/prometheus/blob/91d7175eaac18b00e370965f3a8186cc40bf9f55/storage/interface.go#L53) interface
 that the PromQL engine uses to retrieve data from storage. 
 
-This essentially allows read access of metrics in TSDB that Prometheus collected. The main use cases for remote read are:
+This essentially allows read access of time series in TSDB that Prometheus collected. The main use cases for remote read are:
 
 * Seamless Prometheus upgrades between different data formats of Prometheus, so having [Prometheus reading from another Prometheus](https://www.robustperception.io/accessing-data-from-prometheus-1-x-in-prometheus-2-0). 
 * Prometheus being able to read from 3rd party long term storage systems e.g InfluxDB.
@@ -90,7 +90,7 @@ streaming capabilities within single HTTP request for the protobuf format we def
 including raw samples (`float64` value and `int64` timestamp) instead of
 an encoded, compressed batch of samples called "chunks" that are used to store metrics inside TSDB.
 
-The server algorithm for remote read before improvement was: 
+The server algorithm for remote read without streaming was: 
 
 1. Parse request.
 1. Select metrics from TSDB.
@@ -102,8 +102,8 @@ The server algorithm for remote read before improvement was:
 1. Send back the HTTP response.  
  
 The whole response of the remote read had to be buffered in raw, uncompressed form to marshal it 
-in a potentially huge protobuf before sending it to the client. The whole response has to then be fully buffered in the client again to be able
-to unmarshal it from protobuf. Only after that client could access raw samples.
+in a potentially huge protobuf message before sending it to the client. The whole response has to then be fully buffered in the client again to be able
+to unmarshal it from protobuf. Only after that the client could access raw samples.
 
 What does it mean? It means that requests for, let's say, only 8 hours that matches 10,000 series can take up to **2.5GB** of memory allocated by both client and server each!
 
@@ -159,7 +159,7 @@ With this interface each `SeriesSet.Next()` implementation can fetch series on d
 In a similar way, within each series. we can also dynamically fetch each sample respectively via `SeriesIterator.Next`.  
 
 With this contract, Prometheus can minimize allocated memory, because the PromQL engine can iterate over samples optimally to evaluate the query. 
-In the same way TSDB, so Prometheus storage, can implement `SeriesSet` in a way that fetches the series optimally from blocks stored in the filesystem one by one, minimizing allocations.
+In the same way TSDB implements `SeriesSet` in a way that fetches the series optimally from blocks stored in the filesystem one by one, minimizing allocations.
 
 This is important for the remote read API, as we can reuse the same pattern of streaming using iterators by sending to the
 client a piece of the response in a form of few chunks for the single series.
@@ -215,17 +215,21 @@ at the beginning of this article, I was using Prometheus as a server, and a Than
 I was invoking testing remote read request by running gRPC call against Thanos sidecar using `grpcurl`.
 Test was performed from my laptop (Lenovo X1 16GB, i7 8th) with Kubernetes in docker (using [kind](https://github.com/kubernetes-sigs/kind)).
 
-The data was artificially generated, and represents highly dynamic 10k series (worst case scenario).
+The data was artificially generated, and represents highly dynamic 10,000 series (worst case scenario).
 
 The full test bench is available in [thanosbench repo](https://github.com/thanos-io/thanosbench/blob/master/benchmarks/remote-read/README.md).
 
 ### Memory
 
+#### Without streaming
+
 ![Prometheus 2.12.0: Heap-only allocations of single read 8h of 10k series](/assets/blog/2019-10-08/10series8hours-2.12-allocs.png)
+
+#### With streaming
 
 ![Prometheus 2.13.0: Heap-only allocations of single read 8h of 10k series](/assets/blog/2019-10-08/10series8hours-2.13-allocs.png)
 
-Reducing memory was the key item we aimed for with our solution. Prometheus instead of allocating GBs of memory, buffers 
+Reducing memory was the key item we aimed for with our solution. Instead of allocating GBs of memory, Prometheus buffers 
 roughly 50MB during the whole request, whereas for Thanos there is only a marginal memory use. Thanks to the streamed
 Thanos gRPC StoreAPI, sidecar is now a very simple proxy.
 
@@ -235,7 +239,11 @@ uses **constant memory per request** allowing straightforward capacity planning 
 
 ### CPU
 
+#### Without streaming
+
 ![Prometheus 2.12.0: CPU time of single read 8h of 10k series](/assets/blog/2019-10-08/10kseries8hours-2.12-cpu.png)
+
+#### With streaming
 
 ![Prometheus 2.13.0: CPU time of single read 8h of 10k series](/assets/blog/2019-10-08/10kseries8hours-2.13-cpu.png)
 
@@ -245,7 +253,7 @@ During my tests, CPU usage was also improved, with 2x less CPU time used.
 
 We achieved to reduce remote read request latency as well, thanks to streaming and less encoding.
  
-Remote read request for 10k series, for 8h took for different versions:
+Remote read request latency for 8h range with 10,000 series:
 
 |      | 2.12.0: avg time | 2.13.0: avg time |
 |------|------------------|------------------|
@@ -253,7 +261,7 @@ Remote read request for 10k series, for 8h took for different versions:
 | user | 0m7.324s         | 0m8.181s         |
 | sys  | 0m1.172s         | 0m0.749s         |
 
-For reduced requested time range to 2h we see:
+And with 2h time range:
 
 |      | 2.12.0: avg time | 2.13.0: avg time |
 |------|------------------|------------------|
@@ -281,7 +289,7 @@ To use the new, streamed remote read in Prometheus v2.13.0, a 3rd party system h
 Then Prometheus will stream `ChunkedReadResponse` instead of old message. Each `ChunkedReadResponse` message is 
 following varint size and fixed size bigendian uint32 for CRC32 Castagnoli checksum.
 
-For Go it is recommended to use our [ChunkedReader](https://github.com/prometheus/prometheus/blob/48b2c9c8eae2d4a286d8e9384c2918aefd41d8de/storage/remote/chunked.go#L103)
+For Go it is recommended to use the [ChunkedReader](https://github.com/prometheus/prometheus/blob/48b2c9c8eae2d4a286d8e9384c2918aefd41d8de/storage/remote/chunked.go#L103)
  to read directly from the stream.   
 
 Note that `storage.remote.read-sample-limit` flag is no longer working for `STREAMED_XOR_CHUNKS`.
@@ -290,8 +298,8 @@ Note that `storage.remote.read-sample-limit` flag is no longer working for `STRE
 There also new option `storage.remote.read-max-bytes-in-frame` which controls the maximum size of each message. It is advised
 to keep it 1MB as the default as it is recommended by Google to keep protobuf message [not larger than 1MB](https://developers.google.com/protocol-buffers/docs/techniques#large-data).
 
-As mentioned before, [Thanos](https://thanos.io) gains a lot with this improvement. We added support for the new remote read  in `v0.7.0`, so this version or any newer, 
-will use streamed remote read automatically whenever Prometheus 2.13 or newer is used next to the Thanos sidecar.
+As mentioned before, [Thanos](https://thanos.io) gains a lot with this improvement. Streamed remote read is added in `v0.7.0`, so this or any following version, 
+will use streamed remote read automatically whenever Prometheus 2.13 or newer is used with the Thanos sidecar.
 
 ## Next Steps
 
@@ -299,16 +307,16 @@ Release 2.13.0 introduces extended remote read and Prometheus server side implem
 there are still few items to do in order to fully get advantage from the extended remote read protocol:
 
 * Support for client side of Prometheus remote read: [In progress](https://github.com/prometheus/prometheus/issues/5926) 
-* Avoid reencoding of chunks for blocks during remote read: [In progress](https://github.com/prometheus/prometheus/pull/5882)
+* Avoid re-encoding of chunks for blocks during remote read: [In progress](https://github.com/prometheus/prometheus/pull/5882)
 
 ## Summary
 
 To sum up, the main benefits of chunked, streaming of remote read are:
 
-* Both client and server are capable to use **constant memory size and per request**. This is because Prometheus now
-at maximum buffers just a single small frame instead of the whole response during remote read. This massively helps with
+* Both client and server are capable to use **constant memory size and per request**. This is because Prometheus processes
+and sends just single small frames one by one instead of the whole response during remote read. This massively helps with
 capacity planning, especially for non-compressible resource like memory.
 * Prometheus server does not need to decode chunks to raw samples anymore during remote read. The same for client side for
 encoding, **if** the system is reusing native TSDB XOR compression (like Thanos does). 
 
-As always, if you have any issues or feedback, feel free to submit a ticket on GitHub or reach us on the mailing list.
+As always, if you have any issues or feedback, feel free to submit a ticket on GitHub or ask qyestuibs us on the mailing list.

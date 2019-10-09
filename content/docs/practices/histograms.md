@@ -50,7 +50,7 @@ A straight-forward use of histograms (but not summaries) is to count
 observations falling into particular buckets of observation
 values.
 
-You might have an SLA to serve 95% of requests within 300ms. In that
+You might have an SLO to serve 95% of requests within 300ms. In that
 case, configure a histogram to have a bucket with an upper limit of
 0.3 seconds. You can then directly express the relative amount of
 requests served within 300ms and easily alert if the value drops below
@@ -114,7 +114,7 @@ The two approaches have a number of different implications:
 | Aggregation | Ad-hoc with [Prometheus expressions](/docs/prometheus/latest/querying/functions/#histogram_quantile). | In general [not aggregatable](http://latencytipoftheday.blogspot.de/2014/06/latencytipoftheday-you-cant-average.html).
 
 Note the importance of the last item in the table. Let us return to
-the SLA of serving 95% of requests within 300ms. This time, you do not
+the SLO of serving 95% of requests within 300ms. This time, you do not
 want to display the percentage of requests served within 300ms, but
 instead the 95th percentile, i.e. the request duration within which
 you have served 95% of requests. To do that, you can either configure
@@ -136,7 +136,7 @@ function](/docs/prometheus/latest/querying/functions/#histogram_quantile).
 
     histogram_quantile(0.95, sum(rate(http_request_duration_seconds_bucket[5m])) by (le)) // GOOD.
 
-Furthermore, should your SLA change and you now want to plot the 90th
+Furthermore, should your SLO change and you now want to plot the 90th
 percentile, or you want to take into account the last 10 minutes
 instead of the last 5 minutes, you only have to adjust the expression
 above and you do not need to reconfigure the clients.
@@ -157,16 +157,16 @@ will fall into the bucket labeled `{le="0.3"}`, i.e. the bucket from
 95th percentile is somewhere between 200ms and 300ms. To return a
 single value (rather than an interval), it applies linear
 interpolation, which yields 295ms in this case. The calculated
-quantile gives you the impression that you are close to breaking the
-SLA, but in reality, the 95th percentile is a tiny bit above 220ms,
-a quite comfortable distance to your SLA.
+quantile gives you the impression that you are close to breaching the
+SLO, but in reality, the 95th percentile is a tiny bit above 220ms,
+a quite comfortable distance to your SLO.
 
 Next step in our thought experiment: A change in backend routing
 adds a fixed amount of 100ms to all request durations. Now the request
 duration has its sharp spike at 320ms and almost all observations will
 fall into the bucket from 300ms to 450ms. The 95th percentile is
 calculated to be 442.5ms, although the correct value is close to
-320ms. While you are only a tiny bit outside of your SLA, the
+320ms. While you are only a tiny bit outside of your SLO, the
 calculated 95th quantile looks much worse.
 
 A summary would have had no problem calculating the correct percentile
@@ -179,8 +179,8 @@ from a number of instances.
 Luckily, due to your appropriate choice of bucket boundaries, even in
 this contrived example of very sharp spikes in the distribution of
 observed values, the histogram was able to identify correctly if you
-were within or outside of your SLA. Also, the closer the actual value
-of the quantile is to our SLA (or in other words, the value we are
+were within or outside of your SLO. Also, the closer the actual value
+of the quantile is to our SLO (or in other words, the value we are
 actually most interested in), the more accurate the calculated value
 becomes.
 
@@ -189,7 +189,7 @@ distributions of request durations has a spike at 150ms, but it is not
 quite as sharp as before and only comprises 90% of the
 observations. 10% of the observations are evenly spread out in a long
 tail between 150ms and 450ms. With that distribution, the 95th
-percentile happens to be exactly at our SLA of 300ms. With the
+percentile happens to be exactly at our SLO of 300ms. With the
 histogram, the calculated value is accurate, as the value of the 95th
 percentile happens to coincide with one of the bucket boundaries. Even
 slightly different values would still be accurate as the (contrived)
@@ -204,7 +204,7 @@ percentile. The 94th quantile with the distribution described above is
 270ms, the 96th quantile is 330ms. The calculated value of the 95th
 percentile reported by the summary can be anywhere in the interval
 between 270ms and 330ms, which unfortunately is all the difference
-between clearly within the SLA vs. clearly outside the SLA.
+between clearly within the SLO vs. clearly outside the SLO.
 
 The bottom line is: If you use a summary, you control the error in the
 dimension of φ. If you use a histogram, you control the error in the

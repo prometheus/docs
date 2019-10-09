@@ -1,8 +1,8 @@
 ---
 title: Remote Read Meets Streaming
-created_at: 2019-10-08
+created_at: 2019-10-09
 kind: article
-author_name: Bartlomiej Plotka
+author_name: Bartlomiej Plotka (@bwplotka)
 ---
 
 The new Prometheus version 2.13.0 is available and as always, it includes many fixes and improvements. You can read what's changed [here](https://github.com/prometheus/prometheus/blob/release-2.13/CHANGELOG.md). 

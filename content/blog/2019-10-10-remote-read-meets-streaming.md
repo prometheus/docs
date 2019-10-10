@@ -312,7 +312,7 @@ There also new option `storage.remote.read-max-bytes-in-frame` which controls th
 to keep it 1MB as the default as it is recommended by Google to keep protobuf message [not larger than 1MB](https://developers.google.com/protocol-buffers/docs/techniques#large-data).
 
 As mentioned before, [Thanos](https://thanos.io) gains a lot with this improvement. Streamed remote read is added in `v0.7.0`, so this or any following version, 
-will use streamed remote read automatically whenever Prometheus 2.13 or newer is used with the Thanos sidecar.
+will use streamed remote read automatically whenever Prometheus 2.13.0 or newer is used with the Thanos sidecar.
 
 ## Next Steps
 
@@ -326,8 +326,7 @@ there are still few items to do in order to fully get advantage from the extende
 
 To sum up, the main benefits of chunked, streaming of remote read are:
 
-* Both client and server are capable to use **practically constant memory size and per request**. This is because Prometheus processes
-and sends just single small frames one by one instead of the whole response during remote read. This massively helps with
+* Both client and server are capable to use **practically constant memory size and per request**. This is because Prometheus process sends just single small frames one by one instead of the whole response during remote read. This massively helps with
 capacity planning, especially for a non-compressible resource like memory.
 * Prometheus server does not need to decode chunks to raw samples anymore during remote read. The same for client side for
 encoding, **if** the system is reusing native TSDB XOR compression (like Thanos does). 

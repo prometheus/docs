@@ -173,8 +173,9 @@ In the same way TSDB implements `SeriesSet` in a way that fetches the series opt
 This is important for the remote read API, as we can reuse the same pattern of streaming using iterators by sending to the
 client a piece of the response in a form of few chunks for the single series.
 Because protobuf has no native delimiting logic, we [`extended`](https://github.com/prometheus/prometheus/pull/5703/files#diff-7bdb1c90d5a59fc5ead16457e6d2b038R44)
-proto definition to allow sending **set of small protocol buffer messages** instead of a single, huge one. We called this mode `STREAMED_XOR_CHUNKS` remote read.
-This means that Prometheus does not need to buffer the whole response anymore. Instead it can work on each series sequentially and send a single frame per
+proto definition to allow sending **set of small protocol buffer messages** instead of a single, huge one. We called
+this mode `STREAMED_XOR_CHUNKS` remote read while old one is called `SAMPLES`. Extended protocol means that Prometheus
+does not need to buffer the whole response anymore. Instead, it can work on each series sequentially and send a single frame per
 each `SeriesSet.Next` or batch of `SeriesIterator.Next` iterations, potentially reusing the same memory pages for next series!
 
 Now, the response of `STREAMED_XOR_CHUNKS` remote read is a set of Protobuf messages (frames) as presented below:
@@ -287,12 +288,12 @@ version where the client latency was 27s (`real` minus `user` time) just on proc
 ## Compatibility
 
 Remote read was extended in a backward and forward compatible way. This is thanks to the protobuf and `accepted_response_types` field which is
-ignored for older servers. In the same time server works just fine if `accepted_response_types` is not present by older clients assuming old `SAMPLED` remote read.
+ignored for older servers. In the same time server works just fine if `accepted_response_types` is not present by older clients assuming old `SAMPLES` remote read.
 
 The remote read protocol was extended in a backward and forward compatible way:
 
-* Prometheus before v2.13.0 will safely ignore the `accepted_response_types` field provided by newer clients and assume `SAMPLED` mode.
-* Prometheus after v2.13.0 will default to the `SAMPLED` mode for older clients that don't provide the `accepted_response_types` parameter.
+* Prometheus before v2.13.0 will safely ignore the `accepted_response_types` field provided by newer clients and assume `SAMPLES` mode.
+* Prometheus after v2.13.0 will default to the `SAMPLES` mode for older clients that don't provide the `accepted_response_types` parameter.
 
 ## Usage
 

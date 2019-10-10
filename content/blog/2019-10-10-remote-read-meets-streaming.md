@@ -1,6 +1,6 @@
 ---
 title: Remote Read Meets Streaming
-created_at: 2019-10-09
+created_at: 2019-10-10
 kind: article
 author_name: Bartlomiej Plotka (@bwplotka)
 ---

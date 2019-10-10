@@ -266,4 +266,5 @@ practices.
    * Java/JVM: [Jersey metrics collector](https://github.com/VitaNuova/jerseyexporter)
    * Java/JVM: [Micrometer Prometheus Registry](https://micrometer.io/docs/registry/prometheus)
    * Python-Django: [django-prometheus](https://github.com/korfuri/django-prometheus)
+   * Python-Flask: [flask-prometheus-metrics](https://pypi.org/project/flask-prometheus-metrics/), [prometheus-flask-exporter](https://pypi.org/project/prometheus-flask-exporter)
    * Node.js: [swagger-stats](https://github.com/slanatech/swagger-stats)

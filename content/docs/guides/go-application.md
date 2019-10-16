@@ -111,7 +111,7 @@ In the metrics output, you'll see the help text, type information, and current v
 myapp_processed_ops_total 5
 ```
 
-You can [configure](/docs/prometheus/latest/configuration/configuration/#<scrape_config>) a locally running Prometheus instance to scrape metrics from the application. Here's an example `prometheus.yml` configuration:
+You can [configure](/docs/prometheus/latest/configuration/configuration/#scrape_config) a locally running Prometheus instance to scrape metrics from the application. Here's an example `prometheus.yml` configuration:
 
 ```yaml
 scrape_configs:

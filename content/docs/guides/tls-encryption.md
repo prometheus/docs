@@ -7,7 +7,7 @@ sort_rank: 1
 
 Prometheus does not directly support [Transport Layer Security](https://en.wikipedia.org/wiki/Transport_Layer_Security) (TLS) encryption for connections to Prometheus instances (i.e. to the expression browser or [HTTP API](../../prometheus/latest/querying/api)). If you would like to enforce TLS for those connections, we recommend using Prometheus in conjunction with a [reverse proxy](https://www.nginx.com/resources/glossary/reverse-proxy-server/) and applying TLS at the proxy layer. You can use any reverse proxy you like with Prometheus, but in this guide we'll provide an [nginx example](#nginx-example).
 
-NOTE: Although TLS connections *to* Prometheus instances are not supported, TLS is supported for connections *from* Prometheus instances to [scrape targets](../prometheus/latest/configuration/configuration/#<tls_config>).
+NOTE: Although TLS connections *to* Prometheus instances are not supported, TLS is supported for connections *from* Prometheus instances to [scrape targets](../../prometheus/latest/configuration/configuration/#tls_config).
 
 ## nginx example
 

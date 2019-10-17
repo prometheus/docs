@@ -145,6 +145,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [Graphite exporter](https://github.com/prometheus/graphite_exporter) (**official**)
    * [Heka dashboard exporter](https://github.com/docker-infra/heka_exporter)
    * [Heka exporter](https://github.com/imgix/heka_exporter)
+   * [Huawei Cloudeye exporter](https://github.com/huaweicloud/cloudeye-exporter)
    * [InfluxDB exporter](https://github.com/prometheus/influxdb_exporter) (**official**)
    * [JavaMelody exporter](https://github.com/fschlag/javamelody-prometheus-exporter)
    * [JMX exporter](https://github.com/prometheus/jmx_exporter) (**official**)

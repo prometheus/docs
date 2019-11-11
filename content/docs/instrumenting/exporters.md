@@ -92,6 +92,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [RabbitMQ exporter](https://github.com/kbudde/rabbitmq_exporter)
    * [RabbitMQ Management Plugin exporter](https://github.com/deadtrickster/prometheus_rabbitmq_exporter)
    * [RocketMQ exporter](https://github.com/apache/rocketmq-exporter)
+   * [Mosquitto exporter](https://github.com/sapcc/mosquitto-exporter)
 
 ### Storage
    * [Ceph exporter](https://github.com/digitalocean/ceph_exporter)

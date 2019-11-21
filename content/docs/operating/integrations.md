@@ -23,6 +23,7 @@ For service discovery mechanisms not natively supported by Prometheus,
 [file-based service discovery](/docs/operating/configuration/#%3Cfile_sd_config%3E) provides an interface for integrating.
 
  * [Docker Swarm](https://github.com/ContainerSolutions/prometheus-swarm-discovery)
+ * [Lightsail](https://github.com/n888/prometheus-lightsail-sd)
  * [Packet](https://github.com/packethost/prometheus-packet-sd)
  * [Scaleway](https://github.com/scaleway/prometheus-scw-sd)
 

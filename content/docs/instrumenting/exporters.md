@@ -219,6 +219,7 @@ separate exporters are needed:
    * [Ceph](http://docs.ceph.com/docs/master/mgr/prometheus/)
    * [Collectd](https://collectd.org/wiki/index.php/Plugin:Write_Prometheus)
    * [Concourse](https://concourse-ci.org/)
+   * [Crabby](https://github.com/chrissnell/crabby) (**direct**)
    * [CRG Roller Derby Scoreboard](https://github.com/rollerderby/scoreboard) (**direct**)
    * [Diffusion](https://docs.pushtechnology.com/docs/latest/manual/html/administratorguide/systemmanagement/r_statistics.html)
    * [Docker Daemon](https://docs.docker.com/engine/reference/commandline/dockerd/#daemon-metrics)

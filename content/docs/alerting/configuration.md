@@ -78,7 +78,8 @@ global:
   [ smtp_auth_identity: <string> ]
   # SMTP Auth using CRAM-MD5. 
   [ smtp_auth_secret: <secret> ]
-  # The default SMTP TLS requirement.
+  # The default SMTP TLS requirement. 
+  # Note that Go does not support unencrypted connections to remote SMTP endpoints.
   [ smtp_require_tls: <bool> | default = true ]
 
   # The API URL to use for Slack notifications.
@@ -344,6 +345,7 @@ to: <tmpl_string>
 [ auth_identity: <string> | default = global.smtp_auth_identity ]
 
 # The SMTP TLS requirement.
+# Note that Go does not support unencrypted connections to remote SMTP endpoints.
 [ require_tls: <bool> | default = global.smtp_require_tls ]
 
 # TLS configuration.

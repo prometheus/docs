@@ -36,7 +36,7 @@ For counting failed queries, see section [Failures](#failures) below.
 
 Online-serving systems should be monitored on both the client and server side.
 If the two sides see different behaviors, that is very useful information for debugging.
-If a service has many clients, it is also not practical for the service to track them
+If a service has many clients, it is not practical for the service to track them
 individually, so they have to rely on their own stats.
 
 Be consistent in whether you count queries when they start or when they end.

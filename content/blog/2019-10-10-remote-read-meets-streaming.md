@@ -326,7 +326,7 @@ there are still few items to do in order to fully get advantage from the extende
 
 To sum up, the main benefits of chunked, streaming of remote read are:
 
-* Both client and server are capable to use **practically constant memory size and per request**. This is because Prometheus process sends just single small frames one by one instead of the whole response during remote read. This massively helps with
+* Both client and server are capable of using **practically constant memory size per request**. This is because the Prometheus sends just single small frames one by one instead of the whole response during remote read. This massively helps with
 capacity planning, especially for a non-compressible resource like memory.
 * Prometheus server does not need to decode chunks to raw samples anymore during remote read. The same for client side for
 encoding, **if** the system is reusing native TSDB XOR compression (like Thanos does). 

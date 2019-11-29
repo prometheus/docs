@@ -96,8 +96,7 @@ global:
 
   # ResolveTimeout is the default value after which alertmanager
   # can declare the alert as resolved if it has not been updated.
-  # resolve_timeout configuration value is a fallback value and only used if
-  # Prometheus does not send the value with the alert(Prometheus pre 2.4.0 versions)
+  # This has no impact on alerts from Prometheus, as they always include EndsAt
   [ resolve_timeout: <duration> | default = 5m ]
 
 # Files from which custom notification template definitions are read.

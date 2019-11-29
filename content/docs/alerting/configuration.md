@@ -58,10 +58,6 @@ sections.
 
 ```yaml
 global:
-  # ResolveTimeout is the time after which an alert is declared resolved
-  # if it has not been updated.
-  [ resolve_timeout: <duration> | default = 5m ]
-
   # The default SMTP From header field.
   [ smtp_from: <tmpl_string> ]
   # The default SMTP smarthost used for sending emails, including port number.
@@ -97,6 +93,11 @@ global:
 
   # The default HTTP client configuration
   [ http_config: <http_config> ]
+
+  # ResolveTimeout is the default value used by alertmanager if the alert does
+  # not include EndsAt, after this time passes it can declare the alert as resolved if it has not been updated.
+  # This has no impact on alerts from Prometheus, as they always include EndsAt.
+  [ resolve_timeout: <duration> | default = 5m ]
 
 # Files from which custom notification template definitions are read.
 # The last component may use a wildcard matcher, e.g. 'templates/*.tmpl'.

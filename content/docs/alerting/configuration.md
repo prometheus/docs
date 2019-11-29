@@ -94,9 +94,9 @@ global:
   # The default HTTP client configuration
   [ http_config: <http_config> ]
 
-  # ResolveTimeout is the default value after which alertmanager
-  # can declare the alert as resolved if it has not been updated.
-  # This has no impact on alerts from Prometheus, as they always include EndsAt
+  # ResolveTimeout is the default value used by alertmanager if the alert does
+  # not include EndsAt, after this time passes it can declare the alert as resolved if it has not been updated.
+  # This has no impact on alerts from Prometheus, as they always include EndsAt.
   [ resolve_timeout: <duration> | default = 5m ]
 
 # Files from which custom notification template definitions are read.

@@ -217,6 +217,7 @@ separate exporters are needed:
    * [App Connect Enterprise](https://github.com/ot4i/ace-docker)
    * [Ballerina](https://ballerina.io/)
    * [Ceph](http://docs.ceph.com/docs/master/mgr/prometheus/)
+   * [CockroachDB](https://www.cockroachlabs.com/docs/stable/monitoring-and-alerting.html#prometheus-endpoint)
    * [Collectd](https://collectd.org/wiki/index.php/Plugin:Write_Prometheus)
    * [Concourse](https://concourse-ci.org/)
    * [CRG Roller Derby Scoreboard](https://github.com/rollerderby/scoreboard) (**direct**)

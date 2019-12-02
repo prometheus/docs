@@ -49,6 +49,7 @@ data volumes.
   * [M3DB](https://m3db.github.io/m3/integrations/prometheus): read and write
   * [OpenTSDB](https://github.com/prometheus/prometheus/tree/master/documentation/examples/remote_storage/remote_storage_adapter): write
   * [PostgreSQL/TimescaleDB](https://github.com/timescale/prometheus-postgresql-adapter): read and write
+  * [QuasarDB](https://doc.quasardb.net/master/user-guide/integration/prometheus.html): read and write
   * [SignalFx](https://github.com/signalfx/metricproxy#prometheus): write
   * [Splunk](https://github.com/kebe7jun/ropee): read and write
   * [TiKV](https://github.com/bragfoo/TiPrometheus): read and write

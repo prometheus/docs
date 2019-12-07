@@ -44,7 +44,7 @@ A source of metrics that can be scraped, usually corresponding to a single proce
 ### Exporter
 
 An exporter is a binary running alongside the application you
-want to obtain metrics from, that exposes Prometheus metrics, commonly by converting metrics that are exposed in a non-Prometheus format into a format Prometheus supports.
+want to obtain metrics from. The exporter exposes Prometheus metrics, commonly by converting metrics that are exposed in a non-Prometheus format into a format that Prometheus supports.
 
 ### Instance
 

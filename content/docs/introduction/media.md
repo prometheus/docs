@@ -8,10 +8,10 @@ sort_rank: 7
 There is a [subreddit](https://www.reddit.com/r/prometheusmonitoring)
 collecting all Prometheus-related resources on the internet.
 
-[Awesome Prometheus](https://github.com/roaldnefs/awesome-prometheus) is a  curated list of related blog posts, projects and tools.
-
 The following selection of resources are particularly useful to get started
-with Prometheus.
+with Prometheus. (Refer to 
+[Awesome Prometheus](https://github.com/roaldnefs/awesome-prometheus)
+for a more comprehensive community-maintained list of resources.)
 
 ## Blogs
 

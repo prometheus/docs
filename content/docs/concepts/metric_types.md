@@ -87,7 +87,7 @@ during a scrape:
 
   * streaming **φ-quantiles** (0 ≤ φ ≤ 1) of observed events, exposed as `<basename>{quantile="<φ>"}`
   * the **total sum** of all observed values, exposed as `<basename>_sum`
-  * the **count** of events that have been obserlabelved, exposed as `<basename>_count`
+  * the **count** of events that have been observed, exposed as `<basename>_count`
 
 See [histograms and summaries](/docs/practices/histograms) for
 detailed explanations of φ-quantiles, summary usage, and differences

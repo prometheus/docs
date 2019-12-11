@@ -24,7 +24,7 @@ By multi-target [exporter](/docs/instrumenting/exporters/) pattern we refer to a
 
 This pattern is only used for certain exporters, namely the [blackbox](https://github.com/prometheus/blackbox_exporter) and the [SNMP exporter](https://github.com/prometheus/snmp_exporter).
 
-The reason is that we either can’t run the exporter on the targets, e.g. network gear speaking SNMP, or that we are explicitly interested in the distance, e.g. latency and reachability of a website from a specific point outside of our network.
+The reason is that we either can’t run an exporter on the targets, e.g. network gear speaking SNMP, or that we are explicitly interested in the distance, e.g. latency and reachability of a website from a specific point outside of our network.
 
 ## Running multi-target exporters
 
@@ -32,7 +32,7 @@ Multi-target exporters are flexible regarding their environment and can be run i
 
 Now let’s try it out for yourself!
 
-Use [Docker](https://www.docker.com/) to start a blackbox exporter container running by running this in a terminal:
+Use [Docker](https://www.docker.com/) to start a blackbox exporter container by running this in a terminal:
 
 ```bash
 sudo docker run -p 9115:9115 prom/blackbox-exporter
@@ -51,7 +51,7 @@ There are two ways of querying:
 1. Querying the exporter itself. It has its own metrics, usually available at `/metrics`.
 1. Querying the exporter to scrape another target. Usually available at a "descriptive" endpoint, e.g. `/probe`.
 
-You can manually try the first query type with curl in another terminal. If you don’t have curl, you can also copy the part between the `'` into a browser’s address bar:
+You can manually try the first query type with curl in another terminal or use this [link](http://localhost:9115/metrics):
 
 <a name="query-exporter"></a>
 
@@ -364,7 +364,7 @@ probe_success 1
 probe_tls_version_info{version="TLS 1.3"} 1
 ```
 
-You can see that the probe was successful and get many useful metrics, like latency by phase, status code, ssl status or cert expiry in [epoch](https://en.wikipedia.org/wiki/Unix_time).  
+You can see that the probe was successful and get many useful metrics, like latency by phase, status code, ssl status or certificate expiry in [Unix time](https://en.wikipedia.org/wiki/Unix_time).  
 The blackbox exporter also offers a tiny web interface at [localhost:9115](http://localhost:9115) for you to check out the last few probes, the loaded config and debug information. It even offers a direct link to probe `prometheus.io`. Handy if you are wondering why something does not work.
 
 ## Querying multi-target exporters with Prometheus

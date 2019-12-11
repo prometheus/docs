@@ -1,33 +1,34 @@
 ---
-title: Understanding and using the proxy exporter pattern
+title: Understanding and using the multi-target exporter pattern
 ---
 
-# Understanding and using the proxy exporter pattern
+# Understanding and using the multi-target exporter pattern
 
-This guide will introduce you to the proxy exporter pattern. To achieve this we will:
+This guide will introduce you to the multi-target exporter pattern. To achieve this we will:
 
-* describe the proxy exporter pattern and why it is used,
+* describe the multi-target exporter pattern and why it is used,
 * run the [blackbox](https://github.com/prometheus/blackbox_exporter) exporter as an example of the pattern,
 * configure a custom query module for the blackbox exporter,
 * let the blackbox exporter run basic metric queries against the Prometheus [website](https://prometheus.io),
 * examine a popular pattern of configuring Prometheus to scrape exporters using relabeling.
 
-## The proxy exporter pattern?
+## The multi-target exporter pattern?
 
-Any exporter receives requests from Prometheus and answers them with data forwarded from other systems. So technically every [exporter](/docs/instrumenting/exporters/) is a [proxy](https://en.wikipedia.org/wiki/Proxy_server). But by proxy exporter pattern we refer to a specific design, in which:
+By multi-target [exporter](/docs/instrumenting/exporters/) pattern we refer to a specific design, in which:
 
 * the exporter will get the target’s metrics via a network protocol.
 * the exporter does not have to run on the machine the metrics are taken from.
 * the exporter gets the targets and a query config string as parameters of Prometheus’ GET request.
 * the exporter subsequently starts the scrape after getting Prometheus’ GET requests and once it is done with scraping.
+* the exporter can query multiple targets.
 
 This pattern is only used for certain exporters, namely the [blackbox](https://github.com/prometheus/blackbox_exporter) and the [SNMP exporter](https://github.com/prometheus/snmp_exporter).
 
 The reason is that we either can’t run the exporter on the targets, e.g. network gear speaking SNMP, or that we are explicitly interested in the distance, e.g. latency and reachability of a website from a specific point outside of our network.
 
-## Running proxy exporters
+## Running multi-target exporters
 
-Proxy exporters are flexible regarding their environment and can be run in many ways. As regular programs, in containers, as background services, on baremetal, virtual machines. Because they are queried and do query over network they do need appropriate open ports. Otherwise they are frugal.
+Multi-target exporters are flexible regarding their environment and can be run in many ways. As regular programs, in containers, as background services, on baremetal, virtual machines. Because they are queried and do query over network they do need appropriate open ports. Otherwise they are frugal.
 
 Now let’s try it out for yourself!
 
@@ -43,7 +44,7 @@ You should see a few log lines and if everything went well the last one should r
 level=info ts=2018-10-17T15:41:35.4997596Z caller=main.go:324 msg="Listening on address" address=:9115
 ```
 
-## Basic querying of proxy exporters
+## Basic querying of multi-target exporters
 
 There are two ways of querying:
 
@@ -280,7 +281,7 @@ NOTE: If you are using macOS you first need to allow the Docker daemon to access
 
 First you stop the old container by changing into its terminal and press `ctrl+c`.
 Make sure you are in the directory containing your `blackbox.yml`.
-Then you run this command. Don’t be intimidated, it is long, but we explain it:
+Then you run this command. It is long, but we will explain it:
 
 <a name="run-exporter"></a>
 
@@ -361,7 +362,7 @@ probe_success 1
 We can see that the probe was successful and get many useful metrics, like latency by phase, status code, ssl status or cert expiry in [epoch](https://en.wikipedia.org/wiki/Unix_time).  
 The blackbox exporter also offers a tiny web interface at [localhost:9115](http://localhost:9115) for you to check out the last few probes, the loaded config and debug information. It even offers a direct link to probe `prometheus.io`. Handy if you are wondering why something does not work.
 
-## Querying proxy exporters with Prometheus
+## Querying multi-target exporters with Prometheus
 
 So far, so good. Congratulate yourself. The blackbox exporter works and you can manually tell it to query a remote target. We are almost there. We now need to tell Prometheus to do the queries for us.  
 
@@ -474,9 +475,9 @@ scrape_configs:
 So what is new compared to the [last config](#prometheus-config)?
 
  1. `params` does not include `target` anymore.
- 1. We add the actual targets under `static configs:` `targets`. We use several to because we can do that now.
+ 1. We add the actual targets under `static configs:` `targets`. We also use several because we can do that now.
  1. `relabel_configs` contains the new relabeling rules.
- 1. We take the values from the label `__address__` (which contain the values from `targets`) and write them to a new label `__param_target` which will add a parameter `target` to Prometheus request.
+ 1. We take the values from the label `__address__` (which contain the values from `targets`) and write them to a new label `__param_target` which will add a parameter `target` to the Prometheus scrape requests.
  1. We take the values from the label `__param_target` and create a label instance with the values.
  1. We write the value `localhost:9115` to the the label `__address__`. This will be used as the hostname and port for the Prometheus scrape requests.
 
@@ -488,4 +489,4 @@ That is it. Restart the Prometheus docker container and look at your [metrics](h
 
 # Summary
 
-In this guide, you learned how the proxy exporter pattern works and how to run a blackbox exporter with a customised module and to configure Prometheus using relabeling to scrape metrics with prober labels.
+In this guide, you learned how the multi-target exporter pattern works and how to run a blackbox exporter with a customised module and to configure Prometheus using relabeling to scrape metrics with prober labels.

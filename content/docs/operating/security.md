@@ -12,7 +12,7 @@ environments.
 This page describes the general security assumptions of Prometheus and the
 attack vectors that some configurations may enable.
 
-As with any complex systems it is not possible to guarantee that there are no
+As with any complex system, it is not possible to guarantee that there are no
 bugs. If you find a security bug please report it privately to the maintainers
 listed in the MAINTAINERS.md of the relevant repository and CC
 prometheus-team@googlegroups.com. We will fix the issue and coordinate a
@@ -89,6 +89,11 @@ delete the metrics contained within. As the Pushgateway is usually scraped with
 `honor_labels` enabled, this means anyone with access to the Pushgateway can
 create any time series in Prometheus.
 
+The `--web.enable-admin-api` flag controls access to the
+administrative HTTP API, which includes functionality such as wiping all the existing
+metric groups. This is disabled by default. If enabled, administrative
+functionality will be accessible under the `/api/*/admin/` paths.
+
 ## Exporters
 
 Exporters generally only talk to one configured instance with a preset set of
@@ -112,7 +117,7 @@ resulting from additional load and failed scrapes.
 ## Authentication, Authorization, and Encryption
 
 Prometheus and its components do not provide any server-side
-authentication, authorisation or encryption. If you require this, it is
+authentication, authorization or encryption. If you require this, it is
 recommended to use a reverse proxy.
 
 As administrative and mutating endpoints are intended to be accessed via simple

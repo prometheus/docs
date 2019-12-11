@@ -24,11 +24,15 @@ Note that some fields are evaluated as text, and others as HTML which will affec
 | ------------- | ------------- | -------- |
 | Receiver | string | Defines the receiver's name that the notification will be sent to (slack, email etc.). |
 | Status | string | Defined as firing if at least one alert is firing, otherwise resolved. |
-| Alerts | [Alert](#alert) | List of alert objects ([see below](#alert)). |
+| Alerts | [Alert](#alert) | List of all alert objects in this group ([see below](#alert)). |
 | GroupLabels | [KV](#kv) | The labels these alerts were grouped by. |
 | CommonLabels | [KV](#kv) | The labels common to all of the alerts. |
 | CommonAnnotations | [KV](#kv) | Set of common annotations to all of the alerts. Used for longer additional strings of information about the alert. |
 | ExternalURL | string | Backlink to the Alertmanager that sent the notification. |
+
+The `Alerts` type exposes functions for filtering alerts:
+ - `Alerts.Firing` returns a list of currently firing alert objects in this group
+ - `Alerts.Resolved` returns a list of resolved alert objects in this group
 
 ## Alert
 
@@ -87,3 +91,4 @@ templating.
 | reReplaceAll | pattern, replacement, text | [Regexp.ReplaceAllString](http://golang.org/pkg/regexp/#Regexp.ReplaceAllString) Regexp substitution, unanchored. |
 | join | sep string, s []string | [strings.Join](http://golang.org/pkg/strings/#Join), concatenates the elements of s to create a single string. The separator string sep is placed between elements in the resulting string. (note: argument order inverted for easier pipelining in templates.) |
 | safeHtml | text string | [html/template.HTML](https://golang.org/pkg/html/template/#HTML), Marks string as HTML not requiring auto-escaping. |
+| stringSlice | ...string | Returns the passed strings as a slice of strings. |

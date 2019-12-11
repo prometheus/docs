@@ -49,7 +49,8 @@ Generic placeholders are defined as follows:
 
 The other placeholders are specified separately.
 
-A valid example file can be found [here](https://github.com/prometheus/alertmanager/blob/master/doc/examples/simple.yml).
+A provided [valid example file](https://github.com/prometheus/alertmanager/blob/master/doc/examples/simple.yml)
+shows usage in context.
 
 The global configuration specifies parameters that are valid in all other
 configuration contexts. They also serve as defaults for other configuration
@@ -57,10 +58,6 @@ sections.
 
 ```yaml
 global:
-  # ResolveTimeout is the time after which an alert is declared resolved
-  # if it has not been updated.
-  [ resolve_timeout: <duration> | default = 5m ]
-
   # The default SMTP From header field.
   [ smtp_from: <tmpl_string> ]
   # The default SMTP smarthost used for sending emails, including port number.
@@ -69,6 +66,7 @@ global:
   [ smtp_smarthost: <string> ]
   # The default hostname to identify to the SMTP server.
   [ smtp_hello: <string> | default = "localhost" ]
+  # SMTP Auth using CRAM-MD5, LOGIN and PLAIN. If empty, Alertmanager doesn't authenticate to the SMTP server.
   [ smtp_auth_username: <string> ]
   # SMTP Auth using LOGIN and PLAIN.
   [ smtp_auth_password: <secret> ]
@@ -76,7 +74,8 @@ global:
   [ smtp_auth_identity: <string> ]
   # SMTP Auth using CRAM-MD5. 
   [ smtp_auth_secret: <secret> ]
-  # The default SMTP TLS requirement.
+  # The default SMTP TLS requirement. 
+  # Note that Go does not support unencrypted connections to remote SMTP endpoints.
   [ smtp_require_tls: <bool> | default = true ]
 
   # The API URL to use for Slack notifications.
@@ -94,6 +93,11 @@ global:
 
   # The default HTTP client configuration
   [ http_config: <http_config> ]
+
+  # ResolveTimeout is the default value used by alertmanager if the alert does
+  # not include EndsAt, after this time passes it can declare the alert as resolved if it has not been updated.
+  # This has no impact on alerts from Prometheus, as they always include EndsAt.
+  [ resolve_timeout: <duration> | default = 5m ]
 
 # Files from which custom notification template definitions are read.
 # The last component may use a wildcard matcher, e.g. 'templates/*.tmpl'.
@@ -210,11 +214,11 @@ Semantically, a missing label and a label with an empty value are the same
 thing. Therefore, if all the label names listed in `equal` are missing from
 both the source and target alerts, the inhibition rule will apply.
 
-To prevent an alert from inhibiting itself, an inhibition rule will never
-inhibit an alert that matches _both_ the target and the source side of the
-rule. However, we recommend to choose target and source matchers in a way that
-alerts never match both sides. It is much easier to reason about and does not
-trigger this special case.
+To prevent an alert from inhibiting itself, an alert that matches _both_ the
+target and the source side of a rule cannot be inhibited by alerts for which
+the same is true (including itself). However, we recommend to choose target and
+source matchers in a way that alerts never match both sides. It is much easier
+to reason about and does not trigger this special case.
 
 ```yaml
 # Matchers that have to be fulfilled in the alerts to be muted.
@@ -342,6 +346,7 @@ to: <tmpl_string>
 [ auth_identity: <string> | default = global.smtp_auth_identity ]
 
 # The SMTP TLS requirement.
+# Note that Go does not support unencrypted connections to remote SMTP endpoints.
 [ require_tls: <bool> | default = global.smtp_require_tls ]
 
 # TLS configuration.
@@ -392,7 +397,7 @@ room_id: <tmpl_string>
 ## `<pagerduty_config>`
 
 PagerDuty notifications are sent via the [PagerDuty API](https://developer.pagerduty.com/documentation/integration/events).
-PagerDuty provides documentation on how to integrate [here](https://www.pagerduty.com/docs/guides/prometheus-integration-guide/).
+PagerDuty provides [documentation](https://www.pagerduty.com/docs/guides/prometheus-integration-guide/) on how to integrate. There are important differences with Alertmanager's v0.11 and greater support of PagerDuty's Events API v2.
 
 ```yaml
 # Whether or not to notify about resolved alerts.
@@ -444,9 +449,9 @@ links:
 The fields are documented in the [PagerDuty API documentation](https://v2.developer.pagerduty.com/v2/docs/send-an-event-events-api-v2#section-the-images-property).
 
 ```yaml
+href: <tmpl_string>
 source: <tmpl_string>
 alt: <tmpl_string>
-text: <tmpl_string>
 ```
 
 ### `<link_config>`
@@ -540,13 +545,29 @@ fields:
 
 ### `<action_config>`
 
-The fields are documented in the [Slack API documentation](https://api.slack.com/docs/message-attachments#action_fields).
+The fields are documented in the Slack API documentation for [message attachments](https://api.slack.com/docs/message-attachments#action_fields) and [interactive messages](https://api.slack.com/docs/interactive-message-field-guide#action_fields).
 
 ```yaml
-type: <tmpl_string>
 text: <tmpl_string>
-url: <tmpl_string>
-[ style: <tmpl_string> [ default = '' ]
+type: <tmpl_string>
+# Either url or name and value are mandatory.
+[ url: <tmpl_string> ]
+[ name: <tmpl_string> ]
+[ value: <tmpl_string> ]
+
+[ confirm: <action_confirm_field_config> ]
+[ style: <tmpl_string> | default = '' ]
+```
+
+#### `<action_confirm_field_config>`
+
+The fields are documented in the [Slack API documentation](https://api.slack.com/docs/interactive-message-field-guide#confirmation_fields).
+
+```yaml
+text: <tmpl_string>
+[ dismiss_text: <tmpl_string> | default '' ]
+[ ok_text: <tmpl_string> | default '' ]
+[ title: <tmpl_string> | default '' ]
 ```
 
 ### `<field_config>`
@@ -586,8 +607,9 @@ OpsGenie notifications are sent via the [OpsGenie API](https://docs.opsgenie.com
 # about the incident.
 [ details: { <string>: <tmpl_string>, ... } ]
 
-# Comma separated list of team responsible for notifications.
-[ teams: <tmpl_string> ]
+# List of responders responsible for notifications.
+responders:
+  [ - <responder> ... ]
 
 # Comma separated list of tags attached to the notifications.
 [ tags: <tmpl_string> ]
@@ -600,6 +622,18 @@ OpsGenie notifications are sent via the [OpsGenie API](https://docs.opsgenie.com
 
 # The HTTP client's configuration.
 [ http_config: <http_config> | default = global.http_config ]
+```
+
+### `<responder>`
+
+```yaml
+# Exactly one of these fields should be defined.
+[ id: <tmpl_string> ]
+[ name: <tmpl_string> ]
+[ username: <tmpl_string> ]
+
+# "team", "user", "escalation" or schedule".
+type: <tmpl_string>
 ```
 
 ## `<victorops_config>`

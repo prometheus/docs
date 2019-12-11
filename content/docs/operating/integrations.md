@@ -23,17 +23,20 @@ For service discovery mechanisms not natively supported by Prometheus,
 [file-based service discovery](/docs/operating/configuration/#%3Cfile_sd_config%3E) provides an interface for integrating.
 
  * [Docker Swarm](https://github.com/ContainerSolutions/prometheus-swarm-discovery)
+ * [Lightsail](https://github.com/n888/prometheus-lightsail-sd)
+ * [Packet](https://github.com/packethost/prometheus-packet-sd)
  * [Scaleway](https://github.com/scaleway/prometheus-scw-sd)
 
 ## Remote Endpoints and Storage
 
-The [remote write](/docs/operating/configuration/#%3Cremote_write%3E) and [remote read](/docs/operating/configuration/#%3Cremote_read%3E)
+The [remote write](/docs/operating/configuration/#remote_write) and [remote read](/docs/operating/configuration/#remote_read)
 features of Prometheus allow transparently sending and receiving samples. This
 is primarily intended for long term storage. It is recommended that you perform
 careful evaluation of any solution in this space to confirm it can handle your
 data volumes.
 
   * [AppOptics](https://github.com/solarwinds/prometheus2appoptics): write
+  * [Azure Data Explorer](https://github.com/cosh/PrometheusToAdx): read and write
   * [Chronix](https://github.com/ChronixDB/chronix.ingester): write
   * [Cortex](https://github.com/cortexproject/cortex): read and write
   * [CrateDB](https://github.com/crate/crate_adapter): read and write
@@ -46,9 +49,11 @@ data volumes.
   * [M3DB](https://m3db.github.io/m3/integrations/prometheus): read and write
   * [OpenTSDB](https://github.com/prometheus/prometheus/tree/master/documentation/examples/remote_storage/remote_storage_adapter): write
   * [PostgreSQL/TimescaleDB](https://github.com/timescale/prometheus-postgresql-adapter): read and write
+  * [QuasarDB](https://doc.quasardb.net/master/user-guide/integration/prometheus.html): read and write
   * [SignalFx](https://github.com/signalfx/metricproxy#prometheus): write
-  * [Splunk](https://github.com/lukemonahan/splunk_modinput_prometheus#prometheus-remote-write): write
+  * [Splunk](https://github.com/kebe7jun/ropee): read and write
   * [TiKV](https://github.com/bragfoo/TiPrometheus): read and write
+  * [Thanos](https://github.com/thanos-io/thanos): write
   * [VictoriaMetrics](https://github.com/VictoriaMetrics/VictoriaMetrics): write
   * [Wavefront](https://github.com/wavefrontHQ/prometheus-storage-adapter): write
 
@@ -57,16 +62,20 @@ data volumes.
 For notification mechanisms not natively supported by the Alertmanager, the
 [webhook receiver](/docs/alerting/configuration/#webhook_config) allows for integration.
 
+  * [Alertsnitch](https://gitlab.com/yakshaving.art/alertsnitch): saves alerts to a MySQL database
   * [AWS SNS](https://github.com/DataReply/alertmanager-sns-forwarder)
   * [DingTalk](https://github.com/timonwong/prometheus-webhook-dingtalk)
+  * [GELF](https://github.com/b-com-software-basis/alertmanager2gelf)
   * [IRC Bot](https://github.com/multimfi/bot)
   * [JIRAlert](https://github.com/free/jiralert)
   * [Phabricator / Maniphest](https://github.com/knyar/phalerts)
   * [prom2teams](https://github.com/idealista/prom2teams): forwards notifications to Microsoft Teams
+  * [ServiceNow](https://github.com/FXinnovation/alertmanager-webhook-servicenow)
   * [SMS](https://github.com/messagebird/sachet): supports [multiple providers](https://github.com/messagebird/sachet/blob/master/examples/config.yaml)
   * [SNMP traps](https://github.com/maxwo/snmp_notifier)
   * [Telegram bot](https://github.com/inCaller/prometheus_bot)
   * [XMPP Bot](https://github.com/jelmer/prometheus-xmpp-alerts)
+  * [Zoom](https://github.com/Code2Life/nodess-apps/tree/master/src/zoom-alert-2.0)
 
 ## Management
 

@@ -25,7 +25,7 @@ use a counter for the number of currently running processes; instead use a gauge
 Client library usage documentation for counters:
 
    * [Go](http://godoc.org/github.com/prometheus/client_golang/prometheus#Counter)
-   * [Java](https://github.com/prometheus/client_java/blob/master/simpleclient/src/main/java/io/prometheus/client/Counter.java)
+   * [Java](https://github.com/prometheus/client_java#counter)
    * [Python](https://github.com/prometheus/client_python#counter)
    * [Ruby](https://github.com/prometheus/client_ruby#counter)
 
@@ -41,7 +41,7 @@ concurrent requests.
 Client library usage documentation for gauges:
 
    * [Go](http://godoc.org/github.com/prometheus/client_golang/prometheus#Gauge)
-   * [Java](https://github.com/prometheus/client_java/blob/master/simpleclient/src/main/java/io/prometheus/client/Gauge.java)
+   * [Java](https://github.com/prometheus/client_java#gauge)
    * [Python](https://github.com/prometheus/client_python#gauge)
    * [Ruby](https://github.com/prometheus/client_ruby#gauge)
 
@@ -71,7 +71,7 @@ usage and differences to [summaries](#summary).
 Client library usage documentation for histograms:
 
    * [Go](http://godoc.org/github.com/prometheus/client_golang/prometheus#Histogram)
-   * [Java](https://github.com/prometheus/client_java/blob/master/simpleclient/src/main/java/io/prometheus/client/Histogram.java)
+   * [Java](https://github.com/prometheus/client_java#histogram)
    * [Python](https://github.com/prometheus/client_python#histogram)
    * [Ruby](https://github.com/prometheus/client_ruby#histogram)
 
@@ -96,6 +96,6 @@ to [histograms](#histogram).
 Client library usage documentation for summaries:
 
    * [Go](http://godoc.org/github.com/prometheus/client_golang/prometheus#Summary)
-   * [Java](https://github.com/prometheus/client_java/blob/master/simpleclient/src/main/java/io/prometheus/client/Summary.java)
+   * [Java](https://github.com/prometheus/client_java#summary)
    * [Python](https://github.com/prometheus/client_python#summary)
    * [Ruby](https://github.com/prometheus/client_ruby#summary)

@@ -14,20 +14,8 @@ The following shows an example Grafana dashboard which queries Prometheus for da
 
 ## Installing
 
-For the full Grafana installation instructions, see the [official Grafana
-documentation](http://docs.grafana.org/installation/).
-
-As an example, on Linux, installing Grafana could look like this:
-
-```bash-lang
-# Download and unpack Grafana from binary tar (adjust version as appropriate).
-curl -L -O https://grafanarel.s3.amazonaws.com/builds/grafana-2.5.0.linux-x64.tar.gz
-tar zxf grafana-2.5.0.linux-x64.tar.gz
-
-# Start Grafana.
-cd grafana-2.5.0/
-./bin/grafana-server web
-```
+To install Grafana see the [official Grafana
+documentation](https://grafana.com/grafana/download/).
 
 ## Using
 

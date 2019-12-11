@@ -11,8 +11,8 @@ class ConfigLinker < ::Nanoc::Filter
     configs = doc.xpath('//pre//code')
 
     configs.each do |config|
-      definitions.each do |text, html|
-        config.inner_html = config.inner_html.gsub(html, %(<a href="##{text}">#{html}</a>))
+      definitions.each do |anchor, html|
+        config.inner_html = config.inner_html.gsub(html, %(<a href="##{anchor}">#{html}</a>))
       end
     end
 
@@ -28,19 +28,29 @@ class ConfigLinker < ::Nanoc::Filter
 
     # Initialize dictionary with placeholders which are headers, as these are already linked.
     dict = elements.each_with_object({}) do |e, memo|
-      if e.parent.attr('id') == e.text
-        memo[e.text] = e.inner_html
+      anchor = generate_anchor(e.text)
+
+      if e.parent.attr('id') == anchor
+        memo[anchor] = e.inner_html
       end
     end
 
     # Create anchors for the remaining placeholders.
     elements.each_with_object(dict) do |e, memo|
-      unless memo.include?(e.text)
-        e['id'] = e.text
-        memo[e.text] = e.inner_html
+      anchor = generate_anchor(e.text)
+
+      unless memo.include?(anchor)
+        e['id'] = anchor
+        memo[anchor] = e.inner_html
       end
     end
 
     dict
+  end
+
+  # Replace sequences of non-word characters with single dashes. Remove
+  # extra dashes at the beginning or end.
+  def generate_anchor(text)
+    text.gsub(/\W+/, '-').gsub(/^-+|-+$/, '')
   end
 end

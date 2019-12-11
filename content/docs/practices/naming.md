@@ -35,6 +35,8 @@ A metric name...
    (for a unit-less accumulating count)
  * <code>process\_cpu\_<b>seconds\_total</b></code>
    (for an accumulating count with unit)
+ * <code>foobar_build<b>\_info</b></code>
+   (for a pseudo-metric that provides [metadata](https://www.robustperception.io/exposing-the-software-version-to-prometheus) about the running binary)
 * ...should represent the same logical thing-being-measured across all label
   dimensions.
  * request duration
@@ -51,7 +53,7 @@ queue with the current number of elements in the queue is not.
 
 Use labels to differentiate the characteristics of the thing that is being measured:
 
- * `api_http_requests_total` - differentiate request types: `type="create|update|delete"`
+ * `api_http_requests_total` - differentiate request types: `operation="create|update|delete"`
  * `api_request_duration_seconds` - differentiate request stages: `stage="extract|transform|load"`
 
 Do not put the label names in the metric name, as this introduces redundancy
@@ -73,13 +75,13 @@ The list is not exhaustive.
 | Family | Base unit | Remark | 
 | -------| --------- | ------ |
 | Time   | seconds   |        |
-| Temperature | celsius | Celsius is the most common one encountered in practice |
+| Temperature | celsius | _celsius_ is preferred over _kelvin_ for practical reasons. |
 | Length | meters | |
 | Bytes  | bytes | | 
-| Bits   | bytes | |
-| Percent | ratio(*) | Values are 0-1. <br/> *) Usually 'ratio' is not used as suffix, but rather A\_per\_B. Exceptions are e.g. disk\_usage\_ratio  |
+| Bits   | bytes | To avoid confusion combining different metrics, always use _bytes_, even where _bits_ appear more common. |
+| Percent | ratio | Values are 0–1 (rather than 0–100). `ratio` is only used as a suffix for names like `disk_usage_ratio`. The usual metric name follows the pattern `A_per_B`. |
 | Voltage | volts | |
-| Electric current | amperes | | 
+| Electric current | amperes | |
 | Energy | joules | |
-| Weight | grams | |
+| Mass   | grams | _grams_ is preferred over _kilograms_ to avoid issues with the _kilo_ prefix. |
  

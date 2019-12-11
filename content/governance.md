@@ -26,9 +26,9 @@ Each project must have a `MAINTAINERS.md` file with at least one maintainer. Whe
 
 ## Decision making
 
-### Team members 
+### Team members
 
-Team member status may be given to those who have made ongoing contributions to the Prometheus project for at least 3 months. This is usually in the form of code improvements and/or notable work on documentation, but organizing events or user support could also be taken into account. 
+Team member status may be given to those who have made ongoing contributions to the Prometheus project for at least 3 months. This is usually in the form of code improvements and/or notable work on documentation, but organizing events or user support could also be taken into account.
 
 New members may be proposed by any existing member by email to [prometheus-team][team]. It is highly desirable to reach consensus about acceptance of a new member. However, the proposal is ultimately voted on by a formal [supermajority vote](#supermajority-vote).
 
@@ -49,25 +49,28 @@ Upon death of a member, their team membership ends automatically.
 
 The current team members are:
 
-* Ben Kochie
-* Björn Rabenstein
-* Brian Brazil
-* Fabian Reinartz
-* Frederic Branczyk
-* Ganesh Vernekar
-* Goutham Veeramachaneni
-* Johannes Ziemke
-* Julius Volz
-* Krasi Georgiev
-* Matt Layher
-* Matthias Rampke
-* Max Inden
-* Richard Hartmann
-* Simon Pasquier
-* Steve Durrheimer
-* Stuart Nelson
-* Tobias Schmidt
-* Tom Wilkie
+* Bartłomiej Płotka ([Red Hat](https://www.redhat.com/))
+* Ben Kochie ([GitLab](https://about.gitlab.com/))
+* Björn Rabenstein ([Grafana Labs](https://grafana.com/))
+* Brian Brazil ([Robust Perception](https://www.robustperception.io/))
+* Callum Styan ([Grafana Labs](https://grafana.com/))
+* Chris Marchbanks ([Splunk](https://www.splunk.com/))
+* Fabian Reinartz ([Google](https://www.google.com/))
+* Frederic Branczyk ([Red Hat](https://www.redhat.com/))
+* Ganesh Vernekar ([Grafana Labs](https://grafana.com/))
+* Goutham Veeramachaneni ([Grafana Labs](https://grafana.com/))
+* Johannes Ziemke (independent)
+* Julius Volz (independent)
+* Krasi Georgiev ([Red Hat](https://www.redhat.com/))
+* Matt Layher ([Fastly](https://www.fastly.com/))
+* Matthias Rampke ([SoundCloud](https://soundcloud.com/))
+* Max Inden ([Parity Technologies](https://www.parity.io/))
+* Richard Hartmann ([SpaceNet](https://space.net/))
+* Simon Pasquier ([Red Hat](https://www.redhat.com/))
+* Steve Durrheimer ([Cycloid](https://www.cycloid.io/))
+* Stuart Nelson ([SoundCloud](https://soundcloud.com/))
+* Tobias Schmidt ([SoundCloud](https://soundcloud.com/))
+* Tom Wilkie ([Grafana Labs](https://grafana.com/))
 
 ### Maintainers
 

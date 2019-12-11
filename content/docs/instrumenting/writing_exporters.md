@@ -161,7 +161,7 @@ web search for the metric name. If the names are very well-established
 and unlikely to be used outside of the realm of people used to those
 names, for example SNMP and network engineers, then leaving them as-is
 may be a good idea. This logic doesn’t apply for all exporters, for
-example the MySQL exporter metric's may be used by a variety of people,
+example the MySQL exporter metrics may be used by a variety of people,
 not just DBAs. A `HELP` string with the original name can provide most
 of the same benefits as using the original names.
 
@@ -196,7 +196,7 @@ that’s where the data is fundamentally tabular and doing otherwise would
 require users to do regexes on metric names to be usable. Consider the
 voltage sensors on your motherboard, while doing math across them is
 meaningless, it makes sense to have them in one metric rather than
-having one metric per sensor. All values within a metrics should
+having one metric per sensor. All values within a metric should
 (almost) always have the same unit, for example consider if fan speeds
 were mixed in with the voltages, and you had no way to automatically
 separate them.
@@ -345,7 +345,7 @@ each scrape.
 
 Rather create new metrics each time. In Go this is done with
 [MustNewConstMetric](https://godoc.org/github.com/prometheus/client_golang/prometheus#MustNewConstMetric)
-in your `Update()` method. For Python see
+in your `Collect()` method. For Python see
 [https://github.com/prometheus/client_python#custom-collectors](https://github.com/prometheus/client_python#custom-collectors)
 and for Java generate a `List<MetricFamilySamples>` in your collect
 method, see
@@ -378,7 +378,7 @@ definitely exclude it.
 
 ### Machine and process metrics
 
-Many systems, for example Elasticsearch, expose machine metrics such a
+Many systems, for example Elasticsearch, expose machine metrics such as
 CPU, memory and filesystem information. As the [node
 exporter](https://github.com/prometheus/node_exporter) provides these in
 the Prometheus ecosystem, such metrics should be dropped.

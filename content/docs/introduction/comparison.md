@@ -108,7 +108,7 @@ nanosecond resolution, and float64, int64, bool, and string data types.
 Prometheus, by contrast, supports the float64 data type with limited support for
 strings, and millisecond resolution timestamps.
 
-InfluxDB uses a variant of a [log-structured merge tree for storage with a write ahead log](https://docs.influxdata.com/influxdb/v1.2/concepts/storage_engine/),
+InfluxDB uses a variant of a [log-structured merge tree for storage with a write ahead log](https://docs.influxdata.com/influxdb/v1.7/concepts/storage_engine/),
 sharded by time. This is much more suitable to event logging than Prometheus's
 append-only file per time series approach.
 

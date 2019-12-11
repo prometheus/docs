@@ -6,7 +6,7 @@ sort_rank: 6
 # Exposition formats
 
 Metrics can be exposed to Prometheus using a simple [text-based](#text-based-format)
-exposition format. There's a variety of [client libraries](/docs/instrumenting/clientlibs/)
+exposition format. There are various [client libraries](/docs/instrumenting/clientlibs/)
 that implement this format for you. If your preferred language doesn't have a client
 library you can [create your own](/docs/instrumenting/writing_clientlibs/).
 
@@ -81,7 +81,7 @@ metric_name [
 In the sample syntax:
 
 *  `metric_name` and `label_name` carry the usual Prometheus expression language restrictions.
-* `label_value` can be any sequence of UTF-8 characters, but the backslash (`\`, double-quote (`"`}, and line feed (`\n`) characters have to be escaped as `\\`, `\"`, and `\n`, respectively.
+* `label_value` can be any sequence of UTF-8 characters, but the backslash (`\`), double-quote (`"`), and line feed (`\n`) characters have to be escaped as `\\`, `\"`, and `\n`, respectively.
 * `value` is a float represented as required by Go's [`ParseFloat()`](https://golang.org/pkg/strconv/#ParseFloat) function. In addition to standard numerical values, `Nan`, `+Inf`, and `-Inf` are valid values representing not a number, positive infinity, and negative infinity, respectively.
 * The `timestamp` is an `int64` (milliseconds since epoch, i.e. 1970-01-01 00:00:00 UTC, excluding leap seconds), represented as required by Go's [`ParseInt()`](https://golang.org/pkg/strconv/#ParseInt) function.
 

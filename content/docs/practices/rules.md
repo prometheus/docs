@@ -47,6 +47,11 @@ conflicts and give you more useful metrics and alerts.
 
 ## Examples
 
+_Note the indentation style with outdented operators on their own line between
+two vectors. To make this style possible in Yaml, [block quotes with an
+indentation indicator](https://yaml.org/spec/1.2/spec.html#style/block/scalar)
+(e.g. `|2`) are used._
+
 Aggregating up requests per second that has a `path` label:
 
 ```
@@ -64,31 +69,25 @@ Calculating a request failure ratio and aggregating up to the job-level failure 
   expr: rate(request_failures_total{job="myjob"}[5m])
 
 - record: instance_path:request_failures_per_requests:ratio_rate5m
-  expr: |
-    (
-        instance_path:request_failures:rate5m{job="myjob"}
-      /
-        instance_path:requests:rate5m{job="myjob"}
-    )
+  expr: |2
+      instance_path:request_failures:rate5m{job="myjob"}
+    /
+      instance_path:requests:rate5m{job="myjob"}
 
 # Aggregate up numerator and denominator, then divide to get path-level ratio.
 - record: path:request_failures_per_requests:ratio_rate5m
-  expr: |
-    (
-        sum without (instance)(instance_path:request_failures:rate5m{job="myjob"})
-      /
-        sum without (instance)(instance_path:requests:rate5m{job="myjob"})
-    )
+  expr: |2
+      sum without (instance)(instance_path:request_failures:rate5m{job="myjob"})
+    /
+      sum without (instance)(instance_path:requests:rate5m{job="myjob"})
 
 # No labels left from instrumentation or distinguishing instances,
 # so we use 'job' as the level.
 - record: job:request_failures_per_requests:ratio_rate5m
-  expr: |
-    (
-        sum without (instance, path)(instance_path:request_failures:rate5m{job="myjob"})
-      /
-        sum without (instance, path)(instance_path:requests:rate5m{job="myjob"})
-    )
+  expr: |2
+      sum without (instance, path)(instance_path:request_failures:rate5m{job="myjob"})
+    /
+      sum without (instance, path)(instance_path:requests:rate5m{job="myjob"})
 ```
 
 
@@ -102,21 +101,17 @@ Calculating average latency over a time period from a Summary:
   expr: rate(request_latency_seconds_sum{job="myjob"}[5m])
 
 - record: instance_path:request_latency_seconds:mean5m
-  expr: |
-    (
-        instance_path:request_latency_seconds_sum:rate5m{job="myjob"}
-      /
-        instance_path:request_latency_seconds_count:rate5m{job="myjob"}
-    )
+  expr: |2
+      instance_path:request_latency_seconds_sum:rate5m{job="myjob"}
+    /
+      instance_path:request_latency_seconds_count:rate5m{job="myjob"}
 
 # Aggregate up numerator and denominator, then divide.
 - record: path:request_latency_seconds:mean5m
-  expr: |
-    (
-        sum without (instance)(instance_path:request_latency_seconds_sum:rate5m{job="myjob"})
-      /
-        sum without (instance)(instance_path:request_latency_seconds_count:rate5m{job="myjob"})
-    )
+  expr: |2
+      sum without (instance)(instance_path:request_latency_seconds_sum:rate5m{job="myjob"})
+    /
+      sum without (instance)(instance_path:request_latency_seconds_count:rate5m{job="myjob"})
 ```
 
 Calculating the average query rate across instances and paths is done using the

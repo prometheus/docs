@@ -35,7 +35,7 @@ Now let’s try it out for yourself!
 Use [Docker](https://www.docker.com/) to start a blackbox exporter container running by running this in a terminal:
 
 ```bash
-docker run -p 9115:9115 prom/blackbox-exporter
+sudo docker run -p 9115:9115 prom/blackbox-exporter
 ```
 
 You should see a few log lines and if everything went well the last one should report `msg="Listening on address"` as seen here:
@@ -228,8 +228,8 @@ probe_ip_protocol 6
 probe_success 0
 ```
 
-Unfortunately almost all with the value `0`. The last one a very disheartening `probe_success 0`. This means the prober could not sucessfully reach `prometheus.io`.  
-The reason is hidden in the metric `probe_ip_protocol` with the value `6`. By default the prober uses [IPv6](https://en.wikipedia.org/wiki/IPv6) until told otherwise. Unfortunately the Docker daemon blocks IPv6 until told otherwise. Hence our blackbox exporter running in a Docker container can’t connect via IPv6.
+Notice that almost all metrics have a value of `0`. The last one reads `probe_success 0`. This means the prober could not sucessfully reach `prometheus.io`.  
+The reason is hidden in the metric `probe_ip_protocol` with the value `6`. By default the prober uses [IPv6](https://en.wikipedia.org/wiki/IPv6) until told otherwise. But the Docker daemon blocks IPv6 until told otherwise. Hence our blackbox exporter running in a Docker container can’t connect via IPv6.
 
 We could now either tell Docker to allow IPv6 or the blackbox exporter to use IPv4. In the real world both can make sense and as so often the answer to the question "what is to be done?" is "it depends". Because this is an exporter guide we will change the exporter and take the oportunity to configure a custom module.
 
@@ -245,13 +245,12 @@ First download the file using curl or your browser:
 curl -o blackbox.yml https://raw.githubusercontent.com/prometheus/blackbox_exporter/master/blackbox.yml
 ```
 
-Opened in an editor the first few lines look like this:
+Open it in an editor. The first few lines look like this:
 
 ```yaml
 modules:
   http_2xx:
     prober: http
-    http:
   http_post_2xx:
     prober: http
     http:
@@ -259,7 +258,7 @@ modules:
 ```
 
 [Yaml](https://en.wikipedia.org/wiki/YAML) uses whitespace indentation to express hierarchy, so you can recognise that two `modules` named `http_2xx` and `http_post_2xx` are defined, and that they both have a prober `http` and for one the method value is specifically set to `POST`.  
-We will now change the module `http_2xx` by setting the `preferred_ip_protocol` of the prober `http` explicitly to the string `ip4`.
+You will now change the module `http_2xx` by setting the `preferred_ip_protocol` of the prober `http` explicitly to the string `ip4`.
 
 ```yaml
 modules:
@@ -275,7 +274,7 @@ modules:
 
 If you want to know more about the available probers and options check out the [documentation](https://github.com/prometheus/blackbox_exporter/blob/master/CONFIGURATION.md).
 
-Now we need to tell the blackbox exporter to use our freshly changed file. We can do that with the flag `--config.file="blackbox.yml"`. But because we are using Docker, we first must make this file [available](https://docs.docker.com/storage/bind-mounts/) inside the container using the `--mount` command.  
+Now we need to tell the blackbox exporter to use our freshly changed file. You can do that with the flag `--config.file="blackbox.yml"`. But because we are using Docker, we first must make this file [available](https://docs.docker.com/storage/bind-mounts/) inside the container using the `--mount` command.  
 
 NOTE: If you are using macOS you first need to allow the Docker daemon to access the directory in which your `blackbox.yml` is. You can do that by clicking on the little Docker whale in menu bar and then on `Preferences`->`File Sharing`->`+`. Afterwards press `Apply & Restart`.
 
@@ -286,7 +285,7 @@ Then you run this command. It is long, but we will explain it:
 <a name="run-exporter"></a>
 
 ```bash
-docker \
+sudo docker \
   run -p 9115:9115 \
   --mount type=bind,source="$(pwd)"/blackbox.yml,target=/blackbox.yml,readonly \
   prom/blackbox-exporter \
@@ -308,10 +307,10 @@ level=info ts=2018-10-19T12:40:51.653357722Z caller=main.go:220 msg="Loaded conf
 level=info ts=2018-10-19T12:40:51.65349635Z caller=main.go:324 msg="Listening on address" address=:9115
 ```
 
-Now we can try our new IPv4-using module `http_2xx` in a terminal:
+Now you can try our new IPv4-using module `http_2xx` in a terminal:
 
 ```bash
-curl "localhost:9115/probe?target=prometheus.io&module=http_2xx"
+curl 'localhost:9115/probe?target=prometheus.io&module=http_2xx'
 ```
 
 Which should return Prometheus metrics like this:
@@ -319,10 +318,10 @@ Which should return Prometheus metrics like this:
 ```
 # HELP probe_dns_lookup_time_seconds Returns the time taken for probe dns lookup in seconds
 # TYPE probe_dns_lookup_time_seconds gauge
-probe_dns_lookup_time_seconds 0.060584416
+probe_dns_lookup_time_seconds 0.02679421
 # HELP probe_duration_seconds Returns how long the probe took to complete in seconds
 # TYPE probe_duration_seconds gauge
-probe_duration_seconds 0.37071774
+probe_duration_seconds 0.461619124
 # HELP probe_failed_due_to_regex Indicates if probe failed due to regex
 # TYPE probe_failed_due_to_regex gauge
 probe_failed_due_to_regex 0
@@ -331,11 +330,11 @@ probe_failed_due_to_regex 0
 probe_http_content_length -1
 # HELP probe_http_duration_seconds Duration of http request by phase, summed over all redirects
 # TYPE probe_http_duration_seconds gauge
-probe_http_duration_seconds{phase="connect"} 0.041410336000000006
-probe_http_duration_seconds{phase="processing"} 0.19369339
-probe_http_duration_seconds{phase="resolve"} 0.062867198
-probe_http_duration_seconds{phase="tls"} 0.092468257
-probe_http_duration_seconds{phase="transfer"} 0.000145375
+probe_http_duration_seconds{phase="connect"} 0.062076202999999996
+probe_http_duration_seconds{phase="processing"} 0.23481845699999998
+probe_http_duration_seconds{phase="resolve"} 0.029594103
+probe_http_duration_seconds{phase="tls"} 0.163420078
+probe_http_duration_seconds{phase="transfer"} 0.002243199
 # HELP probe_http_redirects The number of redirects
 # TYPE probe_http_redirects gauge
 probe_http_redirects 1
@@ -345,6 +344,9 @@ probe_http_ssl 1
 # HELP probe_http_status_code Response HTTP status code
 # TYPE probe_http_status_code gauge
 probe_http_status_code 200
+# HELP probe_http_uncompressed_body_length Length of uncompressed response body
+# TYPE probe_http_uncompressed_body_length gauge
+probe_http_uncompressed_body_length 14516
 # HELP probe_http_version Returns the version of HTTP of the probe response
 # TYPE probe_http_version gauge
 probe_http_version 1.1
@@ -353,20 +355,23 @@ probe_http_version 1.1
 probe_ip_protocol 4
 # HELP probe_ssl_earliest_cert_expiry Returns earliest SSL cert expiry in unixtime
 # TYPE probe_ssl_earliest_cert_expiry gauge
-probe_ssl_earliest_cert_expiry 1.552175999e+09
+probe_ssl_earliest_cert_expiry 1.581897599e+09
 # HELP probe_success Displays whether or not the probe was a success
 # TYPE probe_success gauge
 probe_success 1
+# HELP probe_tls_version_info Contains the TLS version used
+# TYPE probe_tls_version_info gauge
+probe_tls_version_info{version="TLS 1.3"} 1
 ```
 
-We can see that the probe was successful and get many useful metrics, like latency by phase, status code, ssl status or cert expiry in [epoch](https://en.wikipedia.org/wiki/Unix_time).  
+You can see that the probe was successful and get many useful metrics, like latency by phase, status code, ssl status or cert expiry in [epoch](https://en.wikipedia.org/wiki/Unix_time).  
 The blackbox exporter also offers a tiny web interface at [localhost:9115](http://localhost:9115) for you to check out the last few probes, the loaded config and debug information. It even offers a direct link to probe `prometheus.io`. Handy if you are wondering why something does not work.
 
 ## Querying multi-target exporters with Prometheus
 
-So far, so good. Congratulate yourself. The blackbox exporter works and you can manually tell it to query a remote target. We are almost there. We now need to tell Prometheus to do the queries for us.  
+So far, so good. Congratulate yourself. The blackbox exporter works and you can manually tell it to query a remote target. You are almost there. Now you need to tell Prometheus to do the queries for us.  
 
-Below you find a minimal prometheus config. It is telling Prometheus to scrape the exporter itself as we did [before](#query-exporter) using `curl "localhost:9115/metrics"`:
+Below you find a minimal prometheus config. It is telling Prometheus to scrape the exporter itself as we did [before](#query-exporter) using `curl 'localhost:9115/metrics'`:
 
 NOTE: If you use Docker for Mac or Docker for Windows, you can’t use `localhost:9115` in the last line, but must use `host.docker.internal:9115`. This has to do with the virtual machines used to implement Docker on those operating systems. You should not use this in production.
 
@@ -396,12 +401,22 @@ scrape_configs:
       - host.docker.internal:9115
 ```
 
-Now run a Prometheus container and tell it to mount our config file from above:
+Now run a Prometheus container and tell it to mount our config file from above. Because of the way networking on the host is addressable from the container you need to use a slightly different command on Linux than on MacOS and Windows.:
 
 <a name=run-prometheus></a>
 
+Run Prometheus on Linux (don’t use `--network="host"` in production):
 ```bash
-docker \
+sudo docker \
+  run --network="host"\
+  --mount type=bind,source="$(pwd)"/prometheus.yml,target=/prometheus.yml,readonly \
+  prom/prometheus \
+  --config.file="/prometheus.yml"
+```
+
+Run Prometheus on MacOS and Windows:
+```bash
+sudo docker \
   run -p 9090:9090 \
   --mount type=bind,source="$(pwd)"/prometheus.yml,target=/prometheus.yml,readonly \
   prom/prometheus \
@@ -412,13 +427,20 @@ This command works similarly to [running the blackbox exporter using a config fi
 
 If everything worked, you should be able to go to [localhost:9090/targets](http://localhost:9090/targets) and see under `blackbox-exporter-metrics` an endpoint with the state `UP` in green. If you get a red `DOWN` make sure that the blackbox exporter you started [above](run-exporter) is still running. If you see nothing or a yellow `UNKNOWN` you are really fast and need to give it a few more seconds before reloading your browser’s tab.
 
-To tell Prometheus to query `"localhost:9115/probe?target=prometheus.io&module=http_2xx"` we set the `metrics_path` to `/probe` and the parameters under `params:` in the Prometheus config file.
+To tell Prometheus to query `"localhost:9115/probe?target=prometheus.io&module=http_2xx"` you add another scrape job where you set the `metrics_path` to `/probe` and the parameters under `params:` in the Prometheus config file `prometheus.yml`:
 
 <a name="prometheus-config"></a>
 
 ```yaml
 scrape_configs:
 
+- job_name: blackbox-exporter-metrics
+  scrape_interval: 5s
+  metrics_path: /metrics
+  static_configs:
+    - targets:
+      - localhost:9115   # for Windows and macOS replace with - host.docker.internal:9115
+      
 - job_name: 'blackbox'
   scrape_interval: 5s
   metrics_path: /probe
@@ -448,10 +470,17 @@ The details are worthy of a [talk](https://www.youtube.com/watch?v=b5-SvvZ7AwI) 
 * You can set internal labels that are called `__param_<name>`. Those set URL parameter with the key `<name>` for the scrape request.
 * There is an internal label `__address__` which is set by the `targets` under `static_configs` and whose value is the hostname for the scrape request. By default it is later used to set the value for the label `instance`, which is attached to each metric and tells you were the metrics came from.
 
-Don’t worry if you are confused now, we will go through our new config step by step’
+Here is the config you will use to do that. Don’t worry if this is a bit much at once, we will go through it step by step:
 
 ```yaml
 scrape_configs:
+
+- job_name: blackbox-exporter-metrics
+  scrape_interval: 5s
+  metrics_path: /metrics
+  static_configs:
+    - targets:
+      - localhost:9115   # for Windows and macOS replace with - host.docker.internal:9115
 
 - job_name: 'blackbox'
   scrape_interval: 5s
@@ -485,7 +514,7 @@ This way we can have the actual targets there, get them as `instance` label valu
 
 Often people combine these with a specific service discovery. Check out the [configuration documentation](/docs/prometheus/latest/configuration/configuration) for more information. Using them is no problem, as these write into the `__address__` label just like `targets` defined under `static_configs`.
 
-That is it. Restart the Prometheus docker container and look at your [metrics](http://localhost:9090/graph).
+That is it. Restart the Prometheus docker container and look at your [metrics](http://localhost:9090/graph?g0.range_input=5m&g0.stacked=0&g0.expr=probe_http_duration_seconds&g0.tab=0).
 
 # Summary
 

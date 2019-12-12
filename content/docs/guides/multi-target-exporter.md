@@ -32,10 +32,10 @@ Multi-target exporters are flexible regarding their environment and can be run i
 
 Now let’s try it out for yourself!
 
-Use [Docker](https://www.docker.com/) to start a blackbox exporter container by running this in a terminal:
+Use [Docker](https://www.docker.com/) to start a blackbox exporter container by running this in a terminal. Depending on your system configuration you might need to prepend the command with a `sudo`:
 
 ```bash
-sudo docker run -p 9115:9115 prom/blackbox-exporter
+docker run -p 9115:9115 prom/blackbox-exporter
 ```
 
 You should see a few log lines and if everything went well the last one should report `msg="Listening on address"` as seen here:
@@ -210,7 +210,7 @@ Then you run this command. It is long, but we will explain it:
 <a name="run-exporter"></a>
 
 ```bash
-sudo docker \
+docker \
   run -p 9115:9115 \
   --mount type=bind,source="$(pwd)"/blackbox.yml,target=/blackbox.yml,readonly \
   prom/blackbox-exporter \
@@ -331,8 +331,9 @@ Now run a Prometheus container and tell it to mount our config file from above. 
 <a name=run-prometheus></a>
 
 Run Prometheus on Linux (don’t use `--network="host"` in production):
+
 ```bash
-sudo docker \
+docker \
   run --network="host"\
   --mount type=bind,source="$(pwd)"/prometheus.yml,target=/prometheus.yml,readonly \
   prom/prometheus \
@@ -340,8 +341,9 @@ sudo docker \
 ```
 
 Run Prometheus on MacOS and Windows:
+
 ```bash
-sudo docker \
+docker \
   run -p 9090:9090 \
   --mount type=bind,source="$(pwd)"/prometheus.yml,target=/prometheus.yml,readonly \
   prom/prometheus \
@@ -365,7 +367,7 @@ scrape_configs:
   static_configs:
     - targets:
       - localhost:9115   # for Windows and macOS replace with - host.docker.internal:9115
-      
+
 - job_name: 'blackbox'
   scrape_interval: 5s
   metrics_path: /probe

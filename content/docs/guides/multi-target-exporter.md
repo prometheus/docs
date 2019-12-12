@@ -220,7 +220,7 @@ sudo docker \
 With this command, you told `docker` to:
 
 1. `run` a container with the port `9115` outside the container mapped to the port `9115` inside of the container.
-1. `mount` from your current directory (`$(pwd)` stands for *p*rint *w*orking *d*irectory) the file `blackbox.yml` into `/blackbox.yml` in `readonly` mode.
+1. `mount` from your current directory (`$(pwd)` stands for print working directory) the file `blackbox.yml` into `/blackbox.yml` in `readonly` mode.
 1. use the image `prom/blackbox-exporter` from [Docker hub](https://hub.docker.com/r/prom/blackbox-exporter/).
 1. run the blackbox-exporter with the flag `--config.file` telling it to use `/blackbox.yml` as config file.
 

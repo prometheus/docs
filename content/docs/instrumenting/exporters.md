@@ -251,6 +251,7 @@ separate exporters are needed:
    * [Traefik](https://github.com/containous/traefik)
    * [VerneMQ](https://github.com/vernemq/vernemq)
    * [Weave Flux](https://github.com/weaveworks/flux)
+   * [Xandikos](https://www.xandikos.org/) (**direct**)
 
 The software marked *direct* is also directly instrumented with a Prometheus client library.
 

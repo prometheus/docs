@@ -90,6 +90,7 @@ data_sources:
       repository: https://github.com/prometheus/prometheus.git
       refspec: release-2.14
       canonical: /docs/prometheus/latest/
+      outdated: /docs/prometheus/latest/
   -
     type: repo_docs
     identifier_type: legacy

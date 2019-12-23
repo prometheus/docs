@@ -72,7 +72,8 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [Ubiquiti UniFi exporter](https://github.com/mdlayher/unifi_exporter)
 
 ### Issue trackers and continuous integration
-
+   * [AppRelease exporter](https://github.com/webdevops/apprelease-exporter)
+   * [Azure DevOps exporter](https://github.com/webdevops/azure-devops-exporter)
    * [Bamboo exporter](https://github.com/AndreyVMarkelov/bamboo-prometheus-exporter)
    * [Bitbucket exporter](https://github.com/AndreyVMarkelov/prom-bitbucket-exporter)
    * [Confluence exporter](https://github.com/AndreyVMarkelov/prom-confluence-exporter)
@@ -116,6 +117,10 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [AWS ECS exporter](https://github.com/slok/ecs-exporter)
    * [AWS Health exporter](https://github.com/Jimdo/aws-health-exporter)
    * [AWS SQS exporter](https://github.com/jmal98/sqs_exporter)
+   * [Azure Keyvault exporter](https://github.com/webdevops/azure-keyvault-exporter)
+   * [Azure Metrics exporter](https://github.com/webdevops/azure-metrics-exporter)
+   * [Azure ResourceManager exporter](https://github.com/webdevops/azure-resourcemanager-exporter)
+   * [Azure ScheduledEvents exporter](https://github.com/webdevops/azure-scheduledevents-exporter)
    * [Cloudflare exporter](https://github.com/wehkamp/docker-prometheus-cloudflare-exporter)
    * [DigitalOcean exporter](https://github.com/metalmatze/digitalocean_exporter)
    * [Docker Cloud exporter](https://github.com/infinityworksltd/docker-cloud-exporter)
@@ -126,6 +131,8 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [OpenWeatherMap exporter](https://github.com/RichiH/openweathermap_exporter)
    * [Pagespeed exporter](https://github.com/foomo/pagespeed_exporter)
    * [Rancher exporter](https://github.com/infinityworksltd/prometheus-rancher-exporter)
+   * [Public Holiday exporter](https://github.com/webdevops/public-holiday-exporter)
+   
    * [Speedtest exporter](https://github.com/nlamirault/speedtest_exporter)
    * [Tankerkönig API Exporter](https://github.com/lukasmalkmus/tankerkoenig_exporter)
 
@@ -188,6 +195,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [OpenStack blackbox exporter](https://github.com/infraly/openstack_client_exporter)
    * [oVirt exporter](https://github.com/czerwonk/ovirt_exporter)
    * [Pact Broker exporter](https://github.com/ContainerSolutions/pactbroker_exporter)
+   * [PagerDuty exporter](https://github.com/webdevops/pagerduty-exporter)
    * [PHP-FPM exporter](https://github.com/bakins/php-fpm-exporter)
    * [PowerDNS exporter](https://github.com/ledgr/powerdns_exporter)
    * [Process exporter](https://github.com/ncabatoff/process-exporter)

@@ -171,6 +171,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [cAdvisor](https://github.com/google/cadvisor)
    * [Cachet exporter](https://github.com/ContaAzul/cachet_exporter)
    * [ccache exporter](https://github.com/virtualtam/ccache_exporter)
+   * [checkbot](https://github.com/tobiasdenzler/checkbot)
    * [Dovecot exporter](https://github.com/kumina/dovecot_exporter)
    * [Dnsmasq exporter](https://github.com/google/dnsmasq_exporter)
    * [eBPF exporter](https://github.com/cloudflare/ebpf_exporter)

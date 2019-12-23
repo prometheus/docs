@@ -75,7 +75,7 @@ data_sources:
   -
     type: repo_docs
     identifier_type: legacy
-    items_root: /docs/prometheus/2.14/
+    items_root: /docs/prometheus/2.15/
     config:
       name: '2.15'
       repository: https://github.com/prometheus/prometheus.git

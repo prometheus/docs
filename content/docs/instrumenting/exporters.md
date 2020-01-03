@@ -176,6 +176,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [Dnsmasq exporter](https://github.com/google/dnsmasq_exporter)
    * [eBPF exporter](https://github.com/cloudflare/ebpf_exporter)
    * [Ethereum Client exporter](https://github.com/31z4/ethereum-prometheus-exporter)
+   * [JFrog Artifactory Exporter](https://github.com/peimanja/artifactory_exporter)
    * [Hostapd Exporter](https://bitbucket.i2cat.net/users/miguel_catalan/repos/hostapd_prometheus_exporter)
    * [JMeter plugin](https://github.com/johrstrom/jmeter-prometheus-plugin)
    * [Kannel exporter](https://github.com/apostvav/kannel_exporter)

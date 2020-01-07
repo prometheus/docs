@@ -15,7 +15,7 @@ NOTE: Some earlier versions of Prometheus supported an exposition format based o
 addition to the current text-based format. As of version 2.0, however, Prometheus no
 longer supports the Protobuf-based format. You can read about the reasoning behind
 this change in [this
-document](https://github.com/RichiH/OpenMetrics/blob/master/markdown/protobuf_vs_text.md).
+document](https://github.com/OpenObservability/OpenMetrics/blob/master/markdown/protobuf_vs_text.md).
 
 ## Text-based format
 

@@ -114,7 +114,6 @@ Currently, the following external systems are supported:
 
 * Email
 * Generic Webhooks
-* [HipChat](https://www.hipchat.com/)
 * [OpsGenie](https://www.opsgenie.com/)
 * [PagerDuty](http://www.pagerduty.com/)
 * [Pushover](https://pushover.net/)

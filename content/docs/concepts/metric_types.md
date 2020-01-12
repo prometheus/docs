@@ -17,7 +17,8 @@ A _counter_ is a cumulative metric that represents a single [monotonically
 increasing counter](https://en.wikipedia.org/wiki/Monotonic_function) whose
 value can only increase or be reset to zero on restart. For example, you can
 use a counter to represent the number of requests served, tasks completed, or
-errors.
+errors. You could also use a counter to record the last time a successful action
+occurred (time measured in seconds since epoch).
 
 Do not use a counter to expose a value that can decrease. For example, do not
 use a counter for the number of currently running processes; instead use a gauge.

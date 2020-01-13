@@ -254,6 +254,7 @@ separate exporters are needed:
    * [VerneMQ](https://github.com/vernemq/vernemq)
    * [Weave Flux](https://github.com/weaveworks/flux)
    * [Xandikos](https://www.xandikos.org/) (**direct**)
+   * [Zipkin](https://zipkin.io/) ([endpoint docs](https://github.com/openzipkin/zipkin/tree/master/zipkin-server#metrics))
 
 The software marked *direct* is also directly instrumented with a Prometheus client library.
 

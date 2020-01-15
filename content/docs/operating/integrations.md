@@ -38,6 +38,7 @@ data volumes.
 
   * [AppOptics](https://github.com/solarwinds/prometheus2appoptics): write
   * [Azure Data Explorer](https://github.com/cosh/PrometheusToAdx): read and write
+  * [Azure Event Hubs](https://github.com/bryanklewis/prometheus-eventhubs-adapter): write
   * [Chronix](https://github.com/ChronixDB/chronix.ingester): write
   * [Cortex](https://github.com/cortexproject/cortex): read and write
   * [CrateDB](https://github.com/crate/crate_adapter): read and write

@@ -37,6 +37,8 @@ are reserved for internal use.
 
 Label values may contain any Unicode characters.
 
+A label with an empty label value is considered equivalent to a label that does not exist.
+
 See also the [best practices for naming metrics and labels](/docs/practices/naming/).
 
 ## Samples

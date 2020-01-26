@@ -55,4 +55,4 @@ which allows Prometheus to traverse a firewall or NAT.
 For batch jobs that are related to a machine (such as automatic
 security update cronjobs or configuration management client runs), expose the
 resulting metrics using the [Node Exporter's](https://github.com/prometheus/node_exporter)
-textfile module instead of the Pushgateway.
+[textfile collector](https://github.com/prometheus/node_exporter#textfile-collector) instead of the Pushgateway.

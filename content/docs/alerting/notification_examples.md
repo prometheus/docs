@@ -100,4 +100,4 @@ templates:
 - '/etc/alertmanager/templates/myorg.tmpl'
 ```
 
-This example is explained in further detail in this [blogpost](https://prometheus.io/blog/2016/03/03/custom-alertmanager-templates/). To test and iterate on your Prometheus Alertmanager notification for Slack you can use following [tool](https://juliusv.com/promslack/).
+This example is explained in further detail in this [blogpost](https://prometheus.io/blog/2016/03/03/custom-alertmanager-templates/). To test and iterate on your Prometheus Alertmanager notification templates for Slack you can use following [tool](https://juliusv.com/promslack/).

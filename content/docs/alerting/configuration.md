@@ -531,6 +531,7 @@ actions:
 fields:
   [ <field_config> ... ]
 [ footer: <tmpl_string> | default = '{{ template "slack.default.footer" . }}' ]
+[ mrkdwn_in: '[' <string>, ... ']' | default = ["fallback", "pretext", "text"] ]
 [ pretext: <tmpl_string> | default = '{{ template "slack.default.pretext" . }}' ]
 [ short_fields: <boolean> | default = false ]
 [ text: <tmpl_string> | default = '{{ template "slack.default.text" . }}' ]

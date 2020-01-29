@@ -125,4 +125,4 @@ templates:
 We reload our Alertmanager by sending a `SIGHUP` or restart it to load the
 changed configuration and the new template file. Done.
 
-To test and iterate on your Prometheus Alertmanager notification templates for Slack you can use following [tool](https://juliusv.com/promslack/).
+To test and iterate on your Prometheus Alertmanager notification templates for Slack you can use the following [tool](https://juliusv.com/promslack/).

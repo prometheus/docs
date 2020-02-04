@@ -66,7 +66,7 @@ For a complete specification of configuration options, see the
 
 ## Starting Prometheus
 
-To start Prometheus with our newly created configuration file, change to the directory containing the Prometheus binary and run:
+To start Prometheus with our newly created configuration file, navigate to the directory containing the Prometheus binary and run:
 
 ```language-bash
 ./prometheus --config.file=prometheus.yml

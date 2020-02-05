@@ -180,6 +180,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [Ethereum Client exporter](https://github.com/31z4/ethereum-prometheus-exporter)
    * [JFrog Artifactory Exporter](https://github.com/peimanja/artifactory_exporter)
    * [Hostapd Exporter](https://bitbucket.i2cat.net/users/miguel_catalan/repos/hostapd_prometheus_exporter)
+   * [Linux HA ClusterLabs exporter](https://github.com/ClusterLabs/ha_cluster_exporter)
    * [JMeter plugin](https://github.com/johrstrom/jmeter-prometheus-plugin)
    * [Kannel exporter](https://github.com/apostvav/kannel_exporter)
    * [Kemp LoadBalancer exporter](https://github.com/giantswarm/prometheus-kemp-exporter)

@@ -61,6 +61,7 @@ The current team members are:
 * Goutham Veeramachaneni ([Grafana Labs](https://grafana.com/))
 * Johannes Ziemke (independent)
 * Julius Volz (independent)
+* Julien Pivotto ([Inuits](https://inuits.eu/))
 * Krasi Georgiev ([Red Hat](https://www.redhat.com/))
 * Matt Layher ([Fastly](https://www.fastly.com/))
 * Matthias Rampke ([SoundCloud](https://soundcloud.com/))

@@ -44,6 +44,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [MySQL server exporter](https://github.com/prometheus/mysqld_exporter) (**official**)
    * [OpenTSDB Exporter](https://github.com/cloudflare/opentsdb_exporter)
    * [Oracle DB Exporter](https://github.com/iamseth/oracledb_exporter)
+   * [Prometheus Oracle Exporter](https://github.com/juev/prometheus_oracle)
    * [PgBouncer exporter](http://git.cbaines.net/prometheus-pgbouncer-exporter/about)
    * [PostgreSQL exporter](https://github.com/wrouesnel/postgres_exporter)
    * [Presto exporter](https://github.com/yahoojapan/presto_exporter)
@@ -269,7 +270,7 @@ make use of one of the normal Prometheus client libraries under the hood. As
 for all independently maintained software, we cannot vet all of them for best
 practices.
 
-   * Clojure: [iapetos](https://github.com/clj-commons/iapetos) 
+   * Clojure: [iapetos](https://github.com/clj-commons/iapetos)
    * Go: [go-metrics instrumentation library](https://github.com/armon/go-metrics)
    * Go: [gokit](https://github.com/peterbourgon/gokit)
    * Go: [prombolt](https://github.com/mdlayher/prombolt)

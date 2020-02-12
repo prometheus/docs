@@ -6,16 +6,15 @@ sort_rank: 1
 # Using the Prometheus query log
 
 Prometheus has the ability to log all the queries run by the engine to a log
-file. This guide demonstrates how to use that log file, which fields it does
-contain and provides advanced tips about how to operate the log file.
+file. This guide demonstrates how to use that log file, which fields it
+contains, and provides advanced tips about how to operate the log file.
 
-The query log has been introduced in v2.16.0 and is disabled by default.
+The query log has been introduced in v2.16.0.
 
 ## Enable the query log
 
-The query log can be enabled and disabled at runtime. It can therefore be
-activated when you want to investigate slownesses or high load on your
-Prometheus instance.
+The query log can be toggled at runtime. It can therefore be activated when you
+want to investigate slownesses or high load on your Prometheus instance.
 
 To enable or disable the query log, two steps are needed:
 
@@ -25,42 +24,33 @@ To enable or disable the query log, two steps are needed:
 ### Logging all the queries to a file
 
 This example demonstrates how to log all the queries to
-a file called `/var/log/prometheus/query.log`.
+a file called `/prometheus/query.log`. We will assume that `/prometheus` is the
+data directory and that Prometheus has write access to it.
 
-First, let's ensure that Prometheus has write access to a directory
-`/var/log/prometheus`. We will assume that Prometheus is running under a user
-called Prometheus:
-
-```shell
-# mkdir /var/log/prometheus
-# chown prometheus: /var/log/prometheus
-```
-
-Then, adapt the `prometheus.yml` configuration file:
+Firts, adapt the `prometheus.yml` configuration file:
 
 ```yaml
 global:
   scrape_interval:     15s
   evaluation_interval: 15s
-  query_log_file: /var/log/prometheus/query.log
+  query_log_file: /prometheus/query.log
 scrape_configs:
   - job_name: 'prometheus'
     - targets: ['localhost:9090']
 ```
 
-And, reload the Prometheus configuration:
+Then, [reload](../prometheus/latest/management_api/#reload) the Prometheus configuration:
+
 
 ```shell
 $ curl -X POST http://127.0.0.1:9090/-/reload
 ```
 
-Or, if Prometheus is not launched with `--web.enable-lifecycle`:
+Or, if Prometheus is not launched with `--web.enable-lifecycle`, you can trigger
+the reload by sending a SIGHUP to the Prometheus process.
 
-```shell
-$ killall -HUP prometheus
-```
 
-The file `/var/log/prometheus/query.log` should now exist and all the queries
+The file `/prometheus/query.log` should now exist and all the queries
 will be logged to that file.
 
 To disable the query log, repeat the operation but remove `query_log_file` from
@@ -88,7 +78,7 @@ number of queries that could not be logged.
 ## Format of the query log
 
 The query log is a JSON-formatted log. Here is an overview of the fields
-present on any query:
+present for a query:
 
 ```
 {
@@ -112,17 +102,17 @@ present on any query:
 }
 ```
 
-- params: the query itself. The start and end timestamp, the step and the actual
-  query.
-- stats: statistics. Currently, it contains internal engine timers.
-- ts: timestamp of the log line.
+- `params`: The query. The start and end timestamp, the step and the actual
+  query statement.
+- `stats`: Statistics. Currently, it contains internal engine timers.
+- `ts`: The timestamp of the log line, which is at the end of the query.
 
 Additionally, depending on what triggered the request, you will have additional
 fields in the JSON lines.
 
 ### API Queries and consoles
 
-HTTP requests contain the client IP, the method and the path:
+HTTP requests contain the client IP, the method, and the path:
 
 ```
 {
@@ -161,14 +151,14 @@ of the file and the name of the group:
 Prometheus will not rotate the query log itself. Instead, you can use external
 tools to do so.
 
-One of those tools is logrotate. Please refer to the documentation of your
-operating system for the initial logrotate setup.
+One of those tools is logrotate. It is enabled by default on most Linux
+distributions.
 
-Once it is set up, here is an example of file you can add as
+Here is an example of file you can add as
 `/etc/logrotate.d/prometheus`:
 
 ```
-/var/log/prometheus/query.log {
+/prometheus/query.log {
     daily
     rotate 7
     compress

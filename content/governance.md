@@ -66,7 +66,7 @@ The current team members are:
 * Matt Layher ([Fastly](https://www.fastly.com/))
 * Matthias Rampke ([SoundCloud](https://soundcloud.com/))
 * Max Inden ([Parity Technologies](https://www.parity.io/))
-* Richard Hartmann ([SpaceNet](https://space.net/))
+* Richard Hartmann ([Grafana Labs](https://grafana.com/))
 * Simon Pasquier ([Red Hat](https://www.redhat.com/))
 * Steve Durrheimer ([Cycloid](https://www.cycloid.io/))
 * Stuart Nelson ([SoundCloud](https://soundcloud.com/))

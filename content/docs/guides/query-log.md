@@ -18,10 +18,11 @@ activated when you want to investigate slownesses or high load on your
 Prometheus instance.
 
 To enable or disable the query log, two steps are needed:
+
 1. Adapt the configuration to add or remove the query log configuration.
 1. Reload the Prometheus server configuration.
 
-### Logging all the queries to a file.
+### Logging all the queries to a file
 
 This example demonstrates how to log all the queries to
 a file called `/var/log/prometheus/query.log`.

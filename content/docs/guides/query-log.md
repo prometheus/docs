@@ -6,10 +6,9 @@ sort_rank: 1
 # Using the Prometheus query log
 
 Prometheus has the ability to log all the queries run by the engine to a log
-file. This guide demonstrates how to use that log file, which fields it
-contains, and provides advanced tips about how to operate the log file.
-
-The query log has been introduced in v2.16.0.
+file, as of 2.16.0. This guide demonstrates how to use that log file, which
+fields it contains, and provides advanced tips about how to operate the log
+file.
 
 ## Enable the query log
 
@@ -27,7 +26,7 @@ This example demonstrates how to log all the queries to
 a file called `/prometheus/query.log`. We will assume that `/prometheus` is the
 data directory and that Prometheus has write access to it.
 
-Firts, adapt the `prometheus.yml` configuration file:
+First, adapt the `prometheus.yml` configuration file:
 
 ```yaml
 global:
@@ -46,8 +45,9 @@ Then, [reload](../prometheus/latest/management_api/#reload) the Prometheus confi
 $ curl -X POST http://127.0.0.1:9090/-/reload
 ```
 
-Or, if Prometheus is not launched with `--web.enable-lifecycle`, you can trigger
-the reload by sending a SIGHUP to the Prometheus process.
+Or, if Prometheus is not launched with `--web.enable-lifecycle`, and you're not
+running on Windows, you can trigger the reload by sending a SIGHUP to the
+Prometheus process.
 
 
 The file `/prometheus/query.log` should now exist and all the queries
@@ -105,7 +105,7 @@ present for a query:
 - `params`: The query. The start and end timestamp, the step and the actual
   query statement.
 - `stats`: Statistics. Currently, it contains internal engine timers.
-- `ts`: The timestamp of the log line, which is at the end of the query.
+- `ts`: The timestamp when the query ended.
 
 Additionally, depending on what triggered the request, you will have additional
 fields in the JSON lines.

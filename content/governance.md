@@ -40,6 +40,7 @@ If they choose to accept, the following steps are taken:
 * Team members are added to the [team mailing list][team].
 * Team members are added to the list of team members in this document.
 * New team members are announced on the [developers mailing list][devs] by an existing team member.
+* New team members are announced to the [CNCF team][cncf]. Refer to [this private topic][cncf-maintainer-contact] for contact details.
 
 Team members may retire at any time by emailing [the team][team].
 
@@ -182,4 +183,6 @@ Team members may resign by notifying the [team mailing list][team]. If you think
 [maintainers.md]: https://github.com/search?l=&q=org%3Aprometheus+filename%3AMAINTAINERS.md+path%3A%2F&ref=advsearch&type=Code&utf8=%E2%9C%93
 [charter]: https://www.cncf.io/about/charter/
 [coc]: https://github.com/cncf/foundation/blob/master/code-of-conduct.md
+[cncf]: https://www.cncf.io
 [lazy]: https://couchdb.apache.org/bylaws.html#lazy
+[cncf-maintainer-contact]: https://groups.google.com/d/msg/prometheus-team/zIU0G1JhY0M/Fi_qX1FgFgAJ

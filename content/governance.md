@@ -38,7 +38,10 @@ If they choose to accept, the [onboarding](#onboarding) procedure is followed.
 
 Team members may retire at any time by emailing [the team][team].
 
-Team members can be removed by [supermajority vote](#supermajority-vote) on [the team mailing list][team]. For this vote, the member in question is not eligible to vote, does not count towards the quorum, and may not make any changes to this and related documents any more. In case more than one removal vote runs at the same time, these limitations apply only to to respective removal votes, not globally.
+Team members can be removed by [supermajority vote](#supermajority-vote) on [the team mailing list][team].
+For this vote, the member in question is not eligible to vote, does not count towards the quorum, and may not make any changes to this and related documents any more.
+Multiple members can be removed at the same time, but every vote can only cover one single person.
+For parallel, distinct removal votes every team member retains full voting rights and quorum relevance except their own.
 
 Upon death of a member, their team membership ends automatically.
 
@@ -166,7 +169,7 @@ The new member is
 
 The ex-member is
 * removed from the list of [team members](#team-members). Ideally by sending a PR of their own, at least approving said PR. In case of forced removal, no approval is needed.
-* removed from the [GitHub organization][gh] and related organizations and repositories.
+* removed from the [GitHub organization][gh] and related organizations and repositories. Optionally, they can retain maintainership of one or more repositories if the [team](#team-members) agrees.
 * removed from the [team mailing list][team].
 * announced as removed to CNCF. We will explicitly request reconfirmation of removal from CNCF.
 * removed from shared password storage. All passwords, API tokens, etc are cycled.

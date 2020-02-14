@@ -42,9 +42,9 @@ Team members can be removed by [supermajority vote](#supermajority-vote) on [the
 For this vote, the member in question is not eligible to vote and does not count towards the quorum.
 Any removal vote can cover only one single person.
 
-Upon death of a member, their team membership ends automatically.
+Upon death of a member, they leave the team automatically.
 
-In case the member leaves, the [offboarding](#offboarding) procedure is applied.
+In case a member leaves, the [offboarding](#offboarding) procedure is applied.
 
 The current team members are:
 

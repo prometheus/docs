@@ -155,7 +155,7 @@ Changes in the On- /Offboarding section can be taken by [lazy consensus](#consen
 
 The new member is
 * added to the list of [team members](#team-members). Ideally by sending a PR of their own, at least approving said PR.
-* announced on the [developers mailing list][devs] by an existing team member. Ideally, the new member replies in this thread.
+* announced on the [developers mailing list][devs] by an existing team member. Ideally, the new member replies in this thread, acknowleding team membership.
 * added to the [GitHub organization][gh] as _Owner_.
 * optinally added to the community, junkyard, and related repositories.
 * added to the [team mailing list][team].

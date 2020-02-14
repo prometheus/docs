@@ -174,7 +174,7 @@ The ex-member is
 * announced as removed to CNCF. We will explicitly request reconfirmation of removal from CNCF.
 * removed from shared password storage. All passwords, API tokens, etc are cycled.
 * not allowed to call themselves an active team member any more, nor allowed to imply this to be the case.
-* added to a list of alumnae if they agree to it.
+* added to a list of previous members if they so choose.
 
 If needed, we reserve the right to publicly announce removal.
 

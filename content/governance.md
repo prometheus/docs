@@ -39,9 +39,8 @@ If they choose to accept, the [onboarding](#onboarding) procedure is followed.
 Team members may retire at any time by emailing [the team][team].
 
 Team members can be removed by [supermajority vote](#supermajority-vote) on [the team mailing list][team].
-For this vote, the member in question is not eligible to vote, does not count towards the quorum, and may not make any changes to this and related documents any more.
-Multiple members can be removed at the same time, but every vote can only cover one single person.
-For parallel, distinct removal votes every team member retains full voting rights and quorum relevance except their own.
+For this vote, the member in question is not eligible to vote and does not count towards the quorum.
+Any removal vote can cover only one single person.
 
 Upon death of a member, their team membership ends automatically.
 
@@ -97,7 +96,8 @@ Material changes to this document are discussed publicly on the [developer maili
 
 ### Editorial changes
 
-Editorial changes are changes which fix spelling or grammar.
+Editorial changes are changes which fix spelling or grammar, update work affilition, or similar; they update style or reflect an outside and obvious reality.
+They do not change the intention or meaning of anything in this document.
 They must be made via PR, be left unmerged for at least 48 hours, and need the approval of at least one other [team member](#team-members).
 
 ### Other matters

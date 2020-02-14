@@ -38,7 +38,7 @@ If they choose to accept, the [onboarding](#onboarding) procedure is followed.
 
 Team members may retire at any time by emailing [the team][team].
 
-Team members can be removed by [supermajority vote](#supermajority-vote) on [the team mailing list][team]. For this vote, the member in question is not eligible to vote, does not count towards the quorum, and may not make any changes to this and related documents any more.
+Team members can be removed by [supermajority vote](#supermajority-vote) on [the team mailing list][team]. For this vote, the member in question is not eligible to vote, does not count towards the quorum, and may not make any changes to this and related documents any more. In case more than one removal vote runs at the same time, these limitations apply only to to respective removal votes, not globally.
 
 Upon death of a member, their team membership ends automatically.
 
@@ -149,15 +149,15 @@ If there are multiple alternatives, members may vote for one or more alternative
 
 ## On- / Offboarding
 
-Changes in the On- /Offboarding section can be taken by [lazy consensus](#consensus) unless challenged.  If no consensus can be reached, the matter may be resolved by [majority vote](#majority-vote).
+The On- / Offboarding section is informational and can be changed by [lazy consensus](#consensus) unless challenged.  If no consensus can be reached, the matter may be resolved by [majority vote](#majority-vote).
 
 ### Onboarding
 
 The new member is
 * added to the list of [team members](#team-members). Ideally by sending a PR of their own, at least approving said PR.
-* announced on the [developers mailing list][devs] by an existing team member. Ideally, the new member replies in this thread, acknowleding team membership.
+* announced on the [developers mailing list][devs] by an existing team member. Ideally, the new member replies in this thread, acknowledging team membership.
 * added to the [GitHub organization][gh] as _Owner_.
-* optinally added to the community, junkyard, and related repositories.
+* optionally added to the community, junkyard, and related repositories.
 * added to the [team mailing list][team].
 * announced to CNCF.
 * given access to the shared password storage.
@@ -171,13 +171,13 @@ The ex-member is
 * announced as removed to CNCF. We will explicitly request reconfirmation of removal from CNCF.
 * removed from shared password storage. All passwords, API tokens, etc are cycled.
 * not allowed to call themselves an active team member any more, nor allowed to imply this to be the case.
-* added to an alumni list if they agree to it.
+* added to a list of alumnae if they agree to it.
 
 If needed, we reserve the right to publicly announce removal.
 
 ## FAQ
 
-This section is informational. In case of disagreement, the rules above overrule any FAQ.
+The FAQ section is informational and can be changed by [lazy consensus](#consensus) unless challenged.  If no consensus can be reached, the matter may be resolved by [majority vote](#majority-vote).
 
 ### How do I propose a decision?
 

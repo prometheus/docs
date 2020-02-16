@@ -98,7 +98,7 @@ Material changes to this document are discussed publicly on the [developer maili
 
 Editorial changes are changes which fix spelling or grammar, update work affilition, or similar; they update style or reflect an outside and obvious reality.
 They do not change the intention or meaning of anything in this document.
-They must be made via PR, be left unmerged for at least 48 hours, and need the approval of at least one other [team member](#team-members).
+They must be made via PR and accepted via [lazy consensus](#consensus).
 
 ### Other matters
 

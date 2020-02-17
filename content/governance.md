@@ -46,6 +46,9 @@ Upon death of a member, they leave the team automatically.
 
 In case a member leaves, the [offboarding](#offboarding) procedure is applied.
 
+In case of certified mental incapacitation of a member, the [offboarding](#offboarding) procedure can be applied partially or in full to ensure account and access security and voting rights and quorum count will be suspended.
+This is applicable until the certified mental incapacitation is over.
+
 The current team members are:
 
 * Bartłomiej Płotka ([Red Hat](https://www.redhat.com/))

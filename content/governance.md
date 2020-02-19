@@ -160,7 +160,7 @@ The new member is
 * added to the list of [team members](#team-members). Ideally by sending a PR of their own, at least approving said PR.
 * announced on the [developers mailing list][devs] by an existing team member. Ideally, the new member replies in this thread, acknowledging team membership.
 * added to the [GitHub organization][gh] as _Owner_.
-* optionally added to the community, junkyard, and related repositories.
+* optionally added to the community, junkyard, and related organizations and repositories.
 * added to the [team mailing list][team].
 * announced to CNCF.
 * given access to the shared password storage.

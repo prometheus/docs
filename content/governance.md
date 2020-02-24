@@ -34,18 +34,17 @@ New members may be proposed by any existing member by email to [prometheus-team]
 
 If the new member proposal is accepted, the proposed team member should be contacted privately via email to confirm or deny their acceptance of team membership. This email will also be CC'd to [prometheus-team][team] for record-keeping purposes.
 
-If they choose to accept, the following steps are taken:
-
-* Team members are added to the [GitHub organization][gh] as _Owner_.
-* Team members are added to the [team mailing list][team].
-* Team members are added to the list of team members in this document.
-* New team members are announced on the [developers mailing list][devs] by an existing team member.
+If they choose to accept, the [onboarding](#onboarding) procedure is followed.
 
 Team members may retire at any time by emailing [the team][team].
 
-Team members can be removed by [supermajority vote](#supermajority-vote) on [the team mailing list][team]. For this vote, the member in question is not eligible to vote and does not count towards the quorum.
+Team members can be removed by [supermajority vote](#supermajority-vote) on [the team mailing list][team].
+For this vote, the member in question is not eligible to vote and does not count towards the quorum.
+Any removal vote can cover only one single person.
 
-Upon death of a member, their team membership ends automatically.
+Upon death of a member, they leave the team automatically.
+
+In case a member leaves, the [offboarding](#offboarding) procedure is applied.
 
 The current team members are:
 
@@ -94,6 +93,12 @@ Decisions are usually made by [lazy consensus](#consensus). If no consensus can 
 ### Governance changes
 
 Material changes to this document are discussed publicly on the [developer mailing mailing list][devs]. Any change requires a [supermajority](#supermajority-vote) in favor. Editorial changes may be made by [lazy consensus](#consensus) unless challenged.
+
+### Editorial changes
+
+Editorial changes are changes which fix spelling or grammar, update work affilition, or similar; they update style or reflect an outside and obvious reality.
+They do not change the intention or meaning of anything in this document.
+They must be made via PR and accepted via [lazy consensus](#consensus).
 
 ### Other matters
 
@@ -145,9 +150,37 @@ A vote on a single proposal is considered successful if at least two thirds of t
 
 If there are multiple alternatives, members may vote for one or more alternatives, or vote “no” to object to all alternatives. A vote on multiple alternatives is considered decided in favor of one alternative if it has received the most votes in favor, and a vote from at least two thirds of those eligible to vote. Should no alternative reach this quorum, another vote on a reduced number of options may be called separately.
 
+## On- / Offboarding
+
+The On- / Offboarding section is informational and can be changed by [lazy consensus](#consensus) unless challenged.  If no consensus can be reached, the matter may be resolved by [majority vote](#majority-vote).
+
+### Onboarding
+
+The new member is
+* added to the list of [team members](#team-members). Ideally by sending a PR of their own, at least approving said PR.
+* announced on the [developers mailing list][devs] by an existing team member. Ideally, the new member replies in this thread, acknowledging team membership.
+* added to the [GitHub organization][gh] as _Owner_.
+* optionally added to the community, junkyard, and related organizations and repositories.
+* added to the [team mailing list][team].
+* announced to CNCF.
+* given access to the shared password storage.
+
+### Offboarding
+
+The ex-member is
+* removed from the list of [team members](#team-members). Ideally by sending a PR of their own, at least approving said PR. In case of forced removal, no approval is needed.
+* removed from the [GitHub organization][gh] and related organizations and repositories. Optionally, they can retain maintainership of one or more repositories if the [team](#team-members) agrees.
+* removed from the [team mailing list][team].
+* announced as removed to CNCF. We will explicitly request reconfirmation of removal from CNCF.
+* removed from shared password storage. All passwords, API tokens, etc are cycled.
+* not allowed to call themselves an active team member any more, nor allowed to imply this to be the case.
+* added to a list of previous members if they so choose.
+
+If needed, we reserve the right to publicly announce removal.
+
 ## FAQ
 
-This section is informational. In case of disagreement, the rules above overrule any FAQ.
+The FAQ section is informational and can be changed by [lazy consensus](#consensus) unless challenged.  If no consensus can be reached, the matter may be resolved by [majority vote](#majority-vote).
 
 ### How do I propose a decision?
 

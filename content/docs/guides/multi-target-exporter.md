@@ -24,7 +24,7 @@ By multi-target [exporter](/docs/instrumenting/exporters/) pattern we refer to a
 
 This pattern is only used for certain exporters, namely the [blackbox](https://github.com/prometheus/blackbox_exporter) and the [SNMP exporter](https://github.com/prometheus/snmp_exporter).
 
-The reason is that we either can’t run an exporter on the targets, e.g. network gear speaking SNMP, or that we are explicitly interested in the distance, e.g. latency and reachability of a website from a specific point outside of our network.
+The reason is that we either can’t run an exporter on the targets, e.g. network gear speaking SNMP, or that we are explicitly interested in the distance, e.g. latency and reachability of a website from a specific point outside of our network, a common use case for the [blackbox](https://github.com/prometheus/blackbox_exporter) exporter.
 
 ## Running multi-target exporters
 

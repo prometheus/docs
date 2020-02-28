@@ -49,7 +49,7 @@ level=info ts=2018-10-17T15:41:35.4997596Z caller=main.go:324 msg="Listening on 
 There are two ways of querying:
 
 1. Querying the exporter itself. It has its own metrics, usually available at `/metrics`.
-1. Querying the exporter to scrape another target. Usually available at a "descriptive" endpoint, e.g. `/probe`.
+1. Querying the exporter to scrape another target. Usually available at a "descriptive" endpoint, e.g. `/probe`. This is likely what you are primarily interested in, when using multi-target exporters.
 
 You can manually try the first query type with curl in another terminal or use this [link](http://localhost:9115/metrics):
 

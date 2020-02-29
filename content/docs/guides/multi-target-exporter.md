@@ -485,7 +485,7 @@ Our request is now `"localhost:9115/probe?target=http://prometheus.io&module=htt
 
 Often people combine these with a specific service discovery. Check out the [configuration documentation](/docs/prometheus/latest/configuration/configuration) for more information. Using them is no problem, as these write into the `__address__` label just like `targets` defined under `static_configs`.
 
-That is it. Restart the Prometheus docker container and look at your [metrics](http://localhost:9090/graph?g0.range_input=5m&g0.stacked=0&g0.expr=probe_http_duration_seconds&g0.tab=0).
+That is it. Restart the Prometheus docker container and look at your [metrics](http://localhost:9090/graph?g0.range_input=30m&g0.stacked=0&g0.expr=probe_http_duration_seconds&g0.tab=0). Pay attention that you selected the period of time when the metrics were actually collected.
 
 # Summary
 

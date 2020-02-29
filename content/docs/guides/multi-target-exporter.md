@@ -430,14 +430,58 @@ scrape_configs:
 
 So what is new compared to the [last config](#prometheus-config)?
 
- 1. `params` does not include `target` anymore.
- 1. We add the actual targets under `static configs:` `targets`. We also use several because we can do that now.
- 1. `relabel_configs` contains the new relabeling rules.
- 1. We take the values from the label `__address__` (which contain the values from `targets`) and write them to a new label `__param_target` which will add a parameter `target` to the Prometheus scrape requests.
- 1. We take the values from the label `__param_target` and create a label instance with the values.
- 1. We write the value `localhost:9115` to the the label `__address__`. This will be used as the hostname and port for the Prometheus scrape requests.
+`params` does not include `target` anymore. Instead we add the actual targets under `static configs:` `targets`. We also use several because we can do that now:
+```yaml
+  params:
+    module: [http_2xx]
+  static_configs:
+      - targets:
+        - http://prometheus.io    # Target to probe with http.
+        - https://prometheus.io   # Target to probe with https.
+        - http://example.com:8080 # Target to probe with http on port 8080.
+```
 
-This way we can have the actual targets there, get them as `instance` label values while letting Prometheus make a request against the blackbox exporter.
+`relabel_configs` contains the new relabeling rules:
+```yaml
+  relabel_configs:
+    - source_labels: [__address__]
+      target_label: __param_target
+    - source_labels: [__param_target]
+      target_label: instance
+    - target_label: __address__
+      replacement: localhost:9115  # The blackbox exporter’s real hostname:port. For Windows and macOS replace with - host.docker.internal:9115
+```
+
+Before applying the relabeling rules, the URI of a request Prometheus would make would look like this:
+`"http://prometheus.io/probe?module=http_2xx"`. After relabeling it will look like this `"localhost:9115/probe?target=http://prometheus.io&module=http_2xx"`.
+
+Now let us explore how each rule does that:
+
+First we take the values from the label `__address__` (which contain the values from `targets`) and write them to a new label `__param_target` which will add a parameter `target` to the Prometheus scrape requests:
+```yaml
+  relabel_configs:
+    - source_labels: [__address__]
+      target_label: __param_target
+```
+
+After this our imagined Prometheus request URI has now a target parameter: `"http://prometheus.io/probe?target=http://prometheus.io&module=http_2xx"`.
+
+Then we take the values from the label `__param_target` and create a label instance with the values.
+```yaml
+  relabel_configs:
+    - source_labels: [__param_target]
+      target_label: instance
+```
+Our request will not change, but the metrics that come back from our request will now bear a label `instance="http://prometheus.io"`.
+
+After that we write the value `localhost:9115` (the URI of our exporter) to the the label `__address__`. This will be used as the hostname and port for the Prometheus scrape requests. So that it queries the exporter and not the target URI directly. 
+```yaml
+  relabel_configs:
+    - target_label: __address__
+      replacement: localhost:9115  # The blackbox exporter’s real hostname:port. For Windows and macOS replace with - host.docker.internal:9115
+```
+
+Our request is now `"localhost:9115/probe?target=http://prometheus.io&module=http_2xx"`. This way we can have the actual targets there, get them as `instance` label values while letting Prometheus make a request against the blackbox exporter.
 
 Often people combine these with a specific service discovery. Check out the [configuration documentation](/docs/prometheus/latest/configuration/configuration) for more information. Using them is no problem, as these write into the `__address__` label just like `targets` defined under `static_configs`.
 

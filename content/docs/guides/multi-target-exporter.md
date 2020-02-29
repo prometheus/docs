@@ -390,8 +390,8 @@ This works, but it has a few disadvantages:
 1. We can’t see which URL we probed. This is unpractical and will also mix up different metrics into one if we probe several URLs.
 
 To fix this, we will use [relabeling](/docs/prometheus/latest/configuration/configuration/#<relabel_config>).
-Relabeling is very powerful for advanced usecases because behind the scenes many things in Prometheus are configured with internal labels.
-The details are worthy of a [talk](https://www.youtube.com/watch?v=b5-SvvZ7AwI) on its own. For now is suffices if you understand this:
+Relabeling is useful here because behind the scenes many things in Prometheus are configured with internal labels.
+The details are complicated and out of scope for this guide. Hence we will limit ourselves to the necessary. But if you want to know more check out this [talk](https://www.youtube.com/watch?v=b5-SvvZ7AwI). For now it suffices if you understand this:
 
 * All labels starting with `__` are dropped after the scrape. Most internal labels start with `__`.
 * You can set internal labels that are called `__param_<name>`. Those set URL parameter with the key `<name>` for the scrape request.

@@ -153,8 +153,7 @@ probe_ip_protocol 6
 probe_success 0
 ```
 
-Notice that almost all metrics have a value of `0`. The last one reads `probe_success 0`. This means the prober could not sucessfully reach `prometheus.io`.  
-The reason is hidden in the metric `probe_ip_protocol` with the value `6`. By default the prober uses [IPv6](https://en.wikipedia.org/wiki/IPv6) until told otherwise. But the Docker daemon blocks IPv6 until told otherwise. Hence our blackbox exporter running in a Docker container can’t connect via IPv6.
+Notice that almost all metrics have a value of `0`. The last one reads `probe_success 0`. This means the prober could not sucessfully reach `prometheus.io`. The reason is hidden in the metric `probe_ip_protocol` with the value `6`. By default the prober uses [IPv6](https://en.wikipedia.org/wiki/IPv6) until told otherwise. But the Docker daemon blocks IPv6 until told otherwise. Hence our blackbox exporter running in a Docker container can’t connect via IPv6.
 
 We could now either tell Docker to allow IPv6 or the blackbox exporter to use IPv4. In the real world both can make sense and as so often the answer to the question "what is to be done?" is "it depends". Because this is an exporter guide we will change the exporter and take the oportunity to configure a custom module.
 
@@ -431,6 +430,7 @@ scrape_configs:
 So what is new compared to the [last config](#prometheus-config)?
 
 `params` does not include `target` anymore. Instead we add the actual targets under `static configs:` `targets`. We also use several because we can do that now:
+
 ```yaml
   params:
     module: [http_2xx]
@@ -442,6 +442,7 @@ So what is new compared to the [last config](#prometheus-config)?
 ```
 
 `relabel_configs` contains the new relabeling rules:
+
 ```yaml
   relabel_configs:
     - source_labels: [__address__]
@@ -458,6 +459,7 @@ Before applying the relabeling rules, the URI of a request Prometheus would make
 Now let us explore how each rule does that:
 
 First we take the values from the label `__address__` (which contain the values from `targets`) and write them to a new label `__param_target` which will add a parameter `target` to the Prometheus scrape requests:
+
 ```yaml
   relabel_configs:
     - source_labels: [__address__]
@@ -467,14 +469,17 @@ First we take the values from the label `__address__` (which contain the values 
 After this our imagined Prometheus request URI has now a target parameter: `"http://prometheus.io/probe?target=http://prometheus.io&module=http_2xx"`.
 
 Then we take the values from the label `__param_target` and create a label instance with the values.
+
 ```yaml
   relabel_configs:
     - source_labels: [__param_target]
       target_label: instance
 ```
+
 Our request will not change, but the metrics that come back from our request will now bear a label `instance="http://prometheus.io"`.
 
-After that we write the value `localhost:9115` (the URI of our exporter) to the the label `__address__`. This will be used as the hostname and port for the Prometheus scrape requests. So that it queries the exporter and not the target URI directly. 
+After that we write the value `localhost:9115` (the URI of our exporter) to the the label `__address__`. This will be used as the hostname and port for the Prometheus scrape requests. So that it queries the exporter and not the target URI directly.
+
 ```yaml
   relabel_configs:
     - target_label: __address__

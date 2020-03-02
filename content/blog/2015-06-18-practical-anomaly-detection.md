@@ -66,25 +66,30 @@ Finally, you find that false positives tend to happen at low traffic levels.
 You add a requirement for there to be enough traffic for 1 query per second to
 be going to each instance. You create an alert definition for all of this:
 
-```
-ALERT InstanceLatencyOutlier
-  IF
-        (
-            instance:latency_seconds:mean5m
-          > on (job) group_left()
+```yaml
+groups:
+- name: Practical Anomaly Detection
+  rules:
+  - alert: InstanceLatencyOutlier
+    expr: >
+      (
             (
-                avg by (job)(instance:latency_seconds:mean5m)
-              + on (job)
-                2 * stddev by (job)(instance:latency_seconds:mean5m)
+                instance:latency_seconds:mean5m
+              > on (job) group_left()
+                (
+                    avg by (job)(instance:latency_seconds:mean5m)
+                  + on (job)
+                    2 * stddev by (job)(instance:latency_seconds:mean5m)
+                )
             )
-        )
-      > on (job) group_left()
-        1.2 * avg by (job)(instance:latency_seconds:mean5m)
-    and on (job)
-        avg by (job)(instance:latency_seconds_count:rate5m)
-      >
-        1
-  FOR 30m
+          > on (job) group_left()
+            1.2 * avg by (job)(instance:latency_seconds:mean5m)
+        and on (job)
+            avg by (job)(instance:latency_seconds_count:rate5m)
+          >
+            1
+      )
+    for: 30m
 ```
 
 ## Automatic actions

@@ -22,13 +22,13 @@ By multi-target [exporter](/docs/instrumenting/exporters/) pattern we refer to a
 * the exporter subsequently starts the scrape after getting Prometheus’ GET requests and once it is done with scraping.
 * the exporter can query multiple targets.
 
-This pattern is only used for certain exporters, namely the [blackbox](https://github.com/prometheus/blackbox_exporter) and the [SNMP exporter](https://github.com/prometheus/snmp_exporter).
+This pattern is only used for certain exporters, such as the [blackbox](https://github.com/prometheus/blackbox_exporter) and the [SNMP exporter](https://github.com/prometheus/snmp_exporter).
 
 The reason is that we either can’t run an exporter on the targets, e.g. network gear speaking SNMP, or that we are explicitly interested in the distance, e.g. latency and reachability of a website from a specific point outside of our network, a common use case for the [blackbox](https://github.com/prometheus/blackbox_exporter) exporter.
 
 ## Running multi-target exporters
 
-Multi-target exporters are flexible regarding their environment and can be run in many ways. As regular programs, in containers, as background services, on baremetal, virtual machines. Because they are queried and do query over network they do need appropriate open ports. Otherwise they are frugal.
+Multi-target exporters are flexible regarding their environment and can be run in many ways. As regular programs, in containers, as background services, on baremetal, on virtual machines. Because they are queried and do query over network they do need appropriate open ports. Otherwise they are frugal.
 
 Now let’s try it out for yourself!
 
@@ -302,10 +302,11 @@ NOTE: If you use Docker for Mac or Docker for Windows, you can’t use `localhos
 `prometheus.yml` for Linux:
 
 ```yaml
-scrape_configs:
-
-- job_name: blackbox-exporter-metrics
+global:
   scrape_interval: 5s
+
+scrape_configs:
+- job_name: blackbox # To get metrics about the exporter itself
   metrics_path: /metrics
   static_configs:
     - targets:
@@ -315,10 +316,11 @@ scrape_configs:
 `prometheus.yml` for macOS and Windows:
 
 ```yaml
-scrape_configs:
-
-- job_name: blackbox-exporter-metrics
+global:
   scrape_interval: 5s
+
+scrape_configs:
+- job_name: blackbox # To get metrics about the exporter itself
   metrics_path: /metrics
   static_configs:
     - targets:
@@ -351,31 +353,31 @@ docker \
 
 This command works similarly to [running the blackbox exporter using a config file](#run-exporter).
 
-If everything worked, you should be able to go to [localhost:9090/targets](http://localhost:9090/targets) and see under `blackbox-exporter-metrics` an endpoint with the state `UP` in green. If you get a red `DOWN` make sure that the blackbox exporter you started [above](run-exporter) is still running. If you see nothing or a yellow `UNKNOWN` you are really fast and need to give it a few more seconds before reloading your browser’s tab.
+If everything worked, you should be able to go to [localhost:9090/targets](http://localhost:9090/targets) and see under `blackbox` an endpoint with the state `UP` in green. If you get a red `DOWN` make sure that the blackbox exporter you started [above](run-exporter) is still running. If you see nothing or a yellow `UNKNOWN` you are really fast and need to give it a few more seconds before reloading your browser’s tab.
 
-To tell Prometheus to query `"localhost:9115/probe?target=prometheus.io&module=http_2xx"` you add another scrape job where you set the `metrics_path` to `/probe` and the parameters under `params:` in the Prometheus config file `prometheus.yml`:
+To tell Prometheus to query `"localhost:9115/probe?target=prometheus.io&module=http_2xx"` you add another scrape job `blackbox-http` where you set the `metrics_path` to `/probe` and the parameters under `params:` in the Prometheus config file `prometheus.yml`:
 
 <a name="prometheus-config"></a>
 
 ```yaml
-scrape_configs:
-
-- job_name: blackbox-exporter-metrics
+global:
   scrape_interval: 5s
+
+scrape_configs:
+- job_name: blackbox # To get metrics about the exporter itself
   metrics_path: /metrics
   static_configs:
     - targets:
-      - localhost:9115   # for Windows and macOS replace with - host.docker.internal:9115
+      - localhost:9115   # For Windows and macOS replace with - host.docker.internal:9115
 
-- job_name: 'blackbox'
-  scrape_interval: 5s
+- job_name: blackbox-http # To get metrics about the exporter’s targets
   metrics_path: /probe
   params:
     module: [http_2xx]
     target: [prometheus.io]
   static_configs:
     - targets:
-      - localhost:9115   # for Windows and macOS replace with - host.docker.internal:9115
+      - localhost:9115   # For Windows and macOS replace with - host.docker.internal:9115
 ```
 
 After saving the config file switch to the terminal with your Prometheus docker container and stop it by pressing `ctrl+C` and start it again to reload the configuration by using the existing [command](#run-prometheus).
@@ -399,25 +401,25 @@ The details are complicated and out of scope for this guide. Hence we will limit
 Here is the config you will use to do that. Don’t worry if this is a bit much at once, we will go through it step by step:
 
 ```yaml
-scrape_configs:
-
-- job_name: blackbox-exporter-metrics
+global:
   scrape_interval: 5s
+
+scrape_configs:
+- job_name: blackbox # To get metrics about the exporter itself
   metrics_path: /metrics
   static_configs:
     - targets:
-      - localhost:9115   # for Windows and macOS replace with - host.docker.internal:9115
+      - localhost:9115   # For Windows and macOS replace with - host.docker.internal:9115
 
-- job_name: 'blackbox'
-  scrape_interval: 5s
+- job_name: blackbox-http # To get metrics about the exporter’s targets
   metrics_path: /probe
   params:
     module: [http_2xx]
   static_configs:
-      - targets:
-        - http://prometheus.io    # Target to probe with http.
-        - https://prometheus.io   # Target to probe with https.
-        - http://example.com:8080 # Target to probe with http on port 8080.
+    - targets:
+      - http://prometheus.io    # Target to probe with http
+      - https://prometheus.io   # Target to probe with https
+      - http://example.com:8080 # Target to probe with http on port 8080
   relabel_configs:
     - source_labels: [__address__]
       target_label: __param_target
@@ -435,10 +437,10 @@ So what is new compared to the [last config](#prometheus-config)?
   params:
     module: [http_2xx]
   static_configs:
-      - targets:
-        - http://prometheus.io    # Target to probe with http.
-        - https://prometheus.io   # Target to probe with https.
-        - http://example.com:8080 # Target to probe with http on port 8080.
+    - targets:
+      - http://prometheus.io    # Target to probe with http
+      - https://prometheus.io   # Target to probe with https
+      - http://example.com:8080 # Target to probe with http on port 8080
 ```
 
 `relabel_configs` contains the new relabeling rules:
@@ -454,7 +456,7 @@ So what is new compared to the [last config](#prometheus-config)?
 ```
 
 Before applying the relabeling rules, the URI of a request Prometheus would make would look like this:
-`"http://prometheus.io/probe?module=http_2xx"`. After relabeling it will look like this `"localhost:9115/probe?target=http://prometheus.io&module=http_2xx"`.
+`"http://prometheus.io/probe?module=http_2xx"`. After relabeling it will look like this `"http://localhost:9115/probe?target=http://prometheus.io&module=http_2xx"`.
 
 Now let us explore how each rule does that:
 
@@ -494,4 +496,4 @@ That is it. Restart the Prometheus docker container and look at your [metrics](h
 
 # Summary
 
-In this guide, you learned how the multi-target exporter pattern works and how to run a blackbox exporter with a customised module and to configure Prometheus using relabeling to scrape metrics with prober labels.
+In this guide, you learned how the multi-target exporter pattern works, how to run a blackbox exporter with a customised module, and to configure Prometheus using relabeling to scrape metrics with prober labels.

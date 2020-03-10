@@ -34,8 +34,9 @@ global:
   evaluation_interval: 15s
   query_log_file: /prometheus/query.log
 scrape_configs:
-  - job_name: 'prometheus'
-    - targets: ['localhost:9090']
+- job_name: 'prometheus'
+  static_configs:
+  - targets: ['localhost:9090']
 ```
 
 Then, [reload](../prometheus/latest/management_api/#reload) the Prometheus configuration:

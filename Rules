@@ -39,6 +39,15 @@ route '/blog/feed/' do
     '/blog/feed.xml'
 end
 
+compile '/google*' do
+    # Verification file from google suite. We should not compile it.
+end
+
+route '/google*' do
+    # Verification file from google suite. It must be present at the root of the domain.
+    item.identifier.chop + '.' + item[:extension]
+end
+
 compile '*' do
   filter :erb
 

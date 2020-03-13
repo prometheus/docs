@@ -32,6 +32,7 @@ Unofficial third-party client libraries:
 * [.NET / C#](https://github.com/prometheus-net/prometheus-net)
 * [Node.js](https://github.com/siimon/prom-client)
 * [Perl](https://metacpan.org/pod/Net::Prometheus)
+* [Perl](https://metacpan.org/pod/Prometheus::Tiny)
 * [PHP](https://github.com/endclothing/prometheus_client_php)
 * [Rust](https://github.com/pingcap/rust-prometheus)
 

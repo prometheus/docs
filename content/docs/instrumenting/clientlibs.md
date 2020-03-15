@@ -34,6 +34,7 @@ Unofficial third-party client libraries:
 * [Perl](https://metacpan.org/pod/Net::Prometheus)
 * [PHP](https://github.com/endclothing/prometheus_client_php)
 * [Rust](https://github.com/pingcap/rust-prometheus)
+* [R](https://github.com/cfmack/pRometheus)
 
 When Prometheus scrapes your instance's HTTP endpoint, the client library
 sends the current state of all tracked metrics to the server.

@@ -67,13 +67,13 @@ The current team members are:
 * Richard Hartmann ([Grafana Labs](https://grafana.com/))
 * Simon Pasquier ([Red Hat](https://www.redhat.com/))
 * Steve Durrheimer ([Cycloid](https://www.cycloid.io/))
-* Stuart Nelson ([SoundCloud](https://soundcloud.com/))
 * Tobias Schmidt ([SoundCloud](https://soundcloud.com/))
 * Tom Wilkie ([Grafana Labs](https://grafana.com/))
 
 The ex-members who are publicly listed are:
 
 * Max Inden
+* Stuart Nelson
 
 ### Maintainers
 

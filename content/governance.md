@@ -175,9 +175,10 @@ The ex-member is
 
 * removed from the list of [team members](#team-members). Ideally by sending a PR of their own, at least approving said PR. In case of forced removal, no approval is needed.
 * removed from the [GitHub organization][gh] and related organizations and repositories. Optionally, they can retain maintainership of one or more repositories if the [team](#team-members) agrees.
-* removed from the [team mailing list][team].
+* removed from the [team mailing list][team] and demoted to a normal member of the other mailing lists, i.e [developers][devs], [users][], and [announce][]. 
 * announced as removed to CNCF. We will explicitly request reconfirmation of removal from CNCF.
-* removed from shared password storage. All passwords, API tokens, etc are cycled.
+* removed from the shared password storage. All passwords, API tokens, etc. are cycled in due course (i.e. immediately in case of an involuntary departure but can be appropriately batched with other departures or routine cycling otherwise).
+* removed from group accounts where applicable. Services with some variety of a group account include but are not restricted to Digital Ocean, DockerHub, GSuite, Netlify, Twitter (via Tweetdeck).
 * not allowed to call themselves an active team member any more, nor allowed to imply this to be the case.
 * added to a list of previous members if they so choose.
 
@@ -217,6 +218,7 @@ Team members may resign by notifying the [team mailing list][team]. If you think
 [gh]: https://github.com/prometheus
 [devs]: https://groups.google.com/forum/#!forum/prometheus-developers
 [users]: https://groups.google.com/forum/#!forum/prometheus-users
+[announce]: https://groups.google.com/forum/#!forum/prometheus-announce
 [maintainers.md]: https://github.com/search?l=&q=org%3Aprometheus+filename%3AMAINTAINERS.md+path%3A%2F&ref=advsearch&type=Code&utf8=%E2%9C%93
 [charter]: https://www.cncf.io/about/charter/
 [coc]: https://github.com/cncf/foundation/blob/master/code-of-conduct.md

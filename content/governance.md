@@ -156,6 +156,7 @@ The On- / Offboarding section is informational and can be changed by [lazy conse
 ### Onboarding
 
 The new member is
+
 * added to the list of [team members](#team-members). Ideally by sending a PR of their own, at least approving said PR.
 * announced on the [developers mailing list][devs] by an existing team member. Ideally, the new member replies in this thread, acknowledging team membership.
 * added to the [GitHub organization][gh] as _Owner_.
@@ -167,6 +168,7 @@ The new member is
 ### Offboarding
 
 The ex-member is
+
 * removed from the list of [team members](#team-members). Ideally by sending a PR of their own, at least approving said PR. In case of forced removal, no approval is needed.
 * removed from the [GitHub organization][gh] and related organizations and repositories. Optionally, they can retain maintainership of one or more repositories if the [team](#team-members) agrees.
 * removed from the [team mailing list][team].

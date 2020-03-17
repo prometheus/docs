@@ -72,6 +72,7 @@ The current team members are:
 
 Previous members:
 
+* Conor Broderick
 * Max Inden
 * Stuart Nelson
 

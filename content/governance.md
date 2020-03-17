@@ -71,6 +71,10 @@ The current team members are:
 * Tobias Schmidt ([SoundCloud](https://soundcloud.com/))
 * Tom Wilkie ([Grafana Labs](https://grafana.com/))
 
+The ex-members who are publicly listed are:
+
+* Max Inden
+
 ### Maintainers
 
 Maintainers lead one or more project(s) or parts thereof and serve as a point of conflict resolution amongst the contributors to this project. Ideally, maintainers are also team members, but exceptions are possible for suitable maintainers that, for whatever reason, are not yet team members.

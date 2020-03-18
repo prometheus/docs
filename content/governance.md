@@ -70,10 +70,13 @@ The current team members are:
 * Tobias Schmidt ([SoundCloud](https://soundcloud.com/))
 * Tom Wilkie ([Grafana Labs](https://grafana.com/))
 
-The ex-members who are publicly listed are:
+Previous members:
 
+* Conor Broderick
 * Max Inden
 * Stuart Nelson
+
+_Note that Prometheus has received significant contributions from a number of unlisted individuals before this governance document and thus formal team membership was created._
 
 ### Maintainers
 

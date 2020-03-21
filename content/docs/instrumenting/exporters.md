@@ -224,6 +224,7 @@ separate exporters are needed:
    * [App Connect Enterprise](https://github.com/ot4i/ace-docker)
    * [Ballerina](https://ballerina.io/)
    * [BFE](https://github.com/baidu/bfe)
+   * [BigBlueButton](https://github.com/greenstatic/bigbluebutton-exporter)
    * [Ceph](http://docs.ceph.com/docs/master/mgr/prometheus/)
    * [CockroachDB](https://www.cockroachlabs.com/docs/stable/monitoring-and-alerting.html#prometheus-endpoint)
    * [Collectd](https://collectd.org/wiki/index.php/Plugin:Write_Prometheus)

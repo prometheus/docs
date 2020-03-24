@@ -10,6 +10,8 @@ collecting all Prometheus-related resources on the internet.
 
 The following selection of resources are particularly useful to get started
 with Prometheus.
+[Awesome Prometheus](https://github.com/roaldnefs/awesome-prometheus)
+contains a more comprehensive community-maintained list of resources.
 
 ## Blogs
 

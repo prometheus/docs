@@ -33,6 +33,7 @@ Unofficial third-party client libraries:
 * [Node.js](https://github.com/siimon/prom-client)
 * [Perl](https://metacpan.org/pod/Net::Prometheus)
 * [PHP](https://github.com/endclothing/prometheus_client_php)
+* [PowerShell](https://github.com/jobec/powershell-prom-client)
 * [R](https://github.com/cfmack/pRometheus)
 * [Rust](https://github.com/pingcap/rust-prometheus)
 

@@ -90,8 +90,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [NSQ exporter](https://github.com/lovoo/nsq_exporter)
    * [Mirth Connect exporter](https://github.com/vynca/mirth_exporter)
    * [MQTT blackbox exporter](https://github.com/inovex/mqtt_blackbox_exporter)
-   * [RabbitMQ exporter](https://github.com/kbudde/rabbitmq_exporter)
-   * [RabbitMQ Management Plugin exporter](https://github.com/deadtrickster/prometheus_rabbitmq_exporter)
+   * [RabbitMQ exporter](https://github.com/rabbitmq/rabbitmq-prometheus)
    * [RocketMQ exporter](https://github.com/apache/rocketmq-exporter)
    * [Solace exporter](https://github.com/dabgmx/solace_exporter)
 

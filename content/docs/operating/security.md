@@ -12,12 +12,13 @@ environments.
 This page describes the general security assumptions of Prometheus and the
 attack vectors that some configurations may enable.
 
-As with any complex system, it is not possible to guarantee that there are no
-bugs. If you find a security bug please report it privately to the maintainers
-listed in the MAINTAINERS.md of the relevant repository and CC
-prometheus-team@googlegroups.com. We will fix the issue and coordinate a
-release date with you, acknowledging your effort and mentioning you by name
-if you want.
+As with any complex system, it is certain that bugs will be found, some of
+them security-relevant. If you find a _security bug_ please report it
+privately to the maintainers listed in the MAINTAINERS of the relevant
+repository and CC cortex-team@googlegroups.com. We will fix the issue as soon
+as possible and coordinate a release date with you. You will be able to choose
+if you want public acknowledgement of your effort and if you want to be
+mentioned by name.
 
 ## Prometheus
 

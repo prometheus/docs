@@ -75,6 +75,7 @@ For notification mechanisms not natively supported by the Alertmanager, the
   * [prom2teams](https://github.com/idealista/prom2teams): forwards notifications to Microsoft Teams
   * [Rocket.Chat](https://rocket.chat/docs/administrator-guides/integrations/prometheus/)
   * [ServiceNow](https://github.com/FXinnovation/alertmanager-webhook-servicenow)
+  * [Signal](https://github.com/dgl/alertmanager-webhook-signald)
   * [SMS](https://github.com/messagebird/sachet): supports [multiple providers](https://github.com/messagebird/sachet/blob/master/examples/config.yaml)
   * [SNMP traps](https://github.com/maxwo/snmp_notifier)
   * [Telegram bot](https://github.com/inCaller/prometheus_bot)

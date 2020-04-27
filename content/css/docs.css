@@ -479,7 +479,7 @@ article {
 .equal {
   display: flex;
   flex-wrap: wrap;
-}rgb(57, 57, 57)
+}
 
 .row.display-flex > [class*='col-'] {
   display: flex;

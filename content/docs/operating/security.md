@@ -199,9 +199,9 @@ support only TLSv1.2 and higher.
 
 TLS will be added to Java exporters in the future.
 
-The TLS support on the projects should enable you to build a secure tunnel
-between the servers and your reverse proxies if you have more specialized TLS
-needs, like a cipher suite or older TLS version.
+If you have special TLS needs, like a different cipher suite or older TLS
+version, the TLS support on the projects should enable you to build a secure
+tunnel between the servers and reverse proxies with special settings.
 
 Server-side Basic Authentication is also supported. In such a case, usernames
 and passwords are provided in the same configuration file as the TLS

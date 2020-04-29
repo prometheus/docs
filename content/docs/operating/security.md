@@ -130,7 +130,9 @@ TLS client-side authentication with certificates will also be supported.
 The Go projects will share the same TLS library, which will be based on the
 Go vanilla TLS library. We keep [Go default TLS
 parameters](https://golang.org/pkg/crypto/tls/#Config), with one exception: we
-support only TLSv1.2 and higher.
+support only TLSv1.2 and higher. This decision is based upon current industry
+standards (notes from [Google][tlsgoogle], [Apple][tlsapple],
+[Mozilla][tlsmozilla], and [Microsoft][tlsmicrosoft]).
 
 TLS will be added to Java exporters in the future.
 
@@ -232,3 +234,8 @@ pre-built binaries provided by the project.
 
 For more details, please read the
 [final report of the audit](/assets/downloads/2018-06-11--cure53_security_audit.pdf).
+
+[tlsgoogle]:https://security.googleblog.com/2018/10/modernizing-transport-security.html
+[tlsapple]:https://webkit.org/blog/8462/deprecation-of-legacy-tls-1-0-and-1-1-versions/
+[tlsmozilla]:https://blog.mozilla.org/security/2018/10/15/removing-old-versions-of-tls/
+[tlsmicrosoft]:https://security.googleblog.com/2018/10/modernizing-transport-security.html

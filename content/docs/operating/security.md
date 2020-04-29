@@ -20,7 +20,7 @@ release date with you, acknowledging your effort and mentioning you by name
 if you want.
 
 Prometheus is maintained by volunteers, not by a company. Therefore, fixing on
-security issues is done on a best-effort basis. We thrive to fix security issues
+security issues is done on a best-effort basis. We strive to fix security issues
 in less than 7 days.
 
 ## Prometheus

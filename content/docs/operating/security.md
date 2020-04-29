@@ -202,13 +202,17 @@ needs, like a cipher suite or older TLS version.
 
 Server-side Basic Authentication is also supported. In such a case, usernames
 and passwords are provided in the same configuration file as the TLS
-configuration. Basic Authentication can be used without TLS, but it will expose
-usernames and passwords over the network.
+configuration. Basic Authentication can be used without TLS, but it will then
+expose usernames and passwords over the network.
 
 Passwords are hashed with the [bcrypt](https://en.wikipedia.org/wiki/Bcrypt)
 algorithm, and it is your responsibility to pick the number of rounds that
 matches your security standards. More rounds make brute-force more complicated
 at the cost of more CPU power and more time to authenticate the requests.
+
+The web security configuration file, with users and path to certificates, can be
+changed on the fly, with the exception of enabling/disabling TLS entirely. It is
+your responsibility to protect that file from unwanted reads/writes.
 
 ## Libraries
 

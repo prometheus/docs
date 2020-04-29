@@ -135,8 +135,8 @@ support only TLSv1.2 and higher.
 TLS will be added to Java exporters in the future.
 
 If you have special TLS needs, like a different cipher suite or older TLS
-version, the TLS support on the projects should enable you to build a secure
-tunnel between the servers and reverse proxies with special settings.
+version, the TLS support enables you to build a secure tunnel between the
+servers and reverse proxies with special settings.
 
 HTTP Basic Authentication will also be supported. In such a case, usernames
 and passwords are provided in the same configuration file as the TLS

@@ -20,9 +20,9 @@ release date with you, acknowledging your effort and mentioning you by name
 if you want.
 
 Prometheus is maintained by volunteers, not by a company. Therefore, fixing on
-security issues is done on a best-effort basis. We strive to fix security issues
-in less than 7 days for the following repositories: prometheus, alertmanager,
-node_exporter and blackbox_exporter.
+security issues is done on a best-effort basis. We strive to release security
+fixes within 7 days for: prometheus, alertmanager, node_exporter,
+blackbox_exporter and pushgateway.
 
 ## Prometheus
 

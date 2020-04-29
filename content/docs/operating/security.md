@@ -19,6 +19,10 @@ prometheus-team@googlegroups.com. We will fix the issue and coordinate a
 release date with you, acknowledging your effort and mentioning you by name
 if you want.
 
+Prometheus is maintained by volunteers, not by a company. Therefore, fixing on
+security issues is done on a best-effort basis. We thrive to fix security issues
+in less than 7 days.
+
 ## Prometheus
 
 It is presumed that untrusted users have access to the Prometheus HTTP endpoint
@@ -176,6 +180,24 @@ and bandwidth.
 
 It is recommended to monitor all components for failure, and to have them
 automatically restart on failure.
+
+## Server-side TLS and authentication
+
+In the future, server-side TLS support will be rolled out to the different
+projects under the Prometheus organization. Those projects Prometheus,
+Alertmanager, Pushgateway and the official exporters. The projects will share
+the same TLS library, which will be based on the Golang vanilla TLS library. We
+keep [Golang's default TLS
+parameters](https://golang.org/pkg/crypto/tls/#Config), with one exception: we
+explicitly disable TLSv1.0 and TLSv1.1.
+
+There is no plans at the moment to extend those settings. If you need older TLS
+versions or different cipher suite, we recommend you to setup a reverse proxy in
+front of your services, which will handle those settings.
+
+Changes regarding those matters need to reach consensus within the
+Prometheus-team as they impact all the projects. Pull requests made without
+prior consensus from -team will be automatically rejected.
 
 ## Libraries
 

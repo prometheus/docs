@@ -154,7 +154,7 @@ Various Prometheus components support client-side authentication and
 encryption. If TLS client support is offered, there is often also an option
 called `insecure_skip_verify` which skips SSL verification.
 
-# API calls
+# API Security
 
 As administrative and mutating endpoints are intended to be accessed via simple
 tools such as cURL, there is no built in

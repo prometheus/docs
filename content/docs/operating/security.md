@@ -203,7 +203,7 @@ If you have special TLS needs, like a different cipher suite or older TLS
 version, the TLS support on the projects should enable you to build a secure
 tunnel between the servers and reverse proxies with special settings.
 
-Server-side Basic Authentication is also supported. In such a case, usernames
+HTTP Basic Authentication is also supported. In such a case, usernames
 and passwords are provided in the same configuration file as the TLS
 configuration. Basic Authentication can be used without TLS, but it will then
 expose usernames and passwords over the network.

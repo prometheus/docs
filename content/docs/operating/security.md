@@ -197,8 +197,7 @@ Go vanilla TLS library. We keep [Go default TLS
 parameters](https://golang.org/pkg/crypto/tls/#Config), with one exception: we
 support only TLSv1.2 and higher.
 
-Research will be made later on the non-golang exporters to see how to best
-address server-side TLS, but you can expect a policy close to this one.
+TLS will be added to Java exporters in the future.
 
 The TLS support on the projects should enable you to build a secure tunnel
 between the servers and your reverse proxies if you have more specialized TLS

@@ -188,15 +188,13 @@ secret. Throughout the Prometheus system, metrics are not considered secret.
 Fields containing secrets in configuration files (marked explicitly as such in
 the documentation) will not be exposed in logs or via the HTTP API. Secrets
 should not be placed in other configuration fields, as it is common for
-components to expose their configuration over their HTTP endpoint.
+components to expose their configuration over their HTTP endpoint. It is the
+responsibility of the user to protect files on disks from unwanted reads/writes.
 
 Secrets from other sources used by dependencies (e.g. the `AWS_SECRET_KEY`
 environment variable as used by EC2 service discovery) may end up exposed due to
 code outside of our control or due to functionality that happens to expose
 wherever it is stored.
-
-Special care must be taken to prevent unauthorized reads or writes to
-configuration files that contain secrets.
 
 ## Denial of Service
 

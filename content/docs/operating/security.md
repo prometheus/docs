@@ -21,7 +21,8 @@ if you want.
 
 Prometheus is maintained by volunteers, not by a company. Therefore, fixing on
 security issues is done on a best-effort basis. We strive to fix security issues
-in less than 7 days.
+in less than 7 days for the following repositories: prometheus, alertmanager,
+node_exporter and blackbox_exporter.
 
 ## Prometheus
 
@@ -185,19 +186,29 @@ automatically restart on failure.
 
 In the future, server-side TLS support will be rolled out to the different
 projects under the Prometheus organization. Those projects include Prometheus,
-Alertmanager, Pushgateway and the official exporters. The projects will share
-the same TLS library, which will be based on the Golang vanilla TLS library. We
-keep [Golang's default TLS
+Alertmanager, Pushgateway and the official exporters.
+
+The golang projects will share the same TLS library, which will be based on the
+Golang vanilla TLS library. We keep [Golang's default TLS
 parameters](https://golang.org/pkg/crypto/tls/#Config), with one exception: we
 explicitly disable TLSv1.0 and TLSv1.1.
 
-There is no plans at the moment to extend those settings. If you need older TLS
-versions or different cipher suite, we recommend you to setup a reverse proxy in
-front of your services, which will handle those settings.
+Research will be made later on the non-golang exporters to see how to best
+address server-side TLS, but you can expect a policy close to this one.
 
-Changes regarding those matters need to reach consensus within the
-Prometheus-team as they impact all the projects. Pull requests made without
-prior consensus from -team will be automatically rejected.
+The TLS support on the projects should enable you to build a secure tunnel
+between the servers and your reverse proxies if you have more specialized TLS
+needs, like a cipher suite or older TLS version.
+
+Server-side Basic Authentication is also supported. In such a case, usernames
+and passwords are provided in the same configuration file as the TLS
+configuration. Basic Authentication can be used without TLS, but it will expose
+usernames and passwords over the network.
+
+Passwords are hashed with the [bcrypt](https://en.wikipedia.org/wiki/Bcrypt)
+algorithm, and it is your responsibility to pick the number of rounds that
+matches your security standards. More rounds make brute-force more complicated
+at the cost of more CPU power and more time to authenticate the requests.
 
 ## Libraries
 

@@ -184,7 +184,7 @@ automatically restart on failure.
 ## Server-side TLS and authentication
 
 In the future, server-side TLS support will be rolled out to the different
-projects under the Prometheus organization. Those projects Prometheus,
+projects under the Prometheus organization. Those projects include Prometheus,
 Alertmanager, Pushgateway and the official exporters. The projects will share
 the same TLS library, which will be based on the Golang vanilla TLS library. We
 keep [Golang's default TLS

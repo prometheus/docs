@@ -168,6 +168,10 @@ environment variable as used by EC2 service discovery) may end up exposed due to
 code outside of our control or due to functionality that happens to expose
 wherever it is stored.
 
+The web security configuration file, with TLS and HTTP Basic Authentication
+settings, can be changed on the fly. It is your responsibility to protect that
+file from unwanted reads/writes.
+
 ## Denial of Service
 
 There are some mitigations in place for excess load or expensive queries.
@@ -209,10 +213,6 @@ Passwords are hashed with the [bcrypt](https://en.wikipedia.org/wiki/Bcrypt)
 algorithm, and it is your responsibility to pick the number of rounds that
 matches your security standards. More rounds make brute-force more complicated
 at the cost of more CPU power and more time to authenticate the requests.
-
-The web security configuration file, with users and path to certificates, can be
-changed on the fly, with the exception of enabling/disabling TLS entirely. It is
-your responsibility to protect that file from unwanted reads/writes.
 
 ## Libraries
 

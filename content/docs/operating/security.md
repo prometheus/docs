@@ -121,9 +121,38 @@ resulting from additional load and failed scrapes.
 
 ## Authentication, Authorization, and Encryption
 
-Server-side authentication, authorization or encryption is addressed in
-the [Server-side TLS and authentication ](#server-side-tls-and-authentication)
-section below.
+In the future, server-side TLS support will be rolled out to the different
+Prometheus projects. Those projects include Prometheus, Alertmanager,
+Pushgateway and the official exporters.
+
+TLS client-side authentication with certificates will also be supported.
+
+The Go projects will share the same TLS library, which will be based on the
+Go vanilla TLS library. We keep [Go default TLS
+parameters](https://golang.org/pkg/crypto/tls/#Config), with one exception: we
+support only TLSv1.2 and higher.
+
+TLS will be added to Java exporters in the future.
+
+If you have special TLS needs, like a different cipher suite or older TLS
+version, the TLS support on the projects should enable you to build a secure
+tunnel between the servers and reverse proxies with special settings.
+
+HTTP Basic Authentication will also be supported. In such a case, usernames
+and passwords are provided in the same configuration file as the TLS
+configuration. Basic Authentication can be used without TLS, but it will then
+expose usernames and passwords over the network.
+
+Passwords are hashed with the [bcrypt](https://en.wikipedia.org/wiki/Bcrypt)
+algorithm, and it is your responsibility to pick the number of rounds that
+matches your security standards. More rounds make brute-force more complicated
+at the cost of more CPU power and more time to authenticate the requests.
+
+Various Prometheus components support client-side authentication and
+encryption. If TLS client support is offered, there is often also an option
+called `insecure_skip_verify` which skips SSL verification.
+
+# API calls
 
 As administrative and mutating endpoints are intended to be accessed via simple
 tools such as cURL, there is no built in
@@ -146,10 +175,6 @@ some_metric{zzz=""}` if the `<user_input>` was `"} or some_metric{zzz="`.
 For those using Grafana note that [dashboard permissions are not data source
 permissions](http://docs.grafana.org/administration/permissions/#data-source-permissions),
 so do not limit a user's ability to run arbitrary queries in proxy mode.
-
-Various Prometheus components support client-side authentication and
-encryption. If TLS client support is offered, there is often also an option
-called `insecure_skip_verify` which skips SSL verification.
 
 ## Secrets
 
@@ -185,33 +210,6 @@ and bandwidth.
 
 It is recommended to monitor all components for failure, and to have them
 automatically restart on failure.
-
-## Server-side TLS and authentication
-
-In the future, server-side TLS support will be rolled out to the different
-projects under the Prometheus organization. Those projects include Prometheus,
-Alertmanager, Pushgateway and the official exporters.
-
-The Go projects will share the same TLS library, which will be based on the
-Go vanilla TLS library. We keep [Go default TLS
-parameters](https://golang.org/pkg/crypto/tls/#Config), with one exception: we
-support only TLSv1.2 and higher.
-
-TLS will be added to Java exporters in the future.
-
-If you have special TLS needs, like a different cipher suite or older TLS
-version, the TLS support on the projects should enable you to build a secure
-tunnel between the servers and reverse proxies with special settings.
-
-HTTP Basic Authentication is also supported. In such a case, usernames
-and passwords are provided in the same configuration file as the TLS
-configuration. Basic Authentication can be used without TLS, but it will then
-expose usernames and passwords over the network.
-
-Passwords are hashed with the [bcrypt](https://en.wikipedia.org/wiki/Bcrypt)
-algorithm, and it is your responsibility to pick the number of rounds that
-matches your security standards. More rounds make brute-force more complicated
-at the cost of more CPU power and more time to authenticate the requests.
 
 ## Libraries
 

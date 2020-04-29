@@ -25,22 +25,14 @@ By default, Grafana will be listening on
 
 ### Creating a Prometheus data source
 
-First, we need to get Prometheus running and listening on port 9090. The easiest way to do this is via Docker:
-
-```
-docker run -p 9090:9090 prom/prometheus
-```
-
-Confirm that you can reach the Prometheus web UI in a browser on http://localhost:9090.
-
 To create a Prometheus data source in Grafana:
 
 1. Click on the "cogwheel" in the sidebar to open the Configuration menu.
 2. Click on "Data Sources".
 3. Click on "Add data source".
 4. Select "Prometheus" as the type.
-5. Set the appropriate Prometheus server URL (in this case it's `http://localhost:9090/`)
-6. We need to use `Browser` mode because so that Grafana can connect to Prometheus directly.
+5. Set the appropriate Prometheus server URL (e.g. `http://localhost:9090/`)
+6. Adjust other data source settings as desired (for example, choosing the right Access method).
 7. Click "Save & Test" to save the new data source.
 
 The following shows an example data source configuration:

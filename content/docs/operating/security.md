@@ -191,7 +191,7 @@ Alertmanager, Pushgateway and the official exporters.
 The golang projects will share the same TLS library, which will be based on the
 Golang vanilla TLS library. We keep [Golang's default TLS
 parameters](https://golang.org/pkg/crypto/tls/#Config), with one exception: we
-explicitly disable TLSv1.0 and TLSv1.1.
+support only TLSv1.2 and higher.
 
 Research will be made later on the non-golang exporters to see how to best
 address server-side TLS, but you can expect a policy close to this one.

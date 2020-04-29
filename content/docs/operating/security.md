@@ -125,7 +125,7 @@ In the future, server-side TLS support will be rolled out to the different
 Prometheus projects. Those projects include Prometheus, Alertmanager,
 Pushgateway and the official exporters.
 
-TLS client-side authentication with certificates will also be supported.
+Authentication of clients by TLS client certs will also be supported.
 
 The Go projects will share the same TLS library, which will be based on the
 Go vanilla TLS library. We keep [Go default TLS

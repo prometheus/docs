@@ -140,15 +140,15 @@ If you have special TLS needs, like a different cipher suite or older TLS
 version, the TLS support enables you to build a secure tunnel between the
 servers and reverse proxies with special settings.
 
-HTTP Basic Authentication will also be supported. In such a case, usernames
-and passwords are provided in the same configuration file as the TLS
-configuration. Basic Authentication can be used without TLS, but it will then
-expose usernames and passwords over the network.
+HTTP Basic Authentication will also be supported. Basic Authentication can be
+used without TLS, but it will then expose usernames and passwords in cleartext
+over the network.
 
-Passwords are hashed with the [bcrypt](https://en.wikipedia.org/wiki/Bcrypt)
-algorithm, and it is your responsibility to pick the number of rounds that
-matches your security standards. More rounds make brute-force more complicated
-at the cost of more CPU power and more time to authenticate the requests.
+On the server side, basic authentication passwords are hashed on disk with the
+[bcrypt](https://en.wikipedia.org/wiki/Bcrypt) algorithm on disks, and it is
+your responsibility to pick the number of rounds that matches your security
+standards. More rounds make brute-force more complicated at the cost of more CPU
+power and more time to authenticate the requests.
 
 Various Prometheus components support client-side authentication and
 encryption. If TLS client support is offered, there is often also an option

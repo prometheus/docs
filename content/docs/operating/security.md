@@ -22,7 +22,7 @@ if you want.
 Prometheus is maintained by volunteers, not by a company. Therefore, fixing on
 security issues is done on a best-effort basis. We strive to release security
 fixes within 7 days for: prometheus, alertmanager, node_exporter,
-blackbox_exporter and pushgateway.
+blackbox_exporter, and pushgateway.
 
 ## Prometheus
 

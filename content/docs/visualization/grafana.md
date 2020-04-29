@@ -31,7 +31,7 @@ To create a Prometheus data source in Grafana:
 2. Click on "Data Sources".
 3. Click on "Add data source".
 4. Select "Prometheus" as the type.
-5. Set the appropriate Prometheus server URL (e.g. `http://localhost:9090/`)
+5. Set the appropriate Prometheus server URL (for example, `http://localhost:9090/`)
 6. Adjust other data source settings as desired (for example, choosing the right Access method).
 7. Click "Save & Test" to save the new data source.
 

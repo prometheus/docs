@@ -19,10 +19,10 @@ prometheus-team@googlegroups.com. We will fix the issue and coordinate a
 release date with you, acknowledging your effort and mentioning you by name
 if you want.
 
-Prometheus is maintained by volunteers, not by a company. Therefore, fixing on
+Prometheus is maintained by volunteers, not by a company. Therefore, fixing
 security issues is done on a best-effort basis. We strive to release security
-fixes within 7 days for: prometheus, alertmanager, node_exporter,
-blackbox_exporter, and pushgateway.
+fixes within 7 days for: Prometheus, Alertmanager, Node_exporter,
+Blackbox_exporter, and Pushgateway.
 
 ## Prometheus
 
@@ -192,6 +192,9 @@ Secrets from other sources used by dependencies (e.g. the `AWS_SECRET_KEY`
 environment variable as used by EC2 service discovery) may end up exposed due to
 code outside of our control or due to functionality that happens to expose
 wherever it is stored.
+
+Special care must be taken to prevent unauthorized reads or writes to
+configuration files that contain secrets.
 
 ## Denial of Service
 

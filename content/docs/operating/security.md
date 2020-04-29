@@ -121,9 +121,9 @@ resulting from additional load and failed scrapes.
 
 ## Authentication, Authorization, and Encryption
 
-Prometheus and its components do not provide any server-side
-authentication, authorization or encryption. If you require this, it is
-recommended to use a reverse proxy.
+Server-side authentication, authorization or encryption is addressed in
+the [Server-side TLS and authentication ](#server-side-tls-and-authentication)
+section below.
 
 As administrative and mutating endpoints are intended to be accessed via simple
 tools such as cURL, there is no built in

@@ -85,7 +85,7 @@ should use YAML by default.
 
 ### Naming
 
-Follow the [best practices on metric naming](/docs/practices/naming).
+Follow the [best practices on metric naming](/content/docs/practices/naming.md).
 
 Generally metric names should allow someone who is familiar with
 Prometheus but not a particular system to make a good guess as to what a

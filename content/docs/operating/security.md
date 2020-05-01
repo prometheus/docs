@@ -146,9 +146,9 @@ HTTP Basic Authentication will also be supported. Basic Authentication can be
 used without TLS, but it will then expose usernames and passwords in cleartext
 over the network.
 
-On the server side, basic authentication passwords are hashed on disk with the
-[bcrypt](https://en.wikipedia.org/wiki/Bcrypt) algorithm on disks, and it is
-your responsibility to pick the number of rounds that matches your security
+On the server side, basic authentication passwords are stored as hashes with the
+[bcrypt](https://en.wikipedia.org/wiki/Bcrypt) algorithm. It is your
+responsibility to pick the number of rounds that matches your security
 standards. More rounds make brute-force more complicated at the cost of more CPU
 power and more time to authenticate the requests.
 

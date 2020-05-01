@@ -132,7 +132,9 @@ Go vanilla TLS library. We keep [Go default TLS
 parameters](https://golang.org/pkg/crypto/tls/#Config), with one exception: we
 support only TLSv1.2 and higher. This decision is based upon current industry
 standards (notes from [Google][tlsgoogle], [Apple][tlsapple],
-[Mozilla][tlsmozilla], and [Microsoft][tlsmicrosoft]).
+[Mozilla][tlsmozilla], and [Microsoft][tlsmicrosoft]). We strive to keep TLS
+compatibility with official [client libraries](../instrumenting/clientlibs)
+runtimes that were released less than two years ago.
 
 TLS will be added to Java exporters in the future.
 

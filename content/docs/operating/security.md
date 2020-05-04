@@ -128,19 +128,20 @@ Pushgateway and the official exporters.
 Authentication of clients by TLS client certs will also be supported.
 
 The Go projects will share the same TLS library, which will be based on the
-Go vanilla TLS library. We keep [Go default TLS
-parameters](https://golang.org/pkg/crypto/tls/#Config), with one exception: we
-support only TLSv1.2 and higher. This decision is based upon current industry
-standards (notes from [Google][tlsgoogle], [Apple][tlsapple],
-[Mozilla][tlsmozilla], and [Microsoft][tlsmicrosoft]). We strive to keep TLS
-compatibility with official [client libraries](../instrumenting/clientlibs)
-runtimes that were released less than two years ago.
+Go vanilla [crypto/tls](https://golang.org/pkg/crypto/tls) library.
+We default to TLS 1.2 as minimum version. Our policy regarding this is based on
+[Qualys SSL Labs](https://www.ssllabs.com/) recommendations, where we strive to
+achieve a grade 'A' with a default configuration and correctly provided
+certificates.
 
 TLS will be added to Java exporters in the future.
 
 If you have special TLS needs, like a different cipher suite or older TLS
-version, the TLS support enables you to build a secure tunnel between the
-servers and reverse proxies with special settings.
+version, you can tune the minimum TLS version and the ciphers, as long as the
+cipher are not [marked as insecure](https://golang.org/pkg/crypto/tls/#InsecureCipherSuites)
+in the [crypto/tls](https://golang.org/pkg/crypto/tls) library. If that still
+does not suit you, the current TLS settings enable you to build a secure tunnel
+between the servers and reverse proxies with more special requirements.
 
 HTTP Basic Authentication will also be supported. Basic Authentication can be
 used without TLS, but it will then expose usernames and passwords in cleartext

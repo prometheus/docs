@@ -35,6 +35,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [Consul exporter](https://github.com/prometheus/consul_exporter) (**official**)
    * [Couchbase exporter](https://github.com/blakelead/couchbase_exporter)
    * [CouchDB exporter](https://github.com/gesellix/couchdb-exporter)
+   * [Druid Exporter](https://github.com/opstree/druid-exporter)
    * [ElasticSearch exporter](https://github.com/justwatchcom/elasticsearch_exporter)
    * [EventStore exporter](https://github.com/marcinbudny/eventstore_exporter)
    * [Memcached exporter](https://github.com/prometheus/memcached_exporter) (**official**)
@@ -54,7 +55,6 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [SQL exporter](https://github.com/free/sql_exporter)
    * [Tarantool metric library](https://github.com/tarantool/prometheus)
    * [Twemproxy](https://github.com/stuartnelson3/twemproxy_exporter)
-   * [Druid Exporter](https://github.com/opstree/druid-exporter)
 
 ### Hardware related
    * [apcupsd exporter](https://github.com/mdlayher/apcupsd_exporter)

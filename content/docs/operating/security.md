@@ -236,8 +236,3 @@ pre-built binaries provided by the project.
 
 For more details, please read the
 [final report of the audit](/assets/downloads/2018-06-11--cure53_security_audit.pdf).
-
-[tlsgoogle]:https://security.googleblog.com/2018/10/modernizing-transport-security.html
-[tlsapple]:https://webkit.org/blog/8462/deprecation-of-legacy-tls-1-0-and-1-1-versions/
-[tlsmozilla]:https://blog.mozilla.org/security/2018/10/15/removing-old-versions-of-tls/
-[tlsmicrosoft]:https://security.googleblog.com/2018/10/modernizing-transport-security.html

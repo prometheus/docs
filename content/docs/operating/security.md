@@ -132,7 +132,7 @@ Go vanilla [crypto/tls](https://golang.org/pkg/crypto/tls) library.
 We default to TLS 1.2 as minimum version. Our policy regarding this is based on
 [Qualys SSL Labs](https://www.ssllabs.com/) recommendations, where we strive to
 achieve a grade 'A' with a default configuration and correctly provided
-certificates, while sticking as closely as possible to the upstream go defaults.
+certificates, while sticking as closely as possible to the upstream Go defaults.
 Achieving that grade provides a balance between perfect security and usability.
 
 TLS will be added to Java exporters in the future.

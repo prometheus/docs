@@ -192,7 +192,7 @@ Fields containing secrets in configuration files (marked explicitly as such in
 the documentation) will not be exposed in logs or via the HTTP API. Secrets
 should not be placed in other configuration fields, as it is common for
 components to expose their configuration over their HTTP endpoint. It is the
-responsibility of the user to protect files on disks from unwanted reads and
+responsibility of the user to protect files on disk from unwanted reads and
 writes.
 
 Secrets from other sources used by dependencies (e.g. the `AWS_SECRET_KEY`

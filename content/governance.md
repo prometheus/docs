@@ -219,8 +219,10 @@ Team members may resign by notifying the [team mailing list][team]. If you think
 
 [announce]: https://groups.google.com/forum/#!forum/prometheus-announce
 [charter]: https://www.cncf.io/about/charter/
+[coc]: https://github.com/cncf/foundation/blob/master/code-of-conduct.md
 [devs]: https://groups.google.com/forum/#!forum/prometheus-developers
 [gh]: https://github.com/prometheus
+[lazy]: https://couchdb.apache.org/bylaws.html#lazy
 [maintainers.md]: https://github.com/search?l=&q=org%3Aprometheus+filename%3AMAINTAINERS.md+path%3A%2F&ref=advsearch&type=Code&utf8=%E2%9C%93
 [team]: https://groups.google.com/forum/#!forum/prometheus-team
 [users]: https://groups.google.com/forum/#!forum/prometheus-users

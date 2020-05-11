@@ -21,8 +21,8 @@ if you want.
 
 Prometheus is maintained by volunteers, not by a company. Therefore, fixing
 security issues is done on a best-effort basis. We strive to release security
-fixes within 7 days for: Prometheus, Alertmanager, Node_exporter,
-Blackbox_exporter, and Pushgateway.
+fixes within 7 days for: Prometheus, Alertmanager, Node Exporter,
+Blackbox Exporter, and Pushgateway.
 
 ## Prometheus
 
@@ -139,7 +139,7 @@ TLS will be added to Java exporters in the future.
 
 If you have special TLS needs, like a different cipher suite or older TLS
 version, you can tune the minimum TLS version and the ciphers, as long as the
-cipher are not [marked as insecure](https://golang.org/pkg/crypto/tls/#InsecureCipherSuites)
+cipher is not [marked as insecure](https://golang.org/pkg/crypto/tls/#InsecureCipherSuites)
 in the [crypto/tls](https://golang.org/pkg/crypto/tls) library. If that still
 does not suit you, the current TLS settings enable you to build a secure tunnel
 between the servers and reverse proxies with more special requirements.

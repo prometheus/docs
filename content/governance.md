@@ -217,12 +217,12 @@ A maintainer may resign by notifying the [team mailing list][team]. A maintainer
 
 Team members may resign by notifying the [team mailing list][team]. If you think a team member should be removed against their will, propose this to the [team mailing list][team]. Discussions will be held there in private.
 
-[team]: https://groups.google.com/forum/#!forum/prometheus-team
-[gh]: https://github.com/prometheus
-[devs]: https://groups.google.com/forum/#!forum/prometheus-developers
-[users]: https://groups.google.com/forum/#!forum/prometheus-users
 [announce]: https://groups.google.com/forum/#!forum/prometheus-announce
-[maintainers.md]: https://github.com/search?l=&q=org%3Aprometheus+filename%3AMAINTAINERS.md+path%3A%2F&ref=advsearch&type=Code&utf8=%E2%9C%93
 [charter]: https://www.cncf.io/about/charter/
 [coc]: https://github.com/cncf/foundation/blob/master/code-of-conduct.md
+[devs]: https://groups.google.com/forum/#!forum/prometheus-developers
+[gh]: https://github.com/prometheus
 [lazy]: https://couchdb.apache.org/bylaws.html#lazy
+[maintainers.md]: https://github.com/search?l=&q=org%3Aprometheus+filename%3AMAINTAINERS.md+path%3A%2F&ref=advsearch&type=Code&utf8=%E2%9C%93
+[team]: https://groups.google.com/forum/#!forum/prometheus-team
+[users]: https://groups.google.com/forum/#!forum/prometheus-users

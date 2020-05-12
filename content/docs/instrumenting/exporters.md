@@ -38,7 +38,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [Druid Exporter](https://github.com/opstree/druid-exporter)
    * [ElasticSearch exporter](https://github.com/justwatchcom/elasticsearch_exporter)
    * [EventStore exporter](https://github.com/marcinbudny/eventstore_exporter)
-   * [KDB+ exporter](https://github.com/KxSystems/prometheus-kdb-exporter) (**official**)
+   * [KDB+ exporter](https://github.com/KxSystems/prometheus-kdb-exporter)
    * [Memcached exporter](https://github.com/prometheus/memcached_exporter) (**official**)
    * [MongoDB exporter](https://github.com/dcu/mongodb_exporter)
    * [MSSQL server exporter](https://github.com/awaragi/prometheus-mssql-exporter)

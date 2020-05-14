@@ -455,9 +455,13 @@ article {
   margin: 10px 0 60px 0;
 }
 
-.training .row {
+.training > .row {
   padding-bottom: 20px;
   margin-bottom: 40px;
+}
+
+.training h2 {
+  margin-bottom: 20px;
 }
 
 .gray-bg {
@@ -479,11 +483,6 @@ article {
 .equal {
   display: flex;
   flex-wrap: wrap;
-}
-
-.row.display-flex > [class*='col-'] {
-  display: flex;
-  flex-direction: column;
 }
 
 .panel-col {

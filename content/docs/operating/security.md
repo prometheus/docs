@@ -20,6 +20,11 @@ as possible and coordinate a release date with you. You will be able to choose
 if you want public acknowledgement of your effort and if you want to be
 mentioned by name.
 
+Prometheus is maintained by volunteers, not by a company. Therefore, fixing
+security issues is done on a best-effort basis. We strive to release security
+fixes within 7 days for: Prometheus, Alertmanager, Node Exporter,
+Blackbox Exporter, and Pushgateway.
+
 ## Prometheus
 
 It is presumed that untrusted users have access to the Prometheus HTTP endpoint
@@ -117,9 +122,44 @@ resulting from additional load and failed scrapes.
 
 ## Authentication, Authorization, and Encryption
 
-Prometheus and its components do not provide any server-side
-authentication, authorization or encryption. If you require this, it is
-recommended to use a reverse proxy.
+In the future, server-side TLS support will be rolled out to the different
+Prometheus projects. Those projects include Prometheus, Alertmanager,
+Pushgateway and the official exporters.
+
+Authentication of clients by TLS client certs will also be supported.
+
+The Go projects will share the same TLS library, which will be based on the
+Go vanilla [crypto/tls](https://golang.org/pkg/crypto/tls) library.
+We default to TLS 1.2 as minimum version. Our policy regarding this is based on
+[Qualys SSL Labs](https://www.ssllabs.com/) recommendations, where we strive to
+achieve a grade 'A' with a default configuration and correctly provided
+certificates, while sticking as closely as possible to the upstream Go defaults.
+Achieving that grade provides a balance between perfect security and usability.
+
+TLS will be added to Java exporters in the future.
+
+If you have special TLS needs, like a different cipher suite or older TLS
+version, you can tune the minimum TLS version and the ciphers, as long as the
+cipher is not [marked as insecure](https://golang.org/pkg/crypto/tls/#InsecureCipherSuites)
+in the [crypto/tls](https://golang.org/pkg/crypto/tls) library. If that still
+does not suit you, the current TLS settings enable you to build a secure tunnel
+between the servers and reverse proxies with more special requirements.
+
+HTTP Basic Authentication will also be supported. Basic Authentication can be
+used without TLS, but it will then expose usernames and passwords in cleartext
+over the network.
+
+On the server side, basic authentication passwords are stored as hashes with the
+[bcrypt](https://en.wikipedia.org/wiki/Bcrypt) algorithm. It is your
+responsibility to pick the number of rounds that matches your security
+standards. More rounds make brute-force more complicated at the cost of more CPU
+power and more time to authenticate the requests.
+
+Various Prometheus components support client-side authentication and
+encryption. If TLS client support is offered, there is often also an option
+called `insecure_skip_verify` which skips SSL verification.
+
+# API Security
 
 As administrative and mutating endpoints are intended to be accessed via simple
 tools such as cURL, there is no built in
@@ -143,10 +183,6 @@ For those using Grafana note that [dashboard permissions are not data source
 permissions](http://docs.grafana.org/administration/permissions/#data-source-permissions),
 so do not limit a user's ability to run arbitrary queries in proxy mode.
 
-Various Prometheus components support client-side authentication and
-encryption. If TLS client support is offered, there is often also an option
-called `insecure_skip_verify` which skips SSL verification.
-
 ## Secrets
 
 Non-secret information or fields may be available via the HTTP API and/or logs.
@@ -157,7 +193,9 @@ secret. Throughout the Prometheus system, metrics are not considered secret.
 Fields containing secrets in configuration files (marked explicitly as such in
 the documentation) will not be exposed in logs or via the HTTP API. Secrets
 should not be placed in other configuration fields, as it is common for
-components to expose their configuration over their HTTP endpoint.
+components to expose their configuration over their HTTP endpoint. It is the
+responsibility of the user to protect files on disk from unwanted reads and
+writes.
 
 Secrets from other sources used by dependencies (e.g. the `AWS_SECRET_KEY`
 environment variable as used by EC2 service discovery) may end up exposed due to

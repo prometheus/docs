@@ -1,4 +1,5 @@
 ---
+
 title: Security
 sort_rank: 4
 ---
@@ -204,9 +205,10 @@ wherever it is stored.
 
 ## Browser local storage
 
-Prometheus and Alertmanager store data in the local storage. The history of the
-queries made using the Prometheus web UI, and the creator of a silence in
-Alertmanager are save locally, amongst other data.
+Prometheus and Alertmanager web interfaces store data in the local storage of
+the web browser.  The history of the queries made using the Prometheus web UI,
+and the creator of a silence in Alertmanager are save locally, amongst other
+data.
 
 We expect that no secrets are entered into those fields and that browser
 sessions are not shared between users. If the same browser is accessed by

@@ -25,8 +25,8 @@
         indexName: 'prometheus',
         inputSelector: '.searchbox',
         // Search all pages that either are the latest (2.18) or are not part of the versioned Prometheus docs subtree.
-        // TODO: This requires updating for every new Prometheus version. Switch to a general "search:true|false" attribute instead,
-        // and omit it for non-latest Prometheus versions?
+        // TODO: This requires updating for every new Prometheus version. Switch to the more general "include:true|false"
+        // attribute instead, once it's indexed by Algolia.
         algoliaOptions: { 'facetFilters': [["prometheus-version:2.18", "prometheus-version:none"]] },
         debug: false // Set debug to true if you want to inspect the dropdown
       });

@@ -29,6 +29,7 @@
     <!-- Meta tag for indexing that enables faceted search in Algolia,
       see https://docsearch.algolia.com/docs/required-configuration/#introduce-global-information-as-meta-tags -->
     <meta name="docsearch:prometheus-version" content="<%= @item[:repo_docs] && @item[:repo_docs][:name] || 'none' %>" />
+    <meta name="docsearch:include" content="<%= (@item[:repo_docs].nil? || @item[:repo_docs][:name].include?('latest')) && 'true' || 'false' %>" />
     <meta name="msapplication-TileColor" content="#da532c">
     <meta name="msapplication-TileImage" content="/assets/favicons/mstile-144x144.png">
     <meta name="theme-color" content="#ffffff">

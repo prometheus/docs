@@ -28,7 +28,7 @@
     <% if (c = @item[:repo_docs]) && c[:canonical] %><link rel="canonical" href="<%= @item.path.sub(c[:items_root], c[:canonical]) %>" /><% end %>
     <!-- Meta tag for indexing that enables faceted search in Algolia,
       see https://docsearch.algolia.com/docs/required-configuration/#introduce-global-information-as-meta-tags -->
-    <meta name="docsearch:prometheus-version" content="<%= @item[:repo_docs] && @item[:repo_docs][:name] || 'unversioned' %>" />
+    <meta name="docsearch:prometheus-version" content="<%= @item[:repo_docs] && @item[:repo_docs][:name] || 'none' %>" />
     <meta name="msapplication-TileColor" content="#da532c">
     <meta name="msapplication-TileImage" content="/assets/favicons/mstile-144x144.png">
     <meta name="theme-color" content="#ffffff">

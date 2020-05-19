@@ -73,7 +73,7 @@ data_sources:
     identifier_type: legacy
     items_root: /docs/prometheus/latest/
     config:
-      name: 'latest (2.18)'
+      name: 'latest (2.18)' # NOTE! Update the "prometheus-version:2.18" filter in footer.html when changing this.
       repository: https://github.com/prometheus/prometheus.git
       refspec: release-2.18
     encoding: utf-8

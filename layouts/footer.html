@@ -16,5 +16,20 @@
       ga('create', 'UA-58468480-1', 'auto');
       ga('send', 'pageview');
     </script>
+
+    <!-- Algolia Docsearch -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.js"></script>
+    <script type="text/javascript">
+      docsearch({
+        apiKey: '48ac0b7924908a1fd40b1cb18b402ba1',
+        indexName: 'prometheus',
+        inputSelector: '.searchbox',
+        // Search all pages that either are the latest (2.18) or are not part of the versioned Prometheus docs subtree.
+        // TODO: This requires updating for every new Prometheus version. Switch to the more general "include:true|false"
+        // attribute instead, once it's indexed by Algolia.
+        algoliaOptions: { 'facetFilters': [["prometheus-version:2.18", "prometheus-version:none"]] },
+        debug: false // Set debug to true if you want to inspect the dropdown
+      });
+    </script>
   </body>
 </html>

@@ -78,6 +78,7 @@ For notification mechanisms not natively supported by the Alertmanager, the
   * [Signal](https://github.com/dgl/alertmanager-webhook-signald)
   * [SMS](https://github.com/messagebird/sachet): supports [multiple providers](https://github.com/messagebird/sachet/blob/master/examples/config.yaml)
   * [SNMP traps](https://github.com/maxwo/snmp_notifier)
+  * [Squadcast](https://support.squadcast.com/docs/prometheus)
   * [Telegram bot](https://github.com/inCaller/prometheus_bot)
   * [XMPP Bot](https://github.com/jelmer/prometheus-xmpp-alerts)
   * [Zoom](https://github.com/Code2Life/nodess-apps/tree/master/src/zoom-alert-2.0)

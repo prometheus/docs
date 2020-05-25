@@ -67,6 +67,7 @@ For notification mechanisms not natively supported by the Alertmanager, the
 
   * [Alertsnitch](https://gitlab.com/yakshaving.art/alertsnitch): saves alerts to a MySQL database
   * [AWS SNS](https://github.com/DataReply/alertmanager-sns-forwarder)
+  * [Chief Alert Executor](https://gitlab.com/yakshaving.art/chief-alert-executor): runs a command on a matched alert.
   * [DingTalk](https://github.com/timonwong/prometheus-webhook-dingtalk)
   * [GELF](https://github.com/b-com-software-basis/alertmanager2gelf)
   * [IRC Bot](https://github.com/multimfi/bot)

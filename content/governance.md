@@ -126,13 +126,13 @@ For public discussions, anyone interested is encouraged to participate. Formal p
 
 ### Consensus
 
-The default decision making mechanism for the Prometheus project is [lazy consensus][lazy]. This means that any decision on technical issues is considered supported by the [team][team] as long as nobody objects.
+The default decision making mechanism for the Prometheus project is [rough][rough] consensus. This means that any decision on technical issues is considered supported by the [team][team] as long as nobody objects or the objection has been considered but not necessarily accomodated.
 
 Silence on any consensus decision is implicit agreement and equivalent to explicit agreement. Explicit agreement may be stated at will. Decisions may, but do not need to be called out and put up for decision on the [developers mailing list][devs] at any time and by anyone.
 
 Consensus decisions can never override or go against the spirit of an earlier explicit vote.
 
-If any [team member](#team-members) raises objections, the team members work together towards a solution that all involved can accept. This solution is again subject to lazy consensus.
+If any [team member](#team-members) raises objections, the team members work together towards a solution that all involved can accept. This solution is again subject to rough consensus.
 
 In case no consensus can be found, but a decision one way or the other must be made, any [team member](#team-members) may call a formal [majority vote](#majority-vote).
 
@@ -222,7 +222,7 @@ Team members may resign by notifying the [team mailing list][team]. If you think
 [coc]: https://github.com/cncf/foundation/blob/master/code-of-conduct.md
 [devs]: https://groups.google.com/forum/#!forum/prometheus-developers
 [gh]: https://github.com/prometheus
-[lazy]: https://couchdb.apache.org/bylaws.html#lazy
+[rough]: https://tools.ietf.org/html/rfc7282
 [maintainers.md]: https://github.com/search?l=&q=org%3Aprometheus+filename%3AMAINTAINERS.md+path%3A%2F&ref=advsearch&type=Code&utf8=%E2%9C%93
 [team]: https://groups.google.com/forum/#!forum/prometheus-team
 [users]: https://groups.google.com/forum/#!forum/prometheus-users

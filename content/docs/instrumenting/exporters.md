@@ -64,6 +64,7 @@ hosted outside of the Prometheus GitHub organization.
    * [MongoDB exporter](https://github.com/dcu/mongodb_exporter)
    * [Munin exporter](https://github.com/pvdh/munin_exporter)
    * [NATS exporter](https://github.com/lovoo/nats_exporter)
+   * [Network exporter](https://github.com/syepes/network_exporter)
    * [New Relic exporter](https://github.com/jfindley/newrelic_exporter)
    * [Nginx metric library](https://github.com/knyar/nginx-lua-prometheus)
    * [NSQ exporter](https://github.com/lovoo/nsq_exporter)

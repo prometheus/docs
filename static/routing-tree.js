@@ -57,7 +57,7 @@ d3.select(".js-parse-and-draw").on("click", function() {
 
 // Click handler for input labelSet
 d3.select(".js-find-match").on("click", function() {
-  var searchValue = document.querySelector("input").value
+  var searchValue = document.querySelector(".js-label-set-input").value
   var labelSet = parseSearch(searchValue);
   var matches = match(root, labelSet)
   var nodes = tree.nodes(root);

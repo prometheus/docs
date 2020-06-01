@@ -11,7 +11,7 @@ In this guide, you will:
 * Start up a Node Exporter on `localhost`
 * Start up a Prometheus instance on `localhost` that's configured to scrape metrics from the running Node Exporter
 
-NOTE: While the Prometheus Node Exporter is for *nix systems, there is a [WMI exporter](https://github.com/martinlindhe/wmi_exporter) for Windows that serves an analogous purpose.
+NOTE: While the Prometheus Node Exporter is for *nix systems, there is the [Windows exporter](https://github.com/prometheus-community/windows_exporter) for Windows that serves an analogous purpose.
 
 ## Installing and running the Node Exporter
 

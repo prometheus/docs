@@ -73,6 +73,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [NVIDIA GPU exporter](https://github.com/mindprince/nvidia_gpu_prometheus_exporter)
    * [ProSAFE exporter](https://github.com/dalance/prosafe_exporter)
    * [Ubiquiti UniFi exporter](https://github.com/mdlayher/unifi_exporter)
+   * [Windows exporter](https://github.com/prometheus-community/windows_exporter)
 
 ### Issue trackers and continuous integration
 

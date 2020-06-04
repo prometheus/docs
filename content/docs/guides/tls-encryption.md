@@ -51,7 +51,7 @@ http {
         ssl_certificate     /root/certs/example.com/example.com.crt;
         ssl_certificate_key /root/certs/example.com/example.com.key;
 
-        location /prometheus {
+        location /prometheus/ {
             proxy_pass http://localhost:9090/;
         }
     }

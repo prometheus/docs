@@ -72,9 +72,9 @@ global:
   [ smtp_auth_password: <secret> ]
   # SMTP Auth using PLAIN.
   [ smtp_auth_identity: <string> ]
-  # SMTP Auth using CRAM-MD5. 
+  # SMTP Auth using CRAM-MD5.
   [ smtp_auth_secret: <secret> ]
-  # The default SMTP TLS requirement. 
+  # The default SMTP TLS requirement.
   # Note that Go does not support unencrypted connections to remote SMTP endpoints.
   [ smtp_require_tls: <bool> | default = true ]
 
@@ -137,10 +137,10 @@ current node.
 # be batched into a single group.
 #
 # To aggregate by all possible labels use the special value '...' as the sole label name, for example:
-# group_by: ['...'] 
-# This effectively disables aggregation entirely, passing through all 
-# alerts as-is. This is unlikely to be what you want, unless you have 
-# a very low alert volume or your upstream notification system performs 
+# group_by: ['...']
+# This effectively disables aggregation entirely, passing through all
+# alerts as-is. This is unlikely to be what you want, unless you have
+# a very low alert volume or your upstream notification system performs
 # its own grouping.
 [ group_by: '[' <labelname>, ... ']' ]
 
@@ -207,7 +207,7 @@ route:
 
 An inhibition rule mutes an alert (target) matching a set of matchers
 when an alert (source) exists that matches another set of matchers.
-Both target and source alerts must have the same label values 
+Both target and source alerts must have the same label values
 for the label names in the `equal` list.
 
 Semantically, a missing label and a label with an empty value are the same
@@ -683,6 +683,11 @@ url: <string>
 
 # The HTTP client's configuration.
 [ http_config: <http_config> | default = global.http_config ]
+
+# The maximum number of alerts to include in a single webhook message. Alerts
+# above this threshold are truncated. When leaving this at its default value of
+# 0, all alerts are included.
+[ max_alerts: <uint64> | default = 0 ]
 ```
 
 The Alertmanager
@@ -693,6 +698,7 @@ endpoint:
 {
   "version": "4",
   "groupKey": <string>,    // key identifying the group of alerts (e.g. to deduplicate)
+  "truncatedAlerts": <uint64>, // how many alerts have been truncated due to "max_alerts"
   "status": "<resolved|firing>",
   "receiver": <string>,
   "groupLabels": <object>,

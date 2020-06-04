@@ -46,7 +46,7 @@ Generic placeholders are defined as follows:
 * `<secret>`: a regular string that is a secret, such as a password
 * `<tmpl_string>`: a string which is template-expanded before usage
 * `<tmpl_secret>`: a string which is template-expanded before usage that is a secret
-* `<uint64>`: an unsigned 64-bit integer value
+* `<int>`: an integer value
 
 The other placeholders are specified separately.
 
@@ -688,7 +688,7 @@ url: <string>
 # The maximum number of alerts to include in a single webhook message. Alerts
 # above this threshold are truncated. When leaving this at its default value of
 # 0, all alerts are included.
-[ max_alerts: <uint64> | default = 0 ]
+[ max_alerts: <int> | default = 0 ]
 ```
 
 The Alertmanager

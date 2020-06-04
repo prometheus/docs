@@ -698,14 +698,14 @@ endpoint:
 ```
 {
   "version": "4",
-  "groupKey": <string>,    // key identifying the group of alerts (e.g. to deduplicate)
-  "truncatedAlerts": <uint64>, // how many alerts have been truncated due to "max_alerts"
+  "groupKey": <string>,              // key identifying the group of alerts (e.g. to deduplicate)
+  "truncatedAlerts": <uint64>,       // how many alerts have been truncated due to "max_alerts"
   "status": "<resolved|firing>",
   "receiver": <string>,
   "groupLabels": <object>,
   "commonLabels": <object>,
   "commonAnnotations": <object>,
-  "externalURL": <string>,  // backlink to the Alertmanager.
+  "externalURL": <string>,           // backlink to the Alertmanager.
   "alerts": [
     {
       "status": "<resolved|firing>",
@@ -713,7 +713,7 @@ endpoint:
       "annotations": <object>,
       "startsAt": "<rfc3339>",
       "endsAt": "<rfc3339>",
-      "generatorURL": <string> // identifies the entity that caused the alert
+      "generatorURL": <string>       // identifies the entity that caused the alert
     },
     ...
   ]

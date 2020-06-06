@@ -27,7 +27,7 @@ downloads/%/releases.json:
 	@curl -sf -H 'Accept: application/vnd.github.v3+json' $(GITHUB_AUTHENTICATION) https://api.github.com/repos/prometheus/$*/releases > $@
 
 update-prometheus: prometheus
-	@cd prometheus && git pull
+	@cd prometheus && git pull && git show
 
 prometheus:
 	@git clone https://github.com/prometheus/prometheus

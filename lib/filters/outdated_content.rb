@@ -8,8 +8,8 @@ class OutdatedContent < ::Nanoc::Filter
   def run(content, params = {})
     doc = Nokogiri::HTML(content)
     # TODO(ts): We need to link to the same page or the first child without hardcoding /getting_started/.
-    warning = %(<p>CAUTION: This page documents an old version of Prometheus.
-      Check out the <a href="#{params[:outdated]}getting_started/">latest version</a>.</p>)
+    warning = %(<p>CAUTION: This page documents an old version of #{params[:repository].split("/")[-1].split(".")[0].capitalize()}.
+      Check out the <a href="#{params[:outdated]}">latest version</a>.</p>)
 
     body = doc.css('body')
     if first = body.children.first

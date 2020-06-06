@@ -209,6 +209,26 @@ data_sources:
       canonical: /docs/prometheus/latest/
       outdated: /docs/prometheus/latest/
   -
+    type: repo_docs
+    encoding: utf-8
+    identifier_type: legacy
+    items_root: /docs/alerting/latest/
+    config:
+      name: 'latest (0.20)'
+      repository: https://github.com/prometheus/alertmanager.git
+      refspec: release-0.20
+      canonical: /docs/alerting/latest/
+  -
+    type: repo_docs
+    encoding: utf-8
+    identifier_type: legacy
+    items_root: /docs/alerting/0.20/
+    config:
+      name: '0.20'
+      repository: https://github.com/prometheus/alertmanager.git
+      refspec: release-0.20
+      canonical: /docs/alerting/0.20/
+  -
     type: filesystem
     items_root: /assets
     content_dir: static

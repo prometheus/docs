@@ -14,7 +14,7 @@ clean:
 compile:
 	$(NANOC)
 
-downloads: $(DOWNLOADS:%=downloads/%/repo.json) $(DOWNLOADS:%=downloads/%/releases.json)
+downloads: update-prometheus $(DOWNLOADS:%=downloads/%/repo.json) $(DOWNLOADS:%=downloads/%/releases.json)
 
 downloads/%/repo.json:
 	@mkdir -p $(dir $@)
@@ -25,6 +25,12 @@ downloads/%/releases.json:
 	@mkdir -p $(dir $@)
 	@echo "curl -sf -H 'Accept: application/vnd.github.v3+json' <GITHUB_AUTHENTICATION> https://api.github.com/repos/prometheus/$*/releases > $@"
 	@curl -sf -H 'Accept: application/vnd.github.v3+json' $(GITHUB_AUTHENTICATION) https://api.github.com/repos/prometheus/$*/releases > $@
+
+update-prometheus: prometheus
+	@cd prometheus && git pull
+
+prometheus:
+	@git clone https://github.com/prometheus/prometheus
 
 guard:
 	$(GUARD)

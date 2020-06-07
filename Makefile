@@ -14,7 +14,10 @@ clean:
 compile:
 	$(NANOC)
 
-downloads: $(DOWNLOADS:%=downloads/%/repo.json) $(DOWNLOADS:%=downloads/%/releases.json)
+downloads: gitclone $(DOWNLOADS:%=downloads/%/repo.json) $(DOWNLOADS:%=downloads/%/releases.json)
+
+gitclone:
+	git clone https://github.com/prometheus/prometheus /tmp/prometheus
 
 downloads/%/repo.json:
 	@mkdir -p $(dir $@)

@@ -75,7 +75,7 @@ data_sources:
     items_root: /docs/prometheus/latest/
     config:
       name: 'latest (2.18)' # NOTE! Update the "prometheus-version:2.18" filter in footer.html when changing this.
-      repository: https://github.com/prometheus/prometheus.git
+      repository: /tmp/prometheus
       refspec: release-2.18
   -
     type: repo_docs
@@ -84,7 +84,7 @@ data_sources:
     identifier_type: legacy
     config:
       name: '2.18'
-      repository: https://github.com/prometheus/prometheus.git
+      repository: /tmp/prometheus
       refspec: release-2.18
       canonical: /docs/prometheus/latest/
   -
@@ -94,7 +94,7 @@ data_sources:
     items_root: /docs/prometheus/2.17/
     config:
       name: '2.17'
-      repository: https://github.com/prometheus/prometheus.git
+      repository: /tmp/prometheus
       refspec: release-2.17
       canonical: /docs/prometheus/latest/
       outdated: /docs/prometheus/latest/
@@ -105,7 +105,7 @@ data_sources:
     items_root: /docs/prometheus/2.16/
     config:
       name: '2.16'
-      repository: https://github.com/prometheus/prometheus.git
+      repository: /tmp/prometheus
       refspec: release-2.16
       canonical: /docs/prometheus/latest/
       outdated: /docs/prometheus/latest/
@@ -116,7 +116,7 @@ data_sources:
     items_root: /docs/prometheus/2.15/
     config:
       name: '2.15'
-      repository: https://github.com/prometheus/prometheus.git
+      repository: /tmp/prometheus
       refspec: release-2.15
       canonical: /docs/prometheus/latest/
       outdated: /docs/prometheus/latest/
@@ -127,7 +127,7 @@ data_sources:
     items_root: /docs/prometheus/2.14/
     config:
       name: '2.14'
-      repository: https://github.com/prometheus/prometheus.git
+      repository: /tmp/prometheus
       refspec: release-2.14
       canonical: /docs/prometheus/latest/
       outdated: /docs/prometheus/latest/
@@ -138,7 +138,7 @@ data_sources:
     items_root: /docs/prometheus/2.13/
     config:
       name: '2.13'
-      repository: https://github.com/prometheus/prometheus.git
+      repository: /tmp/prometheus
       refspec: release-2.13
       canonical: /docs/prometheus/latest/
       outdated: /docs/prometheus/latest/
@@ -149,7 +149,7 @@ data_sources:
     items_root: /docs/prometheus/2.12/
     config:
       name: '2.12'
-      repository: https://github.com/prometheus/prometheus.git
+      repository: /tmp/prometheus
       refspec: release-2.12
       canonical: /docs/prometheus/latest/
       outdated: /docs/prometheus/latest/
@@ -160,7 +160,7 @@ data_sources:
     items_root: /docs/prometheus/2.11/
     config:
       name: '2.11'
-      repository: https://github.com/prometheus/prometheus.git
+      repository: /tmp/prometheus
       refspec: release-2.11
       canonical: /docs/prometheus/latest/
       outdated: /docs/prometheus/latest/
@@ -171,7 +171,7 @@ data_sources:
     items_root: /docs/prometheus/2.10/
     config:
       name: '2.10'
-      repository: https://github.com/prometheus/prometheus.git
+      repository: /tmp/prometheus
       refspec: release-2.10
       canonical: /docs/prometheus/latest/
       outdated: /docs/prometheus/latest/
@@ -182,7 +182,7 @@ data_sources:
     items_root: /docs/prometheus/2.9/
     config:
       name: '2.9'
-      repository: https://github.com/prometheus/prometheus.git
+      repository: /tmp/prometheus
       refspec: release-2.9
       canonical: /docs/prometheus/latest/
       outdated: /docs/prometheus/latest/
@@ -193,7 +193,7 @@ data_sources:
     items_root: /docs/prometheus/2.8/
     config:
       name: '2.8'
-      repository: https://github.com/prometheus/prometheus.git
+      repository: /tmp/prometheus
       refspec: release-2.8
       canonical: /docs/prometheus/latest/
       outdated: /docs/prometheus/latest/
@@ -204,7 +204,7 @@ data_sources:
     items_root: /docs/prometheus/1.8/
     config:
       name: '1.8'
-      repository: https://github.com/prometheus/prometheus.git
+      repository: /tmp/prometheus
       refspec: release-1.8
       canonical: /docs/prometheus/latest/
       outdated: /docs/prometheus/latest/

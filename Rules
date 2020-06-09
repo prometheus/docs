@@ -40,7 +40,7 @@ route '/blog/feed/' do
 end
 
 compile '*' do
-  filter :erb
+  filter :erb if item[:extension] == 'html'
 
   if item[:extension] == 'md'
     filter :redcarpet, options: {filter_html: true, autolink: true, no_intraemphasis: true, fenced_code_blocks: true, gh_blockcode: true, tables: true}, renderer_options: {with_toc_data: true}

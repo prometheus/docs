@@ -1,22 +1,32 @@
-def nav(root_item, buffer='', layer=0)
-  return buffer if root_item.nil? || root_item.path.nil? || root_item[:is_hidden]
+$nav_cache = Hash.new
 
+def nav(root_item, output='', layer=0)
+  return output if root_item.nil? || root_item.path.nil? || root_item[:is_hidden]
+
+  buffer = ''
   children = nav_children(root_item)
 
   # Strip item from menu.
   if root_item[:nav] && root_item[:nav][:strip]
     children.each do |child|
-      nav(child, buffer, layer)
+      nav(child, output, layer)
     end
-    return buffer
+    return output
   end
 
+  if hidden?(root_item)
+    return output
+  end
+
+  active = nav_active?(root_item)
   classes = []
-  if nav_active?(root_item)
+  if active
     classes << 'active'
     classes << 'current' unless children.any?
+  elsif $nav_cache.has_key?(root_item.raw_filename)
+    output << $nav_cache[root_item.raw_filename]
+    return output
   end
-  classes << 'hidden' if hidden?(root_item)
   buffer << (classes.any? ? %(<li class="#{classes.join(' ')}">) : '<li>')
 
   title = nav_title_of(root_item)
@@ -31,7 +41,6 @@ def nav(root_item, buffer='', layer=0)
   end
 
   if children.any?
-    active = nav_active?(root_item)
     # TODO(ts): Remove the need to check for the layer.
     if layer == 0 && children.any? { |i| Versioned.versioned?(i) }
       buffer << Versioned.picker(children, @item_rep, active)
@@ -47,7 +56,11 @@ def nav(root_item, buffer='', layer=0)
   end
 
   buffer << '</li>'
-  buffer
+  if !active
+    $nav_cache[root_item.raw_filename] = buffer
+  end
+  output << buffer
+  output
 end
 
 def nav_active?(item)

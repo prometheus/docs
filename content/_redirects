@@ -12,12 +12,20 @@
 /docs/querying/rules/                       /docs/prometheus/latest/configuration/recording_rules/
 /docs/visualization/template_examples/      /docs/prometheus/latest/configuration/template_examples/
 /docs/visualization/template_reference/     /docs/prometheus/latest/configuration/template_reference/
+/docs/alerting/overview/                    /docs/alerting/latest/overview/
+/docs/alerting/alertmanager/                /docs/alerting/latest/alertmanager/
+/docs/alerting/configuration/               /docs/alerting/latest/configuration/
+/docs/alerting/clients/                     /docs/alerting/latest/clients/
+/docs/alerting/notifications/               /docs/alerting/latest/notifications/
+/docs/alerting/notification_examples/       /docs/alerting/latest/notification_examples/
+/docs/alerting/management_api/              /docs/alerting/latest/management_api/
 
 # Redirects for sections.
 # TODO(ts): Auto-generate from menu.
 /docs/introduction/         /docs/introduction/overview/                302
 /docs/concepts/             /docs/concepts/data_model/                  302
 /docs/prometheus/           /docs/prometheus/latest/getting_started/    302
+/docs/alerting/             /docs/alerting/latest/overview/             302
 /docs/visualization/        /docs/visualization/browser/                302
 /docs/instrumenting/        /docs/instrumenting/clientlibs/             302
 /docs/operating/            /docs/operating/security/                   302

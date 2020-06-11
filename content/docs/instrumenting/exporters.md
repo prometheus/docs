@@ -117,6 +117,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [Tinyproxy exporter](https://github.com/igzivkov/tinyproxy_exporter)
    * [Varnish exporter](https://github.com/jonnenauha/prometheus_varnish_exporter)
    * [WebDriver exporter](https://github.com/mattbostock/webdriver_exporter)
+   * [Web exporter](https://github.com/huseyinyilmaz/web_exporter)
 
 ### APIs
    * [AWS ECS exporter](https://github.com/slok/ecs-exporter)
@@ -293,4 +294,3 @@ practices.
    * Java/JVM: [Micrometer Prometheus Registry](https://micrometer.io/docs/registry/prometheus)
    * Python-Django: [django-prometheus](https://github.com/korfuri/django-prometheus)
    * Node.js: [swagger-stats](https://github.com/slanatech/swagger-stats)
-

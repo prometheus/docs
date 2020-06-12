@@ -74,9 +74,19 @@ data_sources:
     identifier_type: legacy
     items_root: /docs/prometheus/latest/
     config:
-      name: 'latest (2.18)' # NOTE! Update the "prometheus-version:2.18" filter in footer.html when changing this.
+      name: 'latest (2.19)' # NOTE! Update the "prometheus-version:2.19" filter in footer.html when changing this.
       repository: https://github.com/prometheus/prometheus.git
-      refspec: release-2.18
+      refspec: release-2.19
+  -
+    type: repo_docs
+    encoding: utf-8
+    items_root: /docs/prometheus/2.19/
+    identifier_type: legacy
+    config:
+      name: '2.19'
+      repository: https://github.com/prometheus/prometheus.git
+      refspec: release-2.19
+      canonical: /docs/prometheus/latest/
   -
     type: repo_docs
     encoding: utf-8
@@ -87,6 +97,7 @@ data_sources:
       repository: https://github.com/prometheus/prometheus.git
       refspec: release-2.18
       canonical: /docs/prometheus/latest/
+      outdated: /docs/prometheus/latest/
   -
     type: repo_docs
     encoding: utf-8

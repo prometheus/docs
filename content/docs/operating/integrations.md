@@ -55,7 +55,7 @@ data volumes.
   * [QuasarDB](https://doc.quasardb.net/master/user-guide/integration/prometheus.html): read and write
   * [SignalFx](https://github.com/signalfx/metricproxy#prometheus): write
   * [Splunk](https://github.com/kebe7jun/ropee): read and write
-  * [Sysdig](https://sysdig.com/opensource/prometheus): read
+  * [Sysdig](https://sysdig.com/products/monitor/prometheus-monitoring): read
   * [TiKV](https://github.com/bragfoo/TiPrometheus): read and write
   * [Thanos](https://github.com/thanos-io/thanos): read and write
   * [VictoriaMetrics](https://github.com/VictoriaMetrics/VictoriaMetrics): write

@@ -74,7 +74,7 @@ data_sources:
     identifier_type: legacy
     items_root: /docs/prometheus/latest/
     config:
-      name: 'latest (2.19)' # NOTE! Update the "prometheus-version:2.19" filter in footer.html when changing this.
+      name: 'latest (2.19)'
       repository: https://github.com/prometheus/prometheus.git
       refspec: release-2.19
   -
@@ -97,7 +97,7 @@ data_sources:
       repository: https://github.com/prometheus/prometheus.git
       refspec: release-2.18
       canonical: /docs/prometheus/latest/
-      outdated: /docs/prometheus/latest/
+      outdated: /docs/prometheus/latest/getting_started/
   -
     type: repo_docs
     encoding: utf-8
@@ -108,7 +108,7 @@ data_sources:
       repository: https://github.com/prometheus/prometheus.git
       refspec: release-2.17
       canonical: /docs/prometheus/latest/
-      outdated: /docs/prometheus/latest/
+      outdated: /docs/prometheus/latest/getting_started/
   -
     type: repo_docs
     encoding: utf-8
@@ -119,7 +119,7 @@ data_sources:
       repository: https://github.com/prometheus/prometheus.git
       refspec: release-2.16
       canonical: /docs/prometheus/latest/
-      outdated: /docs/prometheus/latest/
+      outdated: /docs/prometheus/latest/getting_started/
   -
     type: repo_docs
     encoding: utf-8
@@ -130,7 +130,7 @@ data_sources:
       repository: https://github.com/prometheus/prometheus.git
       refspec: release-2.15
       canonical: /docs/prometheus/latest/
-      outdated: /docs/prometheus/latest/
+      outdated: /docs/prometheus/latest/getting_started/
   -
     type: repo_docs
     encoding: utf-8
@@ -141,7 +141,7 @@ data_sources:
       repository: https://github.com/prometheus/prometheus.git
       refspec: release-2.14
       canonical: /docs/prometheus/latest/
-      outdated: /docs/prometheus/latest/
+      outdated: /docs/prometheus/latest/getting_started/
   -
     type: repo_docs
     encoding: utf-8
@@ -152,7 +152,7 @@ data_sources:
       repository: https://github.com/prometheus/prometheus.git
       refspec: release-2.13
       canonical: /docs/prometheus/latest/
-      outdated: /docs/prometheus/latest/
+      outdated: /docs/prometheus/latest/getting_started/
   -
     type: repo_docs
     encoding: utf-8
@@ -163,7 +163,7 @@ data_sources:
       repository: https://github.com/prometheus/prometheus.git
       refspec: release-2.12
       canonical: /docs/prometheus/latest/
-      outdated: /docs/prometheus/latest/
+      outdated: /docs/prometheus/latest/getting_started/
   -
     type: repo_docs
     encoding: utf-8
@@ -174,7 +174,7 @@ data_sources:
       repository: https://github.com/prometheus/prometheus.git
       refspec: release-2.11
       canonical: /docs/prometheus/latest/
-      outdated: /docs/prometheus/latest/
+      outdated: /docs/prometheus/latest/getting_started/
   -
     type: repo_docs
     encoding: utf-8
@@ -185,7 +185,7 @@ data_sources:
       repository: https://github.com/prometheus/prometheus.git
       refspec: release-2.10
       canonical: /docs/prometheus/latest/
-      outdated: /docs/prometheus/latest/
+      outdated: /docs/prometheus/latest/getting_started/
   -
     type: repo_docs
     encoding: utf-8
@@ -196,7 +196,7 @@ data_sources:
       repository: https://github.com/prometheus/prometheus.git
       refspec: release-2.9
       canonical: /docs/prometheus/latest/
-      outdated: /docs/prometheus/latest/
+      outdated: /docs/prometheus/latest/getting_started/
   -
     type: repo_docs
     encoding: utf-8
@@ -207,7 +207,7 @@ data_sources:
       repository: https://github.com/prometheus/prometheus.git
       refspec: release-2.8
       canonical: /docs/prometheus/latest/
-      outdated: /docs/prometheus/latest/
+      outdated: /docs/prometheus/latest/getting_started/
   -
     type: repo_docs
     encoding: utf-8
@@ -218,16 +218,26 @@ data_sources:
       repository: https://github.com/prometheus/prometheus.git
       refspec: release-1.8
       canonical: /docs/prometheus/latest/
-      outdated: /docs/prometheus/latest/
+      outdated: /docs/prometheus/latest/getting_started/
   -
     type: repo_docs
     encoding: utf-8
     identifier_type: legacy
     items_root: /docs/alerting/latest/
     config:
-      name: 'latest (0.20)'
+      name: 'latest (0.21)'
       repository: https://github.com/prometheus/alertmanager.git
-      refspec: release-0.20
+      refspec: release-0.21
+      canonical: /docs/alerting/latest/
+  -
+    type: repo_docs
+    encoding: utf-8
+    identifier_type: legacy
+    items_root: /docs/alerting/0.21/
+    config:
+      name: '0.21'
+      repository: https://github.com/prometheus/alertmanager.git
+      refspec: release-0.21
       canonical: /docs/alerting/latest/
   -
     type: repo_docs
@@ -238,7 +248,8 @@ data_sources:
       name: '0.20'
       repository: https://github.com/prometheus/alertmanager.git
       refspec: release-0.20
-      canonical: /docs/alerting/0.20/
+      canonical: /docs/alerting/latest/
+      outdated: /docs/alerting/latest/overview/
   -
     type: filesystem
     items_root: /assets

@@ -177,6 +177,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
 ### Miscellaneous
    * [ACT Fibernet Exporter](https://git.captnemo.in/nemo/prometheus-act-exporter)
    * [BIND exporter](https://github.com/prometheus-community/bind_exporter)
+   * [Bitcoin exporter](https://github.com/jvstein/bitcoin-prometheus-exporter)
    * [Bitcoind exporter](https://github.com/LePetitBloc/bitcoind-exporter)
    * [Blackbox exporter](https://github.com/prometheus/blackbox_exporter) (**official**)
    * [BOSH exporter](https://github.com/cloudfoundry-community/bosh_exporter)

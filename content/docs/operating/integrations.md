@@ -65,6 +65,7 @@ data volumes.
 For notification mechanisms not natively supported by the Alertmanager, the
 [webhook receiver](/docs/alerting/configuration/#webhook_config) allows for integration.
 
+  * [alertmanager-webhook-logger](https://github.com/tomtom-international/alertmanager-webhook-logger): logs alerts
   * [Alertsnitch](https://gitlab.com/yakshaving.art/alertsnitch): saves alerts to a MySQL database
   * [AWS SNS](https://github.com/DataReply/alertmanager-sns-forwarder)
   * [DingTalk](https://github.com/timonwong/prometheus-webhook-dingtalk)

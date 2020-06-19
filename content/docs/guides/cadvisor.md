@@ -43,7 +43,7 @@ services:
     depends_on:
     - cadvisor
   cadvisor:
-    image: google/cadvisor:latest
+    image: gcr.io/google-containers/cadvisor:latest
     container_name: cadvisor
     ports:
     - 8080:8080

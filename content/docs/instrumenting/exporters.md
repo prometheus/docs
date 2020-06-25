@@ -234,6 +234,7 @@ possible.
 Some third-party software exposes metrics in the Prometheus format, so no
 separate exporters are needed:
 
+   * [Ansible Tower (AWX)](https://docs.ansible.com/ansible-tower/latest/html/administration/metrics.html)
    * [App Connect Enterprise](https://github.com/ot4i/ace-docker)
    * [Ballerina](https://ballerina.io/)
    * [BFE](https://github.com/baidu/bfe)

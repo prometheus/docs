@@ -83,5 +83,5 @@ The list is not exhaustive.
 | Voltage | volts | |
 | Electric current | amperes | |
 | Energy | joules | |
+| Power  | | Prefer exporting a counter of joules, then `rate(joules[5m])` gives you power in Watts. |
 | Mass   | grams | _grams_ is preferred over _kilograms_ to avoid issues with the _kilo_ prefix. |
- 

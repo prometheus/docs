@@ -69,7 +69,7 @@ to 3-10 times `max_samples_per_send`.
 Max shards configures the maximum number of shards, or parallelism, Prometheus
 will use for each remote write queue. Prometheus will try not to use too many
 shards, but if the queue falls behind the remote write component will increase
-the number of shards up to max shards to increase thoughput. Unless remote
+the number of shards up to max shards to increase throughput. Unless remote
 writing to a very slow endpoint, it is unlikely that `max_shards` should be
 increased beyond the default. However, it may be necessary to reduce max shards
 if there is potential to overwhelm the remote endpoint, or to reduce memory

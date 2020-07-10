@@ -18,7 +18,7 @@ time to mature and be able to experiment without friction. Prometheus was
 gradually introduced for production monitoring at
 [SoundCloud](https://soundcloud.com/) in 2013 and then saw more and more
 usage within the company, as well as some early adoption by our friends at
-Docker and Boexever in 2014. Over the years, Prometheus was growing more and
+Docker and Boxever in 2014. Over the years, Prometheus was growing more and
 more mature and although it was already solving people's monitoring problems,
 it was still unknown to the wider public.
 

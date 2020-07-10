@@ -2,7 +2,7 @@
 
 require 'nokogiri'
 
-class Boostrappify < ::Nanoc::Filter
+class Bootstrappify < ::Nanoc::Filter
 
   identifier :bootstrappify
 

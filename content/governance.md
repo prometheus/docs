@@ -102,7 +102,7 @@ Material changes to this document are discussed publicly on the [developer maili
 
 ### Editorial changes
 
-Editorial changes are changes which fix spelling or grammar, update work affilition, or similar; they update style or reflect an outside and obvious reality.
+Editorial changes are changes which fix spelling or grammar, update work affiliation, or similar; they update style or reflect an outside and obvious reality.
 They do not change the intention or meaning of anything in this document.
 They must be made via PR and accepted via [lazy consensus](#consensus).
 

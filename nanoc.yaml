@@ -37,7 +37,7 @@ string_pattern_type: legacy
 
 
 # Versioned docs.
-# Because of nanoc being slow and netlify time limt, keep only 10 minor releases for a major release.
+# Because of nanoc being slow and netlify time limit, keep only 10 minor releases for a major release.
 # See discussion: https://github.com/prometheus/docs/pull/1617#issuecomment-624695509
 data_sources:
   -

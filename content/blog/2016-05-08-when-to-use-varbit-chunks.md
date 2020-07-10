@@ -5,7 +5,7 @@ kind: article
 author_name: Björn “Beorn” Rabenstein
 ---
 
-The embedded time serie database (TSDB) of the Prometheus server organizes the
+The embedded time series database (TSDB) of the Prometheus server organizes the
 raw sample data of each time series in chunks of constant 1024 bytes size. In
 addition to the raw sample data, a chunk contains some meta-data, which allows
 the selection of a different encoding for each chunk. The most fundamental

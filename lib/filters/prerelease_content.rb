@@ -2,7 +2,7 @@
 
 require 'nokogiri'
 
-class PreRelaseContent < ::Nanoc::Filter
+class PrerelaseContent < ::Nanoc::Filter
   identifier :prerelease_content
 
   def run(content, params = {})

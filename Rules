@@ -46,6 +46,7 @@ compile '*' do
     filter :redcarpet, options: {filter_html: true, autolink: true, no_intraemphasis: true, fenced_code_blocks: true, gh_blockcode: true, tables: true}, renderer_options: {with_toc_data: true}
     filter :normalize_links, item[:repo_docs] if item[:repo_docs]
     filter :outdated_content, item[:repo_docs] if item[:repo_docs] && item[:repo_docs][:outdated]
+    filter :prerelease_content, item[:repo_docs] if item[:repo_docs] && item[:repo_docs][:prerelease]
     filter :add_anchors
     filter :bootstrappify
     filter :admonition

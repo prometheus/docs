@@ -80,6 +80,17 @@ data_sources:
   -
     type: repo_docs
     encoding: utf-8
+    items_root: /docs/prometheus/2.20/
+    identifier_type: legacy
+    config:
+      name: '2.20-rc.0'
+      repository: https://github.com/prometheus/prometheus.git
+      refspec: release-2.20
+      canonical: /docs/prometheus/latest/
+      prerelease: /docs/prometheus/latest/getting_started/
+  -
+    type: repo_docs
+    encoding: utf-8
     items_root: /docs/prometheus/2.19/
     identifier_type: legacy
     config:

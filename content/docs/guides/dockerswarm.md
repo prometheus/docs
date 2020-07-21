@@ -17,17 +17,23 @@ The first role, **nodes**, represents the hosts that are part of the Swarm. It
 can be used to automatically monitor the Docker daemons or the Node Exporters
 who run on the Swarm hosts.
 
-The second one, **services**, will discover the services deployed in the
-swarm. This could be used if you only want to scrape one of the targets at the
-same time, as it would used the load balanced IP address. Each port will be
-discovered individually. Services with multiple ports would be mapped to
-multiple targets in Prometheus, and service that do not expose ports won't be
-discovered.
+The second role, **tasks**, represents any individual container deployed in the
+swarm. Each task gets its associated service labels. One service can be mapped by
+one or multiple tasks.
 
-The third role, **tasks**, represents any individual container deployed in the
-swarm. Each service is be mapped by one or multiple containers.
+The third one, **services**, will discover the services deployed in the
+swarm. It will discover the ports exposed by the services. Usually you will want
+to use the tasks role instead of this one.
 
-**Note**: The rest of this post assumes that you have a Swarm running.
+Prometheus will only discover tasks and service that expose ports.
+
+NOTE: The rest of this post assumes that you have a Swarm running.
+
+## Setting up Prometheus
+
+For this guide, you need to [setup Prometheus][setup]. We will assume that
+Prometheus runs on a Docker Swarm manager node and has access to the Docker
+socket at `/var/run/docker.sock`.
 
 ## Monitoring Docker daemons
 
@@ -78,7 +84,7 @@ scrape_configs:
         target_label: instance
 ```
 
-**Note**: for the nodes role, you can also use the `port` parameter of
+For the nodes role, you can also use the `port` parameter of
 `dockerswarm_sd_configs`. However, using `relabel_configs` is recommended as it
 enables Prometheus to reuse the same API calls across identical Docker Swarm
 configurations.
@@ -122,10 +128,9 @@ scrape_configs:
       - source_labels: [__meta_dockerswarm_service_label_prometheus_job]
         regex: .+
         action: keep
-      # Use the task labels that are prefixed by `prometheus-`.
-      - regex: __meta_dockerswarm_service_label_prometheus_(.+)
-        action: labelmap
-        replacement: $1
+      # Use the prometheus-job Swarm label as Prometheus job label.
+      - source_labels: __meta_dockerswarm_service_label_prometheus_job
+        target_label: job
 ```
 
 Let's analyze each part of the [relabel configuration][rela].
@@ -153,14 +158,13 @@ targets which have a `prometheus-job` label.
 
 
 ```yaml
-- regex: __meta_dockerswarm_service_label_prometheus_(.+)
-  action: labelmap
-  replacement: $1
+- source_labels: __meta_dockerswarm_service_label_prometheus_job
+  target_label: job
 ```
 
-That last part takes all the labels prefixed by `prometheus` and turns them into
-targets labels. In our exemple, it sets `job=cadvisor` on the cadvisor
-containers.
+That last part takes the label `prometheus-job` of the task and turns it into
+a target label, overwriting the default `dockerswarm` job label that comes from
+the scrape job configuration.
 
 ## Discovered labels
 
@@ -188,9 +192,7 @@ Global tasks run on every daemon.
   action: keep
 ```
 
-We only se
-
-### Adding a docker_node label to the job
+### Adding a docker_node label to the targets
 
 ```yaml
 - source_labels: [__meta_dockerswarm_node_hostname]
@@ -222,6 +224,7 @@ that given proper configuration, this should be pluggable to any existing stack.
 [state]:https://docs.docker.com/engine/swarm/how-swarm-mode-works/swarm-task-states/
 [rela]:https://prometheus.io/docs/prometheus/latest/configuration/configuration/#relabel_config
 [swarm]:https://docs.docker.com/engine/swarm/
-[swarmsd]:https://prometheus.io/docs/prometheus/2.20/configuration/configuration/#dockerswarm_sd_config
+[swarmsd]:https://prometheus.io/docs/prometheus/latest/configuration/configuration/#dockerswarm_sd_config
 [dockermetrics]:https://docs.docker.com/config/daemon/prometheus/
 [cad]:https://github.com/google/cadvisor
+[setup]:https://prometheus.io/docs/prometheus/latest/getting_started/

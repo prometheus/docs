@@ -6,7 +6,7 @@ sort_rank: 1
 # Docker Swarm
 
 Prometheus can discover targets in a [Docker Swarm][swarm] cluster, as of
-vw.20.0. This guide demonstrates how to use that service discovery mechanism.
+v2.20.0. This guide demonstrates how to use that service discovery mechanism.
 
 ## Docker Swarm service discovery architecture
 

@@ -221,17 +221,7 @@ that given proper configuration, this should be pluggable to any existing stack.
 
 [state]:https://docs.docker.com/engine/swarm/how-swarm-mode-works/swarm-task-states/
 [rela]:https://prometheus.io/docs/prometheus/latest/configuration/configuration/#relabel_config
-[swarmissue]:https://github.com/prometheus/prometheus/issues/1766
-[team]:https://prometheus.io/governance/
-[disc]:https://github.com/prometheus/prometheus/blob/master/discovery/README.md
-[consul]:https://prometheus.io/docs/prometheus/latest/configuration/configuration/#consul_sd_config
 [swarm]:https://docs.docker.com/engine/swarm/
 [swarmsd]:https://prometheus.io/docs/prometheus/2.20/configuration/configuration/#dockerswarm_sd_config
-[k8s]:https://prometheus.io/docs/prometheus/latest/configuration/configuration/#kubernetes_sd_config
-[ec2]:https://prometheus.io/docs/prometheus/latest/configuration/configuration/#ec3_sd_config
-[file_sd]:https://prometheus.io/docs/prometheus/latest/configuration/configuration/#file_sd_config
-[gce]:https://prometheus.io/docs/prometheus/latest/configuration/configuration/#gce_sd_config
-[azure]:https://prometheus.io/docs/prometheus/latest/configuration/configuration/#azure_sd_config
-[os]:https://prometheus.io/docs/prometheus/latest/configuration/configuration/#openstack_sd_config
 [dockermetrics]:https://docs.docker.com/config/daemon/prometheus/
 [cad]:https://github.com/google/cadvisor

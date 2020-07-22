@@ -74,20 +74,31 @@ data_sources:
     identifier_type: legacy
     items_root: /docs/prometheus/latest/
     config:
-      name: 'latest (2.19)'
+      name: 'latest (2.20)'
       repository: https://github.com/prometheus/prometheus.git
-      refspec: release-2.19
+      refspec: release-2.20
+  # Use an entry like below to show documentation for release candidates.
+  # -
+  #   type: repo_docs
+  #   encoding: utf-8
+  #   items_root: /docs/prometheus/2.20/
+  #   identifier_type: legacy
+  #   config:
+  #     name: '2.20-rc'
+  #     repository: https://github.com/prometheus/prometheus.git
+  #     refspec: release-2.20
+  #     canonical: /docs/prometheus/latest/
+  #     prerelease: /docs/prometheus/latest/getting_started/
   -
     type: repo_docs
     encoding: utf-8
     items_root: /docs/prometheus/2.20/
     identifier_type: legacy
     config:
-      name: '2.20-rc.0'
+      name: '2.20'
       repository: https://github.com/prometheus/prometheus.git
       refspec: release-2.20
       canonical: /docs/prometheus/latest/
-      prerelease: /docs/prometheus/latest/getting_started/
   -
     type: repo_docs
     encoding: utf-8
@@ -98,6 +109,7 @@ data_sources:
       repository: https://github.com/prometheus/prometheus.git
       refspec: release-2.19
       canonical: /docs/prometheus/latest/
+      outdated: /docs/prometheus/latest/getting_started/
   -
     type: repo_docs
     encoding: utf-8
@@ -206,17 +218,6 @@ data_sources:
       name: '2.9'
       repository: https://github.com/prometheus/prometheus.git
       refspec: release-2.9
-      canonical: /docs/prometheus/latest/
-      outdated: /docs/prometheus/latest/getting_started/
-  -
-    type: repo_docs
-    encoding: utf-8
-    identifier_type: legacy
-    items_root: /docs/prometheus/2.8/
-    config:
-      name: '2.8'
-      repository: https://github.com/prometheus/prometheus.git
-      refspec: release-2.8
       canonical: /docs/prometheus/latest/
       outdated: /docs/prometheus/latest/getting_started/
   -

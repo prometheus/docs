@@ -18,7 +18,7 @@ can be used to automatically monitor the Docker daemons or the Node Exporters
 who run on the Swarm hosts.
 
 The second role, **tasks**, represents any individual container deployed in the
-swarm. Each task gets its associated service labels. One service can be mapped by
+swarm. Each task gets its associated service labels. One service can be backed by
 one or multiple tasks.
 
 The third one, **services**, will discover the services deployed in the
@@ -164,7 +164,7 @@ targets which have a `prometheus-job` label.
 
 That last part takes the label `prometheus-job` of the task and turns it into
 a target label, overwriting the default `dockerswarm` job label that comes from
-the scrape job configuration.
+the scrape config.
 
 ## Discovered labels
 
@@ -218,7 +218,7 @@ targets to monitor and how, for the tasks, there is more than 25 labels
 available. Don't hesitate to look at the "Service Discovery" page of your
 Prometheus server (under the "Status" menu) to see all the discovered labels.
 
-The Discovery did not make any assumption about your Swarm stack, in such a way
+The service discovery makes no assumption about your Swarm stack, in such a way
 that given proper configuration, this should be pluggable to any existing stack.
 
 [state]:https://docs.docker.com/engine/swarm/how-swarm-mode-works/swarm-task-states/

@@ -241,6 +241,7 @@ separate exporters are needed:
    * [Ballerina](https://ballerina.io/)
    * [BFE](https://github.com/baidu/bfe)
    * [Ceph](http://docs.ceph.com/docs/master/mgr/prometheus/)
+   * [Cilium](https://docs.cilium.io/en/stable/configuration/metrics/) (**direct**)
    * [CockroachDB](https://www.cockroachlabs.com/docs/stable/monitoring-and-alerting.html#prometheus-endpoint)
    * [Collectd](https://collectd.org/wiki/index.php/Plugin:Write_Prometheus)
    * [Concourse](https://concourse-ci.org/)

@@ -218,7 +218,7 @@ targets to monitor and how, for the tasks, there is more than 25 labels
 available. Don't hesitate to look at the "Service Discovery" page of your
 Prometheus server (under the "Status" menu) to see all the discovered labels.
 
-The service discovery makes no assumption about your Swarm stack, in such a way
+The service discovery makes no assumptions about your Swarm stack, in such a way
 that given proper configuration, this should be pluggable to any existing stack.
 
 [state]:https://docs.docker.com/engine/swarm/how-swarm-mode-works/swarm-task-states/

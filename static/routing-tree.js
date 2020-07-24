@@ -168,7 +168,7 @@ function massage(root, receivers) {
 
   root.matchers = matchers;
 
-  root.receiver_configs = getReceiverConfigs(root.receiver, receivers);
+  root.receiverConfig = getReceiverConfig(root.receiver, receivers);
 
   if (!root.children) return;
 

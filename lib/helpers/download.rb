@@ -1,6 +1,7 @@
 require 'fileutils'
 require 'json'
 require 'open-uri'
+require 'semverse'
 
 module Downloads
   # repositories returns a list of all repositories with releases.
@@ -58,7 +59,28 @@ module Downloads
   class Repository
     def initialize(dir)
       @repo = JSON.parse(File.read(File.join(dir, 'repo.json')))
-      @releases = JSON.parse(File.read(File.join(dir, 'releases.json')))
+      @releases = JSON.parse(File.read(File.join(dir, 'releases.json'))).sort! do |a,b|
+        av = begin
+               Semverse::Version.new(a['tag_name'].sub('v',''))
+             rescue Semverse::InvalidVersionFormat
+               nil
+             end
+        bv = begin
+               Semverse::Version.new(b['tag_name'].sub('v',''))
+             rescue Semverse::InvalidVersionFormat
+               nil
+             end
+        case
+        when av.nil? || bv.nil?
+          0
+        when av < bv
+          1
+        when av > bv
+          -1
+        else
+          0
+        end
+      end
     end
 
     def name

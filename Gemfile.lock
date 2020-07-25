@@ -126,6 +126,7 @@ GEM
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.9.0)
     rspec-support (3.9.3)
+    semverse (3.0.0)
     shellany (0.0.1)
     slow_enumerator_tools (1.1.0)
     thor (1.0.1)
@@ -154,6 +155,7 @@ DEPENDENCIES
   rb-inotify
   redcarpet
   rspec
+  semverse
 
 BUNDLED WITH
    2.1.4

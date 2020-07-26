@@ -7,7 +7,7 @@ module Downloads
   # repositories returns a list of all repositories with releases.
   def self.repositories
     @_repositories ||= begin
-      repos = Dir.glob('downloads/*').map { |dir| Repository.new(dir) }
+      repos = Dir.glob('downloads/*').map { |dir| Repository.load(dir) }
       repos.sort_by { |r| r.name == 'prometheus' ? '0' : r.name }
     end
   end
@@ -57,30 +57,9 @@ module Downloads
   end
 
   class Repository
-    def initialize(dir)
-      @repo = JSON.parse(File.read(File.join(dir, 'repo.json')))
-      @releases = JSON.parse(File.read(File.join(dir, 'releases.json'))).sort! do |a,b|
-        av = begin
-               Semverse::Version.new(a['tag_name'].sub('v',''))
-             rescue Semverse::InvalidVersionFormat
-               nil
-             end
-        bv = begin
-               Semverse::Version.new(b['tag_name'].sub('v',''))
-             rescue Semverse::InvalidVersionFormat
-               nil
-             end
-        case
-        when av.nil? || bv.nil?
-          0
-        when av < bv
-          1
-        when av > bv
-          -1
-        else
-          0
-        end
-      end
+    def initialize(repo, releases: [])
+      @repo = repo
+      @releases = releases
     end
 
     def name
@@ -101,19 +80,27 @@ module Downloads
 
     def releases
       releases = []
-      @releases.each do |r|
-        if r['prerelease']
+      @releases.select(&:version).sort.reverse.each do |r|
+        if r.prerelease
           releases << r if releases.empty?
         else
           releases << r
           break
         end
       end
-      releases.map { |r| Release.new(r) }
+      releases
+    end
+
+    def self.load(dir)
+      repo = JSON.parse(File.read(File.join(dir, 'repo.json')))
+      releases = JSON.parse(File.read(File.join(dir, 'releases.json')))
+      new(repo, releases: releases.map { |r| Release.new(r) })
     end
   end
 
   class Release
+    include Comparable
+
     def initialize(data)
       @data = data
     end
@@ -142,6 +129,20 @@ module Downloads
       assets.
         select { |d| d['name'] && %w[.tar.gz .zip].any? { |ext| d['name'].end_with?(ext) } }.
         map { |d| Binary.new(d) }
+    end
+
+    def tag
+      @data['tag_name']
+    end
+
+    def version
+      Semverse::Version.new(tag.sub(/^v/, ''))
+    rescue Semverse::InvalidVersionFormat
+      nil
+    end
+
+    def <=>(other)
+      self.version <=> other.version
     end
   end
 

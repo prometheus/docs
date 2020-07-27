@@ -232,7 +232,11 @@ function update(root) {
       .on("mouseover", function(d) {
         d3.select(this).style("fill", color);
 
-        text = jsyaml.dump(d.receiver_configs).replace(/ /g, '\u00a0').split("\n");
+        text = ["<receiver config missing>"];
+        if (typeof(d.receiverConfig) !== 'undefined') {
+          text = jsyaml.dump(d.receiverConfig).replace(/ /g, '\u00a0').split("\n");
+        }
+
         text.forEach(function(t) {
           tooltip.append("div").text(t);
         });
@@ -290,7 +294,7 @@ function aggregateMatchers(node) {
   return matchers
 }
 
-function getReceiverConfigs(name, receivers) {
+function getReceiverConfig(name, receivers) {
   if (!receivers) return;
   return receivers.find(function(e){
     return e.name == name;

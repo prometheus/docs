@@ -32,6 +32,9 @@
 /docs/alerting/             /docs/alerting/overview/                    302
 /docs/practices/            /docs/practices/naming/                     302
 
+# Short-URL to be used in the Prometheus logs.
+/storage/ /docs/prometheus/latest/storage/    302
+
 # Redirects for index.hml pages.
 /:foo/index.html                        /:foo/
 /:foo/:bar/index.html                   /:foo/:bar/

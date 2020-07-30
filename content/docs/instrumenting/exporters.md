@@ -58,6 +58,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [Twemproxy](https://github.com/stuartnelson3/twemproxy_exporter)
 
 ### Hardware related
+   * [A10 exporter](https://github.com/a10networks/PrometheusExporter)
    * [apcupsd exporter](https://github.com/mdlayher/apcupsd_exporter)
    * [BIG-IP exporter](https://github.com/ExpressenAB/bigip_exporter)
    * [Collins exporter](https://github.com/soundcloud/collins_exporter)
@@ -236,6 +237,7 @@ possible.
 Some third-party software exposes metrics in the Prometheus format, so no
 separate exporters are needed:
 
+   * [A10](https://www.a10networks.com/)
    * [Ansible Tower (AWX)](https://docs.ansible.com/ansible-tower/latest/html/administration/metrics.html)
    * [App Connect Enterprise](https://github.com/ot4i/ace-docker)
    * [Ballerina](https://ballerina.io/)

@@ -107,6 +107,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [Hadoop HDFS FSImage exporter](https://github.com/marcelmay/hadoop-hdfs-fsimage-exporter)
    * [Lustre exporter](https://github.com/HewlettPackard/lustre_exporter)
    * [ScaleIO exporter](https://github.com/syepes/sio2prom)
+   * [NVMe SSD exporter](https://github.com/yongseokoh/nvme_exporter)
 
 ### HTTP
    * [Apache exporter](https://github.com/Lusitaniae/apache_exporter)

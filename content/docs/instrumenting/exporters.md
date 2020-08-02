@@ -74,6 +74,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [NVIDIA GPU exporter](https://github.com/mindprince/nvidia_gpu_prometheus_exporter)
    * [ProSAFE exporter](https://github.com/dalance/prosafe_exporter)
    * [Ubiquiti UniFi exporter](https://github.com/mdlayher/unifi_exporter)
+   * [Waveplus Radon Sensor Exporter](https://github.com/jeremybz/waveplus_exporter)
    * [Windows exporter](https://github.com/prometheus-community/windows_exporter)
 
 ### Issue trackers and continuous integration
@@ -223,6 +224,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [Unbound exporter](https://github.com/kumina/unbound_exporter)
    * [WireGuard exporter](https://github.com/MindFlavor/prometheus_wireguard_exporter)
    * [Xen exporter](https://github.com/lovoo/xenstats_exporter)
+
 
 When implementing a new Prometheus exporter, please follow the
 [guidelines on writing exporters](/docs/instrumenting/writing_exporters)

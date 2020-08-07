@@ -47,7 +47,7 @@ GEM
       concurrent-ruby (~> 1.0)
     http_parser.rb (0.6.0)
     json_schema (0.20.8)
-    kramdown (2.2.1)
+    kramdown (2.3.0)
       rexml
     listen (3.2.1)
       rb-fsevent (~> 0.10, >= 0.10.3)

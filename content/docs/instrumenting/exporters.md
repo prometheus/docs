@@ -140,7 +140,6 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [Rancher exporter](https://github.com/infinityworksltd/prometheus-rancher-exporter)
    * [Speedtest exporter](https://github.com/nlamirault/speedtest_exporter)
    * [Tankerkönig API Exporter](https://github.com/lukasmalkmus/tankerkoenig_exporter)
-   * [Rundeck exporter](https://github.com/phsmith/rundeck_exporter)
 
 ### Logging
    * [Fluentd exporter](https://github.com/V3ckt0r/fluentd_exporter)
@@ -216,6 +215,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [PowerDNS exporter](https://github.com/ledgr/powerdns_exporter)
    * [Process exporter](https://github.com/ncabatoff/process-exporter)
    * [rTorrent exporter](https://github.com/mdlayher/rtorrent_exporter)
+   * [Rundeck exporter](https://github.com/phsmith/rundeck_exporter)
    * [SABnzbd exporter](https://github.com/msroest/sabnzbd_exporter)
    * [Script exporter](https://github.com/adhocteam/script_exporter)
    * [Shield exporter](https://github.com/cloudfoundry-community/shield_exporter)
@@ -301,4 +301,3 @@ practices.
    * Java/JVM: [Micrometer Prometheus Registry](https://micrometer.io/docs/registry/prometheus)
    * Python-Django: [django-prometheus](https://github.com/korfuri/django-prometheus)
    * Node.js: [swagger-stats](https://github.com/slanatech/swagger-stats)
-

@@ -53,6 +53,7 @@ data volumes.
   * [MetricFire](https://www.hostedgraphite.com/docs/prometheus/prometheus.html): read and write
   * [New Relic](https://docs.newrelic.com/docs/set-or-remove-your-prometheus-remote-write-integration): write
   * [OpenTSDB](https://github.com/prometheus/prometheus/tree/master/documentation/examples/remote_storage/remote_storage_adapter): write
+  * [PostgreSQL](https://github.com/CrunchyData/postgresql-prometheus-adapter): read and write
   * [PostgreSQL/TimescaleDB](https://github.com/timescale/prometheus-postgresql-adapter): read and write
   * [QuasarDB](https://doc.quasardb.net/master/user-guide/integration/prometheus.html): read and write
   * [SignalFx](https://github.com/signalfx/metricproxy#prometheus): write

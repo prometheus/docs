@@ -76,7 +76,6 @@ For notification mechanisms not natively supported by the Alertmanager, the
   * [JIRAlert](https://github.com/free/jiralert)
   * [Phabricator / Maniphest](https://github.com/knyar/phalerts)
   * [prom2teams](https://github.com/idealista/prom2teams): forwards notifications to Microsoft Teams
-  * [Zenduty](https://docs.zenduty.com/docs/prometheus/)
   * [Rocket.Chat](https://rocket.chat/docs/administrator-guides/integrations/prometheus/)
   * [ServiceNow](https://github.com/FXinnovation/alertmanager-webhook-servicenow)
   * [Signal](https://github.com/dgl/alertmanager-webhook-signald)
@@ -85,6 +84,7 @@ For notification mechanisms not natively supported by the Alertmanager, the
   * [Squadcast](https://support.squadcast.com/docs/prometheus)
   * [Telegram bot](https://github.com/inCaller/prometheus_bot)
   * [XMPP Bot](https://github.com/jelmer/prometheus-xmpp-alerts)
+  * [Zenduty](https://docs.zenduty.com/docs/prometheus/)
   * [Zoom](https://github.com/Code2Life/nodess-apps/tree/master/src/zoom-alert-2.0)
 
 ## Management

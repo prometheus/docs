@@ -201,7 +201,7 @@ to configure Prometheus for the amount of memory you have available.
 ### My Prometheus 1.x server reports to be in “rushed mode” or that “storage needs throttling”.
 
 Your storage is under heavy load. Read
-[the section about configuring the local storage](/docs/prometheus/1.8/storage/)
+[the section about configuring the local storage](/docs/prometheus/latest/storage/)
 to find out how you can tweak settings for better performance.
 
 ## Implementation
@@ -238,5 +238,5 @@ front of Prometheus. See, for example [Adding Basic Auth to Prometheus with
 Nginx](https://www.robustperception.io/adding-basic-auth-to-prometheus-with-nginx/).
 
 This applies only to inbound connections. Prometheus does support
-[scraping TLS- and auth-enabled targets](/docs/operating/configuration/#%3Cscrape_config%3E), and other
+[scraping TLS- and auth-enabled targets](/docs/prometheus/latest/configuration/configuration/#scrape_config), and other
 Prometheus components that create outbound connections have similar support.

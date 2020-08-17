@@ -201,7 +201,7 @@ to configure Prometheus for the amount of memory you have available.
 ### My Prometheus 1.x server reports to be in “rushed mode” or that “storage needs throttling”.
 
 Your storage is under heavy load. Read
-[the section about configuring the local storage](/docs/prometheus/latest/storage/)
+[the section about configuring the local storage](/docs/prometheus/1.8/storage/)
 to find out how you can tweak settings for better performance.
 
 ## Implementation

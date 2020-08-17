@@ -250,7 +250,7 @@ environment, then Prometheus is a good choice.
 
 ### Scope
 
-The same general scope differences as in the case of Nagios apply here.
+The same general scope differences as in the case of [Nagios](/docs/introduction/comparison/#prometheus-vs-nagios) apply here.
 
 There is also a [client socket](https://docs.sensu.io/sensu-core/latest/reference/clients/#what-is-the-sensu-client-socket) permitting ad-hoc check results to be pushed into Sensu. 
 

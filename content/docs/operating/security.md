@@ -238,3 +238,7 @@ pre-built binaries provided by the project.
 
 For more details, please read the
 [final report of the audit](/assets/downloads/2018-06-11--cure53_security_audit.pdf).
+
+In 2020, there was a
+[second audit by cure53](/assets/downloads/2020-07-21--cure53_security_audit_node_exporter.pdf)
+of Node Exporter.

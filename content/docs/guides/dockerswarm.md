@@ -129,7 +129,7 @@ scrape_configs:
         regex: .+
         action: keep
       # Use the prometheus-job Swarm label as Prometheus job label.
-      - source_labels: __meta_dockerswarm_service_label_prometheus_job
+      - source_labels: [__meta_dockerswarm_service_label_prometheus_job]
         target_label: job
 ```
 
@@ -158,7 +158,7 @@ targets which have a `prometheus-job` label.
 
 
 ```yaml
-- source_labels: __meta_dockerswarm_service_label_prometheus_job
+- source_labels: [__meta_dockerswarm_service_label_prometheus_job]
   target_label: job
 ```
 

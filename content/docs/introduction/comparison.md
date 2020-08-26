@@ -112,7 +112,7 @@ InfluxDB uses a variant of a [log-structured merge tree for storage with a write
 sharded by time. This is much more suitable to event logging than Prometheus's
 append-only file per time series approach.
 
-[Logs and Metrics and Graphs, Oh My!](https://blog.raintank.io/logs-and-metrics-and-graphs-oh-my/)
+[Logs and Metrics and Graphs, Oh My!](https://grafana.com/blog/2016/01/05/logs-and-metrics-and-graphs-oh-my/)
 describes the differences between event logging and metrics recording.
 
 ### Architecture

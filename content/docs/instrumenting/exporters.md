@@ -193,6 +193,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [eBPF exporter](https://github.com/cloudflare/ebpf_exporter)
    * [Ethereum Client exporter](https://github.com/31z4/ethereum-prometheus-exporter)
    * [JFrog Artifactory Exporter](https://github.com/peimanja/artifactory_exporter)
+   * [Hazelcast Management Center exporter](https://docs.hazelcast.org/docs/management-center/latest/manual/html/index.html#management-center-prometheus-exporter)
    * [Hostapd Exporter](https://bitbucket.i2cat.net/users/miguel_catalan/repos/hostapd_prometheus_exporter)
    * [IRCd exporter](https://github.com/dgl/ircd_exporter)
    * [Linux HA ClusterLabs exporter](https://github.com/ClusterLabs/ha_cluster_exporter)

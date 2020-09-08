@@ -75,6 +75,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [ProSAFE exporter](https://github.com/dalance/prosafe_exporter)
    * [Ubiquiti UniFi exporter](https://github.com/mdlayher/unifi_exporter)
    * [Waveplus Radon Sensor Exporter](https://github.com/jeremybz/waveplus_exporter)
+   * [Weathergoose Climate Monitor Exporter](https://github.com/branttaylor/watchdog-prometheus-exporter)
    * [Windows exporter](https://github.com/prometheus-community/windows_exporter)
 
 ### Issue trackers and continuous integration

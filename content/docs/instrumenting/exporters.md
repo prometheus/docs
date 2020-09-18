@@ -177,6 +177,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [StatsD exporter](https://github.com/prometheus/statsd_exporter) (**official**)
    * [TencentCloud monitor exporter](https://github.com/tencentyun/tencentcloud-exporter)
    * [ThousandEyes exporter](https://github.com/sapcc/1000eyes_exporter)
+   * [vmware vcenter / esx exporter](https://github.com/Intrinsec/govc_exporter)
 
 ### Miscellaneous
    * [ACT Fibernet Exporter](https://git.captnemo.in/nemo/prometheus-act-exporter)

@@ -268,7 +268,7 @@ separate exporters are needed:
    * [mgmt](https://github.com/purpleidea/mgmt/blob/master/docs/prometheus.md)
    * [MidoNet](https://github.com/midonet/midonet)
    * [midonet-kubernetes](https://github.com/midonet/midonet-kubernetes) (**direct**)
-   * [Minio](https://github.com/minio/minio)
+   * [Minio](https://docs.minio.io/docs/how-to-monitor-minio-using-prometheus.html)
    * [Netdata](https://github.com/firehol/netdata)
    * [Pretix](https://pretix.eu/)
    * [Quobyte](https://www.quobyte.com/) (**direct**)

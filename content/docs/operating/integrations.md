@@ -78,6 +78,7 @@ For notification mechanisms not natively supported by the Alertmanager, the
   * [GELF](https://github.com/b-com-software-basis/alertmanager2gelf)
   * [IRC Bot](https://github.com/multimfi/bot)
   * [JIRAlert](https://github.com/free/jiralert)
+  * [Matrix](https://github.com/matrix-org/go-neb)
   * [Phabricator / Maniphest](https://github.com/knyar/phalerts)
   * [prom2teams](https://github.com/idealista/prom2teams): forwards notifications to Microsoft Teams
   * [Rocket.Chat](https://rocket.chat/docs/administrator-guides/integrations/prometheus/)

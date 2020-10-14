@@ -90,21 +90,16 @@ module Versioned
     !item[:repo_docs].nil?
   end
 
-  # latest? returns true if the item is part of the version group "latest".
-  def self.latest?(opts)
-    opts[:name].include?('latest')
-  end
-
   # current? returns true if the item is part of the selected version group. If
   # no group is selected (e.g. when a page outside of the versioned docs is
   # viewed), the latest version will be shown.
   def self.current?(opts, page)
     return false if opts.nil? || !page.respond_to?(:path)
 
-    if page.path.start_with?(opts[:version_root])
-      page.path.start_with?(opts[:items_root])
+    if page.path.start_with?(opts[:items_root])
+      page.path.start_with?(opts[:version_root])
     else
-      latest?(opts)
+      opts[:version_root] == opts[:canonical_root]
     end
   end
 
@@ -115,7 +110,7 @@ module Versioned
       selected = current?(v, page) ? 'selected="selected"' : ''
       # TODO(ts): Refactor and think about linking directly to the page of the same version.
       first = items
-        .find { |i| i.path.start_with?(v[:items_root]) }
+        .find { |i| i.path.start_with?(v[:version_root]) }
         .children.sort_by { |c| c[:sort_rank] || 0 }.first
       %(<option value="#{first.path}" #{selected}>#{v[:name]}</option>)
     end

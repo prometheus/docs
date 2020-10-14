@@ -25,7 +25,7 @@
     <link rel="icon" type="image/png" href="/assets/favicons/favicon-96x96.png" sizes="96x96">
     <link rel="icon" type="image/png" href="/assets/favicons/favicon-16x16.png" sizes="16x16">
     <link rel="manifest" href="/assets/favicons/android-chrome-manifest.json">
-    <% if (c = @item[:repo_docs]) && c[:canonical] %><link rel="canonical" href="<%= @item.path.sub(c[:items_root], c[:canonical]) %>" /><% end %>
+    <% if (c = @item[:repo_docs]) && c[:canonical_root] %><link rel="canonical" href="<%= @item.path.sub(c[:items_root], c[:canonical_root]) %>" /><% end %>
     <!-- Meta tag for indexing that enables faceted search in Algolia,
       see https://docsearch.algolia.com/docs/required-configuration/#introduce-global-information-as-meta-tags -->
     <meta name="docsearch:prometheus-version" content="<%= @item[:repo_docs] && @item[:repo_docs][:name] || 'none' %>" />

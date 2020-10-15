@@ -99,19 +99,21 @@ class RepoDocsDataSource < ::Nanoc::DataSource
   end
 
   # git_checkout checks out the directory in the specified branch using git's
-  # sparse checkout and returns the path to the location in the workingtree.
+  # sparse checkout and returns the path to the location in the working tree.
   def git_checkout(branch, directory)
-    worktree = File.absolute_path(File.join(git_dir.delete_suffix('.git'), branch))
-    if !File.exist?(File.join(worktree, '.git'))
-      run_command("cd #{git_dir} && git worktree add --no-checkout #{worktree} #{branch}")
+    # Location of checked out files in a linked working tree.
+    working_tree = File.absolute_path(File.join(git_dir.delete_suffix('.git'), branch))
+
+    checkout_config = File.join(git_dir, 'worktrees', branch, 'info', 'sparse-checkout')
+    if !File.exist?(checkout_config) || !Dir.exist?(working_tree)
+      run_command("rm -rf #{working_tree}")
+      run_command("cd #{git_dir} && git worktree prune && git worktree add --no-checkout #{working_tree} #{branch}")
+      Dir.mkdir(File.dirname(checkout_config)) if !Dir.exist?(File.dirname(checkout_config))
+      File.write(checkout_config, "/#{directory}\n")
     end
 
-    worktree_info = File.join(git_dir, 'worktrees', branch, 'info')
-    Dir.mkdir(worktree_info) if !Dir.exist?(worktree_info)
-    File.write(File.join(worktree_info, 'sparse-checkout'), "/#{directory}\n")
-
-    run_command("cd #{worktree} && git reset --hard --quiet && git clean --force")
-    File.join(worktree, directory)
+    run_command("cd #{working_tree} && git reset --hard --quiet && git clean --force")
+    File.join(working_tree, directory)
   end
 
   # sync_repository clones or updates a bare git repository and enables the

@@ -54,7 +54,7 @@ The current team members are:
 * Brian Brazil ([Robust Perception](https://www.robustperception.io/))
 * Callum Styan ([Grafana Labs](https://grafana.com/))
 * Chris Marchbanks ([Splunk](https://www.splunk.com/))
-* Frederic Branczyk ([Red Hat](https://www.redhat.com/))
+* Frederic Branczyk ([Polar Signals](https://www.polarsignals.com/))
 * Ganesh Vernekar ([Grafana Labs](https://grafana.com/))
 * Goutham Veeramachaneni ([Grafana Labs](https://grafana.com/))
 * Johannes Ziemke (independent)

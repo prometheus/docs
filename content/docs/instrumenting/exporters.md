@@ -52,6 +52,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [ProxySQL exporter](https://github.com/percona/proxysql_exporter)
    * [RavenDB exporter](https://github.com/marcinbudny/ravendb_exporter)
    * [Redis exporter](https://github.com/oliver006/redis_exporter)
+   * [Rediseen as Redis exporter](https://github.com/XD-DENG/rediseen)
    * [RethinkDB exporter](https://github.com/oliver006/rethinkdb_exporter)
    * [SQL exporter](https://github.com/free/sql_exporter)
    * [Tarantool metric library](https://github.com/tarantool/metrics)

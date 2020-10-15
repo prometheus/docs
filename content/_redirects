@@ -22,19 +22,21 @@
 
 # Redirects for sections.
 # TODO(ts): Auto-generate from menu.
-/docs/introduction/         /docs/introduction/overview/                302
-/docs/concepts/             /docs/concepts/data_model/                  302
-/docs/prometheus/           /docs/prometheus/latest/getting_started/    302
-/docs/alerting/             /docs/alerting/latest/overview/             302
-/docs/visualization/        /docs/visualization/browser/                302
-/docs/instrumenting/        /docs/instrumenting/clientlibs/             302
-/docs/operating/            /docs/operating/security/                   302
-/docs/alerting/             /docs/alerting/overview/                    302
-/docs/practices/            /docs/practices/naming/                     302
+/docs/                      /docs/introduction/overview/                302!
+/docs/introduction/         /docs/introduction/overview/                302!
+/docs/concepts/             /docs/concepts/data_model/                  302!
+/docs/prometheus/           /docs/prometheus/latest/getting_started/    302!
+/docs/alerting/             /docs/alerting/latest/overview/             302!
+/docs/visualization/        /docs/visualization/browser/                302!
+/docs/instrumenting/        /docs/instrumenting/clientlibs/             302!
+/docs/operating/            /docs/operating/security/                   302!
+/docs/alerting/             /docs/alerting/latest/overview/             302!
+/docs/practices/            /docs/practices/naming/                     302!
+/docs/guides/               /docs/guides/basic-auth/                    302!
 
 # Redirects for index.hml pages.
-/:foo/index.html                        /:foo/
-/:foo/:bar/index.html                   /:foo/:bar/
-/:foo/:bar/:baz/index.html              /:foo/:bar/:baz/
-/:foo/:bar/:baz/:qux/index.html         /:foo/:bar/:baz/:qux/
-/:foo/:bar/:baz/:qux/:quux/index.html   /:foo/:bar/:baz/:qux/:quux/
+/:foo/index.html                        /:foo/                          302!
+/:foo/:bar/index.html                   /:foo/:bar/                     302!
+/:foo/:bar/:baz/index.html              /:foo/:bar/:baz/                302!
+/:foo/:bar/:baz/:qux/index.html         /:foo/:bar/:baz/:qux/           302!
+/:foo/:bar/:baz/:qux/:quux/index.html   /:foo/:bar/:baz/:qux/:quux/     302!

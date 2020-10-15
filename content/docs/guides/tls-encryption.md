@@ -66,16 +66,16 @@ Start nginx as root (since nginx will need to bind to port 443):
 sudo nginx -c /usr/local/etc/nginx/nginx.conf
 ```
 
-NOTE: This example uses `/usr/local/etc/nginx` as the location of the nginx configuration file, but this will vary based on the installation. Other [common nginx config directories](http://nginx.org/en/docs/beginners_guide.html) include `/usr/local/nginx/conf` and `/etc/nginx`.
+NOTE: This example uses `/usr/local/etc/nginx` as the location of the nginx configuration file, but this will vary based on the installation. Other [common nginx config directories](https://nginx.org/en/docs/beginners_guide.html) include `/usr/local/nginx/conf` and `/etc/nginx`.
 
 ## Prometheus configuration
 
-When running Prometheus behind the nginx proxy, you'll need to set the external URL to `http://example.com/prometheus` and the route prefix to `/`:
+When running Prometheus behind the nginx proxy, you'll need to set the external URL to `https://example.com/prometheus` and the route prefix to `/`:
 
 ```bash
 prometheus \
   --config.file=/path/to/prometheus.yml \
-  --web.external-url=http://example.com/prometheus \
+  --web.external-url=https://example.com/prometheus \
   --web.route-prefix="/"
 ```
 

@@ -39,7 +39,7 @@ scrape_configs:
   - targets: ['localhost:9090']
 ```
 
-Then, [reload](../prometheus/latest/management_api/#reload) the Prometheus configuration:
+Then, [reload](./prometheus/latest/management_api/#reload) the Prometheus configuration:
 
 
 ```shell

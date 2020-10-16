@@ -353,7 +353,7 @@ docker \
 
 This command works similarly to [running the blackbox exporter using a config file](#run-exporter).
 
-If everything worked, you should be able to go to [localhost:9090/targets](http://localhost:9090/targets) and see under `blackbox` an endpoint with the state `UP` in green. If you get a red `DOWN` make sure that the blackbox exporter you started [above](run-exporter) is still running. If you see nothing or a yellow `UNKNOWN` you are really fast and need to give it a few more seconds before reloading your browser’s tab.
+If everything worked, you should be able to go to [localhost:9090/targets](http://localhost:9090/targets) and see under `blackbox` an endpoint with the state `UP` in green. If you get a red `DOWN` make sure that the blackbox exporter you started [above](#run-exporter) is still running. If you see nothing or a yellow `UNKNOWN` you are really fast and need to give it a few more seconds before reloading your browser’s tab.
 
 To tell Prometheus to query `"localhost:9115/probe?target=prometheus.io&module=http_2xx"` you add another scrape job `blackbox-http` where you set the `metrics_path` to `/probe` and the parameters under `params:` in the Prometheus config file `prometheus.yml`:
 

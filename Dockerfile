@@ -1,4 +1,4 @@
-FROM    ruby:2.6
+FROM    ruby:2.7
 EXPOSE  3000
 WORKDIR /usr/src/app
 COPY    Gemfile /usr/src/app/

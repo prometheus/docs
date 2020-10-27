@@ -125,10 +125,15 @@ module Downloads
       @data['assets']
     end
 
+    # binaries returns a list of release archives in the .tar.gz or .zip format.
+    # If both formats are available, only .zip is returned (covers Windows use case).
     def binaries
       assets.
         select { |d| d['name'] && %w[.tar.gz .zip].any? { |ext| d['name'].end_with?(ext) } }.
-        map { |d| Binary.new(d) }
+        map { |d| Binary.new(d) }.
+        group_by { |b| [b.os, b.arch] }.
+        map { |_, binaries| binaries.sort_by(&:name).last }.
+        sort_by(&:name)
     end
 
     def tag

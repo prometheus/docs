@@ -84,7 +84,7 @@ For notification mechanisms not natively supported by the Alertmanager, the
   * [Rocket.Chat](https://rocket.chat/docs/administrator-guides/integrations/prometheus/)
   * [ServiceNow](https://github.com/FXinnovation/alertmanager-webhook-servicenow)
   * [Signal](https://github.com/dgl/alertmanager-webhook-signald)
-  * [SIGNL4](https://www.signl4.com/blog/portfolio_item/prometheus-alertmanager-mobile-alert-notification-duty-schedule-escalation/)
+  * [SIGNL4 – Critical Mobile Alerting](https://www.signl4.com/blog/portfolio_item/prometheus-alertmanager-mobile-alert-notification-duty-schedule-escalation/)
   * [SMS](https://github.com/messagebird/sachet): supports [multiple providers](https://github.com/messagebird/sachet/blob/master/examples/config.yaml)
   * [SNMP traps](https://github.com/maxwo/snmp_notifier)
   * [Squadcast](https://support.squadcast.com/docs/prometheus)

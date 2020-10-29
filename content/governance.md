@@ -66,7 +66,7 @@ The current team members are:
 * Richard Hartmann ([Grafana Labs](https://grafana.com/))
 * Simon Pasquier ([Red Hat](https://www.redhat.com/))
 * Steve Durrheimer ([Cycloid](https://www.cycloid.io/))
-* Tobias Schmidt (independent)
+* Tobias Schmidt ([SoundCloud](https://soundcloud.com/))
 * Tom Wilkie ([Grafana Labs](https://grafana.com/))
 
 Previous members:
@@ -178,7 +178,7 @@ The ex-member is
 
 * removed from the list of [team members](#team-members). Ideally by sending a PR of their own, at least approving said PR. In case of forced removal, no approval is needed.
 * removed from the [GitHub organization][gh] and related organizations and repositories. Optionally, they can retain maintainership of one or more repositories if the [team](#team-members) agrees.
-* removed from the [team mailing list][team] and demoted to a normal member of the other mailing lists, i.e [developers][devs], [users][], and [announce][].
+* removed from the [team mailing list][team] and demoted to a normal member of the other mailing lists, i.e [developers][devs], [users][], and [announce][]. 
 * announced as removed to CNCF. We will explicitly request reconfirmation of removal from CNCF.
 * removed from the shared password storage. All passwords, API tokens, etc. are cycled in due course (i.e. immediately in case of an involuntary departure but can be appropriately batched with other departures or routine cycling otherwise).
 * removed from group accounts where applicable. Services with some variety of a group account include but are not restricted to Digital Ocean, DockerHub, GSuite, Netlify, Twitter (via Tweetdeck).

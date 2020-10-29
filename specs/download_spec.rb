@@ -47,6 +47,20 @@ describe Downloads::Release do
       expect([bugfix, regular, rc1, rc0].sort).to eql([bugfix, regular, rc0, rc1])
     end
   end
+
+  describe '#binaries' do
+    let(:release) do
+      Downloads::Release.new({ 'assets' => [
+        { 'name' => 'prometheus-1.2.0.linux-amd64.tar.gz' },
+        { 'name' => 'prometheus-1.2.0.windows-amd64.tar.gz' },
+        { 'name' => 'prometheus-1.2.0.windows-amd64.zip' },
+      ]})
+    end
+
+    it 'prefers .zip format over .tar.gz' do
+      expect(release.binaries.map(&:name)).to eql(['prometheus-1.2.0.linux-amd64.tar.gz', 'prometheus-1.2.0.windows-amd64.zip'])
+    end
+  end
 end
 
 describe Downloads::Repository do

@@ -89,6 +89,7 @@ For notification mechanisms not natively supported by the Alertmanager, the
   * [SNMP traps](https://github.com/maxwo/snmp_notifier)
   * [Squadcast](https://support.squadcast.com/docs/prometheus)
   * [Telegram bot](https://github.com/inCaller/prometheus_bot)
+  * [xMatters](https://github.com/xmatters/xm-labs-prometheus)
   * [XMPP Bot](https://github.com/jelmer/prometheus-xmpp-alerts)
   * [Zenduty](https://docs.zenduty.com/docs/prometheus/)
   * [Zoom](https://github.com/Code2Life/nodess-apps/tree/master/src/zoom-alert-2.0)

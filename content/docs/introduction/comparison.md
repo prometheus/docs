@@ -246,31 +246,38 @@ environment, then Prometheus is a good choice.
 
 ## Prometheus vs. Sensu
 
-[Sensu](https://sensu.io) is a composable monitoring pipeline that can reuse existing Nagios checks.
+[Sensu](https://sensu.io) is an open source monitoring and observabliity pipeline with a commercial distribution for scaling, added security, and enterprise integrations. Sensu's monitoring-as-code solution and horizontally scalable event processing backend are designed for larger environments, with several active installations exceeding 50,000 nodes under management. 
 
 ### Scope
 
-The same general scope differences as in the case of [Nagios](/docs/introduction/comparison/#prometheus-vs-nagios) apply here.
+Sensu processes events via the [Sensu Observablity Pipeline](https://docs.sensu.io/sensu-go/latest/observability-pipeline/), where events are deduplicated/correlated (via [EventFilters](https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-filter/)), transformed (via [Mutators](https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-transform/)), and processed (via [Handlers](https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-process/)). 
 
-There is also a [client socket](https://docs.sensu.io/sensu-core/latest/reference/clients/#what-is-the-sensu-client-socket) permitting ad-hoc check results to be pushed into Sensu. 
+Common use cases include: 
+
+- Eliminate data silos by integrating with existing systems of record, and data platforms like InfluxDB, ElasticSearch, Splunk
+- Consolidate monitoring tools with support for existing plugins & exporters (Nagios, StatsD, Telegraf, Prometheus)
+- Automate diagnosis & self-healing with built-in auto-remediation or integrations with Ansible Tower, RunDeck, and SaltStack
 
 ### Data model
 
-Sensu has the same rough data model as [Nagios](/docs/introduction/comparison/#prometheus-vs-nagios).
+Sensu primarily focuses on normalizing and processing observability data as [Events](https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-events/events/), identified by an event name, entity (e.g. node, container, or service), and optional [key-value metadata](https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-events/events/#metadata-attributes) called "labels" or "annotations". Events can also optionally contain one or more metric data points. Sensu Agents extract metrics from known observability formats at the edge (i.e. metric data is normalized prior to transmission to Sensu backends) including Prometheus Exposition Format, InfluxDB line protocal, Graphite plain text, OpenTSDB line protocol, and Nagios Perfdata. 
+
+Prometheus ["stores all data as time series", which are uniquely identified by "metric name and optional key-value pairs called labels.](https://prometheus.io/docs/concepts/data_model/). 
 
 ### Storage
 
-Sensu uses Redis to persist monitoring data, including the Sensu client registry, check results, check execution history, and current event data.
+Sensu _caches_ event status information and real-time inventory data in an embedded database (Etcd) or an external RDBMS (Postgres). Historical event and metric data storage and analysis are addressed by external components (e.g. Prometheus, InfluxDB, Wavefront, TimescaleDB, Elasticsearch, Splunk).
 
 ### Architecture
 
-Sensu has a [number of components](https://docs.sensu.io/sensu-core/latest/overview/architecture/). It uses
-RabbitMQ as a transport, Redis for current state, and a separate server for
-processing and API access.
+Sensu is a primarily agent-based monitoring solution (agentless applications are also supported) ([reference](https://docs.sensu.io/sensu-go/latest/operations/deploy-sensu/deployment-architecture/)). The Sensu agents automatically connect to Sensu backends over an encrypted pub/sub transport (TLS-encrypted websockets), and handle automated registration/de-registration, and local service discovery. Sensu's use of a pub/sub transport allows it to securely traverse complex network topologies including NATs, VPNs, and "air-gapped" environments. 
 
-All components of a Sensu deployment (RabbitMQ, Redis, and Sensu Server/API) can be clustered for highly available and redundant configurations.
+Sensu agents collect observability data via [StatsD socket](https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-process/aggregate-metrics-statsd/) (StatsD formatted metrics), [TCP/UDP socket](https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/agent/) (Sensu events), [HTTP JSON API](https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/agent/#create-observability-events-using-the-agent-api) (Sensu events), Telegraf metrics (InfluxDB line protocol), Prometheus Exporters (Prometheus Exposition Format), or by [executing local check scripts or other plugins](https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/agent/#create-observability-events-using-service-checks) and capturing the resulting standard output and exit status code. 
+
+The entire Sensu observabliity pipeline configuration can be defined as code (declarative JSON or YAML template files). All components of a Sensu deployment can be clustered for highly available and redundant configurations. Large scale enterprise deployments with over 10k Sensu agents are common.
 
 ### Summary
-If you have an existing Nagios setup that you wish to scale as-is, or want to take advantage of the automatic registration feature of Sensu, then Sensu is a good choice.
 
-If you want to do whitebox monitoring, or have a very dynamic or cloud based environment, then Prometheus is a good choice.
+If you have a medium-to-large scale heterogeneus infrastructure that includes ephemeral compute platforms (e.g. EC2, GCP, Azure, Kubernetes, etc), and you wish to take advantage of Sensu's automatic registration/de-registration features, or if you wish to consolidate and integrate existing best-of-breed monitoring solutions, then Sensu is a good choice.
+
+If you are primarily focused on metrics collection and time-series data analysis, then Prometheus is a good choice.

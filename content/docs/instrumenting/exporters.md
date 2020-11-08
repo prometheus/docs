@@ -273,6 +273,7 @@ separate exporters are needed:
    * [MidoNet](https://github.com/midonet/midonet)
    * [midonet-kubernetes](https://github.com/midonet/midonet-kubernetes) (**direct**)
    * [Minio](https://docs.minio.io/docs/how-to-monitor-minio-using-prometheus.html)
+   * [Netbox] (https://netbox.readthedocs.io/en/stable/additional-features/prometheus-metrics/)
    * [Netdata](https://github.com/firehol/netdata)
    * [Pretix](https://pretix.eu/)
    * [Quobyte](https://www.quobyte.com/) (**direct**)

@@ -152,7 +152,7 @@ the [exposition formats](/docs/instrumenting/exposition_formats/).
 Yes, the [Node Exporter](https://github.com/prometheus/node_exporter) exposes
 an extensive set of machine-level metrics on Linux and other Unix systems such
 as CPU usage, memory, disk utilization, filesystem fullness, and network
-bandwidth.
+bandwidth. See also [Windows Exporter](https://github.com/prometheus-community/windows_exporter).
 
 ### Can I monitor network devices?
 

@@ -41,7 +41,7 @@ mix of these, with complexity varying by module. For example, the
 specifically for that collector, so we may as well get the metrics
 right. For the `meminfo` collector the results vary across kernel
 versions so we end up doing just enough of a transform to create valid
-metrics.
+metrics. See also [windows_exporter](https://github.com/prometheus-community/windows_exporter).
 
 ## Configuration
 

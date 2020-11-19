@@ -246,38 +246,30 @@ environment, then Prometheus is a good choice.
 
 ## Prometheus vs. Sensu
 
-[Sensu](https://sensu.io) is an open source monitoring and observabliity pipeline with a commercial distribution for scaling, added security, and enterprise integrations. Sensu's monitoring-as-code solution and horizontally scalable event processing backend are designed for larger environments, with several active installations exceeding 50,000 nodes under management. 
+[Sensu](https://sensu.io) is an open source monitoring and observabliity pipeline with a commercial distribution. It can reuse existing Nagios plugins for compatibility.
 
 ### Scope
 
-Sensu processes events via the [Sensu Observablity Pipeline](https://docs.sensu.io/sensu-go/latest/observability-pipeline/), where events are deduplicated/correlated (via [EventFilters](https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-filter/)), transformed (via [Mutators](https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-transform/)), and processed (via [Handlers](https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-process/)). 
-
-Common use cases include: 
-
-- Eliminate data silos by integrating with existing systems of record, and data platforms like InfluxDB, ElasticSearch, Splunk
-- Consolidate monitoring tools with support for existing plugins & exporters (Nagios, StatsD, Telegraf, Prometheus)
-- Automate diagnosis & self-healing with built-in auto-remediation or integrations with Ansible Tower, RunDeck, and SaltStack
+Sensu processes events via the [Sensu Observablity Pipeline](https://docs.sensu.io/sensu-go/latest/observability-pipeline/), where events are deduplicated/correlated (via [EventFilters](https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-filter/)), transformed (via [Mutators](https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-transform/)), and processed (via [Handlers](https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-process/)). Sensu also collects and routes metrics to a number of backend time-series databases such as Prometheus, InfluxDB, etc.
 
 ### Data model
 
-Sensu primarily focuses on normalizing and processing observability data as [Events](https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-events/events/), identified by an event name, entity (e.g. node, container, or service), and optional [key-value metadata](https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-events/events/#metadata-attributes) called "labels" or "annotations". Events can also optionally contain one or more metric data points. Sensu Agents extract metrics from known observability formats at the edge (i.e. metric data is normalized prior to transmission to Sensu backends) including Prometheus Exposition Format, InfluxDB line protocal, Graphite plain text, OpenTSDB line protocol, and Nagios Perfdata. 
-
-Prometheus ["stores all data as time series", which are uniquely identified by "metric name and optional key-value pairs called labels.](https://prometheus.io/docs/concepts/data_model/). 
+Sensu primarily focuses on normalizing and processing observability data as [Events](https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-events/events/), identified by an event name, entity (e.g. node, container, or service), and optional [key-value metadata](https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-events/events/#metadata-attributes) called "labels" or "annotations". The Sensu agents can also extract and route metrics from common formats such as Prometheus Exposition Format, InfluxDB line protocal, Graphite plain text, OpenTSDB line protocol, StatsD, and Nagios Perfdata and rewrite them into any backend storage format (Elastic, Influx, Wavefront, Prometheus).
 
 ### Storage
 
-Sensu _caches_ event status information and real-time inventory data in an embedded database (Etcd) or an external RDBMS (Postgres). Historical event and metric data storage and analysis are addressed by external components (e.g. Prometheus, InfluxDB, Wavefront, TimescaleDB, Elasticsearch, Splunk).
+Sensu _caches_ event status information and real-time inventory data in an embedded database (etcd) or an external RDBMS (Postgres). All event and time series data is sent to one or more specialized datastores for long term storage and analysis (e.g. Prometheus, InfluxDB, Wavefront, TimescaleDB, Elasticsearch, Splunk).
 
 ### Architecture
 
-Sensu is a primarily agent-based monitoring solution (agentless applications are also supported) ([reference](https://docs.sensu.io/sensu-go/latest/operations/deploy-sensu/deployment-architecture/)). The Sensu agents automatically connect to Sensu backends over an encrypted pub/sub transport (TLS-encrypted websockets), and handle automated registration/de-registration, and local service discovery. Sensu's use of a pub/sub transport allows it to securely traverse complex network topologies including NATs, VPNs, and "air-gapped" environments. 
+Sensu is a primarily agent-based monitoring solution (agentless applications are also supported) ([reference](https://docs.sensu.io/sensu-go/latest/operations/deploy-sensu/deployment-architecture/)). The Sensu agents automatically connect to Sensu backends over an encrypted pub/sub transport (TLS-encrypted websockets), and handle automated registration/de-registration, and local service discovery. Sensu's use of a pub/sub transport allows it to securely work over complex network topologies including NATs, VPNs, and "air-gapped" environments (useful in IoT deployments).
 
 Sensu agents collect observability data via [StatsD socket](https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-process/aggregate-metrics-statsd/) (StatsD formatted metrics), [TCP/UDP socket](https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/agent/) (Sensu events), [HTTP JSON API](https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/agent/#create-observability-events-using-the-agent-api) (Sensu events), Telegraf metrics (InfluxDB line protocol), Prometheus Exporters (Prometheus Exposition Format), or by [executing local check scripts or other plugins](https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/agent/#create-observability-events-using-service-checks) and capturing the resulting standard output and exit status code. 
 
-The entire Sensu observabliity pipeline configuration can be defined as code (declarative JSON or YAML template files). All components of a Sensu deployment can be clustered for highly available and redundant configurations. Large scale enterprise deployments with over 10k Sensu agents are common.
+The entire Sensu observabliity pipeline configuration can be defined as code (declarative JSON or YAML template files). All components of a Sensu deployment can be clustered for highly available and scalable configurations beyond 50,000 servers (or entities).
 
 ### Summary
 
-If you have a medium-to-large scale heterogeneus infrastructure that includes ephemeral compute platforms (e.g. EC2, GCP, Azure, Kubernetes, etc), and you wish to take advantage of Sensu's automatic registration/de-registration features, or if you wish to consolidate and integrate existing best-of-breed monitoring solutions, then Sensu is a good choice.
+If you have an existing Nagios (or similar) monitoring solution in a heterogeneus ephemeral cloud environment (e.g. EC2, GCP, Azure, Kubernetes, etc), or if you wish to consolidate and integrate existing best-of-breed monitoring solutions, then you should consider Sensu with its automatic registration/de-registration and data transformation features.
 
 If you are primarily focused on metrics collection and time-series data analysis, then Prometheus is a good choice.

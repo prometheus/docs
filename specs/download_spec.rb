@@ -14,10 +14,17 @@ describe Downloads::Binary do
     })
   end
 
+  let(:windows) do
+    Downloads::Binary.new({
+      'name' => 'windows_exporter-0.15.0-386.msi',
+    })
+  end
+
   describe '#os' do
     it 'extracts the operating system name' do
       expect(asset.os).to eql('freebsd')
       expect(beta.os).to eql('darwin')
+      expect(windows.os).to eql('windows')
     end
   end
 
@@ -25,6 +32,7 @@ describe Downloads::Binary do
     it 'extracts the architecture' do
       expect(asset.arch).to eql('armv5')
       expect(beta.arch).to eql('amd64')
+      expect(windows.arch).to eql('386')
     end
   end
 end
@@ -54,11 +62,16 @@ describe Downloads::Release do
         { 'name' => 'prometheus-1.2.0.linux-amd64.tar.gz' },
         { 'name' => 'prometheus-1.2.0.windows-amd64.tar.gz' },
         { 'name' => 'prometheus-1.2.0.windows-amd64.zip' },
+        { 'name' => 'prometheus-1.2.0.windows-amd64.msi' },
       ]})
     end
 
     it 'prefers .zip format over .tar.gz' do
-      expect(release.binaries.map(&:name)).to eql(['prometheus-1.2.0.linux-amd64.tar.gz', 'prometheus-1.2.0.windows-amd64.zip'])
+      expect(release.binaries.map(&:name)).to eql([
+        'prometheus-1.2.0.linux-amd64.tar.gz',
+        'prometheus-1.2.0.windows-amd64.msi',
+        'prometheus-1.2.0.windows-amd64.zip',
+      ])
     end
   end
 end

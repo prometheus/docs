@@ -60,7 +60,6 @@ The current team members are:
 * Johannes Ziemke (independent)
 * Julius Volz ([PromLabs](https://promlabs.com/))
 * Julien Pivotto ([Inuits](https://inuits.eu/))
-* Krasi Georgiev ([Red Hat](https://www.redhat.com/))
 * Matt Layher ([Fastly](https://www.fastly.com/))
 * Matthias Rampke ([SoundCloud](https://soundcloud.com/))
 * Richard Hartmann ([Grafana Labs](https://grafana.com/))
@@ -73,6 +72,7 @@ Previous members:
 
 * Conor Broderick
 * Fabian Reinartz
+* Krasi Georgiev
 * Max Inden
 * Stuart Nelson
 

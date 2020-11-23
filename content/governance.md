@@ -98,7 +98,7 @@ Decisions are usually made by [lazy consensus](#consensus). If no consensus can 
 
 ### Governance changes
 
-Material changes to this document are discussed publicly on the [developer mailing mailing list][devs]. Any change requires a [supermajority](#supermajority-vote) in favor. Editorial changes may be made by [lazy consensus](#consensus) unless challenged.
+Material changes to this document are discussed publicly on the [developer mailing list][devs]. Any change requires a [supermajority](#supermajority-vote) in favor. Editorial changes may be made by [lazy consensus](#consensus) unless challenged.
 
 ### Editorial changes
 

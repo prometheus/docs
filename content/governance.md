@@ -64,7 +64,6 @@ The current team members are:
 * Matthias Rampke ([SoundCloud](https://soundcloud.com/))
 * Richard Hartmann ([Grafana Labs](https://grafana.com/))
 * Simon Pasquier ([Red Hat](https://www.redhat.com/))
-* Steve Durrheimer ([Cycloid](https://www.cycloid.io/))
 * Tobias Schmidt (independent)
 * Tom Wilkie ([Grafana Labs](https://grafana.com/))
 
@@ -74,6 +73,7 @@ Previous members:
 * Fabian Reinartz
 * Krasi Georgiev
 * Max Inden
+* Steve Durrheimer
 * Stuart Nelson
 
 _Note that Prometheus has received significant contributions from a number of unlisted individuals before this governance document and thus formal team membership was created._

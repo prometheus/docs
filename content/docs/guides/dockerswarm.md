@@ -199,7 +199,7 @@ Global tasks run on every daemon.
   target_label: docker_node
 ```
 
-### Scrape a service based on the `prometheus.port` label to avoid having to publish the port
+### Scraping a service based on the `prometheus.port` label to avoid having to publish the port
 
 ```yaml
 - source_labels: [__address__, __meta_dockerswarm_service_label_prometheus_port]

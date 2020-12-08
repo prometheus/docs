@@ -70,6 +70,7 @@ For notification mechanisms not natively supported by the Alertmanager, the
 
   * [alertmanager-webhook-logger](https://github.com/tomtom-international/alertmanager-webhook-logger): logs alerts
   * [Alertsnitch](https://gitlab.com/yakshaving.art/alertsnitch): saves alerts to a MySQL database
+  * [Asana](https://gitlab.com/lupudu/alertmanager-asana-bridge)
   * [AWS SNS](https://github.com/DataReply/alertmanager-sns-forwarder)
   * [Better Uptime](https://docs.betteruptime.com/integrations/prometheus)
   * [Canopsis](https://git.canopsis.net/canopsis-connectors/connector-prometheus2canopsis)

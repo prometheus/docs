@@ -181,7 +181,7 @@ The ex-member is
 * removed from the [team mailing list][team] and demoted to a normal member of the other mailing lists, i.e [developers][devs], [users][], and [announce][].
 * announced as removed to CNCF. We will explicitly request reconfirmation of removal from CNCF.
 * removed from the shared password storage. All passwords, API tokens, etc. are cycled in due course (i.e. immediately in case of an involuntary departure but can be appropriately batched with other departures or routine cycling otherwise).
-* removed from group accounts where applicable. Services with some variety of a group account include but are not restricted to Digital Ocean, DockerHub, GSuite, Netlify, Twitter (via Tweetdeck).
+* removed from group accounts where applicable. Services with some variety of a group account include but are not restricted to Digital Ocean, DockerHub, GSuite, Netlify, Twitter (via Tweetdeck), Youtube.
 * not allowed to call themselves an active team member any more, nor allowed to imply this to be the case.
 * added to a list of previous members if they so choose.
 

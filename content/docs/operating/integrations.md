@@ -37,6 +37,7 @@ data volumes.
 
   * [AppOptics](https://github.com/solarwinds/prometheus2appoptics): write
   * [AWS Timestream](https://github.com/dpattmann/prometheus-timestream-adapter): write
+  * [AWS AMP](https://aws.amazon.com/prometheus): read and write
   * [Azure Data Explorer](https://github.com/cosh/PrometheusToAdx): read and write
   * [Azure Event Hubs](https://github.com/bryanklewis/prometheus-eventhubs-adapter): write
   * [Chronix](https://github.com/ChronixDB/chronix.ingester): write

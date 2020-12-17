@@ -76,7 +76,7 @@ For notification mechanisms not natively supported by the Alertmanager, the
   * [Canopsis](https://git.canopsis.net/canopsis-connectors/connector-prometheus2canopsis)
   * [DingTalk](https://github.com/timonwong/prometheus-webhook-dingtalk)
   * [Discord](https://github.com/benjojo/alertmanager-discord)
-  * [Gotify](https://github.com/DRuggeri/alertmanager_gotify_bridge)
+  * [Gotify](https://github.com/DRuggeri/alertmanager_gotify_bridge) [Dockerized-Gotify](https://hub.docker.com/r/nathaneaston/alertmanager_gotify_bridge-docker)
   * [GELF](https://github.com/b-com-software-basis/alertmanager2gelf)
   * [IRC Bot](https://github.com/multimfi/bot)
   * [JIRAlert](https://github.com/free/jiralert)

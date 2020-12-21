@@ -91,7 +91,7 @@ data_sources:
     items_root: /docs/toolkit/
     config:
       entrypoint: /introduction/
-      repository_url: https://github.com/roidelapluie/exporter-toolkit
+      repository_url: https://github.com/roidelapluie/exporter-toolkit.git
   -
     type: filesystem
     items_root: /assets

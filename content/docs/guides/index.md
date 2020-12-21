@@ -1,5 +1,5 @@
 ---
 title: Guides
-sort_rank: 9
+sort_rank: 10
 nav_icon: map-o
 ---

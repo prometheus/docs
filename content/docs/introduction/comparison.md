@@ -250,7 +250,7 @@ environment, then Prometheus is a good choice.
 
 ### Scope
 
-As an observability _pipeline_, Sensu focuses on processing and alerting of observability data as a stream of [Events](https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-events/events/). It handles deduplication, correlation, and other filtering logic and then processes events by sending alerts, creating and resolving tickets in incident management systems, storing event & telemetry data in any number of data platforms, and managing automated remediation workflows. Sensu also provides a lightweight [monitoring agent](https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/agent/) (event producer) for monitoring of ephemeral cloud compute and distributed systems.
+Sensu is an observability pipeline that focuses on processing and alerting of observability data as a stream of [Events](https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-events/events/). It provides an extensible framework for event filtering, aggregation, enrichment, and processing – including sending alerts to other systems and storing events in third-party systems. Sensu's event processing capabilities are similar in scope to Prometheus alerting rules and Alertmanager. 
 
 ### Data model
 
@@ -258,7 +258,7 @@ Sensu [Events](https://docs.sensu.io/sensu-go/latest/observability-pipeline/obse
 
 ### Storage
 
-Sensu stores current and recent event status information and real-time inventory data in an embedded database (etcd) or an external RDBMS (Postgres). All event and time series data is sent to one or more external data platforms for long term storage and analysis (e.g. Prometheus, InfluxDB, TimescaleDB, Elasticsearch, Splunk, Wavefront, etc).
+Sensu stores current and recent event status information and real-time inventory data in an embedded database (etcd) or an external RDBMS (Postgres). 
 
 ### Architecture
 

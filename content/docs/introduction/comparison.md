@@ -254,7 +254,7 @@ As an observability _pipeline_, Sensu focuses on processing and alerting of obse
 
 ### Data model
 
-In Sensu, events (which can include service health and/or [metric](https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-events/events/#metric-attributes) data) are identified by an [entity](https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-entities/entities/) name (e.g. server, cloud compute instance, container, or service), an event name, and optional [key-value metadata](https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-events/events/#metadata-attributes) called "labels" or "annotations".
+Sensu [Events](https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-events/events/) represent service health and/or [metrics](https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-events/events/#metric-attributes) in a structured data format identified by an [entity](https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-entities/entities/) name (e.g. server, cloud compute instance, container, or service), an event name, and optional [key-value metadata](https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-events/events/#metadata-attributes) called "labels" or "annotations". The Sensu Event payload may include one or more metric [`points`](https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-events/events/#points-attributes), represented as a JSON object containing a `name`, `tags`, `timestamp`, and `value` (always a float).
 
 ### Storage
 

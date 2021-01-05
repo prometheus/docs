@@ -266,14 +266,13 @@ All components of a Sensu deployment can be clustered for high availability and 
 
 ### Summary
 
-Sensu and Prometheus have a few capabilities in common, but they take very different approaches to monitoring. Both offer extensible discovery mechanisms for dynamic cloud-based environments and ephemeral compute platforms, though the underlying mechanisms are quite different. Both provide support for collecting multi-dimensional metrics via labels and annotations. Both have extensive integrations, and Sensu natively supports collecting metrics from all Prometheus exporters. Where Sensu and Prometheus differ the most is in their use cases.
+Sensu and Prometheus have a few capabilities in common, but they take very different approaches to monitoring. Both offer extensible discovery mechanisms for dynamic cloud-based environments and ephemeral compute platforms, though the underlying mechanisms are quite different. Both provide support for collecting multi-dimensional metrics via labels and annotations. Both have extensive integrations, and Sensu natively supports collecting metrics from all Prometheus exporters. Both are capable of forwarding observability data to third-party data platforms (e.g. InfluxDB, Elasticsearch, Splunk). Where Sensu and Prometheus differ the most is in their use cases.
 
 Where Sensu is better: 
 
-- If you're collecting and processing hybrid observability data (including metrics and events)
+- If you're collecting and processing hybrid observability data (including metrics _and_ events)
 - If you're monitoring hybrid infrastructure (including on-prem servers, public/private cloud, and cloud-native/Kubernetes)
 - If you're consolidating mulitple monitoring tools and need support for metrics _and_ traditional monitoring Nagios-style plugins or check scripts
-- If you are already invested in one or more data platforms like InfluxDB, Elasticsearch, Splunk, TimescaleDB, Wavefront, etc (Sensu's primary function as an observability pipeline means it is designed to route data to the data platform(s) of your choosing)
 - More powerful alerting and event-processing platform
 
 Where Prometheus is better: 

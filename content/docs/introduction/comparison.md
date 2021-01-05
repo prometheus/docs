@@ -272,7 +272,7 @@ Where Sensu is better:
 
 - If you're collecting and processing hybrid observability data (including metrics _and_ events)
 - If you're monitoring hybrid infrastructure (including on-prem servers, public/private cloud, and cloud-native/Kubernetes)
-- If you're consolidating mulitple monitoring tools and need support for metrics _and_ traditional monitoring Nagios-style plugins or check scripts
+- If you're consolidating mulitple monitoring tools and need support for metrics _and_ traditional monitoring (e.g. Nagios-style plugins or check scripts)
 - More powerful alerting and event-processing platform
 
 Where Prometheus is better: 

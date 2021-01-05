@@ -262,7 +262,7 @@ Sensu stores current and recent event status information and real-time inventory
 
 ### Architecture
 
-All components of a Sensu deployment can be clustered for high availability and improved event-processing throughput. Sensu also provides built-in support for federation (including RBAC and other API resource replication) which is recommended for deployments larger than 30,000 nodes (or entities) under management.
+All components of a Sensu deployment can be clustered for high availability and improved event-processing throughput. Sensu also provides built-in support for [cluster federation](https://docs.sensu.io/sensu-go/latest/operations/deploy-sensu/use-federation/#configure-federation), including RBAC and other [API resource replication](https://docs.sensu.io/sensu-go/latest/operations/deploy-sensu/etcdreplicators/), which is recommended for deployments larger than 30,000 nodes under management.
 
 ### Summary
 
@@ -271,13 +271,12 @@ Sensu and Prometheus have a few capabilities in common, but they take very diffe
 Where Sensu is better: 
 
 - If you're collecting and processing hybrid observability data (including metrics _and_ events)
-- If you're monitoring hybrid infrastructure (including on-prem servers, public/private cloud, and cloud-native/Kubernetes)
 - If you're consolidating mulitple monitoring tools and need support for metrics _and_ traditional monitoring (e.g. Nagios-style plugins or check scripts)
-- More powerful alerting and event-processing platform
+- More powerful event-processing platform
 
 Where Prometheus is better: 
 
-- If you're primarily collecting and evaluating metrics (Prometheus data model only support metrics)
+- If you're primarily collecting and evaluating metrics
 - If you're monitoring homogeneous Kubernetes infrastructure (if 100% of the workloads you're monitoring are in K8s, Prometheus offers better K8s integration)
 - More powerful query language, and built-in support for historical data analysis 
 

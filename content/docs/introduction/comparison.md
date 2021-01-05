@@ -250,7 +250,7 @@ environment, then Prometheus is a good choice.
 
 ### Scope
 
-Sensu is an observability pipeline that focuses on processing and alerting of observability data as a stream of [Events](https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-events/events/). It provides an extensible framework for event filtering, aggregation, enrichment, and processing – including sending alerts to other systems and storing events in third-party systems. Sensu's event processing capabilities are similar in scope to Prometheus alerting rules and Alertmanager. 
+Sensu is an observability pipeline that focuses on processing and alerting of observability data as a stream of [Events](https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-events/events/). It provides an extensible framework for event [filtering](https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-filter/), aggregation, [transformation](https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-transform/), and [processing](https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-process/) – including sending alerts to other systems and storing events in third-party systems. Sensu's event processing capabilities are similar in scope to Prometheus alerting rules and Alertmanager. 
 
 ### Data model
 

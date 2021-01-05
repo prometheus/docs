@@ -246,7 +246,7 @@ environment, then Prometheus is a good choice.
 
 ## Prometheus vs. Sensu
 
-[Sensu](https://sensu.io) is an open source monitoring and observability pipeline with a commercial distribution which offers additional features for scalability. The entire Sensu observabliity pipeline configuration can be defined as code (declarative JSON or YAML template files). It can reuse existing Nagios plugins.
+[Sensu](https://sensu.io) is an open source monitoring and observability pipeline with a commercial distribution which offers additional features for scalability. It can reuse existing Nagios plugins.
 
 ### Scope
 

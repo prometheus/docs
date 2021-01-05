@@ -279,7 +279,7 @@ Where Sensu is better:
 Where Prometheus is better: 
 
 - If you're primarily collecting and evaluating metrics (Prometheus data model only support metrics)
-- If you're monitoring homogeneous Kubernetes infrastructure (if 100% of the workloads you're monitoring are in K8s, Prometheus offers better K8s integration  integration)
+- If you're monitoring homogeneous Kubernetes infrastructure (if 100% of the workloads you're monitoring are in K8s, Prometheus offers better K8s integration)
 - Built-in support for graphing
 - More powerful query language, and built-in support for historical data analysis 
 

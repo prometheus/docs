@@ -280,7 +280,6 @@ Where Prometheus is better:
 
 - If you're primarily collecting and evaluating metrics (Prometheus data model only support metrics)
 - If you're monitoring homogeneous Kubernetes infrastructure (if 100% of the workloads you're monitoring are in K8s, Prometheus offers better K8s integration)
-- Built-in support for graphing
 - More powerful query language, and built-in support for historical data analysis 
 
 Sensu is maintained by a single commercial company following the open-core business model, offering premium features like closed-source event correlation and aggregation, federation, and support. Prometheus is a fully open source and independent project, maintained by a number of companies and individuals, some of whom also offer commercial services and support.

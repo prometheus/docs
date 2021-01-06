@@ -32,10 +32,10 @@ systems.
 
 ### TLS and authentication in HTTP serving endpoints
 
-The HTTP serving endpoints in Prometheus, Alertmanager, and the official exporters
-do not have built-in support for TLS and authentication yet. Adding this support
-will make it easier for people to deploy Prometheus components securely without
-requiring a reverse proxy to add those features externally.
+TLS and authentication are currently being rolled out to the Prometheus,
+Alertmanager, and the official exporters. Adding this support will make it
+easier for people to deploy Prometheus components securely without requiring a
+reverse proxy to add those features externally.
 
 ### Support the Ecosystem
 

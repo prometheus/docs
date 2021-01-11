@@ -262,7 +262,7 @@ Sensu stores current and recent event status information and real-time inventory
 
 ### Architecture
 
-All components of a Sensu deployment can be clustered for high availability and improved event-processing throughput. Sensu also provides built-in support for [cluster federation](https://docs.sensu.io/sensu-go/latest/operations/deploy-sensu/use-federation/#configure-federation), including RBAC and other [API resource replication](https://docs.sensu.io/sensu-go/latest/operations/deploy-sensu/etcdreplicators/), which is recommended for deployments larger than 30,000 nodes under management.
+All components of a Sensu deployment can be clustered for high availability and improved event-processing throughput. 
 
 ### Summary
 

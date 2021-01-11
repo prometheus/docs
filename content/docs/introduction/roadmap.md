@@ -24,12 +24,6 @@ in Prometheus and provide it via an experimental API endpoint.
 The OpenMetrics working group is developing a new standard for metric exposition.
 We plan to support this format in our client libraries and Prometheus itself.
 
-### Backfill time series
-
-Backfilling will permit bulk loads of data in the past. This will allow for
-retroactive rule evaluations, and transferring old data from other monitoring
-systems.
-
 ### TLS and authentication in HTTP serving endpoints
 
 The HTTP serving endpoints in Prometheus, Alertmanager, and the official exporters

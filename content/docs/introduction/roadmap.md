@@ -24,10 +24,9 @@ in Prometheus and provide it via an experimental API endpoint.
 The OpenMetrics working group is developing a new standard for metric exposition.
 We plan to support this format in our client libraries and Prometheus itself.
 
-### Support for retroactive rule evaluations		
+### Retroactive rule evaluations		
 
-Backfilling will permit bulk loads of data in the past. This will allow for		
-retroactive rule evaluations.
+Add support for retroactive rule evaluations making use of backfill.
 
 ### TLS and authentication in HTTP serving endpoints
 

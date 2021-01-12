@@ -271,7 +271,7 @@ Sensu and Prometheus have a few capabilities in common, but they take very diffe
 Where Sensu is better: 
 
 - If you're collecting and processing hybrid observability data (including metrics _and/or_ events)
-- If you're consolidating mulitple monitoring tools and need support for metrics _and_ Nagios-style plugins or check scripts
+- If you're consolidating multiple monitoring tools and need support for metrics _and_ Nagios-style plugins or check scripts
 - More powerful event-processing platform
 
 Where Prometheus is better: 

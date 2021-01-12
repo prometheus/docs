@@ -246,31 +246,38 @@ environment, then Prometheus is a good choice.
 
 ## Prometheus vs. Sensu
 
-[Sensu](https://sensu.io) is a composable monitoring pipeline that can reuse existing Nagios checks.
+[Sensu](https://sensu.io) is an open source monitoring and observability pipeline with a commercial distribution which offers additional features for scalability. It can reuse existing Nagios plugins.
 
 ### Scope
 
-The same general scope differences as in the case of [Nagios](/docs/introduction/comparison/#prometheus-vs-nagios) apply here.
-
-There is also a [client socket](https://docs.sensu.io/sensu-core/latest/reference/clients/#what-is-the-sensu-client-socket) permitting ad-hoc check results to be pushed into Sensu. 
+Sensu is an observability pipeline that focuses on processing and alerting of observability data as a stream of [Events](https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-events/events/). It provides an extensible framework for event [filtering](https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-filter/), aggregation, [transformation](https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-transform/), and [processing](https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-process/) – including sending alerts to other systems and storing events in third-party systems. Sensu's event processing capabilities are similar in scope to Prometheus alerting rules and Alertmanager. 
 
 ### Data model
 
-Sensu has the same rough data model as [Nagios](/docs/introduction/comparison/#prometheus-vs-nagios).
+Sensu [Events](https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-events/events/) represent service health and/or [metrics](https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-events/events/#metric-attributes) in a structured data format identified by an [entity](https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-entities/entities/) name (e.g. server, cloud compute instance, container, or service), an event name, and optional [key-value metadata](https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-events/events/#metadata-attributes) called "labels" or "annotations". The Sensu Event payload may include one or more metric [`points`](https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-events/events/#points-attributes), represented as a JSON object containing a `name`, `tags` (key/value pairs), `timestamp`, and `value` (always a float).
 
 ### Storage
 
-Sensu uses Redis to persist monitoring data, including the Sensu client registry, check results, check execution history, and current event data.
+Sensu stores current and recent event status information and real-time inventory data in an embedded database (etcd) or an external RDBMS (Postgres). 
 
 ### Architecture
 
-Sensu has a [number of components](https://docs.sensu.io/sensu-core/latest/overview/architecture/). It uses
-RabbitMQ as a transport, Redis for current state, and a separate server for
-processing and API access.
-
-All components of a Sensu deployment (RabbitMQ, Redis, and Sensu Server/API) can be clustered for highly available and redundant configurations.
+All components of a Sensu deployment can be clustered for high availability and improved event-processing throughput. 
 
 ### Summary
-If you have an existing Nagios setup that you wish to scale as-is, or want to take advantage of the automatic registration feature of Sensu, then Sensu is a good choice.
 
-If you want to do whitebox monitoring, or have a very dynamic or cloud based environment, then Prometheus is a good choice.
+Sensu and Prometheus have a few capabilities in common, but they take very different approaches to monitoring. Both offer extensible discovery mechanisms for dynamic cloud-based environments and ephemeral compute platforms, though the underlying mechanisms are quite different. Both provide support for collecting multi-dimensional metrics via labels and annotations. Both have extensive integrations, and Sensu natively supports collecting metrics from all Prometheus exporters. Both are capable of forwarding observability data to third-party data platforms (e.g. event stores or TSDBs). Where Sensu and Prometheus differ the most is in their use cases.
+
+Where Sensu is better: 
+
+- If you're collecting and processing hybrid observability data (including metrics _and/or_ events)
+- If you're consolidating mulitple monitoring tools and need support for metrics _and_ Nagios-style plugins or check scripts
+- More powerful event-processing platform
+
+Where Prometheus is better: 
+
+- If you're primarily collecting and evaluating metrics
+- If you're monitoring homogeneous Kubernetes infrastructure (if 100% of the workloads you're monitoring are in K8s, Prometheus offers better K8s integration)
+- More powerful query language, and built-in support for historical data analysis 
+
+Sensu is maintained by a single commercial company following the open-core business model, offering premium features like closed-source event correlation and aggregation, federation, and support. Prometheus is a fully open source and independent project, maintained by a number of companies and individuals, some of whom also offer commercial services and support.

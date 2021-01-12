@@ -47,7 +47,7 @@ data volumes.
   * [Google BigQuery](https://github.com/KohlsTechnology/prometheus_bigquery_remote_storage_adapter): read and write
   * [Google Cloud Spanner](https://github.com/google/truestreet): read and write
   * [Graphite](https://github.com/prometheus/prometheus/tree/master/documentation/examples/remote_storage/remote_storage_adapter): write
-  * [InfluxDB](https://docs.influxdata.com/influxdb/latest/supported_protocols/prometheus): read and write
+  * [InfluxDB](https://docs.influxdata.com/influxdb/v1.8/supported_protocols/prometheus): read and write
   * [IRONdb](https://github.com/circonus-labs/irondb-prometheus-adapter): read and write
   * [Kafka](https://github.com/Telefonica/prometheus-kafka-adapter): write
   * [M3DB](https://m3db.github.io/m3/integrations/prometheus): read and write

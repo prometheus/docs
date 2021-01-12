@@ -258,7 +258,7 @@ Sensu [Events](https://docs.sensu.io/sensu-go/latest/observability-pipeline/obse
 
 ### Storage
 
-Sensu stores current and recent event status information and real-time inventory data in an embedded database (etcd) or an external RDBMS (Postgres). 
+Sensu stores current and recent event status information and real-time inventory data in an embedded database (etcd) or an external RDBMS (PostgreSQL). 
 
 ### Architecture
 

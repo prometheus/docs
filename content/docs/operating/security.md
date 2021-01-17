@@ -231,6 +231,19 @@ have access. If you are concerned about the exact provenance of your binaries,
 it is recommended to build them yourself rather than relying on the
 pre-built binaries provided by the project.
 
+## Prometheus-Community
+
+The repositories under the [Prometheus-Community](https://github.com/prometheus-community)
+organization are supported by third-party maintainers.
+
+If you find a _security bug_ in the [Prometheus-Community](https://github.com/prometheus-community) organization,
+please report it privately to the maintainers listed in the MAINTAINERS of the
+relevant repository and CC prometheus-team@googlegroups.com.
+
+Some repositories under that organization might have a different security model
+than the ones presented in this document. In such a case, please refer to the
+documentation of those repositories.
+
 ## External audits
 
 [CNCF](https://cncf.io) sponsored an external security audit by

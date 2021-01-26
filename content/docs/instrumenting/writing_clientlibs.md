@@ -246,7 +246,7 @@ aspects](/docs/practices/instrumentation/#use-labels) of Prometheus, but
 Accordingly client libraries must be very careful in how labels are offered to
 users.
 
-Client libraries MUST NOT under any circumstances allow users to have different
+Client libraries MUST NOT allow users to have different
 label names for the same metric for Gauge/Counter/Summary/Histogram or any
 other Collector offered by the library.
 

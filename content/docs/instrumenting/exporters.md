@@ -312,4 +312,5 @@ practices.
    * Java/JVM: [Jersey metrics collector](https://github.com/VitaNuova/jerseyexporter)
    * Java/JVM: [Micrometer Prometheus Registry](https://micrometer.io/docs/registry/prometheus)
    * Python-Django: [django-prometheus](https://github.com/korfuri/django-prometheus)
+   * Python-Starlette: [starlette-prometheus](https://github.com/perdy/starlette-prometheus)
    * Node.js: [swagger-stats](https://github.com/slanatech/swagger-stats)

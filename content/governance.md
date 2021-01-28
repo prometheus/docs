@@ -51,7 +51,6 @@ The current team members are:
 * Bartłomiej Płotka ([Red Hat](https://www.redhat.com/))
 * Ben Kochie ([GitLab](https://about.gitlab.com/))
 * Björn Rabenstein ([Grafana Labs](https://grafana.com/))
-* Brian Brazil ([Robust Perception](https://www.robustperception.io/))
 * Callum Styan ([Grafana Labs](https://grafana.com/))
 * Chris Marchbanks ([Grafana Labs](https://grafana.com/))
 * Frederic Branczyk ([Polar Signals](https://www.polarsignals.com/))
@@ -68,6 +67,7 @@ The current team members are:
 
 Previous members:
 
+* Brian Brazil
 * Conor Broderick
 * Fabian Reinartz
 * Krasi Georgiev

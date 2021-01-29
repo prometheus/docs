@@ -13,5 +13,5 @@ following maintainers with their focus areas:
 
 * Julius Volz <julius.volz@gmail.com> @juliusv: Web design, static site
   generator.
-* Brian Brazil <brian.brazil@robustperception.io> @brian-brazil: Everything
+* Richard Hartmann <richih@prometheus.io> @RichiH: Everything
   else.

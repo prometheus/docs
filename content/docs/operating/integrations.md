@@ -35,6 +35,8 @@ is primarily intended for long term storage. It is recommended that you perform
 careful evaluation of any solution in this space to confirm it can handle your
 data volumes.
 
+### Storage backends
+
   * [AppOptics](https://github.com/solarwinds/prometheus2appoptics): write
   * [AWS Timestream](https://github.com/dpattmann/prometheus-timestream-adapter): read and write
   * [Azure Data Explorer](https://github.com/cosh/PrometheusToAdx): read and write
@@ -63,7 +65,9 @@ data volumes.
   * [VictoriaMetrics](https://github.com/VictoriaMetrics/VictoriaMetrics): write
   * [Wavefront](https://github.com/wavefrontHQ/prometheus-storage-adapter): write
 
-[Prom-migrator](https://github.com/timescale/promscale/tree/master/cmd/prom-migrator) is a tool for migrating data between remote storage systems.
+### Tools
+
+*  [Prom-migrator](https://github.com/timescale/promscale/tree/master/cmd/prom-migrator): tool for migrating data between remote storage systems
 
 ## Alertmanager Webhook Receiver
 

@@ -13,5 +13,5 @@ following maintainers with their focus areas:
 
 * Julius Volz <julius.volz@gmail.com> @juliusv: Web design, static site
   generator.
-* Richard Hartmann <richih@prometheus.io> @RichiH: Everything
+* Richard Hartmann <richih@richih.org> @RichiH: Everything
   else.

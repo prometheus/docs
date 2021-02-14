@@ -196,6 +196,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [cAdvisor](https://github.com/google/cadvisor)
    * [Cachet exporter](https://github.com/ContaAzul/cachet_exporter)
    * [ccache exporter](https://github.com/virtualtam/ccache_exporter)
+   * [celery_exporter](https://github.com/danihodovic/celery_exporter)
    * [c-lightning exporter](https://github.com/lightningd/plugins/tree/master/prometheus)
    * [DHCPD leases exporter](https://github.com/DRuggeri/dhcpd_leases_exporter)
    * [Dovecot exporter](https://github.com/kumina/dovecot_exporter)

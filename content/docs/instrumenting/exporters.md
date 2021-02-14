@@ -67,6 +67,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [Dell Hardware OMSA exporter](https://github.com/galexrt/dellhw_exporter)
    * [Fortigate exporter](https://github.com/bluecmd/fortigate_exporter)
    * [IBM Z HMC exporter](https://github.com/zhmcclient/zhmc-prometheus-exporter)
+   * [Intel Processor Counter Monitor exporter](https://github.com/opcm/pcm/blob/master/PCM-EXPORTER.md)
    * [IoT Edison exporter](https://github.com/roman-vynar/edison_exporter)
    * [IPMI exporter](https://github.com/soundcloud/ipmi_exporter)
    * [knxd exporter](https://github.com/RichiH/knxd_exporter)

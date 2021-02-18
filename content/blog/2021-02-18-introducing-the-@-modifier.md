@@ -5,6 +5,8 @@ kind: article
 author_name: Ganesh Vernekar
 ---
 
+Currently, the `topk()` query only makes sense as an instant query where you get exactly `k` results, but when you run it as a range query, you can get much more than `k` results since every step is evaluated independently. This `@` modifier lets you fix the ranking for all the steps in a range query.
+
 In Prometheus v2.25.0, we have introduced a new PromQL modifier `@`. Similar to how `offset` modifier lets you offset the evaluation of vector selector, range vector selector, and subqueries by a fixed duration relative to the evaluation time, the `@` modifier lets you fix the evaluation for those selectors irrespective of the query evaluation time.
 
     <vector-selector> @ <timestamp>
@@ -17,11 +19,7 @@ For example, the query `http_requests_total @ 1609746000` returns the value of `
 
 Additionally, `start()` and `end()` can also be used as values for the `@` modifier as special values. For a range query, they resolve to the start and end of the range query respectively and remain the same for all steps. For an instant query, `start()` and `end()` both resolve to the evaluation time.
 
-_But, what is the use of this new modifier?_
-
-One of the interesting use cases of `@` is fixing the `topk()` for range queries. Currently, the `topk()` query only makes sense as an instant query where you get exactly `k` results, but when you run it as a range query, you can get much more than `k` results since every step is evaluated independently. This `@` modifier lets you fix the ranking for all the steps in a range query.
-
-The following query plots the `1m` rate of `http_requests_total` of those series whose last `1h` rate was among the top 5. Hence now you can make sense of the `topk()` even as a range query where it plots exactly `k` results.
+Coming back to the `topk()` fix, the following query plots the `1m` rate of `http_requests_total` of those series whose last `1h` rate was among the top 5. Hence now you can make sense of the `topk()` even as a range query where it plots exactly `k` results.
 
     rate(http_requests_total[1m]) # This acts like the actual selector.
       and

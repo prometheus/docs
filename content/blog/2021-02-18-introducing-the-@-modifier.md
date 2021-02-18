@@ -5,9 +5,11 @@ kind: article
 author_name: Ganesh Vernekar
 ---
 
+Have you ever selected the top 10 time series for something, but instead of 10 you got 100? If yes, this one is for you. Let me walk you through what the underlying problem is and how I fixed it.
+
 Currently, the `topk()` query only makes sense as an instant query where you get exactly `k` results, but when you run it as a range query, you can get much more than `k` results since every step is evaluated independently. This `@` modifier lets you fix the ranking for all the steps in a range query.
 
-In Prometheus v2.25.0, we have introduced a new PromQL modifier `@`. Similar to how `offset` modifier lets you offset the evaluation of vector selector, range vector selector, and subqueries by a fixed duration relative to the evaluation time, the `@` modifier lets you fix the evaluation for those selectors irrespective of the query evaluation time.
+In Prometheus v2.25.0, we have introduced a new PromQL modifier `@`. Similar to how `offset` modifier lets you offset the evaluation of vector selector, range vector selector, and subqueries by a fixed duration relative to the evaluation time, the `@` modifier lets you fix the evaluation for those selectors irrespective of the query evaluation time. The credits for this syntax goes to [Björn Rabenstein](https://github.com/beorn7/).
 
     <vector-selector> @ <timestamp>
     <range-vector-selector> @ <timestamp>

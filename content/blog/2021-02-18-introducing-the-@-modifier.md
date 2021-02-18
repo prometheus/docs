@@ -17,12 +17,16 @@ For example, the query `http_requests_total @ 1609746000` returns the value of `
 
 Additionally, `start()` and `end()` can also be used as values for the `@` modifier as special values. For a range query, they resolve to the start and end of the range query respectively and remain the same for all steps. For an instant query, `start()` and `end()` both resolve to the evaluation time.
 
-One of the interesting use cases of `@` is fixing the `topk()` for range queries. The following query plots the `1m` rate of `http_requests_total` of those series whose last `1h` rate was among the top 5.
+_But, what is the use of this new modifier?_
+
+One of the interesting use cases of `@` is fixing the `topk()` for range queries. Currently, the `topk()` query only makes sense as an instant query where you get exactly `k` results, but when you run it as a range query, you can get much more than `k` results since every step is evaluated independently. This `@` modifier lets you fix the ranking for all the steps in a range query.
+
+The following query plots the `1m` rate of `http_requests_total` of those series whose last `1h` rate was among the top 5. Hence now you can make sense of the `topk()` even as a range query where it plots exactly `k` results.
 
     rate(http_requests_total[1m]) # This acts like the actual selector.
       and
     topk(5, rate(http_requests_total[1h] @ end())) # This acts like a ranking function which filters the selector.
 
-Similarly, the `topk()` ranking can be replaced with other functions like `histogram_quantile()`, `rate()` with `<aggregation>_over_time()`, etc. Let us know how you use this new modifier!
+Similarly, the `topk()` ranking can be replaced with other functions like `histogram_quantile()` which only makes sense as an instant query right now. `rate()` can be replaced with `<aggregation>_over_time()`, etc. Let us know how you use this new modifier!
 
 `@` modifier is disabled by default and can be enabled using the flag `--enable-feature=promql-at-modifier`. Learn more about feature flags in [this blog post](https://prometheus.io/blog/2021/02/17/introducing-feature-flags/) and find the docs for `@` modifier [here](https://prometheus.io/docs/prometheus/latest/querying/basics/#modifier).

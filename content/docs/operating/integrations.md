@@ -51,7 +51,6 @@ data volumes.
   * [IRONdb](https://github.com/circonus-labs/irondb-prometheus-adapter): read and write
   * [Kafka](https://github.com/Telefonica/prometheus-kafka-adapter): write
   * [M3DB](https://m3db.github.io/m3/integrations/prometheus): read and write
-  * [MetricFire](https://www.hostedgraphite.com/docs/prometheus/prometheus.html): read and write
   * [New Relic](https://docs.newrelic.com/docs/set-or-remove-your-prometheus-remote-write-integration): write
   * [OpenTSDB](https://github.com/prometheus/prometheus/tree/master/documentation/examples/remote_storage/remote_storage_adapter): write
   * [PostgreSQL/TimescaleDB](https://github.com/timescale/promscale): read and write

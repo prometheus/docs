@@ -76,7 +76,7 @@ Previous members:
 * Steve Durrheimer
 * Stuart Nelson
 
-_Note that Prometheus has received significant contributions from a number of unlisted individuals before this governance document and thus formal team membership was created._
+_Please note that Prometheus has received significant contributions from a number of unlisted individuals before this governance document, and thus formal team membership, was created._
 
 ### Maintainers
 

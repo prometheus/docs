@@ -212,6 +212,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [Kemp LoadBalancer exporter](https://github.com/giantswarm/prometheus-kemp-exporter)
    * [Kibana Exporter](https://github.com/pjhampton/kibana-prometheus-exporter)
    * [kube-state-metrics](https://github.com/kubernetes/kube-state-metrics)
+   * [Kubecost](https://github.com/kubecost/cost-model/blob/develop/kubecost-exporter.md)
    * [Locust Exporter](https://github.com/ContainerSolutions/locust_exporter)
    * [Meteor JS web framework exporter](https://atmospherejs.com/sevki/prometheus-exporter)
    * [Minecraft exporter module](https://github.com/Baughn/PrometheusIntegration)

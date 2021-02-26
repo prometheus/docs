@@ -198,6 +198,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [ccache exporter](https://github.com/virtualtam/ccache_exporter)
    * [c-lightning exporter](https://github.com/lightningd/plugins/tree/master/prometheus)
    * [DHCPD leases exporter](https://github.com/DRuggeri/dhcpd_leases_exporter)
+   * [Domain Registration Exporter](https://github.com/shift/domain_exporter)
    * [Dovecot exporter](https://github.com/kumina/dovecot_exporter)
    * [Dnsmasq exporter](https://github.com/google/dnsmasq_exporter)
    * [eBPF exporter](https://github.com/cloudflare/ebpf_exporter)

@@ -93,6 +93,7 @@ For notification mechanisms not natively supported by the Alertmanager, the
   * [SNMP traps](https://github.com/maxwo/snmp_notifier)
   * [Squadcast](https://support.squadcast.com/docs/prometheus)
   * [Telegram bot](https://github.com/inCaller/prometheus_bot)
+  * [Twilio GSheets](https://github.com/numberly/alertmanager-twilio-gsheets): Send Twilio SMS alerts using Google Sheets phone book
   * [xMatters](https://github.com/xmatters/xm-labs-prometheus)
   * [XMPP Bot](https://github.com/jelmer/prometheus-xmpp-alerts)
   * [Zenduty](https://docs.zenduty.com/docs/prometheus/)

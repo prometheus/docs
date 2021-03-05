@@ -24,6 +24,7 @@ For service discovery mechanisms not natively supported by Prometheus,
 
  * [Kuma](https://github.com/Kong/kuma/tree/master/app/kuma-prometheus-sd)
  * [Lightsail](https://github.com/n888/prometheus-lightsail-sd)
+ * [Netbox](https://github.com/FlxPeters/netbox-prometheus-sd)
  * [Packet](https://github.com/packethost/prometheus-packet-sd)
  * [Scaleway](https://github.com/scaleway/prometheus-scw-sd)
 

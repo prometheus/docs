@@ -169,6 +169,7 @@ The new member is
 * added to the [GitHub organization][gh] as _Owner_.
 * optionally added to the community, junkyard, and related organizations and repositories.
 * added to the [team mailing list][team].
+* added to the prometheus.io GSuite account with a user name of the new member's choice. (Most importantly, this comes with a `<chosen-username>@prometheus.io` email address and provides access to the team's GDrive and calendar. The new member should add the latter to their own calendar list.)
 * announced to CNCF.
 * given access to the shared password storage.
 

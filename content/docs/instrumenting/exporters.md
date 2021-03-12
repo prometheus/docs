@@ -271,7 +271,7 @@ separate exporters are needed:
    * [Flink](https://github.com/apache/flink)
    * [FreeBSD Kernel](https://www.freebsd.org/cgi/man.cgi?query=prometheus_sysctl_exporter&apropos=0&sektion=8&manpath=FreeBSD+12-current&arch=default&format=html)
    * [GitLab](https://docs.gitlab.com/ee/administration/monitoring/prometheus/gitlab_metrics.html)
-   * [Grafana](http://docs.grafana.org/administration/metrics/)
+   * [Grafana](https://grafana.com/docs/grafana/latest/administration/view-server/internal-metrics/)
    * [JavaMelody](https://github.com/javamelody/javamelody/wiki/UserGuideAdvanced#exposing-metrics-to-prometheus)
    * [Kong](https://github.com/Kong/kong-plugin-prometheus)
    * [Kubernetes](https://github.com/kubernetes/kubernetes) (**direct**)

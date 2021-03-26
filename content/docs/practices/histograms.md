@@ -34,7 +34,11 @@ observations. Obviously, request durations or response sizes are
 never negative. In principle, however, you can use summaries and
 histograms to observe negative values (e.g. temperatures in
 centigrade). In that case, the sum of observations can go down, so you
-cannot apply `rate()` to it anymore.
+cannot apply `rate()` to it anymore. In those rare cases where you need to
+apply `rate()` and cannot avoid negative observations, you can use two
+separate summaries, one for positive and one for negative observations
+(the latter with inverted sign), and combine the results later with suitable
+PromQL expressions.
 
 To calculate the average request duration during the last 5 minutes
 from a histogram or summary called `http_request_duration_seconds`,

@@ -134,7 +134,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [AWS SQS exporter](https://github.com/jmal98/sqs_exporter)
    * [Azure Health exporter](https://github.com/FXinnovation/azure-health-exporter)
    * [BigBlueButton](https://github.com/greenstatic/bigbluebutton-exporter)
-   * [Cloudflare exporter](https://github.com/wehkamp/docker-prometheus-cloudflare-exporter)
+   * [Cloudflare exporter](https://gitlab.com/gitlab-org/cloudflare_exporter)
    * [Cryptowat exporter](https://github.com/nbarrientos/cryptowat_exporter)
    * [DigitalOcean exporter](https://github.com/metalmatze/digitalocean_exporter)
    * [Docker Cloud exporter](https://github.com/infinityworksltd/docker-cloud-exporter)

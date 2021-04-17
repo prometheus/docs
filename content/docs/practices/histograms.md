@@ -69,7 +69,7 @@ a histogram called `http_request_duration_seconds`.
 
 You can approximate the well-known [Apdex
 score](http://en.wikipedia.org/wiki/Apdex) in a similar way. Configure
-a bucket with the target request duration as the upper bound and
+a bucket with the target request duration as the target bound and
 another bucket with the tolerated request duration (usually 4 times
 the target request duration) as the upper bound. Example: The target
 request duration is 300ms. The tolerable request duration is 1.2s. The

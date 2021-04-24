@@ -44,7 +44,7 @@ A metric name...
  * instantaneous resource usage as a percentage
 * ...should add the unit modifier, like `failed`, before the metric name if needed.
  * <code>foobar\_<b>failed</b>\_requests_total</code>
- * <code>prometheus\_target\_<b>failed</b>\_scrape\_pool\_total<code> (`target` being the Prometheus module the metric originates from).
+ * <code>prometheus\_target\_<b>failed</b>\_scrape\_pool\_total</code> (`target` being the Prometheus module the metric originates from).
  
 As a rule of thumb, either the `sum()` or the `avg()` over all dimensions of a
 given metric should be meaningful (though not necessarily useful). If it is not

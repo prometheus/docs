@@ -115,3 +115,4 @@ you to integrate it with your existing systems or build on top of it.
   * [karma](https://github.com/prymitive/karma): alert dashboard
   * [PushProx](https://github.com/RobustPerception/PushProx): Proxy to transverse NAT and similar network setups
   * [Promregator](https://github.com/promregator/promregator): discovery and scraping for Cloud Foundry applications
+  * [pint](https://github.com/cloudflare/pint): Prometheus rule linter

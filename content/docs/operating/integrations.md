@@ -83,6 +83,7 @@ For notification mechanisms not natively supported by the Alertmanager, the
   * [Gotify](https://github.com/DRuggeri/alertmanager_gotify_bridge)
   * [GELF](https://github.com/b-com-software-basis/alertmanager2gelf)
   * [Icinga2](https://github.com/vshn/signalilo)
+  * [iLert](https://docs.ilert.com/integrations/prometheus)
   * [IRC Bot](https://github.com/multimfi/bot)
   * [JIRAlert](https://github.com/free/jiralert)
   * [Matrix](https://github.com/matrix-org/go-neb)

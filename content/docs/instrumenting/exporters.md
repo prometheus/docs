@@ -114,6 +114,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [Hadoop HDFS FSImage exporter](https://github.com/marcelmay/hadoop-hdfs-fsimage-exporter)
    * [Lustre exporter](https://github.com/HewlettPackard/lustre_exporter)
    * [NetApp E-Series exporter](https://github.com/treydock/eseries_exporter)
+   * [Pure Storage exporter](https://github.com/PureStorage-OpenConnect/pure-exporter)
    * [ScaleIO exporter](https://github.com/syepes/sio2prom)
    * [Tivoli Storage Manager/IBM Spectrum Protect exporter](https://github.com/treydock/tsm_exporter)
 

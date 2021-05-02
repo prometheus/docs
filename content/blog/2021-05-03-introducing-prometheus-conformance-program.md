@@ -5,11 +5,11 @@ kind: article
 author_name: Richard "RichiH" Hartmann
 ---
 
-Prometheus is the standard for metric monitoring in the cloud native space and beyond. To ensure interoperability, to protect users from suprises, and to enable more parallel innovation, the Prometheus project is introducing the [Prometheus Conformance Program](https://github.com/cncf/prometheus-conformance) with the help of [CNCF]{https://www.cncf.io/} to certify component compliance and Prometheus compatibility.
+Prometheus is the standard for metric monitoring in the cloud native space and beyond. To ensure interoperability, to protect users from suprises, and to enable more parallel innovation, the Prometheus project is introducing the [Prometheus Conformance Program](https://github.com/cncf/prometheus-conformance) with the help of [CNCF](https://www.cncf.io/) to certify component compliance and Prometheus compatibility.
 
-The CNCF Governing Board is expected to formally review and approve the program during their next meeting. We invite the wider community to help improve our test in this ramp-up phase.
+The CNCF Governing Board is expected to formally review and approve the program during their next meeting. We invite the wider community to help improve our tests in this ramp-up phase.
 
-With the help of our [extensive and expanding test suite](https://github.com/prometheus/compliance), projects and vendors can determine the compliance to our specifications and test suites.
+With the help of our [extensive and expanding test suite](https://github.com/prometheus/compliance), projects and vendors can determine the compliance to our specifications and compatibility within the Prometheus ecosystem.
 
 At launch, we are offering compliance tests for three components:
 * PromQL (needs manual interpretation, somewhat complete)

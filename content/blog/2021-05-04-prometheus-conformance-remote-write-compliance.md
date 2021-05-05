@@ -136,4 +136,4 @@ The raw results are:
     --- PASS: TestRemoteWrite/vmagent/Up (20.66s)
 ````
 
-We'll work more on improving our test suits, both by adding more tests & by adding new test targets. If you want to help us, consider adding more [our list of Remote Write integrations](https://prometheus.io/docs/operating/integrations/#remote-endpoints-and-storage).
+We'll work more on improving our test suites, both by adding more tests & by adding new test targets. If you want to help us, consider adding more of [our list of Remote Write integrations](https://prometheus.io/docs/operating/integrations/#remote-endpoints-and-storage).

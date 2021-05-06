@@ -152,6 +152,19 @@ rpc_duration_seconds_sum 1.7560473e+07
 rpc_duration_seconds_count 2693
 ```
 
+## OpenMetrics Text Format
+
+[OpenMetrics](https://github.com/OpenObservability/OpenMetrics) is the an effort to standardize metric wire formatting built off of Prometheus text format. It is possible to scrape targets
+and it is also available to use for federating metrics since at least v2.23.0.
+
+### Exemplars (Experimental)
+
+Utilizing the OpenMetrics format allows for the exposition and querying of [Exemplars](https://github.com/OpenObservability/OpenMetrics/blob/main/specification/OpenMetrics.md#exemplars).
+Exemplars provide a point in time snapshot related to a metric set for an otherwise summarized MetricFamily. Additionally they may have a Trace ID attached to them which when used to together
+with a tracing system can provide more detailed information related to the specific service.
+
+To enable this experimental feature you must have at least version v2.26.0 and add `--enable-feature=exemplar-storage` to your arguments.
+
 ## Historical versions
 
 For details on historical format versions, see the legacy

@@ -199,6 +199,15 @@ Global tasks run on every daemon.
   target_label: docker_node
 ```
 
+### Scraping a service based on the `prometheus.port` label to avoid having to publish the port
+
+```yaml
+- source_labels: [__address__, __meta_dockerswarm_service_label_prometheus_port]
+  target_label: __address__
+  regex: (.+):[0-9]+;([0-9]+)
+  replacement: $1:$2
+```
+
 ## Connecting to the Docker Swarm
 
 The above `dockerswarm_sd_configs` entries have a field host:

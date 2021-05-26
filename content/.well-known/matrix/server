@@ -1,0 +1,5 @@
+---
+filename: server
+---
+
+{ "m.server": "matrix-federation.matrix.org:443" }

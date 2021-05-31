@@ -117,6 +117,8 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [Pure Storage exporter](https://github.com/PureStorage-OpenConnect/pure-exporter)
    * [ScaleIO exporter](https://github.com/syepes/sio2prom)
    * [Tivoli Storage Manager/IBM Spectrum Protect exporter](https://github.com/treydock/tsm_exporter)
+   * [FlashSystem/SAN Volume Controller/IBM Spectrum Virtualize Exporter](https://github.com/IBM/spectrum-virtualize-exporter)
+   * [DS8K exporter](https://github.com/IBM/ds8k-exporter)
 
 ### HTTP
    * [Apache exporter](https://github.com/Lusitaniae/apache_exporter)
@@ -186,6 +188,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [StatsD exporter](https://github.com/prometheus/statsd_exporter) (**official**)
    * [TencentCloud monitor exporter](https://github.com/tencentyun/tencentcloud-exporter)
    * [ThousandEyes exporter](https://github.com/sapcc/1000eyes_exporter)
+   * [SAN Switch/Fabric operating system exporter](https://github.com/IBM/fabric-os-exporter)
 
 ### Miscellaneous
    * [ACT Fibernet Exporter](https://git.captnemo.in/nemo/prometheus-act-exporter)

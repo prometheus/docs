@@ -4,10 +4,13 @@ require 'open-uri'
 require 'semverse'
 
 module Downloads
+  # Supported artifact extensions
+  EXTENSIONS = %w(.tar.gz .zip .msi .exe)
+
   # repositories returns a list of all repositories with releases.
   def self.repositories
     @_repositories ||= begin
-      repos = Dir.glob('downloads/*').map { |dir| Repository.load(dir) }
+      repos = Dir.glob('downloads/*/*').map { |dir| Repository.load(dir) }
       repos.sort_by { |r| r.name == 'prometheus' ? '0' : r.name }
     end
   end
@@ -47,6 +50,10 @@ module Downloads
 
         File.readlines(cache).each_with_object({}) do |line, memo|
           checksum, filename = line.split(/\s+/)
+          # Handle uncommon windows_exporter format naively.
+          if (i = filename.index('\\'))
+            filename = filename[i+1..]
+          end
           memo[filename] = checksum
         end
       else
@@ -125,14 +132,16 @@ module Downloads
       @data['assets']
     end
 
-    # binaries returns a list of release archives in the .tar.gz or .zip format.
-    # If both formats are available, only .zip is returned (covers Windows use case).
+    # binaries returns a list of release archives in the .tar.gz, .zip, .exe, or .msi formats.
+    # For windows releases with multiple artifact formats, the .tar.gz format won't be returned.
     def binaries
       assets.
-        select { |d| d['name'] && %w[.tar.gz .zip].any? { |ext| d['name'].end_with?(ext) } }.
+        select { |d| d['name'] && EXTENSIONS.any? { |ext| d['name'].end_with?(ext) } }.
         map { |d| Binary.new(d) }.
         group_by { |b| [b.os, b.arch] }.
-        map { |_, binaries| binaries.sort_by(&:name).last }.
+        flat_map { |(os, _), artifacts|
+          os == 'windows' && artifacts.count > 1 ? artifacts.reject { |a| a.ext == '.tar.gz' } : artifacts
+        }.
         sort_by(&:name)
     end
 
@@ -154,6 +163,7 @@ module Downloads
   class Binary
     def initialize(data)
       @data = data
+      @info = parse(@data['name'])
     end
 
     def name
@@ -169,11 +179,15 @@ module Downloads
     end
 
     def os
-      base_name.split('.').last.split('-').first
+      @info['os']
     end
 
     def arch
-      base_name.split('.').last.split('-').last
+      @info['arch']
+    end
+
+    def ext
+      @info['ext']
     end
 
     def size
@@ -182,8 +196,20 @@ module Downloads
 
     private
 
-    def base_name
-      name.chomp('.tar.gz').chomp('.zip')
+    # parse extracts common artifact information from the given name. Current
+    # implementation handles the windows_exporter case naively. A more explicit
+    # approach might need to be taken in the future.
+    def parse(name)
+      EXTENSIONS.each do |ext|
+        next if !name.end_with?(ext)
+        os, arch = name.delete_suffix(ext).split('.').last.split('-')
+        return {
+          'os' => name.start_with?('windows') ? 'windows' : os,
+          'arch' => arch,
+          'ext' => ext,
+        }
+      end
+      raise ArgumentError, 'unknown release artifact type'
     end
   end
 

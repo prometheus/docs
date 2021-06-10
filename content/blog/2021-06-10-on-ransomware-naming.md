@@ -13,7 +13,7 @@ While we do *NOT* have reason to believe that this group will try to trick anyon
 
 * Binary downloads from the official release pages for [Prometheus](https://github.com/prometheus/prometheus/releases) and [Thanos](https://github.com/thanos-io/thanos/releases), with verification of checksums provided.
 * Docker downloads from official project controlled repositories:
-  * Prometheus: https://quay.io/repository/prometheus/prometheus 
+  * Prometheus: https://quay.io/repository/prometheus/prometheus and https://hub.docker.com/r/prom/prometheus
   * Thanos: https://quay.io/repository/thanos/thanos and https://hub.docker.com/r/thanosio/thanos
 * Binaries, images, or containers from distributions you trust
 * Binaries, images, or containers from your own internal software verification and deployment teams

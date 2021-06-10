@@ -2,7 +2,7 @@
 title: Prometheus Graduates Within CNCF
 created_at: 2018-08-09
 kind: article
-author_name: Richard Hartmann
+author_name: '<a href="https://twitter.com/TwitchiH">Richard "RichiH" Hartmann</a>'
 ---
 
 We are happy to announce that as of today, Prometheus graduates within the [CNCF](https://www.cncf.io/).

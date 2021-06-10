@@ -2,7 +2,7 @@
 title: "On Ransomware Naming"
 created_at: 2021-06-10
 kind: article
-author_name: [Richard "RichiH" Hartmann](https://github.com/RichiH)
+author_name: "<a href="https://github.com/RichiH">Richard "RichiH" Hartmann</a>"
 ---
 
 As per Oscar Wilde, imitation is the sincerest form of flattery.

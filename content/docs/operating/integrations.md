@@ -47,14 +47,14 @@ data volumes.
   * [Gnocchi](https://gnocchi.xyz/prometheus.html): write
   * [Google BigQuery](https://github.com/KohlsTechnology/prometheus_bigquery_remote_storage_adapter): read and write
   * [Google Cloud Spanner](https://github.com/google/truestreet): read and write
-  * [Graphite](https://github.com/prometheus/prometheus/tree/master/documentation/examples/remote_storage/remote_storage_adapter): write
+  * [Graphite](https://github.com/prometheus/prometheus/tree/main/documentation/examples/remote_storage/remote_storage_adapter): write
   * [InfluxDB](https://docs.influxdata.com/influxdb/v1.8/supported_protocols/prometheus): read and write
   * [Instana](https://www.instana.com/docs/ecosystem/prometheus/#remote-write): write
   * [IRONdb](https://github.com/circonus-labs/irondb-prometheus-adapter): read and write
   * [Kafka](https://github.com/Telefonica/prometheus-kafka-adapter): write
   * [M3DB](https://m3db.io/docs/integrations/prometheus/): read and write
   * [New Relic](https://docs.newrelic.com/docs/set-or-remove-your-prometheus-remote-write-integration): write
-  * [OpenTSDB](https://github.com/prometheus/prometheus/tree/master/documentation/examples/remote_storage/remote_storage_adapter): write
+  * [OpenTSDB](https://github.com/prometheus/prometheus/tree/main/documentation/examples/remote_storage/remote_storage_adapter): write
   * [PostgreSQL/TimescaleDB](https://github.com/timescale/promscale): read and write
   * [QuasarDB](https://doc.quasardb.net/master/user-guide/integration/prometheus.html): read and write
   * [SignalFx](https://github.com/signalfx/metricproxy#prometheus): write

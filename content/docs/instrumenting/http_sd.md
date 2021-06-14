@@ -16,6 +16,7 @@ discoveries, and is an alternative to the [File-based Service Discovery](https:/
 Here is a table comparing our two generic Service Discovery implementations.
 
 | Item | File SD | HTTP SD |
+| ---- | ------- | ------- |
 | Event Based | Yes, via inotify | No |
 | Update frequency | Instant, thanks to inotify | Following refresh_interval |
 | Format | Yaml or JSON | JSON |

@@ -9,7 +9,7 @@ Prometheus provides a generic [HTTP Service Discovery](https://prometheus.io/doc
 that enables it to discover targets over an HTTP endpoint.
 
 The HTTP Service Discovery is complimentary to the supported service
-discovery mechanisms, and is an alternative to the [File-based Service Discovery](https://prometheus.io/docs/guides/file-sd/#use-file-based-service-discovery-to-discover-scrape-targets).
+discovery mechanisms, and is an alternative to [File-based Service Discovery](https://prometheus.io/docs/guides/file-sd/#use-file-based-service-discovery-to-discover-scrape-targets).
 
 ## Comparison between File-Based SD and HTTP SD
 
@@ -43,7 +43,7 @@ targets list, Prometheus keeps using the current targets list. The targets list
 is not saved across restart.
 
 The whole list of targets must be returned on every scrape. There is no support
-for incremental update. A prometheus instance does not send its hostname and it
+for incremental updates. A Prometheus instance does not send its hostname and it
 is not possible for a SD endpoint to know if the SD requests is the first one
 after a restart or not.
 

@@ -36,10 +36,13 @@ The SD endpoint must answer with an HTTP 200 response, with the HTTP Header
 In the case when no targets are returned, an HTTP 200 must also be emitted, with
 an empty list `[]`.
 
-It is expected that the whole list of targets is returned on every scrape. There
-is no client-side caching mechanism. A prometheus instance does not send its
-hostname and it is not possible for a SD endpoint to know if the SD requests
-is the first one after a restart or not.
+If an error occurs while fetching the targets list, the current targets list is
+kept. The targets list is not saved across restart.
+
+The whole list of targets must be returned on every scrape. There is no support
+for incremental update. A prometheus instance does not send its hostname and it
+is not possible for a SD endpoint to know if the SD requests is the first one
+after a restart or not.
 
 The URL to the HTTP SD is not considered secret. The authentication, and any API
 keys should be passed with the appropriate authentication mechanisms. Prometheus

@@ -1,6 +1,6 @@
 ---
 title: Glossary
-sort_rank: 8
+sort_rank: 9
 ---
 
 # Glossary

@@ -29,7 +29,7 @@ If you implement an HTTP SD endpoint, here is a few requirements you should be
 aware of.
 
 The response is consumed as is, unmodified. On each refresh interval (default: 1
-minute), Prometheus will do a GET request to the HTTP SD endpoint. The GET
+minute), Prometheus will perform a GET request to the HTTP SD endpoint. The GET
 request contains a `X-Prometheus-Refresh-Interval-Seconds` HTTP header with the
 refresh interval.
 

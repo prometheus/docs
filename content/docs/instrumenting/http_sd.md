@@ -36,7 +36,7 @@ refresh interval.
 The SD endpoint must answer with an HTTP 200 response, with the HTTP Header
 `Content-Type: application/json`. The answer must be UTF-8 formatted.
 If no targets should be transmitted, HTTP 200 must also be emitted, with
-an empty list `[]`.
+an empty list `[]`. The list of unordered.
 
 Prometheus caches target lists. If an error occurs while fetching an updated
 targets list, Prometheus keeps using the current targets list. The targets list

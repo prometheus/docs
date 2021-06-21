@@ -20,6 +20,9 @@
 /docs/alerting/notification_examples/       /docs/alerting/latest/notification_examples/
 /docs/alerting/management_api/              /docs/alerting/latest/management_api/
 
+# Redirect for HTTP SD docs, which briefly lived in the wrong category / repo.
+/docs/instrumenting/http_sd/ /docs/prometheus/latest/http_sd/
+
 # Redirects for sections.
 # TODO(ts): Auto-generate from menu.
 /docs/                      /docs/introduction/overview/                302!

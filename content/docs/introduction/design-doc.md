@@ -25,19 +25,19 @@ still relevant.
 | Document | Initial date | Status | Pull requests |
 | -------- | ------------ | ------ | ------------- |
 | [Secure Alertmanager cluster traffic](https://github.com/prometheus/alertmanager/blob/master/doc/design/secure-cluster-traffic.md) | 2019‑02‑21 | Approved | [alertmanager#2237](https://github.com/prometheus/alertmanager/pull/2237) |
-| TSDB Head Improvements ([part1](https://docs.google.com/document/d/184urkLQnM7rqLmGvS66I15jU2pyPk_qwd8v_qDlXczo/edit#heading=h.ow34omg0frla) - [part 2](https://docs.google.com/document/d/1pnEsxB0CDLOxQipGw_vhkJpoDZfZPs_KjqCriumDAXQ/edit#heading=h.qsf5sgqoqemc)) | 2019‑12‑09 | Partially implemented | |
+| TSDB Head Improvements ([part1](https://docs.google.com/document/d/184urkLQnM7rqLmGvS66I15jU2pyPk_qwd8v_qDlXczo/edit) - [part 2](https://docs.google.com/document/d/1pnEsxB0CDLOxQipGw_vhkJpoDZfZPs_KjqCriumDAXQ/edit)) | 2019‑12‑09 | Partially implemented | |
 | [Persist Retroactive Rules](https://docs.google.com/document/d/16s_-RxYwQYcb4G4mvpmjPolEbD24o54a1LPqJ538Vhc/edit) | 2020‑06‑12 | Partially implemented | [#7675](https://github.com/prometheus/prometheus/pull/7675) |
 | [topk/bottomk aggregation over time](https://docs.google.com/document/d/1uSbD3T2beM-iX4-Hp7V074bzBRiRNlqUdcWP6JTDQSs/edit) | 2020‑09‑30 | Implemented | [#8121](https://github.com/prometheus/prometheus/pull/8121) [#8425](https://github.com/prometheus/prometheus/pull/8425) |
 | [http\_sd\_configs](https://docs.google.com/document/d/1tVeuzjpU4-TiYPNWJXKmcyIuZF6A2tUq270RbBT5zho/edit) | 2021‑02‑26 | Under review | [#8839](https://github.com/prometheus/prometheus/pull/8839) |
-| [prometheus/client\_java & micrometer](https://docs.google.com/document/d/1vROky2aIw3kAllfi95gwDJy5P2DyWnCihsjPXGpLwwo/edit#) | 2021‑02‑26 | Under review | |
+| [prometheus/client\_java & micrometer](https://docs.google.com/document/d/1vROky2aIw3kAllfi95gwDJy5P2DyWnCihsjPXGpLwwo/edit) | 2021‑02‑26 | Under review | |
 | [First-class network monitoring support in the Prometheus & Grafana ecosystem](https://docs.google.com/document/d/1oEpjiWfTHF352NCAOGolwij3EIkrprCkdQmaQMpjg4M/edit) | 2021‑02‑25 | Under review | |
-| [Configuration handling in exporters and Prometheus 3.x](https://docs.google.com/document/d/1BK_Gc3ixoWyxr9F5qGC07HEcfDPtb6z96mfqoGyz52Y/edit#heading=h.zcana55kzmxi) | 2021‑03‑29 | Under review | |
+| [Configuration handling in exporters and Prometheus 3.x](https://docs.google.com/document/d/1BK_Gc3ixoWyxr9F5qGC07HEcfDPtb6z96mfqoGyz52Y/edit) | 2021‑03‑29 | Under review | |
 | [Prometheus Agent](https://docs.google.com/document/d/1cCcoFgjDFwU2n823tKuMvrIhzHty4UDyn0IcfUHiyyI/edit) | 2021‑01‑27 | Approved | [#8785](https://github.com/prometheus/prometheus/pull/8785) |
 | [Sparse high-resolution histograms](https://docs.google.com/document/d/1cLNv3aufPZb3fNfaJgdaRBZsInZKKIHo9E6HinJVbpM/edit) | 2021‑02‑10 | Approved | |
-| [Prometheus timezones support](https://docs.google.com/document/d/1xfw1Lb1GIRZB_-4iFVGkgwnpwuBemWfxYqFdBm7APsE/edit#) | 2021‑05‑29 | Proposed | |
-| [Moving to goreleaser](https://docs.google.com/document/d/16LOT2wK-jntlU-EFADfaEF3YbKH81U9Zl_PvSu4qVwo/edit#heading=h.bupciudrwmna) | 2021‑06‑05 | Proposed |
-| [Alertmanager Log Receiver](https://docs.google.com/document/d/1Oevu2stHVGAupzmc9C7_wW5nTb_CJ6Ut72viXfve6zI/edit?usp=sharing) | 2021‑06‑10 | Proposed |
-| [Extra HTTP parameters in the blackbox exporter](https://docs.google.com/document/d/1VwqXi2TOb5KXaZY6Iio7411x64pJao3GusX8MqYsJ2g/edit#heading=h.hzsa87ps5uhr) | 2021‑06‑23 | Proposed | |
+| [Prometheus timezones support](https://docs.google.com/document/d/1xfw1Lb1GIRZB_-4iFVGkgwnpwuBemWfxYqFdBm7APsE/edit) | 2021‑05‑29 | Proposed | |
+| [Moving to goreleaser](https://docs.google.com/document/d/16LOT2wK-jntlU-EFADfaEF3YbKH81U9Zl_PvSu4qVwo/edit) | 2021‑06‑05 | Proposed |
+| [Alertmanager Log Receiver](https://docs.google.com/document/d/1Oevu2stHVGAupzmc9C7_wW5nTb_CJ6Ut72viXfve6zI/edit) | 2021‑06‑10 | Proposed |
+| [Extra HTTP parameters in the blackbox exporter](https://docs.google.com/document/d/1VwqXi2TOb5KXaZY6Iio7411x64pJao3GusX8MqYsJ2g/edit) | 2021‑06‑23 | Proposed | |
 | [Metadata](https://docs.google.com/document/d/1XiZePSjwU4X5iaIgCIvLzljJzl8lRAdvputuborUcaQ/edit) | | TODO | |
 | OpenMetrics transition | | TODO | |
 | Semantics of muting in Alertmanager | | TODO | |

@@ -282,7 +282,7 @@ separate exporters are needed:
    * [MidoNet](https://github.com/midonet/midonet)
    * [midonet-kubernetes](https://github.com/midonet/midonet-kubernetes) (**direct**)
    * [MinIO](https://docs.minio.io/docs/how-to-monitor-minio-using-prometheus.html)
-   * [Monitoring Studio X](https://www.sentrysoftware.com/library/swsyx/prometheus/exposing-patrol-parameters-in-prometheus.html)
+   * [PATROL with Monitoring Studio X](https://www.sentrysoftware.com/library/swsyx/prometheus/exposing-patrol-parameters-in-prometheus.html)
    * [Netdata](https://github.com/firehol/netdata)
    * [Pretix](https://pretix.eu/)
    * [Quobyte](https://www.quobyte.com/) (**direct**)

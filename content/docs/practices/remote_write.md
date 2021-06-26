@@ -43,10 +43,10 @@ significantly increase memory usage.
 In addition to the series cache, each shard and its queue increases memory
 usage. Shard memory is proportional to the `number of shards * (capacity +
 max_samples_per_send)`. When tuning, consider reducing `max_shards` alongside
-increases to `capacity` and `max_samples_per_send` to avoid inadvertantly
-running out of memory. The default values for `capacity` and
-`max_samples_per_send` will constrain shard memory usage to less than 100 kB per
-shard.
+increases to `capacity` and `max_samples_per_send` to avoid inadvertently
+running out of memory. The default values for `capacity: 2500` and
+`max_samples_per_send: 500` will constrain shard memory usage to less than 500
+kB per shard.
 
 ## Parameters
 
@@ -69,7 +69,7 @@ to 3-10 times `max_samples_per_send`.
 Max shards configures the maximum number of shards, or parallelism, Prometheus
 will use for each remote write queue. Prometheus will try not to use too many
 shards, but if the queue falls behind the remote write component will increase
-the number of shards up to max shards to increase thoughput. Unless remote
+the number of shards up to max shards to increase throughput. Unless remote
 writing to a very slow endpoint, it is unlikely that `max_shards` should be
 increased beyond the default. However, it may be necessary to reduce max shards
 if there is potential to overwhelm the remote endpoint, or to reduce memory

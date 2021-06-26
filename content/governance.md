@@ -26,50 +26,57 @@ Each project must have a `MAINTAINERS.md` file with at least one maintainer. Whe
 
 ## Decision making
 
-### Team members 
+### Team members
 
-Team member status may be given to those who have made ongoing contributions to the Prometheus project for at least 3 months. This is usually in the form of code improvements and/or notable work on documentation, but organizing events or user support could also be taken into account. 
+Team member status may be given to those who have made ongoing contributions to the Prometheus project for at least 3 months. This is usually in the form of code improvements and/or notable work on documentation, but organizing events or user support could also be taken into account.
 
 New members may be proposed by any existing member by email to [prometheus-team][team]. It is highly desirable to reach consensus about acceptance of a new member. However, the proposal is ultimately voted on by a formal [supermajority vote](#supermajority-vote).
 
 If the new member proposal is accepted, the proposed team member should be contacted privately via email to confirm or deny their acceptance of team membership. This email will also be CC'd to [prometheus-team][team] for record-keeping purposes.
 
-If they choose to accept, the following steps are taken:
-
-* Team members are added to the [GitHub organization][gh] as _Owner_.
-* Team members are added to the [team mailing list][team].
-* Team members are added to the list of team members in this document.
-* New team members are announced on the [developers mailing list][devs] by an existing team member.
+If they choose to accept, the [onboarding](#onboarding) procedure is followed.
 
 Team members may retire at any time by emailing [the team][team].
 
-Team members can be removed by [supermajority vote](#supermajority-vote) on [the team mailing list][team]. For this vote, the member in question is not eligible to vote and does not count towards the quorum.
+Team members can be removed by [supermajority vote](#supermajority-vote) on [the team mailing list][team].
+For this vote, the member in question is not eligible to vote and does not count towards the quorum.
+Any removal vote can cover only one single person.
 
-Upon death of a member, their team membership ends automatically.
+Upon death of a member, they leave the team automatically.
+
+In case a member leaves, the [offboarding](#offboarding) procedure is applied.
 
 The current team members are:
 
-* Bartłomiej Płotka
-* Ben Kochie
-* Björn Rabenstein
+* Bartłomiej Płotka ([Red Hat](https://www.redhat.com/))
+* Ben Kochie ([Reddit](https://www.redditinc.com/))
+* Björn Rabenstein ([Grafana Labs](https://grafana.com/))
+* Callum Styan ([Grafana Labs](https://grafana.com/))
+* Chris Marchbanks ([Grafana Labs](https://grafana.com/))
+* Frederic Branczyk ([Polar Signals](https://www.polarsignals.com/))
+* Ganesh Vernekar ([Grafana Labs](https://grafana.com/))
+* Goutham Veeramachaneni ([Grafana Labs](https://grafana.com/))
+* Johannes Ziemke (independent)
+* Julius Volz ([PromLabs](https://promlabs.com/))
+* Julien Pivotto ([Inuits](https://inuits.eu/))
+* Matthias Rampke ([SoundCloud](https://soundcloud.com/))
+* Richard Hartmann ([Grafana Labs](https://grafana.com/))
+* Simon Pasquier ([Red Hat](https://www.redhat.com/))
+* Tobias Schmidt (independent)
+* Tom Wilkie ([Grafana Labs](https://grafana.com/))
+
+Previous members:
+
 * Brian Brazil
-* Chris Marchbanks
+* Conor Broderick
 * Fabian Reinartz
-* Frederic Branczyk
-* Ganesh Vernekar
-* Goutham Veeramachaneni
-* Johannes Ziemke
-* Julius Volz
 * Krasi Georgiev
 * Matt Layher
-* Matthias Rampke
 * Max Inden
-* Richard Hartmann
-* Simon Pasquier
 * Steve Durrheimer
 * Stuart Nelson
-* Tobias Schmidt
-* Tom Wilkie
+
+_Please note that Prometheus had received significant contributions from a number of unlisted individuals before this governance document, and thus formal team membership, was created._
 
 ### Maintainers
 
@@ -91,7 +98,13 @@ Decisions are usually made by [lazy consensus](#consensus). If no consensus can 
 
 ### Governance changes
 
-Material changes to this document are discussed publicly on the [developer mailing mailing list][devs]. Any change requires a [supermajority](#supermajority-vote) in favor. Editorial changes may be made by [lazy consensus](#consensus) unless challenged.
+Material changes to this document are discussed publicly on the [developer mailing list][devs]. Any change requires a [supermajority](#supermajority-vote) in favor. Editorial changes may be made by [lazy consensus](#consensus) unless challenged.
+
+### Editorial changes
+
+Editorial changes are changes which fix spelling or grammar, update work affiliation, or similar; they update style or reflect an outside and obvious reality.
+They do not change the intention or meaning of anything in this document.
+They must be made via PR and accepted via [lazy consensus](#consensus).
 
 ### Other matters
 
@@ -143,9 +156,41 @@ A vote on a single proposal is considered successful if at least two thirds of t
 
 If there are multiple alternatives, members may vote for one or more alternatives, or vote “no” to object to all alternatives. A vote on multiple alternatives is considered decided in favor of one alternative if it has received the most votes in favor, and a vote from at least two thirds of those eligible to vote. Should no alternative reach this quorum, another vote on a reduced number of options may be called separately.
 
+## On- / Offboarding
+
+The On- / Offboarding section is informational and can be changed by [lazy consensus](#consensus) unless challenged.  If no consensus can be reached, the matter may be resolved by [majority vote](#majority-vote).
+
+### Onboarding
+
+The new member is
+
+* added to the list of [team members](#team-members). Ideally by sending a PR of their own, at least approving said PR.
+* announced on the [developers mailing list][devs] by an existing team member. Ideally, the new member replies in this thread, acknowledging team membership.
+* added to the [GitHub organization][gh] as _Owner_.
+* optionally added to the community, junkyard, and related organizations and repositories.
+* added to the [team mailing list][team].
+* added to the prometheus.io GSuite account with a user name of the new member's choice. (Most importantly, this comes with a `<chosen-username>@prometheus.io` email address and provides access to the team's GDrive and calendar. The new member should add the latter to their own calendar list.)
+* announced to CNCF.
+* given access to the shared password storage.
+
+### Offboarding
+
+The ex-member is
+
+* removed from the list of [team members](#team-members). Ideally by sending a PR of their own, at least approving said PR. In case of forced removal, no approval is needed.
+* removed from the [GitHub organization][gh] and related organizations and repositories. Optionally, they can retain maintainership of one or more repositories if the [team](#team-members) agrees.
+* removed from the [team mailing list][team] and demoted to a normal member of the other mailing lists, i.e [developers][devs], [users][], and [announce][].
+* announced as removed to CNCF. We will explicitly request reconfirmation of removal from CNCF.
+* removed from the shared password storage. All passwords, API tokens, etc. are cycled in due course (i.e. immediately in case of an involuntary departure but can be appropriately batched with other departures or routine cycling otherwise).
+* removed from group accounts where applicable. Services with some variety of a group account include but are not restricted to Digital Ocean, DockerHub, GSuite, Netlify, Twitter (via Tweetdeck), Youtube.
+* not allowed to call themselves an active team member any more, nor allowed to imply this to be the case.
+* added to a list of previous members if they so choose.
+
+If needed, we reserve the right to publicly announce removal.
+
 ## FAQ
 
-This section is informational. In case of disagreement, the rules above overrule any FAQ.
+The FAQ section is informational and can be changed by [lazy consensus](#consensus) unless challenged.  If no consensus can be reached, the matter may be resolved by [majority vote](#majority-vote).
 
 ### How do I propose a decision?
 
@@ -173,11 +218,12 @@ A maintainer may resign by notifying the [team mailing list][team]. A maintainer
 
 Team members may resign by notifying the [team mailing list][team]. If you think a team member should be removed against their will, propose this to the [team mailing list][team]. Discussions will be held there in private.
 
-[team]: https://groups.google.com/forum/#!forum/prometheus-team
-[gh]: https://github.com/prometheus
-[devs]: https://groups.google.com/forum/#!forum/prometheus-developers
-[users]: https://groups.google.com/forum/#!forum/prometheus-users
-[maintainers.md]: https://github.com/search?l=&q=org%3Aprometheus+filename%3AMAINTAINERS.md+path%3A%2F&ref=advsearch&type=Code&utf8=%E2%9C%93
+[announce]: https://groups.google.com/forum/#!forum/prometheus-announce
 [charter]: https://www.cncf.io/about/charter/
 [coc]: https://github.com/cncf/foundation/blob/master/code-of-conduct.md
+[devs]: https://groups.google.com/forum/#!forum/prometheus-developers
+[gh]: https://github.com/prometheus
 [lazy]: https://couchdb.apache.org/bylaws.html#lazy
+[maintainers.md]: https://github.com/search?l=&q=org%3Aprometheus+filename%3AMAINTAINERS.md+path%3A%2F&ref=advsearch&type=Code&utf8=%E2%9C%93
+[team]: https://groups.google.com/forum/#!forum/prometheus-team
+[users]: https://groups.google.com/forum/#!forum/prometheus-users

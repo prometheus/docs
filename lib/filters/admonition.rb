@@ -5,7 +5,7 @@ class AdmonitionFilter < Nanoc::Filter
 
   identifier :admonition
 
-  BOOSTRAP_MAPPING = {
+  BOOTSTRAP_MAPPING = {
     'tip'     => 'info',
     'note'    => 'info',
     'caution' => 'warning',
@@ -27,7 +27,7 @@ class AdmonitionFilter < Nanoc::Filter
 
   def generate(kind, content)
     %[<div class="admonition-wrapper #{kind}">] +
-    %[<div class="admonition alert alert-#{BOOSTRAP_MAPPING[kind]}">] +
+    %[<div class="admonition alert alert-#{BOOTSTRAP_MAPPING[kind]}">] +
     "<strong>#{kind.upcase}:</strong> " +
     content +
     %[</div></div>]

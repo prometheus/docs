@@ -410,7 +410,7 @@ exporter](https://github.com/prometheus/blackbox_exporter).
 
 There are two exceptions:
 
-The first is where running beside the application your monitoring is
+The first is where running beside the application you are monitoring is
 completely nonsensical. The SNMP, blackbox and IPMI exporters are the
 main examples of this. The IPMI and SNMP exporters as the devices are
 often black boxes that it’s impossible to run code on (though if you

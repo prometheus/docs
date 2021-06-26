@@ -26,7 +26,7 @@ scraped time series which serve to identify the scraped target:
 
 If either of these labels are already present in the scraped data, the behavior
 depends on the `honor_labels` configuration option. See the
-[scrape configuration documentation](/docs/operating/configuration/#%3Cscrape_config%3E)
+[scrape configuration documentation](/docs/prometheus/latest/configuration/configuration/#scrape_config)
 for more information.
 
 For each instance scrape, Prometheus stores a [sample](/docs/introduction/glossary#sample) in

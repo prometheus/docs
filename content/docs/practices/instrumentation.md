@@ -36,7 +36,7 @@ For counting failed queries, see section [Failures](#failures) below.
 
 Online-serving systems should be monitored on both the client and server side.
 If the two sides see different behaviors, that is very useful information for debugging.
-If a service has many clients, it is also not practical for the service to track them
+If a service has many clients, it is not practical for the service to track them
 individually, so they have to rely on their own stats.
 
 Be consistent in whether you count queries when they start or when they end.
@@ -259,10 +259,9 @@ benchmarks are the best way to determine the impact of any given change.
 ### Avoid missing metrics
 
 Time series that are not present until something happens are difficult
-to deal with, as the usual simple operations are no longer sufficient
-to correctly handle them. To avoid this, export `0` (or `NaN`, if `0`
-would be misleading) for any time series you know may exist in
-advance.
+to deal with, as the usual simple operations are no longer sufficient to
+correctly handle them. To avoid this, export a default value such as `0` for
+any time series you know may exist in advance.
 
 Most Prometheus client libraries (including Go, Java, and Python) will
 automatically export a `0` for you for metrics with no labels.

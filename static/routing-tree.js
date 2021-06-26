@@ -1,7 +1,7 @@
 // Setup
 
 // Modify the diameter to expand/contract space between nodes.
-var anchor = document.querySelector(".page-header").parentElement;
+var anchor = document.querySelector("#routing-tree-container");
 var diameter = anchor.clientWidth;
 
 var color = "#e6522c";
@@ -40,7 +40,7 @@ function resetSVG() {
   svg = d3.select(anchor).append("svg")
     .classed("routing-table", true)
     .attr("width", diameter)
-    .attr("height", diameter - 150)
+    .attr("height", diameter)
     .append("g")
     .attr("transform", "translate(" + diameter / 2 + "," + (diameter / 2) + ")");
 }
@@ -57,7 +57,7 @@ d3.select(".js-parse-and-draw").on("click", function() {
 
 // Click handler for input labelSet
 d3.select(".js-find-match").on("click", function() {
-  var searchValue = document.querySelector("input").value
+  var searchValue = document.querySelector(".js-label-set-input").value
   var labelSet = parseSearch(searchValue);
   var matches = match(root, labelSet)
   var nodes = tree.nodes(root);
@@ -130,16 +130,17 @@ function matchLabel(matcher, labelSet) {
 // Load the parsed config and create the tree
 function loadConfig(config) {
   root = config.route;
+  receivers = config.receivers;
 
   root.parent = null;
-  massage(root)
+  massage(root, receivers);
 
   update(root);
 }
 
 // Translate AlertManager names to expected d3 tree names, convert AlertManager
 // Match and MatchRE objects to js objects.
-function massage(root) {
+function massage(root, receivers) {
   if (!root) return;
 
   root.children = root.routes
@@ -167,11 +168,13 @@ function massage(root) {
 
   root.matchers = matchers;
 
+  root.receiverConfig = getReceiverConfig(root.receiver, receivers);
+
   if (!root.children) return;
 
   root.children.forEach(function(child) {
     child.parent = root;
-    massage(child)
+    massage(child, receivers)
   });
 }
 
@@ -225,7 +228,29 @@ function update(root) {
       .attr("dy", ".31em")
       .attr("text-anchor", function(d) { return d.x < 180 ? "start" : "end"; })
       .attr("transform", function(d) { return d.x < 180 ? "translate(8)" : "rotate(180)translate(-8)"; })
-      .text(function(d) { return d.receiver; });
+      .text(function(d) { return d.receiver; })
+      .on("mouseover", function(d) {
+        d3.select(this).style("fill", color);
+
+        text = ["<receiver config missing>"];
+        if (typeof(d.receiverConfig) !== 'undefined') {
+          text = jsyaml.dump(d.receiverConfig).replace(/ /g, '\u00a0').split("\n");
+        }
+
+        text.forEach(function(t) {
+          tooltip.append("div").text(t);
+        });
+
+        return tooltip.style("visibility", "visible");
+      })
+      .on("mousemove", function() {
+        return tooltip.style("top", (d3.event.pageY-10)+"px").style("left",(d3.event.pageX+10)+"px");
+      })
+      .on("mouseout", function(d) {
+        d3.select(this).style("fill", null);
+        tooltip.text("");
+        return tooltip.style("visibility", "hidden");
+      });
 
   node.select(".node circle").style("fill", function(d) {
     return d.matched ? color : "#fff";
@@ -267,4 +292,11 @@ function aggregateMatchers(node) {
     n = n.parent;
   }
   return matchers
+}
+
+function getReceiverConfig(name, receivers) {
+  if (!receivers) return;
+  return receivers.find(function(e){
+    return e.name == name;
+  });
 }

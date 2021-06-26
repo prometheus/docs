@@ -36,7 +36,7 @@ http {
     server {
         listen 12321;
 
-        location /prometheus {
+        location /prometheus/ {
             auth_basic           "Prometheus";
             auth_basic_user_file /etc/nginx/.htpasswd;
 

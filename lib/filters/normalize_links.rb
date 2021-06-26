@@ -35,10 +35,7 @@ class NormalizeLinks < ::Nanoc::Filter
   end
 
   def github_link_to(file, config)
-    base = config[:repository]
-    if base.end_with?('.git')
-      base = base[0..-5]
-    end
+    base = config[:repository_url].delete_suffix('.git')
     File.join(base, 'blob', config[:refspec], file)
   end
 

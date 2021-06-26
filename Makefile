@@ -9,7 +9,7 @@ bundle:
 	bundle install --path vendor
 
 clean:
-	rm -rf output downloads repositories
+	rm -rf output downloads
 
 compile:
 	$(NANOC)

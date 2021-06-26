@@ -100,6 +100,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [NATS exporter](https://github.com/nats-io/prometheus-nats-exporter)
    * [NSQ exporter](https://github.com/lovoo/nsq_exporter)
    * [Mirth Connect exporter](https://github.com/vynca/mirth_exporter)
+   * [Mosquitto Exporter](https://github.com/sapcc/mosquitto-exporter)
    * [MQTT blackbox exporter](https://github.com/inovex/mqtt_blackbox_exporter)
    * [MQTT2Prometheus](https://github.com/hikhvar/mqtt2prometheus)
    * [RabbitMQ exporter](https://github.com/kbudde/rabbitmq_exporter)

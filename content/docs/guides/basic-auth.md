@@ -45,7 +45,7 @@ password:
 $2b$12$hNf2lSsxfm0.i4a.1kVpSOVyBCfIB51VRjgBUyv6kdnyTlgWj81Ay
 ```
 
-In this exemple, I used "test" as password.
+In this example, I used "test" as password.
 
 Save that password somewhere, we will use it in the next steps!
 

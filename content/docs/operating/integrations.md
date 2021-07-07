@@ -89,6 +89,7 @@ For notification mechanisms not natively supported by the Alertmanager, the
   * [Matrix](https://github.com/matrix-org/go-neb)
   * [Phabricator / Maniphest](https://github.com/knyar/phalerts)
   * [prom2teams](https://github.com/idealista/prom2teams): forwards notifications to Microsoft Teams
+  * [prometheus-msteams](https://github.com/prometheus-msteams/prometheus-msteams): forwards notifications to Microsoft Teams
   * [Rocket.Chat](https://rocket.chat/docs/administrator-guides/integrations/prometheus/)
   * [ServiceNow](https://github.com/FXinnovation/alertmanager-webhook-servicenow)
   * [Signal](https://github.com/dgl/alertmanager-webhook-signald)

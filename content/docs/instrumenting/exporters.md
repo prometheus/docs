@@ -272,6 +272,7 @@ separate exporters are needed:
    * [Etcd](https://github.com/coreos/etcd) (**direct**)
    * [Flink](https://github.com/apache/flink)
    * [FreeBSD Kernel](https://www.freebsd.org/cgi/man.cgi?query=prometheus_sysctl_exporter&apropos=0&sektion=8&manpath=FreeBSD+12-current&arch=default&format=html)
+   * [freeRouter](http://freerouter.nop.hu) (**direct**)
    * [GitLab](https://docs.gitlab.com/ee/administration/monitoring/prometheus/gitlab_metrics.html)
    * [Grafana](https://grafana.com/docs/grafana/latest/administration/view-server/internal-metrics/)
    * [JavaMelody](https://github.com/javamelody/javamelody/wiki/UserGuideAdvanced#exposing-metrics-to-prometheus)

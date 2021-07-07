@@ -390,7 +390,7 @@ This works, but it has a few disadvantages:
 1. The `instance` label has the value of the blackbox exporter’s address which is technically true, but not what we are interested in.
 1. We can’t see which URL we probed. This is unpractical and will also mix up different metrics into one if we probe several URLs.
 
-To fix this, we will use [relabeling](/docs/prometheus/latest/configuration/configuration/#<relabel_config>).
+To fix this, we will use [relabeling](/docs/prometheus/latest/configuration/configuration/#relabel_config).
 Relabeling is useful here because behind the scenes many things in Prometheus are configured with internal labels.
 The details are complicated and out of scope for this guide. Hence we will limit ourselves to the necessary. But if you want to know more check out this [talk](https://www.youtube.com/watch?v=b5-SvvZ7AwI). For now it suffices if you understand this:
 

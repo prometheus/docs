@@ -342,9 +342,16 @@ footer {
   font-size: 16px;
 }
 
-.doc-content p, .doc-content.ul, .doc-content .alert {
+.doc-content p, .doc-content.ul {
   margin: 15px 0 15px 0;
   line-height: 1.5;
+}
+
+.doc-content .alert {
+  margin: 15px 0 15px 0;
+  line-height: 1.5;
+  /* This is to prevent NOTE/admonition alert boxes from overlapping the table of contents at the top of a docs page. */
+  display: inline-block; width: 100%;
 }
 
 .doc-content > h1 {

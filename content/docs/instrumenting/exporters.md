@@ -217,6 +217,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [Locust Exporter](https://github.com/ContainerSolutions/locust_exporter)
    * [Meteor JS web framework exporter](https://atmospherejs.com/sevki/prometheus-exporter)
    * [Minecraft exporter module](https://github.com/Baughn/PrometheusIntegration)
+   * [Minecraft exporter](https://github.com/dirien/minecraft-prometheus-exporter)
    * [Nomad exporter](https://gitlab.com/yakshaving.art/nomad-exporter)
    * [nftables exporter](https://github.com/Intrinsec/nftables_exporter)
    * [OpenStack exporter](https://github.com/openstack-exporter/openstack-exporter)

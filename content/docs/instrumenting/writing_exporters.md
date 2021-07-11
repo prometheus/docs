@@ -360,7 +360,7 @@ a label value disappears, it’ll still be exported.
 Instrumenting your exporter itself via direct instrumentation is fine,
 e.g. total bytes transferred or calls performed by the exporter across
 all scrapes.  For exporters such as the [blackbox
-exporter](https://github.com/prometheus/blackbox_exporter) and [SMNP
+exporter](https://github.com/prometheus/blackbox_exporter) and [SNMP
 exporter](https://github.com/prometheus/snmp_exporter), which aren’t
 tied to a single target, these should only be exposed on a vanilla
 `/metrics` call, not on a scrape of a particular target.

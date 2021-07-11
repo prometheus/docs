@@ -284,6 +284,7 @@ separate exporters are needed:
    * [MinIO](https://docs.minio.io/docs/how-to-monitor-minio-using-prometheus.html)
    * [PATROL with Monitoring Studio X](https://www.sentrysoftware.com/library/swsyx/prometheus/exposing-patrol-parameters-in-prometheus.html)
    * [Netdata](https://github.com/firehol/netdata)
+   * [PCP Performance Co-Pilot](https://pcp.io/man/man3/pmwebapi.3.html)
    * [Pretix](https://pretix.eu/)
    * [Quobyte](https://www.quobyte.com/) (**direct**)
    * [RabbitMQ](https://rabbitmq.com/prometheus.html)

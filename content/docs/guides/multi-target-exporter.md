@@ -480,7 +480,7 @@ Then we take the values from the label `__param_target` and create a label insta
 
 Our request will not change, but the metrics that come back from our request will now bear a label `instance="http://prometheus.io"`.
 
-After that we write the value `localhost:9115` (the URI of our exporter) to the the label `__address__`. This will be used as the hostname and port for the Prometheus scrape requests. So that it queries the exporter and not the target URI directly.
+After that we write the value `localhost:9115` (the URI of our exporter) to the label `__address__`. This will be used as the hostname and port for the Prometheus scrape requests. So that it queries the exporter and not the target URI directly.
 
 ```yaml
   relabel_configs:

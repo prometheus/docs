@@ -114,6 +114,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [Gluster exporter](https://github.com/ofesseler/gluster_exporter)
    * [GPFS exporter](https://github.com/treydock/gpfs_exporter)
    * [Hadoop HDFS FSImage exporter](https://github.com/marcelmay/hadoop-hdfs-fsimage-exporter)
+   * [Kudu exporter](https://github.com/magicdevilzhang/prometheus-kudu-exporter)
    * [Lustre exporter](https://github.com/HewlettPackard/lustre_exporter)
    * [NetApp E-Series exporter](https://github.com/treydock/eseries_exporter)
    * [Pure Storage exporter](https://github.com/PureStorage-OpenConnect/pure-exporter)

@@ -42,3 +42,13 @@ still relevant.
 | OpenMetrics transition | | TODO | |
 | Semantics of muting in Alertmanager | | TODO | |
 | Extrapolation in range selectors (xrange) | | TODO | |
+
+# Problem statements and exploratory documents
+
+Sometimes we're looking even further into potential futures. The documents in
+this section are largely exploratory. They should be taken as informing our
+collective thoughts, not as anything concrete or specific.
+
+| Document | Initial date
+| [Prometheus is not feature complete](https://docs.google.com/document/d/1lEP7pGYM2-5GT9fAIDqrOecG86VRU8-1qAV8b6xZ29Q) | 2020-05
+| [Prometheus, OpenMetrics & OTLP](https://docs.google.com/document/d/1hn-u6WKLHxIsqYT1_u6eh94lyQeXrFaAouMshJcQFXs) | 2021-03

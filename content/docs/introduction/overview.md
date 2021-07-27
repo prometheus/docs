@@ -17,6 +17,8 @@ the project's governance structure, Prometheus joined the
 [Cloud Native Computing Foundation](https://cncf.io/) in 2016
 as the second hosted project, after [Kubernetes](http://kubernetes.io/).
 
+Prometheus collects and stores its metrics as time series data, i.e. metrics information is stored with the timestamp at which it was recorded, alongside optional key-value pairs called labels.
+
 For more elaborate overviews of Prometheus, see the resources linked from the
 [media](/docs/introduction/media/) section.
 
@@ -33,6 +35,11 @@ Prometheus's main features are:
 * targets are discovered via service discovery or static configuration
 * multiple modes of graphing and dashboarding support
 
+### What are metrics ?
+
+In layperson terms, metrics are numeric measurements, time series mean that changes are recorded over time. What users want to measure differs from application to application. For a web server it might be request times, for a database it might be number of active connections or number of active queries etc.
+
+Metrics play an important role in understanding why your application is working in a certain way. Lets assume you are running a web application and find that the application is slow. You will need some information to find out what is happening with your application. For example the application can become slow when the number of requests are high. If you have the request count metric you can spot the reason and increase the number of servers to handle the load. 
 ### Components
 
 The Prometheus ecosystem consists of multiple components, many of which are

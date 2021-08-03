@@ -14,21 +14,8 @@
 #   because “*” matches zero or more characters.
 
 passthrough '/assets/**'
-
-compile '/_redirects/' do
-end
-
-route '/_redirects/' do
-  '/_redirects'
-end
-
-# TODO(ts): Remove these hacks once the nanoc4 upgrade is done.
-compile '*/images/*' do
-end
-
-route '*/images/*' do
-  item.identifier.chop + '.' + item[:extension]
-end
+passthrough '/_redirects'
+passthrough '*/images/*'
 
 # RSS Feed
 compile '/blog/feed/' do
@@ -40,12 +27,12 @@ route '/blog/feed/' do
 end
 
 compile '*' do
-  filter :erb
+  filter :erb if item[:extension] == 'html'
 
   if item[:extension] == 'md'
     filter :redcarpet, options: {filter_html: true, autolink: true, no_intraemphasis: true, fenced_code_blocks: true, gh_blockcode: true, tables: true}, renderer_options: {with_toc_data: true}
     filter :normalize_links, item[:repo_docs] if item[:repo_docs]
-    filter :outdated_content, item[:repo_docs] if item[:repo_docs] && item[:repo_docs][:outdated]
+    filter :version_warning, item[:repo_docs] if item[:repo_docs]
     filter :add_anchors
     filter :bootstrappify
     filter :admonition

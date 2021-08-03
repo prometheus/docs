@@ -21,18 +21,22 @@ HTTP endpoint on your application’s instance:
 Unofficial third-party client libraries:
 
 * [Bash](https://github.com/aecolley/client_bash)
+* [C](https://github.com/digitalocean/prometheus-client-c)
 * [C++](https://github.com/jupp0r/prometheus-cpp)
 * [Common Lisp](https://github.com/deadtrickster/prometheus.cl)
+* [Dart](https://github.com/tentaclelabs/prometheus_client)
 * [Elixir](https://github.com/deadtrickster/prometheus.ex)
 * [Erlang](https://github.com/deadtrickster/prometheus.erl)
 * [Haskell](https://github.com/fimad/prometheus-haskell)
 * [Lua](https://github.com/knyar/nginx-lua-prometheus) for Nginx
-* [Lua](https://github.com/tarantool/prometheus) for Tarantool
-* [.NET / C#](https://github.com/andrasm/prometheus-net)
+* [Lua](https://github.com/tarantool/metrics) for Tarantool
+* [.NET / C#](https://github.com/prometheus-net/prometheus-net)
 * [Node.js](https://github.com/siimon/prom-client)
+* [OCaml](https://github.com/mirage/prometheus)
 * [Perl](https://metacpan.org/pod/Net::Prometheus)
-* [PHP](https://github.com/Jimdo/prometheus_client_php)
-* [Rust](https://github.com/pingcap/rust-prometheus)
+* [PHP](https://github.com/promphp/prometheus_client_php)
+* [R](https://github.com/cfmack/pRometheus)
+* [Rust](https://github.com/tikv/rust-prometheus)
 * [Swift](https://github.com/MrLotU/SwiftPrometheus)
 
 When Prometheus scrapes your instance's HTTP endpoint, the client library

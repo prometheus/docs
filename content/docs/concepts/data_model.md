@@ -13,8 +13,8 @@ as the result of queries.
 
 ## Metric names and labels
 
-Every time series is uniquely identified by its _metric name_ and a set of
-_key-value pairs_, also known as _labels_.
+Every time series is uniquely identified by its _metric name_ and optional
+key-value pairs called _labels_.
 
 The _metric name_ specifies the general feature of a system that is measured
 (e.g. `http_requests_total` - the total number of HTTP requests received). It
@@ -36,6 +36,8 @@ must match the regex `[a-zA-Z_][a-zA-Z0-9_]*`. Label names beginning with `__`
 are reserved for internal use.
 
 Label values may contain any Unicode characters.
+
+A label with an empty label value is considered equivalent to a label that does not exist.
 
 See also the [best practices for naming metrics and labels](/docs/practices/naming/).
 

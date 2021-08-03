@@ -26,7 +26,7 @@ scraped time series which serve to identify the scraped target:
 
 If either of these labels are already present in the scraped data, the behavior
 depends on the `honor_labels` configuration option. See the
-[scrape configuration documentation](/docs/operating/configuration/#%3Cscrape_config%3E)
+[scrape configuration documentation](/docs/prometheus/latest/configuration/configuration/#scrape_config)
 for more information.
 
 For each instance scrape, Prometheus stores a [sample](/docs/introduction/glossary#sample) in
@@ -40,5 +40,7 @@ the following time series:
    the number of samples remaining after metric relabeling was applied.
 * `scrape_samples_scraped{job="<job-name>", instance="<instance-id>"}`:
    the number of samples the target exposed.
+* `scrape_series_added{job="<job-name>", instance="<instance-id>"}`:
+   the approximate number of new series in this scrape. *New in v2.10*
 
 The `up` time series is useful for instance availability monitoring.

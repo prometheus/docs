@@ -6,7 +6,7 @@ sort_rank: 6
 # Exposition formats
 
 Metrics can be exposed to Prometheus using a simple [text-based](#text-based-format)
-exposition format. There's a variety of [client libraries](/docs/instrumenting/clientlibs/)
+exposition format. There are various [client libraries](/docs/instrumenting/clientlibs/)
 that implement this format for you. If your preferred language doesn't have a client
 library you can [create your own](/docs/instrumenting/writing_clientlibs/).
 
@@ -15,7 +15,7 @@ NOTE: Some earlier versions of Prometheus supported an exposition format based o
 addition to the current text-based format. As of version 2.0, however, Prometheus no
 longer supports the Protobuf-based format. You can read about the reasoning behind
 this change in [this
-document](https://github.com/RichiH/OpenMetrics/blob/master/markdown/protobuf_vs_text.md).
+document](https://github.com/OpenObservability/OpenMetrics/blob/master/legacy/markdown/protobuf_vs_text.md).
 
 ## Text-based format
 
@@ -81,8 +81,8 @@ metric_name [
 In the sample syntax:
 
 *  `metric_name` and `label_name` carry the usual Prometheus expression language restrictions.
-* `label_value` can be any sequence of UTF-8 characters, but the backslash (`\`, double-quote (`"`}, and line feed (`\n`) characters have to be escaped as `\\`, `\"`, and `\n`, respectively.
-* `value` is a float represented as required by Go's [`ParseFloat()`](https://golang.org/pkg/strconv/#ParseFloat) function. In addition to standard numerical values, `Nan`, `+Inf`, and `-Inf` are valid values representing not a number, positive infinity, and negative infinity, respectively.
+* `label_value` can be any sequence of UTF-8 characters, but the backslash (`\`), double-quote (`"`), and line feed (`\n`) characters have to be escaped as `\\`, `\"`, and `\n`, respectively.
+* `value` is a float represented as required by Go's [`ParseFloat()`](https://golang.org/pkg/strconv/#ParseFloat) function. In addition to standard numerical values, `NaN`, `+Inf`, and `-Inf` are valid values representing not a number, positive infinity, and negative infinity, respectively.
 * The `timestamp` is an `int64` (milliseconds since epoch, i.e. 1970-01-01 00:00:00 UTC, excluding leap seconds), represented as required by Go's [`ParseInt()`](https://golang.org/pkg/strconv/#ParseInt) function.
 
 #### Grouping and sorting
@@ -151,6 +151,19 @@ rpc_duration_seconds{quantile="0.99"} 76656
 rpc_duration_seconds_sum 1.7560473e+07
 rpc_duration_seconds_count 2693
 ```
+
+## OpenMetrics Text Format
+
+[OpenMetrics](https://github.com/OpenObservability/OpenMetrics) is the an effort to standardize metric wire formatting built off of Prometheus text format. It is possible to scrape targets
+and it is also available to use for federating metrics since at least v2.23.0.
+
+### Exemplars (Experimental)
+
+Utilizing the OpenMetrics format allows for the exposition and querying of [Exemplars](https://github.com/OpenObservability/OpenMetrics/blob/main/specification/OpenMetrics.md#exemplars).
+Exemplars provide a point in time snapshot related to a metric set for an otherwise summarized MetricFamily. Additionally they may have a Trace ID attached to them which when used to together
+with a tracing system can provide more detailed information related to the specific service.
+
+To enable this experimental feature you must have at least version v2.26.0 and add `--enable-feature=exemplar-storage` to your arguments.
 
 ## Historical versions
 

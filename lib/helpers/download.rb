@@ -1,12 +1,13 @@
 require 'fileutils'
 require 'json'
 require 'open-uri'
+require 'semverse'
 
 module Downloads
   # repositories returns a list of all repositories with releases.
   def self.repositories
     @_repositories ||= begin
-      repos = Dir.glob('downloads/*').map { |dir| Repository.new(dir) }
+      repos = Dir.glob('downloads/*').map { |dir| Repository.load(dir) }
       repos.sort_by { |r| r.name == 'prometheus' ? '0' : r.name }
     end
   end
@@ -56,9 +57,9 @@ module Downloads
   end
 
   class Repository
-    def initialize(dir)
-      @repo = JSON.parse(File.read(File.join(dir, 'repo.json')))
-      @releases = JSON.parse(File.read(File.join(dir, 'releases.json')))
+    def initialize(repo, releases: [])
+      @repo = repo
+      @releases = releases
     end
 
     def name
@@ -79,19 +80,27 @@ module Downloads
 
     def releases
       releases = []
-      @releases.each do |r|
-        if r['prerelease']
+      @releases.select(&:version).sort.reverse.each do |r|
+        if r.prerelease
           releases << r if releases.empty?
         else
           releases << r
           break
         end
       end
-      releases.map { |r| Release.new(r) }
+      releases
+    end
+
+    def self.load(dir)
+      repo = JSON.parse(File.read(File.join(dir, 'repo.json')))
+      releases = JSON.parse(File.read(File.join(dir, 'releases.json')))
+      new(repo, releases: releases.map { |r| Release.new(r) })
     end
   end
 
   class Release
+    include Comparable
+
     def initialize(data)
       @data = data
     end
@@ -116,10 +125,29 @@ module Downloads
       @data['assets']
     end
 
+    # binaries returns a list of release archives in the .tar.gz or .zip format.
+    # If both formats are available, only .zip is returned (covers Windows use case).
     def binaries
       assets.
         select { |d| d['name'] && %w[.tar.gz .zip].any? { |ext| d['name'].end_with?(ext) } }.
-        map { |d| Binary.new(d) }
+        map { |d| Binary.new(d) }.
+        group_by { |b| [b.os, b.arch] }.
+        map { |_, binaries| binaries.sort_by(&:name).last }.
+        sort_by(&:name)
+    end
+
+    def tag
+      @data['tag_name']
+    end
+
+    def version
+      Semverse::Version.new(tag.sub(/^v/, ''))
+    rescue Semverse::InvalidVersionFormat
+      nil
+    end
+
+    def <=>(other)
+      self.version <=> other.version
     end
   end
 

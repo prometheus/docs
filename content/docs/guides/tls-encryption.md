@@ -7,7 +7,7 @@ sort_rank: 1
 
 Prometheus does not directly support [Transport Layer Security](https://en.wikipedia.org/wiki/Transport_Layer_Security) (TLS) encryption for connections to Prometheus instances (i.e. to the expression browser or [HTTP API](../../prometheus/latest/querying/api)). If you would like to enforce TLS for those connections, we recommend using Prometheus in conjunction with a [reverse proxy](https://www.nginx.com/resources/glossary/reverse-proxy-server/) and applying TLS at the proxy layer. You can use any reverse proxy you like with Prometheus, but in this guide we'll provide an [nginx example](#nginx-example).
 
-NOTE: Although TLS connections *to* Prometheus instances are not supported, TLS is supported for connections *from* Prometheus instances to [scrape targets](../prometheus/latest/configuration/configuration/#<tls_config>).
+NOTE: Although TLS connections *to* Prometheus instances are not supported, TLS is supported for connections *from* Prometheus instances to [scrape targets](../../prometheus/latest/configuration/configuration/#tls_config).
 
 ## nginx example
 
@@ -51,7 +51,7 @@ http {
         ssl_certificate     /root/certs/example.com/example.com.crt;
         ssl_certificate_key /root/certs/example.com/example.com.key;
 
-        location /prometheus {
+        location /prometheus/ {
             proxy_pass http://localhost:9090/;
         }
     }
@@ -66,16 +66,16 @@ Start nginx as root (since nginx will need to bind to port 443):
 sudo nginx -c /usr/local/etc/nginx/nginx.conf
 ```
 
-NOTE: This example uses `/usr/local/etc/nginx` as the location of the nginx configuration file, but this will vary based on the installation. Other [common nginx config directories](http://nginx.org/en/docs/beginners_guide.html) include `/usr/local/nginx/conf` and `/etc/nginx`.
+NOTE: This example uses `/usr/local/etc/nginx` as the location of the nginx configuration file, but this will vary based on the installation. Other [common nginx config directories](https://nginx.org/en/docs/beginners_guide.html) include `/usr/local/nginx/conf` and `/etc/nginx`.
 
 ## Prometheus configuration
 
-When running Prometheus behind the nginx proxy, you'll need to set the external URL to `http://example.com/prometheus` and the route prefix to `/`:
+When running Prometheus behind the nginx proxy, you'll need to set the external URL to `https://example.com/prometheus` and the route prefix to `/`:
 
 ```bash
 prometheus \
   --config.file=/path/to/prometheus.yml \
-  --web.external-url=http://example.com/prometheus \
+  --web.external-url=https://example.com/prometheus \
   --web.route-prefix="/"
 ```
 

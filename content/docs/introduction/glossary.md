@@ -1,6 +1,6 @@
 ---
 title: Glossary
-sort_rank: 8
+sort_rank: 9
 ---
 
 # Glossary
@@ -35,8 +35,7 @@ a single metric if it is part of direct instrumentation, or many metrics if it i
 
 ### Direct instrumentation
 
-Direct instrumentation is instrumentation added inline as part the source code
-of a program.
+Direct instrumentation is instrumentation added inline as part of the source code of a program, using a [client library](#client-library).
 
 ### Endpoint
 
@@ -44,8 +43,8 @@ A source of metrics that can be scraped, usually corresponding to a single proce
 
 ### Exporter
 
-An exporter is a binary that exposes Prometheus metrics, commonly by converting
-metrics that are exposed in a non-Prometheus format into a format Prometheus supports.
+An exporter is a binary running alongside the application you
+want to obtain metrics from. The exporter exposes Prometheus metrics, commonly by converting metrics that are exposed in a non-Prometheus format into a format that Prometheus supports.
 
 ### Instance
 
@@ -57,7 +56,7 @@ A collection of targets with the same purpose, for example monitoring a group of
 
 ### Notification
 
-A notification represents a group of one of more alerts, and is sent by the Alertmanager to email, Pagerduty, Slack etc.
+A notification represents a group of one or more alerts, and is sent by the Alertmanager to email, Pagerduty, Slack etc.
 
 ### Promdash
 

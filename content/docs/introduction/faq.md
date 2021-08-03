@@ -114,11 +114,12 @@ Currently, the following external systems are supported:
 
 * Email
 * Generic Webhooks
-* [HipChat](https://www.hipchat.com/)
 * [OpsGenie](https://www.opsgenie.com/)
 * [PagerDuty](http://www.pagerduty.com/)
 * [Pushover](https://pushover.net/)
 * [Slack](https://slack.com/)
+* [VictorOps](https://victorops.com/)
+* [WeChat](https://www.wechat.com)
 
 ### Can I create dashboards?
 
@@ -221,22 +222,15 @@ second, will only run into precision issues after over 285 years.
 
 ### Why don't the Prometheus server components support TLS or authentication? Can I add those?
 
-Note: The Prometheus team has changed their stance on this during its development summit on
-August 11, 2018, and support for TLS and authentication in serving endpoints is now on the
-[project's roadmap](/docs/introduction/roadmap/#tls-and-authentication-in-http-serving-endpoints).
-This document will be updated once code changes have been made.
+TLS and basic authentication is gradually being rolled out to the different
+components. Please follow the different releases and changelogs to know which
+components have already implemented it.
 
-While TLS and authentication are frequently requested features, we have
-intentionally not implemented them in any of Prometheus's server-side
-components. There are so many different options and parameters for both (10+
-options for TLS alone) that we have decided to focus on building the best
-monitoring system possible rather than supporting fully generic TLS and
-authentication solutions in every server component.
+The components currently supporting TLS and authentication are:
 
-If you need TLS or authentication, we recommend putting a reverse proxy in
-front of Prometheus. See, for example [Adding Basic Auth to Prometheus with
-Nginx](https://www.robustperception.io/adding-basic-auth-to-prometheus-with-nginx/).
+- Prometheus 2.24.0 and later
+- Node Exporter 1.0.0 and later
 
 This applies only to inbound connections. Prometheus does support
-[scraping TLS- and auth-enabled targets](/docs/operating/configuration/#%3Cscrape_config%3E), and other
+[scraping TLS- and auth-enabled targets](/docs/prometheus/latest/configuration/configuration/#scrape_config), and other
 Prometheus components that create outbound connections have similar support.

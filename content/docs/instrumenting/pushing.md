@@ -19,8 +19,10 @@ makes it easy to instrument even shell scripts without a client library.
 [PushGateway](https://prometheus.github.io/client_java/io/prometheus/client/exporter/PushGateway.html)
 class.
 
- * For use from Go see the [Push](http://godoc.org/github.com/prometheus/client_golang/prometheus#Push) and [PushAdd](http://godoc.org/github.com/prometheus/client_golang/prometheus#PushAdd) functions.
+ * For use from Go see the [Push](https://godoc.org/github.com/prometheus/client_golang/prometheus/push#Pusher.Push) and [Add](https://godoc.org/github.com/prometheus/client_golang/prometheus/push#Pusher.Add) methods.
 
  * For use from Python see [Exporting to a Pushgateway](https://github.com/prometheus/client_python#exporting-to-a-pushgateway).
 
  * For use from Ruby see the [Pushgateway documentation](https://github.com/prometheus/client_ruby#pushgateway).
+
+* To find out about Pushgateway support of [client libraries maintained outside of the Prometheus project](/docs/instrumenting/clientlibs/), refer to their respective documentation.

@@ -12,10 +12,18 @@ environments.
 This page describes the general security assumptions of Prometheus and the
 attack vectors that some configurations may enable.
 
-As with any complex systems it is not possible to guarantee that there are no
-bugs. If you find a security bug, please file it in the issue tracker of the
-relevant component. If you prefer to report privately, please do so to the
-maintainers listed in the MAINTAINERS.md of the relevant repository.
+As with any complex system, it is near certain that bugs will be found, some of
+them security-relevant. If you find a _security bug_ please report it
+privately to the maintainers listed in the MAINTAINERS of the relevant
+repository and CC prometheus-team@googlegroups.com. We will fix the issue as soon
+as possible and coordinate a release date with you. You will be able to choose
+if you want public acknowledgement of your effort and if you want to be
+mentioned by name.
+
+Prometheus is maintained by volunteers, not by a company. Therefore, fixing
+security issues is done on a best-effort basis. We strive to release security
+fixes within 7 days for: Prometheus, Alertmanager, Node Exporter,
+Blackbox Exporter, and Pushgateway.
 
 ## Prometheus
 
@@ -87,6 +95,11 @@ delete the metrics contained within. As the Pushgateway is usually scraped with
 `honor_labels` enabled, this means anyone with access to the Pushgateway can
 create any time series in Prometheus.
 
+The `--web.enable-admin-api` flag controls access to the
+administrative HTTP API, which includes functionality such as wiping all the existing
+metric groups. This is disabled by default. If enabled, administrative
+functionality will be accessible under the `/api/*/admin/` paths.
+
 ## Exporters
 
 Exporters generally only talk to one configured instance with a preset set of
@@ -109,9 +122,44 @@ resulting from additional load and failed scrapes.
 
 ## Authentication, Authorization, and Encryption
 
-Prometheus and its components do not provide any server-side
-authentication, authorisation or encryption. If you require this, it is
-recommended to use a reverse proxy.
+In the future, server-side TLS support will be rolled out to the different
+Prometheus projects. Those projects include Prometheus, Alertmanager,
+Pushgateway and the official exporters.
+
+Authentication of clients by TLS client certs will also be supported.
+
+The Go projects will share the same TLS library, which will be based on the
+Go vanilla [crypto/tls](https://golang.org/pkg/crypto/tls) library.
+We default to TLS 1.2 as minimum version. Our policy regarding this is based on
+[Qualys SSL Labs](https://www.ssllabs.com/) recommendations, where we strive to
+achieve a grade 'A' with a default configuration and correctly provided
+certificates, while sticking as closely as possible to the upstream Go defaults.
+Achieving that grade provides a balance between perfect security and usability.
+
+TLS will be added to Java exporters in the future.
+
+If you have special TLS needs, like a different cipher suite or older TLS
+version, you can tune the minimum TLS version and the ciphers, as long as the
+cipher is not [marked as insecure](https://golang.org/pkg/crypto/tls/#InsecureCipherSuites)
+in the [crypto/tls](https://golang.org/pkg/crypto/tls) library. If that still
+does not suit you, the current TLS settings enable you to build a secure tunnel
+between the servers and reverse proxies with more special requirements.
+
+HTTP Basic Authentication will also be supported. Basic Authentication can be
+used without TLS, but it will then expose usernames and passwords in cleartext
+over the network.
+
+On the server side, basic authentication passwords are stored as hashes with the
+[bcrypt](https://en.wikipedia.org/wiki/Bcrypt) algorithm. It is your
+responsibility to pick the number of rounds that matches your security
+standards. More rounds make brute-force more complicated at the cost of more CPU
+power and more time to authenticate the requests.
+
+Various Prometheus components support client-side authentication and
+encryption. If TLS client support is offered, there is often also an option
+called `insecure_skip_verify` which skips SSL verification.
+
+## API Security
 
 As administrative and mutating endpoints are intended to be accessed via simple
 tools such as cURL, there is no built in
@@ -125,8 +173,8 @@ headers](https://fetch.spec.whatwg.org/#http-cors-protocol) such as
 [XSS](https://en.wikipedia.org/wiki/Cross-site_scripting).
 
 If you are composing PromQL queries that include input from untrusted users
-(e.g. URL paramaters to console templates, or something you built yourself) who
-are not meant to be able to run aribtrary PromQL queries make sure any
+(e.g. URL parameters to console templates, or something you built yourself) who
+are not meant to be able to run arbitrary PromQL queries make sure any
 untrusted input is appropriately escaped to prevent injection attacks. For
 example `up{job="<user_input>"}` would become `up{job=""} or
 some_metric{zzz=""}` if the `<user_input>` was `"} or some_metric{zzz="`.
@@ -134,10 +182,6 @@ some_metric{zzz=""}` if the `<user_input>` was `"} or some_metric{zzz="`.
 For those using Grafana note that [dashboard permissions are not data source
 permissions](http://docs.grafana.org/administration/permissions/#data-source-permissions),
 so do not limit a user's ability to run arbitrary queries in proxy mode.
-
-Various Prometheus components support client-side authentication and
-encryption. If TLS client support is offered, there is often also an option
-called `insecure_skip_verify` which skips SSL verification.
 
 ## Secrets
 
@@ -149,7 +193,9 @@ secret. Throughout the Prometheus system, metrics are not considered secret.
 Fields containing secrets in configuration files (marked explicitly as such in
 the documentation) will not be exposed in logs or via the HTTP API. Secrets
 should not be placed in other configuration fields, as it is common for
-components to expose their configuration over their HTTP endpoint.
+components to expose their configuration over their HTTP endpoint. It is the
+responsibility of the user to protect files on disk from unwanted reads and
+writes.
 
 Secrets from other sources used by dependencies (e.g. the `AWS_SECRET_KEY`
 environment variable as used by EC2 service discovery) may end up exposed due to
@@ -185,6 +231,19 @@ have access. If you are concerned about the exact provenance of your binaries,
 it is recommended to build them yourself rather than relying on the
 pre-built binaries provided by the project.
 
+## Prometheus-Community
+
+The repositories under the [Prometheus-Community](https://github.com/prometheus-community)
+organization are supported by third-party maintainers.
+
+If you find a _security bug_ in the [Prometheus-Community](https://github.com/prometheus-community) organization,
+please report it privately to the maintainers listed in the MAINTAINERS of the
+relevant repository and CC prometheus-team@googlegroups.com.
+
+Some repositories under that organization might have a different security model
+than the ones presented in this document. In such a case, please refer to the
+documentation of those repositories.
+
 ## External audits
 
 [CNCF](https://cncf.io) sponsored an external security audit by
@@ -192,3 +251,7 @@ pre-built binaries provided by the project.
 
 For more details, please read the
 [final report of the audit](/assets/downloads/2018-06-11--cure53_security_audit.pdf).
+
+In 2020, there was a
+[second audit by cure53](/assets/downloads/2020-07-21--cure53_security_audit_node_exporter.pdf)
+of Node Exporter.

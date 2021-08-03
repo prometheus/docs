@@ -49,9 +49,10 @@ the [best practices for monitoring batch jobs](/docs/practices/instrumentation/#
 If an inbound firewall or NAT is preventing you from pulling metrics from
 targets, consider moving the Prometheus server behind the network barrier as
 well. We generally recommend running Prometheus servers on the same network as
-the monitored instances.
+the monitored instances.  Otherwise, consider [PushProx](https://github.com/RobustPerception/PushProx),
+which allows Prometheus to traverse a firewall or NAT.
 
 For batch jobs that are related to a machine (such as automatic
 security update cronjobs or configuration management client runs), expose the
 resulting metrics using the [Node Exporter's](https://github.com/prometheus/node_exporter)
-textfile module instead of the Pushgateway.
+[textfile collector](https://github.com/prometheus/node_exporter#textfile-collector) instead of the Pushgateway.

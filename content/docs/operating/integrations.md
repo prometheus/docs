@@ -73,7 +73,7 @@ For notification mechanisms not natively supported by the Alertmanager, the
 
   * [alertmanager-webhook-logger](https://github.com/tomtom-international/alertmanager-webhook-logger): logs alerts
   * [Alertsnitch](https://gitlab.com/yakshaving.art/alertsnitch): saves alerts to a MySQL database
-  * [Alibaba Cloud Alert (SLS)](https://www.alibabacloud.com/help/doc-detail/286431.htm): send alerts to Alibaba Cloud SLS alert management
+  * [Alibaba Cloud Alert (SLS)](https://www.alibabacloud.com/help/doc-detail/212867.htm): send alerts to Alibaba Cloud Alert, and log them
   * [Asana](https://gitlab.com/lupudu/alertmanager-asana-bridge)
   * [AWS SNS](https://github.com/DataReply/alertmanager-sns-forwarder)
   * [Better Uptime](https://docs.betteruptime.com/integrations/prometheus)
@@ -113,7 +113,6 @@ you to integrate it with your existing systems or build on top of it.
 
 ## Other
 
-  * [Alibaba Cloud Alert (SLS)](https://www.alibabacloud.com/help/doc-detail/212869.htm): send prometheus alerts to Alibaba Cloud SLS alert management
   * [karma](https://github.com/prymitive/karma): alert dashboard
   * [PushProx](https://github.com/RobustPerception/PushProx): Proxy to transverse NAT and similar network setups
   * [Promdump](https://github.com/ihcsim/promdump): kubectl plugin to dump and restore data blocks

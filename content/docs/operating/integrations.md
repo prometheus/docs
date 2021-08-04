@@ -113,7 +113,7 @@ you to integrate it with your existing systems or build on top of it.
 
 ## Other
 
-  * [Alibaba Cloud Alert(SLS)] (https://www.alibabacloud.com/help/doc-detail/212869.htm): send prometheus alerts to alibaba cloud alert(sls)
+  * [Alibaba Cloud Alert(SLS)](https://www.alibabacloud.com/help/doc-detail/212869.htm): send prometheus alerts to alibaba cloud alert(sls)
   * [karma](https://github.com/prymitive/karma): alert dashboard
   * [PushProx](https://github.com/RobustPerception/PushProx): Proxy to transverse NAT and similar network setups
   * [Promdump](https://github.com/ihcsim/promdump): kubectl plugin to dump and restore data blocks

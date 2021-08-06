@@ -345,6 +345,7 @@ all times in unixtime/seconds.
 | `process_resident_memory_bytes`    | Resident memory size in bytes.                         | bytes            |
 | `process_heap_bytes`               | Process heap size in bytes.                            | bytes            |
 | `process_start_time_seconds`       | Start time of the process since unix epoch in seconds. | seconds          |
+| `process_threads`                  | Number of OS threads in the process.             | threads          |
 
 ### Runtime metrics
 

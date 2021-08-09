@@ -23,6 +23,9 @@
 # Redirect for HTTP SD docs, which briefly lived in the wrong category / repo.
 /docs/instrumenting/http_sd/ /docs/prometheus/latest/http_sd/
 
+# Redirect for "disabled_features", which is now called "feature_flags".
+/docs/prometheus/latest/disabled_features/ /docs/prometheus/latest/feature_flags/
+
 # Redirects for sections.
 # TODO(ts): Auto-generate from menu.
 /docs/                      /docs/introduction/overview/                302!

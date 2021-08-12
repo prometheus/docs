@@ -45,7 +45,7 @@ tls_server_config:
   key_file: /home/prometheus/certs/example.com/example.com.key
 ```
 
-From now on, you would need to pass a new flag to Prometheus,
+To make Prometheus use this config, you will need to call it with the flag
 `--web.config.file`.
 
 

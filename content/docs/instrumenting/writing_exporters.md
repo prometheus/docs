@@ -497,7 +497,7 @@ that has a value of 0 or 1 depending on whether the scrape worked.
 The latter is better where there’s still some useful metrics you can get
 even with a failed scrape, such as the HAProxy exporter providing
 process stats. The former is a tad easier for users to deal with, as
-`up` works in the usual way, although you can’t distinguish between the
+[`up` works in the usual way](/docs/concepts/jobs_instances/#automatically-generated-labels-and-time-series), although you can’t distinguish between the
 exporter being down and the application being down.
 
 ### Landing page

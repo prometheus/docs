@@ -297,6 +297,7 @@ separate exporters are needed:
    * [SkyDNS](https://github.com/skynetservices/skydns) (**direct**)
    * [Telegraf](https://github.com/influxdata/telegraf/tree/master/plugins/outputs/prometheus_client)
    * [Traefik](https://github.com/containous/traefik)
+   * [Triton Inference Server](https://github.com/triton-inference-server/server/blob/main/docs/metrics.md)
    * [VerneMQ](https://github.com/vernemq/vernemq)
    * [Weave Flux](https://github.com/weaveworks/flux)
    * [Xandikos](https://www.xandikos.org/) (**direct**)

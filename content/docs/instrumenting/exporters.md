@@ -180,7 +180,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [NRPE exporter](https://github.com/robustperception/nrpe_exporter)
    * [Osquery exporter](https://github.com/zwopir/osquery_exporter)
    * [OTC CloudEye exporter](https://github.com/tiagoReichert/otc-cloudeye-prometheus-exporter)
-   * [Promitor (Azure Monitor)](https://github.com/tomkerkhove/promitor)
+   * [Promitor (Azure Monitor)](https://promitor.io)
    * [Pingdom exporter](https://github.com/giantswarm/prometheus-pingdom-exporter)
    * [scollector exporter](https://github.com/tgulacsi/prometheus_scollector)
    * [Sensu exporter](https://github.com/reachlin/sensu_exporter)

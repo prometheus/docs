@@ -22,7 +22,7 @@ these categories.
 For service discovery mechanisms not natively supported by Prometheus,
 [file-based service discovery](/docs/operating/configuration/#%3Cfile_sd_config%3E) provides an interface for integrating.
 
- * [Kuma](https://github.com/Kong/kuma/tree/master/app/kuma-prometheus-sd)
+ * [Kuma](https://github.com/kumahq/kuma/tree/master/app/kuma-prometheus-sd)
  * [Lightsail](https://github.com/n888/prometheus-lightsail-sd)
  * [Netbox](https://github.com/FlxPeters/netbox-prometheus-sd)
  * [Packet](https://github.com/packethost/prometheus-packet-sd)

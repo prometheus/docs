@@ -32,7 +32,7 @@ Before starting Prometheus, let's configure it.
 
 ## Configuring Prometheus
 
-Prometheus configuration is [YAML](http://www.yaml.org/start.html). The Prometheus download comes with a sample configuration in a file called `prometheus.yml` that is a good place to get started.
+Prometheus configuration is [YAML](https://yaml.org/). The Prometheus download comes with a sample configuration in a file called `prometheus.yml` that is a good place to get started.
 
 We've stripped out most of the comments in the example file to make it more succinct (comments are the lines prefixed with a `#`).
 

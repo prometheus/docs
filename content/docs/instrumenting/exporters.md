@@ -61,6 +61,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
 
 ### Hardware related
    * [apcupsd exporter](https://github.com/mdlayher/apcupsd_exporter)
+   * [ARM HWCPipe Exporter](https://github.com/ylz-at/arm-hwcpipe-exporter)
    * [BIG-IP exporter](https://github.com/ExpressenAB/bigip_exporter)
    * [Bosch Sensortec BMP/BME exporter](https://github.com/David-Igou/bsbmp-exporter)
    * [Collins exporter](https://github.com/soundcloud/collins_exporter)

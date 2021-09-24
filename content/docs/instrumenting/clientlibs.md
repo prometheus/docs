@@ -25,6 +25,7 @@ Unofficial third-party client libraries:
 * [C++](https://github.com/jupp0r/prometheus-cpp)
 * [Common Lisp](https://github.com/deadtrickster/prometheus.cl)
 * [Dart](https://github.com/tentaclelabs/prometheus_client)
+* [Deno](https://github.com/marcopacini/ts_prometheus)
 * [Elixir](https://github.com/deadtrickster/prometheus.ex)
 * [Erlang](https://github.com/deadtrickster/prometheus.erl)
 * [Haskell](https://github.com/fimad/prometheus-haskell)

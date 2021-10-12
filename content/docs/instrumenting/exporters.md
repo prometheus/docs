@@ -293,6 +293,7 @@ separate exporters are needed:
    * [Quobyte](https://www.quobyte.com/) (**direct**)
    * [RabbitMQ](https://rabbitmq.com/prometheus.html)
    * [RobustIRC](http://robustirc.net/)
+   * [Scaphandre](https://github.com/hubblo-org/scaphandre)
    * [ScyllaDB](http://github.com/scylladb/scylla)
    * [Skipper](https://github.com/zalando/skipper)
    * [SkyDNS](https://github.com/skynetservices/skydns) (**direct**)

@@ -58,15 +58,21 @@ VictoriaMetrics 1.67.0 is not passing and [does not intend to pass](https://prom
 * New Relic
 * Sysdig Monitor
 
-As Amazon Managed Service for Prometheus is based on Cortex just like Grafana Cloud, we expect them to pass after the next update cycle.
+NB: As Amazon Managed Service for Prometheus is based on Cortex just like Grafana Cloud, we expect them to pass after the next update cycle.
 
 ## Agent/Collector
+
+### Passing
 
 | Sender | Version | Score
 |--------|---------|------
 | Grafana Agent | 0.19.0 | **100%**
 | Prometheus | 2.30.3 | **100%**
 | OpenTelemetry Collector | 0.37.0 | **100%**
+
+### Not passing
+
+| Sender | Version | Score
 | Telegraf | 1.20.2 | **73.68%**
 | Timber Vector | 0.16.1 | **36.84%**
 | VictoriaMetrics Agent | 1.67.0 | **21.05%**
@@ -74,129 +80,3 @@ As Amazon Managed Service for Prometheus is based on Cortex just like Grafana Cl
 That means we consider three agents/collectors to be Prometheus compatible as of today: Grafana Agent, Prometheus itself, and the OpenTelemetry Collector.
 
 NB: We tested Vector 0.16.1 instead of 0.17.0 because there are no binary downloads for 0.17.0 and our test toolchain currently expects binaries.
-
-The raw results are:
-
-````
---- FAIL: TestRemoteWrite (108.29s)
-    --- PASS: TestRemoteWrite/grafana (0.00s)
-        --- PASS: TestRemoteWrite/grafana/Summary (10.03s)
-        --- PASS: TestRemoteWrite/grafana/JobLabel (10.03s)
-        --- PASS: TestRemoteWrite/grafana/Up (10.03s)
-        --- PASS: TestRemoteWrite/grafana/RepeatedLabels (10.04s)
-        --- PASS: TestRemoteWrite/grafana/HonorLabels (10.04s)
-        --- PASS: TestRemoteWrite/grafana/EmptyLabels (10.04s)
-        --- PASS: TestRemoteWrite/grafana/Histogram (10.04s)
-        --- PASS: TestRemoteWrite/grafana/Staleness (10.04s)
-        --- PASS: TestRemoteWrite/grafana/Gauge (10.04s)
-        --- PASS: TestRemoteWrite/grafana/SortedLabels (10.04s)
-        --- PASS: TestRemoteWrite/grafana/Invalid (10.04s)
-        --- PASS: TestRemoteWrite/grafana/NameLabel (10.04s)
-        --- PASS: TestRemoteWrite/grafana/Counter (10.04s)
-        --- PASS: TestRemoteWrite/grafana/InstanceLabel (10.04s)
-        --- PASS: TestRemoteWrite/grafana/Retries400 (10.04s)
-        --- PASS: TestRemoteWrite/grafana/Headers (10.04s)
-        --- PASS: TestRemoteWrite/grafana/Timestamp (10.04s)
-        --- PASS: TestRemoteWrite/grafana/Retries500 (10.06s)
-        --- PASS: TestRemoteWrite/grafana/Ordering (24.94s)
-    --- PASS: TestRemoteWrite/otelcollector (0.00s)
-        --- PASS: TestRemoteWrite/otelcollector/Gauge (10.01s)
-        --- PASS: TestRemoteWrite/otelcollector/JobLabel (10.01s)
-        --- PASS: TestRemoteWrite/otelcollector/SortedLabels (10.01s)
-        --- PASS: TestRemoteWrite/otelcollector/Invalid (10.01s)
-        --- PASS: TestRemoteWrite/otelcollector/Histogram (10.01s)
-        --- PASS: TestRemoteWrite/otelcollector/RepeatedLabels (10.01s)
-        --- PASS: TestRemoteWrite/otelcollector/Counter (10.01s)
-        --- PASS: TestRemoteWrite/otelcollector/Retries500 (10.01s)
-        --- PASS: TestRemoteWrite/otelcollector/HonorLabels (10.01s)
-        --- PASS: TestRemoteWrite/otelcollector/InstanceLabel (10.01s)
-        --- PASS: TestRemoteWrite/otelcollector/Retries400 (10.01s)
-        --- PASS: TestRemoteWrite/otelcollector/Up (10.01s)
-        --- PASS: TestRemoteWrite/otelcollector/NameLabel (10.01s)
-        --- PASS: TestRemoteWrite/otelcollector/Staleness (10.01s)
-        --- PASS: TestRemoteWrite/otelcollector/EmptyLabels (10.01s)
-        --- PASS: TestRemoteWrite/otelcollector/Timestamp (10.01s)
-        --- PASS: TestRemoteWrite/otelcollector/Headers (10.01s)
-        --- PASS: TestRemoteWrite/otelcollector/Summary (10.01s)
-        --- PASS: TestRemoteWrite/otelcollector/Ordering (17.34s)
-    --- PASS: TestRemoteWrite/prometheus (0.00s)
-        --- PASS: TestRemoteWrite/prometheus/Headers (10.03s)
-        --- PASS: TestRemoteWrite/prometheus/Counter (10.03s)
-        --- PASS: TestRemoteWrite/prometheus/EmptyLabels (10.03s)
-        --- PASS: TestRemoteWrite/prometheus/JobLabel (10.03s)
-        --- PASS: TestRemoteWrite/prometheus/Timestamp (10.03s)
-        --- PASS: TestRemoteWrite/prometheus/Staleness (10.03s)
-        --- PASS: TestRemoteWrite/prometheus/Summary (10.03s)
-        --- PASS: TestRemoteWrite/prometheus/RepeatedLabels (10.03s)
-        --- PASS: TestRemoteWrite/prometheus/Histogram (10.03s)
-        --- PASS: TestRemoteWrite/prometheus/Retries400 (10.03s)
-        --- PASS: TestRemoteWrite/prometheus/Invalid (10.03s)
-        --- PASS: TestRemoteWrite/prometheus/Up (10.03s)
-        --- PASS: TestRemoteWrite/prometheus/HonorLabels (10.03s)
-        --- PASS: TestRemoteWrite/prometheus/SortedLabels (10.03s)
-        --- PASS: TestRemoteWrite/prometheus/InstanceLabel (10.03s)
-        --- PASS: TestRemoteWrite/prometheus/NameLabel (10.03s)
-        --- PASS: TestRemoteWrite/prometheus/Gauge (10.03s)
-        --- PASS: TestRemoteWrite/prometheus/Retries500 (10.06s)
-        --- PASS: TestRemoteWrite/prometheus/Ordering (22.78s)
-    --- FAIL: TestRemoteWrite/telegraf (0.00s)
-        --- PASS: TestRemoteWrite/telegraf/EmptyLabels (10.01s)
-        --- PASS: TestRemoteWrite/telegraf/Counter (10.01s)
-        --- FAIL: TestRemoteWrite/telegraf/Invalid (10.01s)
-        --- PASS: TestRemoteWrite/telegraf/Retries400 (10.02s)
-        --- FAIL: TestRemoteWrite/telegraf/HonorLabels (10.02s)
-        --- FAIL: TestRemoteWrite/telegraf/Staleness (10.02s)
-        --- PASS: TestRemoteWrite/telegraf/SortedLabels (10.02s)
-        --- FAIL: TestRemoteWrite/telegraf/Retries500 (10.02s)
-        --- PASS: TestRemoteWrite/telegraf/Summary (10.02s)
-        --- PASS: TestRemoteWrite/telegraf/Timestamp (10.02s)
-        --- PASS: TestRemoteWrite/telegraf/NameLabel (10.02s)
-        --- PASS: TestRemoteWrite/telegraf/Headers (10.02s)
-        --- PASS: TestRemoteWrite/telegraf/JobLabel (10.02s)
-        --- FAIL: TestRemoteWrite/telegraf/Up (10.02s)
-        --- PASS: TestRemoteWrite/telegraf/Histogram (10.02s)
-        --- PASS: TestRemoteWrite/telegraf/Gauge (10.02s)
-        --- PASS: TestRemoteWrite/telegraf/RepeatedLabels (10.02s)
-        --- PASS: TestRemoteWrite/telegraf/InstanceLabel (10.02s)
-        --- PASS: TestRemoteWrite/telegraf/Ordering (10.02s)
-    --- FAIL: TestRemoteWrite/vector (0.01s)
-        --- FAIL: TestRemoteWrite/vector/Retries500 (17.96s)
-        --- FAIL: TestRemoteWrite/vector/InstanceLabel (17.97s)
-        --- PASS: TestRemoteWrite/vector/Retries400 (17.97s)
-        --- FAIL: TestRemoteWrite/vector/Staleness (17.97s)
-        --- FAIL: TestRemoteWrite/vector/Up (17.97s)
-        --- FAIL: TestRemoteWrite/vector/EmptyLabels (17.97s)
-        --- PASS: TestRemoteWrite/vector/Summary (17.97s)
-        --- FAIL: TestRemoteWrite/vector/Headers (17.97s)
-        --- FAIL: TestRemoteWrite/vector/JobLabel (17.97s)
-        --- PASS: TestRemoteWrite/vector/NameLabel (17.97s)
-        --- FAIL: TestRemoteWrite/vector/RepeatedLabels (17.97s)
-        --- PASS: TestRemoteWrite/vector/Timestamp (17.97s)
-        --- PASS: TestRemoteWrite/vector/Histogram (17.97s)
-        --- FAIL: TestRemoteWrite/vector/Counter (17.97s)
-        --- FAIL: TestRemoteWrite/vector/HonorLabels (17.97s)
-        --- PASS: TestRemoteWrite/vector/Gauge (17.97s)
-        --- PASS: TestRemoteWrite/vector/SortedLabels (17.97s)
-        --- FAIL: TestRemoteWrite/vector/Invalid (17.97s)
-        --- FAIL: TestRemoteWrite/vector/Ordering (21.63s)
-    --- FAIL: TestRemoteWrite/vmagent (0.01s)
-        --- FAIL: TestRemoteWrite/vmagent/Summary (10.01s)
-        --- FAIL: TestRemoteWrite/vmagent/JobLabel (10.02s)
-        --- FAIL: TestRemoteWrite/vmagent/RepeatedLabels (10.02s)
-        --- PASS: TestRemoteWrite/vmagent/Retries400 (10.02s)
-        --- FAIL: TestRemoteWrite/vmagent/HonorLabels (10.02s)
-        --- PASS: TestRemoteWrite/vmagent/Retries500 (10.02s)
-        --- PASS: TestRemoteWrite/vmagent/Staleness (10.02s)
-        --- FAIL: TestRemoteWrite/vmagent/Histogram (10.02s)
-        --- FAIL: TestRemoteWrite/vmagent/EmptyLabels (10.02s)
-        --- FAIL: TestRemoteWrite/vmagent/SortedLabels (10.02s)
-        --- FAIL: TestRemoteWrite/vmagent/Up (10.02s)
-        --- FAIL: TestRemoteWrite/vmagent/Gauge (10.02s)
-        --- PASS: TestRemoteWrite/vmagent/NameLabel (10.02s)
-        --- FAIL: TestRemoteWrite/vmagent/Timestamp (10.02s)
-        --- FAIL: TestRemoteWrite/vmagent/Counter (10.02s)
-        --- FAIL: TestRemoteWrite/vmagent/InstanceLabel (10.02s)
-        --- FAIL: TestRemoteWrite/vmagent/Invalid (10.02s)
-        --- FAIL: TestRemoteWrite/vmagent/Headers (10.02s)
-        --- FAIL: TestRemoteWrite/vmagent/Ordering (11.56s)
-````

@@ -5,7 +5,7 @@ kind: article
 author_name: Richard "RichiH" Hartmann
 ---
 
-Today, we're launching the Prometheus Conformance Program. While the legal paperwork still needs to be finalized, we ran tests, and we consider the below our first round of results. As part of this launch [Julius Volz updated his [PromQL test results](https://promlabs.com/blog/2021/10/14/promql-vendor-compatibility-round-three).
+Today, we're launching the Prometheus Conformance Program. While the legal paperwork still needs to be finalized, we ran tests, and we consider the below our first round of results. As part of this launch [Julius Volz updated his PromQL test results](https://promlabs.com/blog/2021/10/14/promql-vendor-compatibility-round-three).
 
 As a quick reminder: The program is called Prometheus **Conformance**, software can be **compliant** to specific tests, which result in a **compatibility** rating. The nomenclature might seem complex, but it allows us to speak about this topic without using endless word snakes.
 
@@ -13,7 +13,7 @@ As a quick reminder: The program is called Prometheus **Conformance**, software 
 
 ## New Categories
 
-We found that it's quite hard to reason about what needs to be applied to what software. To help sort my thoughts, I created [an overview](https://docs.google.com/document/d/1VGMme9RgpclqF4CF2woNmgFqq0J7nqHn-l72uNmAxhA), introducing four new categories we can put software into:
+We found that it's quite hard to reason about what needs to be applied to what software. To help sort my thoughts, we created [an overview](https://docs.google.com/document/d/1VGMme9RgpclqF4CF2woNmgFqq0J7nqHn-l72uNmAxhA), introducing four new categories we can put software into:
 * Metrics Exposers
 * Agent/Collector
 * Prometheus Storage Backends
@@ -23,7 +23,7 @@ We found that it's quite hard to reason about what needs to be applied to what s
 
 Feedback is very much welcome. Maybe counter-intuitively, we want the community, not just Prometheus-team, to shape this effort. To help with that, we will launch a WG Conformance within Prometheus. As with [WG Docs](https://docs.google.com/document/d/1k7_Ya7j5HrIgxXghTCj-26CuwPyGdAbHS0uQf0Ir2tw) and [WG Storage](https://docs.google.com/document/d/1HWL-NIfog3_pFxUny0kAHeoxd0grnqhCBcHVPZN4y3Y), those will be public and we actively invite participation.
 
-As I [alluded to recently](https://www.youtube.com/watch?v=CBDZKjgRiew), the maintainer/adoption ratio of Prometheus is surprisingly, or shockingly, low. In different words, we hope that the economic incentives around Prometheus Compatibility will entice vendors to assign resources in building out the tests with us. If you always wanted to contribute to Prometheus during work time, this might by the way; and a way that will have you touch a lot of highly relevant aspects of Prometheus. There's a variety of ways to [get in touch](https://prometheus.io/community/) with us.
+As we [alluded to recently](https://www.youtube.com/watch?v=CBDZKjgRiew), the maintainer/adoption ratio of Prometheus is surprisingly, or shockingly, low. In different words, we hope that the economic incentives around Prometheus Compatibility will entice vendors to assign resources in building out the tests with us. If you always wanted to contribute to Prometheus during work time, this might be the way; and a way that will have you touch a lot of highly relevant aspects of Prometheus. There's a variety of ways to [get in touch](https://prometheus.io/community/) with us.
 
 ## Register for being tested
 

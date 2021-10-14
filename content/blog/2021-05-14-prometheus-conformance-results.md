@@ -5,7 +5,7 @@ kind: article
 author_name: Richard "RichiH" Hartmann
 ---
 
-Today, we're launching the Prometheus Conformance Program. While the legal paperwork still needs to be finalized, we ran tests, and we consider the below our first round of results.
+Today, we're launching the Prometheus Conformance Program. While the legal paperwork still needs to be finalized, we ran tests, and we consider the below our first round of results. As part of this launch [Julius Volz updated his [PromQL test results](https://promlabs.com/blog/2021/10/14/promql-vendor-compatibility-round-three).
 
 As a quick reminder: The program is called Prometheus **Conformance**, software can be **compliant** to specific tests, which result in a **compatibility** rating. The nomenclature might seem complex, but it allows us to speak about this topic without using endless word snakes.
 
@@ -33,12 +33,10 @@ It makes sense to look at projects and aaS offerings in two sets.
 
 #### Passing
 
-| Projects | Version | Score
-|----------|---------|------
-| Cortex | 1.10.0 | **100%**
-| M3 | 1.3.0 | **100%**
-| Promscale | 0.6.2 | **100%**
-| Thanos | 0.23.1 | **100%**
+* Cortex 1.10.0
+* M3 1.3.0
+* Promscale 0.6.2
+* Thanos 0.23.1
 
 #### Not passing
 
@@ -64,19 +62,14 @@ NB: As Amazon Managed Service for Prometheus is based on Cortex just like Grafan
 
 ### Passing
 
-| Sender | Version | Score
-|--------|---------|------
-| Grafana Agent | 0.19.0 | **100%**
-| Prometheus | 2.30.3 | **100%**
-| OpenTelemetry Collector | 0.37.0 | **100%**
+* Grafana Agent 0.19.0
+* OpenTelemetry Collector 0.37.0
+* Prometheus 2.30.3
 
 ### Not passing
 
-| Sender | Version | Score
-| Telegraf | 1.20.2 | **73.68%**
-| Timber Vector | 0.16.1 | **36.84%**
-| VictoriaMetrics Agent | 1.67.0 | **21.05%**
-
-That means we consider three agents/collectors to be Prometheus compatible as of today: Grafana Agent, Prometheus itself, and the OpenTelemetry Collector.
+* Telegraf 1.20.2
+* Timber Vector 0.16.1
+* VictoriaMetrics Agent 1.67.0
 
 NB: We tested Vector 0.16.1 instead of 0.17.0 because there are no binary downloads for 0.17.0 and our test toolchain currently expects binaries.

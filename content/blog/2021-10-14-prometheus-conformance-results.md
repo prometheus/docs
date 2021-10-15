@@ -5,7 +5,7 @@ kind: article
 author_name: Richard "RichiH" Hartmann
 ---
 
-Today, we're launching the Prometheus Conformance Program. While the legal paperwork still needs to be finalized, we ran tests, and we consider the below our first round of results. As part of this launch [Julius Volz updated his PromQL test results](https://promlabs.com/blog/2021/10/14/promql-vendor-compatibility-round-three).
+Today, we're launching the [Prometheus Conformance Program](/blog/2021/05/03/introducing-prometheus-conformance-program/) with the goal of ensuring interoperability between different projects and vendors in the Prometheus monitoring space. While the legal paperwork still needs to be finalized, we ran tests, and we consider the below our first round of results. As part of this launch [Julius Volz updated his PromQL test results](https://promlabs.com/blog/2021/10/14/promql-vendor-compatibility-round-three).
 
 As a quick reminder: The program is called Prometheus **Conformance**, software can be **compliant** to specific tests, which result in a **compatibility** rating. The nomenclature might seem complex, but it allows us to speak about this topic without using endless word snakes.
 
@@ -14,8 +14,9 @@ As a quick reminder: The program is called Prometheus **Conformance**, software 
 ## New Categories
 
 We found that it's quite hard to reason about what needs to be applied to what software. To help sort my thoughts, we created [an overview](https://docs.google.com/document/d/1VGMme9RgpclqF4CF2woNmgFqq0J7nqHn-l72uNmAxhA), introducing four new categories we can put software into:
+
 * Metrics Exposers
-* Agent/Collector
+* Agents/Collectors
 * Prometheus Storage Backends
 * Full Prometheus Compatibility
 

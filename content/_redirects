@@ -46,3 +46,6 @@
 /:foo/:bar/:baz/index.html              /:foo/:bar/:baz/                302!
 /:foo/:bar/:baz/:qux/index.html         /:foo/:bar/:baz/:qux/           302!
 /:foo/:bar/:baz/:qux/:quux/index.html   /:foo/:bar/:baz/:qux/:quux/     302!
+
+# Blog post duplicated
+/blog/2021/05/14/prometheus-conformance-results/ /blog/2021/10/14/prometheus-conformance-results/ 302!

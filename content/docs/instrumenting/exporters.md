@@ -294,6 +294,7 @@ separate exporters are needed:
    * [RabbitMQ](https://rabbitmq.com/prometheus.html)
    * [RobustIRC](http://robustirc.net/)
    * [ScyllaDB](http://github.com/scylladb/scylla)
+   * [sFlow-RT](https://github.com/sflow-rt/prometheus)
    * [Skipper](https://github.com/zalando/skipper)
    * [SkyDNS](https://github.com/skynetservices/skydns) (**direct**)
    * [Telegraf](https://github.com/influxdata/telegraf/tree/master/plugins/outputs/prometheus_client)

@@ -38,6 +38,7 @@ still relevant.
 | [Moving to goreleaser](https://docs.google.com/document/d/16LOT2wK-jntlU-EFADfaEF3YbKH81U9Zl_PvSu4qVwo/edit) | 2021‑06‑05 | Proposed |
 | [Alertmanager Log Receiver](https://docs.google.com/document/d/1Oevu2stHVGAupzmc9C7_wW5nTb_CJ6Ut72viXfve6zI/edit) | 2021‑06‑10 | Proposed |
 | [Extra HTTP parameters in the blackbox exporter](https://docs.google.com/document/d/1VwqXi2TOb5KXaZY6Iio7411x64pJao3GusX8MqYsJ2g/edit) | 2021‑06‑23 | Proposed | |
+| [Making durations and number literals the same](https://docs.google.com/document/d/1LaZfknXuuRWGtQSbULoMtclQhuLUMrdwg15wMvoBvCQ/edit) | 2021‑07‑26 | In progress | [#9138](https://github.com/prometheus/prometheus/pull/9138) |
 | [Metadata](https://docs.google.com/document/d/1XiZePSjwU4X5iaIgCIvLzljJzl8lRAdvputuborUcaQ/edit) | | TODO | |
 | OpenMetrics transition | | TODO | |
 | Semantics of muting in Alertmanager | | TODO | |

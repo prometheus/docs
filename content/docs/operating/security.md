@@ -180,7 +180,7 @@ example `up{job="<user_input>"}` would become `up{job=""} or
 some_metric{zzz=""}` if the `<user_input>` was `"} or some_metric{zzz="`.
 
 For those using Grafana note that [dashboard permissions are not data source
-permissions](http://docs.grafana.org/administration/permissions/#data-source-permissions),
+permissions](https://grafana.com/docs/grafana/latest/permissions/#data-source-permissions),
 so do not limit a user's ability to run arbitrary queries in proxy mode.
 
 ## Secrets

@@ -41,7 +41,7 @@ still relevant.
 | [Metadata](https://docs.google.com/document/d/1XiZePSjwU4X5iaIgCIvLzljJzl8lRAdvputuborUcaQ/edit) | | TODO | |
 | OpenMetrics transition | | TODO | |
 | Semantics of muting in Alertmanager | | TODO | |
-| Extrapolation in range selectors (xrange) | | TODO | |
+| [Extrapolation in range selectors (xrate)](https://docs.google.com/document/d/1y2Mp041_2v0blnKnZk7keCnJZICeK2YWUQuXH_m4DVc/edit#) | | Under review | |
 | Serverless, MQTT, and IoT use cases in the Prometheus ecosystem | | TODO | |
 | Static arithmetic for timestamps and durations | | TODO | |
 

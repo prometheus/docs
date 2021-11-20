@@ -25,6 +25,8 @@ var tooltip = d3.select("body")
     .style("z-index", "10")
     .style("visibility", "hidden");
 
+const promQlRegExp = /\b(?<label>[a-z0-9_]\w*)(?<selector>=~?|![=~])"?(?<value>(?<=")(?:[^\\"]|\\.)*(?=")|\w+[^\s},]+)/gmi;
+
 function parseSearch(searchString) {
   var labels = searchString.replace(/{|}|\"|\'/g, "").split(",");
   var o = {};
@@ -164,6 +166,41 @@ function massage(root, receivers) {
       o.name = key;
       matchers.push(o);
     }
+  }
+
+  if (root.matchers) {
+    root.matchers.forEach((matcher) => {
+      let o = {};
+
+      let matchedExpressions;
+      while ((matchedExpressions = promQlRegExp.exec(matcher)) !== null) {
+        let [match, label, selector, value] = matchedExpressions;
+        o.name = label;
+
+        switch (selector) {
+          case "=~":
+            o.isRegex = true;
+            o.value = new RegExp("^(?:" + value + ")$");
+            matchers.push(o);
+            break;
+          case "!=":
+            o.isRegex = true;
+            o.value = new RegExp("^(?!" + value + "$)");
+            matchers.push(o);
+            break;
+          case "!~":
+            o.isRegex = true;
+            o.value = new RegExp("^(?!" + value + "$)");
+            matchers.push(o);
+            break;
+          case "=":
+            o.isRegex = false;
+            o.value = value
+            matchers.push(o);
+            break;
+        }
+      }
+    });
   }
 
   root.matchers = matchers;

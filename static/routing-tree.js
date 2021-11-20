@@ -28,12 +28,11 @@ var tooltip = d3.select("body")
 const promQlRegExp = /\b(?<label>[a-z0-9_]\w*)(?<selector>=~?|![=~])"?(?<value>(?<=")(?:[^\\"]|\\.)*(?=")|\w+[^\s},]+)/gmi;
 
 function parseSearch(searchString) {
-  var labels = searchString.replace(/{|}|\"|\'/g, "").split(",");
-  var o = {};
-  labels.forEach(function(label) {
-    var l = label.trim().split("=");
-    o[l[0]] = l[1];
-  });
+  let o = {};
+  let matchedExpressions;
+  while ((matchedExpressions = promQlRegExp.exec(searchString)) !== null) {
+    o[matchedExpressions[1]] = matchedExpressions[3];
+  }
   return o;
 }
 

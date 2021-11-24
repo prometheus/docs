@@ -61,6 +61,7 @@ The current team members are:
 * Julius Volz ([PromLabs](https://promlabs.com/))
 * Julien Pivotto ([Inuits](https://inuits.eu/))
 * Matthias Rampke ([SoundCloud](https://soundcloud.com/))
+* Max Inden ([Protocol Labs](https://protocol.ai/))
 * Richard Hartmann ([Grafana Labs](https://grafana.com/))
 * Simon Pasquier ([Red Hat](https://www.redhat.com/))
 * Tobias Schmidt (independent)
@@ -73,7 +74,6 @@ Previous members:
 * Fabian Reinartz
 * Krasi Georgiev
 * Matt Layher
-* Max Inden
 * Steve Durrheimer
 * Stuart Nelson
 

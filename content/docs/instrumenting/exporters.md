@@ -41,7 +41,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [IoTDB exporter](https://github.com/fagnercarvalho/prometheus-iotdb-exporter)
    * [KDB+ exporter](https://github.com/KxSystems/prometheus-kdb-exporter)
    * [Memcached exporter](https://github.com/prometheus/memcached_exporter) (**official**)
-   * [MongoDB exporter](https://github.com/dcu/mongodb_exporter)
+   * [MongoDB exporter](https://github.com/percona/mongodb_exporter)
    * [MongoDB query exporter](https://github.com/raffis/mongodb-query-exporter)
    * [MSSQL server exporter](https://github.com/awaragi/prometheus-mssql-exporter)
    * [MySQL router exporter](https://github.com/rluisr/mysqlrouter_exporter)

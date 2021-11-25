@@ -61,6 +61,7 @@ The current team members are:
 * Johannes Ziemke (independent)
 * Julius Volz ([PromLabs](https://promlabs.com/))
 * Julien Pivotto ([Inuits](https://inuits.eu/))
+* Matthias Loibl ([Polar Signals](https://www.polarsignals.com/))
 * Matthias Rampke ([SoundCloud](https://soundcloud.com/))
 * Max Inden ([Protocol Labs](https://protocol.ai/))
 * Richard Hartmann ([Grafana Labs](https://grafana.com/))

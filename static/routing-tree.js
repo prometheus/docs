@@ -25,7 +25,7 @@ var tooltip = d3.select("body")
     .style("z-index", "10")
     .style("visibility", "hidden");
 
-const promQlRegExp = /\b(?<label>[a-z0-9_]\w*)(?<selector>=~?|![=~])"?(?<value>(?<=")(?:[^\\"]|\\.)*(?=")|\w+[^\s},]+)/gmi;
+const promQlRegExp = /\b(?<label>[a-z0-9_]\w*)\s?(?<selector>=~?|![=~])\s"?(?<value>(?<=")(?:[^\\"]|\\.)*(?=")|\w+[^\s},]+)/gmi;
 
 function parseSearch(searchString) {
   let o = {};

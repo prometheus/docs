@@ -128,8 +128,7 @@ automatically doesn’t always produce nice results for things like
 Exposed metrics should not contain colons, these are reserved for user
 defined recording rules to use when aggregating.
 
-Only `[a-zA-Z0-9:_]` are valid in metric names, any other characters
-should be sanitized to an underscore.
+Only `[a-zA-Z0-9:_]` are valid in metric names.
 
 The `_sum`, `_count`, `_bucket` and `_total` suffixes are used by
 Summaries, Histograms and Counters. Unless you’re producing one of

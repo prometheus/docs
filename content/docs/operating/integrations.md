@@ -22,6 +22,7 @@ these categories.
 For service discovery mechanisms not natively supported by Prometheus,
 [file-based service discovery](/docs/operating/configuration/#%3Cfile_sd_config%3E) provides an interface for integrating.
 
+ * [ElastiCache](https://github.com/maxbrunet/prometheus-elasticache-sd)
  * [Kuma](https://github.com/kumahq/kuma/tree/master/app/kuma-prometheus-sd)
  * [Lightsail](https://github.com/n888/prometheus-lightsail-sd)
  * [Netbox](https://github.com/FlxPeters/netbox-prometheus-sd)

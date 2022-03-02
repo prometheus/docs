@@ -45,6 +45,7 @@ still relevant.
 | [Extrapolation in range selectors (xrate)](https://docs.google.com/document/d/1y2Mp041_2v0blnKnZk7keCnJZICeK2YWUQuXH_m4DVc/edit#) | | Under review | |
 | Serverless, MQTT, and IoT use cases in the Prometheus ecosystem | | TODO | |
 | Static arithmetic for timestamps and durations | | TODO | |
+| [Prometheus long-term supported releases](https://docs.google.com/document/d/1wCXLnvh460UG10Mw019UbYMWDwSWWdvgwY61LHY0A0w/edit) | 2022-03-02 | Proposed | |
 
 # Problem statements and exploratory documents
 

@@ -116,14 +116,14 @@ For example in the Java Simpleclient we have:
 
 ```java
 class YourClass {
-  static final Counter requests = Counter.build()
+  static final Counter requests = Counter.create()
       .name("requests_total")
       .help("Requests.").register();
 }
 ```
 
 This will register requests with the default CollectorRegistry. By calling
-`build()` rather than `register()` the metric won’t be registered (handy for
+`create()` rather than `register()` the metric won’t be registered (handy for
 unittests), you can also pass in a CollectorRegistry to `register()` (handy for
 batch jobs).
 

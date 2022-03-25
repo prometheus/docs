@@ -139,6 +139,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [Azure Health exporter](https://github.com/FXinnovation/azure-health-exporter)
    * [BigBlueButton](https://github.com/greenstatic/bigbluebutton-exporter)
    * [Cloudflare exporter](https://gitlab.com/gitlab-org/cloudflare_exporter)
+   * [Conviva Experience Insights exporter](https://github.com/Conviva/prometheus-conviva-exporter)
    * [Cryptowat exporter](https://github.com/nbarrientos/cryptowat_exporter)
    * [DigitalOcean exporter](https://github.com/metalmatze/digitalocean_exporter)
    * [Docker Cloud exporter](https://github.com/infinityworksltd/docker-cloud-exporter)

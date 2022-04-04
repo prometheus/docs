@@ -15,7 +15,7 @@ attack vectors that some configurations may enable.
 As with any complex system, it is near certain that bugs will be found, some of
 them security-relevant. If you find a _security bug_ please report it
 privately to the maintainers listed in the MAINTAINERS of the relevant
-repository and CC prometheus-team@googlegroups.com.  We will fix the issue as soon
+repository and CC prometheus-team@googlegroups.com. We will fix the issue as soon
 as possible and coordinate a release date with you. You will be able to choose
 if you want public acknowledgement of your effort and if you want to be
 mentioned by name.

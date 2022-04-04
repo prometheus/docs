@@ -20,6 +20,18 @@ as possible and coordinate a release date with you. You will be able to choose
 if you want public acknowledgement of your effort and if you want to be
 mentioned by name.
 
+### Automated security scanners
+
+Special note for security scanner users: Please be mindful with the reports produced.
+Most scanners are generic and produce lots of false positives. More and more
+reports are being sent to us, and it takes a significant amount of work to go
+through all of them and reply with the care you expect. This problem is particularly
+bad with Go and NPM dependency scanners.
+
+As a courtesy to us and our time, we would ask you not to submit raw reports.
+Instead, please submit them with an analysis outlining which specific results
+are applicable to us and why.
+
 Prometheus is maintained by volunteers, not by a company. Therefore, fixing
 security issues is done on a best-effort basis. We strive to release security
 fixes within 7 days for: Prometheus, Alertmanager, Node Exporter,

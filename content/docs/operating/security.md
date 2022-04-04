@@ -15,9 +15,15 @@ attack vectors that some configurations may enable.
 As with any complex system, it is near certain that bugs will be found, some of
 them security-relevant. If you find a _security bug_ please report it
 privately to the maintainers listed in the MAINTAINERS of the relevant
-repository and CC prometheus-team@googlegroups.com. We will fix the issue as soon
-as possible and coordinate a release date with you. You will be able to choose
-if you want public acknowledgement of your effort and if you want to be
+repository and CC prometheus-team@googlegroups.com. 
+
+Special note for security scanner users, please be careful with the report it is given.
+Most of the time the issues raised don't apply to the tool scanned. It is specially true
+regarding the vulnerabilities detected in the dependencies (Go or npm). 
+In this particular case we will kindly ask you to explain how it can affect the tool scanned.
+
+We will fix the issue as soon as possible and coordinate a release date with you. 
+You will be able to choose if you want public acknowledgement of your effort and if you want to be
 mentioned by name.
 
 Prometheus is maintained by volunteers, not by a company. Therefore, fixing

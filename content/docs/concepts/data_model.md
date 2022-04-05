@@ -27,7 +27,7 @@ be used by exporters or direct instrumentation.
 Labels enable Prometheus's dimensional data model: any given combination of
 labels for the same metric name identifies a particular dimensional
 instantiation of that metric (for example: all HTTP requests that used the
-method `POST` to the `/api/tracks` handler). The query language
+_method_ `POST` to the `/api/tracks` _handler_). The query language
 allows filtering and aggregation based on these dimensions. Changing any label
 value, including adding or removing a label, will create a new time series.
 

@@ -1,5 +1,5 @@
 ---
-title: Comparison to alternatives
+title: Comparison with alternatives
 sort_rank: 4
 ---
 

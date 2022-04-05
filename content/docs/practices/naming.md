@@ -7,7 +7,7 @@ sort_rank: 1
 
 The metric and label conventions presented in this document are not required
 for using Prometheus, but can serve as both a style-guide and a collection of
-best practices. Individual organizations may want to approach some of these 
+best practices. Individual organizations may want to approach some of these
 practices, e.g. naming conventions, differently.
 
 ## Metric names
@@ -37,6 +37,8 @@ A metric name...
    (for an accumulating count with unit)
  * <code>foobar_build<b>\_info</b></code>
    (for a pseudo-metric that provides [metadata](https://www.robustperception.io/exposing-the-software-version-to-prometheus) about the running binary)
+ * <code>data_pipeline_last_record_processed\_<b>timestamp_seconds</b></code>
+  (for a timestamp that tracks the time of the latest record processed in a data processing pipeline)
 * ...should represent the same logical thing-being-measured across all label
   dimensions.
  * request duration
@@ -72,12 +74,12 @@ Prometheus does not have any units hard coded. For better compatibility, base
 units should be used. The following lists some metrics families with their base unit.
 The list is not exhaustive.
 
-| Family | Base unit | Remark | 
+| Family | Base unit | Remark |
 | -------| --------- | ------ |
 | Time   | seconds   |        |
 | Temperature | celsius | _celsius_ is preferred over _kelvin_ for practical reasons. _kelvin_ is acceptable as a base unit in special cases like color temperature or where temperature has to be absolute. |
 | Length | meters | |
-| Bytes  | bytes | | 
+| Bytes  | bytes | |
 | Bits   | bytes | To avoid confusion combining different metrics, always use _bytes_, even where _bits_ appear more common. |
 | Percent | ratio | Values are 0–1 (rather than 0–100). `ratio` is only used as a suffix for names like `disk_usage_ratio`. The usual metric name follows the pattern `A_per_B`. |
 | Voltage | volts | |

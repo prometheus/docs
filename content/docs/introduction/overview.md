@@ -37,7 +37,7 @@ Prometheus's main features are:
 
 ### What are metrics ?
 
-In layperson terms, metrics are numeric measurements, time series mean that changes are recorded over time. What users want to measure differs from application to application. For a web server it might be request times, for a database it might be number of active connections or number of active queries etc.
+In layperson terms, metrics are numeric measurements and time series are changes to a single metric recorded over time. What users want to measure differs from application to application. For a web server it might be request times, for a database it might be number of active connections or number of active queries etc.
 
 Metrics play an important role in understanding why your application is working in a certain way. Let's assume you are running a web application and find that the application is slow. You will need some information to find out what is happening with your application. For example the application can become slow when the number of requests are high. If you have the request count metric you can spot the reason and increase the number of servers to handle the load. 
 ### Components

@@ -129,7 +129,7 @@ module Downloads
     # If both formats are available, only .zip is returned (covers Windows use case).
     def binaries
       assets.
-        select { |d| d['name'] && %w[.tar.gz .zip].any? { |ext| d['name'].end_with?(ext) } }.
+        select { |d| d['name'] && %w[.tar.gz .zip].any? { |ext| d['name'].end_with?(ext) } && !d['name'].include?('-web-ui-') }.
         map { |d| Binary.new(d) }.
         group_by { |b| [b.os, b.arch] }.
         map { |_, binaries| binaries.sort_by(&:name).last }.

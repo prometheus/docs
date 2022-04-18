@@ -46,6 +46,7 @@ still relevant.
 | Serverless, MQTT, and IoT use cases in the Prometheus ecosystem | | TODO | |
 | Static arithmetic for timestamps and durations | | TODO | |
 | [Prometheus long-term supported releases](https://docs.google.com/document/d/1wCXLnvh460UG10Mw019UbYMWDwSWWdvgwY61LHY0A0w/edit) | 2022-03-02 | Proposed | |
+| [Support for out of order samples in the TSDB](https://docs.google.com/document/d/1Kppm7qL9C-BJB1j6yb6-9ObG3AbdZnFUBYPNNWwDBYM/edit) | 2022-04-13 | Proposed | |
 
 # Problem statements and exploratory documents
 

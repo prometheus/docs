@@ -238,7 +238,7 @@ We're really excited about Prometheus and how easy it makes
 setting up scalable monitoring and alerting from scratch.
 
 A huge shout-out to everyone that helped us in `#prometheus` on
-[FreeNode](https://freenode.net/) during the event. Special thanks to Brian
+FreeNode during the event. Special thanks to Brian
 Brazil, Fabian Reinartz and Julius Volz. Thanks for helping us even in the cases
 where it was obvious that we hadn't read the documentation thoroughly enough.
 

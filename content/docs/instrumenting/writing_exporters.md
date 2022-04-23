@@ -16,7 +16,7 @@ exporter or custom collector. The theory covered will also be of
 interest to those doing direct instrumentation.
 
 If you are writing an exporter and are unclear on anything here, please
-contact us on IRC (#prometheus on Freenode) or the [mailing
+contact us on IRC (#prometheus on libera) or the [mailing
 list](/community).
 
 ## Maintainability and purity

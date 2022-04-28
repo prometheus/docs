@@ -26,7 +26,7 @@ maintained by the community.
 The first Prometheus LTS release will be Prometheus v2.37. This version will be
 released in July 2022 and will be supported until January 31 2023.
 
-![A picture showing the LTS release cycle.](/static/lts-cycle.png)
+![A picture showing the LTS release cycle.](/assets/lts-cycle.png)
 
 ## Limitations of LTS support
 
@@ -36,5 +36,5 @@ Some features are excluded from LTS support:
 - [Experimental features][fflag].
 - OpenBSD support.
 
-[stab]:https://prometheus.io/docs/prometheus/latest/stability/>
+[stab]:https://prometheus.io/docs/prometheus/latest/stability/
 [fflag]:https://prometheus.io/docs/prometheus/latest/feature_flags/

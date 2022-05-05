@@ -5,7 +5,7 @@ sort_rank: 1
 
 # What is Prometheus ?
 
-Prometheus is a system monitoring and alerting system. It was opensourced by SoundCloud in 2012 and is the second project both to join and to to graduate within Cloud Native Computing Foundation after Kubernetes. Prometheus stores all metrics data as time series, i.e metrics information is stored along with the timestamp at which it was recorded, optional key-value pairs called as labels can also be stored along with metrics.
+Prometheus is a system monitoring and alerting system. It was opensourced by SoundCloud in 2012 and is the second project both to join and to graduate within Cloud Native Computing Foundation after Kubernetes. Prometheus stores all metrics data as time series, i.e metrics information is stored along with the timestamp at which it was recorded, optional key-value pairs called as labels can also be stored along with metrics.
 # What are metrics and why is it important?
 
 Metrics in layperson terms is a standard for measurement. What we want to measure depends from application to application. For a web server it can be request times, for a database it can be CPU usage or number of active connections etc.
@@ -16,15 +16,15 @@ Metrics play an important role in understanding why your application is working 
 
 The basic components of a Prometheus setup are:
 
-- Prometheus Server (The server which scrapes and stores the metrics data).
-- Targets to be scraped, for example: Instrumented Application that exposes its metrics or an Exporter that exposes metrics of another application.
+- Prometheus Server (the server which scrapes and stores the metrics data).
+- Targets to be scraped, for example an instrumented application that exposes its metrics, or an exporter that exposes metrics of another application.
 - Alertmanager to raise alerts based on preset rules.
 
 (Note: Apart from this Prometheus has push_gateway which is not covered here).
 
 [![Architecture](/assets/tutorial/architecture.png)](/assets/tutorial/architecture.png)
 
-Let's consider web server as an example application and we want to extract a certain metric like the number of API calls processed by the web server. So we add certain instrumentation code using the Prometheus client library and expose the metrics information. Now that our web server exposes its metrics we can configure Prometheus to scrape it. Now Prometheus is configured to fetch the metrics from the web server which is listening on xyz IP address port 7500 at a specific time interval, say, every minute.
+Let's consider a web server as an example application and we want to extract a certain metric like the number of API calls processed by the web server. So we add certain instrumentation code using the Prometheus client library and expose the metrics information. Now that our web server exposes its metrics we can configure Prometheus to scrape it. Now Prometheus is configured to fetch the metrics from the web server which is listening on xyz IP address port 7500 at a specific time interval, say, every minute.
 
 At 11:00:00 when I make the server public for consumption, the application calculates the request count and exposes it, Prometheus simultaneously scrapes the count metric and stores the value as 0.
 
@@ -50,7 +50,7 @@ A simple Line chart created on the Request Count metric will look like this
 
 One can scrape multiple useful metrics to understand what is happening in the application and create multiple charts on them. Group the charts into a dashboard and use it to get an overview of the application.
 
-# Show me how it is done.
+# Show me how it is done
 
 Let’s get our hands dirty and setup Prometheus. Prometheus is written using [Go](https://golang.org/) and all you need is the binary compiled for your operating system. Download the binary corresponding to your operating system from [here](https://prometheus.io/download/) and add the binary to your path.
 
@@ -69,14 +69,13 @@ scrape_configs:
       - targets: ["localhost:9090"]
 ```
 
-In the above configuration file we have mentioned the scrape_interval i.e how frequently we want Prometheus to scrape the metrics. We have added scrape_configs which has a name and target to scrape the metrics from. Prometheus by default listens on port 9090. So add it to targets.
+In the above configuration file we have mentioned the `scrape_interval`, i.e how frequently we want Prometheus to scrape the metrics. We have added `scrape_configs` which has a name and target to scrape the metrics from. Prometheus by default listens on port 9090. So add it to targets.
 
 > prometheus --config.file=prometheus.yml
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/ioa0eISf1Q0" frameborder="0" allowfullscreen></iframe>
 
-Now we have Prometheus up and running and scraping its own metrics every 15s. Prometheus has standard exporters available to export metrics. Next we will run a node exporter which is an exporter for machine metrics and scrape the same using Prometheus. Download node metrics exporter from [here](https://prometheus.io/download/#node_exporter)
-
+Now we have Prometheus up and running and scraping its own metrics every 15s. Prometheus has standard exporters available to export metrics. Next we will run a node exporter which is an exporter for machine metrics and scrape the same using Prometheus. ([Download node metrics exporter.](https://prometheus.io/download/#node_exporter))
 
 Run the node exporter in a terminal.
 
@@ -84,8 +83,7 @@ Run the node exporter in a terminal.
 
 [![Node exporter](/assets/tutorial/node_exporter.png)](/assets/tutorial/node_exporter.png)
 
-
-Next Add node exporter to the list of scrape_configs
+Next, add node exporter to the list of scrape_configs:
 
 ```yaml
 global:

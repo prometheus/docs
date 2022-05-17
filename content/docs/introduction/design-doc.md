@@ -24,7 +24,7 @@ still relevant.
 
 | Document | Initial date | Status | Pull requests |
 | -------- | ------------ | ------ | ------------- |
-| [Secure Alertmanager cluster traffic](https://github.com/prometheus/alertmanager/blob/master/doc/design/secure-cluster-traffic.md) | 2019‑02‑21 | Approved | [alertmanager#2237](https://github.com/prometheus/alertmanager/pull/2237) |
+| [Secure Alertmanager cluster traffic](https://github.com/prometheus/alertmanager/blob/main/doc/design/secure-cluster-traffic.md) | 2019‑02‑21 | Approved | [alertmanager#2237](https://github.com/prometheus/alertmanager/pull/2237) |
 | TSDB Head Improvements ([part1](https://docs.google.com/document/d/184urkLQnM7rqLmGvS66I15jU2pyPk_qwd8v_qDlXczo/edit) - [part 2](https://docs.google.com/document/d/1pnEsxB0CDLOxQipGw_vhkJpoDZfZPs_KjqCriumDAXQ/edit)) | 2019‑12‑09 | Partially implemented | |
 | [Persist Retroactive Rules](https://docs.google.com/document/d/16s_-RxYwQYcb4G4mvpmjPolEbD24o54a1LPqJ538Vhc/edit) | 2020‑06‑12 | Partially implemented | [#7675](https://github.com/prometheus/prometheus/pull/7675) |
 | [topk/bottomk aggregation over time](https://docs.google.com/document/d/1uSbD3T2beM-iX4-Hp7V074bzBRiRNlqUdcWP6JTDQSs/edit) | 2020‑09‑30 | Implemented | [#8121](https://github.com/prometheus/prometheus/pull/8121) [#8425](https://github.com/prometheus/prometheus/pull/8425) |

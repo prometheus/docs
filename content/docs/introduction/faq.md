@@ -93,7 +93,7 @@ It's now maintained and extended by a wide range of companies and individuals.
 ### What license is Prometheus released under?
 
 Prometheus is released under the
-[Apache 2.0](https://github.com/prometheus/prometheus/blob/master/LICENSE) license.
+[Apache 2.0](https://github.com/prometheus/prometheus/blob/main/LICENSE) license.
 
 ### What is the plural of Prometheus?
 

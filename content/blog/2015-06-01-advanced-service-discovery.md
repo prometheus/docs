@@ -16,7 +16,7 @@ mechanisms to Prometheus.
 
 Aside from many smaller fixes and improvements, you can now also reload your configuration during
 runtime by sending a `SIGHUP` to the Prometheus process. For a full list of changes, check the
-[changelog for this release](https://github.com/prometheus/prometheus/blob/master/CHANGELOG.md#0140--2015-06-01).
+[changelog for this release](https://github.com/prometheus/prometheus/blob/main/CHANGELOG.md#0140--2015-06-01).
 
 In this blog post, we will take a closer look at the built-in service discovery mechanisms and provide
 some practical examples. As an additional resource, see

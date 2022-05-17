@@ -25,7 +25,7 @@ Alerting and recording rules are one of the critical features of Prometheus. But
  
 * All rules ran with the same interval. We could have some heavy rules that are better off being run at a 10-minute interval and some rules that could be run at 15-second intervals.
 
-* All rules were evaluated concurrently, which is actually Prometheus’ oldest [open bug](https://github.com/prometheus/prometheus/blob/master/rules/manager.go#L267). This has a couple of issues, the obvious one being that the load spikes every eval interval if you have a lot of rules. The other being that rules that depend on each other might be fed outdated data. For example:
+* All rules were evaluated concurrently, which is actually Prometheus’ oldest [open bug](https://github.com/prometheus/prometheus/blob/main/rules/manager.go#L267). This has a couple of issues, the obvious one being that the load spikes every eval interval if you have a lot of rules. The other being that rules that depend on each other might be fed outdated data. For example:
 
 ```
 instance:network_bytes:rate1m = sum by(instance) (rate(network_bytes_total[1m]))

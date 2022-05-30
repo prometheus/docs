@@ -37,7 +37,7 @@ A metric name...
    (for an accumulating count with unit)
  * <code>foobar_build<b>\_info</b></code>
    (for a pseudo-metric that provides [metadata](https://www.robustperception.io/exposing-the-software-version-to-prometheus) about the running binary)
- * <code>data_pipeline_last_record_processed\_<b>timestamp_seconds</b></code>
+ * <code>data\_pipeline\_last\_record\_processed\_<b>timestamp_seconds</b></code>
   (for a timestamp that tracks the time of the latest record processed in a data processing pipeline)
 * ...should represent the same logical thing-being-measured across all label
   dimensions.

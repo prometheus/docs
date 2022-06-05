@@ -66,7 +66,7 @@ data volumes.
   * [VictoriaMetrics](https://github.com/VictoriaMetrics/VictoriaMetrics): write
   * [Wavefront](https://github.com/wavefrontHQ/prometheus-storage-adapter): write
 
-[Prom-migrator](https://github.com/timescale/promscale/tree/master/cmd/prom-migrator) is a tool for migrating data between remote storage systems.
+[Prom-migrator](https://github.com/timescale/promscale/tree/master/migration-tool/cmd/prom-migrator) is a tool for migrating data between remote storage systems.
 
 ## Alertmanager Webhook Receiver
 

@@ -289,6 +289,7 @@ separate exporters are needed:
    * [MinIO](https://docs.minio.io/docs/how-to-monitor-minio-using-prometheus.html)
    * [PATROL with Monitoring Studio X](https://www.sentrysoftware.com/library/swsyx/prometheus/exposing-patrol-parameters-in-prometheus.html)
    * [Netdata](https://github.com/firehol/netdata)
+   * [OpenZiti](https://openziti.github.io)
    * [Pomerium](https://pomerium.com/reference/#metrics-address)
    * [Pretix](https://pretix.eu/)
    * [Quobyte](https://www.quobyte.com/) (**direct**)

@@ -57,9 +57,10 @@ module Downloads
   end
 
   class Repository
-    def initialize(repo, releases: [])
+    def initialize(repo, releases: [], lts_releases: [])
       @repo = repo
       @releases = releases
+      @lts_releases = lts_releases
     end
 
     def name
@@ -79,13 +80,18 @@ module Downloads
     end
 
     def releases
+      stable_releases = []
       releases = []
       @releases.select(&:version).sort.reverse.each do |r|
         if r.prerelease
           releases << r if releases.empty?
-        else
+        elsif @lts_releases.include?(r.major_minor) and not stable_releases.include?(r.major_minor)
+          r.set_lts_release(true)
           releases << r
-          break
+          stable_releases.append(r.major_minor)
+        elsif stable_releases.empty?
+          releases << r
+          stable_releases.append(r.major_minor)
         end
       end
       releases
@@ -94,7 +100,9 @@ module Downloads
     def self.load(dir)
       repo = JSON.parse(File.read(File.join(dir, 'repo.json')))
       releases = JSON.parse(File.read(File.join(dir, 'releases.json')))
-      new(repo, releases: releases.map { |r| Release.new(r) })
+      puts File.basename(dir)
+      lts_releases = YAML.load_file('lts.yml').fetch(File.basename(dir), [])
+      new(repo, releases: releases.map { |r| Release.new(r) }, lts_releases: lts_releases)
     end
   end
 
@@ -119,6 +127,18 @@ module Downloads
 
     def prerelease
       @data['prerelease']
+    end
+
+    def set_lts_release(b)
+      @data['lts_release'] = b
+    end
+
+    def lts_release
+      @data['lts_release'] || false
+    end
+
+    def major_minor
+      @data['tag_name'].delete_prefix('v').split('.')[0, 2].join('.')
     end
 
     def assets

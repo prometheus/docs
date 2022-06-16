@@ -14,6 +14,9 @@ class VersionWarning < ::Nanoc::Filter
     when 0
       return content
     when -1
+      if params[:lts_release]
+        return content
+      end
       type = 'an old version'
     end
 

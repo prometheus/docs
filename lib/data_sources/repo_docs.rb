@@ -1,4 +1,5 @@
 require 'uri'
+require 'yaml'
 
 # The RepoDocs data source provides items sourced from other Git repositories.
 # For a given repository_url, all git version tags are fetched and for the most
@@ -26,6 +27,7 @@ class RepoDocsDataSource < ::Nanoc::DataSource
 
   def items
     items_root = config.fetch(:items_root, '/')
+    lts_releases = YAML.load_file('lts.yml').fetch(File.basename(git_remote).delete_suffix('.git'), [])
     latest = latest_version
 
     versions.inject([]) do |list, version|
@@ -38,7 +40,7 @@ class RepoDocsDataSource < ::Nanoc::DataSource
         attrs = item.attributes.dup
         attrs[:nav] = { strip: true } if item.identifier == '/'
         attrs[:repo_docs] = {
-          name: version,
+          name: if lts_releases.include?(version) then "#{version} (LTS)" else version end,
           refspec: branch,
           version: version,
           latest: latest,
@@ -46,6 +48,7 @@ class RepoDocsDataSource < ::Nanoc::DataSource
           version_root: File.join(items_root, version, '/'),
           canonical_root: File.join(items_root, 'latest', '/'),
           repository_url: git_remote,
+          lts_release: lts_releases.include?(version),
           entrypoint: config[:config][:entrypoint],
         }
 

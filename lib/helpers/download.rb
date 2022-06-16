@@ -100,7 +100,6 @@ module Downloads
     def self.load(dir)
       repo = JSON.parse(File.read(File.join(dir, 'repo.json')))
       releases = JSON.parse(File.read(File.join(dir, 'releases.json')))
-      puts File.basename(dir)
       lts_releases = YAML.load_file('lts.yml').fetch(File.basename(dir), [])
       new(repo, releases: releases.map { |r| Release.new(r) }, lts_releases: lts_releases)
     end

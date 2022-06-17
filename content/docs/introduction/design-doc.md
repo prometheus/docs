@@ -47,7 +47,7 @@ still relevant.
 | Static arithmetic for timestamps and durations | | TODO | |
 | [Prometheus long-term supported releases](https://docs.google.com/document/d/1wCXLnvh460UG10Mw019UbYMWDwSWWdvgwY61LHY0A0w/edit) | 2022-03-02 | Proposed | |
 | [Support for out of order samples in the TSDB](https://docs.google.com/document/d/1Kppm7qL9C-BJB1j6yb6-9ObG3AbdZnFUBYPNNWwDBYM/edit) | 2022-04-13 | Proposed | |
-
+| [Structured Remote Write Protocol](https://docs.google.com/document/d/1i880vXorPec1ls91bnuoKR3-Hl3-D9XA1q1w734rZnU/edit#) | 2022-04-25 | proposed | |
 # Problem statements and exploratory documents
 
 Sometimes we're looking even further into potential futures. The documents in

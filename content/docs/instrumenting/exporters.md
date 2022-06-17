@@ -229,6 +229,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [oVirt exporter](https://github.com/czerwonk/ovirt_exporter)
    * [Pact Broker exporter](https://github.com/ContainerSolutions/pactbroker_exporter)
    * [PHP-FPM exporter](https://github.com/bakins/php-fpm-exporter)
+   * [Podman exporter](https://github.com/navidys/podman_exporter)
    * [PowerDNS exporter](https://github.com/ledgr/powerdns_exporter)
    * [Process exporter](https://github.com/ncabatoff/process-exporter)
    * [rTorrent exporter](https://github.com/mdlayher/rtorrent_exporter)

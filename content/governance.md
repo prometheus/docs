@@ -59,6 +59,7 @@ The current team members are:
 * Ganesh Vernekar ([Grafana Labs](https://grafana.com/))
 * Goutham Veeramachaneni ([Grafana Labs](https://grafana.com/))
 * Johannes Ziemke ([5π Consulting](https://5pi.de/))
+* Josh Abreu ([Grafana Labs](https://grafana.com/))
 * Julius Volz ([PromLabs](https://promlabs.com/))
 * Julien Pivotto ([Inuits](https://inuits.eu/))
 * Matthias Loibl ([Polar Signals](https://www.polarsignals.com/))

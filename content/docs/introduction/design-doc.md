@@ -40,7 +40,7 @@ still relevant.
 | [Extra HTTP parameters in the blackbox exporter](https://docs.google.com/document/d/1VwqXi2TOb5KXaZY6Iio7411x64pJao3GusX8MqYsJ2g/edit) | 2021‑06‑23 | Proposed | |
 | [Making durations and number literals the same](https://docs.google.com/document/d/1LaZfknXuuRWGtQSbULoMtclQhuLUMrdwg15wMvoBvCQ/edit) | 2021‑07‑26 | In progress | [#9138](https://github.com/prometheus/prometheus/pull/9138) |
 | [Metadata](https://docs.google.com/document/d/1XiZePSjwU4X5iaIgCIvLzljJzl8lRAdvputuborUcaQ/edit) | | TODO | |
-| OpenMetrics transition | | TODO | |
+| [OpenMetrics transition](https://docs.google.com/document/d/1VuUBdRyIDR2uID2j2abWGt6PbWu7o-s06btZgrwH4vQ/edit?usp=sharing) | 2022-06-24 | In progress | |
 | Semantics of muting in Alertmanager | | TODO | |
 | [Extrapolation in range selectors (xrate)](https://docs.google.com/document/d/1y2Mp041_2v0blnKnZk7keCnJZICeK2YWUQuXH_m4DVc/edit#) | | Under review | |
 | Serverless, MQTT, and IoT use cases in the Prometheus ecosystem | | TODO | |

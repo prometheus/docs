@@ -198,6 +198,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [BIND query exporter](https://github.com/DRuggeri/bind_query_exporter)
    * [Bitcoind exporter](https://github.com/LePetitBloc/bitcoind-exporter)
    * [Blackbox exporter](https://github.com/prometheus/blackbox_exporter) (**official**)
+   * [Bungeecord exporter](https://github.com/weihao/bungeecord-prometheus-exporter)
    * [BOSH exporter](https://github.com/cloudfoundry-community/bosh_exporter)
    * [cAdvisor](https://github.com/google/cadvisor)
    * [Cachet exporter](https://github.com/ContaAzul/cachet_exporter)

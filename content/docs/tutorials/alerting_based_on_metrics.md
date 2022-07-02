@@ -1,6 +1,6 @@
 ---
 title: Alerting based on metrics.
-sort_rank: 4
+sort_rank: 5
 ---
 
 # Alerting based on metrics 

@@ -29,15 +29,15 @@ receivers:
         - url: '<INSERT-YOUR-WEBHOOK>'
           send_resolved: false
 ```
-Replace `<INSERT-YOUR-WEBHOOK>` with the webhook that we copied earlier in the alertmanager.yml file and Run the alertmanager using the following command.
+Replace `<INSERT-YOUR-WEBHOOK>` with the webhook that we copied earlier in the alertmanager.yml file and Run the Alertmanager using the following command.
 
 `alertmanager --config.file=alertmanager.yml`
 
-Once the alertmanager is up and running navigate to [http://localhost:9093](http://localhost:9093) and you should be able to access it.
+Once the Alertmanager is up and running navigate to [http://localhost:9093](http://localhost:9093) and you should be able to access it.
 
-<iframe width="560" height="315" src="https://drive.google.com/file/d/18IAC8K3uxGQ91aYJrmkLoW5kmom5-byI/preview" frameborder="0" allowfullscreen></iframe>
+<iframe width="560" height="315" src="https://www.youtube.com/watch?v=RKXwHhQZ5RE" frameborder="0" allowfullscreen></iframe>
 
-Now that we have configured the alertmanager with webhook receiver lets add the rules to the Prometheus config.
+Now that we have configured the Alertmanager with webhook receiver lets add the rules to the Prometheus config.
 
 > prometheus.yml
 
@@ -79,8 +79,8 @@ Now lets run Prometheus using the following command.
 
 `prometheus --config.file=./prometheus.yml`
 
-Open [http://localhost:9090/rules](http://localhost:9090/rules) in your browser to see the rules. Next run the instrumented ping server and visit the [http://localhost:8090/ping](http://localhost:8090/ping) endpoint and refresh the page atleast 6 times. You can check the ping count by navigating to [http://localhost:8090/metrics](http://localhost:8090/metrics) endpoint. To see the status of the alert visit [http://localhost:9090/alerts](http://localhost:9090/alerts). Once the condition `ping_request_count > 5` is true for more than 10s the `state` will become `FIRING`. Now if you navigate back to your webhook.site URL you will see the alert message.
+Open [http://localhost:9090/rules](http://localhost:9090/rules) in your browser to see the rules. Next run the instrumented ping server and visit the [http://localhost:8090/ping](http://localhost:8090/ping) endpoint and refresh the page atleast 6 times. You can check the ping count by navigating to [http://localhost:8090/metrics](http://localhost:8090/metrics) endpoint. To see the status of the alert visit [http://localhost:9090/alerts](http://localhost:9090/alerts). Once the condition `ping_request_count > 5` is true for more than 10s the `state` will become `FIRING`. Now if you navigate back to your `webhook.site` URL you will see the alert message.
 
-<iframe width="560" height="315" src="https://drive.google.com/file/d/13ZvSDSO5uwHMwvSCASm9cGSzLRIsanhA/preview" frameborder="0" allowfullscreen></iframe>
+<iframe width="560" height="315" src="https://www.youtube.com/watch?v=xaMXVrle98M" frameborder="0" allowfullscreen></iframe>
 
-Similarly alertmanager can be configured with other recievers to notify when an alert is firing.
+Similarly Alertmanager can be configured with other recievers to notify when an alert is firing.

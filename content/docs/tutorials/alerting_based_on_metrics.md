@@ -83,4 +83,4 @@ Open [http://localhost:9090/rules](http://localhost:9090/rules) in your browser 
 
 <iframe width="560" height="315" src="https://www.youtube.com/watch?v=xaMXVrle98M" frameborder="0" allowfullscreen></iframe>
 
-Similarly Alertmanager can be configured with other recievers to notify when an alert is firing.
+Similarly Alertmanager can be configured with other receivers to notify when an alert is firing.

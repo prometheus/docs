@@ -29,7 +29,7 @@ receivers:
         - url: '<INSERT-YOUR-WEBHOOK>'
           send_resolved: false
 ```
-Replace `<INSERT-YOUR-WEBHOOK>` with the webhook that we copied earlier in the alertmanager.yml file and Run the Alertmanager using the following command.
+Replace `<INSERT-YOUR-WEBHOOK>` with the webhook that we copied earlier in the alertmanager.yml file and run the Alertmanager using the following command.
 
 `alertmanager --config.file=alertmanager.yml`
 

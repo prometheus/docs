@@ -14,7 +14,7 @@ Download the latest release of Alertmanager for your operating system from [here
 
 Alertmanager supports various recievers like `email`, `webhook`, `pagerduty`, `slack` etc through which it can notify when an alert is firing. You can find the list of recievers and how to configure them [here](../alerting/latest/configuration). We will use `webhook` as a reciever for this tutorial, head over to [webhook.site](https://webhook.site) and copy the webhook URL which we will use later to configure the Alertmanager.
 
-First lets setup Alertmanager with webhook reciever.
+First let's setup Alertmanager with webhook reciever.
 
 > alertmanager.yml
 

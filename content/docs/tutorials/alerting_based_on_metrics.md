@@ -75,7 +75,7 @@ groups:
      for: 10s
 ```
 
-Now lets run Prometheus using the following command.
+Now let's run Prometheus using the following command.
 
 `prometheus --config.file=./prometheus.yml`
 

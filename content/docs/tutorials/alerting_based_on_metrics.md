@@ -37,7 +37,7 @@ Once the Alertmanager is up and running navigate to [http://localhost:9093](http
 
 <iframe width="560" height="315" src="https://www.youtube.com/watch?v=RKXwHhQZ5RE" frameborder="0" allowfullscreen></iframe>
 
-Now that we have configured the Alertmanager with webhook receiver lets add the rules to the Prometheus config.
+Now that we have configured the Alertmanager with webhook receiver let's add the rules to the Prometheus config.
 
 > prometheus.yml
 

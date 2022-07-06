@@ -58,8 +58,10 @@ Use labels to differentiate the characteristics of the thing that is being measu
  * `api_http_requests_total` - differentiate request types: `operation="create|update|delete"`
  * `api_request_duration_seconds` - differentiate request stages: `stage="extract|transform|load"`
 
-Do not put the label names in the metric name, as this introduces redundancy
-and will cause confusion if the respective labels are aggregated away.
+Do not put the label values in the metric name, as this introduces redundancy
+and will cause confusion if the respective labels are aggregated away. Still,
+it's allowed to coincide prefixes specific to application metrics with
+a non-instrumented label with the application name e.g. `job`.
 
 CAUTION: Remember that every unique combination of key-value label
 pairs represents a new time series, which can dramatically increase the amount

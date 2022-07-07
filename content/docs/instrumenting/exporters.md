@@ -178,7 +178,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [JMX exporter](https://github.com/prometheus/jmx_exporter) (**official**)
    * [Munin exporter](https://github.com/pvdh/munin_exporter)
    * [Nagios / Naemon exporter](https://github.com/Griesbacher/Iapetos)
-   * [New Relic exporter](https://github.com/mrf/newrelic_exporter)
+   * [New Relic exporter](https://github.com/corabank/newrelic_exporter.git)
    * [NRPE exporter](https://github.com/robustperception/nrpe_exporter)
    * [Osquery exporter](https://github.com/zwopir/osquery_exporter)
    * [OTC CloudEye exporter](https://github.com/tiagoReichert/otc-cloudeye-prometheus-exporter)

@@ -80,7 +80,7 @@ Let's explore a histogram metric from the Prometheus UI and apply few functions.
 
 [![Histogram](/assets/tutorial/histogram_example.png)](/assets/tutorial/histogram_example.png)
 
-`histogram_quantile()` function can be used to calculate calculate quantiles from histogram
+`histogram_quantile()` function can be used to calculate quantiles from histogram
 
 <code>histogram\_quantile(0.9,prometheus\_http\_request\_duration\_seconds\_bucket{handler="/graph"})</code>
 

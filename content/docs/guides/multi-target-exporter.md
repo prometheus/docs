@@ -396,7 +396,7 @@ The details are complicated and out of scope for this guide. Hence we will limit
 
 * All labels starting with `__` are dropped after the scrape. Most internal labels start with `__`.
 * You can set internal labels that are called `__param_<name>`. Those set URL parameter with the key `<name>` for the scrape request.
-* There is an internal label `__address__` which is set by the `targets` under `static_configs` and whose value is the hostname for the scrape request. By default it is later used to set the value for the label `instance`, which is attached to each metric and tells you were the metrics came from.
+* There is an internal label `__address__` which is set by the `targets` under `static_configs` and whose value is the hostname for the scrape request. By default it is later used to set the value for the label `instance`, which is attached to each metric and tells you where the metrics came from.
 
 Here is the config you will use to do that. Don’t worry if this is a bit much at once, we will go through it step by step:
 

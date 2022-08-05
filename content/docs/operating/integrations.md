@@ -37,6 +37,7 @@ careful evaluation of any solution in this space to confirm it can handle your
 data volumes.
 
   * [AppOptics](https://github.com/solarwinds/prometheus2appoptics): write
+  * [AWS Managed Service for Prometheus](https://console.aws.amazon.com/prometheus/home): write
   * [AWS Timestream](https://github.com/dpattmann/prometheus-timestream-adapter): read and write
   * [Azure Data Explorer](https://github.com/cosh/PrometheusToAdx): read and write
   * [Azure Event Hubs](https://github.com/bryanklewis/prometheus-eventhubs-adapter): write

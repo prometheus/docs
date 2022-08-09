@@ -245,6 +245,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [Teamspeak3 exporter](https://github.com/hikhvar/ts3exporter)
    * [Transmission exporter](https://github.com/metalmatze/transmission-exporter)
    * [Unbound exporter](https://github.com/kumina/unbound_exporter)
+   * [Webscraper exporter](https://github.com/cestef/webscraper-exporter)
    * [WireGuard exporter](https://github.com/MindFlavor/prometheus_wireguard_exporter)
    * [Xen exporter](https://github.com/lovoo/xenstats_exporter)
 

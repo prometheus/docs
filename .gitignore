@@ -18,3 +18,5 @@ prometheus_rsa
 # Ruby artifacts
 .bundle/
 vendor/
+
+/core.*

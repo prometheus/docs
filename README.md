@@ -19,7 +19,6 @@ You need to have a working Ruby environment set up (including [bundler](https://
 and then install the necessary gems:
 
 ```bash
-cd docs
 make bundle
 ```
 

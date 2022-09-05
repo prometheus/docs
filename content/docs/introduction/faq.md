@@ -71,7 +71,7 @@ For cases where you must push, we offer the [Pushgateway](/docs/instrumenting/pu
 
 ### How to feed logs into Prometheus?
 
-Short answer: Don't! Use something like the [ELK stack](https://www.elastic.co/products) instead.
+Short answer: Don't! Use something like [Grafana Loki](https://grafana.com/oss/loki/) or [OpenSearch](https://opensearch.org/) instead.
 
 Longer answer: Prometheus is a system to collect and process metrics, not an
 event logging system. The Raintank blog post

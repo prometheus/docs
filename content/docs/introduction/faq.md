@@ -44,7 +44,7 @@ servers to send notifications to each of them.
 
 This is often more of a marketing claim than anything else.
 
-A single instance of Prometheus can be more performant than some systems positioning themselves as long term storage solution fo Prometheus.
+A single instance of Prometheus can be more performant than some systems positioning themselves as long term storage solution for Prometheus.
 You can run Prometheus reliably with tens of millions of active series.
 
 If you need more than that, there are several options. [Scaling and Federating Prometheus](https://www.robustperception.io/scaling-and-federating-prometheus/) on the Robust Perception blog is a good starting point, as are the long storage systems listed on our [integrations page](https://prometheus.io/docs/operating/integrations/#remote-endpoints-and-storage).

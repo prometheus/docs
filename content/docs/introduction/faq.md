@@ -125,9 +125,6 @@ various components attempt to handle failing changes gracefully.
 
 Yes, with the [Alertmanager](https://github.com/prometheus/alertmanager).
 
-We support sending alerts through email and a webhook system. For currently supported systems, please see our [integrations page](https://prometheus.io/docs/operating/integrations/#alertmanager-webhook-receiver).
-
-
 We support sending alerts through [email, various native integrations](https://prometheus.io/docs/alerting/latest/configuration/), and a [webhook system anyone can add integrations to](https://prometheus.io/docs/operating/integrations/#alertmanager-webhook-receiver).
 
 ### Can I create dashboards?

@@ -73,7 +73,7 @@ have formal releases yet.
 Pulling over HTTP offers a number of advantages:
 
 * You can start extra monitoring instances as needed, e.g. on your laptop when developing changes.
-* You can more reliably tell if a target is down.
+* You can more easily and reliably tell if a target is down.
 * You can manually go to a target and inspect its health with a web browser.
 
 Overall, we believe that pulling is slightly better than pushing, but it should

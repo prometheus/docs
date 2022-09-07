@@ -28,6 +28,8 @@ The main Prometheus server runs standalone as a single monolithic binary and has
 Yes.
 
 Cloud native is a flexible operating model, breaking up old service boundaries to allow for more flexible and scalable deployments.
+
+Prometheus's [service discovery](https://prometheus.io/docs/prometheus/latest/configuration/configuration/) integrates with most tools and clouds. Its dimensional data model and scale into the tens of millions of active series allows it to monitor large cloud-native deployments.
 There are always trade-offs to make when running services, and Prometheus values reliably getting alerts out to humans above all else.
 
 ### Can Prometheus be made highly available?

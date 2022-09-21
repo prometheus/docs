@@ -203,16 +203,16 @@ separate them.
 Don’t do this:
 
 <pre>
-my_metric{label=a} 1
-my_metric{label=b} 6
-<b>my_metric{label=total} 7</b>
+my_metric{label="a"} 1
+my_metric{label="b"} 6
+<b>my_metric{label="total"} 7</b>
 </pre>
 
 or this:
 
 <pre>
-my_metric{label=a} 1
-my_metric{label=b} 6
+my_metric{label="a"} 1
+my_metric{label="b"} 6
 <b>my_metric{} 7</b>
 </pre>
 

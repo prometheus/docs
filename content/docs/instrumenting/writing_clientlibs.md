@@ -211,7 +211,7 @@ to designate buckets.
 
 A histogram MUST offer a way to manually choose the buckets. Ways to set
 buckets in a `linear(start, width, count)` and `exponential(start, factor,
-count)` fashion SHOULD be offered. Count MUST exclude the `+Inf` bucket.
+count)` fashion SHOULD be offered. Count MUST include the `+Inf` bucket.
 
 A histogram SHOULD have the same default buckets as other client libraries.
 Buckets MUST NOT be changeable once the metric is created.

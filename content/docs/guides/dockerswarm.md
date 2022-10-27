@@ -143,7 +143,7 @@ Let's analyze each part of the [relabel configuration][rela].
 ```
 
 Docker Swarm exposes the desired [state of the tasks][state] over the API. In
-out example, we only **keep** the targets that should be running. It prevents
+our example, we only **keep** the targets that should be running. It prevents
 monitoring tasks that should be shut down.
 
 ```yaml

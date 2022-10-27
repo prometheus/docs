@@ -42,12 +42,18 @@ A label with an empty label value is considered equivalent to a label that does 
 See also the [best practices for naming metrics and labels](/docs/practices/naming/).
 
 ## Samples
+
 Samples form the actual time series data. Each sample consists of:
 
    * a float64 value
    * a millisecond-precision timestamp
 
+NOTE: Beginning with Prometheus v2.40, there is experimental support for native
+histograms. Instead of a simple float64, the sample value may now take the form
+of a full histogram.
+
 ## Notation
+
 Given a metric name and a set of labels, time series are frequently identified
 using this notation:
 

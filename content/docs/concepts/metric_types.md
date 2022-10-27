@@ -68,6 +68,13 @@ remember that the histogram is
 [histograms and summaries](/docs/practices/histograms) for details of histogram
 usage and differences to [summaries](#summary).
 
+NOTE: Beginning with Prometheus v2.40, there is experimental support for native
+histograms. A native histogram requires only one time series, which includes a
+dynamic number of buckets in addition to the sum and count of
+observations. Native histograms allow much higher resolution at a fraction of
+the cost. Detailed documentation will follow once native histograms are closer
+to becoming a stable feature.
+
 Client library usage documentation for histograms:
 
    * [Go](http://godoc.org/github.com/prometheus/client_golang/prometheus#Histogram)

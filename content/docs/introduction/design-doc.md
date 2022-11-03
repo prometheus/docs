@@ -33,7 +33,7 @@ still relevant.
 | [First-class network monitoring support in the Prometheus & Grafana ecosystem](https://docs.google.com/document/d/1oEpjiWfTHF352NCAOGolwij3EIkrprCkdQmaQMpjg4M/edit) | 2021‑02‑25 | Under review | |
 | [Configuration handling in exporters and Prometheus 3.x](https://docs.google.com/document/d/1BK_Gc3ixoWyxr9F5qGC07HEcfDPtb6z96mfqoGyz52Y/edit) | 2021‑03‑29 | Under review | |
 | [Prometheus Agent](https://docs.google.com/document/d/1cCcoFgjDFwU2n823tKuMvrIhzHty4UDyn0IcfUHiyyI/edit) | 2021‑01‑27 | Approved | [#8785](https://github.com/prometheus/prometheus/pull/8785) |
-| [Sparse high-resolution histograms](https://docs.google.com/document/d/1cLNv3aufPZb3fNfaJgdaRBZsInZKKIHo9E6HinJVbpM/edit) | 2021‑02‑10 | Implemented | [#11447](https://github.com/prometheus/prometheus/pull/11447) |
+| [Native histograms](https://docs.google.com/document/d/1cLNv3aufPZb3fNfaJgdaRBZsInZKKIHo9E6HinJVbpM/edit) | 2021‑02‑10 | Partially Implemented | [#11447](https://github.com/prometheus/prometheus/pull/11447) |
 | [Prometheus timezones support](https://docs.google.com/document/d/1xfw1Lb1GIRZB_-4iFVGkgwnpwuBemWfxYqFdBm7APsE/edit) | 2021‑05‑29 | Proposed | |
 | [Moving to goreleaser](https://docs.google.com/document/d/16LOT2wK-jntlU-EFADfaEF3YbKH81U9Zl_PvSu4qVwo/edit) | 2021‑06‑05 | Proposed |
 | [Alertmanager Log Receiver](https://docs.google.com/document/d/1Oevu2stHVGAupzmc9C7_wW5nTb_CJ6Ut72viXfve6zI/edit) | 2021‑06‑10 | Proposed |

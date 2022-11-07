@@ -48,6 +48,7 @@ In case a member leaves, the [offboarding](#offboarding) procedure is applied.
 
 The current team members are:
 
+* Andrey Kuzmin ([Arrival](https://arrival.com/))
 * Augustin Husson ([Amadeus](https://amadeus.com))
 * Bartłomiej Płotka ([Red Hat](https://www.redhat.com/))
 * Ben Kochie ([Reddit](https://www.redditinc.com/))
@@ -55,21 +56,31 @@ The current team members are:
 * Bryan Boreham ([Grafana Labs](https://grafana.com/))
 * Callum Styan ([Grafana Labs](https://grafana.com/))
 * Chris Marchbanks ([Grafana Labs](https://grafana.com/))
+* Chris Sinjakli ([PlanetScale](https://planetscale.com/))
+* Daniel Magliola ([IndeedFlex](https://indeedflex.co.uk/))
+* David Leadbeater ([G-Research](https://www.gresearch.co.uk/))
 * Fabian Stäber ([Grafana Labs](https://grafana.com/))
 * Frederic Branczyk ([Polar Signals](https://www.polarsignals.com/))
 * Ganesh Vernekar ([Grafana Labs](https://grafana.com/))
 * Goutham Veeramachaneni ([Grafana Labs](https://grafana.com/))
+* Hrishikesh Barman ([]()) # TBA
 * Johannes Ziemke ([5π Consulting](https://5pi.de/))
 * Josh Abreu ([Grafana Labs](https://grafana.com/))
 * Julius Volz ([PromLabs](https://promlabs.com/))
 * Julien Pivotto ([Inuits](https://inuits.eu/))
+* Kemal Akkoyun ([Polar Signals](https://www.polarsignals.com/))
+* Marcelo Magallon ([Grafana Labs](https://grafana.com/))
 * Matthias Loibl ([Polar Signals](https://www.polarsignals.com/))
 * Matthias Rampke ([SoundCloud](https://soundcloud.com/))
 * Max Inden ([Protocol Labs](https://protocol.ai/))
+* Paul Gier ([DataStax](http://datastax.com/))
 * Richard Hartmann ([Grafana Labs](https://grafana.com/))
 * Simon Pasquier ([Red Hat](https://www.redhat.com/))
+* Steve Durrheimer ([Ubisoft](http://www.ubisoft.com/))
+* Suraj Nath ([Grafana Labs](https://grafana.com/))
 * Tobias Schmidt (independent)
 * Tom Wilkie ([Grafana Labs](https://grafana.com/))
+* Yaacov Zamir ([Red Hat](https://www.redhat.com/))
 
 Previous members:
 

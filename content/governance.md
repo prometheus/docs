@@ -176,6 +176,7 @@ The new member is
 * optionally added to the community, junkyard, and related organizations and repositories.
 * added to the [team mailing list][team].
 * added to the prometheus.io GSuite account with a user name of the new member's choice. (Most importantly, this comes with a `<chosen-username>@prometheus.io` email address and provides access to the team's GDrive and calendar. The new member should add the latter to their own calendar list.)
+* added to the [CNCF Project Maintainers list][foundation].
 * announced to CNCF.
 * given access to the shared password storage.
 
@@ -233,3 +234,4 @@ Team members may resign by notifying the [team mailing list][team]. If you think
 [maintainers.md]: https://github.com/search?l=&q=org%3Aprometheus+filename%3AMAINTAINERS.md+path%3A%2F&ref=advsearch&type=Code&utf8=%E2%9C%93
 [team]: https://groups.google.com/forum/#!forum/prometheus-team
 [users]: https://groups.google.com/forum/#!forum/prometheus-users
+[foundation]: https://github.com/cncf/foundation/blob/main/project-maintainers.csv

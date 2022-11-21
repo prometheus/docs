@@ -52,7 +52,7 @@ One can scrape multiple useful metrics to understand what is happening in the ap
 
 # Show me how it is done
 
-Let’s get our hands dirty and setup Prometheus. Prometheus is written using [Go](https://golang.org/) and all you need is the binary compiled for your operating system. Download the binary corresponding to your operating system from [here](https://prometheus.io/download/) and add the binary to your path.
+Let’s get our hands dirty and set up Prometheus. Prometheus is written using [Go](https://golang.org/) and all you need is the binary compiled for your operating system. Download the binary corresponding to your operating system from [here](https://prometheus.io/download/) and add the binary to your path.
 
 Prometheus exposes its own metrics which can be consumed by itself or another Prometheus server.
 

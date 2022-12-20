@@ -9,7 +9,9 @@ Prometheus supports four types of metrics, they are
     - Counter
     - Gauge
     - Histogram
-    - Summary 
+    - Summary
+
+Additional information and links to instrumentation libraries can be found at [Metric Types](/docs/concepts/metric_types/)
 
 ## Counter
 

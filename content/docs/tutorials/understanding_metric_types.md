@@ -3,7 +3,7 @@ title: Understanding metric types
 sort_rank: 2
 ---
 
-# Types of metrics.
+# Understanding metric types
 
 Prometheus supports four types of metrics, they are
     - Counter

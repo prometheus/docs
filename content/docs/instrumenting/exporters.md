@@ -72,6 +72,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [InfiniBand exporter](https://github.com/treydock/infiniband_exporter)
    * [IPMI exporter](https://github.com/soundcloud/ipmi_exporter)
    * [knxd exporter](https://github.com/RichiH/knxd_exporter)
+   * [knx / eib push exporter](https://github.com/clemi2408/Knx2Prometheus)
    * [Modbus exporter](https://github.com/RichiH/modbus_exporter)
    * [Netgear Cable Modem Exporter](https://github.com/ickymettle/netgear_cm_exporter)
    * [Netgear Router exporter](https://github.com/DRuggeri/netgear_exporter)

@@ -13,9 +13,6 @@ crash.log
 # macOS artifacts
 .DS_Store
 
-# IntelliJ artifacts
-.idea
-
 prometheus_rsa
 
 # Ruby artifacts

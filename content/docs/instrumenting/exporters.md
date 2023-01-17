@@ -154,6 +154,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [Rancher exporter](https://github.com/infinityworksltd/prometheus-rancher-exporter)
    * [Speedtest exporter](https://github.com/nlamirault/speedtest_exporter)
    * [Tankerkönig API Exporter](https://github.com/lukasmalkmus/tankerkoenig_exporter)
+   * [Prometheus Weathermen (multi API weather exporter)](https://github.com/lstrojny/prometheus-weathermen)
 
 ### Logging
    * [Fluentd exporter](https://github.com/V3ckt0r/fluentd_exporter)

@@ -138,8 +138,7 @@ those, avoid these suffixes.
 the COUNTER type.
 
 The `process_` and `scrape_` prefixes are reserved. It’s okay to add
-your own prefix on to these if they follow the [matching
-semantics](https://docs.google.com/document/d/1Q0MXWdwp1mdXCzNRak6bW5LLVylVRXhdi7_21Sg15xQ/edit).
+your own prefix on to these if they follow matching semantics.
 For example, Prometheus has `scrape_duration_seconds` for how long a
 scrape took, it's good practice to also have an exporter-centric metric,
 e.g. `jmx_scrape_duration_seconds`, saying how long the specific
@@ -203,16 +202,16 @@ separate them.
 Don’t do this:
 
 <pre>
-my_metric{label=a} 1
-my_metric{label=b} 6
-<b>my_metric{label=total} 7</b>
+my_metric{label="a"} 1
+my_metric{label="b"} 6
+<b>my_metric{label="total"} 7</b>
 </pre>
 
 or this:
 
 <pre>
-my_metric{label=a} 1
-my_metric{label=b} 6
+my_metric{label="a"} 1
+my_metric{label="b"} 6
 <b>my_metric{} 7</b>
 </pre>
 

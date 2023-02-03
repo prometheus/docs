@@ -83,6 +83,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [Weathergoose Climate Monitor Exporter](https://github.com/branttaylor/watchdog-prometheus-exporter)
    * [Windows exporter](https://github.com/prometheus-community/windows_exporter)
    * [Intel® Optane™ Persistent Memory Controller Exporter](https://github.com/intel/ipmctl-exporter)
+   * [EcoFlow exporter](https://github.com/berezhinskiy/ecoflow_exporter)
 
 ### Issue trackers and continuous integration
 

@@ -53,7 +53,7 @@ data volumes.
   * [Instana](https://www.instana.com/docs/ecosystem/prometheus/#remote-write): write
   * [IRONdb](https://github.com/circonus-labs/irondb-prometheus-adapter): read and write
   * [Kafka](https://github.com/Telefonica/prometheus-kafka-adapter): write
-  * [Levitate](https://docs.last9.io/docs/levitate-introduction): read and write
+  * [Levitate](https://docs.last9.io/docs/levitate-integrations-prometheus): read and write
   * [M3DB](https://m3db.io/docs/integrations/prometheus/): read and write
   * [New Relic](https://docs.newrelic.com/docs/set-or-remove-your-prometheus-remote-write-integration): write
   * [OpenTSDB](https://github.com/prometheus/prometheus/tree/main/documentation/examples/remote_storage/remote_storage_adapter): write

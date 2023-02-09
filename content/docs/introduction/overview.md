@@ -35,7 +35,7 @@ Prometheus's main features are:
 * targets are discovered via service discovery or static configuration
 * multiple modes of graphing and dashboarding support
 
-### What are metrics ?
+### What are metrics?
 
 In layperson terms, _metrics_ are numeric measurements. _Time series_ means that changes are recorded over time. What users want to measure differs from application to application. For a web server it might be request times, for a database it might be number of active connections or number of active queries etc.
 

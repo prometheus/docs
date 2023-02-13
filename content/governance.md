@@ -55,6 +55,7 @@ The current team members are:
 * Bryan Boreham ([Grafana Labs](https://grafana.com/))
 * Callum Styan ([Grafana Labs](https://grafana.com/))
 * Chris Marchbanks ([Grafana Labs](https://grafana.com/))
+* Chris Sinjakli ([PlanetScale](https://planetscale.com/))
 * Daniel Magliola ([IndeedFlex](https://indeedflex.co.uk/))
 * Fabian Stäber ([Grafana Labs](https://grafana.com/))
 * Frederic Branczyk ([Polar Signals](https://www.polarsignals.com/))

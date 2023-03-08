@@ -67,7 +67,7 @@ The current team members are:
 * Julien Pivotto ([Inuits](https://inuits.eu/))
 * Kemal Akkoyun ([Polar Signals](https://www.polarsignals.com/))
 * Matthias Loibl ([Polar Signals](https://www.polarsignals.com/))
-* Matthias Rampke ([SoundCloud](https://soundcloud.com/))
+* Matthias Rampke ([Chronosphere](https://chronosphere.io/))
 * Max Inden ([Protocol Labs](https://protocol.ai/))
 * Richard Hartmann ([Grafana Labs](https://grafana.com/))
 * Simon Pasquier ([Red Hat](https://www.redhat.com/))

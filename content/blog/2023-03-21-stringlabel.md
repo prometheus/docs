@@ -21,11 +21,10 @@ Prometheus using the Go tag `stringlabels`.
 
 ### Why didn't you go for a feature flag that we can toggle?
 
-We considered using a feature flag, but it would require using something like
-interfaces, which would have a memory overhead that we try to avoid. Therefore,
-we decided to provide a separate release with these optimizations for those who
-are interested in testing and measuring the gains on their production
-architecture.
+We considered using a feature flag but it would have a memory overhead that was
+not worth it. Therefore, we decided to provide a separate release with these
+optimizations for those who are interested in testing and measuring the gains on
+their production environment.
 
 ### When will these optimizations be generally available?
 

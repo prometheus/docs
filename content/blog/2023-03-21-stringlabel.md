@@ -61,7 +61,7 @@ Apart from the `stringlabels` optimizations, the Prometheus 2.43 release
 brings several new features and enhancements. Some of the significant additions
 include:
 
-* We added support for `include_scrape_configs` to include scrape configs from
+* We added support for `scrape_config_files` to include scrape configs from
   different files. This makes it easier to manage and organize the configuration.
 * The HTTP clients now includes two new config options: `no_proxy` to exclude
   URLs from proxied requests and `proxy_from_environment` to read proxies from

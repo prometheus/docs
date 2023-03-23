@@ -3,51 +3,44 @@ title: Design Documents
 sort_rank: 7
 ---
 
-# Design documents
+# Design Documents
 
-When contributing large changes or features to the Prometheus ecosystem, design
-documents are written by individuals or groups. Those documents are proposed for
-review and approval to the community.
+It's essential to clearly explain the reasons behind certain design decisions to have a community consensus. This is especially
+important in Prometheus, where every decision might have a significant impact given the high adoption and stability of the software and standards we work on.
 
-This page is a list of the design documents we know of. If you create a new
-design document, or some documents are not listed, please open a [pull
-request](https://github.com/prometheus/docs/) to add it to this list.
+In our world, no decision is perfect, so having a design document that explains the trade-offs we made is essential.
+Such a document can also be used later on as a reference and for knowledge-sharing purposes.
 
-Design docs do not always reflect exactly what has been implemented, and
-implementation details might have changed since a feature was merged. Design
-docs are not considered documentation and can not define a standard.
+Note that design documents do not always reflect exactly what has been (or will be) implemented. Implementation details
+might have changed since a feature was merged. Design docs are not considered documentation and can not define a standard.
+Instead, it should explain the motivation, scope, the decision made and alternatives considered.
 
-If you want to pick a design doc in `TODO` or implement a proposed design doc,
-please reach out to the [developers mailing list](/community) first to make sure
-no one else has picked that task already, and the design doc is approved and
-still relevant.
+## Current proposals
 
-| Document | Initial date | Status | Pull requests |
-| -------- | ------------ | ------ | ------------- |
-| [Secure Alertmanager cluster traffic](https://github.com/prometheus/alertmanager/blob/main/doc/design/secure-cluster-traffic.md) | 2019‑02‑21 | Approved | [alertmanager#2237](https://github.com/prometheus/alertmanager/pull/2237) |
-| TSDB Head Improvements ([part1](https://docs.google.com/document/d/184urkLQnM7rqLmGvS66I15jU2pyPk_qwd8v_qDlXczo/edit) - [part 2](https://docs.google.com/document/d/1pnEsxB0CDLOxQipGw_vhkJpoDZfZPs_KjqCriumDAXQ/edit)) | 2019‑12‑09 | Partially implemented | |
-| [Persist Retroactive Rules](https://docs.google.com/document/d/16s_-RxYwQYcb4G4mvpmjPolEbD24o54a1LPqJ538Vhc/edit) | 2020‑06‑12 | Partially implemented | [#7675](https://github.com/prometheus/prometheus/pull/7675) |
-| [topk/bottomk aggregation over time](https://docs.google.com/document/d/1uSbD3T2beM-iX4-Hp7V074bzBRiRNlqUdcWP6JTDQSs/edit) | 2020‑09‑30 | Implemented | [#8121](https://github.com/prometheus/prometheus/pull/8121) [#8425](https://github.com/prometheus/prometheus/pull/8425) |
-| [http\_sd\_configs](https://docs.google.com/document/d/1tVeuzjpU4-TiYPNWJXKmcyIuZF6A2tUq270RbBT5zho/edit) | 2021‑02‑26 | Under review | [#8839](https://github.com/prometheus/prometheus/pull/8839) |
-| [prometheus/client\_java & micrometer](https://docs.google.com/document/d/1vROky2aIw3kAllfi95gwDJy5P2DyWnCihsjPXGpLwwo/edit) | 2021‑02‑26 | Under review | |
-| [First-class network monitoring support in the Prometheus & Grafana ecosystem](https://docs.google.com/document/d/1oEpjiWfTHF352NCAOGolwij3EIkrprCkdQmaQMpjg4M/edit) | 2021‑02‑25 | Under review | |
-| [Configuration handling in exporters and Prometheus 3.x](https://docs.google.com/document/d/1BK_Gc3ixoWyxr9F5qGC07HEcfDPtb6z96mfqoGyz52Y/edit) | 2021‑03‑29 | Under review | |
-| [Prometheus Agent](https://docs.google.com/document/d/1cCcoFgjDFwU2n823tKuMvrIhzHty4UDyn0IcfUHiyyI/edit) | 2021‑01‑27 | Approved | [#8785](https://github.com/prometheus/prometheus/pull/8785) |
-| [Native histograms](https://docs.google.com/document/d/1cLNv3aufPZb3fNfaJgdaRBZsInZKKIHo9E6HinJVbpM/edit) | 2021‑02‑10 | Partially Implemented | [#11447](https://github.com/prometheus/prometheus/pull/11447) |
-| [Prometheus timezones support](https://docs.google.com/document/d/1xfw1Lb1GIRZB_-4iFVGkgwnpwuBemWfxYqFdBm7APsE/edit) | 2021‑05‑29 | Proposed | |
-| [Moving to goreleaser](https://docs.google.com/document/d/16LOT2wK-jntlU-EFADfaEF3YbKH81U9Zl_PvSu4qVwo/edit) | 2021‑06‑05 | Proposed |
-| [Alertmanager Log Receiver](https://docs.google.com/document/d/1Oevu2stHVGAupzmc9C7_wW5nTb_CJ6Ut72viXfve6zI/edit) | 2021‑06‑10 | Proposed |
-| [Extra HTTP parameters in the blackbox exporter](https://docs.google.com/document/d/1VwqXi2TOb5KXaZY6Iio7411x64pJao3GusX8MqYsJ2g/edit) | 2021‑06‑23 | Proposed | |
-| [Making durations and number literals the same](https://docs.google.com/document/d/1LaZfknXuuRWGtQSbULoMtclQhuLUMrdwg15wMvoBvCQ/edit) | 2021‑07‑26 | In progress | [#9138](https://github.com/prometheus/prometheus/pull/9138) |
-| [Metadata](https://docs.google.com/document/d/1XiZePSjwU4X5iaIgCIvLzljJzl8lRAdvputuborUcaQ/edit) | | TODO | |
-| [OpenMetrics transition](https://docs.google.com/document/d/1VuUBdRyIDR2uID2j2abWGt6PbWu7o-s06btZgrwH4vQ/edit?usp=sharing) | 2022-06-24 | In progress | |
-| Semantics of muting in Alertmanager | | TODO | |
-| [Extrapolation in range selectors (xrate)](https://docs.google.com/document/d/1y2Mp041_2v0blnKnZk7keCnJZICeK2YWUQuXH_m4DVc/edit#) | | Under review | |
-| Serverless, MQTT, and IoT use cases in the Prometheus ecosystem | | TODO | |
-| Static arithmetic for timestamps and durations | | TODO | |
-| [Prometheus long-term supported releases](https://docs.google.com/document/d/1wCXLnvh460UG10Mw019UbYMWDwSWWdvgwY61LHY0A0w/edit) | 2022-03-02 | Proposed | |
-| [Support for out of order samples in the TSDB](https://docs.google.com/document/d/1Kppm7qL9C-BJB1j6yb6-9ObG3AbdZnFUBYPNNWwDBYM/edit) | 2022-04-13 | Implemented | [#11075](https://github.com/prometheus/prometheus/pull/11075) |
-| [Structured Remote Write Protocol](https://docs.google.com/document/d/1i880vXorPec1ls91bnuoKR3-Hl3-D9XA1q1w734rZnU/edit#) | 2022-04-25 | proposed | |
+The [github.com/prometheus/proposals](https://github.com/prometheus/proposals)repository holds all the past and current proposals for the Prometheus Ecosystem. It's the single place for reviewing, discovering and working on the design documents. It also a record of the past decisions and approvals.
+
+* [The PRs with proposal label](https://github.com/prometheus/proposals/pulls?q=is%3Aopen+is%3Apr+label%3Aproposal) shows all the pending proposals.
+* The [proposals directory](https://github.com/prometheus/proposals/tree/main/proposals) shows all the accepted proposals. See the "Implementation Status" for details on the implementation.
+* [The unmerged PRs with proposal label](https://github.com/prometheus/proposals/pulls?q=is%3Apr+label%3Aproposal+is%3Aclosed+is%3Aunmerged) shows all the rejected proposals.
+
+## Proposal process
+
+Don't get scared to propose ideas! It's amazing to innovate in the open and get feedback on the ideas.
+
+The process of proposing change with the design document would look as follows:
+
+1. Fork `github.com/prometheus/proposals`.
+2. Create a GitHub Pull Request with a design document in the markdown format to the [proposals directory](./proposals). Make sure to use [template](0000-00-00_template.md) as the guide for what sections should be present in the document. Put the creation date (the day you started preparing this design document) as the prefix and some unique name as the suffix in the file name. Once the PR is proposed, maintainer will assign "proposal" label.
+   1. If you prefer Google Docs to any other collaboration tool, feel free to use it in the initial state. We recommend [Open Source Design document Template](https://docs.google.com/document/d/1zeElxolajNyGUB8J6aDXwxngHynh4iOuEzy3ylLc72U/edit#). However, the approval process will only happen officially in the Pull Request.
+3. Automatic formatter is enabled in the repository. Use `make` locally to format it. Use `make check` to check all links (will be done on the CI too).
+4. The design is accepted if the PR is merged into this repository. It's ok to eventually decide to reject the proposal and close the PR with meaningful reasons for why it was rejected.
+   1. If more eyes are needed, or no consensus was made: Propose and announce your idea on
+      [Prometheus DevSummit](https://docs.google.com/document/d/11LC3wJcVk00l8w5P3oLQ-m3Y37iom6INAMEu2ZAGIIE/edit) or the [developers mailing list](/community) to gather more information. You are welcome to start working on the design document before a bigger discussion--it is often easier to have a discussion with prior information provided. Be prepared that the idea might be rejected later--still, the record of the document in the Pull Request is useful even in rejected state to inform about past decisions and opportunities considered.
+   2. To merge the PR, we need approval (consensus) from the maintainers of the related component(s).
+   3. Optionally: Find a sponsor among Prometheus maintainers to get momentum on a change.
+
+Once PR get merged, the design document can change, but it requires (less strict, but still) a PR with review and merge by a maintainer.
+
 # Problem statements and exploratory documents
 
 Sometimes we're looking even further into potential futures. The documents in

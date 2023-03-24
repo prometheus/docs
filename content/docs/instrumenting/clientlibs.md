@@ -28,6 +28,7 @@ Unofficial third-party client libraries:
 * [Dart](https://github.com/tentaclelabs/prometheus_client)
 * [Elixir](https://github.com/deadtrickster/prometheus.ex)
 * [Erlang](https://github.com/deadtrickster/prometheus.erl)
+* [Go](https://github.com/pascaldekloe/metrics)
 * [Haskell](https://github.com/fimad/prometheus-haskell)
 * [Lua](https://github.com/knyar/nginx-lua-prometheus) for Nginx
 * [Lua](https://github.com/tarantool/metrics) for Tarantool

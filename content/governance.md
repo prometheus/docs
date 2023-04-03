@@ -61,6 +61,7 @@ The current team members are:
 * Frederic Branczyk ([Polar Signals](https://www.polarsignals.com/))
 * Ganesh Vernekar ([Grafana Labs](https://grafana.com/))
 * Goutham Veeramachaneni ([Grafana Labs](https://grafana.com/))
+* Jesús Vázquez ([Grafana Labs](https://grafana.com/))
 * Johannes Ziemke ([5π Consulting](https://5pi.de/))
 * Josh Abreu ([Grafana Labs](https://grafana.com/))
 * Julius Volz ([PromLabs](https://promlabs.com/))

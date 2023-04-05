@@ -65,7 +65,9 @@ for use in the `rate`and `increase` functions.
 Grafana.com maintains [a collection of shared dashboards](https://grafana.com/dashboards)
 which can be downloaded and used with standalone instances of Grafana.  Use
 the Grafana.com "Filter" option to browse dashboards for the "Prometheus"
-data source only.
+data source only. Grafana.com also maintains [Prometheus Exporter Quickstart Guides](https://grafana.com/oss/prometheus/exporters/)
+that include dashboard templates with alerting rules for specific exporters.
+
 
 You must currently manually edit the downloaded JSON files and correct the
 `datasource:` entries to reflect the Grafana data source name which you

@@ -3,6 +3,7 @@ title: "Prometheus Conformance Program: Remote Write Compliance Test Results"
 created_at: 2021-05-05
 kind: article
 author_name: Richard "RichiH" Hartmann
+author_uri: https://twitter.com/TwitchiH
 ---
 
 As [announced by CNCF](https://www.cncf.io/blog/2021/05/03/announcing-the-intent-to-form-the-prometheus-conformance-program/) and by [ourselves](https://prometheus.io/blog/2021/05/03/introducing-prometheus-conformance-program/), we're starting a Prometheus conformance program.

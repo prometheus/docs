@@ -186,7 +186,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [Promitor (Azure Monitor)](https://promitor.io)
    * [scollector exporter](https://github.com/tgulacsi/prometheus_scollector)
    * [Sensu exporter](https://github.com/reachlin/sensu_exporter)
-   * [site24x7_exporer](https://github.com/svenstaro/site24x7_exporter)
+   * [site24x7_exporter](https://github.com/svenstaro/site24x7_exporter)
    * [SNMP exporter](https://github.com/prometheus/snmp_exporter) (**official**)
    * [StatsD exporter](https://github.com/prometheus/statsd_exporter) (**official**)
    * [TencentCloud monitor exporter](https://github.com/tencentyun/tencentcloud-exporter)

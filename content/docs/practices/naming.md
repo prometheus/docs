@@ -14,7 +14,7 @@ practices, e.g. naming conventions, differently.
 
 A metric name...
 
-* ...must comply with the [data model](/docs/concepts/data_model/#metric-names-and-labels) for valid characters.
+* ...must comply with the [data model](/content/docs/concepts/data_model.md/#metric-names-and-labels) for valid characters.
 * ...should have a (single-word) application prefix relevant to the domain the
   metric belongs to. The prefix is sometimes referred to as `namespace` by
   client libraries. For metrics specific to an application, the prefix is

@@ -267,3 +267,6 @@ For more details, please read the
 In 2020, there was a
 [second audit by cure53](/assets/downloads/2020-07-21--cure53_security_audit_node_exporter.pdf)
 of Node Exporter.
+
+[Chainguard](https://www.chainguard.dev/) realized a [Software Supply Chain Security Assessment of Prometheus](/assets/downloads/2023-04-18-slsa.pdf)
+in 2023.

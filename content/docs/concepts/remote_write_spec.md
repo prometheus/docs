@@ -4,7 +4,7 @@ sort_rank: 4
 ---
 
 # Prometheus Remote-Write Specification
-- Version: 1.0 
+- Version: 1.0
 - Status: Published
 - Date: April 2023
 
@@ -19,7 +19,7 @@ The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "S
 
 The remote write protocol is designed to make it possible to reliably propagate samples in real-time from a sender to a receiver, without loss.
 
-The remote write protocol is designed to make stateless implementations of the server possible; as such there are little-to-no inter-message references.  As such the protocol is not considered "streaming." To achieve a streaming effect multiple messages should be sent over the same connection using e.g. HTTP/1.1 or HTTP/2.  "Fancy" technologies such as gRPC were considered, but at the time were not widely adopted, and it was challenging to expose gRPC services to the internet behind load balancers such as an AWS EC2 ELB.  
+The remote write protocol is designed to make stateless implementations of the server possible; as such there are little-to-no inter-message references.  As such the protocol is not considered "streaming." To achieve a streaming effect multiple messages should be sent over the same connection using e.g. HTTP/1.1 or HTTP/2.  "Fancy" technologies such as gRPC were considered, but at the time were not widely adopted, and it was challenging to expose gRPC services to the internet behind load balancers such as an AWS EC2 ELB.
 
 
 The remote write protocol contains opportunities for batching, e.g. sending multiple samples for different series in a single request.  It is not expected that multiple samples for the same series will be commonly sent in the same request, although there is support for this in the protocol.
@@ -52,7 +52,7 @@ message WriteRequest {
   // We reserve it to avoid any compatibility issues.
   reserved  2;
 
-  // Prometheus uses this field to send metadata, but this is 
+  // Prometheus uses this field to send metadata, but this is
   // omitted from v1 of the spec as it is experimental.
   reserved  3;
 }
@@ -92,7 +92,7 @@ The remote write request MUST be encoded using Google Protobuf 3, and MUST use t
 
 The response body from the remote write receiver SHOULD be empty; clients MUST ignore the response body. The response body is RESERVED for future use.
 
-### Backward and forward compatibility 
+### Backward and forward compatibility
 
 The protocol follows [semantic versioning 2.0](https://semver.org/): any 1.x compatible receivers MUST be able to read any 1.x compatible sender and so on.  Breaking/backwards incompatible changes will result in a 2.x version of the spec.
 
@@ -111,7 +111,7 @@ Negotiation:
 
 The complete set of labels MUST be sent with each sample. Whatsmore, the label set associated with samples:
 
-- SHOULD contain a __name__ label.
+- SHOULD contain a `__name__` label.
 - MUST NOT contain repeated label names.
 - MUST have label names sorted in lexicographical order.
 - MUST NOT contain any empty label names or values.

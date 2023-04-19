@@ -258,12 +258,14 @@ documentation of those repositories.
 
 ## External audits
 
-[CNCF](https://cncf.io) sponsored an external security audit by
-[cure53](https://cure53.de) which ran from April 2018 to June 2018.
+* In 2018, [CNCF](https://cncf.io) sponsored an external security audit by
+[cure53](https://cure53.de) which ran from April 2018 to June 2018. For more
+details, please read the [final report of the audit](/assets/downloads/2018-06-11--cure53_security_audit.pdf).
 
-For more details, please read the
-[final report of the audit](/assets/downloads/2018-06-11--cure53_security_audit.pdf).
-
-In 2020, there was a
+* In 2020, CNCF sponsored a
 [second audit by cure53](/assets/downloads/2020-07-21--cure53_security_audit_node_exporter.pdf)
 of Node Exporter.
+
+* In 2023, CNCF sponsored a
+[software supply chain security assessment of Prometheus](https://docs.google.com/document/d/1B4q29La6WuaNfbjBS0LC5qPlL-KWVWFsM1UrUAbN-Vk/edit)
+by Chainguard.

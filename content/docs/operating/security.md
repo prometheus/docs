@@ -267,5 +267,5 @@ details, please read the [final report of the audit](/assets/downloads/2018-06-1
 of Node Exporter.
 
 * In 2023, CNCF sponsored a
-[software supply chain security assessment of Prometheus](https://docs.google.com/document/d/1B4q29La6WuaNfbjBS0LC5qPlL-KWVWFsM1UrUAbN-Vk/edit)
+[software supply chain security assessment of Prometheus](/assets/downloads/2023-04-19--chainguard_supply_chain_assessment.pdf)
 by Chainguard.

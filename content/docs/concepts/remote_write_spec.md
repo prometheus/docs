@@ -199,7 +199,7 @@ The spec is intended to describe how the following components interact:
 ### FAQ
 
 **Why did you not use gRPC?**
-Funnily enough we initially used gRPC, but switched to Protos atop HTTP as in 2016 is was hard to get them past ELBs: https://github.com/prometheus/prometheus/issues/1982
+Funnily enough we initially used gRPC, but switched to Protos atop HTTP as in 2016 it was hard to get them past ELBs: https://github.com/prometheus/prometheus/issues/1982
 
 **Why not streaming protobuf messages?**
 If you use persistent HTTP/1.1 connections, they are pretty close to streaming…  Of course headers have to be re-sent, but yes that is less expensive than a new TCP set up.

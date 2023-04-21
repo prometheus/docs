@@ -110,8 +110,9 @@ func main() {
 }
 ```
 
-Run the example 
-```bash
+Run the example
+
+```sh
 go mod init prom_example
 go mod tidy
 go run main.go

@@ -134,6 +134,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [WebDriver exporter](https://github.com/mattbostock/webdriver_exporter)
 
 ### APIs
+   * [Auth0 exporter](https://github.com/raynigon/auth0_exporter)
    * [AWS ECS exporter](https://github.com/slok/ecs-exporter)
    * [AWS Health exporter](https://github.com/Jimdo/aws-health-exporter)
    * [AWS SQS exporter](https://github.com/jmal98/sqs_exporter)
@@ -146,6 +147,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [Docker Hub exporter](https://github.com/infinityworksltd/docker-hub-exporter)
    * [Fastly exporter](https://github.com/peterbourgon/fastly-exporter)
    * [GitHub exporter](https://github.com/infinityworksltd/github-exporter)
+   * [GitHub billing exporter](https://github.com/raynigon/github_billing_exporter)
    * [Gmail exporter](https://github.com/jamesread/prometheus-gmail-exporter/)
    * [InstaClustr exporter](https://github.com/fcgravalos/instaclustr_exporter)
    * [Mozilla Observatory exporter](https://github.com/Jimdo/observatory-exporter)

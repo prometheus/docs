@@ -189,7 +189,7 @@ The spec is intended to describe how the following components interact:
 - [Mimir](https://github.com/grafana/mimir) (as a "receiver")
 - [Thanos](https://thanos.io/tip/components/receive.md/) (as a "receiver")
 - [Cortex](https://github.com/cortexproject/cortex/blob/master/pkg/util/push/push.go#L20) (as a "receiver")
-- [Grafana Cloud Agent](https://github.com/grafana/agent) (as a "sender")
+- [Grafana Agent](https://github.com/grafana/agent) (as both a "sender" and a "receiver")
 - The OpenTelemetry Collector (as a "sender" and eventually as a "receiver")
 - Avalanche (as a "sender")
 - InfluxData’s Telegraf agent. ([as a sender](https://github.com/influxdata/telegraf/tree/master/plugins/serializers/prometheusremotewrite), and [as a receiver](https://github.com/influxdata/telegraf/pull/8967))

@@ -181,20 +181,27 @@ This section contains speculative plans that are not considered part of protocol
 **Optimizations** We would like to investigate various optimizations to reduce message size by eliminating repetition of label names and values.
 
 ## Related
-### Compatible Senders and Receivers
-
 The spec is intended to describe how the following components interact:
+### Compatible Senders 
 
-- [Prometheus](https://github.com/prometheus/prometheus/tree/master/storage/remote) (as both a "sender" and a "receiver")
-- [Mimir](https://github.com/grafana/mimir) (as a "receiver")
-- [Thanos](https://thanos.io/tip/components/receive.md/) (as a "receiver")
-- [Cortex](https://github.com/cortexproject/cortex/blob/master/pkg/util/push/push.go#L20) (as a "receiver")
-- [Grafana Cloud Agent](https://github.com/grafana/agent) (as a "sender")
-- The OpenTelemetry Collector (as a "sender" and eventually as a "receiver")
-- Avalanche (as a "sender")
-- InfluxData’s Telegraf agent. ([as a sender](https://github.com/influxdata/telegraf/tree/master/plugins/serializers/prometheusremotewrite), and [as a receiver](https://github.com/influxdata/telegraf/pull/8967))
-- Vector (as a ["sender"](https://vector.dev/docs/reference/sinks/prometheus_remote_write/) and a ["receiver"](https://vector.dev/docs/reference/sources/prometheus_remote_write/)) 
-- [M3](https://m3db.io/docs/integrations/prometheus/#prometheus-configuration) (as a "receiver")
+- [Prometheus](https://github.com/prometheus/prometheus/tree/master/storage/remote)
+- [Grafana Cloud Agent](https://github.com/grafana/agent)
+- [The OpenTelemetry Collector](https://github.com/open-telemetry/opentelemetry-collector-contrib/blob/main/exporter/prometheusremotewriteexporter/README.md) 
+- Avalanche 
+- [InfluxData’s Telegraf agent](https://github.com/influxdata/telegraf/tree/master/plugins/serializers/prometheusremotewrite)
+- [Vector](https://vector.dev/docs/reference/sinks/prometheus_remote_write/) 
+
+### Compatible Receivers
+
+- [Prometheus](https://github.com/prometheus/prometheus/tree/master/storage/remote)
+- [Mimir](https://github.com/grafana/mimir) 
+- [Thanos](https://thanos.io/tip/components/receive.md/) 
+- [Cortex](https://github.com/cortexproject/cortex/blob/master/pkg/util/push/push.go#L20)
+- [The OpenTelemetry Collector](https://github.com/open-telemetry/opentelemetry-collector-contrib/blob/main/receiver/prometheusreceiver/README.md) 
+- [InfluxData’s Telegraf agent](https://github.com/influxdata/telegraf/pull/8967)
+- [Vector](https://vector.dev/docs/reference/sources/prometheus_remote_write/) 
+- [M3](https://m3db.io/docs/integrations/prometheus/#prometheus-configuration)
+
 
 ### FAQ
 

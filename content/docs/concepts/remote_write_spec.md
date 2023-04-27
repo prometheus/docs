@@ -186,15 +186,16 @@ This section contains speculative plans that are not considered part of protocol
 The spec is intended to describe how the following components interact:
 
 - [Prometheus](https://github.com/prometheus/prometheus/tree/master/storage/remote) (as both a "sender" and a "receiver")
-- [Mimir](https://github.com/grafana/mimir) (as a "receiver")
-- [Thanos](https://thanos.io/tip/components/receive.md/) (as a "receiver")
+- [Avalanche](https://github.com/prometheus-community/avalanche) (as a "sender") - A Load Testing Tool Prometheus Metrics.
 - [Cortex](https://github.com/cortexproject/cortex/blob/master/pkg/util/push/push.go#L20) (as a "receiver")
 - [Grafana Agent](https://github.com/grafana/agent) (as both a "sender" and a "receiver")
-- The OpenTelemetry Collector (as a "sender" and eventually as a "receiver")
-- Avalanche (as a "sender")
 - InfluxData’s Telegraf agent. ([as a sender](https://github.com/influxdata/telegraf/tree/master/plugins/serializers/prometheusremotewrite), and [as a receiver](https://github.com/influxdata/telegraf/pull/8967))
-- Vector (as a ["sender"](https://vector.dev/docs/reference/sinks/prometheus_remote_write/) and a ["receiver"](https://vector.dev/docs/reference/sources/prometheus_remote_write/)) 
 - [M3](https://m3db.io/docs/integrations/prometheus/#prometheus-configuration) (as a "receiver")
+- [Mimir](https://github.com/grafana/mimir) (as a "receiver")
+- [OpenTelemetry Collector](https://github.com/open-telemetry/opentelemetry-collector-releases/) (as a ["sender"](https://github.com/open-telemetry/opentelemetry-collector-contrib/tree/main/exporter/prometheusremotewriteexporter#readme) and eventually as a "receiver")
+- [Thanos](https://thanos.io/tip/components/receive.md/) (as a "receiver")
+- Vector (as a ["sender"](https://vector.dev/docs/reference/sinks/prometheus_remote_write/) and a ["receiver"](https://vector.dev/docs/reference/sources/prometheus_remote_write/))
+- [VictoriaMetrics](https://github.com/VictoriaMetrics/VictoriaMetrics) (as a ["receiver"](https://docs.victoriametrics.com/#prometheus-setup))
 
 ### FAQ
 

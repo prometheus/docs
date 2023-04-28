@@ -60,6 +60,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [Twemproxy](https://github.com/stuartnelson3/twemproxy_exporter)
 
 ### Hardware related
+   * [AMD SMI Exporter](https://github.com/amd/amd_smi_exporter)
    * [apcupsd exporter](https://github.com/mdlayher/apcupsd_exporter)
    * [BIG-IP exporter](https://github.com/ExpressenAB/bigip_exporter)
    * [Bosch Sensortec BMP/BME exporter](https://github.com/David-Igou/bsbmp-exporter)

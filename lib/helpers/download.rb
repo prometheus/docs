@@ -82,7 +82,7 @@ module Downloads
     def releases
       stable_releases = []
       releases = []
-      @releases.select(&:version).sort.reverse.each do |r|
+      @releases.select{ |r| r.version && !r.version.build }.sort.reverse.each do |r|
         if r.prerelease
           releases << r if releases.empty?
         elsif @lts_releases.include?(r.major_minor) and not stable_releases.include?(r.major_minor)

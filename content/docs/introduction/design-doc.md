@@ -33,7 +33,7 @@ still relevant.
 | [First-class network monitoring support in the Prometheus & Grafana ecosystem](https://docs.google.com/document/d/1oEpjiWfTHF352NCAOGolwij3EIkrprCkdQmaQMpjg4M/edit) | 2021‑02‑25 | Under review | |
 | [Configuration handling in exporters and Prometheus 3.x](https://docs.google.com/document/d/1BK_Gc3ixoWyxr9F5qGC07HEcfDPtb6z96mfqoGyz52Y/edit) | 2021‑03‑29 | Under review | |
 | [Prometheus Agent](https://docs.google.com/document/d/1cCcoFgjDFwU2n823tKuMvrIhzHty4UDyn0IcfUHiyyI/edit) | 2021‑01‑27 | Approved | [#8785](https://github.com/prometheus/prometheus/pull/8785) |
-| [Sparse high-resolution histograms](https://docs.google.com/document/d/1cLNv3aufPZb3fNfaJgdaRBZsInZKKIHo9E6HinJVbpM/edit) | 2021‑02‑10 | Approved | |
+| [Native histograms](https://docs.google.com/document/d/1cLNv3aufPZb3fNfaJgdaRBZsInZKKIHo9E6HinJVbpM/edit) | 2021‑02‑10 | Partially Implemented | [#11447](https://github.com/prometheus/prometheus/pull/11447) |
 | [Prometheus timezones support](https://docs.google.com/document/d/1xfw1Lb1GIRZB_-4iFVGkgwnpwuBemWfxYqFdBm7APsE/edit) | 2021‑05‑29 | Proposed | |
 | [Moving to goreleaser](https://docs.google.com/document/d/16LOT2wK-jntlU-EFADfaEF3YbKH81U9Zl_PvSu4qVwo/edit) | 2021‑06‑05 | Proposed |
 | [Alertmanager Log Receiver](https://docs.google.com/document/d/1Oevu2stHVGAupzmc9C7_wW5nTb_CJ6Ut72viXfve6zI/edit) | 2021‑06‑10 | Proposed |
@@ -46,7 +46,7 @@ still relevant.
 | Serverless, MQTT, and IoT use cases in the Prometheus ecosystem | | TODO | |
 | Static arithmetic for timestamps and durations | | TODO | |
 | [Prometheus long-term supported releases](https://docs.google.com/document/d/1wCXLnvh460UG10Mw019UbYMWDwSWWdvgwY61LHY0A0w/edit) | 2022-03-02 | Proposed | |
-| [Support for out of order samples in the TSDB](https://docs.google.com/document/d/1Kppm7qL9C-BJB1j6yb6-9ObG3AbdZnFUBYPNNWwDBYM/edit) | 2022-04-13 | Proposed | |
+| [Support for out of order samples in the TSDB](https://docs.google.com/document/d/1Kppm7qL9C-BJB1j6yb6-9ObG3AbdZnFUBYPNNWwDBYM/edit) | 2022-04-13 | Implemented | [#11075](https://github.com/prometheus/prometheus/pull/11075) |
 | [Structured Remote Write Protocol](https://docs.google.com/document/d/1i880vXorPec1ls91bnuoKR3-Hl3-D9XA1q1w734rZnU/edit#) | 2022-04-25 | proposed | |
 # Problem statements and exploratory documents
 
@@ -60,3 +60,4 @@ collective thoughts, not as anything concrete or specific.
 | [Thoughts about timestamps and durations in PromQL](https://docs.google.com/document/d/1jMeDsLvDfO92Qnry_JLAXalvMRzMSB1sBr9V7LolpYM) | 2020-10 |
 | [Prometheus, OpenMetrics & OTLP](https://docs.google.com/document/d/1hn-u6WKLHxIsqYT1_u6eh94lyQeXrFaAouMshJcQFXs) | 2021-03 |
 | [Prometheus Sparse Histograms and PromQL](https://docs.google.com/document/d/1ch6ru8GKg03N02jRjYriurt-CZqUVY09evPg6yKTA1s/edit) | 2021-10 |
+| [Quoting Prometheus names](https://docs.google.com/document/d/1yFj5QSd1AgCYecZ9EJ8f2t4OgF2KBZgJYVde-uzVEtI/edit) | 2023-01 |

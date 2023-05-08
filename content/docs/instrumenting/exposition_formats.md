@@ -10,12 +10,18 @@ exposition format. There are various [client libraries](/docs/instrumenting/clie
 that implement this format for you. If your preferred language doesn't have a client
 library you can [create your own](/docs/instrumenting/writing_clientlibs/).
 
-NOTE: Some earlier versions of Prometheus supported an exposition format based on
-[Protocol Buffers](https://developers.google.com/protocol-buffers/) (aka Protobuf) in
-addition to the current text-based format. As of version 2.0, however, Prometheus no
-longer supports the Protobuf-based format. You can read about the reasoning behind
-this change in [this
-document](https://github.com/OpenObservability/OpenMetrics/blob/main/legacy/markdown/protobuf_vs_text.md).
+NOTE: Some earlier versions of Prometheus supported an exposition format based
+on [Protocol Buffers](https://developers.google.com/protocol-buffers/) (aka
+Protobuf) in addition to the current text-based format. As of version 2.0,
+however, Prometheus no longer supports the Protobuf-based format. You can read
+about the reasoning behind this change in [this
+document](https://github.com/OpenObservability/OpenMetrics/blob/main/legacy/markdown/protobuf_vs_text.md). However,
+beginning with Prometheus v2.40, there is experimental support for native
+histograms, which – at least in its initial experimental state – utilizes the
+old Protobuf format (with some newer additions) again. Therefore, a very recent
+Prometheus server with the experimental native histogram support enabled, will
+again be able to ingest the Protobuf format. This support is experimental and
+might get removed again.
 
 ## Text-based format
 
@@ -170,3 +176,7 @@ To enable this experimental feature you must have at least version v2.26.0 and a
 For details on historical format versions, see the legacy
 [Client Data Exposition Format](https://docs.google.com/document/d/1ZjyKiKxZV83VI9ZKAXRGKaUKK2BIWCT7oiGBKDBpjEY/edit?usp=sharing)
 document.
+
+The current version of the original Protobuf format (with the recent extensions
+for native histograms) is maintained in the [prometheus/client_model
+repository](https://github.com/prometheus/client_model).

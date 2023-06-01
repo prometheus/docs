@@ -6,6 +6,6 @@ exports.handler = async () => {
     }
     return {
         statusCode: 200,
-        body: `hello world! I have a hotub ${envString}`,
+        body: `hello world! I have a test ${envString}`,
     };
 };

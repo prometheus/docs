@@ -49,7 +49,7 @@ In case a member leaves, the [offboarding](#offboarding) procedure is applied.
 The current team members are:
 
 * Augustin Husson ([Amadeus](https://amadeus.com))
-* Bartłomiej Płotka ([Red Hat](https://www.redhat.com/))
+* Bartłomiej Płotka ([Google](https://www.google.com/))
 * Ben Kochie ([Reddit](https://www.redditinc.com/))
 * Björn Rabenstein ([Grafana Labs](https://grafana.com/))
 * Bryan Boreham ([Grafana Labs](https://grafana.com/))

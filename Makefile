@@ -1,6 +1,6 @@
 NANOC      = bundle exec nanoc
 GUARD      = bundle exec guard
-DOWNLOADS := prometheus alertmanager blackbox_exporter consul_exporter graphite_exporter haproxy_exporter memcached_exporter mysqld_exporter node_exporter promlens pushgateway statsd_exporter
+DOWNLOADS := prometheus alertmanager blackbox_exporter consul_exporter graphite_exporter memcached_exporter mysqld_exporter node_exporter promlens pushgateway statsd_exporter
 
 build: clean downloads compile
 

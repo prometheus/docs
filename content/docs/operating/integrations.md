@@ -56,7 +56,6 @@ data volumes.
   * [M3DB](https://m3db.io/docs/integrations/prometheus/): read and write
   * [New Relic](https://docs.newrelic.com/docs/set-or-remove-your-prometheus-remote-write-integration): write
   * [OpenTSDB](https://github.com/prometheus/prometheus/tree/main/documentation/examples/remote_storage/remote_storage_adapter): write
-  * [PostgreSQL/TimescaleDB](https://github.com/timescale/promscale): read and write
   * [QuasarDB](https://doc.quasardb.net/master/user-guide/integration/prometheus.html): read and write
   * [SignalFx](https://github.com/signalfx/metricproxy#prometheus): write
   * [Splunk](https://github.com/kebe7jun/ropee): read and write
@@ -99,6 +98,7 @@ For notification mechanisms not natively supported by the Alertmanager, the
   * [SMS](https://github.com/messagebird/sachet): supports [multiple providers](https://github.com/messagebird/sachet/blob/master/examples/config.yaml)
   * [SNMP traps](https://github.com/maxwo/snmp_notifier)
   * [Squadcast](https://support.squadcast.com/docs/prometheus)
+  * [STOMP](https://github.com/thewillyhuman/alertmanager-stomp-forwarder)
   * [Telegram bot](https://github.com/inCaller/prometheus_bot)
   * [xMatters](https://github.com/xmatters/xm-labs-prometheus)
   * [XMPP Bot](https://github.com/jelmer/prometheus-xmpp-alerts)

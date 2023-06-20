@@ -183,6 +183,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [Osquery exporter](https://github.com/zwopir/osquery_exporter)
    * [OTC CloudEye exporter](https://github.com/tiagoReichert/otc-cloudeye-prometheus-exporter)
    * [Pingdom exporter](https://github.com/giantswarm/prometheus-pingdom-exporter)
+   * [Pingmesh exporter](https://github.com/kubeservice-stack/pingmesh-agent)
    * [Promitor (Azure Monitor)](https://promitor.io)
    * [scollector exporter](https://github.com/tgulacsi/prometheus_scollector)
    * [Sensu exporter](https://github.com/reachlin/sensu_exporter)

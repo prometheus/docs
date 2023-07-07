@@ -16,7 +16,7 @@ import (
    "net/http"
 )
 
-func ping(w http.ResponseWriter, req *http.Request){
+func ping(w http.ResponseWriter, req *http.Request) {
    fmt.Fprintf(w,"pong")
 }
 
@@ -31,7 +31,7 @@ Compile and run the server
 
 ```bash
 go build server.go
-./server.go
+./server
 ```
 
 Now open `http://localhost:8090/ping` in your browser and you must see `pong`.
@@ -39,15 +39,15 @@ Now open `http://localhost:8090/ping` in your browser and you must see `pong`.
 [![Server](/assets/tutorial/server.png)](/assets/tutorial/server.png)
 
 
-Now lets add a metric to the server which will instrument the number of requests made to the ping endpoint,the counter metric type is suitable for this as we know the request count doesn’t go down and only increases.
+Now let's add a metric to the server which will instrument the number of requests made to the ping endpoint. The counter metric type is suitable for this as we know the request count doesn’t go down and only increases.
 
 Create a Prometheus counter
 
 ```go
 var pingCounter = prometheus.NewCounter(
-   prometheus.CounterOpts{
+   prometheus.CounterOpts {
        Name: "ping_request_count",
-       Help: "No of request handled by Ping handler",
+       Help: "No of requests handled by Ping handler",
    },
 )
 ```
@@ -66,17 +66,19 @@ Then register the counter to the Default Register and expose the metrics.
 ```go
 func main() {
    prometheus.MustRegister(pingCounter)
-   http.HandleFunc("/ping", ping)
    http.Handle("/metrics", promhttp.Handler())
+
+   http.HandleFunc("/ping", ping)
+
    http.ListenAndServe(":8090", nil)
 }
 ```
 
 The `prometheus.MustRegister` function registers the pingCounter to the default Register.
 To expose the metrics the Go Prometheus client library provides the promhttp package.
-`promhttp.Handler()` provides a `http.Handler` which exposes the metrics registered in the Default Register.
+`promhttp.Handler()` provides an `http.Handler` which exposes the metrics registered in the Default Register.
 
-The sample code depends on the  
+The sample code is now:
 
 ```go
 package main
@@ -103,9 +105,10 @@ func ping(w http.ResponseWriter, req *http.Request) {
 
 func main() {
    prometheus.MustRegister(pingCounter)
+   http.Handle("/metrics", promhttp.Handler())
 
    http.HandleFunc("/ping", ping)
-   http.Handle("/metrics", promhttp.Handler())
+
    http.ListenAndServe(":8090", nil)
 }
 ```
@@ -115,16 +118,16 @@ Run the example
 ```sh
 go mod init prom_example
 go mod tidy
-go run main.go
+go run server.go
 ```
 
-Now hit the localhost:8090/ping endpoint a couple of times and sending a request to localhost:8090 will provide the metrics.
+Now hit the localhost:8090/ping endpoint a couple of times and sending a request to localhost:8090/metrics will provide the metrics.
 
 [![Ping Metric](/assets/tutorial/ping_metric.png)](/assets/tutorial/ping_metric.png)
 
-Here the ping_request_count shows that `/ping` endpoint was called 3 times.
+Here the `ping_request_count` shows that the `/ping` endpoint was called 3 times.
 
-The DefaultRegister comes with a collector for go runtime metrics and that is why we see other metrics like go_threads, go_goroutines etc.
+The DefaultRegister comes with a collector for go runtime metrics and that is why we see other metrics like `go_threads`, `go_goroutines` etc.
 
 We have built our first metric exporter. Let’s update our Prometheus config to scrape the metrics from our server.
 

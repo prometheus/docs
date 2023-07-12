@@ -127,7 +127,7 @@ Now hit the localhost:8090/ping endpoint a couple of times and sending a request
 
 Here the `ping_request_count` shows that the `/ping` endpoint was called 3 times.
 
-The DefaultRegister comes with a collector for go runtime metrics and that is why we see other metrics like `go_threads`, `go_goroutines` etc.
+DefaultRegister comes with a collector for go runtime metrics and that is why we see other metrics like `go_threads`, `go_goroutines` etc.
 
 We have built our first metric exporter. Let’s update our Prometheus config to scrape the metrics from our server.
 

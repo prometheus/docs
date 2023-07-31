@@ -53,6 +53,7 @@ The current team members are:
 * Ben Kochie ([Reddit](https://www.redditinc.com/))
 * Björn Rabenstein ([Grafana Labs](https://grafana.com/))
 * Bryan Boreham ([Grafana Labs](https://grafana.com/))
+* Calle Pettersson ([Instabee Group](https://instabee.com/))
 * Callum Styan ([Grafana Labs](https://grafana.com/))
 * Chris Marchbanks ([Grafana Labs](https://grafana.com/))
 * Chris Sinjakli ([PlanetScale](https://planetscale.com/))

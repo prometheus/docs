@@ -51,6 +51,7 @@ The current team members are:
 * Augustin Husson ([Amadeus](https://amadeus.com))
 * Bartłomiej Płotka ([Google](https://www.google.com/))
 * Ben Kochie ([Reddit](https://www.redditinc.com/))
+* Ben Reedy ([Indue Ltd](https://www.indue.com.au))
 * Björn Rabenstein ([Grafana Labs](https://grafana.com/))
 * Bryan Boreham ([Grafana Labs](https://grafana.com/))
 * Calle Pettersson ([Instabee Group](https://instabee.com/))

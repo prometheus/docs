@@ -189,6 +189,7 @@ The spec is intended to describe how the following components interact:
 - [Mimir](https://github.com/grafana/mimir) (as a "receiver")
 - [Thanos](https://thanos.io/tip/components/receive.md/) (as a "receiver")
 - [Cortex](https://github.com/cortexproject/cortex/blob/master/pkg/util/push/push.go#L20) (as a "receiver")
+- [Elastic Agent](https://docs.elastic.co/integrations/prometheus#prometheus-server-remote-write) (as a "receiver")
 - [Grafana Agent](https://github.com/grafana/agent) (as both a "sender" and a "receiver")
 - The OpenTelemetry Collector (as a "sender" and eventually as a "receiver")
 - Avalanche (as a "sender")

@@ -286,6 +286,7 @@ separate exporters are needed:
    * [JavaMelody](https://github.com/javamelody/javamelody/wiki/UserGuideAdvanced#exposing-metrics-to-prometheus)
    * [Kong](https://github.com/Kong/kong-plugin-prometheus)
    * [Kubernetes](https://github.com/kubernetes/kubernetes) (**direct**)
+   * [LavinMQ](https://lavinmq.com/)
    * [Linkerd](https://github.com/BuoyantIO/linkerd)
    * [mgmt](https://github.com/purpleidea/mgmt/blob/master/docs/prometheus.md)
    * [MidoNet](https://github.com/midonet/midonet)

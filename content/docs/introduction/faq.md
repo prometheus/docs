@@ -37,10 +37,7 @@ There are always trade-offs to make when running services, and Prometheus values
 Yes, run identical Prometheus servers on two or more separate machines.
 Identical alerts will be deduplicated by the [Alertmanager](https://github.com/prometheus/alertmanager).
 
-For [high availability of the Alertmanager](https://github.com/prometheus/alertmanager#high-availability),
-you can run multiple instances in a
-[Mesh cluster](https://github.com/weaveworks/mesh) and configure the Prometheus
-servers to send notifications to each of them.
+Alertmanager supports [high availability](https://github.com/prometheus/alertmanager#high-availability) by interconnecting multiple Alertmanager instances to build an Alertmanager cluster. Instances of a cluster communicate using a gossip protocol managed via [HashiCorp's Memberlist](https://github.com/hashicorp/memberlist) library. 
 
 ### I was told Prometheus “doesn't scale”.
 

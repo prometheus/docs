@@ -11,7 +11,7 @@ Berlin, Germany – September 1, 2023 – The CNCF and the Prometheus team, rele
 
 Now in its 8th installment, PromCon brings together Prometheus users and developers from around the world to exchange knowledge, best practices, and experience gained through using Prometheus. The program committee reviewed 66 submissions that will provide a fresh and informative look into the most pressing topics around Prometheus today.
 
-"We are super excited for PromCon to be coming home to Berlin. Prometheus was started in Berlin at Soundcloud in 2012. The first PromCon was hosted in Berlin and in between moved to Munich. This year we're hosting around 300 attendees at Radialsystem in Friedrichshain, Berlin. Berlin has a vibrant Prometheus community and many of the Prometheus team members live in the neighborhood. It is a great opportunity to network and connect with the Prometheus family who are all passionate about systems and service monitoring," said Matthias Loibl, Software Engineer at Polar Signals and Prometheus team member who leads this year's PromCon program committee. "It will be a great event to learn about the latest developments from the Prometheus team itself and connect to some big-scale users of Prometheus up close."
+"We are super excited for PromCon to be coming home to Berlin. Prometheus was started in Berlin at Soundcloud in 2012. The first PromCon was hosted in Berlin and in between moved to Munich. This year we're hosting around 300 attendees at Radialsystem in Friedrichshain, Berlin. Berlin has a vibrant Prometheus community and many of the Prometheus team members live in the neighborhood. It is a great opportunity to network and connect with the Prometheus family who are all passionate about systems and service monitoring," said Matthias Loibl, Senior Software Engineer at Polar Signals and Prometheus team member who leads this year's PromCon program committee. "It will be a great event to learn about the latest developments from the Prometheus team itself and connect to some big-scale users of Prometheus up close."
 
 The community-curated schedule will feature sessions from open source community members, including:
 
@@ -37,9 +37,6 @@ PromCon Europe 2023 has been made possible thanks to the amazing community aroun
 
 ## Contact
 
-Jessie Adams-Shore
-The Linux Foundation
-pr@cncf.io
+Jessie Adams-Shore - The Linux Foundation - pr@cncf.io
 
-Promethes Organizers
-promcon-organizers@googlegroups.com
+PromCon Organizers - promcon-organizers@googlegroups.com

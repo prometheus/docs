@@ -2,7 +2,7 @@
 title: The Schedule for the PromCon Europe 2023 is Live
 created_at: 2023-09-01
 kind: article
-author_name: Matthias Loibl (@metalmatze  )
+author_name: Matthias Loibl (@metalmatze)
 ---
 
 > PromCon Europe is the eighth conference fully dedicated to the Prometheus monitoring system
@@ -28,4 +28,18 @@ For the full PromCon Europe 2023 program, please visit the [schedule](https://pr
 [Register](https://promcon.io/2023-berlin/register/) for the in-person standard pricing of $350 USD through September 25. The venue has space for 300 attendees so don’t wait!
 
 ## Thank You to Our Sponsors
-PromCon Europe 2023 has been made possible thanks to the amazing community around Prometheus and support from our Diamond Sponsor [Grafana Labs](https://grafana.com/), Platinum Sponsor [Red Hat](https://www.redhat.com/) as well as many more Gold, and Startup sponsors. This year’s edition is organized by [Polar Signals](https://www.polarsignals.com/) and CNCF. 
+
+PromCon Europe 2023 has been made possible thanks to the amazing community around Prometheus and support from our Diamond Sponsor [Grafana Labs](https://grafana.com/), Platinum Sponsor [Red Hat](https://www.redhat.com/) as well as many more Gold, and Startup sponsors. This year’s edition is organized by [Polar Signals](https://www.polarsignals.com/) and CNCF.
+
+## Watch the Prometheus Documentary
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/rT4fJNbfe14" frameborder="0" allowfullscreen></iframe>
+
+## Contact
+
+Jessie Adams-Shore
+The Linux Foundation
+pr@cncf.io
+
+Promethes Organizers
+promcon-organizers@googlegroups.com

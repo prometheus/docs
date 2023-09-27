@@ -175,6 +175,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [Huawei Cloudeye exporter](https://github.com/huaweicloud/cloudeye-exporter)
    * [InfluxDB exporter](https://github.com/prometheus/influxdb_exporter) (**official**)
    * [ITM exporter](https://github.com/rafal-szypulka/itm_exporter)
+   * [Java GC exporter](https://github.com/loyispa/jgc_exporter)
    * [JavaMelody exporter](https://github.com/fschlag/javamelody-prometheus-exporter)
    * [JMX exporter](https://github.com/prometheus/jmx_exporter) (**official**)
    * [Munin exporter](https://github.com/pvdh/munin_exporter)

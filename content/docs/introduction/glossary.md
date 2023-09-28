@@ -126,4 +126,3 @@ A target is the definition of an object to scrape. For example, what labels to a
 
 The Prometheus time series are streams of timestamped values belonging to the same metric and the same set of labeled dimensions.
 Prometheus stores all data as time series.
-

@@ -15,25 +15,23 @@ as the result of queries.
 
 Every time series is uniquely identified by its metric name and optional key-value pairs called labels.
 
-***metric name:***
+***Metric names:***
 
- * Specifies the general feature of a system that is measured (e.g. http_requests_total - the total number of HTTP requests received). 
- * Metric names may contain ASCII letters, digits, underscores, and colons.
- * It must match the regex [a-zA-Z_:][a-zA-Z0-9_:].
+ * Specify the general feature of a system that is measured (e.g. `http_requests_total` - the total number of HTTP requests received). 
+ * Metric names may contain ASCII letters, digits, underscores, and colons. It must match the regex `[a-zA-Z_:][a-zA-Z0-9_:]*`.
    
 Note: The colons are reserved for user defined recording rules. They should not be used by exporters or direct instrumentation.
 
 
 
-***metric labels:***
+***Metric labels:***
 
- * Enable Prometheus's dimensional data model: any given combination of labels for the same metric name identifies a particular dimensional instantiation of that metric (for example: all HTTP requests that used the method POST to the /api/tracks handler). The query language allows filtering and aggregation based on these dimensions. 
- * Changing any label value, including adding or removing a label, will create a new time series.
- * Labels may contain ASCII letters, numbers, as well as underscores.
- * They must match the regex [a-zA-Z_][a-zA-Z0-9_]*. 
- * Label names beginning with __ (two "_") are reserved for internal use.
+ * Enable Prometheus's dimensional data model to identify any given combination of labels for the same metric name. It identifies a particular dimensional instantiation of that metric (for example: all HTTP requests that used the method `POST` to the `/api/tracks` handler). The query language allows filtering and aggregation based on these dimensions. 
+ * The change of any labels value, including adding or removing labels, will create a new time series.
+ * Labels may contain ASCII letters, numbers, as well as underscores. They must match the regex `[a-zA-Z_][a-zA-Z0-9_]*`. 
+ * Label names beginning with `__` (two "_") are reserved for internal use.
  * Label values may contain any Unicode characters.
- * A label with an empty label value is considered equivalent to a label that does not exist.
+ * Labels with an empty label value are considered equivalent to labels that do not exist.
 
 
 See also the [best practices for naming metrics and labels](/docs/practices/naming/).

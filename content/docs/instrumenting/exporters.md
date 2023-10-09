@@ -161,6 +161,11 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [Google's mtail log data extractor](https://github.com/google/mtail)
    * [Grok exporter](https://github.com/fstab/grok_exporter)
 
+### FinOps
+   * [AWS Cost Exporter](https://github.com/opensourceelectrolux/aws-cost-exporter)
+   * [Azure Cost Exporter](https://github.com/opensourceelectrolux/azure-cost-exporter)
+   * [Kubernetes Cost Exporter](https://github.com/opensourceelectrolux/kubernetes-cost-exporter)
+
 ### Other monitoring systems
    * [Akamai Cloudmonitor exporter](https://github.com/ExpressenAB/cloudmonitor_exporter)
    * [Alibaba Cloudmonitor exporter](https://github.com/aylei/aliyun-exporter)

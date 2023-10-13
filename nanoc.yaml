@@ -85,6 +85,14 @@ data_sources:
       entrypoint: /overview/
       repository_url: https://github.com/prometheus/alertmanager.git
   -
+    type: repo_docs
+    encoding: utf-8
+    identifier_type: legacy
+    items_root: /docs/toolkit/
+    config:
+      entrypoint: /introduction/
+      repository_url: https://github.com/roidelapluie/exporter-toolkit.git
+  -
     type: filesystem
     items_root: /assets
     content_dir: static

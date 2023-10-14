@@ -137,7 +137,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [AWS ECS exporter](https://github.com/slok/ecs-exporter)
    * [AWS Health exporter](https://github.com/Jimdo/aws-health-exporter)
    * [AWS SQS exporter](https://github.com/jmal98/sqs_exporter)
-   * [Azure Health exporter](https://github.com/FXinnovation/azure-health-exporter)
+   * Azure Health exporter
    * [BigBlueButton](https://github.com/greenstatic/bigbluebutton-exporter)
    * [Cloudflare exporter](https://gitlab.com/gitlab-org/cloudflare_exporter)
    * [Cryptowat exporter](https://github.com/nbarrientos/cryptowat_exporter)

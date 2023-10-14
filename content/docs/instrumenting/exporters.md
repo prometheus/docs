@@ -201,7 +201,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [Bungeecord exporter](https://github.com/weihao/bungeecord-prometheus-exporter)
    * [BOSH exporter](https://github.com/cloudfoundry-community/bosh_exporter)
    * [cAdvisor](https://github.com/google/cadvisor)
-   * [Cachet exporter](https://github.com/ContaAzul/cachet_exporter)
+   * Cachet exporter
    * [ccache exporter](https://github.com/virtualtam/ccache_exporter)
    * [c-lightning exporter](https://github.com/lightningd/plugins/tree/master/prometheus)
    * [DHCPD leases exporter](https://github.com/DRuggeri/dhcpd_leases_exporter)

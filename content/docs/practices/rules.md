@@ -9,16 +9,15 @@ A consistent naming scheme for [recording rules](/docs/prometheus/latest/configu
 makes it easier to interpret the meaning of a rule at a glance. It also avoids
 mistakes by making incorrect or meaningless calculations stand out.
 
-This page documents how to correctly do aggregation and suggests a naming
-convention.
+This page documents proper naming conventions and aggregation for recording rules.
 
-## Naming and aggregation
+## Naming 
 
-Recording rules should be of the general form `level:metric:operations`.
-`level` represents the aggregation level and labels of the rule output.
-`metric` is the metric name and should be unchanged other than stripping
-`_total` off counters when using `rate()` or `irate()`. `operations` is a list
-of operations that were applied to the metric, newest operation first.
+* Recording rules should be of the general form `level:metric:operations`.
+* `level` represents the aggregation level and labels of the rule output.
+* `metric` is the metric name and should be unchanged other than stripping.
+* `_total` off counters when using `rate()` or `irate()`.
+* `operations` is a list of operations that were applied to the metric, newest operation first.
 
 Keeping the metric name unchanged makes it easy to know what a metric is and
 easy to find in the codebase.
@@ -31,17 +30,20 @@ If there is no obvious operation to use, use `sum`.  When taking a ratio by
 doing division, separate the metrics using `_per_` and call the operation
 `ratio`.
 
-When aggregating up ratios, aggregate up the numerator and denominator
-separately and then divide. Do not take the average of a ratio or average of an
-average as that is not statistically valid.
+## Aggregation
 
-When aggregating up the `_count` and `_sum` of a Summary and dividing to
+* When aggregating up ratios, aggregate up the numerator and denominator
+separately and then divide.
+* Do not take the average of a ratio or average of an
+average, as that is not statistically valid.
+
+* When aggregating up the `_count` and `_sum` of a Summary and dividing to
 calculate average observation size, treating it as a ratio would be unwieldy.
 Instead keep the metric name without the `_count` or `_sum` suffix and replace
 the `rate` in the operation with `mean`. This represents the average
 observation size over that time period.
 
-Always specify a `without` clause with the labels you are aggregating away.
+* Always specify a `without` clause with the labels you are aggregating away.
 This is to preserve all the other labels such as `job`, which will avoid
 conflicts and give you more useful metrics and alerts.
 

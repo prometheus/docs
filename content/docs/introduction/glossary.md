@@ -127,3 +127,8 @@ being included in notifications.
 
 A target is the definition of an object to scrape. For example, what labels to apply, any authentication required to connect, or other information that defines how the scrape will occur.
 
+### Time Series
+
+The Prometheus time series are streams of timestamped values belonging to the same metric and the same set of labeled dimensions.
+Prometheus stores all data as time series.
+

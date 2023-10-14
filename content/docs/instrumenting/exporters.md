@@ -170,7 +170,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [Google Stackdriver exporter](https://github.com/frodenas/stackdriver_exporter)
    * [Graphite exporter](https://github.com/prometheus/graphite_exporter) (**official**)
    * [Heka dashboard exporter](https://github.com/docker-infra/heka_exporter)
-   * [Heka exporter](https://github.com/imgix/heka_exporter)
+   * Heka exporter
    * [Huawei Cloudeye exporter](https://github.com/huaweicloud/cloudeye-exporter)
    * [InfluxDB exporter](https://github.com/prometheus/influxdb_exporter) (**official**)
    * [ITM exporter](https://github.com/rafal-szypulka/itm_exporter)

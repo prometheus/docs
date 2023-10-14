@@ -31,7 +31,7 @@ Compile and run the server
 
 ```bash
 go build server.go
-./server.go
+./server
 ```
 
 Now open `http://localhost:8090/ping` in your browser and you must see `pong`.

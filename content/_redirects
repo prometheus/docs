@@ -49,3 +49,6 @@
 
 # Blog post duplicated
 /blog/2021/05/14/prometheus-conformance-results/ /blog/2021/10/14/prometheus-conformance-results/ 302!
+
+# Custom 404 page for all nonexistent assets
+/*                          /docs/404/                                  404

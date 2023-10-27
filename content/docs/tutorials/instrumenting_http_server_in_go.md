@@ -31,7 +31,7 @@ Compile and run the server
 
 ```bash
 go build server.go
-./server.go
+./server
 ```
 
 Now open `http://localhost:8090/ping` in your browser and you must see `pong`.
@@ -115,7 +115,7 @@ Run the example
 ```sh
 go mod init prom_example
 go mod tidy
-go run main.go
+go run server.go
 ```
 
 Now hit the localhost:8090/ping endpoint a couple of times and sending a request to localhost:8090 will provide the metrics.

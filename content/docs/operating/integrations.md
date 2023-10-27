@@ -92,8 +92,6 @@ For notification mechanisms not natively supported by the Alertmanager, the
   * [Phabricator / Maniphest](https://github.com/knyar/phalerts)
   * [prom2teams](https://github.com/idealista/prom2teams): forwards notifications to Microsoft Teams
   * [Ansible Tower](https://github.com/pja237/prom2tower): call Ansible Tower (AWX) API on alerts (launch jobs etc.)
-  * [Rocket.Chat](https://rocket.chat/docs/administrator-guides/integrations/prometheus/)
-  * [ServiceNow](https://github.com/FXinnovation/alertmanager-webhook-servicenow)
   * [Signal](https://github.com/dgl/alertmanager-webhook-signald)
   * [SIGNL4](https://www.signl4.com/blog/portfolio_item/prometheus-alertmanager-mobile-alert-notification-duty-schedule-escalation)
   * [SMS](https://github.com/messagebird/sachet): supports [multiple providers](https://github.com/messagebird/sachet/blob/master/examples/config.yaml)

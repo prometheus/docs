@@ -11,6 +11,10 @@ based on Rob Ewaschuk's observations at Google.
 To summarize: keep alerting simple, alert on symptoms, have good consoles to
 allow pinpointing causes, and avoid having pages where there is nothing to do.
 
+## Naming
+
+There are no strict restrictions when it comes to the naming of alerting rules as alert names may contain any Unicode characters, just like any other label value. However, [the community has rallied around](https://monitoring.mixins.dev/) using [Camel Case](https://en.wikipedia.org/wiki/Camel_case) for their alert names.
+
 ## What to alert on
 
 Aim to have as few alerts as possible, by alerting on symptoms that are

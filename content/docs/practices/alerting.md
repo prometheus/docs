@@ -13,7 +13,7 @@ allow pinpointing causes, and avoid having pages where there is nothing to do.
 
 ## Naming
 
-There are no strict restrictions when it comes to the naming of alerting rules as alert names may contain any Unicode characters, just like any other label value. However, [the community has rallied around](https://monitoring.mixins.dev/) using [Camel Case](https://en.wikipedia.org/wiki/Camel_case) for their alert names.
+There are no strict restrictions regarding the naming of alerting rules, as alert names may contain any number of Unicode characters, just like any other label value. However, [the community has rallied around](https://monitoring.mixins.dev/) using [Camel Case](https://en.wikipedia.org/wiki/Camel_case) for their alert names.
 
 ## What to alert on
 

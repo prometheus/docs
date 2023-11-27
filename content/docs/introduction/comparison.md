@@ -230,7 +230,7 @@ There is no notion of labels or a query language.
 ### Storage
 
 Nagios has no storage per-se, beyond the current check state.
-There are plugins which can store data such as [for visualisation](https://docs.pnp4nagios.org/).
+There are plugins which can store data such as [for visualisation](https://exchange.nagios.org/directory/Utilities/Graphvis-visualisation-of-Nagios-Config/details).
 
 ### Architecture
 

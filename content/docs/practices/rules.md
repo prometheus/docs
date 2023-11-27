@@ -15,8 +15,7 @@ This page documents proper naming conventions and aggregation for recording rule
 
 * Recording rules should be of the general form `level:metric:operations`.
 * `level` represents the aggregation level and labels of the rule output.
-* `metric` is the metric name and should be unchanged other than stripping.
-* `_total` off counters when using `rate()` or `irate()`.
+* `metric` is the metric name and should be unchanged other than stripping `_total` off counters when using `rate()` or `irate()`.
 * `operations` is a list of operations that were applied to the metric, newest operation first.
 
 Keeping the metric name unchanged makes it easy to know what a metric is and

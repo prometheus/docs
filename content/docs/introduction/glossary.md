@@ -17,6 +17,11 @@ The [Alertmanager](../../alerting/overview/) takes in alerts, aggregates them in
 groups, de-duplicates, applies silences, throttles, and then sends out
 notifications to email, Pagerduty, Slack etc.
 
+### Alerting rule
+
+Alerting rules allow you to define alert conditions based on Prometheus expression 
+language expressions and to send notifications about firing alerts to an external service. 
+
 ### Bridge
 
 A bridge is a component that takes samples from a client library and

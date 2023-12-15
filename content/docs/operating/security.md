@@ -134,7 +134,7 @@ resulting from additional load and failed scrapes.
 
 ## Authentication, Authorization, and Encryption
 
-Prometheus, and most exporters, support TLS, including authentication of clients
+Prometheus, and most exporters, support TLS. Including authentication of clients
 via TLS client certificates. Details on configuring Prometheus are [`here`](https://prometheus.io/docs/guides/tls-encryption/).
 
 The Go projects share the same TLS library, based on the

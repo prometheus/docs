@@ -134,14 +134,11 @@ resulting from additional load and failed scrapes.
 
 ## Authentication, Authorization, and Encryption
 
-In the future, server-side TLS support will be rolled out to the different
-Prometheus projects. Those projects include Prometheus, Alertmanager,
-Pushgateway and the official exporters.
+Prometheus, and most exporters, support TLS. Including authentication of clients
+via TLS client certificates. Details on configuring Prometheus are [`here`](https://prometheus.io/docs/guides/tls-encryption/).
 
-Authentication of clients by TLS client certs will also be supported.
-
-The Go projects will share the same TLS library, which will be based on the
-Go vanilla [crypto/tls](https://golang.org/pkg/crypto/tls) library.
+The Go projects share the same TLS library, based on the
+Go [crypto/tls](https://golang.org/pkg/crypto/tls) library.
 We default to TLS 1.2 as minimum version. Our policy regarding this is based on
 [Qualys SSL Labs](https://www.ssllabs.com/) recommendations, where we strive to
 achieve a grade 'A' with a default configuration and correctly provided
@@ -157,7 +154,7 @@ in the [crypto/tls](https://golang.org/pkg/crypto/tls) library. If that still
 does not suit you, the current TLS settings enable you to build a secure tunnel
 between the servers and reverse proxies with more special requirements.
 
-HTTP Basic Authentication will also be supported. Basic Authentication can be
+HTTP Basic Authentication is also supported. Basic Authentication can be
 used without TLS, but it will then expose usernames and passwords in cleartext
 over the network.
 

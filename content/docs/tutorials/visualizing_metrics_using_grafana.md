@@ -30,7 +30,7 @@ Enter the URL as [http://localhost:9090](http://localhost:9090) under the HTTP s
 
 ## Creating our first dashboard.
 
-Now we have succesfully added Prometheus as a data source, Next we will create our first dashboard for the `ping_request_count` metric that we instrumented in the previous tutorial.
+Now we have successfully added Prometheus as a data source, Next we will create our first dashboard for the `ping_request_count` metric that we instrumented in the previous tutorial.
 
 1. Click on the `+` icon in the side bar and select `Dashboard`.
 2. In the next screen, Click on the `Add new panel` button.

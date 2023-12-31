@@ -44,7 +44,7 @@ data volumes.
   * [Cortex](https://github.com/cortexproject/cortex): read and write
   * [CrateDB](https://github.com/crate/crate_adapter): read and write
   * [Elasticsearch](https://www.elastic.co/guide/en/beats/metricbeat/master/metricbeat-metricset-prometheus-remote_write.html): write
-  * [Gnocchi](https://gnocchi.xyz/prometheus.html): write
+  * [Gnocchi](https://gnocchi.osci.io/prometheus.html): write
   * [Google BigQuery](https://github.com/KohlsTechnology/prometheus_bigquery_remote_storage_adapter): read and write
   * [Google Cloud Spanner](https://github.com/google/truestreet): read and write
   * [Grafana Mimir](https://github.com/grafana/mimir): read and write

@@ -202,6 +202,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
 
 ### Miscellaneous
    * [ACT Fibernet Exporter](https://git.captnemo.in/nemo/prometheus-act-exporter)
+   * [Ant Media Server exporter](https://github.com/jantekb/ams-prometheus-exporter)
    * [BIND exporter](https://github.com/prometheus-community/bind_exporter)
    * [BIND query exporter](https://github.com/DRuggeri/bind_query_exporter)
    * [Bitcoind exporter](https://github.com/LePetitBloc/bitcoind-exporter)

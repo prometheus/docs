@@ -166,7 +166,7 @@ However, new experimental features were added to Prometheus where the Protobuf f
 
 Here is a list of experimental features that, once enabled, will configure Prometheus to favor the Protobuf exposition format:
 
-| feature-flag | Version that introduced it |
+| feature flag | version that introduced it |
 |--------------|----------------------------|
 | native-histograms | 2.40.0 |
 | created-timestamp-zero-ingestion | 2.50.0 |

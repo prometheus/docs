@@ -10,19 +10,6 @@ exposition format. There are various [client libraries](/docs/instrumenting/clie
 that implement this format for you. If your preferred language doesn't have a client
 library you can [create your own](/docs/instrumenting/writing_clientlibs/).
 
-NOTE: Some earlier versions of Prometheus supported an exposition format based
-on [Protocol Buffers](https://developers.google.com/protocol-buffers/) (aka
-Protobuf) in addition to the current text-based format. As of version 2.0,
-however, Prometheus no longer supports the Protobuf-based format. You can read
-about the reasoning behind this change in [this
-document](https://github.com/OpenObservability/OpenMetrics/blob/main/legacy/markdown/protobuf_vs_text.md). However,
-beginning with Prometheus v2.40, there is experimental support for native
-histograms, which – at least in its initial experimental state – utilizes the
-old Protobuf format (with some newer additions) again. Therefore, a very recent
-Prometheus server with the experimental native histogram support enabled, will
-again be able to ingest the Protobuf format. This support is experimental and
-might get removed again.
-
 ## Text-based format
 
 As of Prometheus version 2.0, all processes that expose metrics to Prometheus need to use
@@ -170,6 +157,19 @@ Exemplars provide a point in time snapshot related to a metric set for an otherw
 with a tracing system can provide more detailed information related to the specific service.
 
 To enable this experimental feature you must have at least version v2.26.0 and add `--enable-feature=exemplar-storage` to your arguments.
+
+## Protobuf format
+
+Earlier versions of Prometheus supported an exposition format based on [Protocol Buffers](https://developers.google.com/protocol-buffers/) (aka Protobuf) in addition to the current text-based format. With Prometheus 2.0, the Protobuf format was marked as deprecated and Prometheus stopped ingesting samples from said exposition format.
+
+However, new experimental features were added to Prometheus where the Protobuf format was considered the most viable option. Making Prometheus accept Protocol Buffers once again.
+
+Here is a list of experimental features that, once enabled, will configure Prometheus to favor the Protobuf exposition format:
+
+| feature flag | version that introduced it |
+|--------------|----------------------------|
+| native-histograms | 2.40.0 |
+| created-timestamp-zero-ingestion | 2.50.0 |
 
 ## Historical versions
 

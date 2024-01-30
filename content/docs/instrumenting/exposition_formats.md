@@ -164,7 +164,7 @@ Earlier versions of Prometheus supported an exposition format based on [Protocol
 
 However, new experimental features were added to Prometheus where the Protobuf format was considered the most viable option. Making Prometheus accept Protocol Buffers once again.
 
-Here is a list of experimental features that, once enabled, will configure Prometheus to favor the Protobug exposition format:
+Here is a list of experimental features that, once enabled, will configure Prometheus to favor the Protobuf exposition format:
 
 | feature-flag | Version that introduced it |
 |--------------|----------------------------|

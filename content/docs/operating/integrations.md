@@ -49,6 +49,7 @@ data volumes.
   * [Google Cloud Spanner](https://github.com/google/truestreet): read and write
   * [Grafana Mimir](https://github.com/grafana/mimir): read and write
   * [Graphite](https://github.com/prometheus/prometheus/tree/main/documentation/examples/remote_storage/remote_storage_adapter): write
+  * [GreptimeDB](https://github.com/GreptimeTeam/greptimedb): read and write
   * [InfluxDB](https://docs.influxdata.com/influxdb/v1.8/supported_protocols/prometheus): read and write
   * [Instana](https://www.instana.com/docs/ecosystem/prometheus/#remote-write): write
   * [IRONdb](https://github.com/circonus-labs/irondb-prometheus-adapter): read and write

@@ -27,7 +27,7 @@ Note: The colons are reserved for user defined recording rules. They should not 
 ***Metric labels:***
 
  * Enable Prometheus's dimensional data model to identify any given combination of labels for the same metric name. It identifies a particular dimensional instantiation of that metric (for example: all HTTP requests that used the method `POST` to the `/api/tracks` handler). The query language allows filtering and aggregation based on these dimensions. 
- * The change of any labels value, including adding or removing labels, will create a new time series.
+ * The change of any label's value, including adding or removing labels, will create a new time series.
  * Labels may contain ASCII letters, numbers, as well as underscores. They must match the regex `[a-zA-Z_][a-zA-Z0-9_]*`. 
  * Label names beginning with `__` (two "_") are reserved for internal use.
  * Label values may contain any Unicode characters.

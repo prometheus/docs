@@ -14,7 +14,7 @@ having worked with pull-based monitoring at the largest scales, this claim runs
 counter to our own operational experience.
 
 We already have an FAQ entry about
-[why Prometheus chooses pull over push](/docs/introduction/faq/#why-do-you-pull-rather-than-push?),
+[why Prometheus chooses pull over push](/docs/introduction/faq/#why-do-you-pull-rather-than-push),
 but it does not focus specifically on scaling aspects. Let's have a closer look
 at the usual misconceptions around this claim and analyze whether and how they
 would apply to Prometheus.
@@ -148,7 +148,7 @@ point.
 
 Besides the fact that Prometheus is already being used to monitor very large
 setups in the real world (like using it to [monitor millions of machines at
-DigitalOcean](http://promcon.io/talks/scaling_to_a_million_machines_with_prometheus/)),
+DigitalOcean](https://promcon.io/2016-berlin/talks/scaling-to-a-million-machines-with-prometheus/)),
 there are other prominent examples of pull-based monitoring being used
 successfully in the largest possible environments. Prometheus was inspired by
 Google's Borgmon, which was (and partially still is) used within Google to

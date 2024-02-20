@@ -344,7 +344,7 @@ each scrape.
 Rather create new metrics each time. In Go this is done with
 [MustNewConstMetric](https://godoc.org/github.com/prometheus/client_golang/prometheus#MustNewConstMetric)
 in your `Collect()` method. For Python see
-[https://github.com/prometheus/client_python#custom-collectors](https://github.com/prometheus/client_python#custom-collectors)
+[https://github.com/prometheus/client_python#custom-collectors](https://prometheus.github.io/client_python/collector/custom/)
 and for Java generate a `List<MetricFamilySamples>` in your collect
 method, see
 [StandardExports.java](https://github.com/prometheus/client_java/blob/master/simpleclient_hotspot/src/main/java/io/prometheus/client/hotspot/StandardExports.java)

@@ -436,6 +436,8 @@ footer {
   margin-left: auto;
   margin-right: auto;
   display: block;
+  height: 76px;
+  object-fit: contain;
 }
 
 .doc-content img.orig-size {

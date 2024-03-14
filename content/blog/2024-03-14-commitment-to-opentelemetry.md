@@ -2,10 +2,10 @@
 title: Our commitment to OpenTelemetry
 created_at: 2024-03-13
 kind: article
-author_name: Goutham Veeramachaneni ([@Gouthamve](https://github.com/gouthamve)) and Carrie Edwards ([@carrieedwards](https://github.com/carrieedwards))
+author_name: Goutham Veeramachaneni (@Gouthamve) and Carrie Edwards (@carrieedwards)
 ---
 
-*The OpenTelemetry project is an Observability framework and toolkit designed to create and manage telemetry data such as traces, metrics, and logs. It is gaining widespread adoption due to its consistent specification between signals and promise to reduce vendor lock-in which is something that we’re excited about.*
+*The [OpenTelemetry project](https://opentelemetry.io/) is an Observability framework and toolkit designed to create and manage telemetry data such as traces, metrics, and logs. It is gaining widespread adoption due to its consistent specification between signals and promise to reduce vendor lock-in which is something that we’re excited about.*
 
 ## Looking back at 2023
 

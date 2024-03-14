@@ -5,24 +5,17 @@ kind: article
 author_name: Goutham Veeramachaneni ([@Gouthamve](https://github.com/gouthamve)) and Carrie Edwards ([@carrieedwards](https://github.com/carrieedwards))
 ---
 
-*The OpenTelemetry project is an Observability framework and toolkit designed to create and manage telemetry data such as traces, metrics, and logs. It is
-gaining widespread adoption due to its consistent specification between signals and promise to reduce vendor lock-in which is something that we’re excited about.*
+*The OpenTelemetry project is an Observability framework and toolkit designed to create and manage telemetry data such as traces, metrics, and logs. It is gaining widespread adoption due to its consistent specification between signals and promise to reduce vendor lock-in which is something that we’re excited about.*
 
 ## Looking back at 2023
 
-Over the past few years, we have collaborated with the OpenTelemetry community to make sure that OpenTelemetry support each other Prometheus bidirectionally. This led to
-the drafting of the official specification to convert between the two systems, as well as the implementations that allow you to ingest Prometheus metrics into
-OpenTelemetry Collector and vice-versa.
+Over the past few years, we have collaborated with the OpenTelemetry community to make sure that OpenTelemetry and Prometheus support each other bidirectionally. This led to the drafting of the official specification to convert between the two systems, as well as the implementations that allow you to ingest Prometheus metrics into OpenTelemetry Collector and vice-versa.
 
-Since then, we have spent a significant amount of time understanding the [challenges faced by OpenTelemetry users](https://docs.google.com/document/d/1epvoO_R7JhmHYsII-GJ6Yw99Ky91dKOqOtZGqX7Bk0g/edit?usp=sharing) when 
-storing their metrics in Prometheus and based on those, explored [how we can address them](https://docs.google.com/document/d/1NGdKqcmDExynRXgC_u1CDtotz9IUdMrq2yyIq95hl70/edit?usp=sharing). Some of the changes proposed
-need careful considerations to avoid breaking either side's operating promises, e.g. support both push and pull. At PromCon Berlin 2023, we attempted to summarize our ideas in [one of the talks](https://www.youtube.com/watch?v=mcabOH70FqU).
+Since then, we have spent a significant amount of time understanding the [challenges faced by OpenTelemetry users](https://docs.google.com/document/d/1epvoO_R7JhmHYsII-GJ6Yw99Ky91dKOqOtZGqX7Bk0g/edit?usp=sharing) when storing their metrics in Prometheus and based on those, explored [how we can address them](https://docs.google.com/document/d/1NGdKqcmDExynRXgC_u1CDtotz9IUdMrq2yyIq95hl70/edit?usp=sharing). Some of the changes proposed need careful considerations to avoid breaking either side's operating promises, e.g. supporting both push and pull. At PromCon Berlin 2023, we attempted to summarize our ideas in [one of the talks](https://www.youtube.com/watch?v=mcabOH70FqU).
 
-At our [dev summit in Berlin](https://docs.google.com/document/d/11LC3wJcVk00l8w5P3oLQ-m3Y37iom6INAMEu2ZAGIIE/edit#bookmark=id.9kp854ea3sv4), we spent the majority of our time discussing these changes and our general stance on OpenTelemetry in depth, and the broad consensus
-is that we want [“to be the default store for OpenTelemetry metrics”](https://docs.google.com/document/d/11LC3wJcVk00l8w5P3oLQ-m3Y37iom6INAMEu2ZAGIIE/edit#bookmark=id.196i9ij1u7fs)!
+At our [dev summit in Berlin](https://docs.google.com/document/d/11LC3wJcVk00l8w5P3oLQ-m3Y37iom6INAMEu2ZAGIIE/edit#bookmark=id.9kp854ea3sv4), we spent the majority of our time discussing these changes and our general stance on OpenTelemetry in depth, and the broad consensus is that we want [“to be the default store for OpenTelemetry metrics”](https://docs.google.com/document/d/11LC3wJcVk00l8w5P3oLQ-m3Y37iom6INAMEu2ZAGIIE/edit#bookmark=id.196i9ij1u7fs)!
 
-We’ve formed a core group of developers to lead this initiative, and we are going to release a Prometheus 3.0 in 2024 with OTel support as one of its more important 
-features. Here’s a sneak peek at what's coming in 2024.
+We’ve formed a core group of developers to lead this initiative, and we are going to release a Prometheus 3.0 in 2024 with OTel support as one of its more important features. Here’s a sneak peek at what's coming in 2024.
 
 ## The year ahead
 

@@ -45,7 +45,7 @@ explained how they built a scalable multi-tenant version of Prometheus.
 <blockquote class="twitter-tweet tw-align-center" data-lang="en"><p lang="en" dir="ltr">It&#39;s getting spooky! <a href="https://twitter.com/tom_wilkie">@tom_wilkie</a> from <a href="https://twitter.com/weaveworks">@weaveworks</a> introduces Frankenstein, a distributed Prometheus. <a href="https://twitter.com/hashtag/promcon2016?src=hash">#promcon2016</a> <a href="https://t.co/6xgvlYv6Tw">pic.twitter.com/6xgvlYv6Tw</a></p>&mdash; PrometheusMonitoring (@PrometheusIO) <a href="https://twitter.com/PrometheusIO/status/768826444575309824">August 25, 2016</a></blockquote>
 <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
 
-Several Prometheus core developers also talked about the the design decisions
+Several Prometheus core developers also talked about the design decisions
 behind the monitoring system, presented upcoming features, or shared best
 practices. On a lighter note, two lightning talks explained the correct plural
 of Prometheus, as well as an implementation of [Conway's Game of Life](https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life)

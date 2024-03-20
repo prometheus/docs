@@ -16,7 +16,7 @@ mechanisms to Prometheus.
 
 Aside from many smaller fixes and improvements, you can now also reload your configuration during
 runtime by sending a `SIGHUP` to the Prometheus process. For a full list of changes, check the
-[changelog for this release](https://github.com/prometheus/prometheus/blob/master/CHANGELOG.md#0140--2015-06-01).
+[changelog for this release](https://github.com/prometheus/prometheus/blob/main/CHANGELOG.md#0140--2015-06-01).
 
 In this blog post, we will take a closer look at the built-in service discovery mechanisms and provide
 some practical examples. As an additional resource, see
@@ -147,7 +147,7 @@ Prometheus 0.14.0 allows you to specify multiple SRV records to be queried in a
 single scrape configuration, and also provides service-discovery-specific meta
 information that is helpful during the relabeling phase.
 
-When querying the the DNS-SRV records, a label named `__meta_dns_name` is
+When querying the DNS-SRV records, a label named `__meta_dns_name` is
 attached to each target. Its value is set to the SRV record name for which it was
 returned. If we have structured SRV record names like `telemetry.<zone>.<job>.srv.example.org`,
 we can extract relevant labels from it those names:

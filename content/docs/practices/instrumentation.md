@@ -112,7 +112,7 @@ counter that is incremented. If you find an interesting log message, you want to
 be able to see how often it has been happening and for how long.
 
 If there are multiple closely-related log messages in the same function (for example,
-different branches of an if or switch statement), it can sometimes make sense
+different branches of an if or switch statement), it can sometimes make sense to
 increment a single counter for all of them.
 
 It is also generally useful to export the total number of info/error/warning

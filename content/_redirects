@@ -23,6 +23,9 @@
 # Redirect for HTTP SD docs, which briefly lived in the wrong category / repo.
 /docs/instrumenting/http_sd/ /docs/prometheus/latest/http_sd/
 
+# Redirect for "disabled_features", which is now called "feature_flags".
+/docs/prometheus/latest/disabled_features/ /docs/prometheus/latest/feature_flags/
+
 # Redirects for sections.
 # TODO(ts): Auto-generate from menu.
 /docs/                      /docs/introduction/overview/                302!
@@ -43,3 +46,9 @@
 /:foo/:bar/:baz/index.html              /:foo/:bar/:baz/                302!
 /:foo/:bar/:baz/:qux/index.html         /:foo/:bar/:baz/:qux/           302!
 /:foo/:bar/:baz/:qux/:quux/index.html   /:foo/:bar/:baz/:qux/:quux/     302!
+
+# Blog post duplicated
+/blog/2021/05/14/prometheus-conformance-results/ /blog/2021/10/14/prometheus-conformance-results/ 302!
+
+# Custom 404 page for all nonexistent assets
+/*                          /docs/404/                                  404

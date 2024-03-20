@@ -77,7 +77,7 @@ this structure as much as is practical.
 
 Client libraries SHOULD follow function/method/class names mentioned in this
 document, keeping in mind the naming conventions of the language they’re
-working in. For example, `set_to_current_time()` is good for a method name
+working in. For example, `set_to_current_time()` is good for a method name in 
 Python, but `SetToCurrentTime()` is better in Go and `setToCurrentTime()` is
 the convention in Java. Where names differ for technical reasons (e.g. not
 allowing function overloading), documentation/help strings SHOULD point users
@@ -211,7 +211,7 @@ to designate buckets.
 
 A histogram MUST offer a way to manually choose the buckets. Ways to set
 buckets in a `linear(start, width, count)` and `exponential(start, factor,
-count)` fashion SHOULD be offered. Count MUST exclude the `+Inf` bucket.
+count)` fashion SHOULD be offered. Count MUST include the `+Inf` bucket.
 
 A histogram SHOULD have the same default buckets as other client libraries.
 Buckets MUST NOT be changeable once the metric is created.
@@ -345,6 +345,7 @@ all times in unixtime/seconds.
 | `process_resident_memory_bytes`    | Resident memory size in bytes.                         | bytes            |
 | `process_heap_bytes`               | Process heap size in bytes.                            | bytes            |
 | `process_start_time_seconds`       | Start time of the process since unix epoch in seconds. | seconds          |
+| `process_threads`                  | Number of OS threads in the process.             | threads          |
 
 ### Runtime metrics
 

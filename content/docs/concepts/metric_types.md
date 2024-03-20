@@ -28,6 +28,7 @@ Client library usage documentation for counters:
    * [Java](https://github.com/prometheus/client_java#counter)
    * [Python](https://github.com/prometheus/client_python#counter)
    * [Ruby](https://github.com/prometheus/client_ruby#counter)
+   * [.Net](https://github.com/prometheus-net/prometheus-net#counters)
 
 ## Gauge
 
@@ -44,6 +45,7 @@ Client library usage documentation for gauges:
    * [Java](https://github.com/prometheus/client_java#gauge)
    * [Python](https://github.com/prometheus/client_python#gauge)
    * [Ruby](https://github.com/prometheus/client_ruby#gauge)
+   * [.Net](https://github.com/prometheus-net/prometheus-net#gauges)
 
 ## Histogram
 
@@ -68,12 +70,20 @@ remember that the histogram is
 [histograms and summaries](/docs/practices/histograms) for details of histogram
 usage and differences to [summaries](#summary).
 
+NOTE: Beginning with Prometheus v2.40, there is experimental support for native
+histograms. A native histogram requires only one time series, which includes a
+dynamic number of buckets in addition to the sum and count of
+observations. Native histograms allow much higher resolution at a fraction of
+the cost. Detailed documentation will follow once native histograms are closer
+to becoming a stable feature.
+
 Client library usage documentation for histograms:
 
    * [Go](http://godoc.org/github.com/prometheus/client_golang/prometheus#Histogram)
    * [Java](https://github.com/prometheus/client_java#histogram)
    * [Python](https://github.com/prometheus/client_python#histogram)
    * [Ruby](https://github.com/prometheus/client_ruby#histogram)
+   * [.Net](https://github.com/prometheus-net/prometheus-net#histogram)
 
 ## Summary
 
@@ -99,3 +109,4 @@ Client library usage documentation for summaries:
    * [Java](https://github.com/prometheus/client_java#summary)
    * [Python](https://github.com/prometheus/client_python#summary)
    * [Ruby](https://github.com/prometheus/client_ruby#summary)
+   * [.Net](https://github.com/prometheus-net/prometheus-net#summary)

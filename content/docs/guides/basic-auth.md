@@ -75,7 +75,7 @@ You can add multiple users to the file.
 You can launch prometheus with the web configuration file as follows:
 
 ```shell
-$ prometheus -web.config.file=web.yml
+$ prometheus --web.config.file=web.yml
 ```
 
 ## Testing

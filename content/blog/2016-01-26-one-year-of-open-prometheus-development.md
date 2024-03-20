@@ -73,7 +73,7 @@ To give you an idea of the ecosystem, we now have:
 - 200+ contributors
 - 2300+ pull requests (60+ open)
 - 1100+ issues (300+ open)
-- 150+ people in our IRC channel (`#prometheus` on [FreeNode](http://freenode.net/))
+- 150+ people in our IRC channel (`#prometheus` on FreeNode)
 - 250+ people on the mailing list who have created 300+ threads
 - 20+ Prometheus-related talks and workshops
 - 100+ articles and blog posts

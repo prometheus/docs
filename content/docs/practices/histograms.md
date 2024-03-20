@@ -3,6 +3,10 @@ title: Histograms and summaries
 sort_rank: 4
 ---
 
+NOTE: This document predates native histograms (added as an experimental
+feature in Prometheus v2.40). Once native histograms are closer to becoming a
+stable feature, this document will be thoroughly updated.
+
 # Histograms and summaries
 
 Histograms and summaries are more complex metric types. Not only does
@@ -176,9 +180,9 @@ calculated 95th quantile looks much worse.
 A summary would have had no problem calculating the correct percentile
 value in both cases, at least if it uses an appropriate algorithm on
 the client side (like the [one used by the Go
-client](http://www.cs.rutgers.edu/~muthu/bquant.pdf)). Unfortunately,
-you cannot use a summary if you need to aggregate the observations
-from a number of instances.
+client](http://dimacs.rutgers.edu/~graham/pubs/slides/bquant-long.pdf)).
+Unfortunately, you cannot use a summary if you need to aggregate the
+observations from a number of instances.
 
 Luckily, due to your appropriate choice of bucket boundaries, even in
 this contrived example of very sharp spikes in the distribution of

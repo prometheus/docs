@@ -99,6 +99,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [Gearman exporter](https://github.com/bakins/gearman-exporter)
    * [IBM MQ exporter](https://github.com/ibm-messaging/mq-metric-samples/tree/master/cmd/mq_prometheus)
    * [Kafka exporter](https://github.com/danielqsj/kafka_exporter)
+   * [KafkaJS exporter](https://github.com/christiangalsterer/kafkajs-prometheus-exporter)
    * [NATS exporter](https://github.com/nats-io/prometheus-nats-exporter)
    * [NSQ exporter](https://github.com/lovoo/nsq_exporter)
    * [Mirth Connect exporter](https://github.com/vynca/mirth_exporter)

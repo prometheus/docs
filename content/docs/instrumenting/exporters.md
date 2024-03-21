@@ -165,6 +165,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [AWS Cost Exporter](https://github.com/opensourceelectrolux/aws-cost-exporter)
    * [Azure Cost Exporter](https://github.com/opensourceelectrolux/azure-cost-exporter)
    * [Kubernetes Cost Exporter](https://github.com/opensourceelectrolux/kubernetes-cost-exporter)
+   * [OpenCost Exporter](https://github.com/prometheus-community/helm-charts/tree/main/charts/prometheus-opencost-exporter)
 
 ### Other monitoring systems
    * [Akamai Cloudmonitor exporter](https://github.com/ExpressenAB/cloudmonitor_exporter)

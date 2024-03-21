@@ -42,7 +42,7 @@ concurrent requests.
 Client library usage documentation for gauges:
 
    * [Go](http://godoc.org/github.com/prometheus/client_golang/prometheus#Gauge)
-   * [Java](https://github.com/prometheus/client_java#gauge)
+   * [Java](https://prometheus.github.io/client_java/getting-started/metric-types/#gauge)
    * [Python](https://github.com/prometheus/client_python#gauge)
    * [Ruby](https://github.com/prometheus/client_ruby#gauge)
    * [.Net](https://github.com/prometheus-net/prometheus-net#gauges)

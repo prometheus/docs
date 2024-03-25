@@ -48,6 +48,7 @@ In case a member leaves, the [offboarding](#offboarding) procedure is applied.
 
 The current team members are:
 
+* Arthur Sens ([Coralogix](https://coralogix.com/))
 * Augustin Husson ([Amadeus](https://amadeus.com))
 * Bartłomiej Płotka ([Google](https://www.google.com/))
 * Ben Kochie ([Reddit](https://www.redditinc.com/))

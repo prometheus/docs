@@ -494,7 +494,7 @@ Often people combine these with a specific service discovery. Check out the [con
 
 That is it. Restart the Prometheus docker container and look at your [metrics](http://localhost:9090/graph?g0.range_input=30m&g0.stacked=0&g0.expr=probe_http_duration_seconds&g0.tab=0). Pay attention that you selected the period of time when the metrics were actually collected.
 
-## Advanced querying. Multiple targets and multiple modules in one Prometheus job
+## Example configuration: Multiple targets and multiple modules in one Prometheus job
 
 In the example above we used a single blackbox exporter probe module only. The `module` is specified as a job-level parameter of the `blackbox-http` job. Since it is a list, it can contain multiple elements, but the blackbox exporter only uses the first one.
 However, we can use multiple blackbox exporter modules in a single job if we need to probe separate groups of targets with appropriate modules for each.

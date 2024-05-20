@@ -116,6 +116,7 @@ you to integrate it with your existing systems or build on top of it.
 
 ## Other
 
+  * [Alert analysis](https://github.com/m0nikasingh/am2ch): Stores alerts into a ClickHouse database and provides alert analysis dashboards
   * [karma](https://github.com/prymitive/karma): alert dashboard
   * [PushProx](https://github.com/RobustPerception/PushProx): Proxy to transverse NAT and similar network setups
   * [Promdump](https://github.com/ihcsim/promdump): kubectl plugin to dump and restore data blocks

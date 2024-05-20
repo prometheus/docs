@@ -48,6 +48,7 @@ In case a member leaves, the [offboarding](#offboarding) procedure is applied.
 
 The current team members are:
 
+* Arthur Sens ([Coralogix](https://coralogix.com/))
 * Augustin Husson ([Amadeus](https://amadeus.com))
 * Bartłomiej Płotka ([Google](https://www.google.com/))
 * Ben Kochie ([Reddit](https://www.redditinc.com/))
@@ -68,7 +69,7 @@ The current team members are:
 * Josh Abreu ([Grafana Labs](https://grafana.com/))
 * Julius Volz ([PromLabs](https://promlabs.com/))
 * Julien Pivotto ([Inuits](https://inuits.eu/))
-* Kemal Akkoyun ([Polar Signals](https://www.polarsignals.com/))
+* Kemal Akkoyun ([Fal](https://fal.ai))
 * Matthias Loibl ([Polar Signals](https://www.polarsignals.com/))
 * Matthias Rampke ([Chronosphere](https://chronosphere.io/))
 * Max Inden ([Protocol Labs](https://protocol.ai/))

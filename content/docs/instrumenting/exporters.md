@@ -30,7 +30,9 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
 [Cassandra](http://cassandra.apache.org/).
 
 ### Databases
+
    * [Aerospike exporter](https://github.com/aerospike/aerospike-prometheus-exporter)
+   * [AWS RDS exporter](https://github.com/qonto/prometheus-rds-exporter)
    * [ClickHouse exporter](https://github.com/f1yegor/clickhouse_exporter)
    * [Consul exporter](https://github.com/prometheus/consul_exporter) (**official**)
    * [Couchbase exporter](https://github.com/blakelead/couchbase_exporter)
@@ -217,8 +219,10 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [Dnsmasq exporter](https://github.com/google/dnsmasq_exporter)
    * [eBPF exporter](https://github.com/cloudflare/ebpf_exporter)
    * [Ethereum Client exporter](https://github.com/31z4/ethereum-prometheus-exporter)
+   * [File statistics exporter](https://github.com/michael-doubez/filestat_exporter)
    * [JFrog Artifactory Exporter](https://github.com/peimanja/artifactory_exporter)
    * [Hostapd Exporter](https://github.com/Fundacio-i2CAT/hostapd_prometheus_exporter)
+   * [IPsec exporter](https://github.com/torilabs/ipsec-prometheus-exporter)
    * [IRCd exporter](https://github.com/dgl/ircd_exporter)
    * [Linux HA ClusterLabs exporter](https://github.com/ClusterLabs/ha_cluster_exporter)
    * [JMeter plugin](https://github.com/johrstrom/jmeter-prometheus-plugin)
@@ -240,6 +244,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [PHP-FPM exporter](https://github.com/bakins/php-fpm-exporter)
    * [PowerDNS exporter](https://github.com/ledgr/powerdns_exporter)
    * [Podman exporter](https://github.com/containers/prometheus-podman-exporter)
+   * [Prefect2 exporter](https://github.com/pathfinder177/prefect2-prometheus-exporter)
    * [Process exporter](https://github.com/ncabatoff/process-exporter)
    * [rTorrent exporter](https://github.com/mdlayher/rtorrent_exporter)
    * [Rundeck exporter](https://github.com/phsmith/rundeck_exporter)

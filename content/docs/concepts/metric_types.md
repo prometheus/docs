@@ -26,7 +26,7 @@ Client library usage documentation for counters:
 
    * [Go](http://godoc.org/github.com/prometheus/client_golang/prometheus#Counter)
    * [Java](https://github.com/prometheus/client_java#counter)
-   * [Python](https://github.com/prometheus/client_python#counter)
+   * [Python](https://prometheus.github.io/client_python/instrumenting/counter/)
    * [Ruby](https://github.com/prometheus/client_ruby#counter)
    * [.Net](https://github.com/prometheus-net/prometheus-net#counters)
 
@@ -43,7 +43,7 @@ Client library usage documentation for gauges:
 
    * [Go](http://godoc.org/github.com/prometheus/client_golang/prometheus#Gauge)
    * [Java](https://github.com/prometheus/client_java#gauge)
-   * [Python](https://github.com/prometheus/client_python#gauge)
+   * [Python](https://prometheus.github.io/client_python/instrumenting/gauge/)
    * [Ruby](https://github.com/prometheus/client_ruby#gauge)
    * [.Net](https://github.com/prometheus-net/prometheus-net#gauges)
 
@@ -81,7 +81,7 @@ Client library usage documentation for histograms:
 
    * [Go](http://godoc.org/github.com/prometheus/client_golang/prometheus#Histogram)
    * [Java](https://github.com/prometheus/client_java#histogram)
-   * [Python](https://github.com/prometheus/client_python#histogram)
+   * [Python](https://prometheus.github.io/client_python/instrumenting/histogram/)
    * [Ruby](https://github.com/prometheus/client_ruby#histogram)
    * [.Net](https://github.com/prometheus-net/prometheus-net#histogram)
 
@@ -107,6 +107,6 @@ Client library usage documentation for summaries:
 
    * [Go](http://godoc.org/github.com/prometheus/client_golang/prometheus#Summary)
    * [Java](https://github.com/prometheus/client_java#summary)
-   * [Python](https://github.com/prometheus/client_python#summary)
+   * [Python](https://prometheus.github.io/client_python/instrumenting/summary/)
    * [Ruby](https://github.com/prometheus/client_ruby#summary)
    * [.Net](https://github.com/prometheus-net/prometheus-net#summary)

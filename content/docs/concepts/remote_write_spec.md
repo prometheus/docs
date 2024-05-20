@@ -196,7 +196,7 @@ The spec is intended to describe how the following components interact:
 - [Mimir](https://github.com/grafana/mimir) (as a "receiver")
 - [OpenTelemetry Collector](https://github.com/open-telemetry/opentelemetry-collector-releases/) (as a ["sender"](https://github.com/open-telemetry/opentelemetry-collector-contrib/tree/main/exporter/prometheusremotewriteexporter#readme) and eventually as a "receiver")
 - [Thanos](https://thanos.io/tip/components/receive.md/) (as a "receiver")
-- Vector (as a ["sender"](https://vector.dev/docs/reference/sinks/prometheus_remote_write/) and a ["receiver"](https://vector.dev/docs/reference/sources/prometheus_remote_write/))
+- Vector (as a ["sender"](https://vector.dev/docs/reference/configuration/sinks/prometheus_remote_write/) and a ["receiver"](https://vector.dev/docs/reference/configuration/sources/prometheus_remote_write/))
 - [VictoriaMetrics](https://github.com/VictoriaMetrics/VictoriaMetrics) (as a ["receiver"](https://docs.victoriametrics.com/#prometheus-setup))
 
 ### FAQ

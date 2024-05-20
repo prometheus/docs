@@ -30,6 +30,7 @@ Unofficial third-party client libraries:
 * [Elixir](https://github.com/deadtrickster/prometheus.ex)
 * [Erlang](https://github.com/deadtrickster/prometheus.erl)
 * [Haskell](https://github.com/fimad/prometheus-haskell)
+* [Julia](https://github.com/fredrikekre/Prometheus.jl)
 * [Lua](https://github.com/knyar/nginx-lua-prometheus) for Nginx
 * [Lua](https://github.com/tarantool/metrics) for Tarantool
 * [.NET / C#](https://github.com/prometheus-net/prometheus-net)

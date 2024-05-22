@@ -25,15 +25,7 @@ The remote write protocol is designed to make stateless implementations of the s
 
 The remote write protocol contains opportunities for batching, e.g. sending multiple samples for different series in a single request. It is not expected that multiple samples for the same series will be commonly sent in the same request, although there is support for this in the protocol.
 
-<!---
-TODO(bwplotka): Challenge last sentence (e.g. OTel coll usage)?
--->
-The remote write protocol is not intended for use by applications to push metrics to Prometheus remote-write-compatible Receiver. It is intended that a Prometheus remote-write-compatible sender scrapes instrumented applications or exporters and sends remote write messages to a server.
-
-<!---
-TODO(bwplotka): Add support for 2.0 to those suites 
--->
-A test suite can be found at https://github.com/prometheus/compliance/tree/main/remote_write_sender.
+A test suite can be found at https://github.com/prometheus/compliance/tree/main/remote_write_sender. The test's 2.0 compatibility [is in progress](https://github.com/prometheus/compliance/issues/101).
 
 ### Glossary
 
@@ -50,30 +42,28 @@ For the purposes of this document the following definitions MUST be followed:
 
 ### Protocol
 
-The Remote Write Protocol MUST consist of RPCs with the request body encoded using a Google Protobuf 3 message. The protobuf encoding MUST use either of the following schemas: 
+The Remote Write Protocol MUST consist of RPCs with the request body encoded using a Google Protobuf 3 message and then compressed.
 
-<!---
-TODO(bwplotka): Do we deprecate it?
--->
-* [`prometheus.WriteRequest`](./remote_write_spec.md#protocol) introduced in the Remote Write 1.0 specification. As of 2.0 the `prometheus.WriteRequest` message is deprecated.
-* `io.prometheus.write.v2.Request` introduced in this specification and defined [below](#ioprometheuswritev2request-proto-schema). Senders SHOULD use `io.prometheus.write.v2.Request` when possible.
+The protobuf encoding MUST use either of the following schemas: 
+
+* [`prometheus.WriteRequest`](./remote_write_spec.md#protocol) introduced in the Remote Write 1.0 specification. As of 2.0 the `prometheus.WriteRequest` message is deprecated. It SHOULD be used only for compatibility reasons. Receiver MAY NOT support `prometheus.WriteRequest`.
+* `io.prometheus.write.v2.Request` introduced in this specification and defined [below](#ioprometheuswritev2request-proto-schema). Senders and Receivers SHOULD use `io.prometheus.write.v2.Request` when possible. Receiver MUST support `io.prometheus.write.v2.Request`.
+
+The encoded message MUST be compressed with [Google’s Snappy](https://github.com/google/snappy). The block format MUST be used -- the framed format MUST NOT be used.
 
 Sender MUST send encoded and compresses proto message in the body of an HTTP POST request and send it to the Receiver via HTTP at a provided URL path. The Receiver MAY specify any HTTP URL path to receive metrics.
 
-Sender MUST send the following "reserved" headers with the HTTP request:
+Sender MUST send the following reserved headers with the HTTP request:
 
 * `Content-Encoding: <compression>`
 
   Content encoding request header MUST follow [the RFC 9110](https://www.rfc-editor.org/rfc/rfc9110.html#name-content-encoding). Sender MUST use the `snappy` value. More compression algorithms might come in 2.x or beyond.
 
 * `Content-Type: application/x-protobuf` or `Content-Type: application/x-protobuf;proto=<fully qualified name>`
-  
-  <!---
-  TODO(bwplotka): The framing here is a bit inconsistent with deprecation policy. We can either mention sender MUST use either 1.0 or 2.0 message. Or we can say sender MUST use 2.0 message and it MAY/SHOULD use 1.0 message against 1.x receiver. What do we prefer?
-  -->
+
   Content type request header MUST follow [the RFC 9110](https://www.rfc-editor.org/rfc/rfc9110.html#name-content-type). Sender MUST use `application/x-protobuf` as the only media type. Sender MAY add `;proto=` parameter to the header's value to indicate the fully qualified name of the protobuf message (schema) that was used, from the two mentioned above. As a result, Sender MUST send any of the three supported header values:
 
-  For the message introduced in PRW 1.0, identified by `prometheus.WriteRequest`:
+  For the deprecated message introduced in PRW 1.0, identified by `prometheus.WriteRequest`:
     * `Content-Type: application/x-protobuf`
     * `Content-Type: application/x-protobuf;proto=prometheus.WriteRequest`
   For the message introduced in PRW 2.0, identified by `io.prometheus.write.v2.Request`:
@@ -82,16 +72,11 @@ Sender MUST send the following "reserved" headers with the HTTP request:
   Sender SHOULD use `Content-Type: application/x-protobuf`, for backward compatibility, when talking to 1.x Receiver. Sender SHOULD use `Content-Type: application/x-protobuf;proto=io.prometheus.write.v2.Request` when talking to Receiver supporting 2.x. More proto messages might come in 2.x or beyond.
 
 * `User-Agent: <name & version of the sender>`
-* `X-Prometheus-Remote-Write-Version: <remote write specificiation version the sender follows>`
+* `X-Prometheus-Remote-Write-Version: <remote write spec major and minor version>`
 
-  Sender SHOULD use `X-Prometheus-Remote-Write-Version: 0.1.0` for backward compatibility, when using 1.0 proto message.
+  Sender SHOULD use `X-Prometheus-Remote-Write-Version: 0.1.0` for backward compatibility, when talking to 1.x Receiver 1.0. Otherwise, Sender SHOULD use the newest remote write version it is compatible with e.g. `X-Prometheus-Remote-Write-Version: 2.0`
 
-Sender MAY allow users to send custom HTTP headers; they MUST NOT allow users to configure them in such a way as to send reserved headers.
-
-<!---
-TODO(bwplotka): Kind of repeated statement, feedback welcome how to structure it.
--->
-The remote write request in the body of the HTTP POST MUST be compressed with [Google’s Snappy](https://github.com/google/snappy). The block format MUST be used -- the framed format MUST NOT be used. The remote write request MUST be encoded using Google Protobuf 3, and MUST use either of the schemas defined above. 
+Sender MAY allow users to add custom HTTP headers; they MUST NOT allow users to configure them in such a way as to send reserved headers.
 
 #### `io.prometheus.write.v2.Request` Proto Schema
 
@@ -106,10 +91,14 @@ The simplified version of the new `io.prometheus.write.v2.Request` is presented 
 // Request represents a request to write the given timeseries to a remote destination.
 message Request {
   // symbols contains a de-duplicated array of string elements used for various
-  // items in a Request message, like labels and metadata items. To decode
-  // each of those items, referenced, by "ref(s)" suffix, you need to lookup the
-  // actual string by index from symbols array. The order of strings is up to
-  // the client, server should not assume any particular encoding.
+  // items in a Request message, like labels and metadata items. For the sender convenience
+  // around empty values for optional fields like unit_ref, symbols array MUST start with
+  // empty string.
+  //
+  // To decode each of the symbolized strings, referenced, by "ref(s)" suffix, you
+  // need to lookup the actual string by index from symbols array. The order of
+  // strings is up to the sender. The receiver should not assume any particular encoding.
+  repeated string symbols = 1;
   repeated string symbols = 1;
   // timeseries represents an array of distinct series with 0 or more samples.
   repeated TimeSeries timeseries = 2;
@@ -119,7 +108,7 @@ message Request {
 message TimeSeries {
   // labels_refs is a list of label name-value pair references, encoded
   // as indices to the Request.symbols array. This list's length is always
-  // a multiple of two, and the underlying labels should be sorted.
+  // a multiple of two, and the underlying labels should be sorted lexicographically.
   //
   // Note that there might be multiple TimeSeries objects in the same
   // Requests with the same labels e.g. for different exemplars, metadata
@@ -127,7 +116,7 @@ message TimeSeries {
   repeated uint32 labels_refs = 1;
 
   // Timeseries messages can either specify samples or (native) histogram samples
-  // (histogram field), but not both. For typical clients (real-time metric
+  // (histogram field), but not both. For typical sender (real-time metric
   // streaming), in healthy cases, there will be only one sample or histogram.
   //
   // Samples and histograms are sorted by timestamp (older first).
@@ -142,7 +131,7 @@ message TimeSeries {
 
   // created_timestamp represents an optional created timestamp associated with
   // this series' samples in ms format, typically for counter or histogram type
-  // metrics. Note that some servers might require this and in return fail to
+  // metrics. Note that some receivers might require this and in return fail to
   // ingest such samples within the Request.
   //
   // For Go, see github.com/prometheus/prometheus/model/timestamp/timestamp.go
@@ -159,7 +148,7 @@ message TimeSeries {
 message Exemplar {
   // labels_refs is a list of label name-value pair references, encoded
   // as indices to the Request.symbols array. This list's len is always
-  // a multiple of 2, and the underlying labels should be sorted.
+  // a multiple of 2, and the underlying labels should be sorted lexicographically.
   repeated uint32 labels_refs = 1;
   double value = 2;
   int64 timestamp = 3;
@@ -178,7 +167,7 @@ message Sample {
 // Metadata represents the metadata associated with the given series' samples.
 message Metadata {
   enum MetricType {
-    METRIC_TYPE_UNSPECIFIED        = 0;
+    METRIC_TYPE_UNSPECIFIED    = 0;
     METRIC_TYPE_COUNTER        = 1;
     METRIC_TYPE_GAUGE          = 2;
     METRIC_TYPE_HISTOGRAM      = 3;
@@ -189,19 +178,20 @@ message Metadata {
   }
   MetricType type = 1;
   // help_ref is a reference to the Request.symbols array representing help
-  // text for the metric.
+  // text for the metric. Help is optional, reference should point to empty string in
+  // such a case.
   uint32 help_ref = 3;
   // unit_ref is a reference to the Request.symbols array representing unit
-  // for the metric.
+  // for the metric. Unit is optional, reference should point to empty string in
+  // such a case.
   uint32 unit_ref = 4;
 }
 
 // A native histogram, also known as a sparse histogram.
+// See https://github.com/prometheus/prometheus/blob/remote-write-2.0/prompb/io/prometheus/write/v2/types.proto#L142
+// for a full message that follows the native histogram spec for both sparse
+// and exponential, as well as, custom bucketing.
 message Histogram { ... }
-
-// A BucketSpan defines a number of consecutive buckets with their
-// offset.
-message BucketSpan { ... }
 ```
 
 All timestamps MUST be int64 counted as milliseconds since the Unix epoch. Sample's values MUST be float64.
@@ -210,11 +200,8 @@ For every `TimeSeries` message:
 
 * Label references MUST be provided.
 * At least one element in Samples or in Histograms MUST be provided. For series which (rarely) would mix float and histogram samples, a separate `TimeSeries` message MUST be used.
-<!---
-TODO(bwplotka): We have some inconsistency here. In gdoc we talked this should be SHOULD. But proto has it as MUST (?). What do we want at the end? What's wrong with MUST here?
--->
-* Metadata MUST be provided.
-* Exemplars SHOULD be provided, if they exist.
+* Metadata fields SHOULD be provided.
+* Exemplars SHOULD be provided, if they exist for a series.
 * Created timestamp SHOULD be provided for metrics that follow counter semantics (e.g. counters and histograms).
 
 The following subsections define some schema elements in details.
@@ -223,27 +210,20 @@ The following subsections define some schema elements in details.
 
 The `io.prometheus.write.v2.Request` proto schema is designed to [intern all strings](https://en.wikipedia.org/wiki/String_interning) for the proven additional compression and memory efficiency gains on top of the standard compressions.
 
-Symbols table containing deduplicated strings used in series and exemplar labels, metadata strings MUST be provided. References MUST point to the existing index in the Symbols string array.
+Symbols table containing deduplicated strings used in series and exemplar labels, metadata strings MUST be provided. The first element of symbols table MUST be an empty string. References MUST point to the existing index in the Symbols string array.
 
 #### Series Labels
 
 The complete set of labels MUST be sent with each Sample or Histogram sample. Additionally, the label set associated with samples:
 
-- SHOULD contain a `__name__` label.
-- MUST NOT contain repeated label names.
-- MUST have label names sorted in lexicographical order.
-- MUST NOT contain any empty label names or values.
+* SHOULD contain a `__name__` label.
+* MUST NOT contain repeated label names.
+* MUST have label names sorted in lexicographical order.
+* MUST NOT contain any empty label names or values.
 
-Sender MUST only send valid metric names, label names, and label values:
+Metric names, label names, and label values MAY be any sequence of UTF-8 characters. Receiver MAY reject some series with metric names and label names characters that does not follow [previous patterns](https://prometheus.io/docs/concepts/remote_write_spec/#:~:text=Metric%20names%20MUST,UTF%2D8%20characters%20) given [the UTF-8 support is still in progress](https://github.com/prometheus/proposals/blob/main/proposals/2023-08-21-utf8.md).
 
-<!---
-TODO(bwplotka): Add mention for UTF-8 support going forward, see https://docs.google.com/document/d/1PljkX3YLLT-4f7MqrLt7XCVPG3IsjRREzYrUzBxCPV0/edit?disco=AAAA4gSqQ7g
--->
-- Metric names MUST adhere to the regex `[a-zA-Z_:]([a-zA-Z0-9_:])*`.
-- Label names MUST adhere to the regex `[a-zA-Z_]([a-zA-Z0-9_])*`.
-- Label values MAY be any sequence of UTF-8 characters .
-
-Receiver MAY impose limits on the number and length of labels, but this will be receiver-specific and is out of scope for this document.
+Receiver also MAY impose limits on the number and length of labels, but this is receiver-specific and is out of scope for this document.
 
 Label names beginning with "__" are RESERVED for system usage and SHOULD NOT be used, see [Prometheus Data Model](https://prometheus.io/docs/concepts/data_model/).
 
@@ -271,10 +251,11 @@ Metadata SHOULD follow the official guidelines for [TYPE](https://prometheus.io/
 
 #### Exemplars
 
-<!---
-TODO(bwplotka): Anything to say here?
--->
-TBD
+Each exemplar, if attached to a `TimeSeries`:
+
+* MUST contain at least one label set, so two references to symbols table.
+* MUST contain value.
+* MAY contain timestamp.
 
 #### Created Timestamp
 
@@ -291,7 +272,7 @@ The following subsections specify Sender and Receiver semantics around write err
 
 #### Partial Write
 
-Sender SHOULD use Prometheus Remote Write to request write of multiple samples, across multiple series. As a result, Receiver MAY ingest valid samples within a write request that contains invalid or otherwise unwritten samples, which represents a partial write case.
+Sender SHOULD use Prometheus Remote Write to send samples for multiple series in a single request. As a result, Receiver MAY ingest valid samples within a write request that contains invalid or otherwise unwritten samples, which represents a partial write case.
 
 In a partial write case, Receiver MUST NOT return HTTP 200 status code. Receiver MUST provide a human-readable error message in the response body. Sender MUST NOT try and interpret the error message, and SHOULD log it as is.
 
@@ -301,17 +282,9 @@ Receiver MAY NOT support certain content types or encodings defined in [the Prot
 
 Sender SHOULD expect [400 HTTP Bad Request](https://www.rfc-editor.org/rfc/rfc9110.html#name-400-bad-request) for the above reasons from the 1.x Receiver, for backward compatibility.
 
-<!---
-TODO(bwplotka): Note sure if worth mentioning given we decided to not include auto negotiation logic in 2.0. I think I would delete it.
--->
-Sender MAY retry write requests on 415 HTTP status code, with different content type and compression settings.
-
 #### Invalid Samples
 
-<!---
-TODO(bwplotka): This wording assumes metadata is optional, which I think it should NOT be.
--->
-Receiver MAY NOT support certain metric types or samples (e.g. Receiver might reject sample without metadata or without created timestamp, while another Receiver might accept such sample.). It’s up to the Receiver what sample is invalid. Receiver MUST return a [400 HTTP Bad Request](https://www.rfc-editor.org/rfc/rfc9110.html#name-400-bad-request) status code for write requests that contain any invalid samples, unless the [partial retryable write](#retries-on-partial-writes) occurs.
+Receiver MAY NOT support certain metric types or samples (e.g. Receiver might reject sample without metadata type specified or without created timestamp, while another Receiver might accept such sample.). It’s up to the Receiver what sample is invalid. Receiver MUST return a [400 HTTP Bad Request](https://www.rfc-editor.org/rfc/rfc9110.html#name-400-bad-request) status code for write requests that contain any invalid samples, unless the [partial retryable write](#retries-on-partial-writes) occurs.
 
 Sender MUST NOT retry on 4xx HTTP (other than 429 and 415) status codes, which MUST be used by Receiver to indicate that the write will never be able to succeed and should not be retried.
 
@@ -329,27 +302,23 @@ No partial retry-ability is specified (ability for receiver to ask for retry on 
 
 Similarly, Receiver MAY return a HTTP 5xx or 429 status code on partial write or [partial invalid sample cases](#partial-write), when it expects Sender to retry the whole request.
 
-### Backward and forward compatibility
+### Backward and Forward Compatibility
 
-TBD
+The protocol follows [semantic versioning 2.0](https://semver.org/): any 2.x compatible Receiver MUST be able to read any 2.x compatible sender and so on. Breaking/backwards incompatible changes will result in a 3.x version of the spec.
 
-<!---
-TODO(bwplotka): TBD, below is copy of 1.x
-The protocol follows [semantic versioning 2.0](https://semver.org/): any 1.x compatible Receiver MUST be able to read any 1.x compatible sender and so on.  Breaking/backwards incompatible changes will result in a 2.x version of the spec.
+The proto formats itself are forward / backward compatible, in some respects:
 
-The proto format itself is forward / backward compatible, in some respects:
+* Removing fields from the proto requirements mean a major version bump.
+* Adding (optional) fields will be a minor version bump.
 
-- Removing fields from the proto will mean a major version bump.
-- Adding (optional) fields will be a minor version bump.
+In other words, this means that future minor versions of 2.x MAY add new optional fields to `io.prometheus.write.v2.Request`, new compressions, content types (wire formats) and negotiation mechanisms, as long as they are backward compatible (e.g. optional to both Receivers and Senders).
 
-Negotiation:
+### 2.x vs 1.x Compatibility
 
-- Sender MUST send the version number in a headers.
-- Receiver MAY return the highest version number they support in a response header ("X-Prometheus-Remote-Write-Version").
-- Sender who wish to send in a format >1.x MUST start by sending an empty 1.x, and see if the response says the receiver supports something else.  The Sender MAY use any supported version .  If there is no version header in the response, Sender MUST assume 1.x compatibility only.
--->
+The 2.x protocol is breaking compatibility with 1.x by introducing a new `io.prometheus.write.v2.Request` content type (wire format) and deprecating the `prometheus.WriteRequest`.
 
-Receiver MAY ingest valid samples within a write request that otherwise contains invalid samples. Receiver MUST return a HTTP 400 status code ("Bad Request") for write requests that contain any invalid samples. Receiver SHOULD provide a human readable error message in the response body. Sender MUST NOT try and interpret the error message, and SHOULD log it as is.
+2.x senders MAY support 1.x... TBD explain.
+
 
 ## Out of Scope
 

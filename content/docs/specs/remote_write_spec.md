@@ -183,7 +183,7 @@ This section contains speculative plans that are not considered part of protocol
 ## Related
 ### Compatible Senders and Receivers
 
-The spec is intended to describe how the following components interact:
+The spec is intended to describe how the following components interact (as of April 2023):
 
 - [Prometheus](https://github.com/prometheus/prometheus/tree/master/storage/remote) (as both a "sender" and a "receiver")
 - [Avalanche](https://github.com/prometheus-community/avalanche) (as a "sender") - A Load Testing Tool Prometheus Metrics.

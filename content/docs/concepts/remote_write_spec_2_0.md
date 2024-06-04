@@ -9,9 +9,9 @@ sort_rank: 4
 * Status: Proposed
 * Date: May 2024
 
-The remote write specification, in general, is intended to document the standard for how Prometheus and Prometheus remote-write-compatible agents send data to a Prometheus or Prometheus remote-write compatible receivers.
+The remote write specification, in general, is intended to document the standard for how Prometheus and Prometheus Remote-Write-compatible agents send data to a Prometheus or Prometheus Remote-Write compatible receivers.
 
-This document is intended to define a second version of the [Prometheus Remote Write](./remote_write_spec.md) API with minor changes to protocol and semantics. This second version also adds a new wire format with new features enabling more use cases and wider adoption on top of performance and cost savings. Finally, this spec outlines how to implement backward compatible senders and receivers (even under a single endpoint) using existing basic content negotiation request headers. More advanced, automatic content negotiation mechanisms might come in future versions, if needed. For the rationales behind the 2.0 specification, see [the formal proposal](https://github.com/prometheus/proposals/pull/35).
+This document is intended to define a second version of the [Prometheus Remote-Write](./remote_write_spec.md) API with minor changes to protocol and semantics. This second version adds a new Proto Message with new features enabling more use cases and wider adoption on top of performance and cost savings. Second version also deprecates the previous Proto Message from a [1.0 Remote-Write specification](./remote_write_spec.md#protocol). Finally, this spec outlines how to implement backward compatible senders and receivers (even under a single endpoint) using existing basic content negotiation request headers. More advanced, automatic content negotiation mechanisms might come in a future minor version, if needed. For the rationales behind the 2.0 specification, see [the formal proposal](https://github.com/prometheus/proposals/pull/35).
 
 The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED",  "MAY", and "OPTIONAL" in this document are to be interpreted as described in [RFC 2119](https://datatracker.ietf.org/doc/html/rfc2119).
 
@@ -19,11 +19,14 @@ The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "S
 
 ### Background
 
-The remote write protocol is designed to make it possible to reliably propagate samples in real-time from a sender to a receiver, without loss.
+The Remote-Write protocol is designed to make it possible to reliably propagate samples in real-time from a sender to a receiver, without loss.
 
-The remote write protocol is designed to make stateless implementations of the server possible; as such there are little-to-no inter-message references.  As such the protocol is not considered "streaming." To achieve a streaming effect multiple messages should be sent over the same connection using e.g. HTTP/1.1 or HTTP/2. "Fancy" technologies such as gRPC were considered, but at the time were not widely adopted, and it was challenging to expose gRPC services to the internet behind load balancers such as an AWS EC2 ELB.
+<!---
+For the detailed rationales behind each 2.0 Remote-Write decision, see: https://github.com/prometheus/proposals/blob/alexg/remote-write-20-proposal/proposals/2024-04-09_remote-write-20.md
+-->
+The Remote-Write protocol is designed to make stateless implementations of the server possible; as such there are little-to-no inter-message references. As such the protocol is not considered "streaming." To achieve a streaming effect multiple messages should be sent over the same connection using e.g. HTTP/1.1 or HTTP/2. "Fancy" technologies such as gRPC were considered, but at the time were not widely adopted, and it was challenging to expose gRPC services to the internet behind load balancers such as an AWS EC2 ELB.
 
-The remote write protocol contains opportunities for batching, e.g. sending multiple samples for different series in a single request. It is not expected that multiple samples for the same series will be commonly sent in the same request, although there is support for this in the protocol.
+The Remote-Write protocol contains opportunities for batching, e.g. sending multiple samples for different series in a single request. It is not expected that multiple samples for the same series will be commonly sent in the same request, although there is support for this in the Proto Message.
 
 A test suite can be found at https://github.com/prometheus/compliance/tree/main/remote_write_sender. The test's 2.0 compatibility [is in progress](https://github.com/prometheus/compliance/issues/101).
 
@@ -31,8 +34,12 @@ A test suite can be found at https://github.com/prometheus/compliance/tree/main/
 
 For the purposes of this document the following definitions MUST be followed:
 
-* a "Sender" is something that sends Prometheus Remote Write data.
-* a "Receiver" is something that receives Prometheus Remote Write data.
+* a "Remote-Write" is the name of this Prometheus protocol.
+* a "Protocol" is a communication specification that enables client and server to transfer metrics. This includes content type definitions, but also compressions, negotiation, retry mechanisms and so on.
+* a "Proto Message" refers to the [content type](https://www.rfc-editor.org/rfc/rfc9110.html#name-content-type) definition of the data structure Remote-Write is specifying for this Protocol. Since this specification uses [Google Protocol Buffers ("protobuf")](https://protobuf.dev/) exclusively, the schema is defined in a ["proto" file](https://protobuf.dev/programming-guides/proto3/) and represented by a single Protobuf ["message"](https://protobuf.dev/programming-guides/proto3/#simple).
+* a "Wire Format" is the format of the data as it travels on the wire (i.e. in a network). In case of Remote-Write this is always the compressed binary protobuf format.
+* a "Sender" is something that sends Remote-Write data.
+* a "Receiver" is something that receives Remote-Write data.
 * a "Sample" is a pair of (timestamp, value).
 * a "Histogram" is a pair of (timestamp, [histogram value](https://github.com/prometheus/docs/blob/b9657b5f5b264b81add39f6db2f1df36faf03efe/content/docs/concepts/native_histograms.md)).
 * a "Label" is a pair of (key, value).
@@ -42,26 +49,34 @@ For the purposes of this document the following definitions MUST be followed:
 
 ### Protocol
 
-The Remote Write Protocol MUST consist of RPCs with the request body encoded using a Google Protobuf 3 message and then compressed.
+The Remote-Write Protocol MUST consist of RPCs with the request body serialized using a Google Protocol Buffers and then compressed.
 
-The protobuf encoding MUST use either of the following schemas: 
-
-* [`prometheus.WriteRequest`](./remote_write_spec.md#protocol) introduced in the Remote Write 1.0 specification. As of 2.0 the `prometheus.WriteRequest` message is deprecated. It SHOULD be used only for compatibility reasons. Sender and Receiver MAY NOT support `prometheus.WriteRequest`.
+<!---
+Rationales: https://github.com/prometheus/proposals/blob/alexg/remote-write-20-proposal/proposals/2024-04-09_remote-write-20.md#a-new-protobuf-message-identified-by-fully-qualified-name-old-one-deprecated
+-->
+The protobuf serialization MUST use either of the following Proto Messages: 
+* [`prometheus.WriteRequest`](./remote_write_spec.md#protocol) introduced in the Remote-Write 1.0 specification. As of 2.0 the `prometheus.WriteRequest` message is deprecated. It SHOULD be used only for compatibility reasons. Sender and Receiver MAY NOT support `prometheus.WriteRequest`.
 * `io.prometheus.write.v2.Request` introduced in this specification and defined [below](#ioprometheuswritev2request-proto-schema). Senders and Receivers SHOULD use `io.prometheus.write.v2.Request` when possible. Sender and Receiver MUST support `io.prometheus.write.v2.Request`.
 
-The encoded message MUST be compressed with [Google’s Snappy](https://github.com/google/snappy). The block format MUST be used -- the framed format MUST NOT be used.
+The Proto Message MUST use binary Wire Format. Then, MUST be compressed with [Google’s Snappy](https://github.com/google/snappy). The block format MUST be used -- the framed format MUST NOT be used.
 
-Sender MUST send encoded and compressed proto message in the body of an HTTP POST request and send it to the Receiver via HTTP at a provided URL path. The Receiver MAY specify any HTTP URL path to receive metrics.
+Sender MUST send serialized and compressed Proto Message in the body of an HTTP POST request and send it to the Receiver via HTTP at a provided URL path. The Receiver MAY specify any HTTP URL path to receive metrics.
 
+<!---
+Rationales: https://github.com/prometheus/proposals/blob/alexg/remote-write-20-proposal/proposals/2024-04-09_remote-write-20.md#basic-content-negotiation-built-on-what-we-have
+-->
 Sender MUST send the following reserved headers with the HTTP request:
 
 * `Content-Encoding: <compression>`
 
+<!---
+Rationales: https://github.com/prometheus/proposals/blob/alexg/remote-write-20-proposal/proposals/2024-04-09_remote-write-20.md#no-new-compression-added--yet-
+-->
   Content encoding request header MUST follow [the RFC 9110](https://www.rfc-editor.org/rfc/rfc9110.html#name-content-encoding). Sender MUST use the `snappy` value. Receiver MUST support `snappy` compression. New, optional compression algorithms might come in 2.x or beyond.
 
 * `Content-Type: application/x-protobuf` or `Content-Type: application/x-protobuf;proto=<fully qualified name>`
 
-  Content type request header MUST follow [the RFC 9110](https://www.rfc-editor.org/rfc/rfc9110.html#name-content-type). Sender MUST use `application/x-protobuf` as the only media type. Sender MAY add `;proto=` parameter to the header's value to indicate the fully qualified name of the protobuf message (schema) that was used, from the two mentioned above. As a result, Sender MUST send any of the three supported header values:
+  Content type request header MUST follow [the RFC 9110](https://www.rfc-editor.org/rfc/rfc9110.html#name-content-type). Sender MUST use `application/x-protobuf` as the only media type. Sender MAY add `;proto=` parameter to the header's value to indicate the fully qualified name of the Proto Message that was used, from the two mentioned above. As a result, Sender MUST send any of the three supported header values:
 
   For the deprecated message introduced in PRW 1.0, identified by `prometheus.WriteRequest`:
     * `Content-Type: application/x-protobuf`
@@ -69,12 +84,12 @@ Sender MUST send the following reserved headers with the HTTP request:
   For the message introduced in PRW 2.0, identified by `io.prometheus.write.v2.Request`:
     * `Content-Type: application/x-protobuf;proto=io.prometheus.write.v2.Request`
   
-  When talking to 1.x Receiver, the Sender SHOULD use `Content-Type: application/x-protobuf` for backward compatibility. Otherwise, Sender SHOULD use `Content-Type: application/x-protobuf;proto=io.prometheus.write.v2.Request`. More proto messages might come in 2.x or beyond.
+  When talking to 1.x Receiver, the Sender SHOULD use `Content-Type: application/x-protobuf` for backward compatibility. Otherwise, Sender SHOULD use `Content-Type: application/x-protobuf;proto=io.prometheus.write.v2.Request`. More Proto Messages might come in 2.x or beyond.
 
 * `User-Agent: <name & version of the sender>`
-* `X-Prometheus-Remote-Write-Version: <remote write spec major and minor version>`
+* `X-Prometheus-Remote-Write-Version: <Remote-Write spec major and minor version>`
 
-  When talking to 1.x Receiver, the Sender MUST use `X-Prometheus-Remote-Write-Version: 0.1.0` for backward compatibility. Otherwise, Sender SHOULD use the newest remote write version it is compatible with e.g. `X-Prometheus-Remote-Write-Version: 2.0.0`.
+  When talking to 1.x Receiver, the Sender MUST use `X-Prometheus-Remote-Write-Version: 0.1.0` for backward compatibility. Otherwise, Sender SHOULD use the newest Remote-Write version it is compatible with e.g. `X-Prometheus-Remote-Write-Version: 2.0.0`.
 
 Sender MAY allow users to add custom HTTP headers; they MUST NOT allow users to configure them in such a way as to send reserved headers.
 
@@ -86,7 +101,10 @@ The following subsections specify Sender and Receiver semantics around write err
 
 #### Partial Write
 
-Sender SHOULD use Prometheus Remote Write to send samples for multiple series in a single request. As a result, Receiver MAY ingest valid samples within a write request that contains invalid or otherwise unwritten samples, which represents a partial write case.
+<!---
+Rationales: https://github.com/prometheus/proposals/blob/alexg/remote-write-20-proposal/proposals/2024-04-09_remote-write-20.md#partial-writes
+-->
+Sender SHOULD use Remote-Write to send samples for multiple series in a single request. As a result, Receiver MAY ingest valid samples within a write request that contains invalid or otherwise unwritten samples, which represents a partial write case.
 
 In a partial write case, Receiver MUST NOT return HTTP 200 status code. Receiver MUST provide a human-readable error message in the response body. The Receiver's error SHOULD contain information about the amount of the samples being rejected and for what reasons.
 
@@ -102,7 +120,7 @@ Sender SHOULD expect [400 HTTP Bad Request](https://www.rfc-editor.org/rfc/rfc91
 
 Receiver MAY NOT support certain metric types or samples (e.g. Receiver might reject sample without metadata type specified or without created timestamp, while another Receiver might accept such sample.). It’s up to the Receiver what sample is invalid. Receiver MUST return a [400 HTTP Bad Request](https://www.rfc-editor.org/rfc/rfc9110.html#name-400-bad-request) status code for write requests that contain any invalid samples, unless the [partial retryable write](#retries-on-partial-writes) occurs.
 
-Sender MUST NOT retry on 4xx HTTP (other than [429](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429)) status codes, which MUST be used by Receiver to indicate that the write will never be able to succeed and should not be retried. Sender MAY retry on 415 HTTP status code with a different content-type or encoding to see if Receiver supports it.
+Sender MUST NOT retry on 4xx HTTP (other than [429](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429)) status codes, which MUST be used by Receiver to indicate that the write operation will never be able to succeed and should not be retried. Sender MAY retry on 415 HTTP status code with a different content-type or encoding to see if Receiver supports it.
 
 ### Retries & Backoff
 
@@ -120,25 +138,25 @@ Receiver MAY return a 5xx HTTP or 429 HTTP status code on partial write or [part
 
 The protocol follows [semantic versioning 2.0](https://semver.org/): any 2.x compatible Receiver MUST be able to read any 2.x compatible Sender and vice versa. Breaking or backwards incompatible changes will result in a 3.x version of the spec.
 
-The proto formats itself are forward / backward compatible, in some respects:
+The Proto Messages (in Wire Format) themselves are forward / backward compatible, in some respects:
 
 * Removing fields from the proto requirements mean a major version bump.
 * Adding (optional) fields will be a minor version bump.
 
-In other words, this means that future minor versions of 2.x MAY add new optional fields to `io.prometheus.write.v2.Request`, new compressions, content types (wire formats) and negotiation mechanisms, as long as they are backward compatible (e.g. optional to both Receivers and Senders).
+In other words, this means that future minor versions of 2.x MAY add new optional fields to `io.prometheus.write.v2.Request`, new compressions, Proto Messages and negotiation mechanisms, as long as they are backward compatible (e.g. optional to both Receiver and Sender).
 
-### 2.x vs 1.x Compatibility
+#### 2.x vs 1.x Compatibility
 
-The 2.x protocol is breaking compatibility with 1.x by introducing a new `io.prometheus.write.v2.Request` content type (wire format) and deprecating the `prometheus.WriteRequest`.
+The 2.x protocol is breaking compatibility with 1.x by introducing a new, mandatory `io.prometheus.write.v2.Request` Proto Message and deprecating the `prometheus.WriteRequest`.
 
-2.x Senders MAY support 1.x Receivers by allowing users to configure what content type sender should use. 2.x Senders also MAY automatically fall back to different content types, if the Receiver returns 415 HTTP status code.
+2.x Sender MAY support 1.x Receiver by allowing users to configure what content type Sender should use. 2.x Sender also MAY automatically fall back to different content types, if the Receiver returns 415 HTTP status code.
 
 #### `io.prometheus.write.v2.Request` Proto Schema
 
 <!---
 TODO(bwplotka): Move link to the one on Prometheus main or even buf. 
 -->
-The source of truth is [here](https://github.com/prometheus/prometheus/blob/remote-write-2.0/prompb/io/prometheus/write/v2/types.proto#L32). The `gogo` dependency and options CAN be ignored. They are not part of the specification as they don't impact the serialized format.
+The source of truth is [here](https://github.com/prometheus/prometheus/blob/remote-write-2.0/prompb/io/prometheus/write/v2/types.proto#L32). The `gogo` dependency and options CAN be ignored ([will be removed eventually](https://github.com/prometheus/prometheus/issues/11908)). They are not part of the specification as they don't impact the serialized format.
 
 The simplified version of the new `io.prometheus.write.v2.Request` is presented below.
 
@@ -262,7 +280,13 @@ All timestamps MUST be int64 counted as milliseconds since the Unix epoch. Sampl
 For every `TimeSeries` message:
 
 * Label references MUST be provided.
+<!---
+Rationales: https://github.com/prometheus/proposals/blob/alexg/remote-write-20-proposal/proposals/2024-04-09_remote-write-20.md#partial-writes#samples-vs-native-histogram-samples
+-->
 * At least one element in Samples or in Histograms MUST be provided. For series which (rarely) would mix float and histogram samples, a separate `TimeSeries` message MUST be used.
+<!---
+Rationales: https://github.com/prometheus/proposals/blob/alexg/remote-write-20-proposal/proposals/2024-04-09_remote-write-20.md#always-on-metadata
+-->
 * Metadata fields SHOULD be provided.
 * Exemplars SHOULD be provided, if they exist for a series.
 * Created timestamp SHOULD be provided for metrics that follow counter semantics (e.g. counters and histograms).
@@ -271,12 +295,18 @@ The following subsections define some schema elements in details.
 
 #### Symbols
 
-The `io.prometheus.write.v2.Request` proto schema is designed to [intern all strings](https://en.wikipedia.org/wiki/String_interning) for the proven additional compression and memory efficiency gains on top of the standard compressions.
+<!---
+Rationales: https://github.com/prometheus/proposals/blob/alexg/remote-write-20-proposal/proposals/2024-04-09_remote-write-20.md#partial-writes#string-interning
+-->
+The `io.prometheus.write.v2.Request` Proto Message is designed to [intern all strings](https://en.wikipedia.org/wiki/String_interning) for the proven additional compression and memory efficiency gains on top of the standard compressions.
 
 Symbols table MUST be provided and it MUST contain deduplicated strings used in series, exemplar labels and metadata strings. The first element of symbols table MUST be an empty string. References MUST point to the existing index in the Symbols string array.
 
 #### Series Labels
 
+<!---
+Rationales: https://github.com/prometheus/proposals/blob/alexg/remote-write-20-proposal/proposals/2024-04-09_remote-write-20.md#labels-and-utf-8
+-->
 The complete set of labels MUST be sent with each Sample or Histogram sample. Additionally, the label set associated with samples:
 
 * SHOULD contain a `__name__` label.
@@ -297,6 +327,9 @@ Receiver also MAY impose limits on the number and length of labels, but this is 
 
 #### Samples and Histogram Samples
 
+<!---
+Rationales: https://github.com/prometheus/proposals/blob/alexg/remote-write-20-proposal/proposals/2024-04-09_remote-write-20.md#partial-writes#native-histograms
+-->
 Sender MUST send samples (or histogram samples) for any given TimeSeries in timestamp order. Sender MAY send multiple requests for different series in parallel.
 
 Sender MUST send stale markers when a time series will no longer be appended to, for time series that were "scraped".
@@ -337,9 +370,9 @@ The same as in [1.0](./remote_write_spec.md#out-of-scope).
 
 This section contains speculative plans that are not considered part of protocol specification yet, but are mentioned here for completeness. Note that 2.0 specification completed [2 of 3 future plans in the 1.0](./remote_write_spec.md#future-plans).
 
-* **Transactionality** There is still no transactionality defined for 2.0 specification, mostly because it makes scalable Sender implementation difficult. Prometheus Sender aims at being "transactional" - i.e. to never expose a partially scraped target to a query. We intend to do the same with remote write -- for instance, in the future we would like to "align" remote write with scrapes, perhaps such that all the samples, metadata and exemplars for a single scrape are sent in a single remote write request.
+* **Transactionality** There is still no transactionality defined for 2.0 specification, mostly because it makes scalable Sender implementation difficult. Prometheus Sender aims at being "transactional" - i.e. to never expose a partially scraped target to a query. We intend to do the same with Remote-Write -- for instance, in the future we would like to "align" Remote-Write with scrapes, perhaps such that all the samples, metadata and exemplars for a single scrape are sent in a single Remote-Write request.
 
-  However, Remote Write 2.0 specification solves an important transactionality problem for [the classic histogram buckets](https://docs.google.com/document/d/1mpcSWH1B82q-BtJza-eJ8xMLlKt6EJ9oFGH325vtY1Q/edit#heading=h.ueg7q07wymku). This is done thanks to the native histograms supporting custom bucket-ing possible with the `io.prometheus.write.v2.Request` wire format. Sender might translate all classic histograms to native histograms this way, but it's out of this specification to mandate this. However, for this reason Receiver MAY ignore certain metric types (e.g. classic histograms).
+  However, Remote-Write 2.0 specification solves an important transactionality problem for [the classic histogram buckets](https://docs.google.com/document/d/1mpcSWH1B82q-BtJza-eJ8xMLlKt6EJ9oFGH325vtY1Q/edit#heading=h.ueg7q07wymku). This is done thanks to the native histograms supporting custom bucket-ing possible with the `io.prometheus.write.v2.Request` wire format. Sender might translate all classic histograms to native histograms this way, but it's out of this specification to mandate this. However, for this reason Receiver MAY ignore certain metric types (e.g. classic histograms).
 
 * **Alternative wire formats**. The OpenTelemetry community has shown the validity of Apache Arrow (and potentially other columnar formats) for over the wire data transfer with their OTLP protocol. We would like to do experiments to confirm the compatibility of a similar format with Prometheus’ data model, and include benchmarks of any resource usage changes. We would potentially maintain both a protobuf and columnar format long term for compatibility reasons and use our content negotiation to add different proto message for this purpose.
 
@@ -359,9 +392,9 @@ If you use persistent HTTP/1.1 connections, they are pretty close to streaming. 
 The in-order constraint comes from the encoding we use for time series data in Prometheus, the implementation of which is append only. It is possible to remove this constraint, for instance by buffering samples and reordering them before encoding.
 
 **How can we parallelise requests with the in-order constraint?**
-Samples must be in-order _for a given series_. Remote write requests can be sent in parallel as long as they are for different series. In Prometheus, we shard the samples by their labels into separate queues, and then writes happen sequentially in each queue. This guarantees samples for the same series are delivered in order, but samples for different series are sent in parallel - and potentially "out of order" between different series.
+Samples must be in-order _for a given series_. Remote-Write requests can be sent in parallel as long as they are for different series. In Prometheus, we shard the samples by their labels into separate queues, and then writes happen sequentially in each queue. This guarantees samples for the same series are delivered in order, but samples for different series are sent in parallel - and potentially "out of order" between different series.
 
-**What are the differences between Remote Write 2.0 and OpenTelemetry's OTLP protocol?**
+**What are the differences between Remote-Write 2.0 and OpenTelemetry's OTLP protocol?**
 [OpenTelemetry OTLP](https://github.com/open-telemetry/opentelemetry-proto/blob/a05597bff803d3d9405fcdd1e1fb1f42bed4eb7a/docs/specification.md) is a protocol for transporting of telemetry data (such as metrics, logs, traces and profiles) between telemetry sources, intermediate nodes and telemetry backends. The recommended transport involves gRPC with protobuf, but HTTP with protobuf or JSON are also described. It was designed from scratch with the intent to support variety of different observability signals, data types and extra information. For [metrics](https://github.com/open-telemetry/opentelemetry-proto/blob/main/opentelemetry/proto/metrics/v1/metrics.proto) that means additional non-identifying labels, flags, temporal aggregations types, resource or scoped metrics, schema URLs and more. OTLP also requires [the semantic convention](https://opentelemetry.io/docs/concepts/semantic-conventions/) to be used.
 
-Remote Write was designed for simplicity, efficiency and organic growth. First version was officially released in 2023, when already [dozens of battle-tested adopters in the CNCF ecosystem](./remote_write_spec.md#compatible-senders-and-receivers) were using it for years. Remote Write 2.0 iterates on the previous protocol by adding a few new elements (metadata, exemplars, created timestamp and native histograms) and string interning. Remote Write 2.0 is always stateless, focuses only on metrics and is opinionated -- it is scoped down to elements that by Prometheus community, is all you need to have robust metric solution. We believe Remote Write 2.0 proposes an export transport, for metrics, that is a magnitude simpler to adopt and use, and often more efficient than competitors.
+Remote-Write was designed for simplicity, efficiency and organic growth. First version was officially released in 2023, when already [dozens of battle-tested adopters in the CNCF ecosystem](./remote_write_spec.md#compatible-senders-and-receivers) were using it for years. Remote-Write 2.0 iterates on the previous protocol by adding a few new elements (metadata, exemplars, created timestamp and native histograms) and string interning. Remote-Write 2.0 is always stateless, focuses only on metrics and is opinionated -- it is scoped down to elements that by Prometheus community, is all you need to have robust metric solution. We believe Remote-Write 2.0 proposes an export transport, for metrics, that is a magnitude simpler to adopt and use, and often more efficient than competitors.

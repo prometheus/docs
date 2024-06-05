@@ -1,5 +1,5 @@
 ---
-title: "[EXPERIMENTAL] Prometheus Remote-Write Specification 2.0"
+title: "Prometheus Remote-Write Specification 2.0 [EXPERIMENTAL]"
 sort_rank: 4
 ---
 
@@ -9,7 +9,7 @@ sort_rank: 4
 * Status: **Experimental**
 * Date: May 2024
 
-> NOTE: This is a release candidate for Remote-Write 2.0 specification. This means that this specification is currently in an experimental state--no major changes are expected, but we reserve the rights to break the compatibility if it's absolutely necessary, based on the early adopters' feedback. The potential feedback, questions and suggestions should be added as comments to the [PR with the open proposal](https://github.com/prometheus/proposals/pull/35).
+*NOTE: This is a release candidate for Remote-Write 2.0 specification. This means that this specification is currently in an experimental state--no major changes are expected, but we reserve the rights to break the compatibility if it's absolutely necessary, based on the early adopters' feedback. The potential feedback, questions and suggestions should be added as comments to the [PR with the open proposal](https://github.com/prometheus/proposals/pull/35).*
 
 The Remote-Write specification, in general, is intended to document the standard for how Prometheus and Prometheus Remote-Write compatible senders send data to Prometheus or Prometheus Remote-Write compatible receivers.
 

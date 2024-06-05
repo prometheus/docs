@@ -57,6 +57,7 @@ The Remote-Write Protocol MUST consist of RPCs with the request body serialized 
 Rationales: https://github.com/prometheus/proposals/blob/alexg/remote-write-20-proposal/proposals/2024-04-09_remote-write-20.md#a-new-protobuf-message-identified-by-fully-qualified-name-old-one-deprecated
 -->
 The protobuf serialization MUST use either of the following Proto Messages:
+
 * [`prometheus.WriteRequest`](./remote_write_spec.md#protocol) introduced in the Remote-Write 1.0 specification. As of 2.0, the `prometheus.WriteRequest` message is deprecated. It SHOULD be used only for compatibility reasons. Sender and Receiver MAY NOT support `prometheus.WriteRequest`.
 * `io.prometheus.write.v2.Request` introduced in this specification and defined [below](#ioprometheuswritev2request-proto-schema). Sender and Receiver SHOULD use `io.prometheus.write.v2.Request` when possible. Sender and Receiver MUST support `io.prometheus.write.v2.Request`.
 
@@ -81,9 +82,12 @@ Rationales: https://github.com/prometheus/proposals/blob/alexg/remote-write-20-p
   Content type request header MUST follow [the RFC 9110](https://www.rfc-editor.org/rfc/rfc9110.html#name-content-type). Sender MUST use `application/x-protobuf` as the only media type. Sender MAY add `;proto=` parameter to the header's value to indicate the fully qualified name of the Proto Message that was used, from the two mentioned above. As a result, Sender MUST send any of the three supported header values:
 
   For the deprecated message introduced in PRW 1.0, identified by `prometheus.WriteRequest`:
+
     * `Content-Type: application/x-protobuf`
     * `Content-Type: application/x-protobuf;proto=prometheus.WriteRequest`
+  
   For the message introduced in PRW 2.0, identified by `io.prometheus.write.v2.Request`:
+  
     * `Content-Type: application/x-protobuf;proto=io.prometheus.write.v2.Request`
   
   When talking to 1.x Receiver, the Sender SHOULD use `Content-Type: application/x-protobuf` for backward compatibility. Otherwise, Sender SHOULD use `Content-Type: application/x-protobuf;proto=io.prometheus.write.v2.Request`. More Proto Messages might come in 2.x or beyond.
@@ -286,10 +290,12 @@ All timestamps MUST be int64 counted as milliseconds since the Unix epoch. Sampl
 For every `TimeSeries` message:
 
 * Label references MUST be provided.
+
 <!---
 Rationales: https://github.com/prometheus/proposals/blob/alexg/remote-write-20-proposal/proposals/2024-04-09_remote-write-20.md#partial-writes#samples-vs-native-histogram-samples
 -->
 * At least one element in Samples or in Histograms MUST be provided. For series which (rarely) would mix float and histogram samples, a separate `TimeSeries` message MUST be used.
+
 <!---
 Rationales: https://github.com/prometheus/proposals/blob/alexg/remote-write-20-proposal/proposals/2024-04-09_remote-write-20.md#always-on-metadata
 -->
@@ -322,7 +328,8 @@ The complete set of labels MUST be sent with each Sample or Histogram sample. Ad
 
 Metric names, label names, and label values MUST be any sequence of UTF-8 characters.
 
-Metric names SHOULD adhere to the regex `[a-zA-Z_:]([a-zA-Z0-9_:])*`.
+Metric names SHOULD adhere to the regex `[a-zA-Z_:]([a-zA-Z0-9_:])*`. 
+
 Label names SHOULD adhere to the regex `[a-zA-Z_]([a-zA-Z0-9_])*`.
 
 Names that do not adhere to the above, might be harder to use for PromQL users (see [the UTF-8 proposal for more details](https://github.com/prometheus/proposals/blob/main/proposals/2023-08-21-utf8.md)).
@@ -361,20 +368,16 @@ Typically, Sender can detect when a time series will no longer be appended using
 
 #### Metadata
 
-Metadata SHOULD follow the official Prometheus guidelines for:
+Metadata SHOULD follow the official Prometheus guidelines for [Type](https://prometheus.io/docs/instrumenting/writing_exporters/#types) and [Help](https://prometheus.io/docs/instrumenting/writing_exporters/#help-strings).
 
-* [Type](https://prometheus.io/docs/instrumenting/writing_exporters/#types)
-* [Help](https://prometheus.io/docs/instrumenting/writing_exporters/#help-strings).
-
-Metadata MAY follow the official OpenMetrics guidelines for:
-
-* [Unit](https://github.com/OpenObservability/OpenMetrics/blob/main/specification/OpenMetrics.md#unit)
+Metadata MAY follow the official OpenMetrics guidelines for [Unit](https://github.com/OpenObservability/OpenMetrics/blob/main/specification/OpenMetrics.md#unit).
 
 #### Exemplars
 
 Each exemplar, if attached to a `TimeSeries`:
 
 * MUST contain a value.
+
 <!---
 Rationales: https://github.com/prometheus/proposals/blob/alexg/remote-write-20-proposal/proposals/2024-04-09_remote-write-20.md#partial-writes#exemplars
 -->

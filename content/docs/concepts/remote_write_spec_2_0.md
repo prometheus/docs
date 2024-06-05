@@ -204,7 +204,11 @@ message TimeSeries {
 
   // created_timestamp represents an optional created timestamp associated with
   // this series' samples in ms format, typically for counter or histogram type
-  // metrics. Note that some receivers might require this and in return fail to
+  // metrics. Created timestamp represents the time when the counter started
+  // counting (sometimes referred to as start timestamp), which can increase
+  // the accuracy of query results.
+  //
+  // Note that some receivers might require this and in return fail to
   // ingest such samples within the Request.
   //
   // For Go, see github.com/prometheus/prometheus/model/timestamp/timestamp.go
@@ -287,9 +291,9 @@ Rationales: https://github.com/prometheus/proposals/blob/alexg/remote-write-20-p
 <!---
 Rationales: https://github.com/prometheus/proposals/blob/alexg/remote-write-20-proposal/proposals/2024-04-09_remote-write-20.md#always-on-metadata
 -->
-* Metadata fields SHOULD be provided.
+* Metadata fields SHOULD be provided. Receiver MAY reject series with unspecified type.
 * Exemplars SHOULD be provided, if they exist for a series.
-* Created timestamp SHOULD be provided for metrics that follow counter semantics (e.g. counters and histograms).
+* Created timestamp SHOULD be provided for metrics that follow counter semantics (e.g. counters and histograms). Receiver MAY reject those series without created timestamp being set.
 
 The following subsections define some schema elements in details.
 
@@ -300,7 +304,7 @@ Rationales: https://github.com/prometheus/proposals/blob/alexg/remote-write-20-p
 -->
 The `io.prometheus.write.v2.Request` Proto Message is designed to [intern all strings](https://en.wikipedia.org/wiki/String_interning) for the proven additional compression and memory efficiency gains on top of the standard compressions.
 
-Symbols table MUST be provided and it MUST contain deduplicated strings used in series, exemplar labels and metadata strings. The first element of symbols table MUST be an empty string. References MUST point to the existing index in the Symbols string array.
+Symbols table MUST be provided and it MUST contain deduplicated strings used in series, exemplar labels and metadata strings. The first element of the symbols table MUST be an empty string. References MUST point to the existing index in the Symbols string array.
 
 #### Series Labels
 
@@ -332,16 +336,26 @@ Rationales: https://github.com/prometheus/proposals/blob/alexg/remote-write-20-p
 -->
 Sender MUST send samples (or histogram samples) for any given TimeSeries in timestamp order. Sender MAY send multiple requests for different series in parallel.
 
-Sender MUST send stale markers when a time series will no longer be appended to, for time series that were "scraped".
+<!---
+Rationales: https://github.com/prometheus/proposals/blob/alexg/remote-write-20-proposal/proposals/2024-04-09_remote-write-20.md#partial-writes#being-pull-vs-push-agnostic
+-->
+Sender SHOULD send stale markers when a time series will no longer be appended to.
+Sender MUST send stale markers if the discontinuation of time series is possible to detect, for example:
+
+* For series that were pulled (scraped), unless explicit timestamp was used. 
+* For series that is resulted by a recording rule evaluation.
+
+Generally, not sending stale markers for series that are discontinued can lead to Receiver [non-trivial query time alignment issues](https://prometheus.io/docs/prometheus/latest/querying/basics/#staleness).
 
 Stale markers MUST be signalled by the special NaN value `0x7ff0000000000002`. This value MUST NOT be used otherwise.
 
 Typically, Sender can detect when a time series will no longer be appended to using the following techniques:
 
-1. Detecting, using service discovery, that the target exposing the series has gone away
-1. Noticing the target is no longer exposing the time series between successive scrapes
-1. Failing to scrape the target that originally exposed a time series
-1. Tracking configuration and evaluation for recording and alerting rules
+1. Detecting, using service discovery, that the target exposing the series has gone away.
+1. Noticing the target is no longer exposing the time series between successive scrapes.
+1. Failing to scrape the target that originally exposed a time series.
+1. Tracking configuration and evaluation for recording and alerting rules.
+1. Tracking discontinuation of other source of metrics (e.g. in k6 when benchmark has finished for series per benchmark, it could emit stale marker).
 
 #### Metadata
 

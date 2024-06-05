@@ -372,8 +372,11 @@ Metadata MAY follow the official OpenMetrics guidelines for:
 
 Each exemplar, if attached to a `TimeSeries`:
 
-* MUST contain at least one label set, so two references to a symbols table.
 * MUST contain value.
+<!---
+Rationales: https://github.com/prometheus/proposals/blob/alexg/remote-write-20-proposal/proposals/2024-04-09_remote-write-20.md#partial-writes#exemplars
+-->
+* MAY contain labels e.g. referencing trace or request ID. If the exemplar references a trace it SHOULD use `trace_id` label name, as a best practice.
 * MAY contain timestamp.
 
 ## Out of Scope

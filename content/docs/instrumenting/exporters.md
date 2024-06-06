@@ -319,7 +319,7 @@ separate exporters are needed:
    * [Traefik](https://github.com/containous/traefik)
    * [Vector](https://vector.dev)
    * [VerneMQ](https://github.com/vernemq/vernemq)
-   * [Weave Flux](https://github.com/weaveworks/flux)
+   * [Flux](https://github.com/fluxcd/flux2)
    * [Xandikos](https://www.xandikos.org/) (**direct**)
    * [Zipkin](https://github.com/openzipkin/zipkin/tree/master/zipkin-server#metrics)
 

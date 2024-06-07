@@ -311,7 +311,9 @@ footer {
 }
 
 .side-nav .nav-header {
-  display: block;
+  display: flex;
+  gap: 5px;
+  align-items: baseline;
   margin: 20px auto 15px auto;
   font-size: 16px;
 }

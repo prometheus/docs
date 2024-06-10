@@ -178,7 +178,6 @@ message Request {
   // need to lookup the actual string by index from symbols array. The order of
   // strings is up to the sender. The receiver should not assume any particular encoding.
   repeated string symbols = 1;
-  repeated string symbols = 1;
   // timeseries represents an array of distinct series with 0 or more samples.
   repeated TimeSeries timeseries = 2;
 }

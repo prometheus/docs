@@ -1,5 +1,5 @@
 ---
 title: Specifications
-sort_rank: 2
-nav_icon: unlock
+sort_rank: 11
+nav_icon: file-text-o
 ---

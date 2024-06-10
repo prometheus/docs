@@ -9,7 +9,7 @@ sort_rank: 4
 * Status: **Experimental**
 * Date: May 2024
 
-*NOTE: This is a release candidate for Remote-Write 2.0 specification. This means that this specification is currently in an experimental state--no major changes are expected, but we reserve the rights to break the compatibility if it's absolutely necessary, based on the early adopters' feedback. The potential feedback, questions and suggestions should be added as comments to the [PR with the open proposal](https://github.com/prometheus/proposals/pull/35).*
+**NOTE: This is a release candidate for Remote-Write 2.0 specification. This means that this specification is currently in an experimental state--no major changes are expected, but we reserve the rights to break the compatibility if it's absolutely necessary, based on the early adopters' feedback. The potential feedback, questions and suggestions should be added as comments to the [PR with the open proposal](https://github.com/prometheus/proposals/pull/35).**
 
 The Remote-Write specification, in general, is intended to document the standard for how Prometheus and Prometheus Remote-Write compatible senders send data to Prometheus or Prometheus Remote-Write compatible receivers.
 
@@ -36,16 +36,16 @@ A test suite can be found at https://github.com/prometheus/compliance/tree/main/
 
 In this document, the following definitions are followed:
 
-* a "Remote-Write" is the name of this Prometheus protocol.
-* a "Protocol" is a communication specification that enables the client and server to transfer metrics. This includes content type definitions, but also compressions, negotiations, retry mechanisms and so on.
-* a "Proto Message" refers to the [content type](https://www.rfc-editor.org/rfc/rfc9110.html#name-content-type) definition of the data structure Remote-Write is specifying for this Protocol. Since this specification uses [Google Protocol Buffers ("protobuf")](https://protobuf.dev/) exclusively, the schema is defined in a ["proto" file](https://protobuf.dev/programming-guides/proto3/) and represented by a single Protobuf ["message"](https://protobuf.dev/programming-guides/proto3/#simple).
-* a "Wire Format" is the format of the data as it travels on the wire (i.e. in a network). In the case of Remote-Write, this is always the compressed binary protobuf format.
-* a "Sender" is something that sends Remote-Write data.
-* a "Receiver" is something that receives Remote-Write data.
-* a "Sample" is a pair of (timestamp, value).
-* a "Histogram" is a pair of (timestamp, [histogram value](https://github.com/prometheus/docs/blob/b9657b5f5b264b81add39f6db2f1df36faf03efe/content/docs/concepts/native_histograms.md)).
-* a "Label" is a pair of (key, value).
-* a "Series" is a list of samples, identified by a unique set of labels.
+* a `Remote-Write` is the name of this Prometheus protocol.
+* a `Protocol` is a communication specification that enables the client and server to transfer metrics.
+* a `Proto Message` refers to the [content type](https://www.rfc-editor.org/rfc/rfc9110.html#name-content-type) definition of the data structure for this Protocol. Since the specification uses [Google Protocol Buffers ("protobuf")](https://protobuf.dev/) exclusively, the schema is defined in a ["proto" file](https://protobuf.dev/programming-guides/proto3/) and represented by a single Protobuf ["message"](https://protobuf.dev/programming-guides/proto3/#simple).
+* a `Wire Format` is the format of the data as it travels on the wire (i.e. in a network). In the case of Remote-Write, this is always the compressed binary protobuf format.
+* a `Sender` is something that sends Remote-Write data.
+* a `Receiver` is something that receives Remote-Write data.
+* a `Sample` is a pair of (timestamp, value).
+* a `Histogram` is a pair of (timestamp, [histogram value](https://github.com/prometheus/docs/blob/b9657b5f5b264b81add39f6db2f1df36faf03efe/content/docs/concepts/native_histograms.md)).
+* a `Label` is a pair of (key, value).
+* a `Series` is a list of samples, identified by a unique set of labels.
 
 ## Definitions
 
@@ -58,8 +58,8 @@ Rationales: https://github.com/prometheus/proposals/blob/alexg/remote-write-20-p
 -->
 The protobuf serialization MUST use either of the following Proto Messages:
 
-* [`prometheus.WriteRequest`](./remote_write_spec.md#protocol) introduced in the Remote-Write 1.0 specification. As of 2.0, the `prometheus.WriteRequest` message is deprecated. It SHOULD be used only for compatibility reasons. Sender and Receiver MAY NOT support `prometheus.WriteRequest`.
-* `io.prometheus.write.v2.Request` introduced in this specification and defined [below](#ioprometheuswritev2request-proto-schema). Sender and Receiver SHOULD use `io.prometheus.write.v2.Request` when possible. Sender and Receiver MUST support `io.prometheus.write.v2.Request`.
+* The `prometheus.WriteRequest` introduced in [the Remote-Write 1.0 specification](./remote_write_spec.md#protocol). As of 2.0, this message is deprecated. It SHOULD be used only for compatibility reasons. Sender and Receiver MAY NOT support the `prometheus.WriteRequest`.
+* The `io.prometheus.write.v2.Request` introduced in this specification and defined [below](#proto-message). Sender and Receiver SHOULD use this message when possible. Sender and Receiver MUST support the `io.prometheus.write.v2.Request`.
 
 The Proto Message MUST use binary Wire Format. Then, MUST be compressed with [Google’s Snappy](https://github.com/google/snappy). The block format MUST be used -- the framed format MUST NOT be used.
 
@@ -68,36 +68,54 @@ Sender MUST send serialized and compressed Proto Message in the body of an HTTP 
 <!---
 Rationales: https://github.com/prometheus/proposals/blob/alexg/remote-write-20-proposal/proposals/2024-04-09_remote-write-20.md#basic-content-negotiation-built-on-what-we-have
 -->
-Sender MUST send the following reserved headers with the HTTP request:
+Sender MUST send the following reserved headers with the HTTP request. Sender MAY allow users to add custom HTTP headers; they MUST NOT allow users to configure them in such a way as to send reserved headers.
 
-* `Content-Encoding: <compression>`
+#### Content-Encoding
+
+```
+Content-Encoding: <compression>
+```
 
 <!---
 Rationales: https://github.com/prometheus/proposals/blob/alexg/remote-write-20-proposal/proposals/2024-04-09_remote-write-20.md#no-new-compression-added--yet-
 -->
-  Content encoding request header MUST follow [the RFC 9110](https://www.rfc-editor.org/rfc/rfc9110.html#name-content-encoding). Sender MUST use the `snappy` value. Receiver MUST support `snappy` compression. New, optional compression algorithms might come in 2.x or beyond.
+Content encoding request header MUST follow [the RFC 9110](https://www.rfc-editor.org/rfc/rfc9110.html#name-content-encoding). Sender MUST use the `snappy` value. Receiver MUST support `snappy` compression. New, optional compression algorithms might come in 2.x or beyond.
 
-* `Content-Type: application/x-protobuf` or `Content-Type: application/x-protobuf;proto=<fully qualified name>`
+#### Content-Type
 
-  Content type request header MUST follow [the RFC 9110](https://www.rfc-editor.org/rfc/rfc9110.html#name-content-type). Sender MUST use `application/x-protobuf` as the only media type. Sender MAY add `;proto=` parameter to the header's value to indicate the fully qualified name of the Proto Message that was used, from the two mentioned above. As a result, Sender MUST send any of the three supported header values:
+```
+Content-Type: application/x-protobuf
+Content-Type: application/x-protobuf;proto=<fully qualified name>
+```
 
-  For the deprecated message introduced in PRW 1.0, identified by `prometheus.WriteRequest`:
+Content type request header MUST follow [the RFC 9110](https://www.rfc-editor.org/rfc/rfc9110.html#name-content-type). Sender MUST use `application/x-protobuf` as the only media type. Sender MAY add `;proto=` parameter to the header's value to indicate the fully qualified name of the Proto Message that was used, from the two mentioned above. As a result, Sender MUST send any of the three supported header values:
 
-    * `Content-Type: application/x-protobuf`
-    * `Content-Type: application/x-protobuf;proto=prometheus.WriteRequest`
+For the deprecated message introduced in PRW 1.0, identified by `prometheus.WriteRequest`:
+
+* `Content-Type: application/x-protobuf`
+* `Content-Type: application/x-protobuf;proto=prometheus.WriteRequest`
   
-  For the message introduced in PRW 2.0, identified by `io.prometheus.write.v2.Request`:
+For the message introduced in PRW 2.0, identified by `io.prometheus.write.v2.Request`:
   
-    * `Content-Type: application/x-protobuf;proto=io.prometheus.write.v2.Request`
+* `Content-Type: application/x-protobuf;proto=io.prometheus.write.v2.Request`
   
-  When talking to 1.x Receiver, the Sender SHOULD use `Content-Type: application/x-protobuf` for backward compatibility. Otherwise, Sender SHOULD use `Content-Type: application/x-protobuf;proto=io.prometheus.write.v2.Request`. More Proto Messages might come in 2.x or beyond.
+When talking to 1.x Receiver, Sender SHOULD use `Content-Type: application/x-protobuf` for backward compatibility. Otherwise, Sender SHOULD use `Content-Type: application/x-protobuf;proto=io.prometheus.write.v2.Request`. More Proto Messages might come in 2.x or beyond.
 
-* `User-Agent: <name & version of the sender>`
-* `X-Prometheus-Remote-Write-Version: <Remote-Write spec major and minor version>`
+#### X-Prometheus-Remote-Write-Version
 
-  When talking to 1.x Receiver, the Sender MUST use `X-Prometheus-Remote-Write-Version: 0.1.0` for backward compatibility. Otherwise, Sender SHOULD use the newest Remote-Write version it is compatible with e.g. `X-Prometheus-Remote-Write-Version: 2.0.0`.
+```
+X-Prometheus-Remote-Write-Version: <Remote-Write spec major and minor version>
+```
 
-Sender MAY allow users to add custom HTTP headers; they MUST NOT allow users to configure them in such a way as to send reserved headers.
+When talking to 1.x Receiver, Sender MUST use `X-Prometheus-Remote-Write-Version: 0.1.0` for backward compatibility. Otherwise, Sender SHOULD use the newest Remote-Write version it is compatible with e.g. `X-Prometheus-Remote-Write-Version: 2.0.0`.
+
+#### User-Agent
+
+```
+User-Agent: <name & version of the sender>
+```
+
+Sender MUST include a user agent header that SHOULD follow [the RFC 9110 User-Agent header format](https://www.rfc-editor.org/rfc/rfc9110.html#name-user-agent).
 
 ### Response
 
@@ -134,7 +152,7 @@ Receiver MAY return a [429 HTTP Too Many Requests](https://developer.mozilla.org
 
 Sender MAY retry on a 429 HTTP status code. Sender MUST retry write requests on 5xx HTTP. Sender MUST use a backoff algorithm to prevent overwhelming the server. Sender MAY handle [the Retry-After response header](https://www.rfc-editor.org/rfc/rfc9110.html#name-retry-after) to estimate the next retry time.
 
-The difference between 429 vs 5xx handling is due to a potential situation for the Sender “falling behind” if the Receiver cannot keep up. As a result, the ability to NOT retry on 429 allows progress is made when there are Sender side errors (e.g. too much traffic), while the data is not lost when there are Receiver side errors.
+The difference between 429 vs 5xx handling is due to a potential situation for Sender “falling behind” if the Receiver cannot keep up. As a result, the ability to NOT retry on 429 allows progress is made when there are Sender side errors (e.g. too much traffic), while the data is not lost when there are Receiver side errors.
 
 ### Retries on Partial Writes
 
@@ -157,12 +175,16 @@ The 2.x protocol is breaking compatibility with 1.x by introducing a new, mandat
 
 2.x Sender MAY support 1.x Receiver by allowing users to configure what content type Sender should use. 2.x Sender also MAY automatically fall back to different content types, if the Receiver returns 415 HTTP status code.
 
-#### `io.prometheus.write.v2.Request` Proto Schema
+## Proto Message
+
+### `io.prometheus.write.v2.Request`
+
+The `io.prometheus.write.v2.Request` references the new Proto Message that's meant to replace and deprecate the Remote-Write 1.0's `prometheus.WriteRequest` message.
 
 <!---
 TODO(bwplotka): Move link to the one on Prometheus main or even buf. 
 -->
-The source of truth is [here](https://github.com/prometheus/prometheus/blob/remote-write-2.0/prompb/io/prometheus/write/v2/types.proto#L32). The `gogo` dependency and options CAN be ignored ([will be removed eventually](https://github.com/prometheus/prometheus/issues/11908)). They are not part of the specification as they don't impact the serialized format.
+The full schema and source of the truth is in Prometheus repository in [`prompb/io/prometheus/write/v2/types.proto`](https://github.com/prometheus/prometheus/blob/remote-write-2.0/prompb/io/prometheus/write/v2/types.proto#L32). The `gogo` dependency and options CAN be ignored ([will be removed eventually](https://github.com/prometheus/prometheus/issues/11908)). They are not part of the specification as they don't impact the serialized format.
 
 The simplified version of the new `io.prometheus.write.v2.Request` is presented below.
 

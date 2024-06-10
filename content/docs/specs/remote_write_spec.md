@@ -1,5 +1,5 @@
 ---
-title: Prometheus Remote-Write Specification
+title: Prometheus Remote-Write
 sort_rank: 4
 ---
 

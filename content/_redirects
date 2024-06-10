@@ -20,6 +20,9 @@
 /docs/alerting/notification_examples/       /docs/alerting/latest/notification_examples/
 /docs/alerting/management_api/              /docs/alerting/latest/management_api/
 
+# Moved RW spec from Concepts to a new section.
+/docs/concepts/remote_write_spec /docs/specs/remote_write_spec
+
 # Redirect for HTTP SD docs, which briefly lived in the wrong category / repo.
 /docs/instrumenting/http_sd/ /docs/prometheus/latest/http_sd/
 
@@ -31,6 +34,7 @@
 /docs/                      /docs/introduction/overview/                302!
 /docs/introduction/         /docs/introduction/overview/                302!
 /docs/concepts/             /docs/concepts/data_model/                  302!
+/docs/specs/                /docs/specs/remote_write_spec/              302!
 /docs/prometheus/           /docs/prometheus/latest/getting_started/    302!
 /docs/alerting/             /docs/alerting/latest/overview/             302!
 /docs/visualization/        /docs/visualization/browser/                302!

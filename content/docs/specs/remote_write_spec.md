@@ -1,9 +1,10 @@
 ---
-title: Prometheus Remote-Write
-sort_rank: 4
+title: Prometheus Remote-Write 1.0
+sort_rank: 5
 ---
 
 # Prometheus Remote-Write Specification
+
 - Version: 1.0
 - Status: Published
 - Date: April 2023

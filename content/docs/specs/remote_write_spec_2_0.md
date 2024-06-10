@@ -1,5 +1,5 @@
 ---
-title: "Prometheus Remote-Write Specification 2.0 [EXPERIMENTAL]"
+title: "Prometheus Remote-Write 2.0 [EXPERIMENTAL]"
 sort_rank: 4
 ---
 

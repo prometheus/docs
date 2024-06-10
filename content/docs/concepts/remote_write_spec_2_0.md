@@ -9,13 +9,13 @@ sort_rank: 4
 * Status: **Experimental**
 * Date: May 2024
 
-**NOTE: This is a release candidate for Remote-Write 2.0 specification. This means that this specification is currently in an experimental state--no major changes are expected, but we reserve the rights to break the compatibility if it's absolutely necessary, based on the early adopters' feedback. The potential feedback, questions and suggestions should be added as comments to the [PR with the open proposal](https://github.com/prometheus/proposals/pull/35).**
-
 The Remote-Write specification, in general, is intended to document the standard for how Prometheus and Prometheus Remote-Write compatible senders send data to Prometheus or Prometheus Remote-Write compatible receivers.
 
 This document is intended to define a second version of the [Prometheus Remote-Write](./remote_write_spec.md) API with minor changes to protocol and semantics. This second version adds a new Proto Message with new features enabling more use cases and wider adoption on top of performance and cost savings. The second version also deprecates the previous Proto Message from a [1.0 Remote-Write specification](./remote_write_spec.md#protocol). Finally, this spec outlines how to implement backwards-compatible senders and receivers (even under a single endpoint) using existing basic content negotiation request headers. More advanced, automatic content negotiation mechanisms might come in a future minor version, if needed. For the rationales behind the 2.0 specification, see [the formal proposal](https://github.com/prometheus/proposals/pull/35).
 
 The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED",  "MAY", and "OPTIONAL" in this document are to be interpreted as described in [RFC 2119](https://datatracker.ietf.org/doc/html/rfc2119).
+
+> NOTE: This is a release candidate for Remote-Write 2.0 specification. This means that this specification is currently in an experimental state--no major changes are expected, but we reserve the rights to break the compatibility if it's absolutely necessary, based on the early adopters' feedback. The potential feedback, questions and suggestions should be added as comments to the [PR with the open proposal](https://github.com/prometheus/proposals/pull/35).
 
 ## Introduction
 
@@ -154,7 +154,7 @@ Sender MAY retry on a 429 HTTP status code. Sender MUST retry write requests on 
 
 The difference between 429 vs 5xx handling is due to a potential situation for Sender “falling behind” if the Receiver cannot keep up. As a result, the ability to NOT retry on 429 allows progress is made when there are Sender side errors (e.g. too much traffic), while the data is not lost when there are Receiver side errors.
 
-### Retries on Partial Writes
+#### Retries on Partial Writes
 
 Receiver MAY return a 5xx HTTP or 429 HTTP status code on partial write or [partial invalid sample cases](#partial-write) when it expects Sender to retry the whole request. In that case Receiver MUST support idempotency as sender MAY retry with the same request.
 

@@ -60,6 +60,7 @@ The current team members are:
 * Chris Marchbanks ([Grafana Labs](https://grafana.com/))
 * Chris Sinjakli ([PlanetScale](https://planetscale.com/))
 * Daniel Magliola ([IndeedFlex](https://indeedflex.co.uk/))
+* David Ashpole ([Google](https://www.google.com/))
 * Fabian Stäber ([Grafana Labs](https://grafana.com/))
 * Frederic Branczyk ([Polar Signals](https://www.polarsignals.com/))
 * Ganesh Vernekar ([Grafana Labs](https://grafana.com/))

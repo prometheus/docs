@@ -315,7 +315,7 @@ For every `TimeSeries` message:
 <!---
 Rationales: https://github.com/prometheus/proposals/blob/alexg/remote-write-20-proposal/proposals/2024-04-09_remote-write-20.md#partial-writes#samples-vs-native-histogram-samples
 -->
-* At least one element in Samples or in Histograms MUST be provided. For series which (rarely) would mix float and histogram samples, a separate `TimeSeries` message MUST be used.
+* At least one element in `samples` or in `histograms` MUST be provided. A `TimeSeries` MUST NOT include both `samples` and `histograms`. For series which (rarely) would mix float and histogram samples, a separate `TimeSeries` message MUST be used.
 
 <!---
 Rationales: https://github.com/prometheus/proposals/blob/alexg/remote-write-20-proposal/proposals/2024-04-09_remote-write-20.md#always-on-metadata
@@ -419,7 +419,7 @@ This section contains speculative plans that are not considered part of protocol
 
 * **Alternative wire formats**. The OpenTelemetry community has shown the validity of Apache Arrow (and potentially other columnar formats) for over-wire data transfer with their OTLP protocol. We would like to do experiments to confirm the compatibility of a similar format with Prometheus’ data model and include benchmarks of any resource usage changes. We would potentially maintain both a protobuf and columnar format long term for compatibility reasons and use our content negotiation to add different proto messages for this purpose.
 
-* **Global symbols**. Pre-defined string dictionary for interning The protocol could pre-define a static dictionary of ref->symbol that includes strings that are considered common, e.g. “namespace”, “le”, “job”, “seconds”, “bytes”, etc. Sender and refer to these without the need to include them in the request’s symbols table. This dictionary could incrementally grow with a minor version releases of this protocol.
+* **Global symbols**. Pre-defined string dictionary for interning The protocol could pre-define a static dictionary of ref->symbol that includes strings that are considered common, e.g. “namespace”, “le”, “job”, “seconds”, “bytes”, etc. Sender could refer to these without the need to include them in the request’s symbols table. This dictionary could incrementally grow with a minor version releases of this protocol.
 
 ## Related
 

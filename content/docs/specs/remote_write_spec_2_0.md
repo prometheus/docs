@@ -314,19 +314,19 @@ message Histogram { ... }
 
 All timestamps MUST be int64 counted as milliseconds since the Unix epoch. Sample's values MUST be float64.
 
-For every TimeSeries message:
+For every `TimeSeries` message:
 
 * Label references MUST be provided.
 
 <!---
 Rationales: https://github.com/prometheus/proposals/blob/alexg/remote-write-20-proposal/proposals/2024-04-09_remote-write-20.md#partial-writes#samples-vs-native-histogram-samples
 -->
-* At least one element in Samples or in Histograms MUST be provided. A TimeSeries MUST NOT include both Samples and Histograms. For series which (rarely) would mix float and histogram samples, a separate TimeSeries message MUST be used.
+* At least one `Sample` or `Histograms` MUST be provided. A `TimeSeries` MUST NOT include both a `Sample` and a `Histogram`. For series which (rarely) would mix float and histogram samples, a separate `TimeSeries` message MUST be used.
 
 <!---
 Rationales: https://github.com/prometheus/proposals/blob/alexg/remote-write-20-proposal/proposals/2024-04-09_remote-write-20.md#always-on-metadata
 -->
-* Metadata sub-fields SHOULD be provided. Receiver MAY reject series with unspecified Metadata.Type.
+* `Metadata` sub-fields SHOULD be provided. Receiver MAY reject series with unspecified `Metadata.type`.
 * Exemplars SHOULD be provided if they exist for a series.
 * Created Timestamp SHOULD be provided for metrics that follow counter semantics (e.g. counters and histograms). Receiver MAY reject those series without the Created Timestamp being set.
 
@@ -346,7 +346,7 @@ Symbols table MUST be provided and it MUST contain deduplicated strings used in 
 <!---
 Rationales: https://github.com/prometheus/proposals/blob/alexg/remote-write-20-proposal/proposals/2024-04-09_remote-write-20.md#labels-and-utf-8
 -->
-The complete set of labels MUST be sent with each Sample or Histogram sample. Additionally, the label set associated with samples:
+The complete set of labels MUST be sent with each `Sample` or `Histogram` sample. Additionally, the label set associated with samples:
 
 * SHOULD contain a `__name__` label.
 * MUST NOT contain repeated label names.
@@ -370,7 +370,7 @@ Receiver also MAY impose limits on the number and length of labels, but this is 
 <!---
 Rationales: https://github.com/prometheus/proposals/blob/alexg/remote-write-20-proposal/proposals/2024-04-09_remote-write-20.md#partial-writes#native-histograms
 -->
-Sender MUST send samples (or histogram samples) for any given TimeSeries in timestamp order. Sender MAY send multiple requests for different series in parallel.
+Sender MUST send samples (or histogram samples) for any given `TimeSeries` in timestamp order. Sender MAY send multiple requests for different series in parallel.
 
 <!---
 Rationales: https://github.com/prometheus/proposals/blob/alexg/remote-write-20-proposal/proposals/2024-04-09_remote-write-20.md#partial-writes#being-pull-vs-push-agnostic

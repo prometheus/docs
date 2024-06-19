@@ -159,7 +159,7 @@ Receiver MAY return a [429 HTTP Too Many Requests](https://developer.mozilla.org
 
 Sender MAY retry on a 429 HTTP status code. Sender MUST retry write requests on 5xx HTTP. Sender MUST use a backoff algorithm to prevent overwhelming the server. Sender MAY handle [the Retry-After response header](https://www.rfc-editor.org/rfc/rfc9110.html#name-retry-after) to estimate the next retry time.
 
-The difference between 429 vs 5xx handling is due to a potential situation for Sender “falling behind” if the Receiver cannot keep up. As a result, the ability to NOT retry on 429 allows progress is made when there are Sender side errors (e.g. too much traffic), while the data is not lost when there are Receiver side errors.
+The difference between 429 vs 5xx handling is due to the potential situation of the Sender “falling behind” when the Receiver cannot keep up with the request volume, or the Receiver choosing to rate limit the Sender to protect it's own availability. As a result, the Sender has the option to NOT retry on 429, which allows progress to be made when there are Sender side errors (e.g. too much traffic), while the data is not lost when there are Receiver side errors (5xx).
 
 #### Retries on Partial Writes
 

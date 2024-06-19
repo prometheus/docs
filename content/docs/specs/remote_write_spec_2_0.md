@@ -314,21 +314,21 @@ message Histogram { ... }
 
 All timestamps MUST be int64 counted as milliseconds since the Unix epoch. Sample's values MUST be float64.
 
-For every TimeSeries message:
+For every `TimeSeries` message:
 
-* Label references MUST be provided.
+* `labels_refs` MUST be provided.
 
 <!---
 Rationales: https://github.com/prometheus/proposals/blob/alexg/remote-write-20-proposal/proposals/2024-04-09_remote-write-20.md#partial-writes#samples-vs-native-histogram-samples
 -->
-* At least one element in Samples or in Histograms MUST be provided. A TimeSeries MUST NOT include both Samples and Histograms. For series which (rarely) would mix float and histogram samples, a separate TimeSeries message MUST be used.
+* At least one element in `samples` or in `histograms` MUST be provided. A `TimeSeries` MUST NOT include both `samples` and `histograms`. For series which (rarely) would mix float and histogram samples, a separate `TimeSeries` message MUST be used.
 
 <!---
 Rationales: https://github.com/prometheus/proposals/blob/alexg/remote-write-20-proposal/proposals/2024-04-09_remote-write-20.md#always-on-metadata
 -->
-* Metadata sub-fields SHOULD be provided. Receiver MAY reject series with unspecified Metadata.Type.
+* `metadata` sub-fields SHOULD be provided. Receiver MAY reject series with unspecified `Metadata.type`.
 * Exemplars SHOULD be provided if they exist for a series.
-* Created Timestamp SHOULD be provided for metrics that follow counter semantics (e.g. counters and histograms). Receiver MAY reject those series without the Created Timestamp being set.
+* `created_timestamp` SHOULD be provided for metrics that follow counter semantics (e.g. counters and histograms). Receiver MAY reject those series without `created_timestamp` being set.
 
 The following subsections define some schema elements in detail.
 
@@ -339,14 +339,14 @@ Rationales: https://github.com/prometheus/proposals/blob/alexg/remote-write-20-p
 -->
 The `io.prometheus.write.v2.Request` Proto Message is designed to [intern all strings](https://en.wikipedia.org/wiki/String_interning) for the proven additional compression and memory efficiency gains on top of the standard compressions.
 
-Symbols table MUST be provided and it MUST contain deduplicated strings used in series, exemplar labels, and metadata strings. The first element of the symbols table MUST be an empty string, which is used to represent empty or unspecified values such as when Unit or Help metadata are not provided. References MUST point to the existing index in the Symbols string array.
+The `symbols` table MUST be provided and it MUST contain deduplicated strings used in series, exemplar labels, and metadata strings. The first element of the `symbols` table MUST be an empty string, which is used to represent empty or unspecified values such as when `Metadata.unit_ref` or `Metadata.help_ref` are not provided. References MUST point to the existing index in the `symbols` string array.
 
 #### Series Labels
 
 <!---
 Rationales: https://github.com/prometheus/proposals/blob/alexg/remote-write-20-proposal/proposals/2024-04-09_remote-write-20.md#labels-and-utf-8
 -->
-The complete set of labels MUST be sent with each Sample or Histogram sample. Additionally, the label set associated with samples:
+The complete set of labels MUST be sent with each `Sample` or `Histogram` sample. Additionally, the label set associated with samples:
 
 * SHOULD contain a `__name__` label.
 * MUST NOT contain repeated label names.
@@ -370,7 +370,7 @@ Receiver also MAY impose limits on the number and length of labels, but this is 
 <!---
 Rationales: https://github.com/prometheus/proposals/blob/alexg/remote-write-20-proposal/proposals/2024-04-09_remote-write-20.md#partial-writes#native-histograms
 -->
-Sender MUST send samples (or histogram samples) for any given TimeSeries in timestamp order. Sender MAY send multiple requests for different series in parallel.
+Sender MUST send `samples` (or `histograms`) for any given `TimeSeries` in timestamp order. Sender MAY send multiple requests for different series in parallel.
 
 <!---
 Rationales: https://github.com/prometheus/proposals/blob/alexg/remote-write-20-proposal/proposals/2024-04-09_remote-write-20.md#partial-writes#being-pull-vs-push-agnostic

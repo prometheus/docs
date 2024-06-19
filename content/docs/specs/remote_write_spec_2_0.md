@@ -68,7 +68,14 @@ Sender MUST send a serialized and compressed Proto Message in the body of an HTT
 <!---
 Rationales: https://github.com/prometheus/proposals/blob/alexg/remote-write-20-proposal/proposals/2024-04-09_remote-write-20.md#basic-content-negotiation-built-on-what-we-have
 -->
-Sender MUST send the following reserved headers with the HTTP request. Sender MAY allow users to add custom HTTP headers; they MUST NOT allow users to configure them in such a way as to send reserved headers.
+Sender MUST send the following reserved headers with the HTTP request:
+- Content-Encoding
+- Content-Type
+- X-Prometheus-Remote-Write-Version
+- User-Agent
+
+
+Sender MAY allow users to add custom HTTP headers; they MUST NOT allow users to configure them in such a way as to send reserved headers.
 
 #### Content-Encoding
 

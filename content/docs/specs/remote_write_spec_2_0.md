@@ -327,7 +327,7 @@ Rationales: https://github.com/prometheus/proposals/blob/alexg/remote-write-20-p
 <!---
 Rationales: https://github.com/prometheus/proposals/blob/alexg/remote-write-20-proposal/proposals/2024-04-09_remote-write-20.md#always-on-metadata
 -->
-* Metadata fields SHOULD be provided. Receiver MAY reject series with unspecified type.
+* Metadata fields SHOULD be provided. Receiver MAY reject series with unspecified Type.
 * Exemplars SHOULD be provided if they exist for a series.
 * Created timestamp SHOULD be provided for metrics that follow counter semantics (e.g. counters and histograms). Receiver MAY reject those series without the created timestamp being set.
 

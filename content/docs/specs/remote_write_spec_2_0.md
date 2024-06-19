@@ -69,11 +69,11 @@ Sender MUST send a serialized and compressed Proto Message in the body of an HTT
 Rationales: https://github.com/prometheus/proposals/blob/alexg/remote-write-20-proposal/proposals/2024-04-09_remote-write-20.md#basic-content-negotiation-built-on-what-we-have
 -->
 Sender MUST send the following reserved headers with the HTTP request:
-- Content-Encoding
-- Content-Type
-- X-Prometheus-Remote-Write-Version
-- User-Agent
 
+- `Content-Encoding`
+- `Content-Type`
+- `X-Prometheus-Remote-Write-Version`
+- `User-Agent`
 
 Sender MAY allow users to add custom HTTP headers; they MUST NOT allow users to configure them in such a way as to send reserved headers.
 
@@ -255,10 +255,13 @@ message TimeSeries {
 
 // Exemplar represents additional information attached to some series' samples.
 message Exemplar {
-  // labels_refs is a list of label name-value pair references, encoded
+  // labels_refs is an optional list of label name-value pair references, encoded
   // as indices to the Request.symbols array. This list's len is always
   // a multiple of 2, and the underlying labels should be sorted lexicographically.
+  // If the exemplar references a trace it should use the `trace_id` label name, as a best practice.
   repeated uint32 labels_refs = 1;
+  // value represents an exact example value. This can be useful when the exemplar
+  // is attached to a histogram, which only gives an estimated value through buckets.
   double value = 2;
   // timestamp represents an optional timestamp of the sample in ms.
   // For Go, see github.com/prometheus/prometheus/model/timestamp/timestamp.go
@@ -276,8 +279,6 @@ message Sample {
   // value of the sample.
   double value = 1;
   // timestamp represents timestamp of the sample in ms.
-  // For Go, see github.com/prometheus/prometheus/model/timestamp/timestamp.go
-  // for conversion from/to time.Time to Prometheus timestamp.
   int64 timestamp = 2;
 }
 
@@ -313,19 +314,19 @@ message Histogram { ... }
 
 All timestamps MUST be int64 counted as milliseconds since the Unix epoch. Sample's values MUST be float64.
 
-For every `TimeSeries` message:
+For every TimeSeries message:
 
 * Label references MUST be provided.
 
 <!---
 Rationales: https://github.com/prometheus/proposals/blob/alexg/remote-write-20-proposal/proposals/2024-04-09_remote-write-20.md#partial-writes#samples-vs-native-histogram-samples
 -->
-* At least one element in `samples` or in `histograms` MUST be provided. A `TimeSeries` MUST NOT include both `samples` and `histograms`. For series which (rarely) would mix float and histogram samples, a separate `TimeSeries` message MUST be used.
+* At least one element in Samples or in Histograms MUST be provided. A TimeSeries MUST NOT include both Samples and Histograms. For series which (rarely) would mix float and histogram samples, a separate TimeSeries message MUST be used.
 
 <!---
 Rationales: https://github.com/prometheus/proposals/blob/alexg/remote-write-20-proposal/proposals/2024-04-09_remote-write-20.md#always-on-metadata
 -->
-* Metadata fields SHOULD be provided. Receiver MAY reject series with unspecified Type.
+* Metadata sub-fields SHOULD be provided. Receiver MAY reject series with unspecified Metadata.Type.
 * Exemplars SHOULD be provided if they exist for a series.
 * Created Timestamp SHOULD be provided for metrics that follow counter semantics (e.g. counters and histograms). Receiver MAY reject those series without the Created Timestamp being set.
 

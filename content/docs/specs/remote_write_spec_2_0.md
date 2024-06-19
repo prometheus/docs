@@ -135,7 +135,7 @@ The following subsections specify Sender and Receiver semantics around write err
 <!---
 Rationales: https://github.com/prometheus/proposals/blob/alexg/remote-write-20-proposal/proposals/2024-04-09_remote-write-20.md#partial-writes
 -->
-Sender SHOULD use Remote-Write to send samples for multiple series in a single request. As a result, Receiver MAY ingest valid samples within a write request that contains invalid or otherwise unwritten samples, which represents a partial write case.
+Sender SHOULD use Remote-Write to send samples for multiple series in a single request. As a result, Receiver MAY ingest valid samples within a write request that also contains some invalid or otherwise unwritten samples, which represents a partial write case.
 
 In a partial write case, Receiver MUST NOT return a 200 HTTP status code. Receiver MUST provide a human-readable error message in the response body. The Receiver's error SHOULD contain information about the amount of the samples being rejected and for what reasons.
 

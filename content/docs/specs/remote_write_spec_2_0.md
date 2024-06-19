@@ -26,7 +26,7 @@ The Remote-Write protocol is designed to make it possible to reliably propagate 
 <!---
 For the detailed rationales behind each 2.0 Remote-Write decision, see: https://github.com/prometheus/proposals/blob/alexg/remote-write-20-proposal/proposals/2024-04-09_remote-write-20.md
 -->
-The Remote-Write protocol is designed to be stateless; there is strictly no inter-message communication. As such the protocol is not considered "streaming." To achieve a streaming effect multiple messages should be sent over the same connection using e.g. HTTP/1.1 or HTTP/2. "Fancy" technologies such as gRPC were considered, but at the time were not widely adopted, and it was challenging to expose gRPC services to the internet behind load balancers such as an AWS EC2 ELB.
+The Remote-Write protocol is designed to be stateless; there is strictly no inter-message communication. As such the protocol is not considered "streaming". To achieve a streaming effect multiple messages should be sent over the same connection using e.g. HTTP/1.1 or HTTP/2. "Fancy" technologies such as gRPC were considered, but at the time were not widely adopted, and it was challenging to expose gRPC services to the internet behind load balancers such as an AWS EC2 ELB.
 
 The Remote-Write protocol contains opportunities for batching, e.g. sending multiple samples for different series in a single request. It is not expected that multiple samples for the same series will be commonly sent in the same request, although there is support for this in the Proto Message.
 
@@ -38,7 +38,7 @@ In this document, the following definitions are followed:
 
 * a `Remote-Write` is the name of this Prometheus protocol.
 * a `Protocol` is a communication specification that enables the client and server to transfer metrics.
-* a `Proto Message` refers to the [content type](https://www.rfc-editor.org/rfc/rfc9110.html#name-content-type) definition of the data structure for this Protocol. Since the specification uses [Google Protocol Buffers ("protobuf")](https://protobuf.dev/) exclusively, the schema is defined in a ["proto" file](https://protobuf.dev/programming-guides/proto3/) and represented by a single Protobuf ["message"](https://protobuf.dev/programming-guides/proto3/#simple).
+* a `Proto Message` (or Protobuf Message) refers to the [content type](https://www.rfc-editor.org/rfc/rfc9110.html#name-content-type) definition of the data structure for this Protocol. Since the specification uses [Google Protocol Buffers ("protobuf")](https://protobuf.dev/) exclusively, the schema is defined in a ["proto" file](https://protobuf.dev/programming-guides/proto3/) and represented by a single Protobuf ["message"](https://protobuf.dev/programming-guides/proto3/#simple).
 * a `Wire Format` is the format of the data as it travels on the wire (i.e. in a network). In the case of Remote-Write, this is always the compressed binary protobuf format.
 * a `Sender` is something that sends Remote-Write data.
 * a `Receiver` is something that receives Remote-Write data.
@@ -61,7 +61,7 @@ The protobuf serialization MUST use either of the following Proto Messages:
 * The `prometheus.WriteRequest` introduced in [the Remote-Write 1.0 specification](./remote_write_spec.md#protocol). As of 2.0, this message is deprecated. It SHOULD be used only for compatibility reasons. Sender and Receiver MAY NOT support the `prometheus.WriteRequest`.
 * The `io.prometheus.write.v2.Request` introduced in this specification and defined [below](#proto-message). Sender and Receiver SHOULD use this message when possible. Sender and Receiver MUST support the `io.prometheus.write.v2.Request`.
 
-The Proto Message MUST use binary Wire Format. Then, MUST be compressed with [Google’s Snappy](https://github.com/google/snappy). The block format MUST be used -- the framed format MUST NOT be used.
+The Proto Message MUST use binary Wire Format. Then, MUST be compressed with [Google’s Snappy](https://github.com/google/snappy). Snappy's [block format](https://github.com/google/snappy/blob/2c94e11145f0b7b184b831577c93e5a41c4c0346/format_description.txt) MUST be used -- [the framed format](https://github.com/google/snappy/blob/2c94e11145f0b7b184b831577c93e5a41c4c0346/framing_format.txt) MUST NOT be used.
 
 Sender MUST send a serialized and compressed Proto Message in the body of an HTTP POST request and send it to the Receiver via HTTP at the provided URL path. The Receiver MAY specify any HTTP URL path to receive metrics.
 
@@ -128,18 +128,16 @@ Sender MUST include a user agent header that SHOULD follow [the RFC 9110 User-Ag
 
 Receiver ingesting all samples successfully MUST return a 200 HTTP status code. In such a successful case, the response body from the Receiver SHOULD be empty; Sender MUST ignore the response body. The response body is RESERVED for future use.
 
-The following subsections specify Sender and Receiver semantics around write errors.
+Receiver MUST NOT return a 200 HTTP status code if any of the samples were not written successfully (e.g. on a [partial write](#partial-write) or a full write rejection). In such a case, Receiver MUST provide a human-readable error message in the response body. The Receiver's error SHOULD contain information about the amount of the samples being rejected and for what reasons. Sender MUST NOT try and interpret the error message and SHOULD log it as is.
+
+The following subsections specify Sender and Receiver semantics around different write error cases.
 
 #### Partial Write
 
 <!---
 Rationales: https://github.com/prometheus/proposals/blob/alexg/remote-write-20-proposal/proposals/2024-04-09_remote-write-20.md#partial-writes
 -->
-Sender SHOULD use Remote-Write to send samples for multiple series in a single request. As a result, Receiver MAY ingest valid samples within a write request that also contains some invalid or otherwise unwritten samples, which represents a partial write case.
-
-In a partial write case, Receiver MUST NOT return a 200 HTTP status code. Receiver MUST provide a human-readable error message in the response body. The Receiver's error SHOULD contain information about the amount of the samples being rejected and for what reasons.
-
-Sender MUST NOT try and interpret the error message and SHOULD log it as is.
+Sender SHOULD use Remote-Write to send samples for multiple series in a single request. As a result, Receiver MAY ingest valid samples within a write request that also contains some invalid or otherwise unwritten samples, which represents a partial write case. In such a case, Receiver MUST return non-200 status code following the [Invalid Samples](#invalid-samples) and [Retry on Partial Writes](#retries-on-partial-writes) sections.
 
 #### Unsupported Request Content
 
@@ -155,11 +153,11 @@ Sender MUST NOT retry on a 4xx HTTP status codes (other than [429](https://devel
 
 ### Retries & Backoff
 
-Receiver MAY return a [429 HTTP Too Many Requests](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429) status code to indicate the overloaded server situation. Receiver MAY return [the Retry-After](https://www.rfc-editor.org/rfc/rfc9110.html#name-retry-after) header to indicate the time for the next write attempt. Receiver MAY return a 5xx HTTP status code to represent internal server errors, that should be retried.
+Receiver MAY return a [429 HTTP Too Many Requests](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429) status code to indicate the overloaded server situation. Receiver MAY return [the Retry-After](https://www.rfc-editor.org/rfc/rfc9110.html#name-retry-after) header to indicate the time for the next write attempt. Receiver MAY return a 5xx HTTP status code to represent internal server errors.
 
 Sender MAY retry on a 429 HTTP status code. Sender MUST retry write requests on 5xx HTTP. Sender MUST use a backoff algorithm to prevent overwhelming the server. Sender MAY handle [the Retry-After response header](https://www.rfc-editor.org/rfc/rfc9110.html#name-retry-after) to estimate the next retry time.
 
-The difference between 429 vs 5xx handling is due to the potential situation of the Sender “falling behind” when the Receiver cannot keep up with the request volume, or the Receiver choosing to rate limit the Sender to protect it's own availability. As a result, the Sender has the option to NOT retry on 429, which allows progress to be made when there are Sender side errors (e.g. too much traffic), while the data is not lost when there are Receiver side errors (5xx).
+The difference between 429 vs 5xx handling is due to the potential situation of Sender “falling behind” when Receiver cannot keep up with the request volume, or Receiver choosing to rate limit Sender to protect its own availability. As a result, Sender has the option to NOT retry on 429, which allows progress to be made when there are Sender side errors (e.g. too much traffic), while the data is not lost when there are Receiver side errors (5xx).
 
 #### Retries on Partial Writes
 
@@ -439,10 +437,10 @@ Because 1.0 protocol does not use gRPC, breaking it would increase friction in t
 If you use persistent HTTP/1.1 connections, they are pretty close to streaming. Of course headers have to be re-sent, but yes that is less expensive than a new TCP set up.
 
 **Why do we send samples in order?**
-The in-order constraint comes from the encoding we use for time series data in Prometheus, the implementation of which is append-only. It is possible to remove this constraint, for instance by buffering samples and reordering them before encoding.
+The in-order constraint comes from the encoding we use for time series data in Prometheus, the implementation of which is optimized for append-only workloads. However, this requirement is also shared across many other databases and vendors in the ecosystem. In fact, [Prometheus with OOO feature enabled](https://youtu.be/qYsycK3nTSQ?t=1321), allows out-of-order writes, but with the performance penalty, thus reserved for rare events. To sum up, Receiver may support out-of-order ingestion, though it is not permitted by the specification. In the future e.g. 2.x spec versions, we could extend content type to negotiate the out-of-order writes, if needed.
 
 **How can we parallelise requests with the in-order constraint?**
-Samples must be in-order _for a given series_. Remote-Write requests can be sent in parallel as long as they are for different series. In Prometheus, we shard the samples by their labels into separate queues, and then writes happen sequentially in each queue. This guarantees samples for the same series are delivered in order, but samples for different series are sent in parallel - and potentially "out of order" between different series.
+Samples must be in-order _for a given series_. However, even if Receiver does not support out-of-order ingestion, the Remote-Write requests can be sent in parallel as long as they are for different series. Prometheus shards the samples by their labels into separate queues, and then writes happen sequentially in each queue. This guarantees samples for the same series are delivered in order, but samples for different series are sent in parallel - and potentially "out of order" between different series.
 
 **What are the differences between Remote-Write 2.0 and OpenTelemetry's OTLP protocol?**
 [OpenTelemetry OTLP](https://github.com/open-telemetry/opentelemetry-proto/blob/a05597bff803d3d9405fcdd1e1fb1f42bed4eb7a/docs/specification.md) is a protocol for transporting of telemetry data (such as metrics, logs, traces and profiles) between telemetry sources, intermediate nodes and telemetry backends. The recommended transport involves gRPC with protobuf, but HTTP with protobuf or JSON are also described. It was designed from scratch with the intent to support a variety of different observability signals, data types and extra information. For [metrics](https://github.com/open-telemetry/opentelemetry-proto/blob/main/opentelemetry/proto/metrics/v1/metrics.proto) that means additional non-identifying labels, flags, temporal aggregations types, resource or scoped metrics, schema URLs and more. OTLP also requires [the semantic convention](https://opentelemetry.io/docs/concepts/semantic-conventions/) to be used.

@@ -340,7 +340,7 @@ Rationales: https://github.com/prometheus/proposals/blob/alexg/remote-write-20-p
 -->
 The `io.prometheus.write.v2.Request` Proto Message is designed to [intern all strings](https://en.wikipedia.org/wiki/String_interning) for the proven additional compression and memory efficiency gains on top of the standard compressions.
 
-Symbols table MUST be provided and it MUST contain deduplicated strings used in series, exemplar labels and metadata strings. The first element of the symbols table MUST be an empty string. References MUST point to the existing index in the Symbols string array.
+Symbols table MUST be provided and it MUST contain deduplicated strings used in series, exemplar labels, and metadata strings. The first element of the symbols table MUST be an empty string, which is used to represent empty or unspecified values such as when Unit or Help metadata are not provided. References MUST point to the existing index in the Symbols string array.
 
 #### Series Labels
 

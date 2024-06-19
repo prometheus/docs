@@ -327,7 +327,7 @@ Rationales: https://github.com/prometheus/proposals/blob/alexg/remote-write-20-p
 -->
 * Metadata fields SHOULD be provided. Receiver MAY reject series with unspecified Type.
 * Exemplars SHOULD be provided if they exist for a series.
-* Created timestamp SHOULD be provided for metrics that follow counter semantics (e.g. counters and histograms). Receiver MAY reject those series without the created timestamp being set.
+* Created Timestamp SHOULD be provided for metrics that follow counter semantics (e.g. counters and histograms). Receiver MAY reject those series without the Created Timestamp being set.
 
 The following subsections define some schema elements in detail.
 

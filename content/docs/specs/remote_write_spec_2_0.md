@@ -63,7 +63,7 @@ The protobuf serialization MUST use either of the following Proto Messages:
 
 The Proto Message MUST use binary Wire Format. Then, MUST be compressed with [Google’s Snappy](https://github.com/google/snappy). The block format MUST be used -- the framed format MUST NOT be used.
 
-Sender MUST send serialized and compressed Proto Message in the body of an HTTP POST request and send it to the Receiver via HTTP at a provided URL path. The Receiver MAY specify any HTTP URL path to receive metrics.
+Sender MUST send a serialized and compressed Proto Message in the body of an HTTP POST request and send it to the Receiver via HTTP at the provided URL path. The Receiver MAY specify any HTTP URL path to receive metrics.
 
 <!---
 Rationales: https://github.com/prometheus/proposals/blob/alexg/remote-write-20-proposal/proposals/2024-04-09_remote-write-20.md#basic-content-negotiation-built-on-what-we-have

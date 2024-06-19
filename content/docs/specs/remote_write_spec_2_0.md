@@ -30,7 +30,7 @@ The Remote-Write protocol is designed to be stateless; there is strictly no inte
 
 The Remote-Write protocol contains opportunities for batching, e.g. sending multiple samples for different series in a single request. It is not expected that multiple samples for the same series will be commonly sent in the same request, although there is support for this in the Proto Message.
 
-A test suite can be found at https://github.com/prometheus/compliance/tree/main/remote_write_sender. The test's 2.0 compatibility [is in progress](https://github.com/prometheus/compliance/issues/101).
+A test suite can be found at https://github.com/prometheus/compliance/tree/main/remote_write_sender. The compliance tests for remote write 2.0 compatibility are still [in progress](https://github.com/prometheus/compliance/issues/101).
 
 ### Glossary
 

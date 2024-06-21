@@ -201,7 +201,7 @@ The simplified version of the new `io.prometheus.write.v2.Request` is presented 
 // Request represents a request to write the given timeseries to a remote destination.
 message Request {
   // Since Request supersedes 1.0 spec's prometheus.WriteRequest, we reserve the top-down message
-  // for the deterministic interop between those two, see types_test.go for details.
+  // for the deterministic interop between those two.
   // Generally it's not needed, because Receivers must use the Content-Type header, but we want to
   // be sympathetic to adopters with mistaken implementations and have deterministic error (empty
   // message if you use the wrong proto schema).

@@ -5,7 +5,7 @@ sort_rank: 4
 
 # Prometheus Remote-Write Specification
 
-* Version: 2.0-rc.0
+* Version: 2.0-rc.1
 * Status: **Experimental**
 * Date: May 2024
 
@@ -108,6 +108,10 @@ For the message introduced in PRW 2.0, identified by `io.prometheus.write.v2.Req
   
 When talking to 1.x Receivers, Senders SHOULD use `Content-Type: application/x-protobuf` for backward compatibility. Otherwise, Senders SHOULD use `Content-Type: application/x-protobuf;proto=io.prometheus.write.v2.Request`. More Protobuf Messages might come in 2.x or beyond.
 
+Receivers MUST use the content type header to identify the Protobuf Message schema to use. Accidental wrong schema choices may result in non-deterministic behaviour (e.g. corruptions). 
+
+> NOTE: Thanks to reserved fields in [`io.prometheus.write.v2.Request`](#protobuf-message), Receiver accidental use of wrong schema with `prometheus.WriteRequest` will result in empty message. This is generally for convenience to avoid surprising errors, but don't rely on it -- future Protobuf Messages might not have this feature.
+
 #### X-Prometheus-Remote-Write-Version
 
 ```
@@ -196,6 +200,13 @@ The simplified version of the new `io.prometheus.write.v2.Request` is presented 
 ```
 // Request represents a request to write the given timeseries to a remote destination.
 message Request {
+  // Since Request supersedes 1.0 spec's prometheus.WriteRequest, we reserve the top-down message
+  // for the deterministic interop between those two, see types_test.go for details.
+  // Generally it's not needed, because Receivers must use the Content-Type header, but we want to
+  // be sympathetic to adopters with mistaken implementations and have deterministic error (empty
+  // message if you use the wrong proto schema).
+  reserved 1 to 3;
+
   // symbols contains a de-duplicated array of string elements used for various
   // items in a Request message, like labels and metadata items. For the sender's convenience
   // around empty values for optional fields like unit_ref, symbols array MUST start with
@@ -204,9 +215,9 @@ message Request {
   // To decode each of the symbolized strings, referenced, by "ref(s)" suffix, you
   // need to lookup the actual string by index from symbols array. The order of
   // strings is up to the sender. The receiver should not assume any particular encoding.
-  repeated string symbols = 1;
+  repeated string symbols = 4;
   // timeseries represents an array of distinct series with 0 or more samples.
-  repeated TimeSeries timeseries = 2;
+  repeated TimeSeries timeseries = 5;
 }
 
 // TimeSeries represents a single series.

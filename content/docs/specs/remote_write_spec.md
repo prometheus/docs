@@ -1,9 +1,10 @@
 ---
-title: Prometheus Remote-Write
-sort_rank: 4
+title: Prometheus Remote-Write 1.0
+sort_rank: 5
 ---
 
 # Prometheus Remote-Write Specification
+
 - Version: 1.0
 - Status: Published
 - Date: April 2023
@@ -19,8 +20,7 @@ The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "S
 
 The remote write protocol is designed to make it possible to reliably propagate samples in real-time from a sender to a receiver, without loss.
 
-The remote write protocol is designed to make stateless implementations of the server possible; as such there are little-to-no inter-message references.  As such the protocol is not considered "streaming." To achieve a streaming effect multiple messages should be sent over the same connection using e.g. HTTP/1.1 or HTTP/2.  "Fancy" technologies such as gRPC were considered, but at the time were not widely adopted, and it was challenging to expose gRPC services to the internet behind load balancers such as an AWS EC2 ELB.
-
+The Remote-Write protocol is designed to be stateless; there is strictly no inter-message communication. As such the protocol is not considered "streaming". To achieve a streaming effect multiple messages should be sent over the same connection using e.g. HTTP/1.1 or HTTP/2. "Fancy" technologies such as gRPC were considered, but at the time were not widely adopted, and it was challenging to expose gRPC services to the internet behind load balancers such as an AWS EC2 ELB.
 
 The remote write protocol contains opportunities for batching, e.g. sending multiple samples for different series in a single request.  It is not expected that multiple samples for the same series will be commonly sent in the same request, although there is support for this in the protocol.
 
@@ -183,7 +183,7 @@ This section contains speculative plans that are not considered part of protocol
 ## Related
 ### Compatible Senders and Receivers
 
-The spec is intended to describe how the following components interact:
+The spec is intended to describe how the following components interact (as of April 2023):
 
 - [Prometheus](https://github.com/prometheus/prometheus/tree/master/storage/remote) (as both a "sender" and a "receiver")
 - [Avalanche](https://github.com/prometheus-community/avalanche) (as a "sender") - A Load Testing Tool Prometheus Metrics.

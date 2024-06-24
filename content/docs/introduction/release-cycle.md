@@ -41,7 +41,7 @@ having a Prometheus server maintained by the community.
             <td>Prometheus 2.45</td><td>2023-06-23</td><td>2024-07-31</td>
         </tr>
         <tr class="success">
-            <td>Prometheus 2.53</td><td>2024-07-01</td><td>2025-07-31</td>
+            <td>Prometheus 2.53</td><td>2024-06-16</td><td>2025-07-31</td>
         </tr>
     </tbody>
 </table>

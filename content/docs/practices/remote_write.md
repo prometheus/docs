@@ -32,7 +32,7 @@ During operation, Prometheus will continuously calculate the optimal number of
 shards to use based on the incoming sample rate, number of outstanding samples
 not sent, and time taken to send each sample.
 
-### Memory usage
+### Resource usage
 
 Using remote write increases the memory footprint of Prometheus. Most users
 report ~25% increased memory usage, but that number is dependent on the shape
@@ -47,6 +47,11 @@ increases to `capacity` and `max_samples_per_send` to avoid inadvertently
 running out of memory. The default values for `capacity: 2500` and
 `max_samples_per_send: 500` will constrain shard memory usage to less than 500
 kB per shard.
+
+Remote write will also increase CPU and network usage. However, for the same
+reasons as above, it is difficult to predict by how much. It is generally a
+good practice to check for CPU and network saturation if your Prometheus server
+falls behind sending samples via remote write.
 
 ## Parameters
 

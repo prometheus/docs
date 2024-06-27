@@ -494,6 +494,49 @@ Often people combine these with a specific service discovery. Check out the [con
 
 That is it. Restart the Prometheus docker container and look at your [metrics](http://localhost:9090/graph?g0.range_input=30m&g0.stacked=0&g0.expr=probe_http_duration_seconds&g0.tab=0). Pay attention that you selected the period of time when the metrics were actually collected.
 
+## Example configuration: Multiple targets and multiple modules in one Prometheus job
+
+In the example above we used a single blackbox exporter probe module only. The `module` is specified as a job-level parameter of the `blackbox-http` job. Since it is a list, it can contain multiple elements, but the blackbox exporter only uses the first one.
+However, we can use multiple blackbox exporter modules in a single job if we need to probe separate groups of targets with appropriate modules for each.
+Instead of specifying the `module` param of the job, we can specify a `module` label in each `static_config`.
+Additionally the `relabel_configs` sequence needs to be expanded with a new item, because we have to inject the module (as `__param_module`) in the requests at this point.
+
+```yaml
+global:
+  scrape_interval: 5s
+
+scrape_configs:
+- job_name: blackbox                # To get metrics about the exporter itself
+  metrics_path: /metrics
+  static_configs:
+    - targets:
+      - localhost:9115              # The blackbox exporter’s real hostname:port
+
+- job_name: blackbox-probes         # To get metrics about the exporter’s targets with different modules
+  metrics_path: /probe
+  static_configs:
+    - targets:                      # static_config: targets and http_2xx module
+      - http://prometheus.io
+      - https://prometheus.io
+      - http://example.com:8080
+      labels:
+        module: http_2xx
+    - targets:                      # static_config: targets and icmp module
+      - prometheus.io
+      - example.com
+      labels:
+        module: icmp
+  relabel_configs:
+    - source_labels: [__address__]
+      target_label: __param_target
+    - source_labels: [__param_target]
+      target_label: instance
+    - source_labels: [module]
+      target_label: __param_module
+    - target_label: __address__
+      replacement: localhost:9115   # The blackbox exporter’s real hostname:port
+```
+
 # Summary
 
 In this guide, you learned how the multi-target exporter pattern works, how to run a blackbox exporter with a customised module, and to configure Prometheus using relabeling to scrape metrics with prober labels.

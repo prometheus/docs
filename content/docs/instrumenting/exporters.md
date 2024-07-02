@@ -217,6 +217,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [DHCPD leases exporter](https://github.com/DRuggeri/dhcpd_leases_exporter)
    * [Dovecot exporter](https://github.com/kumina/dovecot_exporter)
    * [Dnsmasq exporter](https://github.com/google/dnsmasq_exporter)
+   * [Easee Home exporter](https://github.com/daverstam/easee-exporter)
    * [eBPF exporter](https://github.com/cloudflare/ebpf_exporter)
    * [Ethereum Client exporter](https://github.com/31z4/ethereum-prometheus-exporter)
    * [File statistics exporter](https://github.com/michael-doubez/filestat_exporter)

@@ -76,6 +76,7 @@ For notification mechanisms not natively supported by the Alertmanager, the
 
   * [alertmanager-webhook-logger](https://github.com/tomtom-international/alertmanager-webhook-logger): logs alerts
   * [Alertsnitch](https://gitlab.com/yakshaving.art/alertsnitch): saves alerts to a MySQL database
+  * [Alibaba Cloud Alert (SLS)](https://www.alibabacloud.com/help/doc-detail/212867.htm): send alerts to Alibaba Cloud Alert, and log them
   * [Asana](https://gitlab.com/lupudu/alertmanager-asana-bridge)
   * [AWS SNS](https://github.com/DataReply/alertmanager-sns-forwarder)
   * [Better Uptime](https://docs.betteruptime.com/integrations/prometheus)

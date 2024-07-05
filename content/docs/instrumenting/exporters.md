@@ -203,6 +203,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [StatusPage exporter](https://github.com/sergeyshevch/statuspage-exporter)
 
 ### Miscellaneous
+
    * [ACT Fibernet Exporter](https://git.captnemo.in/nemo/prometheus-act-exporter)
    * [BIND exporter](https://github.com/prometheus-community/bind_exporter)
    * [BIND query exporter](https://github.com/DRuggeri/bind_query_exporter)

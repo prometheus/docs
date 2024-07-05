@@ -80,7 +80,7 @@ Prometheus is designed for reliability, to be the system you go to
 during an outage to allow you to quickly diagnose problems. Each Prometheus
 server is standalone, not depending on network storage or other remote services.
 You can rely on it when other parts of your infrastructure are broken, and
-you do not need to setup extensive infrastructure to use it.
+you do not need to set up extensive infrastructure to use it.
 
 ## When does it not fit?
 

@@ -5,7 +5,7 @@ sort_rank: 4
 
 # Prometheus Remote-Write Specification
 
-* Version: 2.0-rc.1
+* Version: 2.0-rc.2
 * Status: **Experimental**
 * Date: May 2024
 
@@ -134,7 +134,30 @@ Receivers ingesting all samples successfully MUST return a 200 HTTP status code.
 
 Receivers MUST NOT return a 200 HTTP status code if any of the samples were not written successfully (e.g. on a [partial write](#partial-write) or a full write rejection). In such a case, the Receiver MUST provide a human-readable error message in the response body. The Receiver's error SHOULD contain information about the amount of the samples being rejected and for what reasons. Senders MUST NOT try and interpret the error message and SHOULD log it as is.
 
-The following subsections specify Sender and Receiver semantics around different write error cases.
+The following subsections specify Sender and Receiver semantics around headers and different write error cases.
+
+#### Response Headers
+
+<!---
+Rationales: https://github.com/prometheus/prometheus/issues/14359
+-->
+For all HTTP status codes, Receivers MUST send back the HTTP response `X-Prometheus-Remote-Write-Received-` type of the header indicating write statistics, i.e. how many Samples, Histograms and Exemplars were successfully received by the Receiver. Receivers MAY omit each header, if its value is zero.
+
+Receivers MUST send those response headers, even if they use asynchronous or eventual write mechanisms e.g. when Receivers can't confirm that downstream storage actually written them in durable way. The headers are only to confirm how many Samples, Histograms and Exemplars were accepted by the Receiver, especially useful on [Partial Write](#partial-write) situations.
+
+Each header value MUST be a single 64 bytes integer. The header names MUST be as follows:
+
+```
+X-Prometheus-Remote-Write-Received-Samples <integer; count of all written Samples from this request>
+X-Prometheus-Remote-Write-Received-Histograms <integer; count of all written Histogram samples from this request>
+X-Prometheus-Remote-Write-Received-Exemplars <integer; count of all written Exemplars from this request>
+```
+
+Senders MAY use those headers for client instrumentation and for communication durability checks, e.g. to verify no miscommunication or implementation bug exist between the Sender and Receiver. Specifically, this guards against broken Sender or Receiver implementations with buggy or missing content-type checks, accidental decoding of `io.prometheus.write.v2.Request` payload with `prometheus.WriteRequest` schema (which would result in successful decoding with always empty request) and more.
+
+Sender MUST NOT assume partial write or failures based on omission or lower than expected values, with 200 HTTP response code. One of the reasons is that 1.x Receivers that won't send those HTTP response headers.
+
+More (optional) headers might come in the future, e.g. when more entities or fields are added and worth confirming.
 
 #### Partial Write
 

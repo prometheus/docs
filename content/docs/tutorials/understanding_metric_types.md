@@ -3,13 +3,15 @@ title: Understanding metric types
 sort_rank: 2
 ---
 
-# Types of metrics.
+# Understanding metric types
 
 Prometheus supports four types of metrics, which are
     - Counter
     - Gauge
     - Histogram
-    - Summary 
+    - Summary
+
+Additional information and links to instrumentation libraries can be found at [Metric Types](/docs/concepts/metric_types/)
 
 ## Counter
 

@@ -141,17 +141,15 @@ The following subsections specify Sender and Receiver semantics around headers a
 <!---
 Rationales: https://github.com/prometheus/prometheus/issues/14359
 -->
-For all HTTP status codes, Receivers MUST send back the HTTP response `X-Prometheus-Remote-Write-Received-` type of the header indicating write statistics, i.e. how many Samples, Histograms and Exemplars were successfully received by the Receiver. Receivers MAY omit each header, if its value is zero.
+For all HTTP status codes, Receivers MUST send back the HTTP response `X-Prometheus-Remote-Write-Accepted-` type of the header indicating write statistics, i.e. how many Samples, Histograms and Exemplars were successfully accepted/ingested by the Receiver. Receivers MAY omit each header, if its value is zero.
 
 Receivers MUST send those response headers, even if they use asynchronous or eventual write mechanisms e.g. when Receivers can't confirm that downstream storage actually written them in durable way. The headers are only to confirm how many Samples, Histograms and Exemplars were accepted by the Receiver, especially useful on [Partial Write](#partial-write) situations.
 
 Each header value MUST be a single 64 bytes integer. The header names MUST be as follows:
 
-```
-X-Prometheus-Remote-Write-Received-Samples <integer; count of all written Samples from this request>
-X-Prometheus-Remote-Write-Received-Histograms <integer; count of all written Histogram samples from this request>
-X-Prometheus-Remote-Write-Received-Exemplars <integer; count of all written Exemplars from this request>
-```
+X-Prometheus-Remote-Write-Accepted-Samples <integer; count of all written Samples from this request>
+X-Prometheus-Remote-Write-Accepted-Histograms <integer; count of all written Histogram samples from this request>
+X-Prometheus-Remote-Write-Accepted-Exemplars <integer; count of all written Exemplars from this request>
 
 Senders MAY use those headers for client instrumentation and for communication durability checks, e.g. to verify no miscommunication or implementation bug exist between the Sender and Receiver. Specifically, this guards against broken Sender or Receiver implementations with buggy or missing content-type checks, accidental decoding of `io.prometheus.write.v2.Request` payload with `prometheus.WriteRequest` schema (which would result in successful decoding with always empty request) and more.
 

@@ -11,7 +11,7 @@ sort_rank: 4
 
 The Remote-Write specification, in general, is intended to document the standard for how Prometheus and Prometheus Remote-Write compatible senders send data to Prometheus or Prometheus Remote-Write compatible receivers.
 
-This document is intended to define a second version of the [Prometheus Remote-Write](./remote_write_spec.md) API with minor changes to protocol and semantics. This second version adds a new Protobuf Message with new features enabling more use cases and wider adoption on top of performance and cost savings. The second version also deprecates the previous Protobuf Message from a [1.0 Remote-Write specification](./remote_write_spec.md#protocol). Finally, this spec outlines how to implement backwards-compatible senders and receivers (even under a single endpoint) using existing basic content negotiation request headers. More advanced, automatic content negotiation mechanisms might come in a future minor version if needed. For the rationales behind the 2.0 specification, see [the formal proposal](https://github.com/prometheus/proposals/pull/35).
+This document is intended to define a second version of the [Prometheus Remote-Write](./remote_write_spec.md) API with minor changes to protocol and semantics. This second version adds a new Protobuf Message with new features enabling more use cases and wider adoption on top of performance and cost savings. The second version also deprecates the previous Protobuf Message from a [1.0 Remote-Write specification](./remote_write_spec.md#protocol) and adds mandatory [`X-Prometheus-Remote-Write-Accepted-` HTTP response headers](#response-headers) for reliability purposes. Finally, this spec outlines how to implement backwards-compatible senders and receivers (even under a single endpoint) using existing basic content negotiation request headers. More advanced, automatic content negotiation mechanisms might come in a future minor version if needed. For the rationales behind the 2.0 specification, see [the formal proposal](https://github.com/prometheus/proposals/pull/35).
 
 The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED",  "MAY", and "OPTIONAL" in this document are to be interpreted as described in [RFC 2119](https://datatracker.ietf.org/doc/html/rfc2119).
 
@@ -130,9 +130,9 @@ Senders MUST include a user agent header that SHOULD follow [the RFC 9110 User-A
 
 ### Response
 
-Receivers ingesting all samples successfully MUST return a 200 HTTP status code. In such a successful case, the response body from the Receiver SHOULD be empty; Senders MUST ignore the response body. The response body is RESERVED for future use.
+Receivers ingesting all samples successfully MUST return a [success 2xx HTTP status code](https://www.rfc-editor.org/rfc/rfc9110.html#name-successful-2xx). In such a successful case, the response body from the Receiver SHOULD be empty and the status code SHOULD be [204 HTTP No Content](https://www.rfc-editor.org/rfc/rfc9110.html#name-204-no-content); Senders MUST ignore the response body. The response body is RESERVED for future use.
 
-Receivers MUST NOT return a 200 HTTP status code if any of the samples were not written successfully (e.g. on a [partial write](#partial-write) or a full write rejection). In such a case, the Receiver MUST provide a human-readable error message in the response body. The Receiver's error SHOULD contain information about the amount of the samples being rejected and for what reasons. Senders MUST NOT try and interpret the error message and SHOULD log it as is.
+Receivers MUST NOT return a 2xx HTTP status code if any of the samples were not written successfully (e.g. on a [partial write](#partial-write) or a full write rejection). In such a case, the Receiver MUST provide a human-readable error message in the response body. The Receiver's error SHOULD contain information about the amount of the samples being rejected and for what reasons. Senders MUST NOT try and interpret the error message and SHOULD log it as is.
 
 The following subsections specify Sender and Receiver semantics around headers and different write error cases.
 
@@ -141,19 +141,17 @@ The following subsections specify Sender and Receiver semantics around headers a
 <!---
 Rationales: https://github.com/prometheus/prometheus/issues/14359
 -->
-For all HTTP status codes, Receivers MUST send back the HTTP response `X-Prometheus-Remote-Write-Accepted-` type of the header indicating write statistics, i.e. how many Samples, Histograms and Exemplars were successfully accepted/ingested by the Receiver. Receivers MAY omit each header, if its value is zero.
+On request completion, for any HTTP status code, Receivers MUST send back the HTTP response `X-Prometheus-Remote-Write-Accepted-` type of the header indicating write statistics. Those headers confirm how many Samples, Histograms and Exemplars were accepted by the Receiver, which is especially useful in [Partial Write](#partial-write) failure situations. Receivers MAY omit each header if its value is zero.
 
-Receivers MUST send those response headers, even if they use asynchronous or eventual write mechanisms e.g. when Receivers can't confirm that downstream storage actually written them in durable way. The headers are only to confirm how many Samples, Histograms and Exemplars were accepted by the Receiver, especially useful on [Partial Write](#partial-write) situations.
-
-Each header value MUST be a single 64 bytes integer. The header names MUST be as follows:
+Each header value MUST be a single 64-byte integer. The header names MUST be as follows:
 
 X-Prometheus-Remote-Write-Accepted-Samples <integer; count of all written Samples from this request>
 X-Prometheus-Remote-Write-Accepted-Histograms <integer; count of all written Histogram samples from this request>
 X-Prometheus-Remote-Write-Accepted-Exemplars <integer; count of all written Exemplars from this request>
 
-Senders MAY use those headers for client instrumentation and for communication durability checks, e.g. to verify no miscommunication or implementation bug exist between the Sender and Receiver. Specifically, this guards against broken Sender or Receiver implementations with buggy or missing content-type checks, accidental decoding of `io.prometheus.write.v2.Request` payload with `prometheus.WriteRequest` schema (which would result in successful decoding with always empty request) and more.
+Senders MAY use those headers for client instrumentation and communication durability checks, e.g. to verify no miscommunication or implementation bug exists between the Sender and Receiver. Specifically, this guards against broken Sender or Receiver implementations with a buggy or missing content-type checks and accidental decoding of the `io.prometheus.write.v2.Request` payload with `prometheus.WriteRequest` schema (no error on decoding and an empty result).
 
-Sender MUST NOT assume partial write or failures based on omission or lower than expected values, with 200 HTTP response code. One of the reasons is that 1.x Receivers that won't send those HTTP response headers.
+For example, Senders MAY assume [415 HTTP Unsupported Media Type](https://www.rfc-editor.org/rfc/rfc9110.html#name-415-unsupported-media-type) status code, when `io.prometheus.write.v2.Request` request with samples, results in 2xx HTTP status code, but no response headers from the Receiver (a common issue for the 1.0 Reciever without content-type header check).
 
 More (optional) headers might come in the future, e.g. when more entities or fields are added and worth confirming.
 
@@ -162,7 +160,7 @@ More (optional) headers might come in the future, e.g. when more entities or fie
 <!---
 Rationales: https://github.com/prometheus/proposals/blob/alexg/remote-write-20-proposal/proposals/2024-04-09_remote-write-20.md#partial-writes
 -->
-Senders SHOULD use Remote-Write to send samples for multiple series in a single request. As a result, Receivers MAY ingest valid samples within a write request that also contains some invalid or otherwise unwritten samples, which represents a partial write case. In such a case, the Receiver MUST return non-200 status code following the [Invalid Samples](#invalid-samples) and [Retry on Partial Writes](#retries-on-partial-writes) sections.
+Senders SHOULD use Remote-Write to send samples for multiple series in a single request. As a result, Receivers MAY ingest valid samples within a write request that also contains some invalid or otherwise unwritten samples, which represents a partial write case. In such a case, the Receiver MUST return non-2xx status code following the [Invalid Samples](#invalid-samples) and [Retry on Partial Writes](#retries-on-partial-writes) sections.
 
 #### Unsupported Request Content
 

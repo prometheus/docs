@@ -3,6 +3,7 @@ title: Introducing the Prometheus Conformance Program
 created_at: 2021-05-03
 kind: article
 author_name: Richard "RichiH" Hartmann
+author_uri: https://twitter.com/TwitchiH
 ---
 
 Prometheus is the standard for metric monitoring in the cloud native space and beyond. To ensure interoperability, to protect users from suprises, and to enable more parallel innovation, the Prometheus project is introducing the [Prometheus Conformance Program](https://github.com/cncf/prometheus-conformance) with the help of [CNCF](https://www.cncf.io/) to certify component compliance and Prometheus compatibility.

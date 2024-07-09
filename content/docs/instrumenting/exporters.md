@@ -155,6 +155,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [OpenWeatherMap exporter](https://github.com/RichiH/openweathermap_exporter)
    * [Pagespeed exporter](https://github.com/foomo/pagespeed_exporter)
    * [Rancher exporter](https://github.com/infinityworksltd/prometheus-rancher-exporter)
+   * [Sentry Exporter (issues & events)](https://github.com/italux/sentry-prometheus-exporter)
    * [Speedtest exporter](https://github.com/nlamirault/speedtest_exporter)
    * [Tankerkönig API Exporter](https://github.com/lukasmalkmus/tankerkoenig_exporter)
 

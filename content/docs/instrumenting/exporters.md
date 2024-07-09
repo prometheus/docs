@@ -239,6 +239,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [Minecraft exporter](https://github.com/dirien/minecraft-prometheus-exporter)
    * [Nomad exporter](https://gitlab.com/yakshaving.art/nomad-exporter)
    * [nftables exporter](https://github.com/Intrinsec/nftables_exporter)
+   * [Open OnDemand exporter](https://github.com/OSC/ondemand_exporter)
    * [OpenStack exporter](https://github.com/openstack-exporter/openstack-exporter)
    * [OpenStack blackbox exporter](https://github.com/infraly/openstack_client_exporter)
    * [oVirt exporter](https://github.com/czerwonk/ovirt_exporter)

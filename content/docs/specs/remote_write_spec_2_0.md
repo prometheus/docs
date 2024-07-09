@@ -130,9 +130,9 @@ Senders MUST include a user agent header that SHOULD follow [the RFC 9110 User-A
 
 ### Response
 
-Receivers ingesting all samples successfully MUST return a [success 2xx HTTP status code](https://www.rfc-editor.org/rfc/rfc9110.html#name-successful-2xx). In such a successful case, the response body from the Receiver SHOULD be empty and the status code SHOULD be [204 HTTP No Content](https://www.rfc-editor.org/rfc/rfc9110.html#name-204-no-content); Senders MUST ignore the response body. The response body is RESERVED for future use.
+Receivers ingesting all Samples and Histograms successfully MUST return a [success 2xx HTTP status code](https://www.rfc-editor.org/rfc/rfc9110.html#name-successful-2xx). In such a successful case, the response body from the Receiver SHOULD be empty and the status code SHOULD be [204 HTTP No Content](https://www.rfc-editor.org/rfc/rfc9110.html#name-204-no-content); Senders MUST ignore the response body. The response body is RESERVED for future use.
 
-Receivers MUST NOT return a 2xx HTTP status code if any of the samples were not written successfully (e.g. on a [partial write](#partial-write) or a full write rejection). In such a case, the Receiver MUST provide a human-readable error message in the response body. The Receiver's error SHOULD contain information about the amount of the samples being rejected and for what reasons. Senders MUST NOT try and interpret the error message and SHOULD log it as is.
+Receivers MUST NOT return a 2xx HTTP status code if any of the Samples or Histograms were NOT written successfully (e.g. on a [partial write](#partial-write) or a full write rejection). In such a case, the Receiver MUST provide a human-readable error message in the response body. The Receiver's error SHOULD contain information about the amount of the samples being rejected and for what reasons. Senders MUST NOT try and interpret the error message and SHOULD log it as is.
 
 The following subsections specify Sender and Receiver semantics around headers and different write error cases.
 
@@ -141,17 +141,17 @@ The following subsections specify Sender and Receiver semantics around headers a
 <!---
 Rationales: https://github.com/prometheus/prometheus/issues/14359
 -->
-On request completion, for any HTTP status code, Receivers MUST send back the HTTP response `X-Prometheus-Remote-Write-Accepted-` type of the header indicating write statistics. Those headers confirm how many Samples, Histograms and Exemplars were accepted by the Receiver, which is especially useful in [Partial Write](#partial-write) failure situations. Receivers MAY omit each header if its value is zero.
+Upon a successful content negotiation, Receivers ingest the received Samples, Histograms and Exemplars. In such case, Receivers MUST track the total number of Samples, Histograms or Exemplars that were accepted or ingested. Receivers MUST share those statistics with the Sender as the HTTP response `X-Prometheus-Remote-Write-Accepted-*` headers specified below. Receivers MAY omit those when the value would be zero.
 
 Each header value MUST be a single 64-byte integer. The header names MUST be as follows:
 
-X-Prometheus-Remote-Write-Accepted-Samples <integer; count of all written Samples from this request>
-X-Prometheus-Remote-Write-Accepted-Histograms <integer; count of all written Histogram samples from this request>
-X-Prometheus-Remote-Write-Accepted-Exemplars <integer; count of all written Exemplars from this request>
+* `X-Prometheus-Remote-Write-Accepted-Samples <integer; count of all accepted Samples from this request>`
+* `X-Prometheus-Remote-Write-Accepted-Histograms <integer; count of all accepted Histogram samples from this request>`
+* `X-Prometheus-Remote-Write-Accepted-Exemplars <integer; count of all accepted Exemplars from this request>`
 
-Senders MAY use those headers for client instrumentation and communication durability checks, e.g. to verify no miscommunication or implementation bug exists between the Sender and Receiver. Specifically, this guards against broken Sender or Receiver implementations with a buggy or missing content-type checks and accidental decoding of the `io.prometheus.write.v2.Request` payload with `prometheus.WriteRequest` schema (no error on decoding and an empty result).
+Senders MAY use those headers to confirm how many Samples, Histograms and Exemplars were accepted or successfully ingested by the Receiver, which is especially useful in [Partial Write](#partial-write) failure situations. Senders MAY also use those headers for client instrumentation and communication durability checks, e.g. to verify no miscommunication or implementation bug exists between the Sender and Receiver. Specifically, this guards against broken Sender or Receiver implementations with a buggy or missing content-type checks and accidental decoding of the `io.prometheus.write.v2.Request` payload with `prometheus.WriteRequest` schema (no error on decoding and an empty result).
 
-For example, Senders MAY assume [415 HTTP Unsupported Media Type](https://www.rfc-editor.org/rfc/rfc9110.html#name-415-unsupported-media-type) status code, when `io.prometheus.write.v2.Request` request with samples, results in 2xx HTTP status code, but no response headers from the Receiver (a common issue for the 1.0 Reciever without content-type header check).
+Senders MUST treat the omission of any `X-Prometheus-Remote-Write-Accepted-*` header as either no Samples, Histograms or Exemplars were accepted by the Receiver or the Receiver only supports Remote Write 1.0 protocol and `prometheus.WriteRequest` Protobuf Message. For example, Senders MAY assume [415 HTTP Unsupported Media Type](https://www.rfc-editor.org/rfc/rfc9110.html#name-415-unsupported-media-type) status code, when the `io.prometheus.write.v2.Request` request with samples, results in 2xx HTTP status code, but no `X-Prometheus-Remote-Write-Accepted-*` response headers from the Receiver (a common issue for the 1.0 Receiver without content-type header check). Senders MUST NOT assume the same for `prometheus.WriteRequest` (for compatibility reasons) or when receiving zero counts (Receiver might )
 
 More (optional) headers might come in the future, e.g. when more entities or fields are added and worth confirming.
 

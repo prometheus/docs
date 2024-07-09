@@ -141,7 +141,7 @@ The following subsections specify Sender and Receiver semantics around headers a
 <!---
 Rationales: https://github.com/prometheus/prometheus/issues/14359
 -->
-Upon a successful content negotiation, Receivers ingest the received Samples, Histograms and Exemplars. In such case, Receivers MUST track the total number of Samples, Histograms or Exemplars that were accepted or ingested. Receivers MUST share those statistics with the Sender as the HTTP response `X-Prometheus-Remote-Write-Accepted-*` headers specified below. Receivers MAY omit those when the value would be zero.
+Upon a successful content negotiation, Receivers ingest the received Samples, Histograms and Exemplars. In such cases, Receivers MUST track the total number of Samples, Histograms or Exemplars that were accepted or ingested. Receivers MUST share those statistics with the Sender as the HTTP response `X-Prometheus-Remote-Write-Accepted-*` headers specified below. Receivers MAY omit those when the value is zero.
 
 Each header value MUST be a single 64-byte integer. The header names MUST be as follows:
 
@@ -149,9 +149,14 @@ Each header value MUST be a single 64-byte integer. The header names MUST be as 
 * `X-Prometheus-Remote-Write-Accepted-Histograms <integer; count of all accepted Histogram samples from this request>`
 * `X-Prometheus-Remote-Write-Accepted-Exemplars <integer; count of all accepted Exemplars from this request>`
 
-Senders MAY use those headers to confirm how many Samples, Histograms and Exemplars were accepted or successfully ingested by the Receiver, which is especially useful in [Partial Write](#partial-write) failure situations. Senders MAY also use those headers for client instrumentation and communication durability checks, e.g. to verify no miscommunication or implementation bug exists between the Sender and Receiver. Specifically, this guards against broken Sender or Receiver implementations with a buggy or missing content-type checks and accidental decoding of the `io.prometheus.write.v2.Request` payload with `prometheus.WriteRequest` schema (no error on decoding and an empty result).
+Simple Senders MAY ignore this feature and rely on HTTP status codes only. However, more advanced Senders (e.g. Prometheus) focused on working with a variety of different Receivers, Protobuf Messages and designed for 100% durability SHOULD use those headers to confirm how many Samples, Histograms and Exemplars were accepted or successfully ingested by the Receiver. Such checks are primarily useful for:
 
-Senders MUST treat the omission of any `X-Prometheus-Remote-Write-Accepted-*` header as either no Samples, Histograms or Exemplars were accepted by the Receiver or the Receiver only supports Remote Write 1.0 protocol and `prometheus.WriteRequest` Protobuf Message. For example, Senders MAY assume [415 HTTP Unsupported Media Type](https://www.rfc-editor.org/rfc/rfc9110.html#name-415-unsupported-media-type) status code, when the `io.prometheus.write.v2.Request` request with samples, results in 2xx HTTP status code, but no `X-Prometheus-Remote-Write-Accepted-*` response headers from the Receiver (a common issue for the 1.0 Receiver without content-type header check). Senders MUST NOT assume the same for `prometheus.WriteRequest` (for compatibility reasons) or when receiving zero counts (Receiver might )
+* [Partial Write](#partial-write) failure situations: Senders MAY use those headers for more accurate client instrumentation and error handling.
+* Additional check against miscommunication or implementation bugs exists between the Sender and Receiver, e.g. accidental decoding of the `io.prometheus.write.v2.Request` payload with `prometheus.WriteRequest` schema (no error on decoding and an empty result).
+* Known and common bug in 1.0 Receiver implementations that do not check the content-type header.
+  * For example, Senders MAY assume [415 HTTP Unsupported Media Type](https://www.rfc-editor.org/rfc/rfc9110.html#name-415-unsupported-media-type) status code when the `io.prometheus.write.v2.Request` request with samples results in 2xx HTTP status code, but no `X-Prometheus-Remote-Write-Accepted-*` response headers from the Receiver (a common issue for the 1.0 Receiver without content-type header check). Senders MUST NOT assume the same for `prometheus.WriteRequest` (for compatibility reasons).
+
+Senders MUST treat the omission of any `X-Prometheus-Remote-Write-Accepted-*` header as either no Samples, Histograms or Exemplars were accepted by the Receiver or the Receiver only supports Remote Write 1.0 protocol.
 
 More (optional) headers might come in the future, e.g. when more entities or fields are added and worth confirming.
 

@@ -28,6 +28,7 @@ Unofficial third-party client libraries:
 * [Dart](https://github.com/tentaclelabs/prometheus_client)
 * [Delphi](https://github.com/marcobreveglieri/prometheus-client-delphi)
 * [Elixir](https://github.com/deadtrickster/prometheus.ex)
+* [Elixir](https://github.com/akoutmos/prom_ex) includes plugins & Grafana dashboards for popular libraries
 * [Erlang](https://github.com/deadtrickster/prometheus.erl)
 * [Haskell](https://github.com/fimad/prometheus-haskell)
 * [Julia](https://github.com/fredrikekre/Prometheus.jl)

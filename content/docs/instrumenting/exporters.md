@@ -263,6 +263,8 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [Unbound exporter](https://github.com/kumina/unbound_exporter)
    * [WireGuard exporter](https://github.com/MindFlavor/prometheus_wireguard_exporter)
    * [Xen exporter](https://github.com/lovoo/xenstats_exporter)
+   * [Acurite exporter](https://github.com/kadaan/acurite_exporter)
+   * [SmartThings exporter](https://github.com/kadaan/smartthings_exporter)
 
 
 When implementing a new Prometheus exporter, please follow the

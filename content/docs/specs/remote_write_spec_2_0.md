@@ -149,15 +149,15 @@ Each header value MUST be a single 64-bit integer. The header names MUST be as f
 * `X-Prometheus-Remote-Write-Written-Histograms <integer; count of all successfully Histogram samples from this request>`
 * `X-Prometheus-Remote-Write-Written-Exemplars <integer; count of all successfully Exemplars from this request>`
 
+Upon receiving a 2xx or a 4xx status code, Senders CAN assume that any missing `X-Prometheus-Remote-Write-Written-*` response header means no element from this category (e.g. Sample) was written by the Receiver (count of `0`). Senders MUST NOT assume the same when using the deprecated `prometheus.WriteRequest` Protobuf Message due to the risk of hitting 1.0 Receiver without this feature.
+
 Senders MAY use those headers to confirm which parts of data were successfully written by the Receiver. Common use cases:
 
 * [Partial Write](#partial-write) failure situations: Senders MAY use those headers for more accurate client instrumentation and error handling.
 * Broken 1.0 Receiver implementations: Senders SHOULD assume [415 HTTP Unsupported Media Type](https://www.rfc-editor.org/rfc/rfc9110.html#name-415-unsupported-media-type) status code when sending the data using `io.prometheus.write.v2.Request` request and receiving 2xx HTTP status code, but none of the `X-Prometheus-Remote-Write-Written-*` response headers from the Receiver. This is a common issue for the 1.0 Receivers that do not check the `Content-Type` request header; accidental decoding of the `io.prometheus.write.v2.Request` payload with `prometheus.WriteRequest` schema results in empty result and no decoding errors.
 * Unknown broken implementations or issues: Senders MAY use those headers to detect broken Sender and Receiver implementations or other problems.
 
-On the 2xx HTTP status code, Senders CAN assume that a missing write response header means that no such a piece of data was written by the Receiver (count of `0`). value. One exception is that Senders MUST NOT assume the same (empty header means zero) when using the deprecated `prometheus.WriteRequest` Protobuf Message in the request.
-
-Senders MUST NOT assume what Remote Write specification version the Receiver implements the remote write response headers.
+Senders MUST NOT assume what Remote Write specification version the Receiver implements from the remote write response headers.
 
 More (optional) headers might come in the future, e.g. when more entities or fields are added and worth confirming.
 

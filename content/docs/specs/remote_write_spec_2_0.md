@@ -157,7 +157,7 @@ Senders MAY use those headers to confirm which parts of data were successfully w
 
 On the 2xx HTTP status code, Senders CAN assume that a missing write response header means that no such a piece of data was written by the Receiver (count of `0`). value. One exception is that Senders MUST NOT assume the same (empty header means zero) when using the deprecated `prometheus.WriteRequest` Protobuf Message in the request.
 
-Senders MUST NOT assume what Remote Write specification version the Receiver implements from the remote write response headers.
+Senders MUST NOT assume what Remote Write specification version the Receiver implements the remote write response headers.
 
 More (optional) headers might come in the future, e.g. when more entities or fields are added and worth confirming.
 

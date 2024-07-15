@@ -14,3 +14,5 @@ Prometheus uses GitHub to manage reviews of pull requests.
   on our [mailing list](https://groups.google.com/forum/?fromgroups#!forum/prometheus-developers).
   This will avoid unnecessary work and surely give you and us a good deal
   of inspiration.
+
+* Note that not all of the documents you see on <https://prometheus.io> are sourced from this repository. If you're unable to find the documents here, you may want to look in <https://github.com/prometheus/prometheus/tree/main/docs>.

@@ -146,9 +146,11 @@ Upon a successful content negotiation, Receivers process (write) the received ba
 
 Each header value MUST be a single 64-bit integer. The header names MUST be as follows:
 
-* `X-Prometheus-Remote-Write-Samples-Written <integer; count of all successfully written Samples from this request>`
-* `X-Prometheus-Remote-Write-Histograms-Written <integer; count of all successfully Histogram samples from this request>`
-* `X-Prometheus-Remote-Write-Exemplars-Written <integer; count of all successfully Exemplars from this request>`
+```
+X-Prometheus-Remote-Write-Samples-Written <count of all successfully written Samples>
+X-Prometheus-Remote-Write-Histograms-Written <count of all successfully written Histogram samples>
+X-Prometheus-Remote-Write-Exemplars-Written <count of all successfully written Exemplars>
+```
 
 Upon receiving a 2xx or a 4xx status code, Senders CAN assume that any missing `X-Prometheus-Remote-Write-*-Written` response header means no element from this category (e.g. Sample) was written by the Receiver (count of `0`). Senders MUST NOT assume the same when using the deprecated `prometheus.WriteRequest` Protobuf Message due to the risk of hitting 1.0 Receiver without this feature.
 

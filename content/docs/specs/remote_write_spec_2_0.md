@@ -11,7 +11,7 @@ sort_rank: 4
 
 The Remote-Write specification, in general, is intended to document the standard for how Prometheus and Prometheus Remote-Write compatible senders send data to Prometheus or Prometheus Remote-Write compatible receivers.
 
-This document is intended to define a second version of the [Prometheus Remote-Write](./remote_write_spec.md) API with minor changes to protocol and semantics. This second version adds a new Protobuf Message with new features enabling more use cases and wider adoption on top of performance and cost savings. The second version also deprecates the previous Protobuf Message from a [1.0 Remote-Write specification](./remote_write_spec.md#protocol) and adds mandatory [`X-Prometheus-Remote-Write-Written-*` HTTP response headers](#required-x-prometheus-remote-write-written--response-headers) for reliability purposes. Finally, this spec outlines how to implement backwards-compatible senders and receivers (even under a single endpoint) using existing basic content negotiation request headers. More advanced, automatic content negotiation mechanisms might come in a future minor version if needed. For the rationales behind the 2.0 specification, see [the formal proposal](https://github.com/prometheus/proposals/pull/35).
+This document is intended to define a second version of the [Prometheus Remote-Write](./remote_write_spec.md) API with minor changes to protocol and semantics. This second version adds a new Protobuf Message with new features enabling more use cases and wider adoption on top of performance and cost savings. The second version also deprecates the previous Protobuf Message from a [1.0 Remote-Write specification](./remote_write_spec.md#protocol) and adds mandatory [`X-Prometheus-Remote-Write-*-Written` HTTP response headers](#required-written-response-headers)for reliability purposes. Finally, this spec outlines how to implement backwards-compatible senders and receivers (even under a single endpoint) using existing basic content negotiation request headers. More advanced, automatic content negotiation mechanisms might come in a future minor version if needed. For the rationales behind the 2.0 specification, see [the formal proposal](https://github.com/prometheus/proposals/pull/35).
 
 The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED",  "MAY", and "OPTIONAL" in this document are to be interpreted as described in [RFC 2119](https://datatracker.ietf.org/doc/html/rfc2119).
 
@@ -41,7 +41,8 @@ In this document, the following definitions are followed:
 * a `Protobuf Message` (or Proto Message) refers to the [content type](https://www.rfc-editor.org/rfc/rfc9110.html#name-content-type) definition of the data structure for this Protocol. Since the specification uses [Google Protocol Buffers ("protobuf")](https://protobuf.dev/) exclusively, the schema is defined in a ["proto" file](https://protobuf.dev/programming-guides/proto3/) and represented by a single Protobuf ["message"](https://protobuf.dev/programming-guides/proto3/#simple).
 * a `Wire Format` is the format of the data as it travels on the wire (i.e. in a network). In the case of Remote-Write, this is always the compressed binary protobuf format.
 * a `Sender` is something that sends Remote-Write data.
-* a `Receiver` is something that receives (writes) Remote-Write data. The meaning of `writing` is up to the Receiver e.g. usually it means storing received data in a database, but also just validating, splitting or enhancing it.
+* a `Receiver` is something that receives (writes) Remote-Write data. The meaning of `Written` is up to the Receiver e.g. usually it means storing received data in a database, but also just validating, splitting or enhancing it.
+* `Written` refers to data the `Receiver` has received and is accepting. Whether or not it has ingested this data to persistent storage, written it to a WAL, etc. is up to the `Receiver`. The only distinction is that the `Receiver` has accepted this data rather than explicitly rejecting it with an error response.
 * a `Sample` is a pair of (timestamp, value).
 * a `Histogram` is a pair of (timestamp, [histogram value](https://github.com/prometheus/docs/blob/b9657b5f5b264b81add39f6db2f1df36faf03efe/content/docs/concepts/native_histograms.md)).
 * a `Label` is a pair of (key, value).
@@ -136,25 +137,25 @@ Receivers MUST NOT return a 2xx HTTP status code if any of the pieces of sent da
 
 The following subsections specify Sender and Receiver semantics around headers and different write error cases.
 
-#### Required `X-Prometheus-Remote-Write-Written-*` Response Headers
+#### Required `Written` Response Headers
 
 <!---
 Rationales: https://github.com/prometheus/prometheus/issues/14359
 -->
-Upon a successful content negotiation, Receivers process (write) the received batch of data. Once completed (with success or failure) for each important piece of data (currently Samples, Histograms and Exemplars) Receivers MUST send a dedicated HTTP `X-Prometheus-Remote-Write-Written-*` response header with the precise number of successfully written elements. 
+Upon a successful content negotiation, Receivers process (write) the received batch of data. Once completed (with success or failure) for each important piece of data (currently Samples, Histograms and Exemplars) Receivers MUST send a dedicated HTTP `X-Prometheus-Remote-Write-*-Written` response header with the precise number of successfully written elements. 
 
 Each header value MUST be a single 64-bit integer. The header names MUST be as follows:
 
-* `X-Prometheus-Remote-Write-Written-Samples <integer; count of all successfully written Samples from this request>`
-* `X-Prometheus-Remote-Write-Written-Histograms <integer; count of all successfully Histogram samples from this request>`
-* `X-Prometheus-Remote-Write-Written-Exemplars <integer; count of all successfully Exemplars from this request>`
+* `X-Prometheus-Remote-Write-Samples-Written <integer; count of all successfully written Samples from this request>`
+* `X-Prometheus-Remote-Write-Histograms-Written <integer; count of all successfully Histogram samples from this request>`
+* `X-Prometheus-Remote-Write-Exemplars-Written <integer; count of all successfully Exemplars from this request>`
 
-Upon receiving a 2xx or a 4xx status code, Senders CAN assume that any missing `X-Prometheus-Remote-Write-Written-*` response header means no element from this category (e.g. Sample) was written by the Receiver (count of `0`). Senders MUST NOT assume the same when using the deprecated `prometheus.WriteRequest` Protobuf Message due to the risk of hitting 1.0 Receiver without this feature.
+Upon receiving a 2xx or a 4xx status code, Senders CAN assume that any missing `X-Prometheus-Remote-Write-*-Written` response header means no element from this category (e.g. Sample) was written by the Receiver (count of `0`). Senders MUST NOT assume the same when using the deprecated `prometheus.WriteRequest` Protobuf Message due to the risk of hitting 1.0 Receiver without this feature.
 
 Senders MAY use those headers to confirm which parts of data were successfully written by the Receiver. Common use cases:
 
 * Better handling of the [Partial Write](#partial-write) failure situations: Senders MAY use those headers for more accurate client instrumentation and error handling.
-* Detecting broken 1.0 Receiver implementations: Senders SHOULD assume [415 HTTP Unsupported Media Type](https://www.rfc-editor.org/rfc/rfc9110.html#name-415-unsupported-media-type) status code when sending the data using `io.prometheus.write.v2.Request` request and receiving 2xx HTTP status code, but none of the `X-Prometheus-Remote-Write-Written-*` response headers from the Receiver. This is a common issue for the 1.0 Receivers that do not check the `Content-Type` request header; accidental decoding of the `io.prometheus.write.v2.Request` payload with `prometheus.WriteRequest` schema results in empty result and no decoding errors.
+* Detecting broken 1.0 Receiver implementations: Senders SHOULD assume [415 HTTP Unsupported Media Type](https://www.rfc-editor.org/rfc/rfc9110.html#name-415-unsupported-media-type) status code when sending the data using `io.prometheus.write.v2.Request` request and receiving 2xx HTTP status code, but none of the `X-Prometheus-Remote-Write-*-Written` response headers from the Receiver. This is a common issue for the 1.0 Receivers that do not check the `Content-Type` request header; accidental decoding of the `io.prometheus.write.v2.Request` payload with `prometheus.WriteRequest` schema results in empty result and no decoding errors.
 * Detecting other broken implementations or issues: Senders MAY use those headers to detect broken Sender and Receiver implementations or other problems.
 
 Senders MUST NOT assume what Remote Write specification version the Receiver implements from the remote write response headers.

@@ -21,7 +21,7 @@ class.
 
  * For use from Go see the [Push](https://godoc.org/github.com/prometheus/client_golang/prometheus/push#Pusher.Push) and [Add](https://godoc.org/github.com/prometheus/client_golang/prometheus/push#Pusher.Add) methods.
 
- * For use from Python see [Exporting to a Pushgateway](https://github.com/prometheus/client_python#exporting-to-a-pushgateway).
+ * For use from Python see [Exporting to a Pushgateway](https://prometheus.github.io/client_python/exporting/pushgateway/).
 
  * For use from Ruby see the [Pushgateway documentation](https://github.com/prometheus/client_ruby#pushgateway).
 

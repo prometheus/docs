@@ -5,7 +5,7 @@ sort_rank: 4
 
 # Prometheus Remote-Write Specification
 
-* Version: 2.0-rc.2
+* Version: 2.0-rc.3
 * Status: **Experimental**
 * Date: May 2024
 
@@ -302,14 +302,9 @@ message Exemplar {
   // value represents an exact example value. This can be useful when the exemplar
   // is attached to a histogram, which only gives an estimated value through buckets.
   double value = 2;
-  // timestamp represents an optional timestamp of the sample in ms.
+  // timestamp represents the timestamp of the exemplar in ms.
   // For Go, see github.com/prometheus/prometheus/model/timestamp/timestamp.go
   // for conversion from/to time.Time to Prometheus timestamp.
-  //
-  // Note that the "optional" keyword is omitted due to
-  // https://cloud.google.com/apis/design/design_patterns.md#optional_primitive_fields
-  // Zero value means value not set. If you need to use exactly zero value for
-  // the timestamp, use 1 millisecond before or after.
   int64 timestamp = 3;
 }
 
@@ -448,7 +443,7 @@ Each exemplar, if attached to a `TimeSeries`:
 Rationales: https://github.com/prometheus/proposals/blob/alexg/remote-write-20-proposal/proposals/2024-04-09_remote-write-20.md#partial-writes#exemplars
 -->
 * MAY contain labels e.g. referencing trace or request ID. If the exemplar references a trace it SHOULD use the `trace_id` label name, as a best practice.
-* MAY contain a timestamp.
+* MUST contain a timestamp. While exemplar timestamps are optional in Prometheus/Open Metrics exposition formats, the assumption is that a timestamp is assigned at scrape time in the same way a timestamp is assigned to the scrape sample. Receivers require exemplar timestamps to reliably handle (e.g. deduplicate) incoming exemplars.
 
 ## Out of Scope
 

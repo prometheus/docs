@@ -70,7 +70,7 @@ The current team members are:
 * Josh Abreu ([Grafana Labs](https://grafana.com/))
 * Julius Volz ([PromLabs](https://promlabs.com/))
 * Julien Pivotto ([Inuits](https://inuits.eu/))
-* Kemal Akkoyun ([Fal](https://fal.ai))
+* Kemal Akkoyun (independent)
 * Matthias Loibl ([Polar Signals](https://www.polarsignals.com/))
 * Matthias Rampke ([Chronosphere](https://chronosphere.io/))
 * Max Inden ([Protocol Labs](https://protocol.ai/))

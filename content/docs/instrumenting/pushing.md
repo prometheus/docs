@@ -16,8 +16,7 @@ makes it easy to instrument even shell scripts without a client library.
 [README.md](https://github.com/prometheus/pushgateway/blob/master/README.md).
 
  * For use from Java see the
-[PushGateway](https://prometheus.github.io/client_java/io/prometheus/client/exporter/PushGateway.html)
-class.
+[Pushgateway documentation](https://prometheus.github.io/client_java/exporters/pushgateway/).
 
  * For use from Go see the [Push](https://godoc.org/github.com/prometheus/client_golang/prometheus/push#Pusher.Push) and [Add](https://godoc.org/github.com/prometheus/client_golang/prometheus/push#Pusher.Add) methods.
 

@@ -129,10 +129,10 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [Apache exporter](https://github.com/Lusitaniae/apache_exporter)
    * [HAProxy exporter](https://github.com/prometheus/haproxy_exporter) (**official**)
    * [Nginx metric library](https://github.com/knyar/nginx-lua-prometheus)
-   * [Nginx VTS exporter](https://github.com/hnlq715/nginx-vts-exporter)
+   * [Nginx VTS exporter](https://github.com/sysulq/nginx-vts-exporter)
    * [Passenger exporter](https://github.com/stuartnelson3/passenger_exporter)
    * [Squid exporter](https://github.com/boynux/squid-exporter)
-   * [Tinyproxy exporter](https://github.com/igzivkov/tinyproxy_exporter)
+   * [Tinyproxy exporter](https://github.com/gmm42/tinyproxy_exporter)
    * [Varnish exporter](https://github.com/jonnenauha/prometheus_varnish_exporter)
    * [WebDriver exporter](https://github.com/mattbostock/webdriver_exporter)
 
@@ -145,8 +145,8 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [Cloudflare exporter](https://gitlab.com/gitlab-org/cloudflare_exporter)
    * [Cryptowat exporter](https://github.com/nbarrientos/cryptowat_exporter)
    * [DigitalOcean exporter](https://github.com/metalmatze/digitalocean_exporter)
-   * [Docker Cloud exporter](https://github.com/infinityworksltd/docker-cloud-exporter)
-   * [Docker Hub exporter](https://github.com/infinityworksltd/docker-hub-exporter)
+   * [Docker Cloud exporter](https://github.com/infinityworks/docker-cloud-exporter)
+   * [Docker Hub exporter](https://github.com/infinityworks/docker-hub-exporter)
    * [Fastly exporter](https://github.com/peterbourgon/fastly-exporter)
    * [GitHub exporter](https://github.com/githubexporter/github-exporter)
    * [Gmail exporter](https://github.com/jamesread/prometheus-gmail-exporter/)
@@ -154,7 +154,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [Mozilla Observatory exporter](https://github.com/Jimdo/observatory-exporter)
    * [OpenWeatherMap exporter](https://github.com/RichiH/openweathermap_exporter)
    * [Pagespeed exporter](https://github.com/foomo/pagespeed_exporter)
-   * [Rancher exporter](https://github.com/infinityworksltd/prometheus-rancher-exporter)
+   * [Rancher exporter](https://github.com/infinityworks/prometheus-rancher-exporter)
    * [Speedtest exporter](https://github.com/nlamirault/speedtest_exporter)
    * [Tankerkönig API Exporter](https://github.com/lukasmalkmus/tankerkoenig_exporter)
 
@@ -164,9 +164,9 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [Grok exporter](https://github.com/fstab/grok_exporter)
 
 ### FinOps
-   * [AWS Cost Exporter](https://github.com/opensourceelectrolux/aws-cost-exporter)
-   * [Azure Cost Exporter](https://github.com/opensourceelectrolux/azure-cost-exporter)
-   * [Kubernetes Cost Exporter](https://github.com/opensourceelectrolux/kubernetes-cost-exporter)
+   * [AWS Cost Exporter](https://github.com/electrolux-oss/aws-cost-exporter)
+   * [Azure Cost Exporter](https://github.com/electrolux-oss/azure-cost-exporter)
+   * [Kubernetes Cost Exporter](https://github.com/electrolux-oss/kubernetes-cost-exporter)
 
 ### Other monitoring systems
    * [Akamai Cloudmonitor exporter](https://github.com/ExpressenAB/cloudmonitor_exporter)

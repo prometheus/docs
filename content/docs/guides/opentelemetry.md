@@ -34,7 +34,7 @@ storage:
 
 ## Promoting resource attributes
 
-Based on experiences and conversations with our community, we've found that out of all the commonly seen resource attributes, these are the ones that are most frequently promoted by our users:
+Based on experience and conversations with our community, we've found that out of all the commonly seen resource attributes, these are the ones that are most frequently promoted by our users:
 
 ```yaml
 - service.instance.id

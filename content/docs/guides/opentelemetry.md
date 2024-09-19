@@ -82,7 +82,7 @@ target_info
 
 What happens in this query is that the time series resulting from `rate(http_server_request_duration_seconds_count[2m])` are augmented with the `k8s_cluster_name` label from the `target_info` series that share the same `job` and `instance` labels.
 In other words, the `job` and `instance` labels are shared between `http_server_request_duration_seconds_count` and `target_info`, akin to SQL foreign keys.
-The `k8s_cluster_name` label, OTOH, corresponds to the OTel resource attribute `k8s.cluster.name` (Prometheus converts dots to underscores).
+The `k8s_cluster_name` label, On the other hand, corresponds to the OTel resource attribute `k8s.cluster.name` (Prometheus converts dots to underscores).
 
 So, what is the relation between the `target_info` metric and OTel resource attributes?
 When Prometheus processes an OTLP write request, and provided that contained resources include the attributes `service.instance.id` and/or `service.name`, Prometheus generates the info metric `target_info` for every (OTel) resource.

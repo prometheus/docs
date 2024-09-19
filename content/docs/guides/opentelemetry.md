@@ -70,6 +70,7 @@ otlp:
 ## Including resource attributes at query time
 
 An alternative to promoting resource attributes, as described in the previous section, is to add labels from the `target_info` metric when querying.
+
 This is conceptually known as a "join" query.
 An example of such a query can look like the following:
 

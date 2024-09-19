@@ -67,6 +67,32 @@ otlp:
     - ...
 ```
 
+## Including resource attributes at query time
+
+An alternative to promoting resource attributes, as described in the previous section, is to add labels from the `target_info` metric when querying.
+
+This is conceptually known as a "join" query.
+An example of such a query can look like the following:
+
+```promql
+rate(http_server_request_duration_seconds_count[2m])
+* on (job, instance) group_left (k8s_cluster_name)
+target_info
+```
+
+What happens in this query is that the time series resulting from `rate(http_server_request_duration_seconds_count[2m])` are augmented with the `k8s_cluster_name` label from the `target_info` series that share the same `job` and `instance` labels.
+In other words, the `job` and `instance` labels are shared between `http_server_request_duration_seconds_count` and `target_info`, akin to SQL foreign keys.
+The `k8s_cluster_name` label, On the other hand, corresponds to the OTel resource attribute `k8s.cluster.name` (Prometheus converts dots to underscores).
+
+So, what is the relation between the `target_info` metric and OTel resource attributes?
+When Prometheus processes an OTLP write request, and provided that contained resources include the attributes `service.instance.id` and/or `service.name`, Prometheus generates the info metric `target_info` for every (OTel) resource.
+It adds to each such `target_info` series the label `instance` with the value of the `service.instance.id` resource attribute, and the label `job` with the value of the `service.name` resource attribute.
+If the resource attribute `service.namespace` exists, it's prefixed to the `job` label value (i.e., `<service.namespace>/<service.name>`).
+The rest of the resource attributes are also added as labels to the `target_info` series, names converted to Prometheus format (e.g. dots converted to underscores).
+If a resource lacks both `service.instance.id` and `service.name` attributes, no corresponding `target_info` series is generated.
+
+For each of a resource's OTel metrics, Prometheus converts it to a corresponding Prometheus time series, and (if `target_info` is generated) adds the right `instance` and `job` labels.
+
 ## UTF-8
 
 The UTF-8 support for Prometheus is not ready yet so both the Prometheus Remote Write Exporter and the OTLP Ingestion endpoint still rely on the [Prometheus normalization translator package from OpenTelemetry](https://github.com/open-telemetry/opentelemetry-collector-contrib/tree/main/pkg/translator/prometheus).

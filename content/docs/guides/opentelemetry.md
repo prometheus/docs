@@ -67,6 +67,8 @@ otlp:
     - ...
 ```
 
+NOTE: This feature is not available in Prometheus 1.x and 2.x, consider upgrading to 3.x or include resource attributes at query time
+
 ## Including resource attributes at query time
 
 An alternative to promoting resource attributes, as described in the previous section, is to add labels from the `target_info` metric when querying.

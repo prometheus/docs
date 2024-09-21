@@ -17,7 +17,7 @@ class RepoDocsDataSource < ::Nanoc::DataSource
 
   DOCS_DIRECTORY = 'docs'.freeze
   BRANCH_PATTERN = 'release-*'.freeze
-  VERSION_REGEXP = /\Av\d+\.\d+\.\d+(?:-[a-z0-9.]+)?\z/.freeze
+  VERSION_REGEXP = /\Av\d+\.\d+\.\d+\z/.freeze
   TMPDIR = 'tmp/repo_docs/'.freeze
 
   def up

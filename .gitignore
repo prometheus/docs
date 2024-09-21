@@ -13,8 +13,6 @@ crash.log
 # macOS artifacts
 .DS_Store
 
-prometheus_rsa
-
 # Ruby artifacts
 .bundle/
 vendor/

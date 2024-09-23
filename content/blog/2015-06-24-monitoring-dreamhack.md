@@ -202,7 +202,7 @@ it!*</center>
 ## Being proactive: dashboards
 While alerting is an essential part of
 monitoring, sometimes you just want to have a good overview of the health of
-your network. To achieve this we used [PromDash](/docs/visualization/promdash/).
+your network. To achieve this we used [PromDash](/docs/introduction/glossary/#promdash).
 Every time someone asked us something about the network, we crafted a query to
 get the answer and saved it as a dashboard widget. The most interesting ones
 were then added to an overview dashboard that we proudly displayed.

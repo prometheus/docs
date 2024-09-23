@@ -3,10 +3,10 @@ title: Alerting based on metrics.
 sort_rank: 5
 ---
 
-# Alerting based on metrics 
+# Alerting based on metrics
 
-In this tutorial we will create alerts on the `ping_request_count` metric that we instrumented earlier in the 
-[Instrumenting HTTP server written in Go](./instrumenting_http_server_in_go/) tutorial.
+In this tutorial we will create alerts on the `ping_request_count` metric that we instrumented earlier in the
+[Instrumenting HTTP server written in Go](../instrumenting_http_server_in_go/) tutorial.
 
 For the sake of this tutorial we will alert when the `ping_request_count` metric is greater than 5, Checkout real world [best practices](../../practices/alerting) to learn more about alerting principles.
 

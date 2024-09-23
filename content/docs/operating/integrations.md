@@ -96,6 +96,7 @@ For notification mechanisms not natively supported by the Alertmanager, the
   * [Ansible Tower](https://github.com/pja237/prom2tower): call Ansible Tower (AWX) API on alerts (launch jobs etc.)
   * [Signal](https://github.com/dgl/alertmanager-webhook-signald)
   * [SIGNL4](https://www.signl4.com/blog/portfolio_item/prometheus-alertmanager-mobile-alert-notification-duty-schedule-escalation)
+  * [Simplepush](https://codeberg.org/stealth/alertpush)
   * [SMS](https://github.com/messagebird/sachet): supports [multiple providers](https://github.com/messagebird/sachet/blob/master/examples/config.yaml)
   * [SNMP traps](https://github.com/maxwo/snmp_notifier)
   * [Squadcast](https://support.squadcast.com/docs/prometheus)

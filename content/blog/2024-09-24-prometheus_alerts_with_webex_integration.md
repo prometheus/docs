@@ -16,7 +16,7 @@ We’ll cover the following:
 4. Configuring Alertmanager to send alerts to Webex.
 5. Securing your Bot Token with Kubernetes secrets.
 
-1. Installation and Prerequisites
+**1. Installation and Prerequisites:**
   To get started, ensure that you have Prometheus and Alertmanager installed. If not, you can refer to the Prometheus documentation for     
   installation instructions.
 
@@ -25,7 +25,7 @@ We’ll cover the following:
   2. Webex account with developer access.
   3. Working Kubernetes cluster (for deploying Alertmanager).
   
-2. Creating a Webex Bot
+**2. Creating a Webex Bot:**
   To integrate Webex with Prometheus, you'll first need to create a bot in Webex Teams that will handle receiving and sending messages on 
   your behalf.
   
@@ -43,17 +43,15 @@ We’ll cover the following:
   **Generate Access Token:** After the bot is created, you’ll be provided with an access_token. Copy this token and save it securely. This 
      will be used later to authenticate API requests.
 
-3. Invite the Bot to a Webex Channel
-Now that you have a bot, you need to add it to a Webex space where it can post alerts.
+**3. Invite the Bot to a Webex Channel**
+  Now that you have a bot, you need to add it to a Webex space where it can post alerts.
+  
+  Steps:
+  1. Create a Webex Space: In Webex Teams, create a space (channel) for your alerts.
+  2. Invite the Bot: Go to the "Add People" section of your space and invite your bot by using its bot username.
+  3. Once added, your bot will be able to receive and send messages within the space.
 
-Steps:
-Create a Webex Space: In Webex Teams, create a space (channel) for your alerts.
-
-Invite the Bot: Go to the "Add People" section of your space and invite your bot by using its bot username.
-
-Once added, your bot will be able to receive and send messages within the space.
-
-4. Retrieving the room_id Using the Webex API
+**4. Retrieving the room_id Using the Webex API**
   To configure Prometheus to send alerts to Webex, you'll need the room_id of the space where you invited your bot.
   
   Steps to Retrieve room_id:
@@ -66,7 +64,7 @@ Once added, your bot will be able to receive and send messages within the space.
   
   This room_id will be used to configure Alertmanager to send alerts to the right Webex space.
 
-5. Configuring Alertmanager to Send Alerts to Webex
+**5. Configuring Alertmanager to Send Alerts to Webex**
   Now that you have the room_id and access_token, it's time to configure Alertmanager to forward alerts to Webex.
 
   Step 1: Modify alertmanager.yaml

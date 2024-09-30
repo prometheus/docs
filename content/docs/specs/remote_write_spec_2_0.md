@@ -11,7 +11,7 @@ sort_rank: 4
 
 The Remote-Write specification, in general, is intended to document the standard for how Prometheus and Prometheus Remote-Write compatible senders send data to Prometheus or Prometheus Remote-Write compatible receivers.
 
-This document is intended to define a second version of the [Prometheus Remote-Write](./remote_write_spec.md) API with minor changes to protocol and semantics. This second version adds a new Protobuf Message with new features enabling more use cases and wider adoption on top of performance and cost savings. The second version also deprecates the previous Protobuf Message from a [1.0 Remote-Write specification](./remote_write_spec.md#protocol) and adds mandatory [`X-Prometheus-Remote-Write-*-Written` HTTP response headers](#required-written-response-headers)for reliability purposes. Finally, this spec outlines how to implement backwards-compatible senders and receivers (even under a single endpoint) using existing basic content negotiation request headers. More advanced, automatic content negotiation mechanisms might come in a future minor version if needed. For the rationales behind the 2.0 specification, see [the formal proposal](https://github.com/prometheus/proposals/pull/35).
+This document is intended to define a second version of the [Prometheus Remote-Write](./remote_write_spec.md) API with minor changes to protocol and semantics. This second version adds a new Protobuf Message with new features enabling more use cases and wider adoption on top of performance and cost savings. The second version also deprecates the previous Protobuf Message from a [1.0 Remote-Write specification](/docs/specs/remote_write_spec/#protocol) and adds mandatory [`X-Prometheus-Remote-Write-*-Written` HTTP response headers](#required-written-response-headers)for reliability purposes. Finally, this spec outlines how to implement backwards-compatible senders and receivers (even under a single endpoint) using existing basic content negotiation request headers. More advanced, automatic content negotiation mechanisms might come in a future minor version if needed. For the rationales behind the 2.0 specification, see [the formal proposal](https://github.com/prometheus/proposals/pull/35).
 
 The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED",  "MAY", and "OPTIONAL" in this document are to be interpreted as described in [RFC 2119](https://datatracker.ietf.org/doc/html/rfc2119).
 
@@ -102,14 +102,14 @@ For the deprecated message introduced in PRW 1.0, identified by `prometheus.Writ
 
 * `Content-Type: application/x-protobuf`
 * `Content-Type: application/x-protobuf;proto=prometheus.WriteRequest`
-  
+
 For the message introduced in PRW 2.0, identified by `io.prometheus.write.v2.Request`:
-  
+
 * `Content-Type: application/x-protobuf;proto=io.prometheus.write.v2.Request`
-  
+
 When talking to 1.x Receivers, Senders SHOULD use `Content-Type: application/x-protobuf` for backward compatibility. Otherwise, Senders SHOULD use `Content-Type: application/x-protobuf;proto=io.prometheus.write.v2.Request`. More Protobuf Messages might come in 2.x or beyond.
 
-Receivers MUST use the content type header to identify the Protobuf Message schema to use. Accidental wrong schema choices may result in non-deterministic behaviour (e.g. corruptions). 
+Receivers MUST use the content type header to identify the Protobuf Message schema to use. Accidental wrong schema choices may result in non-deterministic behaviour (e.g. corruptions).
 
 > NOTE: Thanks to reserved fields in [`io.prometheus.write.v2.Request`](#protobuf-message), Receiver accidental use of wrong schema with `prometheus.WriteRequest` will result in empty message. This is generally for convenience to avoid surprising errors, but don't rely on it -- future Protobuf Messages might not have this feature.
 
@@ -142,7 +142,7 @@ The following subsections specify Sender and Receiver semantics around headers a
 <!---
 Rationales: https://github.com/prometheus/prometheus/issues/14359
 -->
-Upon a successful content negotiation, Receivers process (write) the received batch of data. Once completed (with success or failure) for each important piece of data (currently Samples, Histograms and Exemplars) Receivers MUST send a dedicated HTTP `X-Prometheus-Remote-Write-*-Written` response header with the precise number of successfully written elements. 
+Upon a successful content negotiation, Receivers process (write) the received batch of data. Once completed (with success or failure) for each important piece of data (currently Samples, Histograms and Exemplars) Receivers MUST send a dedicated HTTP `X-Prometheus-Remote-Write-*-Written` response header with the precise number of successfully written elements.
 
 Each header value MUST be a single 64-bit integer. The header names MUST be as follows:
 
@@ -219,7 +219,7 @@ The 2.x protocol is breaking compatibility with 1.x by introducing a new, mandat
 The `io.prometheus.write.v2.Request` references the new Protobuf Message that's meant to replace and deprecate the Remote-Write 1.0's `prometheus.WriteRequest` message.
 
 <!---
-TODO(bwplotka): Move link to the one on Prometheus main or even buf. 
+TODO(bwplotka): Move link to the one on Prometheus main or even buf.
 -->
 The full schema and source of the truth is in Prometheus repository in [`prompb/io/prometheus/write/v2/types.proto`](https://github.com/prometheus/prometheus/blob/remote-write-2.0/prompb/io/prometheus/write/v2/types.proto#L32). The `gogo` dependency and options CAN be ignored ([will be removed eventually](https://github.com/prometheus/prometheus/issues/11908)). They are not part of the specification as they don't impact the serialized format.
 
@@ -389,7 +389,7 @@ The complete set of labels MUST be sent with each `Sample` or `Histogram` sample
 
 Metric names, label names, and label values MUST be any sequence of UTF-8 characters.
 
-Metric names SHOULD adhere to the regex `[a-zA-Z_:]([a-zA-Z0-9_:])*`. 
+Metric names SHOULD adhere to the regex `[a-zA-Z_:]([a-zA-Z0-9_:])*`.
 
 Label names SHOULD adhere to the regex `[a-zA-Z_]([a-zA-Z0-9_])*`.
 
@@ -412,7 +412,7 @@ Rationales: https://github.com/prometheus/proposals/blob/alexg/remote-write-20-p
 Senders SHOULD send stale markers when a time series will no longer be appended to.
 Senders MUST send stale markers if the discontinuation of time series is possible to detect, for example:
 
-* For series that were pulled (scraped), unless explicit timestamp was used. 
+* For series that were pulled (scraped), unless explicit timestamp was used.
 * For series that is resulted by a recording rule evaluation.
 
 Generally, not sending stale markers for series that are discontinued can lead to the Receiver [non-trivial query time alignment issues](https://prometheus.io/docs/prometheus/latest/querying/basics/#staleness).

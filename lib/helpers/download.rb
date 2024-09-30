@@ -80,11 +80,17 @@ module Downloads
     end
 
     def releases
+      pre_releases = []
       stable_releases = []
       releases = []
-      @releases.select{ |r| r.version && !r.version.build }.sort.reverse.each do |r|
+
+      @releases.select { |r| r.version && !r.version.build }.sort.reverse.each do |r|
         if r.prerelease
-          releases << r if releases.empty?
+          # Add prerelease if the stable releases are empty and its major/minor version hasn't been seen
+          if !pre_releases.include?(r.major_minor) && stable_releases.empty?
+            releases << r
+            pre_releases.append(r.major_minor)
+          end
         elsif @lts_releases.include?(r.major_minor) and not stable_releases.include?(r.major_minor)
           r.set_lts_release(true)
           releases << r
@@ -94,6 +100,7 @@ module Downloads
           stable_releases.append(r.major_minor)
         end
       end
+
       releases
     end
 

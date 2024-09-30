@@ -17,7 +17,7 @@ class RepoDocsDataSource < ::Nanoc::DataSource
 
   DOCS_DIRECTORY = 'docs'.freeze
   BRANCH_PATTERN = 'release-*'.freeze
-  VERSION_REGEXP = /\Av\d+\.\d+\.\d+\z/.freeze
+  VERSION_REGEXP = /\Av\d+\.\d+\.\d+(?:-[a-z0-9.]+)?\z/.freeze
   TMPDIR = 'tmp/repo_docs/'.freeze
 
   def up
@@ -143,12 +143,17 @@ class RepoDocsDataSource < ::Nanoc::DataSource
       .sort_by { |v| v.split('.').map(&:to_i) }
       .reverse
 
-    # Number of versions is reduced to speed up site compilation time.
+    # First, get the last 10 versions, regardless of the major version
+    recent_versions = all.take(10)
+
+    # Then ensure there's at least one version per major
     grouped = all.group_by { |v| v.split('.').first }
-    grouped.inject([]) do |list, (major, versions)|
-      size = major == grouped.keys.first ? 10 : 1
-      list += versions[0, size]
-    end
+    major_versions = grouped.map { |major, versions| versions.first }
+
+    # Combine the recent versions and major versions
+    final_versions = (recent_versions + major_versions).uniq
+
+    final_versions.sort_by { |v| v.split('.').map(&:to_i) }.reverse
   end
 
   # latest_version returns the latest released version.

@@ -10,7 +10,7 @@ Prometheus supports [OTLP](https://opentelemetry.io/docs/specs/otlp) (aka "OpenT
 
 By default, the OTLP receiver is disabled. This is because Prometheus can work without any authentication, so it would not be safe to accept incoming traffic unless explicitly configured.
 
-To enable the receiver you need to toggle the flag `--enable-feature=otlp-write-receiver`.
+To enable the receiver you need to toggle the flag `--web.enable-otlp-receiver`.
 
 ```shell
 $ prometheus --enable-feature=otlp-write-receiver

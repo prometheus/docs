@@ -75,7 +75,7 @@ In the above configuration file we have mentioned the `scrape_interval`, i.e how
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/ioa0eISf1Q0" frameborder="0" allowfullscreen></iframe>
 
-Now we have Prometheus up and running and scraping its own metrics every 15s. Prometheus has standard exporters available to export metrics. Next we will run a node exporter which is an exporter for machine metrics and scrape the same using Prometheus. ([Download node metrics exporter.](https://prometheus.io/download/#node_exporter))
+Now we have Prometheus up and running and scraping its own metrics every 15s. [Prometheus exporters](https://prometheus.io/docs/instrumenting/exporters) can help to expose metrics from other systems. Prometheus has many standard exporters. Next we will run a node exporter which is an exporter for machine metrics and scrape the same using Prometheus. ([Download node metrics exporter.](https://prometheus.io/download/#node_exporter))
 
 Run the node exporter in a terminal.
 

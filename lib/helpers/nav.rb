@@ -32,7 +32,7 @@ def nav(root_item, output='', layer=0)
   title = nav_title_of(root_item)
   if children.any?
     if layer == 0
-      buffer << "<span class=\"nav-header\"><i class=\"fa fa-#{root_item[:nav_icon]}\"></i> <span>#{title}</span></span>"
+      buffer << "<span class=\"nav-header\"><i class=\"ti ti-#{root_item[:nav_icon]}\"></i> <span>#{title}</span></span>"
     else
       buffer << "<span class=\"nav-subheader\">#{title}</span>"
     end

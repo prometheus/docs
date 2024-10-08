@@ -34,7 +34,7 @@ title: Download
 
     <% Downloads.repositories.each do |repository| %>
     <h2 id="<%= repository.name %>"><%= repository.name %></h2>
-    <p><%= repository.description %> <a href="<%= repository.url %>"><i class="fa fa-github"></i> <%= repository.full_name %></a></p>
+    <p><%= repository.description %> <a href="<%= repository.url %>"><i class="ti ti-brand-github"></i> <%= repository.full_name %></a></p>
 
     <table class="table table-bordered downloads">
     <% repository.releases.each do |release| %>

@@ -156,7 +156,7 @@ body {
   line-height: normal;
 }
 
-.feature-item .fa {
+.feature-item .ti {
   margin-right: 5px;
   color: #e6522c;
 }
@@ -292,9 +292,10 @@ footer {
   padding: 5px 20px 20px 7px;
 }
 
-.side-nav .fa {
+.side-nav .ti {
   width: 20px;
   color: #555;
+  font-size: 1.1em;
 }
 
 .side-nav a {

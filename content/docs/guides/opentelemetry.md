@@ -22,10 +22,10 @@ OpenTelemetry SDKs and instrumentation libraries can be configured via [standard
 
 ```shell
 export OTEL_EXPORTER_OTLP_PROTOCOL=http/protobuf
-export OTEL_EXPORTER_OTLP_ENDPOINT=http://localhost:9090/api/v1/otlp/
+export OTEL_EXPORTER_OTLP_METRICS_ENDPOINT=http://localhost:9090/api/v1/otlp/v1/metrics
 ```
 
-Turn off traces and logs, because the Prometheus server supports metrics only:
+Turn off traces and logs:
 
 ```shell
 export OTEL_TRACES_EXPORTER=none

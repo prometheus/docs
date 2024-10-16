@@ -16,6 +16,37 @@ To enable the receiver you need to toggle the flag `--web.enable-otlp-receiver`.
 $ prometheus --enable-feature=otlp-write-receiver
 ```
 
+## Send OpenTelemetry Metrics to the Prometheus Server
+
+OpenTelemetry SDKs and instrumentation libraries can be configured via [standard environment variables](https://opentelemetry.io/docs/languages/sdk-configuration/). The following are the OpenTelemetry variables needed to send OpenTelemetry metrics to a Prometheus server on localhost:
+
+```shell
+export OTEL_EXPORTER_OTLP_PROTOCOL=http/protobuf
+export OTEL_EXPORTER_OTLP_METRICS_ENDPOINT=http://localhost:9090/api/v1/otlp/v1/metrics
+```
+
+Turn off traces and logs:
+
+```shell
+export OTEL_TRACES_EXPORTER=none
+export OTEL_LOGS_EXPORTER=none
+```
+
+The default push interval for OpenTelemetry metrics is 60 seconds. The following will set a 15 second push interval:
+
+```shell
+export OTEL_METRIC_EXPORT_INTERVAL=15000
+```
+
+If your instrumentation library does not provide `service.name` and `service.instance.id` out-of-the-box, it is highly recommended to set them.
+
+```shell
+export OTEL_SERVICE_NAME="my-example-service"
+export OTEL_RESOURCE_ATTRIBUTES="service.instance.id=$(uuidgen)"
+```
+
+The above assumes that `uuidgen` command is available on your system. Make sure that `service.instance.id` is unique for each instance, and that a new `service.instance.id` is generated whenever a resource attribute chances. The [recommended](https://github.com/open-telemetry/semantic-conventions/tree/main/docs/resource) way is to generate a new UUID on each startup of an instance.
+
 ## Enable out-of-order ingestion
 
 There are multiple reasons why you might want to enable out-of-order ingestion.

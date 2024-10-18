@@ -35,7 +35,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [AWS RDS exporter](https://github.com/qonto/prometheus-rds-exporter)
    * [ClickHouse exporter](https://github.com/f1yegor/clickhouse_exporter)
    * [Consul exporter](https://github.com/prometheus/consul_exporter) (**official**)
-   * [Couchbase exporter](https://github.com/blakelead/couchbase_exporter)
+   * [Couchbase exporter](https://github.com/couchbase/couchbase-exporter)
    * [CouchDB exporter](https://github.com/gesellix/couchdb-exporter)
    * [Druid Exporter](https://github.com/opstree/druid-exporter)
    * [Elasticsearch exporter](https://github.com/prometheus-community/elasticsearch_exporter)

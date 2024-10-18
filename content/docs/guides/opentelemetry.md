@@ -13,7 +13,7 @@ By default, the OTLP receiver is disabled. This is because Prometheus can work w
 To enable the receiver you need to toggle the flag `--web.enable-otlp-receiver`.
 
 ```shell
-$ prometheus --enable-feature=otlp-write-receiver
+$ prometheus --web.enable-otlp-receiver
 ```
 
 ## Send OpenTelemetry Metrics to the Prometheus Server

@@ -26,7 +26,7 @@ The remote write protocol contains opportunities for batching, e.g. sending mult
 
 The remote write protocol is not intended for use by applications to push metrics to Prometheus remote-write-compatible receivers.  It is intended that a Prometheus remote-write-compatible sender scrapes instrumented applications or exporters and sends remote write messages to a server.
 
-A test suite can be found at https://github.com/prometheus/compliance/tree/main/remote_write_sender.
+A test suite can be found at https://github.com/prometheus/compliance/tree/main/remotewrite/sender.
 
 ### Glossary
 

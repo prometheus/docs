@@ -190,7 +190,7 @@ The spec is intended to describe how the following components interact (as of Ap
 - [Cortex](https://github.com/cortexproject/cortex/blob/master/pkg/util/push/push.go#L20) (as a "receiver")
 - [Elastic Agent](https://docs.elastic.co/integrations/prometheus#prometheus-server-remote-write) (as a "receiver")
 - [Grafana Agent](https://github.com/grafana/agent) (as both a "sender" and a "receiver")
-- [GreptimeDB](https://github.com/greptimeTeam/greptimedb) (as a ["receiver"](https://docs.greptime.com/user-guide/write-data/prometheus#prometheus))
+- [GreptimeDB](https://github.com/greptimeTeam/greptimedb) (as a ["receiver"](https://docs.greptime.com/user-guide/ingest-data/for-observerbility/prometheus))
 - InfluxData’s Telegraf agent. ([as a sender](https://github.com/influxdata/telegraf/tree/master/plugins/serializers/prometheusremotewrite), and [as a receiver](https://github.com/influxdata/telegraf/pull/8967))
 - [M3](https://m3db.io/docs/integrations/prometheus/#prometheus-configuration) (as a "receiver")
 - [Mimir](https://github.com/grafana/mimir) (as a "receiver")

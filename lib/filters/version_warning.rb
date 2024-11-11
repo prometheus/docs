@@ -8,6 +8,8 @@ class VersionWarning < ::Nanoc::Filter
   identifier :version_warning
 
   def run(content, params = {})
+    # hackily ignore version warning
+    return content
     case version_compare(params[:version], params[:latest])
     when 1
       type = 'a pre-release version'

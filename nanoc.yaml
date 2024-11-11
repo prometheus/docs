@@ -75,7 +75,7 @@ data_sources:
     items_root: /docs/prometheus/
     config:
       entrypoint: /getting_started/
-      repository_url: https://github.com/prometheus/prometheus.git
+      repository_url: https://github.com/fionaliao/prometheus.git
   -
     type: repo_docs
     encoding: utf-8

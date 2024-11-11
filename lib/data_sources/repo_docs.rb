@@ -32,6 +32,9 @@ class RepoDocsDataSource < ::Nanoc::DataSource
 
     versions.inject([]) do |list, version|
       branch = "release-#{version}"
+      if config.fetch(:items_root, '/') == "/docs/prometheus/"
+        branch = version
+      end
       dir = git_checkout(branch, DOCS_DIRECTORY)
       fs_config = { content_dir: dir, encoding: 'utf-8', identifier_type: 'legacy' }
       fs = ::Nanoc::DataSources::Filesystem.new(@site_config, '/', '/', fs_config)
@@ -52,7 +55,7 @@ class RepoDocsDataSource < ::Nanoc::DataSource
           entrypoint: config[:config][:entrypoint],
         }
 
-        if version == latest
+        if version == latest || version == "fix-migration-guide"
           lattrs = attrs.dup
           lattrs[:repo_docs] = attrs[:repo_docs].dup
           lattrs[:repo_docs][:name] = "latest (#{version})"
@@ -110,6 +113,7 @@ class RepoDocsDataSource < ::Nanoc::DataSource
     checkout_config = File.join(git_dir, 'worktrees', branch, 'info', 'sparse-checkout')
     if !File.exist?(checkout_config) || !Dir.exist?(working_tree)
       run_command("rm -rf #{working_tree}")
+      print("cd #{git_dir} && git worktree prune && git worktree add --no-checkout #{working_tree} #{branch}\n")
       run_command("cd #{git_dir} && git worktree prune && git worktree add --no-checkout #{working_tree} #{branch}")
       Dir.mkdir(File.dirname(checkout_config)) if !Dir.exist?(File.dirname(checkout_config))
       File.write(checkout_config, "/#{directory}\n")
@@ -134,6 +138,10 @@ class RepoDocsDataSource < ::Nanoc::DataSource
   # documentation should be published. Only the most recent versions for which a
   # corresponding release-* branch exists are returned.
   def versions
+    if config.fetch(:items_root, '/') == "/docs/prometheus/"
+      return ["fix-migration-guide"]
+    end
+
     branches = git_branches
     all = git_tags
       .select { |v| v.match(VERSION_REGEXP) }
@@ -144,7 +152,7 @@ class RepoDocsDataSource < ::Nanoc::DataSource
       .reverse
 
     # First, get the last 10 versions, regardless of the major version
-    recent_versions = all.take(10)
+    recent_versions = all.take(1)
 
     # Then ensure there's at least one version per major
     grouped = all.group_by { |v| v.split('.').first }

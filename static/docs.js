@@ -35,14 +35,23 @@ $(document).ready(function() {
       return value === want;
     }
   }
+
   var selectDownloads = function() {
     var os = $('.download-selection .os .caption').text();
-    var osGroup = $('.download-selection .os li:contains("'+os+'")').data("group");
+    var osGroup = $('.download-selection .os li:contains("' + os + '")').data("group");
     var arch = $('.download-selection .arch .caption').text();
 
     $('.downloads tbody tr').each(function() {
-      if (selected($(this).data('os').toString(), os, osGroup !== undefined ? osGroup.split(' ') : [])
-          && selected($(this).data('arch').toString(), arch, [])) {
+      var isPopularArch = arch === 'popular';
+      var rowOS = $(this).data('os').toString();
+      var rowArch = $(this).data('arch').toString();
+
+      var osMatch = selected(rowOS, os, osGroup !== undefined ? osGroup.split(' ') : []);
+      var archMatch = selected(rowArch, arch, []);
+
+      if (osMatch && isPopularArch && (rowArch === 'amd64' || (rowOS === 'darwin' && rowArch === 'arm64'))) {
+        $(this).show();
+      } else if (osMatch && archMatch) {
         $(this).show();
       } else {
         $(this).hide();

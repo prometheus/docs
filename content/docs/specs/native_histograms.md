@@ -13,7 +13,7 @@ v2.40.0. The support had to be enabled via a feature flag
 current release v2.55 and v3.00. Update this section with the stable release,
 once it has happened.)
 
-Due to the pervasive nature of the native-histogram related changes, the
+Due to the pervasive nature of the changes related to native histograms, the
 documentation of those changes and explanation of the underlying concepts are
 widely distributed over various channels (like the documentation of affected
 Prometheus components, doc comments in source code, sometimes the source code
@@ -60,7 +60,9 @@ for a summary and a number of _bucket_ samples for a (classic) histogram.
 
 With native histograms, a new structured sample type is introduced. A single
 sample represents the previously known _sum_ and _count_ plus a dynamic set of
-buckets.
+buckets. This is not limited to ingestion, but PromQL expressions may also
+return the new sample type where previously it was only possible to return
+float samples.
 
 Native histograms have the following key properties:
 1. A sparse bucket representation, allowing (near) zero cost for empty buckets.
@@ -109,7 +111,7 @@ learn about all the details and technicalities.
   classic histograms and why Prometheus kept them for so long.
 - [Prometheus Histograms – Past, Present, and
   Future](https://promcon.io/2019-munich/talks/prometheus-histograms-past-present-and-future/)
-  is the inaugural talk about the new approach that lead to native histograms.
+  is the inaugural talk about the new approach that led to native histograms.
 - [Better Histograms for
   Prometheus](https://www.youtube.com/watch?v=HG7uzON-IDM) explains why the
   concepts work out in practice.
@@ -128,13 +130,13 @@ learn about all the details and technicalities.
 
 ## Glossary
 
-- A __native histogram__ is the new complex sample type representing a full
-  histogram that this document is about. Where the context is sufficiently
-  clear, it is often just called a _histogram_ below.
-- A __classic histogram__ is the older sample type representing a histogram
-  with fixed buckets, formerly just called a _histogram_. It exists as such in
-  the exposition formats, but is broken into a number of float samples upon
-  ingestion into Prometheus.
+- A __native histogram__ is an instance of the new complex sample type
+  representing a full histogram that this document is about. Where the context
+  is sufficiently clear, it is often just called a _histogram_ below.
+- A __classic histogram__ is an instance of the older sample type representing
+  a histogram with fixed buckets, formerly just called a _histogram_. It exists
+  as such in the exposition formats, but is broken into a number of float
+  samples upon ingestion into Prometheus.
 - __Sparse histogram__ is an older, now deprecated name for _native
   histogram_. This name might still be found occasionally in older
   documentation. __Sparse buckets__ remains a meaningful term for the buckets
@@ -338,11 +340,13 @@ for the negative buckets.
 Each span consists of a pair of numbers, a signed 32-bit integer (short: int32)
 called _offset_ and an unsigned 32-bit integer (short: uint32) called _length_.
 Only the first span in each list can have a negative offset. It defines the
-index of the first bucket in its corresponding bucket list. The length defines
-the number of consecutive buckets the bucket list starts with. The offsets of
-the following spans define the number of excluded (and thus unpopulated
-buckets). The lengths define the number of consecutive buckets in the list
-following the excluded buckets.
+index of the first bucket in its corresponding bucket list. (Note that for
+NHCBs, the index is always positive, see the [custom values
+section](#custom-values) below for details.) The length defines the number of
+consecutive buckets the bucket list starts with. The offsets of the following
+spans define the number of excluded (and thus unpopulated buckets). The lengths
+define the number of consecutive buckets in the list following the excluded
+buckets.
 
 The sum of all length values in each span list MUST be equal to the length of
 the corresponding bucket list.
@@ -469,7 +473,7 @@ the custom bucket with index zero will stay unpopulated and therefore will
 never be represented explicitly. The only cost is the additional zero element
 at the beginning of the custom values list.)
 
-The last custom value MUST not be `+Inf`. Observations greater than the last
+The last custom value MUST NOT be `+Inf`. Observations greater than the last
 custom value go into an overflow bucket with an upper boundary of `+Inf`. This
 overflow bucket is added with an index equal to the length of the custom
 values list.
@@ -497,7 +501,11 @@ the sum is set to `NaN`.)
 
 An observation of `NaN` goes into no bucket, but increments the count of
 observations. This implies that the count of observations can be greater than
-the sum of all buckets, and the difference is the number of `NaN` observations.
+the sum of all buckets (negative, positive, and zero buckets), and the
+difference is the number of `NaN` observations. (For an integer histogram
+without any `NaN` observations, the sum of all buckets is equal to the count of
+observations. Within the usual floating point precision limits, the same is
+true for a float histogram without any `NaN` observations.)
 
 An observation of `+Inf` or `-Inf` increments the count of observations and
 increments a bucket chosen in the following way:
@@ -527,9 +535,10 @@ for OTel.
 OTel has a dense rather than a sparse representation of buckets. One might see
 OTel as “Prom with only one span”.
 
-The Prom _zero bucket_ is called _zero count_ for OTel, but works the same,
-including the existence of a _zero threshold_. Note that OTel implies a
-threshold of zero if none is given.
+The Prom _zero bucket_ is called _zero count_ in OTel. (Prom also uses _zero
+count_ to name the field storing the count of observations in the zero bucket).
+Both work the same, including the existence of a _zero threshold_. Note that
+OTel implies a threshold of zero if none is given.
 
 (TODO: The OTel spec reads: “When zero_threshold is unset or 0, this bucket
 stores values that cannot be expressed using the standard exponential formula
@@ -681,8 +690,9 @@ Note the following:
 - Both native histograms and classic histograms are encoded by the same
   `Histogram` proto message, i.e. the existing `Histogram` message got extended
   with fields for native histograms.
-- The fields for the sum and the count of observations are shared between
-  classic and native histograms.
+- The fields for the sum and the count of observations and the
+  `created_timestamp` are shared between classic and native histograms and keep
+  working in the same way for both.
 - The format originally did not support classic float histograms. While
   extending the format for native histograms, support for classic float
   histograms was added as a byproduct (see fields `sample_count_float`,
@@ -738,9 +748,9 @@ for more details.
 ## Instrumentation libraries
 
 The [protobuf specification](#classic-prometheus-formats) enables low-level
-creation of metrics exposition including native histograms in the usual
-protobuf way. However, for actual instrumentation of code, an instrumentation
-library is needed.
+creation of metrics exposition including native histograms using the language
+specific bindings created by the protobuf compiler. However, for direct code
+instrumentation, an instrumentation library is needed.
 
 Currently (2024-11-03), there are two official Prometheus instrumentation
 libraries supporting native histograms:
@@ -838,8 +848,10 @@ the limit again:
    of observations as well as the zero bucket are set to zero. Prometheus
    handles this as a normal counter reset, which means that some observations
    will be lost between scrapes, so resetting should happen rarely compared to
-   the scraping interval. A `NativeHistogramMinResetDuration` of one hour is a
-   value that should work well in most situations.
+   the scraping interval. Additionally, frequent counter resets might lead to
+   less efficient storage in the TSDB (see the [TSDB section](#tsdb) for
+   details). A `NativeHistogramMinResetDuration` of one hour is a value that
+   should work well in most situations.
 2. If not enough time has passed since the last reset (or if
    `NativeHistogramMinResetDuration` is set to zero, which is the default
    value), no reset is performed. Instead, the zero threshold is increased to
@@ -856,7 +868,9 @@ the limit again:
 If step 2 or 3 have changed the histogram, a reset will be performed once
 `NativeHistogramMinResetDuration` has passed since the last reset, not only to
 remove the buckets but also to return to the initial values for the zero
-threshold and the bucket resolution.
+threshold and the bucket resolution. Note that this is treated like a reset for
+other reasons in all aspects, including updating the so-called [created
+timestamp](#created-timestamp-handling).
 
 It is tempting to set a very low `NativeHistogramBucketFactor` (e.g. 1.005)
 together with a reasonable `NativeHistogramMaxBucketNumber` (e.g. 160). In this
@@ -922,18 +936,19 @@ content negotiation to prefer the classic protobuf-based exposition format over
 the OpenMetrics text format. (TODO: This behavior will change once native
 histograms are a stable feature.)
 
-### Finetuning content negotiation
+### Fine-tuning content negotiation
 
-With Prometheus v2.49 and later, it is possible to finetune the scrape protocol
-negotiation globally or per scrape config via the `scrape_protocols` config
-setting. It is a list defining the content negotiation priorities. Its default
-value depends on the `--enable-feature=native-histograms` flag. If the flage is
-set, it is `[ PrometheusProto, OpenMetricsText1.0.0, OpenMetricsText0.0.1,
-PrometheusText0.0.4 ]`, otherwise `[ OpenMetricsText1.0.0,
-OpenMetricsText0.0.1, PrometheusText0.0.4 ]`. This results in the behavior
-described above, i.e. protobuf is unused without the
-`--enable-feature=native-histograms` flag, while it is the first priority with
-the flag set.
+With Prometheus v2.49 and later, it is possible to fine-tune the scrape
+protocol negotiation globally or per scrape config via the `scrape_protocols`
+config setting. It is a list defining the content negotiation priorities. Its
+default value depends on the `--enable-feature=native-histograms` flag. If the
+flag is set, it is `[ PrometheusProto, OpenMetricsText1.0.0,
+OpenMetricsText0.0.1, PrometheusText0.0.4 ]`, otherwise the first element,
+`PrometheusProto` is removed from the list, resulting in `[
+OpenMetricsText1.0.0, OpenMetricsText0.0.1, PrometheusText0.0.4 ]`. These
+default values result in the behavior described above, i.e. protobuf is unused
+without the `--enable-feature=native-histograms` flag, while it is the first
+priority with the flag set.
 
 The setting can be used to configure protobuf scrapes without ingesting native
 histograms or enforce a non-protobuf format for certain targets even with the
@@ -946,14 +961,20 @@ of protobuf is required to actually ingest native histograms.
 histograms are supported by other formats.)
 
 NOTE: Switching the used exposition format between text-based and
-protobuf-based might have surprising effects on the formatting of label values
-for `quantile` labels (used in summaries) and `le` labels (used in classic
-histograms). This is not a problem for native histograms, but might show up in
-the same context because enabling native histograms requires the protobuf
-exposition format. See details in the [documentation for the
+protobuf-based has some non-obvious implications. Most importantly, certain
+implementation details result in the counter-intuitive effect that scraping
+with a text-based format is generally much less resource demanding than
+scraping with a protobuf-based format (see [tracking
+issue](https://github.com/prometheus/prometheus/issues/14668) for details).
+Even more subtle is the effect on the formatting of label values for `quantile`
+labels (used in summaries) and `le` labels (used in classic histograms). This
+problem only affects v2 of the Prometheus server (v3 has consistent formatting
+under all circumstances) and is not directly related to native histograms, but
+might show up in the same context because enabling native histograms requires
+the protobuf exposition format. See details in the [documentation for the
 `native-histograms` feature
-flag](https://prometheus.io/docs/prometheus/latest/feature_flags/#native-histograms).
-(TODO: Normalization will become the default in v3. Update this as appropriate.)
+flag](https://prometheus.io/docs/prometheus/2.55/feature_flags/#native-histograms)
+for v2.55.
 
 ### Limiting bucket count and resolution
 
@@ -1185,7 +1206,7 @@ histogram, the data of each sample contains the following:
 - The count of observations, encoded as varbit-uint for the 1st sample and as
   varbit-int for any further samples, using the same “delta of deltas” approach
   as for timestamps.
-- The zero bucket population, enccoded as varbit-uint for the 1st sample and as
+- The zero bucket population, encoded as varbit-uint for the 1st sample and as
   varbit-int for any further samples, using the same “delta of deltas” approach
   as for timestamps.
 - The sum of observations, encoded as a float64 for the 1st sample and as
@@ -1219,8 +1240,8 @@ parentheses):
   (because the leading byte has to denote the different type).
 - A counter reset for a counter histogram (to be stored in the leading byte as
   counter reset information, see details below).
-- A schema change (which means we need a new chunk layout, and one and the same
-  chunk can only have one chunk layout).
+- A schema change (which means we need a new chunk layout, and a chunk can only
+  have one chunk layout).
 - A change of the zero threshold (which changes the chunk layout, see above).
 - A change of the custom values (which changes the chunk layout, see above).
 - A staleness marker is followed by a regular sample (which does not strictly
@@ -1323,11 +1344,11 @@ happens in the same way as [previously described](#limit-the-bucket-count):
 Neighboring buckets are merged to reduce the schema, and regular buckets are
 merged with the zero bucket to increase the width of the zero bucket.
 
-At this point in the procedure, both histograms have the schema and zero bucket
-width, either because this was the case from the beginning, or because the
-first histogram was converted accordingly. (Note that NHCBs do not use the zero
-bucket. Their zero bucket widths and population counts are considered equal for
-the sake of this procedure.) In this situation, any of the following
+At this point in the procedure, both histograms have the same schema and zero
+bucket width, either because this was the case from the beginning, or because
+the first histogram was converted accordingly. (Note that NHCBs do not use the
+zero bucket. Their zero bucket widths and population counts are considered
+equal for the sake of this procedure.) In this situation, any of the following
 constitutes a counter reset:
 
 - A drop in the count of observations (but notably _not_ a drop in the sum of
@@ -1353,11 +1374,11 @@ buckets to represent. A chunk, however, has to represent the superset of all
 buckets of all histograms in the chunk, so cutting a new chunk enables a
 simpler set of buckets for the new chunk.
 
-This in turn implies that there will never be a counter reset within a chunk.
-The only histogram for which counter reset information has to be persisted is
-therefore the 1st histogram in a chunk. This happens in the so-called
-_histogram flags_, a single byte stored directly after the the number of
-samples in the chunk. This byte is currently only used for the counter reset
+This in turn implies that there will never be a counter reset after the first
+sample in a chunk. Therefore, the only counter reset information that has to be
+persisted is that of the 1st histogram in a chunk. This happens in the
+so-called _histogram flags_, a single byte stored directly after the the number
+of samples in the chunk. This byte is currently only used for the counter reset
 information, but it may be used for other flags in the future. The counter
 reset information uses the first two bits. The four possible bit patterns are
 represented as Go constants of type `CounterResetHeader` in the `chunkenc`
@@ -1432,7 +1453,7 @@ names as the bit pattern constants above). This has a number of implications:
 TODO: Currently, Prometheus returns a `CounterResetHint` of
 `UnknownCounterReset` for the 1st histogram of a chunk marked as
 `NotCounterReset` (which is essentially situation (4) from above). Once [this
-issue](https://github.com/prometheus/prometheus/issues/15247) is resolves, we
+issue](https://github.com/prometheus/prometheus/issues/15247) is resolved, we
 might be able to return `NotCounterReset` in this case.
 
 If the `CounterResetHint` is set to `UnknownCounterReset`, the querier MUST perform
@@ -1689,8 +1710,8 @@ zero.
 
 ### Mixed series
 
-As already discussed above, neithe the sample type nor the flavor of a native
-histograms is not part of the identity of a series. Therefore, one and the same
+As already discussed above, neither the sample type nor the flavor of a native
+histogram is part of the identity of a series. Therefore, one and the same
 series might contain a mix of different sample types and flavors.
 
 A mix of counter histograms and gauge histograms doesn't prevent any PromQL
@@ -1717,7 +1738,7 @@ supposed to act as intermediate results inside other expressions.
 ### Binary operators
 
 Most binary operators do not work between two histograms or between a histogram
-and a float or between a histogram and a scalar. If an operater processes such
+and a float or between a histogram and a scalar. If an operator processes such
 an impossible combination, the corresponding element is removed from the output
 vector and an info-level annotation is added to the result. (This situation is
 somewhat similar to label matching, where the sample type plays a role similar
@@ -1726,17 +1747,17 @@ the reason why the level of the annotation is only info.)
 
 The following describes all the operations that actually _do_ work.
 
-Addition (`+`) and subtraction (`-`) work between two histograms. These
-operators add or subtract all matching bucket populations and the count and the
-sum of observations. Missing buckets are assumed to be empty and treated
-accordingly. Subtraction might result in negative histograms, see [notes
-above](#unary-minus-and-negative-histograms). Generally, both operands should
-be gauges. Adding and subtracting counter histograms requires caution, but
-PromQL allows it. Adding a gauge histogram and a counter histogram results in a
-gauge histogram. Adding two counter histograms with contradicting counter reset
-hints triggers a warn-level annotation. (TODO: The latter not yet implemented.
-Also, subtraction doesn't check/modify counter reset hints yet. This should be
-documented in detail in the PromQL docs.)
+Addition (`+`) and subtraction (`-`) work between two compatible histograms.
+These operators add or subtract all matching bucket populations and the count
+and the sum of observations. Missing buckets are assumed to be empty and
+treated accordingly. Subtraction might result in negative histograms, see
+[notes above](#unary-minus-and-negative-histograms). Generally, both operands
+should be gauges. Adding and subtracting counter histograms requires caution,
+but PromQL allows it. Adding a gauge histogram and a counter histogram results
+in a gauge histogram. Adding two counter histograms with contradicting counter
+reset hints triggers a warn-level annotation. (TODO: The latter not yet
+implemented. Also, subtraction doesn't check/modify counter reset hints yet.
+This should be documented in detail in the PromQL docs.)
 
 Multiplication (`*`) works between a float sample or a scalar on the one side
 and a histogram on the other side, in any order. It multiplies all bucket
@@ -1747,7 +1768,7 @@ which is usually only useful as intermediate results inside other expressions
 works for both counter histograms and gauge histograms, and their flavor is left
 unchanged by the operation.
 
-Division (`*`) works between a histogram on the left hand side and a float
+Division (`/`) works between a histogram on the left hand side and a float
 sample or a scalar on the right hand side. It is equivalent to multiplication
 with the inverse of the float (sample or scalar). Division by zero results in a
 histogram with no regular buckets and the zero bucket population and the count
@@ -1764,8 +1785,8 @@ a gauge histogram.)
 
 The logical/set binary operators (`and`, `or`, `unless`) work as expected even
 if histogram samples are involved. They only check for the existence of a
-vector element and don't change their behavior depending on the sample type of
-an element (float or histogram).
+vector element and don't change their behavior depending on the sample type or
+flavor of an element (float or histogram, counter or gauge).
 
 The “trim” operators `>/` and `</` were introduced specifically for native
 histograms. They only work for a histogram on the left hand side and a float
@@ -1776,7 +1797,7 @@ smaller than the float value on the right side, respectively, and return the
 resulting histogram. The removal is only precise if the threshold coincides
 with a bucket boundary. Otherwise, interpolation within the affected buckets
 has to be used, as described [above](#interpolation-within-a-bucket). The
-counter vs. gauge flavor of the histogram is preserved. (TODO: These operaters
+counter vs. gauge flavor of the histogram is preserved. (TODO: These operators
 are not yet implemented and might also change in detail, see [tracking
 issue](https://github.com/prometheus/prometheus/issues/14651).)
 
@@ -1800,7 +1821,7 @@ sum by the number of aggregated histogram (in the same way as described for the
 vector that would require the aggregation of float samples with histogram
 samples. Such a removal is flagged by a warn-level annotation.
 
-All other aggregation operaters do _not_ work with native histograms.
+All other aggregation operators do _not_ work with native histograms.
 Histograms in the input vector are simply ignored, and an info-level annotation
 is added for each ignored histogram.
 
@@ -1816,6 +1837,8 @@ native histogram:
 - `rate()` (For counter histograms.)
 - `idelta()` (For gauge histograms.)
 - `irate()` (For counter histograms.)
+
+TODO: `idelta` and `irate` are not yet implemented for histograms.
 
 These functions SHOULD be applied to either gauge histograms or counter
 histograms as noted above. However, they all work with both flavors, but if at
@@ -1833,8 +1856,6 @@ zero](https://github.com/prometheus/prometheus/blob/034d2b24bcae90fce3ac337b4ddd
 is currently not yet implemented (and might actually not make sense) for native
 histograms. This may lead to slightly different results when comparing classic
 histograms with equivalent NHCBs.
-
-TODO: `idelta` and `irate` are not yet implemented for histograms.
 
 `avg_over_time()` and `sum_over_time()` work with native histograms in a way
 that corresponds to the respective aggregation operators. In particular, if a
@@ -1875,15 +1896,22 @@ histogram_quantile(0.9, sum by (job) (rate(http_request_duration_seconds[10m])))
 
 As with classic histograms, an estimation of the maximum and minimum
 observation in a histogram can be performed using 1 and 0, respectively, as the
-first parameter of `histogram_quantile`. This estimation is much more useful
-with native histograms, though, not only because of the usually higher
-resolution of native histograms, but even more so because native histograms
-have no upper or lower limit. With a classic histogram, the odds are that the
+first parameter of `histogram_quantile`. However, native histograms with
+standard schemas enable much more useful results, not only because of the
+usually higher resolution of native histograms, but even more so because native
+histograms with standard schemas sustain the same resolution across the whole
+range of float64 numbers. With a classic histogram, the odds are that the
 maximum observation is in the +Inf bucket, so that the estimation simply
 returns the upper limit of the last bucket before the +Inf bucket. Similarly,
-the minimum observation will often be in the lowest bucket. Native histograms
-with standard schemas sustain the same resolution across the whole range of
-float64 numbers.
+the minimum observation will often be in the lowest bucket.
+
+`histogram_quantile` treats observations of value `NaN` (which SHOULD NOT
+happen, see [above](#special-cases-of-observed-values)) effectively as
+observations of `+Inf`. This follows the rationale that `NaN` is never less
+than any value that `histogram_quantile` returns and is consistent with how
+classic histograms usually treat `NaN` observations (which end up in the `+Inf`
+bucket in most implementations). (TODO: The correct implementation of this
+behavior still needs to be verified by tests.)
 
 The following functions have been introduced specifically for native
 histograms:
@@ -1900,7 +1928,7 @@ returns a vector of float samples.
 
 `histogram_count()` and `histogram_sum()` return the count of observations or the sum of
 observations, respectively, that are contained in a native histogram. As they are normal
-function, their result cannot be used in a range selector. Instead of using
+functions, their result cannot be used in a range selector. Instead of using
 sub-queries, the recommended way to calculate a rate of the count or the sum of
 observations is to first rate the histogram and then apply `histogram_count()`
 or `histogram_sum()` to the result. For example, the following query calculates
@@ -1930,10 +1958,13 @@ observations in `histogram` between the provided boundaries, the scalar values
 the underlying native histogram and how closely the provided boundaries are
 aligned with the bucket boundaries in the histogram. `+Inf` and `-Inf` are
 valid boundary values and useful to estimate the fraction of all observations
-above or below a certain value. Whether the provided boundaries are inclusive
-or exclusive is only relevant if the provided boundaries are precisely aligned
-with bucket boundaries in the underlying native histogram. In this case, the
-behavior depends on the precise definition of the schema of the histogram.
+above or below a certain value. However, observations of value `NaN` are always
+considered to be outside of the specified boundaries (even `+Inf` and `-Inf`).
+(TODO: Verify the correct implementation of this behavior with tests.) Whether
+the provided boundaries are inclusive or exclusive is only relevant if the
+provided boundaries are precisely aligned with bucket boundaries in the
+underlying native histogram. In this case, the behavior depends on the precise
+definition of the schema of the histogram.
 
 The following functions do not interact directly with sample values and
 therefore work with native histogram samples in the same way as they work with
@@ -2119,8 +2150,7 @@ efforts will also take into account how to support native histograms properly.
 ## Prometheus UI
 
 This section describes the rendering of histograms by Prometheus's own UI. This
-MAY be used as a guideline for external graphing frontends (like Perses or
-Grafana).
+MAY be used as a guideline for third party graphing frontends.
 
 In the _Table_ view, a histogram data point is rendered graphically as a bar
 graph together with a textual representation of all the buckets with their
@@ -2190,11 +2220,17 @@ setting to true).
 In [remote write v2](https://prometheus.io/docs/specs/remote_write_spec_2_0/),
 native histograms are a stable feature.
 
-TODO: Is there more to say? I'm not a remote write & read specialist. Does
-remote read really work?
+It might appear tempting to convert classic histograms to NHCBs while sending
+or receiving them. However, this does not overcome the known consistency
+problems classic histograms suffer from when transmitted via remote write.
+Instead, classic histograms SHOULD be converted to NHCBs during scraping.
+Similarly, explicit OTel histograms SHOULD be converted to NHCBs during [OTLP
+ingestion](#otlp) already. (TODO: See [tracking
+issue](https://github.com/prometheus/prometheus/issues/15022).)
 
-TODO: What are the plans to auto-convert classic histograms to NHCBs in
-remote-write?
+TODO: A remaining possible problem with remote write is what to do if multiple
+exemplars originally ingested for the same native histogram are sent in
+different remote-write requests.
 
 ## Federation
 
@@ -2208,12 +2244,17 @@ TODO: Clarify state of federation of NHCBs. Update once OM supports NH.
 
 ## OTLP
 
-The OTLP receiver built into Prometheus will convert incoming OTel exponential
+The OTLP receiver built into Prometheus converts incoming OTel exponential
 histograms to Prometheus native histograms utilizing the compatibility
 described [above](#opentelemetry-interoperability). The resolution of a
 histogram using a schema (“scale” in OTel lingo) greater than 8 will be reduced
 to match schema 8. (In the unlikely case that a schema smaller than -4 is used,
 the ingestion will fail.)
+
+Explicit OTel histograms are the equivalent of Prometheus's classic histograms.
+Prometheus therefore converts them to classic histograms by default, but
+optionally offers direct conversion to NHCBs. (TODO: Not implemented yet, see
+[tracking issue](https://github.com/prometheus/prometheus/issues/15022).)
 
 TODO: Is the OTLP receiver documented anywhere? Link the documentation here.
 
@@ -2268,7 +2309,7 @@ histogram support in OpenMetrics:
 - `promtool tsdb dump-openmetrics`
 - `promtool tsdb create-blocks-from openmetrics`
 
-TODO: Update as progrees is made. See [tracking
+TODO: Update as progress is made. See [tracking
 issue](https://github.com/prometheus/prometheus/issues/12146).
 
 ## `prom2json`
@@ -2291,15 +2332,15 @@ sources of issues to consider:
 
 1. Querying native histograms works differently from querying classic
    histograms. In most cases, the changes are minimal and straightforward, but
-   there are tricky edge cases, which make it hard to perform some kind of
-   auto-conversion reliably.
+   there are tricky edge cases, which make it hard to perform a reliable
+   auto-conversion.
 2. Classic and native histograms cannot be aggregated with each other. A change
    from classic to native histograms at a certain point in time makes it hard
-   to create dashboards that work across the transition point, and range vectors
-   that contain the transition point will inevitably be incomplete (i.e. a
-   range vector selecting classic histograms will only contain data points in
-   the earlier part of the range, and a range vector selecting native histograms will only
-   contain data points in the later part of the range).
+   to create dashboards that work across the transition point, and range
+   vectors that contain the transition point will inevitably be incomplete
+   (i.e. a range vector selecting classic histograms will only contain data
+   points in the earlier part of the range, and a range vector selecting native
+   histograms will only contain data points in the later part of the range).
 3. A classic histogram might be tailored to have bucket boundaries precisely at
    the points of interest. Native histograms with a standard schema can have a
    high resolution, but do not allow to set bucket boundaries at arbitrary
@@ -2318,11 +2359,15 @@ period, which comes at the cost of collecting and storing classic and native
 histograms in parallel for a while.
 
 The first step is to update the instrumentation to expose classic and native
-histograms in parallel.
+histograms in parallel. (This step can be skipped if the plan is to stick with
+classic histogram in the instrumentation and simply convert them to NHCBs
+during scraping.)
 
 Then configure Prometheus to scrape both classic and native histograms, see
 section about [scraping both classic and native
-histograms](#scraping-both-classic-and-native-histograms) above.
+histograms](#scraping-both-classic-and-native-histograms) above. (If needed,
+also [activate the conversion of classic histograms to
+NHCB](#scraping-classic-histograms-as-nhcbs).)
 
 The existing queries involving classic histograms will continue to work, but
 from now on, users can start working with native histograms and start to change
@@ -2345,8 +2390,9 @@ histogram query without any consideration about the right switch-over.
 
 Once there is confidence that all queries have been migrated correctly,
 configure Prometheus to only scrape native histograms (which is the “normal”
-setting). If everything still works, it is time to remove classic histograms
-from the instrumentation.
+setting). (It is also possible to incrementally remove classic histograms with
+relabel rules in the scrape config.) If everything still works, it is time to
+remove classic histograms from the instrumentation.
 
 The Grafana Mimir documentation contains [a detailed migration
 guide](https://grafana.com/docs/mimir/next/send/native-histograms/#migrate-from-classic-histograms)

@@ -7,7 +7,8 @@ draft: true
 ---
 
 Following the recent release of [Prometheus 3.0 beta](https://prometheus.io/blog/2024/09/11/prometheus-3-beta/) at PromCon in Berlin, the Prometheus Team
-is excited to announce the release of Prometheus Version 3.0! This latest version marks a major milestone, as it is the first major release in 7 years. Prometheus has come a long way in that time, evolving from an obscure project for data nerds into a standard part of cloud-native deployment stack.
+is excited to announce the release of Prometheus Version 3.0! This latest version marks a major milestone, as it is the first major release in 7 years. 
+Prometheus has come a long way in that time, evolving from an obscure project for data nerds into a standard part of cloud-native deployment stack.
 
 Since the beta release, a few additional breaking changes have been added.
 
@@ -19,7 +20,7 @@ Here is a summary of the exciting changes that have been released as part of the
 
 One of the highlights in Prometheus 3.0 is its brand-new UI that is enabled by default:
 
-![New UI query page](/assets/blog/2024-09-24/blog_post_screenshot_tree_view-s.png)
+![New UI query page](/static/blog/2024-09-24/blog_post_screenshot_tree_view-s.png)
 
 The UI has been completely rewritten with less clutter, a more modern look and feel, new features like a The UI has been completely rewritten with less clutter, 
 a more modern look and feel, new features like a [**PromLens**](https://promlens.com/)-style tree view, and will make future maintenance easier by using a more modern technical stack.
@@ -32,7 +33,7 @@ Since the new UI is not battle-tested yet, it is also very possible that there a
 
 Since the beta, the user interface has been updated to support UTF-8 metric and label names.
 
-![New UTF-8 UI](/assets/blog/2024-09-24/utf8_ui.png)
+![New UTF-8 UI](/static/blog/2024-09-24/utf8_ui.png)
 
 ## Remote Write 2.0
 
@@ -93,9 +94,9 @@ It’s impressive to see what we have accomplished in the community since Promet
 * 2.18.0 (4 years ago)
 * 3.0.0 (now)
 
-![Memory bytes](/assets/blog/2024-09-24/memory_bytes_ui.png)
+![Memory bytes](/static/blog/2024-09-24/memory_bytes_ui.png)
 
-![CPU seconds](/assets/blog/2024-09-24/cpu_seconds.png)
+![CPU seconds](/static/blog/2024-09-24/cpu_seconds.png)
 
 It’s furthermore impressive that those numbers were taken using our [prombench macrobenchmark](https://github.com/prometheus/prometheus/pull/15366) 
 that uses the same PromQL queries, configuration and environment–highlighting backward compatibility and stability for the core features, even with 3.0.

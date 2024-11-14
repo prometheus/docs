@@ -1398,69 +1398,51 @@ package. Their names and meanings are the following:
   counter reset between the last histogram of the previous chunk and the 1st
   histogram of this chunk.
   
-There are a number of situations where `UnknownCounterReset` is used:
-
-1. The ingesting program does not know the previous histogram (because it is
-   actually the 1st sample in a new series, or because the ingesting program
-   has lost track of the previous histogram for other reasons).
-2. It MUST be used on the first chunk of each series in a block. (TODO: Still
-   [debated](https://github.com/prometheus/prometheus/issues/15247).)
-3. If a program uses existing chunks to create new blocks, it MUST change a
-   chunk's counter reset information to `UnknownCounterReset` if this chunk
-   becomes the first chunk of a series within the new block or if the directly
-   preceding chunk is replaced by another block (including being deleted).
-4. It MAY be used conservatively in cases where there is uncertainty if a
-   counter reset has happened or not.
-
-In situation (2), the problem is that the TSDB has no control over the fate of
-the preceding block. It could get deleted or replaced, or another block could
-get inserted between the current block and the preceding block. There isn't any
-mechanisms to detect such an event later. With a different block preceding the
-current block, the new counter reset status would indeed be unknown. Since the
-TSDB cannot know if the preceding block has changed, the counter reset
-information at a block boundary always has to be considered unknown. (These
-consideration are similar to the even more complex situation with overlapping
-blocks and out-of-order samples, see below.)
-
-The reason behind situation (3) is similar, just on a chunk level.
-
-TSDB implementation MAY perform a separate counter reset detection after
-creating a new block to change the counter reset information accordingly on
-chunks that are not the first of a series within the new block. (Prometheus
-currently does not do this. It is a relatively expensive operation with limited
-potential of making queries more efficient.)
+`UnknownCounterReset` is always a safe choice. It does not prevent counter
+reset detection, but merely requires that the counter reset detection procedure
+has to be performed (again) whenever counter reset information is needed.
 
 The counter reset information is propagated to the caller when querying the
 TSDB (in the Go code as a field of type `CounterResetHint` in the Go types
 `Histogram` and `FloatHistogram`, using enumerated constants with the same
-names as the bit pattern constants above). This has a number of implications:
+names as the bit pattern constants above).
 
-- The `CounterResetHint` of gauge histograms is always `GaugeType`. Any other
-  `CounterResetHint` value implies that the histogram in question is a counter
-  histogram. In this way, queriers (including the PromQL engine, see
-  [below](#promql)) obtain the information if a histogram is a gauge or a
-  counter (which is notably different from float samples).
-- For counter histogram samples from within a chunk, the `CounterResetHint` is
-  set to `NotCounterReset`, because counter resets never happen within a chunk.
-  However, overlapping blocks and out-of-order ingestion can break this rule,
-  see below.
-- For the 1st histogram in a counter histogram chunk, the counter reset
-  information from the chunk is generally used as the `CounterResetHint`
-  (either `CounterReset`, `NotCounterReset`, or `UnknownCounterReset`).
-  However, overlapping blocks and out-of-order ingestion can break this rule,
-  see below.
-  
-TODO: Currently, Prometheus returns a `CounterResetHint` of
-`UnknownCounterReset` for the 1st histogram of a chunk marked as
-`NotCounterReset` (which is essentially situation (4) from above). Once [this
-issue](https://github.com/prometheus/prometheus/issues/15247) is resolved, we
-might be able to return `NotCounterReset` in this case.
+For gauge histogram, the `CounterResetHint` is always `GaugeType`. Any other
+`CounterResetHint` value implies that the histogram in question is a counter
+histogram. In this way, queriers (including the PromQL engine, see
+[below](#promql)) obtain the information if a histogram is a gauge or a counter
+(which is notably different from float samples).
 
-If the `CounterResetHint` is set to `UnknownCounterReset`, the querier MUST perform
-its own counter reset detection in the same way as described above. Therefore,
-a `CounterResetHint` of `UnknownCounterReset` MAY be used as a safe fallback in
-case of uncertainty. This safety comes at the cost of an additional counter
-reset detection at query time.
+As long as counter histograms are returned in order from a single chunk, the
+`CounterResetHint` for the 2nd and following histograms in a chunk is set to
+`NotCounterReset`. (Overlapping blocks and out-of-order ingestion may lead to
+histogram sequences coming from multiple chunks, which requires special
+treatment, see below.)
+
+When returning the 1st histogram from a counter histogram chunk, the
+`CounterResetHint` MUST be set to `UnknownCounterReset` _unless_ the TSDB
+implementation can ensure that the previously returned histogram was indeed the
+same histogram that was used as the preceding histogram to detect the counter
+reset at ingestion time. Only in the latter case, the counter reset information
+from the chunk MAY be used directly as the `CounterResetHint` of the returned
+histogram.
+
+This precaution is needed because there are various ways how chunks might get
+removed or inserted (e.g. deletion via tombstones or adding blocks for
+backfilling). A counter reset, while attributed to one sample, is in fact
+happening _between_ the marked sample and the preceding sample. Removing the
+preceding sample or inserting another sample in between the two samples
+invalidates the previously performed counter reset detection.
+
+TODO: Currently, the Prometheus TSDB has no means of ensuring that the
+preceding chunk is still the same chunk as during ingestion. Therefore,
+Prometheus currently returns `UnknownCounterReset` for _all_ 1st histograms
+from a counter histogram chunk. See [tracking
+issue](https://github.com/prometheus/prometheus/issues/15346) for efforts to
+change that.
+
+As already implied above, the querier MUST perform the counter reset detection
+procedure (again), if the `CounterResetHint` is set to `UnknownCounterReset`.
 
 Special caution has to be applied when processing overlapping blocks or
 out-of-order samples (for querying or during compaction). Both overdetection
@@ -1471,21 +1453,19 @@ by the following examples:
   resets. Another chunk contains samples DEF, again without counter resets. The
   chunks are overlapping and refer to the same series. When querying them
   together, the temporal order of samples turns out to be ADBECF. There might
-  now very well be a counter reset between each of those samples. This is even
-  likely if the two samples are actually from unrelated series and got merged
-  into the same series by accident. However, even accidental merges like this
-  have to be handled correctly by the TSDB. If the overlapping chunks are
-  compacted into a new chunk, a new counter reset detection has to happen,
-  catching the new counter resets. If querying the overlapping chunks, a
-  counter reset detection could be implemented to return correct counter reset
-  hints to the querier. Another option is to return `UnknownCounterReset` for
-  each sample that comes from a different chunk than the previous sample, which
-  mandates a counter reset detection by the querier (utilizing the safe
-  fallback described above). The latter is currently implemented in the
-  Prometheus TSDB.
+  now very well be a counter reset between some or even all of those samples.
+  This is in fact likely if the two samples are actually from unrelated series
+  and got merged into the same series by accident. However, even accidental
+  merges like this have to be handled correctly by the TSDB. If the overlapping
+  chunks are compacted into a new chunk, a new counter reset detection has to
+  happen, catching the new counter resets. If querying the overlapping chunks
+  directly (without prior compaction), a `CounterResetHint` of
+  `UnknownCounterReset` has to be set for each sample that comes from a
+  different chunk than the previously returned sample, which mandates a counter
+  reset detection by the querier (utilizing the safe fallback described above).
 - _Example for overdetection:_ There is a sequence of samples ABCD with a
   counter reset happening between B and C. However, the initial ingestion
-  misses B and C so that only A and D is ingested, with a counter reset
+  missed B and C so that only A and D were ingested, with a counter reset
   detected between A and D. Later, B and C are ingested (via out-of-order
   ingestion or as separate chunks later added to the TSDB as a separate block),
   with a counter reset detected between B and C. In this case, each sample goes
@@ -1510,10 +1490,11 @@ counts that have decreased compared to the last sample prior to the counter
 reset. (This is also a problem for float counters, where it is actually more
 likely to happen.) With the mechanisms explained above, it is possible to store
 a counter reset even in this case, provided that the counter reset was detected
-by other means. However, due to the complications caused by block insertion and
-removal, out-of-order samples, and overlapping blocks (as explained above),
-this information MAY get lost if a second round of counter reset detection is
-required. A better way to safely mark a counter reset is via created
+by other means. However, due to the complications caused by insertion and
+removal of chunks, out-of-order samples, and overlapping blocks (as explained
+above), this information MAY get lost if a second round of counter reset
+detection is required. (TODO: Currently, this information is reliably lost, see
+TODO above.) A better way to safely mark a counter reset is via created
 timestamps (see next section).
 
 ### Created timestamp handling
@@ -1649,7 +1630,7 @@ the histogram has observed negative values.)
 Note that the counter reset hints of counter histograms returned by sub-queries
 MUST NOT be taken into account to avoid explicit counter reset detection,
 unless the PromQL engine can safely detect that consecutive counter histograms
-as returned from the sub-query are also consecutive in the TSDB. (TODO: This is
+returned from the sub-query are also consecutive in the TSDB. (TODO: This is
 not implemented yet.)
 
 ### Gauge histograms vs. counter histograms

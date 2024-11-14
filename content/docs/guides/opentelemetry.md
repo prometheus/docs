@@ -149,6 +149,8 @@ otlp:
   translation_strategy: NoUTF8EscapingWithSuffixes
 ```
 
+> Currently there's a known limitation in the OTLP translation package where characters get removed from metric/label names if multiple UTF-8 characters are concatenated between words, e.g. `my___metric` becomes `my_metric`. Please see https://github.com/prometheus/prometheus/issues/15362 for more details.
+
 ## Delta Temporality
 
 The [OpenTelemetry specification says](https://opentelemetry.io/docs/specs/otel/metrics/data-model/#temporality) that both Delta temporality and Cumulative temporality are supported.

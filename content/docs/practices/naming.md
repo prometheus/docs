@@ -41,13 +41,13 @@ A metric name...
   (for a timestamp that tracks the time of the latest record processed in a data processing pipeline)
 * ...that has a `unit` in its name, must always have that `unit` as the last word. Note that an accumulating count such as `total` will be the last word, in addition to the unit if applicable. Examples,
   * <code>request\_size\_<b>bytes</b></code>
-  * <code>request\_size\_<b>bytes</b>_<b>total</b></code>
+  * <code>request\_size\_<b>bytes</b>\_<b>total</b></code>
   * <code>process\_cpu\_<b>seconds</b></code>
-  * <code>process\_cpu\_<b>seconds</b>_<b>total</b></code>
+  * <code>process\_cpu\_<b>seconds</b>\_<b>total</b></code>
 * ...that has a accumulating count such as `total`, can have two different naming scenarios. 
   * If the metric name has a unit, then the unit must be the last word before the accumulating count. Examples,
-    * <code>process\_cpu\_<b>seconds</b>_<b>total</b></code>
-    * <code>request\_size\_<b>bytes</b>_<b>total</b></code>
+    * <code>process\_cpu\_<b>seconds</b>\_<b>total</b></code>
+    * <code>request\_size\_<b>bytes</b>\_<b>total</b></code>
   * If the metric name does'nt have a real unit, then the naming can follow any sorting order in a way that it fits your use case, such as `grouping similar metric names`. Examples,
     * If you decided to name something as "<code>net\_conntrack\_dialer\_conn</code>", then it can have the following group names. (Note that this is only an example and you can follow your own order, if it improves your work flow)
       * <code>net\_conntrack\_dialer\_conn\_total</code>

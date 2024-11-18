@@ -24,3 +24,11 @@ As YACE expanded, so did the support around it. One pivotal moment was when [Cri
 I am immensely grateful to every developer, tester, and user who has contributed to YACE's success. This journey has shown me the power of community and open source collaboration. But we're not done yet.
 
 It's time to take Yace even further—into the heart of the Prometheus ecosystem. Making Yace as the official Amazon CloudWatch exporter for Prometheus will make it easier and more accessible for everyone. With ongoing support from Grafana Labs and my commitment to refining the user experience, we'll ensure YACE becomes an intuitive tool that anyone can use effortlessly.
+
+## Try out YACE on your own
+
+Try out **[YACE (Yet Another CloudWatch Exporter)](https://github.com/prometheus-community/yet-another-cloudwatch-exporter)** by following our step-by-step [Installation Guide](https://github.com/prometheus-community/yet-another-cloudwatch-exporter/blob/master/docs/installation.md).
+
+You can explore various configuration examples [here](https://github.com/prometheus-community/yet-another-cloudwatch-exporter/tree/master/examples) to get started with monitoring specific AWS services.
+
+Our goal is to enable easy auto-discovery across all AWS services, making it simple to monitor any dynamic infrastructure.

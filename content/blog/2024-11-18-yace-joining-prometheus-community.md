@@ -3,7 +3,6 @@ title: YACE is joining Prometheus Community
 created_at: 2024-11-18
 kind: article
 author_name: Thomas Peitz (@thomaspeitz)
-draft: true
 ---
 
 [Yet Another Cloudwatch Exporter](https://github.com/prometheus-community/yet-another-cloudwatch-exporter) (YACE) has officially joined the Prometheus community! This move will make it more accessible to users and open new opportunities for contributors to enhance and maintain the project.

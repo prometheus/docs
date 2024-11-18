@@ -1,6 +1,6 @@
 ---
 title: YACE is joining Prometheus Community
-created_at: 2024-11-18
+created_at: 2024-11-19
 kind: article
 author_name: Thomas Peitz (@thomaspeitz)
 ---

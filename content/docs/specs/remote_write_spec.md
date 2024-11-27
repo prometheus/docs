@@ -15,6 +15,8 @@ The remote write specification is intended to document the standard for how Prom
 
 The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED",  "MAY", and "OPTIONAL" in this document are to be interpreted as described in [RFC 2119](https://datatracker.ietf.org/doc/html/rfc2119).
 
+> NOTE: This specification has a 2.0 version available, see [here](./remote_write_spec_2_0.md).
+
 ## Introduction
 ### Background
 

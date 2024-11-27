@@ -39,7 +39,7 @@ A metric name...
    (for a pseudo-metric that provides [metadata](https://www.robustperception.io/exposing-the-software-version-to-prometheus) about the running binary)
  * <code>data\_pipeline\_last\_record\_processed\_<b>timestamp_seconds</b></code>
   (for a timestamp that tracks the time of the latest record processed in a data processing pipeline)
-* ...that has a `unit` in its name, must always have that `unit` as the last word. Note that an accumulating count such as `total` will be the last word, in addition to the unit if applicable. Examples,
+* ...that has a `unit` in its name, should have that `unit` as the last word. Note that an accumulating count such as `total` will be the last word, in addition to the unit if applicable. Examples,
   * <code>request\_size\_<b>bytes</b></code>
   * <code>request\_size\_<b>bytes</b>\_<b>total</b></code>
   * <code>process\_cpu\_<b>seconds</b></code>

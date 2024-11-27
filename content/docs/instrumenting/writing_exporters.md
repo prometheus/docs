@@ -374,6 +374,12 @@ and the metric name prefixed by the exporter name, for example
 if the exporter also makes sense to use as just a collector, then
 definitely exclude it.
 
+Other scrape "meta" metrics should be avoided. For example, a counter for
+the number of scrapes, or a histogram of the scrape duration. Having the
+exporter track these metrics duplicate the [automatically generated
+metrics](docs/concepts/jobs_instances/#automatically-generated-labels-and-time-series)
+of Prometheus itself. This adds to the storage cost of every exporter instance.
+
 ### Machine and process metrics
 
 Many systems, for example Elasticsearch, expose machine metrics such as

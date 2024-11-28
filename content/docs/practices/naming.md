@@ -27,7 +27,7 @@ A metric name...
  * <code><b>http</b>\_request\_duration\_seconds</code>
    (for all HTTP requests)
 * ...must have a single unit (i.e. do not mix seconds with milliseconds, or seconds with bytes).
-* ...should use base units (e.g. seconds, bytes, meters - not milliseconds, megabytes, kilometers). See below for a list of base units.
+* ...should use base units (e.g. seconds, bytes, meters - not milliseconds, megabytes, kilometers). Note that things like connections, notifications are not considered as base units.See below for a list of base units.
 * ...should have a suffix describing the unit, in plural form. Note that an accumulating count has `total` as a suffix, in addition to the unit if applicable.
  * <code>http\_request\_duration\_<b>seconds</b></code>
  * <code>node\_memory\_usage\_<b>bytes</b></code>
@@ -39,26 +39,16 @@ A metric name...
    (for a pseudo-metric that provides [metadata](https://www.robustperception.io/exposing-the-software-version-to-prometheus) about the running binary)
  * <code>data\_pipeline\_last\_record\_processed\_<b>timestamp_seconds</b></code>
   (for a timestamp that tracks the time of the latest record processed in a data processing pipeline)
-* ...that has a `unit` in its name, should have that `unit` as the last word. Note that an accumulating count such as `total` will be the last word, in addition to the unit if applicable. Examples,
-  * <code>request\_size\_<b>bytes</b></code>
-  * <code>request\_size\_<b>bytes</b>\_<b>total</b></code>
-  * <code>process\_cpu\_<b>seconds</b></code>
-  * <code>process\_cpu\_<b>seconds</b>\_<b>total</b></code>
-* ...that has a accumulating count such as `total`, can have two different naming scenarios. 
-  * If the metric name has a unit, then the unit must be the last word before the accumulating count. Examples,
-    * <code>process\_cpu\_<b>seconds</b>\_<b>total</b></code>
-    * <code>request\_size\_<b>bytes</b>\_<b>total</b></code>
-  * If the metric name does'nt have a real unit, then the naming can follow any sorting order in a way that it fits your use case, such as `grouping similar metric names`. Examples,
-    * If you decided to name something as "<code>net\_conntrack\_dialer\_conn</code>", then it can have the following group names. (Note that this is only an example and you can follow your own order, if it improves your work flow)
-      * <code>net\_conntrack\_dialer\_conn\_total</code>
-      * <code>net\_conntrack\_dialer\_conn\_failed\_total</code>
-      * <code>net\_conntrack\_dialer\_conn\_established\_total</code>
-      * <code>net\_conntrack\_dialer\_conn\_closed\_total</code>
-      or
-      * <code>net\_conntrack\_dialer\_conn\_total</code>
-      * <code>net\_conntrack\_dialer\_conn\_total\_failed</code>
-      * <code>net\_conntrack\_dialer\_conn\_total\_established</code>
-      * <code>net\_conntrack\_dialer\_conn\_total\_closed</code>
+* ...that has a accumulating count such as `total`, but doesn't have a base unit in the name like, "<code>prometheus\_tsdb\_head\_truncations</code>", then it can have the following naming scenarios. Note that the former examples would be suitable if you want to follow lexographic sorting order for the names.
+ * <code>prometheus\_tsdb\_head\_truncations\_total</code>
+ * <code>prometheus\_tsdb\_head\_truncations\_failed\_total</code>
+ * <code>prometheus\_tsdb\_head\_truncations\_established\_total</code>
+ * <code>prometheus\_tsdb\_head\_truncations\_closed\_total</code>
+  or
+ * <code>prometheus\_tsdb\_head\_truncations\_total</code>
+ * <code>prometheus\_tsdb\_head\_failed\_truncations\_total</code>
+ * <code>prometheus\_tsdb\_head\_established\_truncations\_total</code>
+ * <code>prometheus\_tsdb\_head\_closed\_truncations\_total</code>
 * ...should represent the same logical thing-being-measured across all label
   dimensions.
  * request duration

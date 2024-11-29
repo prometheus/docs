@@ -130,6 +130,8 @@ Label names beginning with "__" are RESERVED for system usage and SHOULD NOT be 
 
 Remote write Receivers MAY ingest valid samples within a write request that otherwise contains invalid samples. Receivers MUST return a HTTP 400 status code ("Bad Request") for write requests that contain any invalid samples. Receivers SHOULD provide a human readable error message in the response body. Senders MUST NOT try and interpret the error message, and SHOULD log it as is.
 
+Whilst [Federation](https://prometheus.io/docs/prometheus/latest/federation/) relies upon an `instance` label with an empty value this is strictly an internal use case. Everything else MUST adhere to the `MUST NOT contain any empty label names or values` requirement above.
+
 ### Ordering
 Prometheus Remote Write compatible senders MUST send samples for any given series in timestamp order. Prometheus Remote Write compatible Senders MAY send multiple requests for different series in parallel.
 

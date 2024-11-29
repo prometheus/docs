@@ -164,6 +164,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [Fluentd exporter](https://github.com/V3ckt0r/fluentd_exporter)
    * [Google's mtail log data extractor](https://github.com/google/mtail)
    * [Grok exporter](https://github.com/fstab/grok_exporter)
+   * [Logstash exporter](https://github.com/Wing924/logstash-exporter)
 
 ### FinOps
    * [AWS Cost Exporter](https://github.com/electrolux-oss/aws-cost-exporter)

@@ -1131,9 +1131,14 @@ histograms.
 
 Similarly, there are two new record types for the WAL and the in-memory
 snapshot (Go type `record.Type`): `record.HistogramSamples` (string
-representation `histogram_samples`, numerical value 7) for integer histograms,
+representation `histogram_samples`, numerical value 9) for integer histograms,
 and `record.FloatHistogramSamples` (string representation
-`float_histogram_samples`, numerical value 8) for float histograms.
+`float_histogram_samples`, numerical value 10) for float histograms. For
+backwards compatibility reasons, there are two more histogram record types:
+`record.HistogramSamplesLegacy` (`histogram_samples_legacy`, 7) and
+`record.FloatHistogramSamplesLegacy` (`float_histogram_samples_legacy`, 8).
+They were used prior to the introduction of custom values needed for NHCB. They
+are supported so that reading old WALs is still possible.
 
 Prometheus identifies time series just by their labels. Whether a sample in a
 series is a float (and as such a counter or a gauge) or a histogram (no matter

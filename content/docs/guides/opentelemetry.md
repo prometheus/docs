@@ -131,14 +131,14 @@ When Prometheus processes an OTLP write request, and provided that contained res
 It adds to each such `target_info` series the label `instance` with the value of the `service.instance.id` resource attribute, and the label `job` with the value of the `service.name` resource attribute.
 If the resource attribute `service.namespace` exists, it's prefixed to the `job` label value (i.e., `<service.namespace>/<service.name>`).
 
-By default `service.name`, `service.namespace` and `service.instance.id` themselves are not added to `target_info`, because they are converted into `job` and `instance`. However the following configuration parameter can be enabled to add them to `target_info` directly (possibly going through normalization to replace dots with underscores) on top of the conversion into `job` and `instance`.
+By default `service.name`, `service.namespace` and `service.instance.id` themselves are not added to `target_info`, because they are converted into `job` and `instance`. However the following configuration parameter can be enabled to add them to `target_info` directly (going through normalization to replace dots with underscores, if `otlp.translation_strategy` is `UnderscoreEscapingWithSuffixes`) on top of the conversion into `job` and `instance`.
 
 ```
 otlp:
   keep_identifying_resource_attributes: true
 ```
 
-The rest of the resource attributes are also added as labels to the `target_info` series, names converted to Prometheus format (e.g. dots converted to underscores).
+The rest of the resource attributes are also added as labels to the `target_info` series, names converted to Prometheus format (e.g. dots converted to underscores) if `otlp.translation_strategy` is `UnderscoreEscapingWithSuffixes`.
 If a resource lacks both `service.instance.id` and `service.name` attributes, no corresponding `target_info` series is generated.
 
 For each of a resource's OTel metrics, Prometheus converts it to a corresponding Prometheus time series, and (if `target_info` is generated) adds the right `instance` and `job` labels.

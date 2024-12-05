@@ -39,16 +39,16 @@ A metric name...
    (for a pseudo-metric that provides [metadata](https://www.robustperception.io/exposing-the-software-version-to-prometheus) about the running binary)
  * <code>data\_pipeline\_last\_record\_processed\_<b>timestamp_seconds</b></code>
   (for a timestamp that tracks the time of the latest record processed in a data processing pipeline)
-* ...that has a accumulating count such as `total`, but doesn't have a base unit in the name like, "<code>prometheus\_tsdb\_head\_truncations</code>", then it can have the following naming scenarios. Note that the former examples would be suitable if you want to follow lexographic sorting order for the names.
- * <code>prometheus\_tsdb\_head\_truncations\_total</code>
- * <code>prometheus\_tsdb\_head\_truncations\_failed\_total</code>
- * <code>prometheus\_tsdb\_head\_truncations\_established\_total</code>
- * <code>prometheus\_tsdb\_head\_truncations\_closed\_total</code>
-  or
- * <code>prometheus\_tsdb\_head\_truncations\_total</code>
- * <code>prometheus\_tsdb\_head\_failed\_truncations\_total</code>
- * <code>prometheus\_tsdb\_head\_established\_truncations\_total</code>
- * <code>prometheus\_tsdb\_head\_closed\_truncations\_total</code>
+* ...may order its name components in a way that leads to convenient grouping when a list of metric names is sorted lexicographically, as long as all the other rules are followed. The following examples have their the common name components first so that all the related metrics are sorted together:
+  * <code>prometheus\_tsdb\_head\_truncations\_closed\_total</code>
+  * <code>prometheus\_tsdb\_head\_truncations\_established\_total</code>
+  * <code>prometheus\_tsdb\_head\_truncations\_failed\_total</code>
+  * <code>prometheus\_tsdb\_head\_truncations\_total</code>
+  The following examples are also valid, but are following a different trade-off. They are easier to read individually, but unrelated metrics like <code>prometheus\_tsdb\_head\_series</code> might get sorted in between.
+  * <code>prometheus\_tsdb\_head\_closed\_truncations\_total</code>
+  * <code>prometheus\_tsdb\_head\_established\_truncations\_total</code>
+  * <code>prometheus\_tsdb\_head\_failed\_truncations\_total</code>
+  * <code>prometheus\_tsdb\_head\_truncations\_total</code>
 * ...should represent the same logical thing-being-measured across all label
   dimensions.
  * request duration

@@ -775,6 +775,27 @@ used for examples. The sections about the [data model](#data-model) and the
 implementation of instrumentation libraries (but not restated in this
 section!).
 
+The actual instrumentation API for histograms does not change for native
+histograms. Both classic histograms and native histograms receive observations
+in the same way (with subtle differences concerning exemplars, see next
+paragraph). Instrumentation libraries can even maintain a classic and a native
+version of the same histogram and expose them in parallel so that the scraper
+can choose which version to ingest (see the section about [exposition
+formats](#exposition-formats) for details). The user chooses whether to expose
+classic and/or native histograms via configuration settings.
+
+Exemplars for classic histograms are usually tracked by storing and exposing
+the most recent exemplar for each bucket. As long as classic buckets are
+defined, an instrumentation library MAY expose the same exemplars for the
+native version of the same histogram, as long as each exemplar has a timestamp.
+(In fact, a scraper MAY use the exemplars provided with the classic version of
+the histogram even if it is otherwise only ingesting the native version, see
+details in the [exposition formats](#exposition-formats) section.) However, a
+native histogram MAY be assigned any number of exemplars, and an
+instrumentation library SHOULD use this liberty to meet the best practices for
+exemplars as described in the [exposition formats](#exposition-formats)
+section.
+
 An instrumentation library SHOULD offer the following configuration parameters
 for native histograms following standard schemas. Names are
 examples from the Go library – they have to be adjusted to the idiomatic style
@@ -1273,20 +1294,30 @@ performance impact of the full re-encoding did not stick out as problematic.)
 
 ### Staleness markers
 
-Staleness markers used to be simply a special float value among the many that
-can be used to represent the `NaN` value. The same float value could be used to
-mark a histogram time series as stale. However, this would require cutting a
-new chunk, just for the purpose of marking the series as stale, because a float
-value following a histogram value has to be stored in a different chunk (see
-above). Therefore, there is also a histogram version of a stale marker where
-the field for the sum of observations is set to the special stale `NaN` value.
-In this case, all other fields are ignored, so they can be set to values
-suitable for efficient storage (as the histogram version of a stale marker is
-essentially just a storage optimization). This works for both float and integer
-histograms (as the sum field is a float value even in an integer histogram),
-and the appropriate version can be used to avoid cutting a new chunk. All
-version of a stale marker (float, integer histogram, float histogram) MUST be
-treated as equivalent when querying the TSDB.
+NOTE: To understand the following section, it is important to recall how
+staleness markers work in the TSDB. Staleness markers in float series are
+represented by one specific bit pattern among the many that can be used to
+represent the `NaN` value. This very specific float value is called “special
+stale `NaN` value” in the following section. It is (almost certainly) never
+returned by the usual arithmetic float operations and as such different from a
+“naturally occurring” `NaN` value, including those discussed in [Special cases
+of observed values](#special-cases-of-observed-values). In fact, the special
+stale `NaN` value is never returned directly when querying the TSDB, but it is
+handled internally before it reaches the caller.
+
+To mark staleness in histogram series, the usual special stale `NaN` value
+could be used. However, this would require cutting a new chunk, just for the
+purpose of marking the series as stale, because a float value following a
+histogram value has to be stored in a different chunk (see above). Therefore,
+there is also a histogram version of a stale marker where the field for the sum
+of observations is set to the special stale `NaN` value. In this case, all
+other fields are ignored, which enables setting them to values suitable for
+efficient storage (as the histogram version of a stale marker is essentially
+just a storage optimization). This works for both float and integer histograms
+(as the sum field is a float value even in an integer histogram), and the
+appropriate version can be used to avoid cutting a new chunk. All version of a
+stale marker (float, integer histogram, float histogram) MUST be treated as
+equivalent by the TSDB.
 
 ### Chunk size limit
 

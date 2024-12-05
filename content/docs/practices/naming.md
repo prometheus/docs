@@ -28,7 +28,7 @@ A metric name...
     (for all HTTP requests)
 * ...must have a single unit (i.e. do not mix seconds with milliseconds, or seconds with bytes).
 * ...should use base units (e.g. seconds, bytes, meters - not milliseconds, megabytes, kilometers).See below for a list of base units.
-* ...should have a suffix describing the unit, in plural form. Note that an accumulating count has `total` as a suffix, in addition to the unit if applicable.Also note that this applies to units in the narrow sense (like the units in the table below), but not to countable things in general. For example, <code>connections</code> or <code>notifications</code> are not considered units for this rule and do not have to be at the end of the metric name. (See also examples in the next paragraph.)
+* ...should have a suffix describing the unit, in plural form. Note that an accumulating count has `total` as a suffix, in addition to the unit if applicable. Also note that this applies to units in the narrow sense (like the units in the table below), but not to countable things in general. For example, <code>connections</code> or <code>notifications</code> are not considered units for this rule and do not have to be at the end of the metric name. (See also examples in the next paragraph.)
   * <code>http\_request\_duration\_<b>seconds</b></code>
   * <code>node\_memory\_usage\_<b>bytes</b></code>
   * <code>http\_requests\_<b>total</b></code>

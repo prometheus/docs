@@ -158,6 +158,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [Pagespeed exporter](https://github.com/foomo/pagespeed_exporter)
    * [Rancher exporter](https://github.com/infinityworks/prometheus-rancher-exporter)
    * [Speedtest exporter](https://github.com/nlamirault/speedtest_exporter)
+   * [Speedtest-exporter (Using official speedtest bin)](https://github.com/MiguelNdeCarvalho/speedtest-exporter)
    * [Tankerkönig API Exporter](https://github.com/lukasmalkmus/tankerkoenig_exporter)
 
 ### Logging

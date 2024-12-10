@@ -75,13 +75,14 @@ Native histograms have the following key properties:
 6. An efficient data representation for both exposition and storage.
 
 These key properties are fully realized with standard bucketing schemas. There
-are other schemas with different trade-offs that only feature a subset of these
-properties. See the [Schema section](#schema) below for details
+are other schemas with different trade-offs that might only feature a subset of
+these properties. See the [Schema section](#schema) below for details
 
 Compared to the previously existing “classic” histograms, native histograms
-allow a higher bucket resolution across arbitrary ranges of observed values at
-a lower storage and query cost with very little to no configuration required.
-Even partitioning histograms by labels is now much more affordable.
+(with standard bucketing schemas) allow a higher bucket resolution across
+arbitrary ranges of observed values at a lower storage and query cost with very
+little to no configuration required. Even partitioning histograms by labels is
+now much more affordable.
 
 Because the sparse representation (property 1 in the list above) is so crucial
 for many of the other benefits of native histograms, _sparse histograms_ was

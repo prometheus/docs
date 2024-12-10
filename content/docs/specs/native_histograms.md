@@ -65,6 +65,7 @@ return the new sample type where previously it was only possible to return
 float samples.
 
 Native histograms have the following key properties:
+
 1. A sparse bucket representation, allowing (near) zero cost for empty buckets.
 2. Coverage of the full float64 range of values.
 3. No configuration of bucket boundaries during instrumentation.
@@ -72,6 +73,10 @@ Native histograms have the following key properties:
 5. Sophisticated exponential bucketing schemas, ensuring mergeability between
    all histograms using those schemas.
 6. An efficient data representation for both exposition and storage.
+
+These key properties are fully realized with standard bucketing schemas. There
+are other schemas with different trade-offs that only feature a subset of these
+properties. See the [Schema section](#schema) below for details
 
 Compared to the previously existing “classic” histograms, native histograms
 allow a higher bucket resolution across arbitrary ranges of observed values at

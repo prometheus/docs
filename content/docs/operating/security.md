@@ -3,6 +3,17 @@ title: Security
 sort_rank: 4
 ---
 
+NOTE: Before we dive into the technical details below, we would like to
+emphasize that Prometheus, as a monitoring system, collects and serves
+information about the systems it is monitoring. Therefore, the HTTP endpoints
+provided by Prometheus components should not be exposed to publicly accessible
+networks like the internet (unless you know what you are doing and have taken
+appropriate measures). This includes (but is not limited to) the `/metrics`
+endpoint of instrumented binaries, the various API endpoints of server
+components, and the `/pprof` endpoint of server components implemented in Go.
+Furthermore, it is easily possible to overload and ultimately DoS servers with
+requests to these endpoints.
+
 # Security Model
 
 Prometheus is a sophisticated system with many components and many integrations

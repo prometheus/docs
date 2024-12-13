@@ -181,7 +181,7 @@ dimensions:
    like” histograms where each bucket is a gauge, representing arbitrary
    distributions at a point in time. The concept of a gauge histogram was
    previously introduced for classic histograms by
-   [OpenMetrics](https://github.com/OpenObservability/OpenMetrics/blob/main/specification/OpenMetrics.md#gaugehistogram).
+   [OpenMetrics](https://github.com/prometheus/OpenMetrics/blob/v1.0.0/specification/OpenMetrics.md#gaugehistogram).
 2. Integer vs. floating point (short: float): The obvious use case of
    histograms is to count observations, resulting in integer numbers of
    observations ≥ 0 within each bucket, including the _zero bucket_, and for

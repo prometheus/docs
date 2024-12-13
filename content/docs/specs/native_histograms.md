@@ -2009,10 +2009,12 @@ functions below. Need to update the documentation for some of them.)
 All remaining functions not mentioned in this section do _not_ work with native
 histograms. Histogram elements in the input vector are silently ignored. (TODO:
 Make sure this is the case, rather than treating histogram samples as floats
-with value 0.) For `<aggregation>_over_time()` functions not mentioned before,
-native histogram samples are removed from the input range vector. In case any
-series contains a mix of float samples and histogram samples within the range,
-the removal of histograms is flagged by an info-level annotation.
+with value 0.) For `deriv()`, `double_exponential_smoothing()`,
+`predict_linear()`, and all the `<aggregation>_over_time()` functions not
+mentioned before, native histogram samples are removed from the input range
+vector. In case any series contains a mix of float samples and histogram
+samples within the range, the removal of histograms is flagged by an info-level
+annotation.
 
 ### Recording rules
 

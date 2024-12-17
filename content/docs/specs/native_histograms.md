@@ -720,7 +720,7 @@ Note the following:
   `offset` and `length` set to 0, in the repeated `positive_span` field.
 - Any number of exemplars for native histograms MAY be added in the repeated
   `Exemplar` field of the `Histogram` message, but each one MUST have a
-  timestamp. If there are no examplars provided in this way, a parser MAY use
+  timestamp. If there are no exemplars provided in this way, a parser MAY use
   timestamped exemplars provided for classic buckets (as at most one exemplar
   per bucket in the `Exemplar` field of the `Bucket` message).
 - The number and distribution of native histogram exemplars SHOULD fit the use

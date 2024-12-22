@@ -45,7 +45,7 @@ the following time series:
 
 The `up` time series is useful for instance availability monitoring.
 
-With the [`extra-scrape-metrics` feature flag](/docs/prometheus/latest/feature_flags/#extra-scrape-metrics) several addditonal metrics are available:
+With the [`extra-scrape-metrics` feature flag](/docs/prometheus/latest/feature_flags/#extra-scrape-metrics) several additional metrics are available:
 
 * `scrape_timeout_seconds{job="<job-name>", instance="<instance-id>"}`: The configured `scrape_timeout` for a target.
 * `scrape_sample_limit{job="<job-name>", instance="<instance-id>"}`: The configured `sample_limit` for a target. Returns zero if there is no limit configured.

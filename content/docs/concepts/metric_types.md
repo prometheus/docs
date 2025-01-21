@@ -79,6 +79,10 @@ observations. Native histograms allow much higher resolution at a fraction of
 the cost. Detailed documentation will follow once native histograms are closer
 to becoming a stable feature.
 
+NOTE: Beginning with Prometheus v3.0, the values of the `le` label of classic
+histograms are normalized during ingestion to follow the format of
+[OpenMetrics Canonical Numbers](https://github.com/prometheus/OpenMetrics/blob/main/specification/OpenMetrics.md#considerations-canonical-numbers).
+
 Client library usage documentation for histograms:
 
    * [Go](http://godoc.org/github.com/prometheus/client_golang/prometheus#Histogram)
@@ -105,6 +109,9 @@ during a scrape:
 See [histograms and summaries](/docs/practices/histograms) for
 detailed explanations of φ-quantiles, summary usage, and differences
 to [histograms](#histogram).
+
+NOTE: Beginning with Prometheus v3.0, the values of the `quantile` label are normalized during
+ingestion to follow the format of [OpenMetrics Canonical Numbers](https://github.com/prometheus/OpenMetrics/blob/main/specification/OpenMetrics.md#considerations-canonical-numbers).
 
 Client library usage documentation for summaries:
 

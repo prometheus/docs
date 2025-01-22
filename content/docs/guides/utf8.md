@@ -70,7 +70,7 @@ Accept header in order to be served UTF-8 names. If a system being scraped does
 not see this header, it will automatically convert UTF-8 names to
 legacy-compatible using underscore replacement.
 
-Scraping systems can also request a specfic escaping method if desired by
+Scraping systems can also request a specific escaping method if desired by
 setting the `escaping` header to a different value.
 
 * `underscores`: The default: convert legacy-invalid characters to underscores.

@@ -1607,11 +1607,6 @@ the latter, refer to the PromQL documentation about
 and
 [functions](https://prometheus.io/docs/prometheus/latest/querying/functions/).
 
-TODO: The Prometheus PromQL implementation is currently lagging behind what's
-described in this section. This is not called out separately further down for
-all cases. See [tracking
-issue](https://github.com/prometheus/prometheus/issues/13934) for details.
-
 ### Annotations
 
 The introduction of native histograms creates certain situations where a PromQL
@@ -1905,7 +1900,6 @@ histogram to gauge histogram and vice versa does not count as a change for
 histograms, but the function still works with gauge histograms, applying
 explicit counter reset detection in this case. Furthermore, a change from
 counter histogram to gauge histogram and vice versa is counted as a reset.
-(TODO: Not implemented yet.)
 
 The `histogram_quantile()` function has a very special role as it is the only
 function that treats a specific “magic” label specially, namely the `le` label
@@ -2000,8 +1994,7 @@ definition of the schema of the histogram.
 
 The following functions do not interact directly with sample values and
 therefore work with native histogram samples in the same way as they work with
-float samples: (TODO: Still need to verify that this is true for all of the
-functions below. Need to update the documentation for some of them.)
+float samples:
 
 - `absent()`
 - `absent_over_time()`
@@ -2016,14 +2009,12 @@ functions below. Need to update the documentation for some of them.)
 - `timestamp()`
 
 All remaining functions not mentioned in this section do _not_ work with native
-histograms. Histogram elements in the input vector are silently ignored. (TODO:
-Make sure this is the case, rather than treating histogram samples as floats
-with value 0.) For `deriv()`, `double_exponential_smoothing()`,
-`predict_linear()`, and all the `<aggregation>_over_time()` functions not
-mentioned before, native histogram samples are removed from the input range
-vector. In case any series contains a mix of float samples and histogram
-samples within the range, the removal of histograms is flagged by an info-level
-annotation.
+histograms. Histogram elements in the input vector are silently ignored. For
+`deriv()`, `double_exponential_smoothing()`, `predict_linear()`, and all the
+`<aggregation>_over_time()` functions not mentioned before, native histogram
+samples are removed from the input range vector. In case any series contains a
+mix of float samples and histogram samples within the range, the removal of
+histograms is flagged by an info-level annotation.
 
 ### Recording rules
 

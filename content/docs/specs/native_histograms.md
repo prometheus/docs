@@ -1861,18 +1861,27 @@ native histogram:
 - `idelta()` (For gauge histograms.)
 - `irate()` (For counter histograms.)
 
-TODO: `idelta` and `irate` are not yet implemented for histograms.
-
 These functions SHOULD be applied to either gauge histograms or counter
 histograms as noted above. However, they all work with both flavors, but if at
 least one histogram of an unsuitable flavor is contained in the range vector, a
 warn-level annotation is added to the result.
 
-All these functions return no result for series that contain a mix of float
-samples and histogram samples within the range. A warn-level annotation is
-added for each output element missing for that reason.
+`delta()`, `increase()`, and `rate()` return no result for series that contain
+a mix of float samples and histogram samples within the range. `idelta()` and
+`irate()` return no result for series where the last two samples within the
+range are a mix of a float sample and a histogram sample. In either case, a
+warn-level annotation is added for each output element missing for these
+reasons.
 
 All these functions return gauge histograms as results.
+
+As usual, these functions attempt to reconcile different schemas by converting
+the schema to a common one as far as possible. However, the functions applied
+to counters (`increase()`, `rate()`, `irate()`) do not perform this conversion
+for the 1st sample if there is a counter reset between the 1st and 2nd sample.
+In this case, the 1st sample is not included in the calculation, so an
+incompatible bucket layout between the 1st sample and the other samples is
+simply ignored silently.
 
 TODO: Preventing [extrapolation below
 zero](https://github.com/prometheus/prometheus/blob/034d2b24bcae90fce3ac337b4ddd399bd2ff4bc4/promql/functions.go#L153-L159)

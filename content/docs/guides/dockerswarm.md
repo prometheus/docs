@@ -125,11 +125,11 @@ scrape_configs:
         regex: running
         action: keep
       # Only keep containers that have a `prometheus-job` label.
-      - source_labels: [__meta_dockerswarm_service_label_prometheus_job]
+      - source_labels: [__meta_dockerswarm_container_label_prometheus_job]
         regex: .+
         action: keep
       # Use the prometheus-job Swarm label as Prometheus job label.
-      - source_labels: [__meta_dockerswarm_service_label_prometheus_job]
+      - source_labels: [__meta_dockerswarm_container_label_prometheus_job]
         target_label: job
 ```
 
@@ -147,7 +147,7 @@ out example, we only **keep** the targets that should be running. It prevents
 monitoring tasks that should be shut down.
 
 ```yaml
-- source_labels: [__meta_dockerswarm_service_label_prometheus_job]
+- source_labels: [__meta_dockerswarm_container_label_prometheus_job]
   regex: .+
   action: keep
 ```
@@ -158,7 +158,7 @@ targets which have a `prometheus-job` label.
 
 
 ```yaml
-- source_labels: [__meta_dockerswarm_service_label_prometheus_job]
+- source_labels: [__meta_dockerswarm_container_label_prometheus_job]
   target_label: job
 ```
 

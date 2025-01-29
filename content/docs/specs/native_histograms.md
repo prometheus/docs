@@ -318,9 +318,7 @@ the exponential bucketing featured by the standard schemas is a bad match for
 the distribution to be represented by the histogram. Histograms with different
 custom bucket boundaries are generally not mergeable with each other.
 Therefore, schema -53 SHOULD only be used as an informed decision in specific
-use cases. (TODO: NHCB aren't fully merged into main as of now (2024-11-03).
-They are worked into this document as far as possible already. This information
-might not yet be relevant for released Prometheus versions.)
+use cases.
 
 ### Buckets
 
@@ -688,8 +686,11 @@ message BucketSpan {
 // [...]
 ```
 
-(TODO: The above does not yet contain the custom values needed for NHCBs. Update
-once merged into main.)
+(TODO: The above does not yet contain the custom values needed for NHCBs. We do
+not need it right now because NHCB can be ingested via scraping classic
+histograms. However, it might still be useful to have custom buckets in the
+exposition format eventually, e.g. for federation, and for future schemas that
+might also utilize the custom values.)
 
 Note the following:
 
@@ -1117,8 +1118,9 @@ as just one series with their unmodified name. (Example: A histogram called
 ### Scraping classic histograms as NHCBs
 
 The aforementioned NHCB is capable of modeling a classic histogram as a native
-histogram. Prometheus can be configured to ingest classic histograms as NHCBs
-rather than classic histograms. (TODO: Explain how to do that once it is merged.)
+histogram. Via the boolean scrape config option
+`convert_classic_histograms_to_nhcb`, Prometheus can be configured to ingest
+classic histograms as NHCBs.
 
 NHCBs have the same issue with limited mergeability as classic histograms, but
 they are generally much less expensive to store.

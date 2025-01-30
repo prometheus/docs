@@ -245,7 +245,7 @@ inside a given process, you may wish to take some care as to how many metrics
 you update.
 
 A Java counter takes
-[12-17ns](https://github.com/prometheus/client_java/blob/master/benchmark/README.md)
+[12-17ns](https://github.com/prometheus/client_java/blob/main/benchmarks/README.md)
 to increment depending on contention. Other languages will have similar
 performance. If that amount of time is significant for your inner loop, limit
 the number of metrics you increment in the inner loop and avoid labels (or

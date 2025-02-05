@@ -318,9 +318,7 @@ the exponential bucketing featured by the standard schemas is a bad match for
 the distribution to be represented by the histogram. Histograms with different
 custom bucket boundaries are generally not mergeable with each other.
 Therefore, schema -53 SHOULD only be used as an informed decision in specific
-use cases. (TODO: NHCB aren't fully merged into main as of now (2024-11-03).
-They are worked into this document as far as possible already. This information
-might not yet be relevant for released Prometheus versions.)
+use cases.
 
 ### Buckets
 
@@ -688,8 +686,11 @@ message BucketSpan {
 // [...]
 ```
 
-(TODO: The above does not yet contain the custom values needed for NHCBs. Update
-once merged into main.)
+(TODO: The above does not yet contain the custom values needed for NHCBs. We do
+not need it right now because NHCB can be ingested via scraping classic
+histograms. However, it might still be useful to have custom buckets in the
+exposition format eventually, e.g. for federation, and for future schemas that
+might also utilize the custom values.)
 
 Note the following:
 
@@ -1117,8 +1118,9 @@ as just one series with their unmodified name. (Example: A histogram called
 ### Scraping classic histograms as NHCBs
 
 The aforementioned NHCB is capable of modeling a classic histogram as a native
-histogram. Prometheus can be configured to ingest classic histograms as NHCBs
-rather than classic histograms. (TODO: Explain how to do that once it is merged.)
+histogram. Via the boolean scrape config option
+`convert_classic_histograms_to_nhcb`, Prometheus can be configured to ingest
+classic histograms as NHCBs.
 
 NHCBs have the same issue with limited mergeability as classic histograms, but
 they are generally much less expensive to store.
@@ -1607,11 +1609,6 @@ the latter, refer to the PromQL documentation about
 and
 [functions](https://prometheus.io/docs/prometheus/latest/querying/functions/).
 
-TODO: The Prometheus PromQL implementation is currently lagging behind what's
-described in this section. This is not called out separately further down for
-all cases. See [tracking
-issue](https://github.com/prometheus/prometheus/issues/13934) for details.
-
 ### Annotations
 
 The introduction of native histograms creates certain situations where a PromQL
@@ -1861,18 +1858,27 @@ native histogram:
 - `idelta()` (For gauge histograms.)
 - `irate()` (For counter histograms.)
 
-TODO: `idelta` and `irate` are not yet implemented for histograms.
-
 These functions SHOULD be applied to either gauge histograms or counter
 histograms as noted above. However, they all work with both flavors, but if at
 least one histogram of an unsuitable flavor is contained in the range vector, a
 warn-level annotation is added to the result.
 
-All these functions return no result for series that contain a mix of float
-samples and histogram samples within the range. A warn-level annotation is
-added for each output element missing for that reason.
+`delta()`, `increase()`, and `rate()` return no result for series that contain
+a mix of float samples and histogram samples within the range. `idelta()` and
+`irate()` return no result for series where the last two samples within the
+range are a mix of a float sample and a histogram sample. In either case, a
+warn-level annotation is added for each output element missing for these
+reasons.
 
 All these functions return gauge histograms as results.
+
+As usual, these functions attempt to reconcile different schemas by converting
+the schema to a common one as far as possible. However, the functions applied
+to counters (`increase()`, `rate()`, `irate()`) do not perform this conversion
+for the 1st sample if there is a counter reset between the 1st and 2nd sample.
+In this case, the 1st sample is not included in the calculation, so an
+incompatible bucket layout between the 1st sample and the other samples is
+simply ignored silently.
 
 TODO: Preventing [extrapolation below
 zero](https://github.com/prometheus/prometheus/blob/034d2b24bcae90fce3ac337b4ddd399bd2ff4bc4/promql/functions.go#L153-L159)
@@ -1896,7 +1902,6 @@ histogram to gauge histogram and vice versa does not count as a change for
 histograms, but the function still works with gauge histograms, applying
 explicit counter reset detection in this case. Furthermore, a change from
 counter histogram to gauge histogram and vice versa is counted as a reset.
-(TODO: Not implemented yet.)
 
 The `histogram_quantile()` function has a very special role as it is the only
 function that treats a specific “magic” label specially, namely the `le` label
@@ -1991,8 +1996,7 @@ definition of the schema of the histogram.
 
 The following functions do not interact directly with sample values and
 therefore work with native histogram samples in the same way as they work with
-float samples: (TODO: Still need to verify that this is true for all of the
-functions below. Need to update the documentation for some of them.)
+float samples:
 
 - `absent()`
 - `absent_over_time()`
@@ -2007,14 +2011,12 @@ functions below. Need to update the documentation for some of them.)
 - `timestamp()`
 
 All remaining functions not mentioned in this section do _not_ work with native
-histograms. Histogram elements in the input vector are silently ignored. (TODO:
-Make sure this is the case, rather than treating histogram samples as floats
-with value 0.) For `deriv()`, `double_exponential_smoothing()`,
-`predict_linear()`, and all the `<aggregation>_over_time()` functions not
-mentioned before, native histogram samples are removed from the input range
-vector. In case any series contains a mix of float samples and histogram
-samples within the range, the removal of histograms is flagged by an info-level
-annotation.
+histograms. Histogram elements in the input vector are silently ignored. For
+`deriv()`, `double_exponential_smoothing()`, `predict_linear()`, and all the
+`<aggregation>_over_time()` functions not mentioned before, native histogram
+samples are removed from the input range vector. In case any series contains a
+mix of float samples and histogram samples within the range, the removal of
+histograms is flagged by an info-level annotation.
 
 ### Recording rules
 

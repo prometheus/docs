@@ -97,7 +97,6 @@ The current team members are:
 * Sebastian Schubert ([Grafana Labs](https://grafana.com/))
 * Simon Pasquier ([Red Hat](https://www.redhat.com/))
 * Suraj Nath ([Grafana Labs](https://grafana.com/))
-* Thomas Peitz (independent)
 * Tobias Schmidt (independent)
 * Tom Wilkie ([Grafana Labs](https://grafana.com/))
 

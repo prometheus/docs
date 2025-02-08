@@ -7,7 +7,7 @@ layout: page
 
 The Prometheus project follows the [Prometheus governance](/governance/).
 
-# Community
+# Community connections
 
 Prometheus is developed in the open. Here are some of the channels we
 use to communicate and contribute:
@@ -18,13 +18,11 @@ use to communicate and contribute:
 
 ## IRC
 
-`#prometheus` on [irc.libera.chat](https://libera.chat/). This
-channel is bridged to the Matrix room below.
+`#prometheus` on [irc.libera.chat](https://libera.chat/).
 
 ## Matrix
 
 [`#prometheus:matrix.org`](https://app.element.io/#/room/#prometheus:matrix.org).
-This room is bridged to the IRC room above.
 
 ## User mailing lists
 
@@ -55,7 +53,6 @@ If you're using a different calendar, there's an [.ics to add to non-Google cale
 [@prometheus.io](https://bsky.app/profile/prometheus.io) on [Bluesky](https://bsky.app/).
 
 ## GitHub
-
 
 To file bugs and feature requests, use the GitHub issue
 tracker of the relevant [Prometheus repository](http://github.com/prometheus).
@@ -91,12 +88,10 @@ including how to register.
 ## IRC
 
 `#prometheus-dev` on [irc.libera.chat](https://libera.chat/).
-This channel is bridged to the Matrix room below.
 
 ## Matrix
 
 [`#prometheus-dev:matrix.org`](https://app.element.io/#/room/#prometheus-dev:matrix.org).
-This room is bridged to the IRC channel above.
 
 ## Development mailing list
 
@@ -153,7 +148,7 @@ attend the summit. We suggest the following tasks:
   community channels inviting people to add Agenda Topics, and
   Prometheus Team members and maintainers to vote on topics they'd
   like to discuss.
-- One day before the meeting, reach out to \"Topic owners\" who
+- One day before the meeting, reach out to "Topic owners" who
   received the most votes to make sure they'll make it to the summit.
 
 ### During the summit
@@ -162,15 +157,11 @@ During the summit, the Facilitator is here to make sure the meeting runs
 smoothly, and that consensus is reached when needed. We suggest the
 following tasks:
 
-- Start the meeting on time. Use \@prometheus.io account for the admin
-  meeting permissions.
+- Start the meeting on time. Use `@prometheus.io` account for the admin meeting permissions.
 - Start the recording and mention that the Code of Conduct applies.
-- Select topics to be discussed based on votes and who is currently
-  present in the meeting.
-- Take notes or find volunteer for taking notes in the shared
-  document.
-- Strategically step in when the discussion is not moving forward or
-  deviating from the topic.
+- Select topics to be discussed based on votes and who is currently present in the meeting.
+- Take notes or find volunteer for taking notes in the shared document.
+- Strategically step in when the discussion is not moving forward or deviating from the topic.
 - Call for consensus when needed.
 
 ### After the summit

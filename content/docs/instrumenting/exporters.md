@@ -82,7 +82,6 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [Node/system metrics exporter](https://github.com/prometheus/node_exporter) (**official**)
    * [NVIDIA GPU exporter](https://github.com/mindprince/nvidia_gpu_prometheus_exporter)
    * [ProSAFE exporter](https://github.com/dalance/prosafe_exporter)
-   * [SmartRAID exporter](https://gitlab.com/calestyo/prometheus-smartraid-exporter)
    * [Waveplus Radon Sensor Exporter](https://github.com/jeremybz/waveplus_exporter)
    * [Weathergoose Climate Monitor Exporter](https://github.com/branttaylor/watchdog-prometheus-exporter)
    * [Windows exporter](https://github.com/prometheus-community/windows_exporter)
@@ -124,6 +123,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [NetApp E-Series exporter](https://github.com/treydock/eseries_exporter)
    * [Pure Storage exporter](https://github.com/PureStorage-OpenConnect/pure-exporter)
    * [ScaleIO exporter](https://github.com/syepes/sio2prom)
+   * [SmartRAID exporter](https://gitlab.com/calestyo/prometheus-smartraid-exporter)
    * [Tivoli Storage Manager/IBM Spectrum Protect exporter](https://github.com/treydock/tsm_exporter)
 
 ### HTTP

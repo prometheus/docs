@@ -157,14 +157,12 @@ otlp:
   translation_strategy: NoUTF8EscapingWithSuffixes
 ```
 
-> Currently there's a known limitation in the OTLP translation package where characters get removed from metric/label names if multiple UTF-8 characters are concatenated between words, e.g. `my___metric` becomes `my_metric`. Please see https://github.com/prometheus/prometheus/issues/15362 for more details.
-
 ## Delta Temporality
 
-The [OpenTelemetry specification says](https://opentelemetry.io/docs/specs/otel/metrics/data-model/#temporality) that both Delta temporality and Cumulative temporality are supported.
+The [OpenTelemetry specification says](https://opentelemetry.io/docs/specs/otel/metrics/data-model/#temporality) that both Delta temporality and Cumulative temporality are supported. While delta temporality is common in systems like statsd and graphite, cumulative temporality is the default in Prometheus.
 
-While Delta temporality is common in systems like statsd and graphite, cumulative temporality is the default temporality for Prometheus.
+Today, Prometheus embeds the [delta to cumulative processor](https://github.com/open-telemetry/opentelemetry-collector-contrib/tree/main/processor/deltatocumulativeprocessor) from [OpenTelemetry-Collector-contrib](https://github.com/open-telemetry/opentelemetry-collector-contrib), which is capable of ingesting deltas and transforming them into the equivalent cumulative representation before storing in Prometheus' TSDB.
 
-Today Prometheus does not have support for delta temporality but we are learning from the OpenTelemetry community and we are considering adding support for it in the future.
+This feature is ***experimental***, so start Prometheus with the feature-flag `otlp-deltatocumulative` enabled to use it.
 
-If you are coming from a delta temporality system we recommend that you use the [delta to cumulative processor](https://github.com/open-telemetry/opentelemetry-collector-contrib/tree/main/processor/deltatocumulativeprocessor) in your OTel pipeline.
+The team is still working on a more efficient way of handling OTLP deltas.

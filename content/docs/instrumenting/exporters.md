@@ -224,6 +224,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [eBPF exporter](https://github.com/cloudflare/ebpf_exporter)
    * [eBPF network traffic exporter](https://github.com/kasd/texporter)
    * [Ethereum Client exporter](https://github.com/31z4/ethereum-prometheus-exporter)
+   * [FFmpeg exporter](https://github.com/domcyrus/ffmpeg_exporter)
    * [File statistics exporter](https://github.com/michael-doubez/filestat_exporter)
    * [JFrog Artifactory Exporter](https://github.com/peimanja/artifactory_exporter)
    * [Hostapd Exporter](https://github.com/Fundacio-i2CAT/hostapd_prometheus_exporter)

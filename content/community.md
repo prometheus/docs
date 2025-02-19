@@ -50,7 +50,8 @@ If you're using a different calendar, there's an [.ics to add to non-Google cale
 
 ## Social
 
-[@prometheus.io](https://bsky.app/profile/prometheus.io) on [Bluesky](https://bsky.app/).
+- [@prometheus.io](https://bsky.app/profile/prometheus.io) on [Bluesky](https://bsky.app/).
+- [@Prometheus](https://chaos.social/@Prometheus) on [Mastodon (chaos.social)](https://chaos.social).
 
 ## GitHub
 

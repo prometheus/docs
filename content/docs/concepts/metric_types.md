@@ -25,7 +25,7 @@ use a counter for the number of currently running processes; instead use a gauge
 Client library usage documentation for counters:
 
    * [Go](http://godoc.org/github.com/prometheus/client_golang/prometheus#Counter)
-   * [Java](https://github.com/prometheus/client_java#counter)
+   * [Java](https://prometheus.github.io/client_java/getting-started/metric-types/#counter)
    * [Python](https://prometheus.github.io/client_python/instrumenting/counter/)
    * [Ruby](https://github.com/prometheus/client_ruby#counter)
    * [.Net](https://github.com/prometheus-net/prometheus-net#counters)
@@ -43,7 +43,7 @@ concurrent requests.
 Client library usage documentation for gauges:
 
    * [Go](http://godoc.org/github.com/prometheus/client_golang/prometheus#Gauge)
-   * [Java](https://github.com/prometheus/client_java#gauge)
+   * [Java](https://prometheus.github.io/client_java/getting-started/metric-types/#gauge)
    * [Python](https://prometheus.github.io/client_python/instrumenting/gauge/)
    * [Ruby](https://github.com/prometheus/client_ruby#gauge)
    * [.Net](https://github.com/prometheus-net/prometheus-net#gauges)
@@ -86,7 +86,7 @@ histograms are normalized during ingestion to follow the format of
 Client library usage documentation for histograms:
 
    * [Go](http://godoc.org/github.com/prometheus/client_golang/prometheus#Histogram)
-   * [Java](https://github.com/prometheus/client_java#histogram)
+   * [Java](https://prometheus.github.io/client_java/getting-started/metric-types/#histogram)
    * [Python](https://prometheus.github.io/client_python/instrumenting/histogram/)
    * [Ruby](https://github.com/prometheus/client_ruby#histogram)
    * [.Net](https://github.com/prometheus-net/prometheus-net#histogram)
@@ -116,7 +116,7 @@ ingestion to follow the format of [OpenMetrics Canonical Numbers](https://github
 Client library usage documentation for summaries:
 
    * [Go](http://godoc.org/github.com/prometheus/client_golang/prometheus#Summary)
-   * [Java](https://github.com/prometheus/client_java#summary)
+   * [Java](https://prometheus.github.io/client_java/getting-started/metric-types/#summary)
    * [Python](https://prometheus.github.io/client_python/instrumenting/summary/)
    * [Ruby](https://github.com/prometheus/client_ruby#summary)
    * [.Net](https://github.com/prometheus-net/prometheus-net#summary)

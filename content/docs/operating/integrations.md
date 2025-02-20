@@ -74,7 +74,7 @@ data volumes.
 For notification mechanisms not natively supported by the Alertmanager, the
 [webhook receiver](/docs/alerting/configuration/#webhook_config) allows for integration.
 
-  * [alertmanager-receiver-azdo](https://github.com/IvanJosipovic/alertmanager-receiver-azdo): Creates/Resolves work items in Azure DevOps
+  * [alertmanager-receiver-azdo](https://github.com/IvanJosipovic/alertmanager-receiver-azdo): forwards notifications to Azure DevOps
   * [alertmanager-webhook-logger](https://github.com/tomtom-international/alertmanager-webhook-logger): logs alerts
   * [Alertsnitch](https://gitlab.com/yakshaving.art/alertsnitch): saves alerts to a MySQL database
   * [All Quiet](https://allquiet.app/integrations/inbound/prometheus): on-call & incident management

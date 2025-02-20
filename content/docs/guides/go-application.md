@@ -10,7 +10,21 @@ NOTE: For comprehensive API documentation, see the [GoDoc](https://godoc.org/git
 
 ## Installation
 
-You can install the `prometheus`, `promauto`, and `promhttp` libraries necessary for the guide using [`go get`](https://golang.org/doc/articles/go_command.html):
+To integrate Prometheus with your Go application, you'll need the `prometheus`, `promauto`, and `promhttp` libraries. Starting with Go 1.17, Go Modules are required for managing dependencies.
+
+#### Using Go Modules
+
+If your project does not already use Go Modules, initialize a new module in your project directory:
+
+```bash
+go mod init <module_name>
+```
+Replace <module_name> with a name that represents your project.
+NOTE: For more details see the [`go mod init`](https://go.dev/doc/tutorial/create-module) documentation.
+
+#### Installing Prometheus Libraries
+
+Once your project is using Go Modules, install the Prometheus client libraries using [`go get`](https://golang.org/doc/articles/go_command.html):
 
 ```bash
 go get github.com/prometheus/client_golang/prometheus

@@ -399,6 +399,8 @@ Label names beginning with "__" are RESERVED for system usage and SHOULD NOT be 
 
 Receivers also MAY impose limits on the number and length of labels, but this is receiver-specific and is out of the scope of this document.
 
+Whilst [Federation](https://prometheus.io/docs/prometheus/latest/federation/) relies upon an `instance` label with an empty value this is strictly an internal use case. Everything else MUST adhere to the `MUST NOT contain any empty label names or values` requirement above.
+
 #### Samples and Histogram Samples
 
 <!---

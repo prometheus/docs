@@ -400,14 +400,9 @@ footer {
 }
 
 .doc-content a.header-anchor {
-  padding-left: 15px;
-}
-
-.doc-content a.header-anchor:after {
-  content: "\F0C1";
-  font-family: FontAwesome;
-  font-weight: normal;
   font-size: .8em;
+  padding-left: 8px;
+  text-decoration: none;
 }
 
 .doc-content a.header-anchor:link,

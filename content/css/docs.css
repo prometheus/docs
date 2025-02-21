@@ -400,7 +400,9 @@ footer {
 }
 
 .doc-content a.header-anchor {
+  font-size: .8em;
   padding-left: 8px;
+  text-decoration: none;
 }
 
 .doc-content a.header-anchor:link,

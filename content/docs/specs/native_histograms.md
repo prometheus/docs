@@ -1,6 +1,6 @@
 ---
 title: Native Histograms [EXPERIMENTAL]
-sort_rank: 6
+sort_rank: 2
 ---
 
 # Native Histograms

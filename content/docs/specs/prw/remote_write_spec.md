@@ -1,5 +1,6 @@
 ---
 title: "1.0"
+title_prefix: "Remote Write 1.0"
 sort_rank: 5
 ---
 

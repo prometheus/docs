@@ -92,9 +92,11 @@ otlp:
     - service.instance.id
     - service.name
     - service.namespace
+    - service.version
     - cloud.availability_zone
     - cloud.region
     - container.name
+    - deployment.environment
     - deployment.environment.name
     - k8s.cluster.name
     - k8s.container.name

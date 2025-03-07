@@ -96,7 +96,7 @@ otlp:
     - cloud.availability_zone
     - cloud.region
     - container.name
-    - dployment.environment
+    - deployment.environment
     - deployment.environment.name
     - k8s.cluster.name
     - k8s.container.name

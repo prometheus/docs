@@ -1,5 +1,6 @@
 ---
 title: "2.0 [EXPERIMENTAL]"
+title_prefix: "Remote Write 2.0"
 sort_rank: 4
 ---
 

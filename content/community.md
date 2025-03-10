@@ -196,9 +196,4 @@ We would also like to acknowledge early contributions by engineers from
 [Docker](https://www.docker.com/) and
 [Boxever](http://www.boxever.com/).
 
-Special thanks to [DigitalOcean](https://digitalocean.com/) for
-providing hosting resources.
-
-<a href="https://digitalocean.com/"><img class="orig-size" src="/assets/digitalocean_logo.svg" alt="DigitalOcean logo" style="width: 200px"></a>
-
 The Prometheus logo was contributed by Robin Greenwood.

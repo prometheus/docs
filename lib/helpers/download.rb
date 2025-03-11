@@ -38,7 +38,7 @@ module Downloads
 
       if asset
         cache = ['downloads', '.cache', release.id, 'sha256sums.txt'].join('/')
-        unless File.exists?(cache)
+        unless File.exist?(cache)
           FileUtils.mkdir_p(File.dirname(cache))
           File.open(cache, 'wb') do |file|
             file.write(URI.parse(asset['browser_download_url']).read)

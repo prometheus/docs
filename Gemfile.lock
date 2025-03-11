@@ -115,7 +115,7 @@ GEM
     rb-inotify (0.11.1)
       ffi (~> 1.0)
     rbtree (0.4.6)
-    redcarpet (3.6.0)
+    redcarpet (3.6.1)
     rexml (3.4.1)
     rspec (3.13.0)
       rspec-core (~> 3.13.0)

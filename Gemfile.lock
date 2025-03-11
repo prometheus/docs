@@ -19,7 +19,7 @@ GEM
       eventmachine (>= 0.12.9)
       http_parser.rb (~> 0.6.0)
     eventmachine (1.2.7)
-    ffi (1.15.0)
+    ffi (1.17.1)
     formatador (0.2.5)
     guard (2.16.2)
       formatador (>= 0.2.4)
@@ -112,7 +112,7 @@ GEM
     rb-fchange (0.0.6)
       ffi
     rb-fsevent (0.11.2)
-    rb-inotify (0.10.1)
+    rb-inotify (0.11.1)
       ffi (~> 1.0)
     rbtree (0.4.6)
     redcarpet (3.6.0)

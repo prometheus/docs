@@ -43,6 +43,15 @@ the following time series:
 * `scrape_series_added{job="<job-name>", instance="<instance-id>"}`:
    the approximate number of new series in this scrape. *New in v2.10*
 
+if you enable feature [extra-scrape-metrics](/docs/prometheus/latest/feature_flags/#extra-scrape-metrics), you will also get:
+
+* `scrape_timeout_seconds{job="<job-name>", instance="<instance-id>"}`:
+  the configured scrape_timeout for a target.
+* `scrape_sample_limit{job="<job-name>", instance="<instance-id>"}`:
+  the configured sample_limit for a target
+* `scrape_body_size_bytes{job="<job-name>", instance="<instance-id>"}`:
+  the uncompressed size of the most recent scrape response, if successful. 
+
 The `up` time series is useful for instance availability monitoring.
 
 With the [`extra-scrape-metrics` feature flag](/docs/prometheus/latest/feature_flags/#extra-scrape-metrics) several additional metrics are available:

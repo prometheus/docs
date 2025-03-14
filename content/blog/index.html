@@ -6,7 +6,7 @@ title: Blog
     <% sorted_articles.each do |post| %>
       <div class="blog doc-content">
         <h1><%= link_to post[:title], post.path %></h1>
-        <aside>Posted at: <%= get_pretty_date(post) %> by <%= post[:author_name]%></aside>
+		<aside>Posted at: <%= get_pretty_date(post) %> by <% if defined?(post[:author_uri]) then print "yes" else print "YOLO" end </aside>
         <article class="doc-content">
           <%= get_post_start(post) %>
         </article>

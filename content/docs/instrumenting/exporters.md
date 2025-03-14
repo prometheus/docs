@@ -128,6 +128,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
 
 ### HTTP
    * [Apache exporter](https://github.com/Lusitaniae/apache_exporter)
+   * [Citrix ADC Observability exporter (COE)](https://github.com/citrix/citrix-observability-exporter/) (**official**)
    * [HAProxy exporter](https://github.com/prometheus/haproxy_exporter) (**official**)
    * [Nginx metric library](https://github.com/knyar/nginx-lua-prometheus)
    * [Nginx VTS exporter](https://github.com/sysulq/nginx-vts-exporter)

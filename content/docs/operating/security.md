@@ -222,6 +222,18 @@ environment variable as used by EC2 service discovery) may end up exposed due to
 code outside of our control or due to functionality that happens to expose
 wherever it is stored.
 
+## Browser local storage
+
+Prometheus and Alertmanager web interfaces store data in the local storage of
+the web browser. The history of the queries made using the Prometheus web UI
+and the creator of a silence in Alertmanager are saved locally, amongst other
+data.
+
+We expect that no secrets are entered into those fields and that browser
+sessions are not shared between users. If the same browser is accessed by
+multiple users, they might have access to other users' local query history in
+Prometheus or name in Alertmanager.
+
 ## Denial of Service
 
 There are some mitigations in place for excess load or expensive queries.

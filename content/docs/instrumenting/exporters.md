@@ -331,6 +331,7 @@ separate exporters are needed:
    * [Flux](https://github.com/fluxcd/flux2)
    * [Xandikos](https://www.xandikos.org/) (**direct**)
    * [Zipkin](https://github.com/openzipkin/zipkin/tree/master/zipkin-server#metrics)
+   * [KubeInvaders](https://github.com/lucky-sideburn/KubeInvaders)
 
 The software marked *direct* is also directly instrumented with a Prometheus client library.
 

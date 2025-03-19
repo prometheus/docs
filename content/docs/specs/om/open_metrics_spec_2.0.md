@@ -1,7 +1,9 @@
 ---
-title: "1.0"
-title_prefix: "OpenMetrics 1.0"
-sort_rank: 5
+title: "2.0"
+title_prefix: "OpenMetrics 2.0"
+sort_rank: 10
+
+published: false
 
 author:
 - role: editor
@@ -25,18 +27,18 @@ author:
 
 # OpenMetrics
 
-- Version: 1.0
-- Status: Published
-- Date: March 2022
+- Version: 2.0
+- Status: Draft
+- Date: TBD
 - Authors: Richard Hartmann, Ben Kochie, Brian Brazil, Rob Skillington
+
+> NOTE: this document is an early draft, major changes expected. Read [here](https://github.com/prometheus/OpenMetrics/issues/276) on how to join the Prometheus OM 2.0 work group.
 
 Created in 2012, Prometheus has been the default for cloud-native observability since 2015. A central part of Prometheus' design is its text metric exposition format, called the Prometheus exposition format 0.0.4, stable since 2014. In this format, special care has been taken to make it easy to generate, to ingest, and to understand by humans. As of 2020, there are more than 700 publicly listed exporters, an unknown number of unlisted exporters, and thousands of native library integrations using this format. Dozens of ingestors from various projects and companies support consuming it.
 
 With OpenMetrics, we are cleaning up and tightening the specification with the express purpose of bringing it into IETF. We are documenting a working standard with wide and organic adoption while introducing minimal, largely backwards-compatible, and well-considered changes. As of 2020, dozens of exporters, integrations, and ingestors use and preferentially negotiate OpenMetrics already.
 
 Given the wide adoption and significant coordination requirements in the ecosystem, sweeping changes to either the Prometheus exposition format 0.0.4 or OpenMetrics 1.0 are considered out of scope.
-
-> NOTE: OpenMetrics 2.0 development is in progress. Read [here](https://github.com/prometheus/OpenMetrics/issues/276) on how to join the Prometheus OM 2.0 work group.
 
 ## Overview
 

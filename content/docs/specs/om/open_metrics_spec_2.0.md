@@ -1,59 +1,34 @@
 ---
-title: OpenMetrics, a cloud-native, highly scalable metrics protocol
-abbrev: OpenMetrics
-docname: draft-richih-opsawg-openmetrics-01
-category: std
-
-ipr: trust200902
-area: General
-workgroup: Ops WG
-keyword: Internet-Draft
-
-stand_alone: yes
-pi: [toc, sortrefs, symrefs]
+title: "1.0"
+title_prefix: "OpenMetrics 1.0"
+sort_rank: 5
 
 author:
- -  role: editor
-    ins: R. Hartmann
-    name: Richard Hartmann
-    organization: Grafana Labs
-    email: richih@richih.org
- -  ins: B. Kochie
-    name: Ben Kochie
-    organization: GitLab
-    email: ben@nerp.net
- -  ins: B. Brazil
-    name: Brian Brazil
-    organization: Robust Perception
-    email: brian.brazil@gmail.com
- -  ins: R. Skillington
-    name: Rob Skillington
-    organization: Chronosphere
-    email: rob.skillington@gmail.com
+- role: editor
+  ins: R. Hartmann
+  name: Richard Hartmann
+  organization: Grafana Labs
+  email: richih@richih.org
+- ins: B. Kochie
+  name: Ben Kochie
+  organization: GitLab
+  email: ben@nerp.net
+- ins: B. Brazil
+  name: Brian Brazil
+  organization: Robust Perception
+  email: brian.brazil@gmail.com
+- ins: R. Skillington
+  name: Rob Skillington
+  organization: Chronosphere
+  email: rob.skillington@gmail.com
+---
 
-normative:
-  RFC2119:
-  RFC5234:
-  RFC8174:
+# OpenMetrics
 
-informative:
-  normalization:
-    target: https://en.wikipedia.org/wiki/Database_normalization
-    title: Database Normalization
-  PrometheusPorts:
-    target: https://github.com/prometheus/prometheus/wiki/Default-port-allocations
-    title: Prometheus informal port allocation
-  timestamp:
-    target: https://github.com/protocolbuffers/protobuf/blob/2f6a7546e4539499bc08abc6900dc929782f5dcd/src/google/protobuf/timestamp.proto
-    title: Go Timestamp ProtoBuf
-
---- abstract
-
-OpenMetrics specifies today's de-facto standard for transmitting cloud-native metrics at scale, with support for both text representation and Protocol Buffers and brings it into an Internet Engineering Task Force (IETF) standard. It supports both pull and push-based data collection.
-
---- middle
-
-# Introduction
+- Version: 1.0
+- Status: Published
+- Date: March 2022
+- Authors: Richard Hartmann, Ben Kochie, Brian Brazil, Rob Skillington
 
 Created in 2012, Prometheus has been the default for cloud-native observability since 2015. A central part of Prometheus' design is its text metric exposition format, called the Prometheus exposition format 0.0.4, stable since 2014. In this format, special care has been taken to make it easy to generate, to ingest, and to understand by humans. As of 2020, there are more than 700 publicly listed exporters, an unknown number of unlisted exporters, and thousands of native library integrations using this format. Dozens of ingestors from various projects and companies support consuming it.
 
@@ -61,11 +36,9 @@ With OpenMetrics, we are cleaning up and tightening the specification with the e
 
 Given the wide adoption and significant coordination requirements in the ecosystem, sweeping changes to either the Prometheus exposition format 0.0.4 or OpenMetrics 1.0 are considered out of scope.
 
-## Requirements Language
+> NOTE: OpenMetrics 2.0 development is in progress. Read [here](https://github.com/prometheus/OpenMetrics/issues/276) on how to join the Prometheus OM 2.0 work group.
 
-{::boilerplate bcp14}
-
-# Overview
+## Overview
 
 Metrics are a specific kind of telemetry data. They represent a snapshot of the current state for a set of data. They are distinct from logs or events, which focus on records or information about individual events.
 
@@ -73,7 +46,7 @@ OpenMetrics is primarily a wire format, independent of any particular transport 
 
 Implementers MUST expose metrics in the OpenMetrics text format in response to a simple HTTP GET request to a documented URL for a given process or device. This endpoint SHOULD be called "/metrics". Implementers MAY also expose OpenMetrics formatted metrics in other ways, such as by regularly pushing metric sets to an operator-configured endpoint over HTTP.
 
-## Metrics and Time Series
+### Metrics and Time Series
 
 This standard expresses all system states as numerical values; counts, current values, enumerations, and boolean states being common examples. Contrary to metrics, singular events occur at a specific time. Metrics tend to aggregate data temporally. While this can lose information, the reduction in overhead is an engineering trade-off commonly chosen in many modern monitoring systems.
 
@@ -81,29 +54,29 @@ Time series are a record of changing information over time. While time series ca
 
 Common examples of metric time series would be network interface counters, device temperatures, BGP connection states, and alert states.
 
-# Data Model
+## Data Model
 
 This section MUST be read together with the ABNF section. In case of disagreements between the two, the  ABNF's restrictions MUST take precedence. This reduces repetition as the text wire format MUST be supported.
 
-## Data Types
+### Data Types
 
-### Values
+#### Values
 
 Metric values in OpenMetrics MUST be either floating points or integers. Note that ingestors of the format MAY only support float64. The non-real values NaN, +Inf and -Inf MUST be supported. NaN MUST NOT be considered a missing value, but it MAY be used to signal a division by zero.
 
-#### Booleans
+##### Booleans
 
-Boolean values MUST follow 1==true, 0==false.
+Boolean values MUST follow `1==true`, `0==false`.
 
-### Timestamps
+#### Timestamps
 
 Timestamps MUST be Unix Epoch in seconds. Negative timestamps MAY be used.
 
-### Strings
+#### Strings
 
 Strings MUST only consist of valid UTF-8 characters and MAY be zero length. NULL (ASCII 0x0) MUST be supported.
 
-### Label
+#### Label
 
 Labels are key-value pairs consisting of strings.
 
@@ -111,25 +84,25 @@ Label names beginning with underscores are RESERVED and MUST NOT be used unless 
 
 Empty label values SHOULD be treated as if the label was not present.
 
-### LabelSet
+#### LabelSet
 
 A LabelSet MUST consist of Labels and MAY be empty. Label names MUST be unique within a LabelSet.
 
-### MetricPoint
+#### MetricPoint
 
 Each MetricPoint consists of a set of values, depending on the MetricFamily type.
 
-### Exemplars
+#### Exemplars
 
 Exemplars are references to data outside of the MetricSet. A common use case are IDs of program traces.
 
 Exemplars MUST consist of a LabelSet and a value, and MAY have a timestamp. They MAY each be different from the MetricPoints' LabelSet and timestamp.
 
-The combined length of the label names and values of an Exemplar's LabelSet MUST NOT exceed 128 UTF-8 character code points. Other characters in the text rendering of an exemplar such as ",= are not included in this limit for implementation simplicity and for consistency between the text and proto formats.
+The combined length of the label names and values of an Exemplar's LabelSet MUST NOT exceed 128 UTF-8 character code points. Other characters in the text rendering of an exemplar such as `",=` are not included in this limit for implementation simplicity and for consistency between the text and proto formats.
 
 Ingestors MAY discard exemplars.
 
-### Metric
+#### Metric
 
 Metrics are defined by a unique LabelSet within a MetricFamily. Metrics MUST contain a list of one or more MetricPoints. Metrics with the same name for a given MetricFamily SHOULD have the same set of label names in their LabelSet.
 
@@ -137,11 +110,11 @@ MetricPoints SHOULD NOT have explicit timestamps.
 
 If more than one MetricPoint is exposed for a Metric, then its MetricPoints MUST have monotonically increasing timestamps.
 
-### MetricFamily
+#### MetricFamily
 
 A MetricFamily MAY have zero or more Metrics. A MetricFamily MUST have a name, HELP, TYPE, and UNIT metadata. Every Metric within a MetricFamily MUST have a unique LabelSet.
 
-#### Name
+##### Name
 
 MetricFamily names are a string and MUST be unique within a MetricSet. Names SHOULD be in snake_case. Metric names MUST follow the restrictions in the ABNF section.
 
@@ -149,35 +122,35 @@ Colons in MetricFamily names are RESERVED to signal that the MetricFamily is the
 
 MetricFamily names beginning with underscores are RESERVED and MUST NOT be used unless specified by this standard.
 
-##### Suffixes
+###### Suffixes
 
 The name of a MetricFamily MUST NOT result in a potential clash for sample metric names as per the ABNF with another MetricFamily in the Text Format within a MetricSet. An example would be a gauge called "foo_created" as a counter called "foo" could create a "foo_created" in the text format.
 
 Exposers SHOULD avoid names that could be confused with the suffixes that text format sample metric names use.
 
 * Suffixes for the respective types are:
-* Counter: '_total', '_created'
-* Summary: '_count', '_sum', '_created', '' (empty)
-* Histogram: '_count', '_sum', '_bucket', '_created'
-* GaugeHistogram: '_gcount', '_gsum', '_bucket'
-* Info: '_info'
-* Gauge: '' (empty)
-* StateSet: '' (empty)
-* Unknown: '' (empty)
+* Counter: `_total`, `_created`
+* Summary: `_count`, `_sum`, `_created`, `` (empty)
+* Histogram: `_count`, `_sum`, `_bucket`, `_created`
+* GaugeHistogram: `_gcount`, `_gsum`, `_bucket`
+* Info: `_info`
+* Gauge: `` (empty)
+* StateSet: `` (empty)
+* Unknown: `` (empty)
 
-#### Type
+##### Type
 
 Type specifies the MetricFamily type. Valid values are "unknown", "gauge", "counter", "stateset", "info", "histogram", "gaugehistogram", and "summary".
 
-#### Unit
+##### Unit
 
 Unit specifies MetricFamily units. If non-empty, it MUST be a suffix of the MetricFamily name separated by an underscore. Be aware that further generation rules might make it an infix in the text format.
 
-#### Help
+##### Help
 
 Help is a string and SHOULD be non-empty. It is used to give a brief description of the MetricFamily for human consumption and SHOULD be short enough to be used as a tooltip.
 
-#### MetricSet
+##### MetricSet
 
 A MetricSet is the top level object exposed by OpenMetrics. It MUST consist of MetricFamilies and MAY be empty.
 
@@ -187,9 +160,9 @@ There is no specific ordering of MetricFamilies required within a MetricSet. An 
 
 If present, an Info MetricFamily called "target" per the "Supporting target metadata in both push-based and pull-based systems" section below SHOULD be first.
 
-## Metric Types
+### Metric Types
 
-### Gauge
+#### Gauge
 
 Gauges are current measurements, such as bytes of memory currently used or the number of items in a queue. For gauges the absolute value is what is of interest to a user.
 
@@ -199,7 +172,7 @@ Gauges MAY increase, decrease, or stay constant over time. Even if they only eve
 
 A gauge MAY be used to encode an enum where the enum has many states and changes over time, it is the most efficient but least user friendly.
 
-### Counter
+#### Counter
 
 Counters measure discrete events. Common examples are the number of HTTP requests received, CPU seconds spent, or bytes sent. For counters how quickly they are increasing over time is what is of interest to a user.
 
@@ -211,7 +184,7 @@ A MetricPoint in a Metric's Counter's Total MAY reset to 0. If present, the corr
 
 A MetricPoint in a Metric's Counter's Total MAY have an exemplar.
 
-### StateSet
+#### StateSet
 
 StateSets represent a series of related boolean values, also called a bitset. If ENUMs need to be encoded this MAY be done via StateSet.
 
@@ -223,11 +196,13 @@ If encoded as a StateSet, ENUMs MUST have exactly one Boolean which is true with
 
 This is suitable where the enum value changes over time, and the number of States isn't much more than a handful.
 
-EDITOR’S NOTE: This might be better as Consideration
+<!---
+# EDITOR’S NOTE: This might be better as Consideration
+-->
 
 MetricFamilies of type StateSets MUST have an empty Unit string.
 
-### Info
+#### Info
 
 Info metrics are used to expose textual information which SHOULD NOT change during process lifetime. Common examples are an application's version, revision control commit, and the version of a compiler.
 
@@ -237,7 +212,7 @@ Info MAY be used to encode ENUMs whose values do not change over time, such as t
 
 MetricFamilies of type Info MUST have an empty Unit string.
 
-### Histogram
+#### Histogram
 
 Histograms measure distributions of discrete events. Common examples are the latency of HTTP requests, function runtimes, or I/O request sizes.
 
@@ -256,11 +231,13 @@ A Histogram's Metric's LabelSet MUST NOT have a "le" label name.
 
 Bucket values MAY have exemplars. Buckets are cumulative to allow monitoring systems to drop any non-+Inf bucket for performance/anti-denial-of-service reasons in a way that loses granularity but is still a valid Histogram.
 
-EDITOR’S NOTE: The second sentence is a consideration, it can be moved if needed
+<!---
+# EDITOR’S NOTE: The second sentence is a consideration, it can be moved if needed
+-->
 
 Each bucket covers the values less and or equal to it, and the value of the exemplar MUST be within this range. Exemplars SHOULD be put into the bucket with the highest value. A bucket MUST NOT have more than one exemplar.
 
-### GaugeHistogram
+#### GaugeHistogram
 
 GaugeHistograms measure current distributions. Common examples are how long items have been waiting in a queue, or size of the requests in a queue.
 
@@ -276,7 +253,7 @@ Bucket values can have exemplars.
 
 Each bucket covers the values less and or equal to it, and the value of the exemplar MUST be within this range. Exemplars SHOULD be put into the bucket with the highest value. A bucket MUST NOT have more than one exemplar.
 
-### Summary
+#### Summary
 
 Summaries also measure distributions of discrete events and MAY be used when Histograms are too expensive and/or an average event size is sufficient.
 
@@ -293,7 +270,7 @@ Quantiles are a map from a quantile to a value. An example is a quantile 0.95 wi
 A Quantile's Metric's LabelSet MUST NOT have "quantile" label name.
 Quantiles MUST be between 0 and 1 inclusive. Quantile values MUST NOT be negative. Quantile values SHOULD represent the recent values. Commonly this would be over the last 5-10 minutes.
 
-### Unknown
+#### Unknown
 
 Unknown SHOULD NOT be used. Unknown MAY be used when it is impossible to determine the types of individual metrics from 3rd party systems.
 
@@ -308,7 +285,7 @@ The text format compresses well, and protobuf is already binary and efficiently 
 
 Partial or invalid expositions MUST be considered erroneous in their entirety.
 
-## Protocol Negotiation
+### Protocol Negotiation
 
 All ingestor implementations MUST be able to ingest data secured with TLS 1.2 or later. All exposers SHOULD be able to emit data secured with TLS 1.2 or later. ingestor implementations SHOULD be able to ingest data from HTTP without TLS. All implementations SHOULD use TLS to transmit data.
 
@@ -316,17 +293,19 @@ Negotiation of what version of the OpenMetrics format to use is out-of-band. For
 
 Push-based negotiation is inherently more complex, as the exposer typically initiates the connection. Producers MUST use the oldest version of the standard (i.e. 1.0.0) unless requested otherwise by the ingestor.
 
-## Text format
+### Text format
 
-### ABNF
+#### ABNF
 
 ABNF as per RFC 5234
 
-EDITOR’S NOTE: Should we update to RFC 7405, in particular the case insensitive bits?
+<!---
+# EDITOR’S NOTE: Should we update to RFC 7405, in particular the case insensitive bits?
+-->
 
 "exposition" is the top level token of the ABNF.
 
-~~~~ abnf
+```abnf
 exposition = metricset HASH SP eof [ LF ]
 
 metricset = *metricfamily
@@ -404,19 +383,23 @@ escaped-char =/ BS normal-char
 
 ; Any unicode character, except newline, double quote, and backslash
 normal-char = %x00-09 / %x0B-21 / %x23-5B / %x5D-D7FF / %xE000-10FFFF
-~~~~
+```
 
-### Overall Structure
+#### Overall Structure
 
 UTF-8 MUST be used. Byte order markers (BOMs) MUST NOT be used. As an important reminder for implementers, byte 0 is valid UTF-8 while, for example, byte 255 is not.
 
 The content type MUST be:
-application/openmetrics-text; version=1.0.0; charset=utf-8
 
-Line endings MUST be signalled with line feed (\n) and MUST NOT contain carriage returns (\r). Expositions MUST end with EOF and SHOULD end with 'EOF\n'.
+``` 
+application/openmetrics-text; version=1.0.0; charset=utf-8
+``` 
+
+Line endings MUST be signalled with line feed (\n) and MUST NOT contain carriage returns (\r). Expositions MUST end with EOF and SHOULD end with `EOF\n`.
 
 An example of a complete exposition:
-~~~~
+
+```
 # TYPE acme_http_router_request_seconds summary
 # UNIT acme_http_router_request_seconds seconds
 # HELP acme_http_router_request_seconds Latency though all of ACME's HTTP request router.
@@ -434,28 +417,28 @@ go_goroutines 69
 # HELP process_cpu_seconds Total user and system CPU time spent in seconds.
 process_cpu_seconds_total 4.20072246e+06
 # EOF
-~~~~
+```
 
-#### Escaping
+##### Escaping
 
 Where the ABNF notes escaping, the following escaping MUST be applied
-Line feed, '\n' (0x0A) -> literally '\\n' (Bytecode 0x5c 0x6e)
-Double quotes -> '\\"' (Bytecode 0x5c 0x22)
-Backslash -> '\\\\' (Bytecode 0x5c 0x5c)
+Line feed, `\n` (0x0A) -> literally `\\n` (Bytecode 0x5c 0x6e)
+Double quotes -> `\\"` (Bytecode 0x5c 0x22)
+Backslash -> `\\\\` (Bytecode 0x5c 0x5c)
 
 A double backslash SHOULD be used to represent a backslash character.
 A single backslash SHOULD NOT be used for undefined escape sequences.
-As an example, '\\\\a' is equivalent and preferable to '\\a'.
+As an example, `\\\\a` is equivalent and preferable to `\\a`.
 
-#### Numbers
+##### Numbers
 
-Integer numbers MUST NOT have a decimal point. Examples are "23", "0042", and "1341298465647914".
+Integer numbers MUST NOT have a decimal point. Examples are `23`, `0042`, and `1341298465647914`.
 
-Floating point numbers MUST be represented either with a decimal point or using scientific notation. Examples are "8903.123421" and "1.89e-7". Floating point numbers MUST fit within the range of a 64-bit floating point value as defined by IEEE 754, but MAY require so many bits in the mantissa that results in lost precision. This MAY be used to encode nanosecond resolution timestamps.
+Floating point numbers MUST be represented either with a decimal point or using scientific notation. Examples are `8903.123421` and `1.89e-7`. Floating point numbers MUST fit within the range of a 64-bit floating point value as defined by IEEE 754, but MAY require so many bits in the mantissa that results in lost precision. This MAY be used to encode nanosecond resolution timestamps.
 
 Arbitrary integer and floating point rendering of numbers MUST NOT be used for "quantile" and "le" label values as in section "Canonical Numbers". They MAY be used anywhere else numbers are used.
 
-##### Considerations: Canonical Numbers
+###### Considerations: Canonical Numbers
 
 Numbers in the "le" label values of histograms and "quantile" label values of summary metrics are special in that they're label values, and label values are intended to be opaque. As end users will likely directly interact with these string values, and as many monitoring systems lack the ability to deal with them as first-class numbers, it would be beneficial if a given number had the exact same text representation.
 
@@ -475,61 +458,64 @@ Exposers SHOULD follow these patterns for non-canonical numbers, and the intenti
 
 A warning to implementers in C and other languages that share its printf implementation: The standard precision of %f, %e and %g is only six significant digits. 17 significant digits are required for full precision, e.g. `printf("%.17g", d)`.
 
-#### Timestamps
+##### Timestamps
 
-Timestamps SHOULD NOT use exponential float rendering for timestamps if nanosecond precision is needed as rendering of a float64 does not have sufficient precision, e.g. 1604676851.123456789.
+Timestamps SHOULD NOT use exponential float rendering for timestamps if nanosecond precision is needed as rendering of a float64 does not have sufficient precision, e.g. `1604676851.123456789`.
 
-### MetricFamily
+#### MetricFamily
 
 There MUST NOT be an explicit separator between MetricFamilies. The next MetricFamily MUST be signalled with either metadata or a new sample metric name which cannot be part of the previous MetricFamily.
 
 
 MetricFamilies MUST NOT be interleaved.
 
-#### MetricFamily metadata
+##### MetricFamily metadata
 
 There are four pieces of metadata: The MetricFamily name, TYPE, UNIT and HELP.  An example of the metadata for a counter Metric called foo is:
 
-~~~~
+```
 # TYPE foo counter
-~~~~
+```
 
 If no TYPE is exposed, the MetricFamily MUST be of type Unknown.
 
 If a unit is specified it MUST be provided in a UNIT metadata line. In addition, an underscore and the unit MUST be the suffix of the MetricFamily name.
 
 A valid example for a foo_seconds metric with a unit of "seconds":
-~~~~
+
+```
 # TYPE foo_seconds counter
 # UNIT foo_seconds seconds
-~~~~
+```
 
 An invalid example, where the unit is not a suffix on the name:
-~~~~
+
+```
 # TYPE foo counter
 # UNIT foo seconds
-~~~~
+```
 
 It is also valid to have:
-~~~~
+
+```
 # TYPE foo_seconds counter
-~~~~
+```
 
 If the unit is known it SHOULD be provided.
 
 The value of a UNIT or HELP line MAY be empty. This MUST be treated as if no metadata line for the MetricFamily existed.
 
-~~~~
+```
 # TYPE foo_seconds counter
 # UNIT foo_seconds seconds
 # HELP foo_seconds Some text and \n some \" escaping
-~~~~
+```
 
 There MUST NOT be more than one of each type of metadata line for a MetricFamily. The ordering SHOULD be TYPE, UNIT, HELP.
 
 Aside from this metadata and the EOF line at the end of the message, you MUST NOT expose lines beginning with a #.
 
-#### Metric
+##### Metric
 
 Metrics MUST NOT be interleaved.
 
@@ -537,30 +523,31 @@ See the example in "Text format -> MetricPoint".
 Labels
 A sample without labels or a timestamp and the value 0 MUST be rendered either like:
 
-~~~~
+```
 bar_seconds_count 0
-~~~~
+```
 
 or like
 
-~~~~
+```
 bar_seconds_count{} 0
-~~~~
+```
 
 Label values MAY be any valid UTF-8 value, so escaping MUST be applied as per the ABNF. A valid example with two labels:
-~~~~
+
+```
 bar_seconds_count{a="x",b="escaping\" example \n "} 0
-~~~~
+```
 
 The rendering of values for a MetricPoint can include additional labels (e.g. the "le" label for a Histogram type), which MUST be rendered in the same way as a Metric's own LabelSet.
 
-### MetricPoint
+#### MetricPoint
 
 MetricPoints MUST NOT be interleaved.
 
 A correct example where there were multiple MetricPoints and Samples within a MetricFamily would be:
 
-~~~~
+```
 # TYPE foo_seconds summary
 # UNIT foo_seconds seconds
 foo_seconds_count{a="bb"} 0 123
@@ -571,106 +558,116 @@ foo_seconds_count{a="ccc"} 0 123
 foo_seconds_sum{a="ccc"} 0 123
 foo_seconds_count{a="ccc"} 0 456
 foo_seconds_sum{a="ccc"} 0 456
-~~~~
+```
 
 An incorrect example where Metrics are interleaved:
 
-~~~~
+```
 # TYPE foo_seconds summary
 # UNIT foo_seconds seconds
 foo_seconds_count{a="bb"} 0 123
 foo_seconds_count{a="ccc"} 0 123
 foo_seconds_count{a="bb"} 0 456
 foo_seconds_count{a="ccc"} 0 456
-~~~~
+```
 
 An incorrect example where MetricPoints are interleaved:
 
-~~~~
+```
 # TYPE foo_seconds summary
 # UNIT foo_seconds seconds
 foo_seconds_count{a="bb"} 0 123
 foo_seconds_count{a="bb"} 0 456
 foo_seconds_sum{a="bb"} 0 123
 foo_seconds_sum{a="bb"} 0 456
-~~~~
+```
 
-### Metric types
+#### Metric types
 
-#### Gauge
+##### Gauge
 
 The Sample MetricName for the value of a MetricPoint for a MetricFamily of type Gauge MUST NOT have a suffix.
 
 An example MetricFamily with a Metric with no labels and a MetricPoint with no timestamp:
-~~~~
+
+```
 # TYPE foo gauge
 foo 17.0
-~~~~
+```
 
 An example of a MetricFamily with two Metrics with a label and MetricPoints with no timestamp:
-~~~~
+
+```
 # TYPE foo gauge
 foo{a="bb"} 17.0
 foo{a="ccc"} 17.0
-~~~~
+```
 
 An example of a MetricFamily with no Metrics:
-~~~~
+
+```
 # TYPE foo gauge
-~~~~
+```
 
 An example with a Metric with a  label and a MetricPoint with a timestamp:
-~~~~
+
+```
 # TYPE foo gauge
 foo{a="b"} 17.0 1520879607.789
-~~~~
+```
 
 An example with a Metric with no labels and MetricPoint with a timestamp:
-~~~~
+
+```
 # TYPE foo gauge
 foo 17.0 1520879607.789
-~~~~
+```
 
 An example with a Metric with no labels and two MetricPoints with timestamps:
-~~~~
+
+```
 # TYPE foo gauge
 foo 17.0 123
 foo 18.0 456
-~~~~
+```
 
-#### Counter
+##### Counter
 
-The MetricPoint's Total Value Sample MetricName MUST have the suffix "_total". If present the MetricPoint's Created Value Sample MetricName MUST have the suffix "_created".
+The MetricPoint's Total Value Sample MetricName MUST have the suffix `_total`. If present the MetricPoint's Created Value Sample MetricName MUST have the suffix `_created`.
 
 An example with a Metric with no labels, and a MetricPoint with no timestamp and no created:
-~~~~
+
+```
 # TYPE foo counter
 foo_total 17.0
-~~~~
+```
 
 An example with a Metric with no labels, and a MetricPoint with a timestamp and no created:
-~~~~
+
+```
 # TYPE foo counter
 foo_total 17.0 1520879607.789
-~~~~
+```
 
 An example with a Metric with no labels, and a MetricPoint with no timestamp and a created:
-~~~~
+
+```
 # TYPE foo counter
 foo_total 17.0
 foo_created 1520430000.123
-~~~~
+```
 
 An example with a Metric with no labels, and a MetricPoint with a timestamp and a created:
-~~~~
+
+```
 # TYPE foo counter
 foo_total 17.0 1520879607.789
 foo_created 1520430000.123 1520879607.789
-~~~~
+```
 
 Exemplars MAY be attached to the MetricPoint's Total sample.
 
-#### StateSet
+##### StateSet
 
 The Sample MetricName for the value of a MetricPoint for a MetricFamily of type StateSet MUST NOT have a suffix.
 
@@ -678,15 +675,16 @@ StateSets MUST have one sample per State in the MetricPoint. Each State's sample
 
 An example with the states "a", "bb", and "ccc" in which only the value bb is enabled and the metric name is foo:
 
-~~~~
+```
 # TYPE foo stateset
 foo{foo="a"} 0
 foo{foo="bb"} 1
 foo{foo="ccc"} 0
-~~~~
+```
 
 An example of an "entity" label on the Metric:
-~~~~
+
+```
 # TYPE foo stateset
 foo{entity="controller",foo="a"} 1.0
 foo{entity="controller",foo="bb"} 0.0
@@ -694,57 +692,62 @@ foo{entity="controller",foo="ccc"} 0.0
 foo{entity="replica",foo="a"} 1.0
 foo{entity="replica",foo="bb"} 0.0
 foo{entity="replica",foo="ccc"} 1.0
-~~~~
+```
 
-#### Info
+##### Info
 
-The Sample MetricName for the value of a MetricPoint for a MetricFamily of type Info MUST have the suffix "_info". The Sample value MUST always be 1.
+The Sample MetricName for the value of a MetricPoint for a MetricFamily of type Info MUST have the suffix `_info`. The Sample value MUST always be 1.
 
 An example of a Metric with no labels, and one MetricPoint value with "name" and "version" labels:
-~~~~
+
+```
 # TYPE foo info
 foo_info{name="pretty name",version="8.2.7"} 1
-~~~~
+```
 
 An example of a Metric with label "entity" and one MetricPoint value with “name” and “version” labels:
-~~~~
+
+```
 # TYPE foo info
 foo_info{entity="controller",name="pretty name",version="8.2.7"} 1.0
 foo_info{entity="replica",name="prettier name",version="8.1.9"} 1.0
-~~~~
+```
 
 Metric labels and MetricPoint value labels MAY be in any order.
 
-#### Summary
+##### Summary
 
-If present, the MetricPoint's Sum Value Sample MetricName MUST have the suffix "_sum". If present, the MetricPoint's Count Value Sample MetricName MUST have the suffix "_count". If present, the MetricPoint's Created Value Sample MetricName MUST have the suffix "_created". If present, the MetricPoint's Quantile Values MUST specify the quantile measured using a label with a label name of "quantile" and with a label value of the quantile measured.
+If present, the MetricPoint's Sum Value Sample MetricName MUST have the suffix `_sum`. If present, the MetricPoint's Count Value Sample MetricName MUST have the suffix `_count`. If present, the MetricPoint's Created Value Sample MetricName MUST have the suffix `_created`. If present, the MetricPoint's Quantile Values MUST specify the quantile measured using a label with a label name of "quantile" and with a label value of the quantile measured.
 
 An example of a Metric with no labels and a MetricPoint with Sum, Count and Created values:
-~~~~
+
+```
 # TYPE foo summary
 foo_count 17.0
 foo_sum 324789.3
 foo_created 1520430000.123
-~~~~
+```
 
 An example of a Metric with no labels and a MetricPoint with two quantiles:
-~~~~
+
+```
 # TYPE foo summary
 foo{quantile="0.95"} 123.7
 foo{quantile="0.99"} 150.0
-~~~~
+```
 
 Quantiles MAY be in any order.
 
-#### Histogram
+##### Histogram
 
-The MetricPoint's Bucket Values Sample MetricNames MUST have the suffix "_bucket". If present, the MetricPoint's Sum Value Sample MetricName MUST have the suffix "_sum". If present, the MetricPoint's Created Value Sample MetricName MUST have the suffix "_created".
+The MetricPoint's Bucket Values Sample MetricNames MUST have the suffix `_bucket`. If present, the MetricPoint's Sum Value Sample MetricName MUST have the suffix `_sum`. If present, the MetricPoint's Created Value Sample MetricName MUST have the suffix `_created`.
 If and only if a Sum Value is present in a MetricPoint, then the MetricPoint's +Inf Bucket value MUST also appear in a Sample with a MetricName with the suffix "_count".
 
 Buckets MUST be sorted in number increasing order of "le", and the value of the "le" label MUST follow the rules for Canonical Numbers.
 
 An example of a Metric with no labels and a MetricPoint with Sum, Count, and Created values, and with 12 buckets. A wide and atypical but valid variety of “le” values is shown on purpose:
-~~~~
+
+```
 # TYPE foo histogram
 foo_bucket{le="0.0"} 0
 foo_bucket{le="1e-05"} 0
@@ -760,15 +763,16 @@ foo_bucket{le="+Inf"} 17
 foo_count 17
 foo_sum 324789.3
 foo_created 1520430000.123
-~~~~
+```
 
-##### Exemplars
+###### Exemplars
 
 Exemplars without Labels MUST represent an empty LabelSet as {}.
 
 An example of Exemplars showcasing several valid cases:
 The "0.01" bucket has no Exemplar. The 0.1 bucket has an Exemplar with no Labels. The 1 bucket has an Exemplar with one Label. The 10 bucket has an Exemplar with a Label and a timestamp. In practice all buckets SHOULD have the same style of Exemplars.
-~~~~
+
+```
 # TYPE foo histogram
 foo_bucket{le="0.01"} 0
 foo_bucket{le="0.1"} 8 # {} 0.054
@@ -778,17 +782,18 @@ foo_bucket{le="+Inf"} 17
 foo_count 17
 foo_sum 324789.3
 foo_created  1520430000.123
-~~~~
+```
 
-#### GaugeHistogram
+##### GaugeHistogram
 
-The MetricPoint's Bucket Values Sample MetricNames MUST have the suffix "_bucket". If present, the MetricPoint's Sum Value Sample MetricName MUST have the suffix "_gsum".
-If and only if a Sum Value is present in a MetricPoint, then the MetricPoint's +Inf Bucket value MUST also appear in a Sample with a MetricName with the suffix "_gcount".
+The MetricPoint's Bucket Values Sample MetricNames MUST have the suffix `_bucket`. If present, the MetricPoint's Sum Value Sample MetricName MUST have the suffix `_gsum`.
+If and only if a Sum Value is present in a MetricPoint, then the MetricPoint's +Inf Bucket value MUST also appear in a Sample with a MetricName with the suffix `_gcount`.
 
 Buckets MUST be sorted in number increasing order of "le", and the value of the "le" label MUST follow the rules for Canonical Numbers.
 
 An example of a Metric with no labels, and one MetricPoint value with no Exemplar with no Exemplars in the buckets:
-~~~~
+
+```
 # TYPE foo gaugehistogram
 foo_bucket{le="0.01"} 20.0
 foo_bucket{le="0.1"} 25.0
@@ -797,264 +802,48 @@ foo_bucket{le="10"} 34.0
 foo_bucket{le="+Inf"} 42.0
 foo_gcount 42.0
 foo_gsum 3289.3
-~~~~
+```
 
-#### Unknown
+##### Unknown
 
 The sample metric name for the value of the MetricPoint for a MetricFamily of type Unknown MUST NOT have a suffix.
 
 An example with a Metric with no labels and a MetricPoint with no timestamp:
-~~~~
+
+```
 # TYPE foo unknown
 foo 42.23
-~~~~
+```
 
-## Protobuf format
+### Protobuf format
 
-### Overall Structure
+#### Overall Structure
 
-Protobuf messages MUST be encoded in binary and MUST have "application/openmetrics-protobuf; version=1.0.0" as their content type.
+Protobuf messages MUST be encoded in binary and MUST have `application/openmetrics-protobuf; version=1.0.0` as their content type.
 
 All payloads MUST be a single binary encoded MetricSet message, as defined by the OpenMetrics protobuf schema.
 
-#### Version
+##### Version
 
 The protobuf format MUST follow the proto3 version of the protocol buffer language.
 
-#### Strings
+##### Strings
 
 All string fields MUST be UTF-8 encoded.
 
-#### Timestamps
+##### Timestamps
 
 Timestamp representations in the OpenMetrics protobuf schema MUST follow the published google.protobuf.Timestamp [timestamp] message. The timestamp message MUST be in Unix epoch seconds as an int64 and a non-negative fraction of a second at nanosecond resolution as an int32 that counts forward from the seconds timestamp component. It MUST be within 0 to 999,999,999 inclusive.
 
-### Protobuf schema
+#### Protobuf schema
 
-~~~~
-syntax = "proto3";
+Protobuf schema is currently available [here](https://github.com/prometheus/OpenMetrics/blob/3bb328ab04d26b25ac548d851619f90d15090e5d/proto/openmetrics_data_model.proto).
 
-// The OpenMetrics protobuf schema which defines the protobuf wire
-// format.
-// Ensure to interpret "required" as semantically required for a valid
-// message.
-// All string fields MUST be UTF-8 encoded strings.
-package openmetrics;
+> NOTE: Prometheus and ecosystem does not support OpenMetrics protobuf schema, instead it uses similar `io.prometheus.client` [format](https://github.com/prometheus/client_model/blob/master/io/prometheus/client/metrics.proto). Discussions about the future of the protobuf schema in OpenMetrics 2.0 [are in progress](https://github.com/prometheus/OpenMetrics/issues/296).
 
-import "google/protobuf/timestamp.proto";
+## Design Considerations
 
-// The top-level container type that is encoded and sent over the wire.
-message MetricSet {
-  // Each MetricFamily has one or more MetricPoints for a single Metric.
-  repeated MetricFamily metric_families = 1;
-}
-
-// One or more Metrics for a single MetricFamily, where each Metric
-// has one or more MetricPoints.
-message MetricFamily {
-  // Required.
-  string name = 1;
-
-  // Optional.
-  MetricType type = 2;
-
-  // Optional.
-  string unit = 3;
-
-  // Optional.
-  string help = 4;
-
-  // Optional.
-  repeated Metric metrics = 5;
-}
-
-// The type of a Metric.
-enum MetricType {
-  // Unknown must use unknown MetricPoint values.
-  UNKNOWN = 0;
-  // Gauge must use gauge MetricPoint values.
-  GAUGE = 1;
-  // Counter must use counter MetricPoint values.
-  COUNTER = 2;
-  // State set must use state set MetricPoint values.
-  STATE_SET = 3;
-  // Info must use info MetricPoint values.
-  INFO = 4;
-  // Histogram must use histogram value MetricPoint values.
-  HISTOGRAM = 5;
-  // Gauge histogram must use histogram value MetricPoint values.
-  GAUGE_HISTOGRAM = 6;
-  // Summary quantiles must use summary value MetricPoint values.
-  SUMMARY = 7;
-}
-
-// A single metric with a unique set of labels within a metric family.
-message Metric {
-  // Optional.
-  repeated Label labels = 1;
-
-  // Optional.
-  repeated MetricPoint metric_points = 2;
-}
-
-// A name-value pair. These are used in multiple places: identifying
-// timeseries, value of INFO metrics, and exemplars in Histograms.
-message Label {
-  // Required.
-  string name = 1;
-
-  // Required.
-  string value = 2;
-}
-
-// A MetricPoint in a Metric.
-message MetricPoint {
-  // Required.
-  oneof value {
-    UnknownValue unknown_value = 1;
-    GaugeValue gauge_value = 2;
-    CounterValue counter_value = 3;
-    HistogramValue histogram_value = 4;
-    StateSetValue state_set_value = 5;
-    InfoValue info_value = 6;
-    SummaryValue summary_value = 7;
-  }
-
-  // Optional.
-  google.protobuf.Timestamp timestamp = 8;
-}
-
-// Value for UNKNOWN MetricPoint.
-message UnknownValue {
-  // Required.
-  oneof value {
-    double double_value = 1;
-    int64 int_value = 2;
-  }
-}
-
-// Value for GAUGE MetricPoint.
-message GaugeValue {
-  // Required.
-  oneof value {
-    double double_value = 1;
-    int64 int_value = 2;
-  }
-}
-
-// Value for COUNTER MetricPoint.
-message CounterValue {
-  // Required.
-  oneof total {
-    double double_value = 1;
-    uint64 int_value = 2;
-  }
-
-  // The time values began being collected for this counter.
-  // Optional.
-  google.protobuf.Timestamp created = 3;
-
-  // Optional.
-  Exemplar exemplar = 4;
-}
-
-// Value for HISTOGRAM or GAUGE_HISTOGRAM MetricPoint.
-message HistogramValue {
-  // Optional.
-  oneof sum {
-    double double_value = 1;
-    int64 int_value = 2;
-  }
-
-  // Optional.
-  uint64 count = 3;
-
-  // The time values began being collected for this histogram.
-  // Optional.
-  google.protobuf.Timestamp created = 4;
-
-  // Optional.
-  repeated Bucket buckets = 5;
-
-  // Bucket is the number of values for a bucket in the histogram
-  // with an optional exemplar.
-  message Bucket {
-    // Required.
-    uint64 count = 1;
-
-    // Optional.
-    double upper_bound = 2;
-
-    // Optional.
-    Exemplar exemplar = 3;
-  }
-}
-
-message Exemplar {
-  // Required.
-  double value = 1;
-
-  // Optional.
-  google.protobuf.Timestamp timestamp = 2;
-
-  // Labels are additional information about the exemplar value
-  // (e.g. trace id).
-  // Optional.
-  repeated Label label = 3;
-}
-
-// Value for STATE_SET MetricPoint.
-message StateSetValue {
-  // Optional.
-  repeated State states = 1;
-
-  message State {
-    // Required.
-    bool enabled = 1;
-
-    // Required.
-    string name = 2;
-  }
-}
-
-// Value for INFO MetricPoint.
-message InfoValue {
-  // Optional.
-  repeated Label info = 1;
-}
-
-// Value for SUMMARY MetricPoint.
-message SummaryValue {
-  // Optional.
-  oneof sum {
-    double double_value = 1;
-    int64 int_value = 2;
-  }
-
-  // Optional.
-  uint64 count = 3;
-
-  // The time sum and count values began being collected
-  // for this summary.
-  // Optional.
-  google.protobuf.Timestamp created = 4;
-
-  // Optional.
-  repeated Quantile quantile = 5;
-
-  message Quantile {
-    // Required.
-    double quantile = 1;
-
-    // Required.
-    double value = 2;
-  }
-}
-~~~~
-
-# Design Considerations
-
-## Scope
+### Scope
 
 OpenMetrics is intended to provide telemetry for online systems. It runs over protocols which do not provide hard or soft real time guarantees, so it can not make any real time guarantees itself. Latency and jitter properties of OpenMetrics are as imprecise as the underlying network, operating systems, CPUs, and the like. It is sufficiently accurate for aggregations to be used as a basis for decision-making, but not to reflect individual events.
 
@@ -1062,11 +851,11 @@ Systems of all sizes should be supported, from applications that receive a few r
 
 It is intended to transport snapshots of state at the time of data transmission at a regular cadence.
 
-### Out of scope
+#### Out of scope
 
 How ingestors discover which exposers exist, and vice-versa, is out of scope for and thus not defined in this standard.
 
-## Extensions and Improvements
+### Extensions and Improvements
 
 This first version of OpenMetrics is based upon well established and de facto standard Prometheus text format 0.0.4, deliberately without adding major syntactic or semantic extensions, or optimisations on top of it. For example no attempt has been made to make the text representation of Histogram buckets more compact, relying on compression in the underlying stack to deal with their repetitive nature.
 
@@ -1078,7 +867,7 @@ We want to allow monitoring systems to get usable information from an OpenMetric
 
 This principle is applied consistently throughout the standard. For example a MetricFamily's unit is duplicated in the name so that the unit is available for systems that don't understand the unit metadata. The "le" label is a normal label value, rather than getting its own special syntax, so that ingestors don't have to add special histogram handling code to ingest them. As a further example, there are no composite data types. For example, there is no geolocation type for latitude/longitude as this can be done with separate gauge metrics.
 
-## Units and Base Units
+### Units and Base Units
 
 For consistency across systems and to avoid confusion, units are largely based on SI base units. Base units include seconds, bytes, joules, grams, meters, ratios, volts, amperes, and celsius. Units should be provided where they are applicable.
 
@@ -1098,7 +887,7 @@ If non-base units can not be avoided and conversion is not feasible, the actual 
 
 Not all MetricFamilies have units. For example a count of HTTP requests wouldn't have a unit. Technically the unit would be HTTP requests, but in that sense the entire MetricFamily name is the unit. Going to that extreme would not be useful. The possibility of having good axes on graphs in downstream systems for human consumption should always be kept in mind.
 
-## Statelessness
+### Statelessness
 
 The wire format defined by OpenMetrics is stateless across expositions. What information has been exposed before MUST have no impact on future expositions. Each exposition is a self-contained snapshot of the current state of the exposer.
 
@@ -1106,7 +895,7 @@ The same self-contained exposition MUST be provided to existing and new ingestor
 
 A core design choice is that exposers MUST NOT exclude a metric merely because it has had no recent changes, or observations. An exposer must not make any assumptions about how often ingestors are consuming expositions.
 
-## Exposition Across Time and Metric Evolution
+### Exposition Across Time and Metric Evolution
 
 Metrics are most useful when their evolution over time can be analysed, so accordingly expositions must make sense over time. Thus, it is not sufficient for one single exposition on its own to be useful and valid. Some changes to metric semantics can also break downstream users.
 
@@ -1125,15 +914,15 @@ An exception might be occasional manual changes to buckets which are considered 
 
 Even if changes are not technically breaking, they still carry a cost. For example frequent changes may cause performance issues for ingestors. A Help string that varies from exposition to exposition may cause each Help value to be stored. Frequently switching between int and float values could prevent efficient compression.
 
-## NaN
+### NaN
 
 NaN is a number like any other in OpenMetrics, usually resulting from a division by zero such as for a summary quantile if there have been no observations recently. NaN does not have any special meaning in OpenMetrics, and in particular MUST NOT be used as a marker for missing or otherwise bad data.
 
-## Missing Data
+### Missing Data
 
 There are valid cases when data stops being present. For example a filesystem can be unmounted and thus its Gauge Metric for free disk space no longer exists. There is no special marker or signal for this situation. Subsequent expositions simply do not include this Metric.
 
-## Exposition Performance
+### Exposition Performance
 
 Metrics are only useful if they can be collected in reasonable time frames. Metrics that take minutes to expose are not considered useful.
 
@@ -1143,13 +932,15 @@ Metrics from legacy systems serialized through OpenMetrics may take longer. For 
 
 Exposition SHOULD be of the most recent state. For example, a thread serving the exposition request SHOULD NOT rely on cached values, to the extent it is able to bypass any such caching
 
-## Concurrency
+### Concurrency
 
 For high availability and ad-hoc access a common approach is to have multiple ingestors. To support this, concurrent expositions MUST be supported. All BCPs for concurrent systems SHOULD be followed, common pitfalls include deadlocks, race conditions, and overly-coarse grained locking preventing expositions progressing concurrently.
 
-## Metric Naming and Namespaces
+### Metric Naming and Namespaces
 
-EDITOR’S NOTE: This section might be good for a BCP paper.
+<!---
+# EDITOR’S NOTE:  This section might be good for a BCP paper.
+-->
 
 We aim for a balance between understandability, avoiding clashes, and succinctness in the naming of metrics and label names. Names are separated through underscores, so metric names end up being in “snake_case”.
 
@@ -1179,7 +970,7 @@ Avoid redundancy in metric names. Avoid substrings like "metric", "timer", "stat
 
 Avoid including implementation details from other layers of your monitoring system in the metric names contained in your instrumentation. For example a MetricFamily name should not contain the string "openmetrics" merely because it happens to be currently exposed via OpenMetrics somewhere, or "prometheus" merely because your current monitoring system is Prometheus.
 
-## Label Namespacing
+### Label Namespacing
 
 For label names no explicit namespacing by company or library is recommended, namespacing from the metric name is sufficient for this when considered against the length increase of the label name. However some minimal care to avoid common clashes is recommended.
 
@@ -1189,18 +980,19 @@ The label name "type" is highly generic and should be avoided. For example for H
 
 While there is metadata about metric names such as HELP, TYPE and UNIT there is no metadata for label names. This is as it would be bloating the format for little gain. Out-of-band documentation is one way for exposers could present this their ingestors.
 
-## Metric Names versus Labels
+### Metric Names versus Labels
 
 There are situations in which both using multiple Metrics within a MetricFamily or multiple MetricFamilies seem to make sense. Summing or averaging aMetricFamily should be meaningful even if it's not always useful. For example, mixing voltage and fan speed is not meaningful.
 
 As a reminder, OpenMetrics is built with the assumption that ingestors can process and perform aggregations on data.
 
 Exposing a total sum alongside other metrics is wrong, as this would result in double-counting upon aggregation in downstream ingestors.
-~~~~
+
+```
 wrong_metric{label="a"} 1
 wrong_metric{label="b"} 6
 wrong_metric{label="total"} 7
-~~~~
+```
 
 Labels of a Metric should be to the minimum needed to ensure uniqueness as every extra label is one more that users need to consider when determining what Labels to work with downstream. Labels which could be applied many MetricFamilies are candidates for being moved into _info metrics similar to database {{normalization}}. If virtually all users of a Metric could be expected to want the additional label, it may be a better trade-off to add it to all MetricFamilies. For example if you had a MetricFamily relating to different SQL statements where uniqueness was provided by a label containing a hash of the full SQL statements, it would be okay to have another label with the first 500 characters of the SQL statement for human readability.
 
@@ -1211,7 +1003,7 @@ Metric and Label Name Characters
 
 OpenMetrics builds on the existing widely adopted Prometheus text exposition format and the ecosystem which formed around it. Backwards compatibility is a core design goal. Expanding or contracting the set of characters that are supported by the Prometheus text format would work against that goal. Breaking backwards compatibility would have wider implications than just the wire format. In particular, the query languages created or adopted to work with data transmitted within the Prometheus ecosystem rely on these precise character sets. Label values support full UTF-8, so the format can represent multi-lingual metrics.
 
-## Types of Metadata
+### Types of Metadata
 
 Metadata can come from different sources. Over the years, two main sources have emerged. While they are often functionally the same, it helps in understanding to talk about their conceptual differences.
 
@@ -1219,7 +1011,7 @@ Metadata can come from different sources. Over the years, two main sources have 
 
 "Exposer metadata" is coming from within an exposer. Common examples would be software version, compiler version, or Git commit SHA.
 
-### Supporting Target Metadata in both Push-based and Pull-based Systems
+#### Supporting Target Metadata in both Push-based and Pull-based Systems
 
 In push-based consumption, it is typical for the exposer to provide the relevant target metadata to the ingestor. In pull-based consumption the push-based approach could be taken, but more typically the ingestor already knows the metadata of the target a-priori such as from a machine database or service discovery system, and associates it with the metrics as it consumes the exposition.
 
@@ -1228,11 +1020,12 @@ OpenMetrics is stateless and provides the same exposition to all ingestors, whic
 One approach would be for push-style ingestors to provide target metadata based on operator configuration out-of-band, for example as a HTTP header. While this would transport target metadata for push-style ingestors, and is not precluded by this standard, it has the disadvantage that even though pull-style ingestors should use their own target metadata, it is still often useful to have access to the metadata the exposer itself is aware of.
 
 The preferred solution is to provide this target metadata as part of the exposition, but in a way that does not impact on the exposition as a whole. Info MetricFamilies are designed for this. An exposer may include an Info MetricFamily called "target" with a single Metric with no labels with the metadata. An example in the text format might be:
-~~~~
+
+```
 # TYPE target info
 # HELP target Target metadata
 target_info{env="prod",hostname="myhost",datacenter="sdc",region="europe",owner="frontend"} 1
-~~~~
+```
 
 When an exposer is providing this metric for this purpose it SHOULD be first in the exposition. This is for efficiency, so that ingestors relying on it for target metadata don't have to buffer up the rest of the exposition before applying business logic based on its content.
 
@@ -1243,7 +1036,7 @@ Exposers can expose exposer metadata as Info MetricFamilies.
 
 The above discussion is in the context of individual exposers. An exposition from a general purpose monitoring system may contain metrics from many individual targets, and thus may expose multiple target info Metrics. The metrics may already have had target metadata added to them as labels as part of ingestion. The metric names MUST NOT be varied based on target metadata. For example it would be incorrect for all metrics to end up being prefixed with staging_ even if they all originated from targets in a staging environment).
 
-## Client Calculations and Derived Metrics
+### Client Calculations and Derived Metrics
 
 Exposers should leave any math or calculation up to ingestors. A notable exception is the  Summary quantile which is unfortunately required for backwards compatibility. Exposition should be of raw values which are useful over arbitrary time periods.
 
@@ -1256,13 +1049,13 @@ This design decision can be revisited when 128bit floating point numbers become 
 
 Another example is to avoid exposing a request failure ratio, exposing separate counters for failed requests and total requests instead.
 
-## Number Types
+### Number Types
 
 For a counter that was incremented a million times per second it would take over a century to begin to lose precision with a float64 as it has a 53 bit mantissa. Yet a 100 Gbps network interface's octet throughput precision could begin to be lost with a float64 within around 20 hours. While losing 1KB of precision over the course of years for a 100Gbps network interface is unlikely to be a problem in practice, int64s are an option for integral data with such a high throughput.
 
 Summary quantiles must be float64, as they are estimates and thus fundamentally inaccurate.
 
-## Exposing Timestamps
+### Exposing Timestamps
 
 One of the core assumptions of OpenMetrics is that exposers expose the most up to date snapshot of what they're exposing.
 
@@ -1274,24 +1067,28 @@ With timestamped metrics it is not generally possible to detect the time when a 
 
 All of this is to say that, in general, MetricPoint timestamps should not be exposed, as it should be up to the ingestor to apply their own timestamps to samples they ingest.
 
-### Tracking When Metrics Last Changed
+#### Tracking When Metrics Last Changed
 
 Presume you had a counter my_counter which was initialized, and then later incremented by 1 at time 123. This would be a correct way to expose it in the text format:
-~~~~
+
+```
 # HELP my_counter Good increment example
 # TYPE my_counter counter
 my_counter_total 1
-~~~~
+```
+
 As per the parent section, ingestors should be free to attach their own timestamps, so this would be incorrect:
-~~~~
+
+```
 # HELP my_counter Bad increment example
 # TYPE my_counter counter
 my_counter_total 1 123
-~~~~
+```
 
 
 In case the specific time of the last change of a counter matters, this would be the correct way:
-~~~~
+
+```
 # HELP my_counter Good increment example
 # TYPE my_counter counter
 my_counter_total 1
@@ -1299,48 +1096,51 @@ my_counter_total 1
 # TYPE my_counter_last_increment_timestamp_seconds gauge
 # UNIT my_counter_last_increment_timestamp_seconds seconds
 my_counter_last_increment_timestamp_seconds 123
-~~~~
+```
 
 By putting the timestamp of last change into its own Gauge as a value, ingestors are free to attach their own timestamp to both Metrics.
 
 
-Experience has shown that exposing absolute timestamps (epoch is considered absolute here) is more robust than time elapsed, seconds since, or similar. In either case, they would be gauges. For example
-~~~~
+Experience has shown that exposing absolute timestamps (epoch is considered absolute here) is more robust than time elapsed, seconds since, or similar. In either case, they would be gauges. For example:
+
+```
 # TYPE my_boot_time_seconds gauge
 # HELP my_boot_time_seconds Boot time of the machine
 # UNIT my_boot_time_seconds seconds
 my_boot_time_seconds 1256060124
-~~~~
+```
 
-Is better than
-~~~~
+Is better than:
+
+```
 # TYPE my_time_since_boot_seconds gauge
 # HELP my_time_since_boot_seconds Time elapsed since machine booted
 # UNIT my_time_since_boot_seconds seconds
 my_time_since_boot_seconds 123
-~~~~
+```
 
 Conversely, there are no best practice restrictions on exemplars timestamps.
 Keep in mind that due to race conditions or time not being perfectly synced across devices, that an exemplar timestamp may appear to be slightly in the future relative to a ingestor's system clock or other metrics from the same exposition. Similarly it is possible that a "_created" for a MetricPoint could appear to be slightly after an exemplar or sample timestamp for that same MetricPoint.
 
 Keep in mind that there are monitoring systems in common use which support everything from nanosecond to second resolution, so having two MetricPoints that have the same timestamp when truncated to second resolution may cause an apparent duplicate in the ingestor. In this case the MetricPoint with the earliest timestamp MUST be used.
 
-## Thresholds
+### Thresholds
 
 Exposing desired bounds for a system can make sense, but proper care needs to be taken. For values which are universally true, it can make sense to emit Gauge metrics for such thresholds. For example, a data center HVAC system knows the current measurements, the setpoints, and the alert setpoints. It has a globally valid and correct view of the desired system state.
 As a counter example, some thresholds can change with scale, deployment model, or over time. A certain amount of CPU usage may be acceptable in one setting and undesirable in another. Aggregation of values can further change acceptable values. In such a system, exposing bounds could be counter-productive.
 
 For example the maximum size of a queue may be exposed alongside the number of items currently in the queue like:
-~~~~
+
+```
 # HELP acme_notifications_queue_capacity The capacity of the notifications queue.
 # TYPE acme_notifications_queue_capacity gauge
 acme_notifications_queue_capacity 10000
 # HELP acme_notifications_queue_length The number of notifications in the queue.
 # TYPE acme_notifications_queue_length gauge
 acme_notifications_queue_length 42
-~~~~
+```
 
-## Size Limits
+### Size Limits
 
 This standard does not prescribe any particular limits on the number of samples exposed by a single exposition, the number of labels that may be present, the number of states a stateset may have, the number of labels in an info value, or metric name/label name/label value/help character limits.
 
@@ -1358,7 +1158,7 @@ If all targets of a particular type are exposing the same set of time series, th
 
 There is a hard 128 UTF-8 character limit on exemplar length, to prevent misuse of the feature for tracing span data and other event logging.
 
-# Security Considerations {#Security}
+## Security
 
 Implementors MAY choose to offer authentication, authorization, and accounting; if they so choose, this SHOULD be handled outside of OpenMetrics.
 
@@ -1367,7 +1167,7 @@ If an exposer implementation does not support encryption, operators SHOULD use r
 
 Metric exposition should be independent of production services exposed to end users; as such, having a /metrics endpoint on ports like TCP/80, TCP/443, TCP/8080, and TCP/8443 is generally discouraged for publicly exposed services using OpenMetrics.
 
-# IANA Considerations {#IANA}
+## IANA
 
 While currently most implementations of the Prometheus exposition format are using non-IANA-registered ports from an informal registry at {{PrometheusPorts}}, OpenMetrics can be found on a well-defined port.
 
@@ -1377,8 +1177,10 @@ If more than one metric endpoint needs to be reachable at a common IP address an
 
 OpenMetrics would like to register two MIME types, `application/openmetrics-text` and `application/openmetrics-proto`.
 
-EDITOR’S NOTE: `application/openmetrics-text` is in active use since 2018, `application/openmetrics-proto` is not yet in active use.
+<!---
+# EDITOR’S NOTE: `application/openmetrics-text` is in active use since 2018, `application/openmetrics-proto` is not yet in active use.
+-->
 
-EDITOR'S NOTE: We would like to thank Sumeer Bhola, but kramdown 2.x does not support `Contributor:` any more so we will add this by hand once consensus has been achieved.
-
---- back
+<!---
+# EDITOR’S NOTE: We would like to thank Sumeer Bhola, but kramdown 2.x does not support `Contributor:` any more so we will add this by hand once consensus has been achieved.
+-->

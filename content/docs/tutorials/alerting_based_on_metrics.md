@@ -1,5 +1,5 @@
 ---
-title: Alerting based on metrics.
+title: Alerting based on metrics
 sort_rank: 5
 ---
 

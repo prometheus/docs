@@ -43,9 +43,8 @@ A metric name...
   * <code>prometheus\_tsdb\_head\_truncations\_closed\_total</code>
   * <code>prometheus\_tsdb\_head\_truncations\_established\_total</code>
   * <code>prometheus\_tsdb\_head\_truncations\_failed\_total</code>
-  * <code>prometheus\_tsdb\_head\_truncations\_total</code>
-
-  The following examples are also valid, but are following a different trade-off. They are easier to read individually, but unrelated metrics like <code>prometheus\_tsdb\_head\_series</code> might get sorted in between.
+  * <code>prometheus\_tsdb\_head\_truncations\_total</code><br/>
+  The following examples are also valid, but are following a different trade-off. They are easier to read individually, but unrelated metrics like <code>prometheus\_tsdb\_head\_series</code> might get sorted in between.  
   * <code>prometheus\_tsdb\_head\_closed\_truncations\_total</code>
   * <code>prometheus\_tsdb\_head\_established\_truncations\_total</code>
   * <code>prometheus\_tsdb\_head\_failed\_truncations\_total</code>

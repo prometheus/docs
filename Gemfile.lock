@@ -91,7 +91,7 @@ GEM
       nanoc-cli (~> 4.11, >= 4.11.15)
       nanoc-core (~> 4.11, >= 4.11.15)
     nenv (0.3.0)
-    nokogiri (1.18.3)
+    nokogiri (1.18.4)
       mini_portile2 (~> 2.8.2)
       racc (~> 1.4)
     notiffany (0.1.3)

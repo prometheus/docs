@@ -16,7 +16,7 @@ This document guides you through the UTF-8 transition details.
 
 # Go Instrumentation 
 
-Currently, metrics created by the official Prometheus [client_golang library](github.com/prometheus/client_golang) will reject UTF-8 names
+Currently, metrics created by the official Prometheus [client_golang library](https://github.com/prometheus/client_golang) will reject UTF-8 names
 by default. It is necessary to change the default validation scheme to allow
 UTF-8. The requirement to set this value will be removed in a future version of
 the common library.

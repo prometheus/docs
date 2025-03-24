@@ -97,7 +97,7 @@ OTLP receiver in Prometheus 3.0 still normalizes all names to Prometheus format 
       translation_strategy: NoUTF8EscapingWithSuffixes
 
 
-See [OpenTelemetry guide](./opentelemetry) for more details.
+See [OpenTelemetry guide](opentelemetry.md) for more details.
 
 
 # Querying

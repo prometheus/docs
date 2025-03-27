@@ -83,7 +83,7 @@ there are certain worth attaching to all your OTLP metrics.
 
 By default, Prometheus won't be promoting any attributes. If you'd like to promote any
 of them, you can do so in this section of the Prometheus configuration file. The following
-snippet shares the best practise set of attributes to promote:
+snippet shares the best practice set of attributes to promote:
 
 ```yaml
 otlp:

@@ -16,7 +16,7 @@ This document guides you through the UTF-8 transition details.
 
 # Go Instrumentation 
 
-Currently, metrics created by the official Prometheus [client_golang library](github.com/prometheus/client_golang) will reject UTF-8 names
+Currently, metrics created by the official Prometheus [client_golang library](https://github.com/prometheus/client_golang) will reject UTF-8 names
 by default. It is necessary to change the default validation scheme to allow
 UTF-8. The requirement to set this value will be removed in a future version of
 the common library.
@@ -97,7 +97,7 @@ OTLP receiver in Prometheus 3.0 still normalizes all names to Prometheus format 
       translation_strategy: NoUTF8EscapingWithSuffixes
 
 
-See [OpenTelemetry guide](./opentelemetry) for more details.
+See [OpenTelemetry guide](/docs/guides/opentelemetry) for more details.
 
 
 # Querying

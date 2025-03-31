@@ -152,7 +152,7 @@ and it is also available to use for federating metrics since at least v2.23.0.
 
 ### Exemplars (Experimental)
 
-Utilizing the OpenMetrics format allows for the exposition and querying of [Exemplars](https://github.com/OpenObservability/OpenMetrics/blob/main/specification/OpenMetrics.md#exemplars).
+Utilizing the OpenMetrics format allows for the exposition and querying of [Exemplars](https://github.com/prometheus/OpenMetrics/blob/v1.0.0/specification/OpenMetrics.md#exemplars).
 Exemplars provide a point in time snapshot related to a metric set for an otherwise summarized MetricFamily. Additionally they may have a Trace ID attached to them which when used to together
 with a tracing system can provide more detailed information related to the specific service.
 

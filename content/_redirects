@@ -20,8 +20,11 @@
 /docs/alerting/notification_examples/       /docs/alerting/latest/notification_examples/
 /docs/alerting/management_api/              /docs/alerting/latest/management_api/
 
-# Moved RW spec from Concepts to a new section.
-/docs/concepts/remote_write_spec /docs/specs/remote_write_spec
+# Moved PRW spec from Concepts to a new section.
+/docs/concepts/remote_write_spec  /docs/specs/prw/remote_write_spec
+# Moved PRW into separate dir.
+/docs/specs/remote_write_spec /docs/specs/prw/remote_write_spec
+/docs/specs/remote_write_spec_2_0 /docs/specs/prw/remote_write_spec_2_0
 
 # Redirect for HTTP SD docs, which briefly lived in the wrong category / repo.
 /docs/instrumenting/http_sd/ /docs/prometheus/latest/http_sd/

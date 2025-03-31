@@ -6,7 +6,8 @@ build: clean downloads compile
 
 bundle:
 	bundle config build.nokogiri --use-system-libraries
-	bundle install --path vendor
+	bundle config set path vendor
+	bundle install
 
 clean:
 	rm -rf output downloads

@@ -25,10 +25,11 @@ use a counter for the number of currently running processes; instead use a gauge
 Client library usage documentation for counters:
 
    * [Go](http://godoc.org/github.com/prometheus/client_golang/prometheus#Counter)
-   * [Java](https://github.com/prometheus/client_java#counter)
+   * [Java](https://prometheus.github.io/client_java/getting-started/metric-types/#counter)
    * [Python](https://prometheus.github.io/client_python/instrumenting/counter/)
    * [Ruby](https://github.com/prometheus/client_ruby#counter)
    * [.Net](https://github.com/prometheus-net/prometheus-net#counters)
+   * [Rust](https://docs.rs/prometheus-client/latest/prometheus_client/metrics/counter/index.html)
 
 ## Gauge
 
@@ -42,10 +43,11 @@ concurrent requests.
 Client library usage documentation for gauges:
 
    * [Go](http://godoc.org/github.com/prometheus/client_golang/prometheus#Gauge)
-   * [Java](https://github.com/prometheus/client_java#gauge)
+   * [Java](https://prometheus.github.io/client_java/getting-started/metric-types/#gauge)
    * [Python](https://prometheus.github.io/client_python/instrumenting/gauge/)
    * [Ruby](https://github.com/prometheus/client_ruby#gauge)
    * [.Net](https://github.com/prometheus-net/prometheus-net#gauges)
+   * [Rust](https://docs.rs/prometheus-client/latest/prometheus_client/metrics/gauge/index.html)
 
 ## Histogram
 
@@ -77,13 +79,18 @@ observations. Native histograms allow much higher resolution at a fraction of
 the cost. Detailed documentation will follow once native histograms are closer
 to becoming a stable feature.
 
+NOTE: Beginning with Prometheus v3.0, the values of the `le` label of classic
+histograms are normalized during ingestion to follow the format of
+[OpenMetrics Canonical Numbers](https://github.com/prometheus/OpenMetrics/blob/main/specification/OpenMetrics.md#considerations-canonical-numbers).
+
 Client library usage documentation for histograms:
 
    * [Go](http://godoc.org/github.com/prometheus/client_golang/prometheus#Histogram)
-   * [Java](https://github.com/prometheus/client_java#histogram)
+   * [Java](https://prometheus.github.io/client_java/getting-started/metric-types/#histogram)
    * [Python](https://prometheus.github.io/client_python/instrumenting/histogram/)
    * [Ruby](https://github.com/prometheus/client_ruby#histogram)
    * [.Net](https://github.com/prometheus-net/prometheus-net#histogram)
+   * [Rust](https://docs.rs/prometheus-client/latest/prometheus_client/metrics/histogram/index.html)
 
 ## Summary
 
@@ -103,10 +110,13 @@ See [histograms and summaries](/docs/practices/histograms) for
 detailed explanations of φ-quantiles, summary usage, and differences
 to [histograms](#histogram).
 
+NOTE: Beginning with Prometheus v3.0, the values of the `quantile` label are normalized during
+ingestion to follow the format of [OpenMetrics Canonical Numbers](https://github.com/prometheus/OpenMetrics/blob/main/specification/OpenMetrics.md#considerations-canonical-numbers).
+
 Client library usage documentation for summaries:
 
    * [Go](http://godoc.org/github.com/prometheus/client_golang/prometheus#Summary)
-   * [Java](https://github.com/prometheus/client_java#summary)
+   * [Java](https://prometheus.github.io/client_java/getting-started/metric-types/#summary)
    * [Python](https://prometheus.github.io/client_python/instrumenting/summary/)
    * [Ruby](https://github.com/prometheus/client_ruby#summary)
    * [.Net](https://github.com/prometheus-net/prometheus-net#summary)

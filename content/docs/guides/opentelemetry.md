@@ -8,15 +8,59 @@ Prometheus supports [OTLP](https://opentelemetry.io/docs/specs/otlp) (aka "OpenT
 
 ## Enable the OTLP receiver
 
-By default, the OTLP receiver is disabled. This is because Prometheus can work without any authentication, so it would not be safe to accept incoming traffic unless explicitly configured.
+By default, the OTLP receiver is disabled, similarly to the Remote Write receiver.
+This is because Prometheus can work without any authentication, so it would not be
+safe to accept incoming traffic unless explicitly configured.
 
-To enable the receiver you need to toggle the flag `--enable-feature=otlp-write-receiver`.
+To enable the receiver you need to toggle the CLI flag `--web.enable-otlp-receiver`. 
+This will cause Prometheus to serve OTLP metrics receiving on HTTP `/api/v1/otlp/v1/metrics` path. 
 
 ```shell
-$ prometheus --enable-feature=otlp-write-receiver
+$ prometheus --web.enable-otlp-receiver
 ```
 
-## Enable out-of-order ingestion
+## Send OpenTelemetry Metrics to the Prometheus Server
+
+Generally you need to tell the source of the OTLP metrics traffic about Prometheus endpoint and the fact that the
+[HTTP](https://opentelemetry.io/docs/specs/otlp/#otlphttp) mode of OTLP should be used (gRPC is usually a default).
+
+OpenTelemetry SDKs and instrumentation libraries can be usually configured via [standard environment variables](https://opentelemetry.io/docs/languages/sdk-configuration/). The following are the OpenTelemetry variables needed to send OpenTelemetry metrics to a Prometheus server on localhost:
+
+```shell
+export OTEL_EXPORTER_OTLP_PROTOCOL=http/protobuf
+export OTEL_EXPORTER_OTLP_METRICS_ENDPOINT=http://localhost:9090/api/v1/otlp/v1/metrics
+```
+
+Turn off traces and logs:
+
+```shell
+export OTEL_TRACES_EXPORTER=none
+export OTEL_LOGS_EXPORTER=none
+```
+
+The default push interval for OpenTelemetry metrics is 60 seconds. The following will set a 15 second push interval:
+
+```shell
+export OTEL_METRIC_EXPORT_INTERVAL=15000
+```
+
+If your instrumentation library does not provide `service.name` and `service.instance.id` out-of-the-box, it is highly recommended to set them.
+
+```shell
+export OTEL_SERVICE_NAME="my-example-service"
+export OTEL_RESOURCE_ATTRIBUTES="service.instance.id=$(uuidgen)"
+```
+
+The above assumes that `uuidgen` command is available on your system. Make sure that `service.instance.id` is unique for each instance, and that a new `service.instance.id` is generated whenever a resource attribute chances. The [recommended](https://github.com/open-telemetry/semantic-conventions/tree/main/docs/resource) way is to generate a new UUID on each startup of an instance.
+
+## Configuring Prometheus
+
+This section explains various recommended configuration aspects of Prometheus server to enable and tune your OpenTelemetry flow.
+
+See the example Prometheus configuration [file](https://github.com/prometheus/prometheus/blob/main/documentation/examples/prometheus-otlp.yml)
+we will use in the below section.
+
+### Enable out-of-order ingestion
 
 There are multiple reasons why you might want to enable out-of-order ingestion.
 
@@ -32,46 +76,46 @@ storage:
 
 30 minutes of out-of-order have been enough for most cases but don't hesitate to adjust this value to your needs.
 
-## Promoting resource attributes
+### Promoting resource attributes
 
-Based on experience and conversations with our community, we've found that out of all the commonly seen resource attributes, these are the ones that are most frequently promoted by our users:
+Based on experience and conversations with our community, we've found that out of all the commonly seen resource attributes,
+there are certain worth attaching to all your OTLP metrics.
 
-```yaml
-- service.instance.id
-- service.name
-- service.namespace
-- cloud.availability_zone
-- cloud.region
-- container.name
-- deployment.environment
-- k8s.cluster.name
-- k8s.container.name
-- k8s.cronjob.name
-- k8s.daemonset.name
-- k8s.deployment.name
-- k8s.job.name
-- k8s.namespace.name
-- k8s.pod.name
-- k8s.replicaset.name
-- k8s.statefulset.name
-```
-
-By default Prometheus won't be promoting any attributes. If you'd like to promote any of them, you can do so in this section of the Prometheus configuration file:
+By default, Prometheus won't be promoting any attributes. If you'd like to promote any
+of them, you can do so in this section of the Prometheus configuration file. The following
+snippet shares the best practice set of attributes to promote:
 
 ```yaml
 otlp:
-  resource_attributes:
+  # Recommended attributes to be promoted to labels.
+  promote_resource_attributes:
     - service.instance.id
+    - service.name
+    - service.namespace
+    - service.version
+    - cloud.availability_zone
+    - cloud.region
+    - container.name
     - deployment.environment
+    - deployment.environment.name
     - k8s.cluster.name
-    - ...
+    - k8s.container.name
+    - k8s.cronjob.name
+    - k8s.daemonset.name
+    - k8s.deployment.name
+    - k8s.job.name
+    - k8s.namespace.name
+    - k8s.pod.name
+    - k8s.replicaset.name
+    - k8s.statefulset.name
 ```
 
 ## Including resource attributes at query time
 
-An alternative to promoting resource attributes, as described in the previous section, is to add labels from the `target_info` metric when querying.
+All non-promoted, more verbose or unique labels are attached to a special `target_info`.
 
-This is conceptually known as a "join" query.
+You can use this metric to join some labels on query time.
+
 An example of such a query can look like the following:
 
 ```promql
@@ -88,25 +132,39 @@ So, what is the relation between the `target_info` metric and OTel resource attr
 When Prometheus processes an OTLP write request, and provided that contained resources include the attributes `service.instance.id` and/or `service.name`, Prometheus generates the info metric `target_info` for every (OTel) resource.
 It adds to each such `target_info` series the label `instance` with the value of the `service.instance.id` resource attribute, and the label `job` with the value of the `service.name` resource attribute.
 If the resource attribute `service.namespace` exists, it's prefixed to the `job` label value (i.e., `<service.namespace>/<service.name>`).
-The rest of the resource attributes are also added as labels to the `target_info` series, names converted to Prometheus format (e.g. dots converted to underscores).
+
+By default `service.name`, `service.namespace` and `service.instance.id` themselves are not added to `target_info`, because they are converted into `job` and `instance`. However the following configuration parameter can be enabled to add them to `target_info` directly (going through normalization to replace dots with underscores, if `otlp.translation_strategy` is `UnderscoreEscapingWithSuffixes`) on top of the conversion into `job` and `instance`.
+
+```
+otlp:
+  keep_identifying_resource_attributes: true
+```
+
+The rest of the resource attributes are also added as labels to the `target_info` series, names converted to Prometheus format (e.g. dots converted to underscores) if `otlp.translation_strategy` is `UnderscoreEscapingWithSuffixes`.
 If a resource lacks both `service.instance.id` and `service.name` attributes, no corresponding `target_info` series is generated.
 
 For each of a resource's OTel metrics, Prometheus converts it to a corresponding Prometheus time series, and (if `target_info` is generated) adds the right `instance` and `job` labels.
 
 ## UTF-8
 
-The UTF-8 support for Prometheus is not ready yet so both the Prometheus Remote Write Exporter and the OTLP Ingestion endpoint still rely on the [Prometheus normalization translator package from OpenTelemetry](https://github.com/open-telemetry/opentelemetry-collector-contrib/tree/main/pkg/translator/prometheus).
+From the 3.x version, Prometheus supports UTF-8 for metric names and labels, so [Prometheus normalization translator package from OpenTelemetry](https://github.com/open-telemetry/opentelemetry-collector-contrib/tree/main/pkg/translator/prometheus) can be omitted.
 
-So if you are sending non-valid characters to Prometheus, they will be replaced with an underscore `_` character.
+UTF-8 is enabled by default in Prometheus storage and UI, but you need to `translation_strategy` for OTLP metric receiver, which by default is set to old normalization `UnderscoreEscapingWithSuffixes`.
 
-Once the UTF-8 feature is merged into Prometheus, we will revisit this.
+Setting it to `NoUTF8EscapingWithSuffixes`, which we recommend, will disable changing special characters to `_` which allows native use of OpenTelemetry metric format, especially with [the semantic conventions](https://opentelemetry.io/docs/specs/semconv/general/metrics/). Note that special suffixes like units and `_total` for counters will be attached. There is [ongoing work to have no suffix generation](https://github.com/prometheus/proposals/pull/39), stay tuned for that. 
+
+```
+otlp:
+  # Ingest OTLP data keeping UTF-8 characters in metric/label names.
+  translation_strategy: NoUTF8EscapingWithSuffixes
+```
 
 ## Delta Temporality
 
-The [OpenTelemetry specification says](https://opentelemetry.io/docs/specs/otel/metrics/data-model/#temporality) that both Delta temporality and Cumulative temporality are supported.
+The [OpenTelemetry specification says](https://opentelemetry.io/docs/specs/otel/metrics/data-model/#temporality) that both Delta temporality and Cumulative temporality are supported. While delta temporality is common in systems like statsd and graphite, cumulative temporality is the default in Prometheus.
 
-While Delta temporality is common in systems like statsd and graphite, cumulative temporality is the default temporality for Prometheus.
+Today, Prometheus embeds the [delta to cumulative processor](https://github.com/open-telemetry/opentelemetry-collector-contrib/tree/main/processor/deltatocumulativeprocessor) from [OpenTelemetry-Collector-contrib](https://github.com/open-telemetry/opentelemetry-collector-contrib), which is capable of ingesting deltas and transforming them into the equivalent cumulative representation before storing in Prometheus' TSDB.
 
-Today Prometheus does not have support for delta temporality but we are learning from the OpenTelemetry community and we are considering adding support for it in the future.
+This feature is ***experimental***, so start Prometheus with the feature-flag `otlp-deltatocumulative` enabled to use it.
 
-If you are coming from a delta temporality system we recommend that you use the [delta to cumulative processor](https://github.com/open-telemetry/opentelemetry-collector-contrib/tree/main/processor/deltatocumulativeprocessor) in your OTel pipeline.
+The team is still working on a more efficient way of handling OTLP deltas.

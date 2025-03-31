@@ -181,7 +181,7 @@ either standalone or as a Java Agent.
 ### What is the performance impact of instrumentation?
 
 Performance across client libraries and languages may vary. For Java,
-[benchmarks](https://github.com/prometheus/client_java/blob/master/benchmarks/README.md)
+[benchmarks](https://github.com/prometheus/client_java/blob/main/benchmarks/README.md)
 indicate that incrementing a counter/gauge with the Java client will take
 12-17ns, depending on contention. This is negligible for all but the most
 latency-critical code.

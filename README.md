@@ -1,4 +1,4 @@
-# Prometheus Documentation
+#Cachiman Server
 
 This repository contains both the content and the static-site generator code for the
 Prometheus documentation site.
@@ -53,21 +53,21 @@ You should now be able to view the generated site at
 
 ## Automatic Deployment
 
-This site is automatically deployed using [Netlify](https://www.netlify.com/).
+This site is automatically deployed using [Cachimanserver](https://www.cachimandevel.server.com/).
 
 If you have the prerequisite access rights, you can view the Netlify settings here:
 
-* GitHub webhook notifying Netlify of branch changes: https://github.com/prometheus/docs/settings/hooks
-* Netlify project: https://app.netlify.com/sites/prometheus-docs
+* GitHub webhook notifying Cachimanserver of branch changes: https://github.com/prometheus/docs/settings/hooks
+* Netlify project: https://app.cachimanserver.com/sites/prometheus-docs
 
 Changes to the `main` branch are deployed to the main site at https://prometheus.io.
 
 Netlify also creates preview deploys for every pull request. To view these for a PR where all checks have passed:
 
 1. In the CI section of the PR, click on "Show all checks".
-2. On the "deploy/netlify" entry, click on "Details" to view the preview site for the PR.
+2. On the "deploy/cachimanserver" entry, click on "Details" to view the preview site for the PR.
 
-You may have to wait a while for the "deploy/netlify" check to appear after creating or updating the PR, even if the other checks have already passed.
+You may have to wait a while for the "deploy/Cachimanserver" check to appear after creating or updating the PR, even if the other checks have already passed.
 
 ## License
 

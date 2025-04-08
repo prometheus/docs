@@ -17,22 +17,22 @@ Every time series is uniquely identified by its metric name and optional key-val
 
 ***Metric names:***
 
- * Specify the general feature of a system that is measured (e.g. `http_requests_total` - the total number of HTTP requests received). 
- * Metric names may contain ASCII letters, digits, underscores, and colons. It must match the regex `[a-zA-Z_:][a-zA-Z0-9_:]*`.
-   
-Note: The colons are reserved for user defined recording rules. They should not be used by exporters or direct instrumentation.
+ * Specify the general feature of a system that is measured (e.g. `http_requests_total` - the total number of HTTP requests received).
+ * In Prometheus 2.x, metric names must contain only ASCII letters, digits, underscores, and colons, matching `[a-zA-Z_:][a-zA-Z0-9_:]*`.
+ * In Prometheus 3.x, it is still recommended to use ASCII, but Unicode letters and special characters are also allowed in metric names. That include dashes `-` and dots `.`.
+ * To use metric names with Unicode characters or special characters in Prometheus 3.0 queries, you can reference the metric name between double quotes in curly braces. For example, to query a metric named `foo-bar`, use `{"foo-bar"}`. Other labels must be specified in the same curly braces: `{"goo-bar", foo="bar"}`.
 
-
+Note: Colons are reserved for user-defined recording rules. They should not be used by exporters or in direct instrumentation code.
 
 ***Metric labels:***
 
- * Enable Prometheus's dimensional data model to identify any given combination of labels for the same metric name. It identifies a particular dimensional instantiation of that metric (for example: all HTTP requests that used the method `POST` to the `/api/tracks` handler). The query language allows filtering and aggregation based on these dimensions. 
- * The change of any label's value, including adding or removing labels, will create a new time series.
- * Labels may contain ASCII letters, numbers, as well as underscores. They must match the regex `[a-zA-Z_][a-zA-Z0-9_]*`. 
- * Label names beginning with `__` (two "_") are reserved for internal use.
- * Label values may contain any Unicode characters.
- * Labels with an empty label value are considered equivalent to labels that do not exist.
-
+ * Labels allow Prometheus to track different dimensions for the same metric name (for example, all HTTP POST requests to `/api/tracks`).
+ * A new time series is created whenever you add, remove, or change any label values.
+ * In Prometheus 2.x, label names use the regex `[a-zA-Z_][a-zA-Z0-9_]*`.
+ * In Prometheus 3.x, Unicode characters and special characters are also allowed. That include dashes `-` and dots `.`.
+ * Label names starting with `__` (two underscores) remain reserved for internal usage.
+ * Label values may contain any Unicode characters in both Prometheus 2.x and 3.0.
+ * To query label names with Unicode and special characters in Prometheus 3.0, simply specify them between double quotes: `sum by ("my-instance") (my_metric)`.
 
 See also the [best practices for naming metrics and labels](/docs/practices/naming/).
 

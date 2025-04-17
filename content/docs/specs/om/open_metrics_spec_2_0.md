@@ -48,6 +48,10 @@ OpenMetrics is primarily a wire format, independent of any particular transport 
 
 Implementers MUST expose metrics in the OpenMetrics text format in response to a simple HTTP GET request to a documented URL for a given process or device. This endpoint SHOULD be called "/metrics". Implementers MAY also expose OpenMetrics formatted metrics in other ways, such as by regularly pushing metric sets to an operator-configured endpoint over HTTP.
 
+## Changes from version 1.0
+
+In the data model, histograms are no longer required to omit the Sum if there are negative measured event values. #2627.
+
 ### Metrics and Time Series
 
 This standard expresses all system states as numerical values; counts, current values, enumerations, and boolean states being common examples. Contrary to metrics, singular events occur at a specific time. Metrics tend to aggregate data temporally. While this can lose information, the reduction in overhead is an engineering trade-off commonly chosen in many modern monitoring systems.
@@ -220,12 +224,16 @@ Histograms measure distributions of discrete events. Common examples are the lat
 
 A Histogram MetricPoint MUST contain at least one bucket, and SHOULD contain Sum, and Created values. Every bucket MUST have a threshold and a value.
 
-Histogram MetricPoints MUST have one bucket with an +Inf threshold. Buckets MUST be cumulative. As an example for a metric representing request latency in seconds its values for buckets with thresholds 1, 2, 3, and +Inf MUST follow value_1 <= value_2 <= value_3 <= value_+Inf. If ten requests took 1 second each, the values of the 1, 2, 3, and +Inf buckets MUST equal 10.
+Histogram MetricPoints MUST have one bucket with threshold equal to +Inf. Buckets MUST be cumulative.
+As an example: for a metric representing request latency in seconds that has the following bucket thresholds: 1, 2, 3, and +Inf,
+it MUST follow that value_1 <= value_2 <= value_3 <= value_+Inf. If ten requests took 1 second each, the values of the 1, 2, 3, and +Inf buckets MUST equal 10.
+Or in other words, the count of measured event values that are >1 and <=2 is equal to value_2 - value_1.
 
-The +Inf bucket counts all requests. If present, the Sum value MUST equal the Sum of all the measured event values. Bucket thresholds within a MetricPoint MUST be unique.
+The +Inf bucket counts all requests. Bucket thresholds within a MetricPoint MUST be unique. Negative threshold buckets MAY be used. Bucket thresholds MUST NOT equal NaN.
 
-Semantically, Sum, and buckets values are counters so MUST NOT be NaN or negative.
-Negative threshold buckets MAY be used, but then the Histogram MetricPoint MUST NOT contain a sum value as it would no longer be a counter semantically. Bucket thresholds MUST NOT equal NaN. Count and bucket values MUST be integers.
+Semantically, buckets values are counters so MUST NOT be NaN or negative. Bucket values MUST be integers.
+
+If present, the Sum value MUST equal the Sum of all the measured event values. The histogram MAY count negative event values, which means that the Sum may decrease.
 
 A Histogram MetricPoint SHOULD have a Timestamp value called Created. This can help ingestors discern between new metrics and long-running ones it did not see before.
 

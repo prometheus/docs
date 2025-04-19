@@ -1978,7 +1978,8 @@ averaged histogram.)
 Similarly, `histogram_stddev()` and `histogram_stdvar()` return the estimated
 standard deviation or standard variance, respectively, of the observations in a
 native histogram. For this estimation, all observations in a bucket are assumed to
-have the value of the geometric mean of the bucket boundaries.
+have the value of the geometric mean (or arithmetic mean for custom bucket histogram
+samples) of the bucket boundaries.
 
 `histogram_fraction(lower, upper, histogram)` returns the estimated fraction of
 observations in `histogram` between the provided boundaries, the scalar values

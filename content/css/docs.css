@@ -1,5 +1,5 @@
 body {
-  font-family: 'Open Sans', 'Helvetica Neue', Helvetica, sans-serif;
+  font-family: "Open Sans", "Helvetica Neue", Helvetica, sans-serif;
 }
 
 .navbar {
@@ -41,7 +41,7 @@ body {
 .main-nav {
   margin-top: 3px;
   letter-spacing: 1px;
-  font-family: 'Lato', sans-serif;
+  font-family: "Lato", sans-serif;
   font-size: 15px;
 }
 
@@ -60,14 +60,20 @@ body {
   background: #e6522c20;
 }
 
-.algolia-autocomplete .algolia-docsearch-suggestion--category-header .algolia-docsearch-suggestion--category-header-lvl0
-.algolia-docsearch-suggestion--highlight,
-.algolia-autocomplete .algolia-docsearch-suggestion--category-header .algolia-docsearch-suggestion--category-header-lvl1
-.algolia-docsearch-suggestion--highlight {
+.algolia-autocomplete
+  .algolia-docsearch-suggestion--category-header
+  .algolia-docsearch-suggestion--category-header-lvl0
+  .algolia-docsearch-suggestion--highlight,
+.algolia-autocomplete
+  .algolia-docsearch-suggestion--category-header
+  .algolia-docsearch-suggestion--category-header-lvl1
+  .algolia-docsearch-suggestion--highlight {
   box-shadow: inset 0 -2px 0 0 #e6522cc0;
 }
 
-.algolia-autocomplete .algolia-docsearch-suggestion--text .algolia-docsearch-suggestion--highlight {
+.algolia-autocomplete
+  .algolia-docsearch-suggestion--text
+  .algolia-docsearch-suggestion--highlight {
   box-shadow: inset 0 -2px 0 0 #e6522cc0;
 }
 
@@ -98,13 +104,13 @@ body {
 .jumbotron .subtitle {
   font-weight: 300;
   font-size: 32px;
-  color: rgba(255,255,255,0.8);
+  color: rgba(255, 255, 255, 0.8);
   margin-bottom: 20px;
 }
 
 .jumbotron a.btn {
   border: none;
-  background-color: rgba(0,0,0,0.15);
+  background-color: rgba(0, 0, 0, 0.15);
   color: #fff;
   padding: 20px 25px 20px 25px;
   margin: 15px 10px 0 10px;
@@ -112,7 +118,7 @@ body {
 }
 
 .jumbotron a.btn:hover {
-  background-color: rgba(0,0,0,0.25);
+  background-color: rgba(0, 0, 0, 0.25);
   color: #fff;
 }
 
@@ -131,7 +137,7 @@ body {
 }
 
 .feature-item {
-  font-family: 'Lato', sans-serif;
+  font-family: "Lato", sans-serif;
   font-weight: 300;
   cursor: pointer;
 }
@@ -175,7 +181,7 @@ body {
 
 .quote {
   margin: 25px 0 25px 0;
-  font-family: 'Lato', sans-serif;
+  font-family: "Lato", sans-serif;
   font-weight: 300;
   text-align: center;
 }
@@ -196,7 +202,7 @@ body {
 
 .open-source {
   margin: 25px 0 20px 0;
-  font-family: 'Lato', sans-serif;
+  font-family: "Lato", sans-serif;
   font-weight: 300;
   text-align: center;
 }
@@ -225,7 +231,7 @@ body {
 }
 
 .trusted-by {
-  font-family: 'Lato', sans-serif;
+  font-family: "Lato", sans-serif;
   font-size: 20px;
   font-weight: 300;
   padding-bottom: 10px;
@@ -244,7 +250,6 @@ body {
   max-width: 220px;
   max-height: 101px;
 }
-
 
 footer {
   font-size: 12px;
@@ -268,7 +273,8 @@ footer {
   padding-right: 1em;
 }
 
-.downloads td, .downloads th {
+.downloads td,
+.downloads th {
   white-space: nowrap;
 }
 
@@ -278,7 +284,7 @@ footer {
 
 .downloads .checksum {
   font-family: monospace;
-  font-size: .6em;
+  font-size: 0.6em;
   vertical-align: inherit;
 }
 
@@ -319,7 +325,8 @@ footer {
   font-size: 16px;
 }
 
-.side-nav .nav-header a, .side-nav .nav-header {
+.side-nav .nav-header a,
+.side-nav .nav-header {
   color: #e6522c;
   text-transform: uppercase;
   text-decoration: none;
@@ -345,7 +352,8 @@ footer {
   font-size: 16px;
 }
 
-.doc-content p, .doc-content.ul {
+.doc-content p,
+.doc-content.ul {
   margin: 15px 0 15px 0;
   line-height: 1.5;
 }
@@ -354,7 +362,8 @@ footer {
   margin: 15px 0 15px 0;
   line-height: 1.5;
   /* This is to prevent NOTE/admonition alert boxes from overlapping the table of contents at the top of a docs page. */
-  display: inline-block; width: 100%;
+  display: inline-block;
+  width: 100%;
 }
 
 .doc-content > h1 {
@@ -400,7 +409,7 @@ footer {
 }
 
 .doc-content a.header-anchor {
-  font-size: .8em;
+  font-size: 0.8em;
   padding-left: 8px;
   text-decoration: none;
 }
@@ -562,9 +571,48 @@ article {
   margin-bottom: 40px;
 }
 
-
 .training-cta .btn {
   text-transform: uppercase;
   border: 0px;
   padding: 25px;
+}
+
+.custom-banner {
+  background: #f2aa48;
+  color: #000;
+  padding: 20px 40px;
+  text-align: center;
+  font-family: Lato, sans-serif;
+  font-size: 18px;
+  position: relative;
+  width: 100%;
+}
+
+.banner-content {
+  display: inline-block;
+  width: 100%;
+}
+
+.banner-content p {
+  margin: 0;
+}
+
+.custom-banner {
+  font-size: 18px;
+  color: #000;
+  font-family: Lato, sans-serif;
+}
+
+.ti-close:hover {
+  color: #333;
+}
+
+.ti-close {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-family: Lato, sans-serif;
+  font-size: 18px;
+  cursor: pointer;
 }

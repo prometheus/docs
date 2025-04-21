@@ -10,13 +10,6 @@ exposition format. There are various [client libraries](/docs/instrumenting/clie
 that implement this format for you. If your preferred language doesn't have a client
 library you can [create your own](/docs/instrumenting/writing_clientlibs/).
 
-NOTE: Some earlier versions of Prometheus supported an exposition format based on
-[Protocol Buffers](https://developers.google.com/protocol-buffers/) (aka Protobuf) in
-addition to the current text-based format. As of version 2.0, however, Prometheus no
-longer supports the Protobuf-based format. You can read about the reasoning behind
-this change in [this
-document](https://github.com/OpenObservability/OpenMetrics/blob/master/legacy/markdown/protobuf_vs_text.md).
-
 ## Text-based format
 
 As of Prometheus version 2.0, all processes that expose metrics to Prometheus need to use
@@ -152,8 +145,38 @@ rpc_duration_seconds_sum 1.7560473e+07
 rpc_duration_seconds_count 2693
 ```
 
+## OpenMetrics Text Format
+
+[OpenMetrics](https://github.com/OpenObservability/OpenMetrics) is the an effort to standardize metric wire formatting built off of Prometheus text format. It is possible to scrape targets
+and it is also available to use for federating metrics since at least v2.23.0.
+
+### Exemplars (Experimental)
+
+Utilizing the OpenMetrics format allows for the exposition and querying of [Exemplars](https://github.com/prometheus/OpenMetrics/blob/v1.0.0/specification/OpenMetrics.md#exemplars).
+Exemplars provide a point in time snapshot related to a metric set for an otherwise summarized MetricFamily. Additionally they may have a Trace ID attached to them which when used to together
+with a tracing system can provide more detailed information related to the specific service.
+
+To enable this experimental feature you must have at least version v2.26.0 and add `--enable-feature=exemplar-storage` to your arguments.
+
+## Protobuf format
+
+Earlier versions of Prometheus supported an exposition format based on [Protocol Buffers](https://developers.google.com/protocol-buffers/) (aka Protobuf) in addition to the current text-based format. With Prometheus 2.0, the Protobuf format was marked as deprecated and Prometheus stopped ingesting samples from said exposition format.
+
+However, new experimental features were added to Prometheus where the Protobuf format was considered the most viable option. Making Prometheus accept Protocol Buffers once again.
+
+Here is a list of experimental features that, once enabled, will configure Prometheus to favor the Protobuf exposition format:
+
+| feature flag | version that introduced it |
+|--------------|----------------------------|
+| native-histograms | 2.40.0 |
+| created-timestamp-zero-ingestion | 2.50.0 |
+
 ## Historical versions
 
 For details on historical format versions, see the legacy
 [Client Data Exposition Format](https://docs.google.com/document/d/1ZjyKiKxZV83VI9ZKAXRGKaUKK2BIWCT7oiGBKDBpjEY/edit?usp=sharing)
 document.
+
+The current version of the original Protobuf format (with the recent extensions
+for native histograms) is maintained in the [prometheus/client_model
+repository](https://github.com/prometheus/client_model).

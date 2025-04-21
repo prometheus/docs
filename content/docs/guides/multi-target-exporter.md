@@ -390,13 +390,13 @@ This works, but it has a few disadvantages:
 1. The `instance` label has the value of the blackbox exporter’s address which is technically true, but not what we are interested in.
 1. We can’t see which URL we probed. This is unpractical and will also mix up different metrics into one if we probe several URLs.
 
-To fix this, we will use [relabeling](/docs/prometheus/latest/configuration/configuration/#<relabel_config>).
+To fix this, we will use [relabeling](/docs/prometheus/latest/configuration/configuration/#relabel_config).
 Relabeling is useful here because behind the scenes many things in Prometheus are configured with internal labels.
 The details are complicated and out of scope for this guide. Hence we will limit ourselves to the necessary. But if you want to know more check out this [talk](https://www.youtube.com/watch?v=b5-SvvZ7AwI). For now it suffices if you understand this:
 
 * All labels starting with `__` are dropped after the scrape. Most internal labels start with `__`.
 * You can set internal labels that are called `__param_<name>`. Those set URL parameter with the key `<name>` for the scrape request.
-* There is an internal label `__address__` which is set by the `targets` under `static_configs` and whose value is the hostname for the scrape request. By default it is later used to set the value for the label `instance`, which is attached to each metric and tells you were the metrics came from.
+* There is an internal label `__address__` which is set by the `targets` under `static_configs` and whose value is the hostname for the scrape request. By default it is later used to set the value for the label `instance`, which is attached to each metric and tells you where the metrics came from.
 
 Here is the config you will use to do that. Don’t worry if this is a bit much at once, we will go through it step by step:
 
@@ -480,7 +480,7 @@ Then we take the values from the label `__param_target` and create a label insta
 
 Our request will not change, but the metrics that come back from our request will now bear a label `instance="http://prometheus.io"`.
 
-After that we write the value `localhost:9115` (the URI of our exporter) to the the label `__address__`. This will be used as the hostname and port for the Prometheus scrape requests. So that it queries the exporter and not the target URI directly.
+After that we write the value `localhost:9115` (the URI of our exporter) to the label `__address__`. This will be used as the hostname and port for the Prometheus scrape requests. So that it queries the exporter and not the target URI directly.
 
 ```yaml
   relabel_configs:

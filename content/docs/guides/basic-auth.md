@@ -4,81 +4,94 @@ title: Basic auth
 
 # Securing Prometheus API and UI endpoints using basic auth
 
-Prometheus does not directly support [basic authentication](https://en.wikipedia.org/wiki/Basic_access_authentication) (aka "basic auth") for connections to the Prometheus [expression browser](/docs/visualization/browser) and [HTTP API](/docs/prometheus/latest/querying/api). If you'd like to enforce basic auth for those connections, we recommend using Prometheus in conjunction with a [reverse proxy](https://www.nginx.com/resources/glossary/reverse-proxy-server/) and applying authentication at the proxy layer. You can use any reverse proxy you like with Prometheus, but in this guide we'll provide an [nginx example](#nginx-example).
+Prometheus supports [basic authentication](https://en.wikipedia.org/wiki/Basic_access_authentication) (aka "basic auth") for connections to the Prometheus [expression browser](/docs/visualization/browser) and [HTTP API](/docs/prometheus/latest/querying/api).
 
-NOTE: Although basic auth connections *to* Prometheus instances are not supported, basic auth is supported for connections *from* Prometheus instances to [scrape targets](../../prometheus/latest/configuration/configuration/#scrape_config).
+NOTE: This tutorial covers basic auth connections *to* Prometheus instances. Basic auth is also supported for connections *from* Prometheus instances to [scrape targets](../../prometheus/latest/configuration/configuration/#scrape_config).
 
-## nginx example
+## Hashing a password
 
-Let's say that you want to run a Prometheus instance behind an [nginx](https://www.nginx.com/) server running on `localhost:12321`, and for all Prometheus endpoints to be available via the `/prometheus` endpoint. The full URL for Prometheus' `/metrics` endpoint would thus be:
+Let's say that you want to require a username and password from all users accessing the Prometheus instance. For this example, use `admin` as the username and choose any password you'd like.
 
-```
-http://localhost:12321/prometheus/metrics
-```
+First, generate a [bcrypt](https://en.wikipedia.org/wiki/Bcrypt) hash of the password.
+To generate a hashed password, we will use python3-bcrypt.
 
-Let's also say that you want to require a username and password from all users accessing the Prometheus instance. For this example, use `admin` as the username and choose any password you'd like.
+Let's install it by running `apt install python3-bcrypt`, assuming you are
+running a debian-like distribution. Other alternatives exist to generate hashed
+passwords; for testing you can also use [bcrypt generators on the
+web](https://bcrypt-generator.com/).
 
-First, create a `.htpasswd` file to store the username/password using the [`htpasswd`](https://httpd.apache.org/docs/2.4/programs/htpasswd.html) tool and store it in the `/etc/nginx` directory:
+Here is a python script which uses python3-bcrypt to prompt for a password and
+hash it:
 
-```bash
-mkdir -p /etc/nginx
-htpasswd -c /etc/nginx/.htpasswd admin
-```
+```python
+import getpass
+import bcrypt
 
-NOTE: This example uses `/etc/nginx` as the location of the nginx configuration files, including the `.htpasswd` file, but this will vary based on the installation. Other [common nginx config directories](http://nginx.org/en/docs/beginners_guide.html) include `/usr/local/nginx/conf` and `/usr/local/etc/nginx`.
-
-## nginx configuration
-
-Below is an example [`nginx.conf`](https://www.nginx.com/resources/wiki/start/topics/examples/full/) configuration file (stored at `/etc/nginx/.htpasswd`). With this configuration, nginx will enforce basic auth for all connections to the `/prometheus` endpoint (which proxies to Prometheus):
-
-```conf
-http {
-    server {
-        listen 12321;
-
-        location /prometheus/ {
-            auth_basic           "Prometheus";
-            auth_basic_user_file /etc/nginx/.htpasswd;
-
-            proxy_pass           http://localhost:9090/;
-        }
-    }
-}
-
-events {}
+password = getpass.getpass("password: ")
+hashed_password = bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt())
+print(hashed_password.decode())
 ```
 
-Start nginx using the configuration from above:
+Save that script as `gen-pass.py` and run it:
 
-```bash
-nginx -c /etc/nginx/nginx.conf
+```shell
+$ python3 gen-pass.py
 ```
 
-## Prometheus configuration
+That should prompt you for a password:
 
-When running Prometheus behind the nginx proxy, you'll need to set the external URL to `http://localhost:12321/prometheus` and the route prefix to `/`:
+```
+password:
+$2b$12$hNf2lSsxfm0.i4a.1kVpSOVyBCfIB51VRjgBUyv6kdnyTlgWj81Ay
+```
 
-```bash
-prometheus \
-  --config.file=/path/to/prometheus.yml \
-  --web.external-url=http://localhost:12321/prometheus \
-  --web.route-prefix="/"
+In this example, I used "test" as password.
+
+Save that password somewhere, we will use it in the next steps!
+
+
+## Creating web.yml
+
+Let's create a web.yml file
+([documentation](https://prometheus.io/docs/prometheus/latest/configuration/https/)),
+with the following content:
+
+```yaml
+basic_auth_users:
+    admin: $2b$12$hNf2lSsxfm0.i4a.1kVpSOVyBCfIB51VRjgBUyv6kdnyTlgWj81Ay
+```
+
+You can validate that file with `promtool check web-config web.yml`
+
+```shell
+$ promtool check web-config web.yml
+web.yml SUCCESS
+```
+
+You can add multiple users to the file.
+
+## Launching Prometheus
+
+You can launch prometheus with the web configuration file as follows:
+
+```shell
+$ prometheus --web.config.file=web.yml
 ```
 
 ## Testing
 
-You can use cURL to interact with your local nginx/Prometheus setup. Try this request:
+You can use cURL to interact with your setup. Try this request:
 
 ```bash
-curl --head http://localhost:12321/prometheus/graph
+curl --head http://localhost:9090/graph
 ```
 
-This will return a `401 Unauthorized` response because you've failed to supply a valid username and password. The response will also contain a `WWW-Authenticate: Basic realm="Prometheus"` header supplied by nginx, indicating that the `Prometheus` basic auth realm, specified by the `auth_basic` parameter for nginx, is enforced.
+This will return a `401 Unauthorized` response because you've failed to supply a valid username and password.
 
 To successfully access Prometheus endpoints using basic auth, for example the `/metrics` endpoint, supply the proper username using the `-u` flag and supply the password when prompted:
 
 ```bash
-curl -u admin http://localhost:12321/prometheus/metrics
+curl -u admin http://localhost:9090/metrics
 Enter host password for user 'admin':
 ```
 
@@ -95,4 +108,4 @@ go_gc_duration_seconds{quantile="0.5"} 0.0004485
 
 ## Summary
 
-In this guide, you stored a username and password in a `.htpasswd` file, configured nginx to use the credentials in that file to authenticate users accessing Prometheus' HTTP endpoints, started up nginx, and configured Prometheus for reverse proxying.
+In this guide, you stored a username and a hashed password in a `web.yml` file, launched prometheus with the parameter required to use the credentials in that file to authenticate users accessing Prometheus' HTTP endpoints.

@@ -9,7 +9,7 @@ See [`CONTRIBUTING.md`](CONTRIBUTING.md) for general instructions for new Promet
 
 The main documentation contents of this website are located in the [`content/docs`](content/docs) directory.
 
-Documentation concerning the Prometheus server is [maintained in the Prometheus server repository](https://github.com/prometheus/prometheus/tree/master/docs) and cloned into the website at build time.
+Documentation concerning the Prometheus server is [maintained in the Prometheus server repository](https://github.com/prometheus/prometheus/tree/main/docs) and cloned into the website at build time.
 
 As a guideline, please keep the documentation generally applicable and avoid use-case-specific changes.
 
@@ -19,7 +19,6 @@ You need to have a working Ruby environment set up (including [bundler](https://
 and then install the necessary gems:
 
 ```bash
-cd docs
 make bundle
 ```
 
@@ -61,7 +60,7 @@ If you have the prerequisite access rights, you can view the Netlify settings he
 * GitHub webhook notifying Netlify of branch changes: https://github.com/prometheus/docs/settings/hooks
 * Netlify project: https://app.netlify.com/sites/prometheus-docs
 
-Changes to the `master` branch are deployed to the main site at https://prometheus.io.
+Changes to the `main` branch are deployed to the main site at https://prometheus.io.
 
 Netlify also creates preview deploys for every pull request. To view these for a PR where all checks have passed:
 

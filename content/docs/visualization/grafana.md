@@ -56,6 +56,10 @@ Follow the standard way of adding a new Grafana graph. Then:
 The following shows an example Prometheus graph configuration:
 [![Prometheus graph creation](/assets/grafana_qps_graph.png)](/assets/grafana_qps_graph.png)
 
+In Grafana 7.2 and later, the `$__rate_interval` variable is
+[recommended](https://grafana.com/docs/grafana/latest/datasources/prometheus/#using-__rate_interval)
+for use in the `rate`and `increase` functions.
+
 ### Importing pre-built dashboards from Grafana.com
 
 Grafana.com maintains [a collection of shared dashboards](https://grafana.com/dashboards)

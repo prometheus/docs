@@ -45,7 +45,7 @@ Prometheus 2.0 also comes with built-in support for [snapshot backups of the ent
 
 We also migrated our recording and alerting rules from a custom format to the ubiquitous YAML format. This makes it easier to integrate with configuration management and templating.
 
-A lot of additional smaller changes and cleanups happened. Check the [Prometheus 1.x to 2.0](/docs/prometheus/2.0/migration/) migration guide for a full overview of changes and how to adapt your setup to them. But do not worry, Prometheus 2 is still the Prometheus you have learned to love — just a lot faster and even easier to operate and use.
+A lot of additional smaller changes and cleanups happened. Check the [Prometheus 1.x to 2.0](/docs/prometheus/latest/migration/) migration guide for a full overview of changes and how to adapt your setup to them. But do not worry, Prometheus 2 is still the Prometheus you have learned to love — just a lot faster and even easier to operate and use.
 
 ## What's next
 

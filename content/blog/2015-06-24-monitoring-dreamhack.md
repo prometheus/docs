@@ -202,7 +202,7 @@ it!*</center>
 ## Being proactive: dashboards
 While alerting is an essential part of
 monitoring, sometimes you just want to have a good overview of the health of
-your network. To achieve this we used [PromDash](/docs/visualization/promdash/).
+your network. To achieve this we used [PromDash](/docs/introduction/glossary/#promdash).
 Every time someone asked us something about the network, we crafted a query to
 get the answer and saved it as a dashboard widget. The most interesting ones
 were then added to an overview dashboard that we proudly displayed.
@@ -238,7 +238,7 @@ We're really excited about Prometheus and how easy it makes
 setting up scalable monitoring and alerting from scratch.
 
 A huge shout-out to everyone that helped us in `#prometheus` on
-[FreeNode](https://freenode.net/) during the event. Special thanks to Brian
+FreeNode during the event. Special thanks to Brian
 Brazil, Fabian Reinartz and Julius Volz. Thanks for helping us even in the cases
 where it was obvious that we hadn't read the documentation thoroughly enough.
 

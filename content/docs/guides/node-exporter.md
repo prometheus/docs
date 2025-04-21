@@ -18,7 +18,9 @@ NOTE: While the Prometheus Node Exporter is for *nix systems, there is the [Wind
 The Prometheus Node Exporter is a single static binary that you can install [via tarball](#tarball-installation). Once you've downloaded it from the Prometheus [downloads page](/download#node_exporter) extract it, and run it:
 
 ```bash
-wget https://github.com/prometheus/node_exporter/releases/download/v*/node_exporter-*.*-amd64.tar.gz
+# NOTE: Replace the URL with one from the above mentioned "downloads" page.
+# <VERSION>, <OS>, and <ARCH> are placeholders.
+wget https://github.com/prometheus/node_exporter/releases/download/v<VERSION>/node_exporter-<VERSION>.<OS>-<ARCH>.tar.gz
 tar xvfz node_exporter-*.*-amd64.tar.gz
 cd node_exporter-*.*-amd64
 ./node_exporter

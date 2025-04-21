@@ -3,6 +3,17 @@ title: Security
 sort_rank: 4
 ---
 
+NOTE: Before we dive into the technical details below, we would like to
+emphasize that Prometheus, as a monitoring system, collects and serves
+information about the systems it is monitoring. Therefore, the HTTP endpoints
+provided by Prometheus components should not be exposed to publicly accessible
+networks like the internet (unless you know what you are doing and have taken
+appropriate measures). This includes (but is not limited to) the `/metrics`
+endpoint of instrumented binaries, the various API endpoints of server
+components, and the `/pprof` endpoint of server components implemented in Go.
+Furthermore, it is easily possible to overload and ultimately DoS servers with
+requests to these endpoints.
+
 # Security Model
 
 Prometheus is a sophisticated system with many components and many integrations
@@ -19,6 +30,18 @@ repository and CC prometheus-team@googlegroups.com. We will fix the issue as soo
 as possible and coordinate a release date with you. You will be able to choose
 if you want public acknowledgement of your effort and if you want to be
 mentioned by name.
+
+### Automated security scanners
+
+Special note for security scanner users: Please be mindful with the reports produced.
+Most scanners are generic and produce lots of false positives. More and more
+reports are being sent to us, and it takes a significant amount of work to go
+through all of them and reply with the care you expect. This problem is particularly
+bad with Go and NPM dependency scanners.
+
+As a courtesy to us and our time, we would ask you not to submit raw reports.
+Instead, please submit them with an analysis outlining which specific results
+are applicable to us and why.
 
 Prometheus is maintained by volunteers, not by a company. Therefore, fixing
 security issues is done on a best-effort basis. We strive to release security
@@ -122,14 +145,11 @@ resulting from additional load and failed scrapes.
 
 ## Authentication, Authorization, and Encryption
 
-In the future, server-side TLS support will be rolled out to the different
-Prometheus projects. Those projects include Prometheus, Alertmanager,
-Pushgateway and the official exporters.
+Prometheus, and most exporters, support TLS. Including authentication of clients
+via TLS client certificates. Details on configuring Prometheus are [`here`](https://prometheus.io/docs/guides/tls-encryption/).
 
-Authentication of clients by TLS client certs will also be supported.
-
-The Go projects will share the same TLS library, which will be based on the
-Go vanilla [crypto/tls](https://golang.org/pkg/crypto/tls) library.
+The Go projects share the same TLS library, based on the
+Go [crypto/tls](https://golang.org/pkg/crypto/tls) library.
 We default to TLS 1.2 as minimum version. Our policy regarding this is based on
 [Qualys SSL Labs](https://www.ssllabs.com/) recommendations, where we strive to
 achieve a grade 'A' with a default configuration and correctly provided
@@ -145,7 +165,7 @@ in the [crypto/tls](https://golang.org/pkg/crypto/tls) library. If that still
 does not suit you, the current TLS settings enable you to build a secure tunnel
 between the servers and reverse proxies with more special requirements.
 
-HTTP Basic Authentication will also be supported. Basic Authentication can be
+HTTP Basic Authentication is also supported. Basic Authentication can be
 used without TLS, but it will then expose usernames and passwords in cleartext
 over the network.
 
@@ -180,7 +200,7 @@ example `up{job="<user_input>"}` would become `up{job=""} or
 some_metric{zzz=""}` if the `<user_input>` was `"} or some_metric{zzz="`.
 
 For those using Grafana note that [dashboard permissions are not data source
-permissions](http://docs.grafana.org/administration/permissions/#data-source-permissions),
+permissions](https://grafana.com/docs/grafana/latest/permissions/#data-source-permissions),
 so do not limit a user's ability to run arbitrary queries in proxy mode.
 
 ## Secrets
@@ -246,12 +266,14 @@ documentation of those repositories.
 
 ## External audits
 
-[CNCF](https://cncf.io) sponsored an external security audit by
-[cure53](https://cure53.de) which ran from April 2018 to June 2018.
+* In 2018, [CNCF](https://cncf.io) sponsored an external security audit by
+[cure53](https://cure53.de) which ran from April 2018 to June 2018. For more
+details, please read the [final report of the audit](/assets/downloads/2018-06-11--cure53_security_audit.pdf).
 
-For more details, please read the
-[final report of the audit](/assets/downloads/2018-06-11--cure53_security_audit.pdf).
-
-In 2020, there was a
+* In 2020, CNCF sponsored a
 [second audit by cure53](/assets/downloads/2020-07-21--cure53_security_audit_node_exporter.pdf)
 of Node Exporter.
+
+* In 2023, CNCF sponsored a
+[software supply chain security assessment of Prometheus](/assets/downloads/2023-04-19--chainguard_supply_chain_assessment.pdf)
+by Chainguard.

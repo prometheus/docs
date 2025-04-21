@@ -1,6 +1,6 @@
 ---
 title: Glossary
-sort_rank: 8
+sort_rank: 9
 ---
 
 # Glossary
@@ -78,6 +78,11 @@ The [Pushgateway](../../instrumenting/pushing/) persists the most recent push
 of metrics from batch jobs. This allows Prometheus to scrape their metrics
 after they have terminated.
 
+### Recording Rules
+
+Recording rules precompute frequently needed or computationally expensive expressions 
+and save their results as a new set of time series.
+
 ### Remote Read
 
 Remote read is a Prometheus feature that allows transparent reading of time series from
@@ -121,4 +126,9 @@ being included in notifications.
 ### Target
 
 A target is the definition of an object to scrape. For example, what labels to apply, any authentication required to connect, or other information that defines how the scrape will occur.
+
+### Time Series
+
+The Prometheus time series are streams of timestamped values belonging to the same metric and the same set of labeled dimensions.
+Prometheus stores all data as time series.
 

@@ -48,20 +48,57 @@ In case a member leaves, the [offboarding](#offboarding) procedure is applied.
 
 The current team members are:
 
-* Bartłomiej Płotka ([Red Hat](https://www.redhat.com/))
+* Alex Greenbank ([Grafana Labs](https://grafana.com/))
+* Arianna Vespri (independent)
+* Arthur Sens ([Grafana Labs](https://grafana.com/))
+* Arve Knudsen ([Grafana Labs](https://grafana.com/))
+* Augustin Husson ([Amadeus](https://amadeus.com))
+* Ayoub Mrini ([Red Hat](https://www.redhat.com/))
+* Bartłomiej Płotka ([Google](https://www.google.com/))
 * Ben Kochie ([Reddit](https://www.redditinc.com/))
+* Ben Reedy ([Indue Ltd](https://www.indue.com.au))
 * Björn Rabenstein ([Grafana Labs](https://grafana.com/))
+* Bryan Boreham ([Grafana Labs](https://grafana.com/))
+* Calle Pettersson ([Instabee Group](https://instabee.com/))
 * Callum Styan ([Grafana Labs](https://grafana.com/))
+* Carrie Edwards ([Grafana Labs](https://grafana.com/))
 * Chris Marchbanks ([Grafana Labs](https://grafana.com/))
+* Chris Sinjakli ([PlanetScale](https://planetscale.com/))
+* Conrad Hoffmann (independent)
+* Cristian Greco ([Grafana Labs](https://grafana.com/))
+* Daniel Magliola ([IndeedFlex](https://indeedflex.co.uk/))
+* Daniel Swarbrick (independent)
+* David Ashpole ([Google](https://www.google.com/))
+* David Leadbeater ([G-Research](https://www.gresearch.com/))
+* Doug Hoard ([Confluent](https://www.confluent.io/))
+* Fabian Stäber ([Grafana Labs](https://grafana.com/))
+* Fiona Liao ([Grafana Labs](https://grafana.com/))
 * Frederic Branczyk ([Polar Signals](https://www.polarsignals.com/))
 * Ganesh Vernekar ([Grafana Labs](https://grafana.com/))
+* George Robinson ([Grafana Labs](https://grafana.com/))
 * Goutham Veeramachaneni ([Grafana Labs](https://grafana.com/))
-* Johannes Ziemke (independent)
+* Gregor Zeitlinger ([Grafana Labs](https://grafana.com/))
+* György Krajcsovits ([Grafana Labs](https://grafana.com/))
+* Jan Fajerski ([Red Hat](https://www.redhat.com/))
+* Jan-Otto Kröpke (independent)
+* Jesús Vázquez ([Grafana Labs](https://grafana.com/))
+* Joe Adams ([WebstaurantStore](https://www.webstaurantstore.com/))
+* Johannes Ziemke ([5π Consulting](https://5pi.de/))
+* Josh Abreu ([Grafana Labs](https://grafana.com/))
 * Julius Volz ([PromLabs](https://promlabs.com/))
 * Julien Pivotto ([Inuits](https://inuits.eu/))
-* Matthias Rampke ([SoundCloud](https://soundcloud.com/))
+* Kemal Akkoyun (independent)
+* Matthias Loibl ([Polar Signals](https://www.polarsignals.com/))
+* Matthias Rampke ([Chronosphere](https://chronosphere.io/))
+* Max Inden ([Protocol Labs](https://protocol.ai/))
+* Owen Williams ([Grafana Labs](https://grafana.com/))
+* Pedro Tanaka ([Shopify](https://shopify.com/))
 * Richard Hartmann ([Grafana Labs](https://grafana.com/))
+* Saswata Mukherjee ([Red Hat](https://www.redhat.com/))
+* Sebastian Schubert ([Grafana Labs](https://grafana.com/))
 * Simon Pasquier ([Red Hat](https://www.redhat.com/))
+* Suraj Nath ([Grafana Labs](https://grafana.com/))
+* Thomas Peitz (independent)
 * Tobias Schmidt (independent)
 * Tom Wilkie ([Grafana Labs](https://grafana.com/))
 
@@ -70,9 +107,9 @@ Previous members:
 * Brian Brazil
 * Conor Broderick
 * Fabian Reinartz
+* Jessica Grebenschikov
 * Krasi Georgiev
 * Matt Layher
-* Max Inden
 * Steve Durrheimer
 * Stuart Nelson
 

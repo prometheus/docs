@@ -16,7 +16,7 @@ exporter or custom collector. The theory covered will also be of
 interest to those doing direct instrumentation.
 
 If you are writing an exporter and are unclear on anything here, please
-contact us on IRC (#prometheus on Freenode) or the [mailing
+contact us on IRC (#prometheus on libera) or the [mailing
 list](/community).
 
 ## Maintainability and purity
@@ -128,8 +128,7 @@ automatically doesn’t always produce nice results for things like
 Exposed metrics should not contain colons, these are reserved for user
 defined recording rules to use when aggregating.
 
-Only `[a-zA-Z0-9:_]` are valid in metric names, any other characters
-should be sanitized to an underscore.
+Only `[a-zA-Z0-9:_]` are valid in metric names.
 
 The `_sum`, `_count`, `_bucket` and `_total` suffixes are used by
 Summaries, Histograms and Counters. Unless you’re producing one of
@@ -139,8 +138,7 @@ those, avoid these suffixes.
 the COUNTER type.
 
 The `process_` and `scrape_` prefixes are reserved. It’s okay to add
-your own prefix on to these if they follow the [matching
-semantics](https://docs.google.com/document/d/1Q0MXWdwp1mdXCzNRak6bW5LLVylVRXhdi7_21Sg15xQ/edit).
+your own prefix on to these if they follow matching semantics.
 For example, Prometheus has `scrape_duration_seconds` for how long a
 scrape took, it's good practice to also have an exporter-centric metric,
 e.g. `jmx_scrape_duration_seconds`, saying how long the specific
@@ -204,16 +202,16 @@ separate them.
 Don’t do this:
 
 <pre>
-my_metric{label=a} 1
-my_metric{label=b} 6
-<b>my_metric{label=total} 7</b>
+my_metric{label="a"} 1
+my_metric{label="b"} 6
+<b>my_metric{label="total"} 7</b>
 </pre>
 
 or this:
 
 <pre>
-my_metric{label=a} 1
-my_metric{label=b} 6
+my_metric{label="a"} 1
+my_metric{label="b"} 6
 <b>my_metric{} 7</b>
 </pre>
 
@@ -346,7 +344,7 @@ each scrape.
 Rather create new metrics each time. In Go this is done with
 [MustNewConstMetric](https://godoc.org/github.com/prometheus/client_golang/prometheus#MustNewConstMetric)
 in your `Collect()` method. For Python see
-[https://github.com/prometheus/client_python#custom-collectors](https://github.com/prometheus/client_python#custom-collectors)
+[https://github.com/prometheus/client_python#custom-collectors](https://prometheus.github.io/client_python/collector/custom/)
 and for Java generate a `List<MetricFamilySamples>` in your collect
 method, see
 [StandardExports.java](https://github.com/prometheus/client_java/blob/master/simpleclient_hotspot/src/main/java/io/prometheus/client/hotspot/StandardExports.java)
@@ -360,7 +358,7 @@ a label value disappears, it’ll still be exported.
 Instrumenting your exporter itself via direct instrumentation is fine,
 e.g. total bytes transferred or calls performed by the exporter across
 all scrapes.  For exporters such as the [blackbox
-exporter](https://github.com/prometheus/blackbox_exporter) and [SMNP
+exporter](https://github.com/prometheus/blackbox_exporter) and [SNMP
 exporter](https://github.com/prometheus/snmp_exporter), which aren’t
 tied to a single target, these should only be exposed on a vanilla
 `/metrics` call, not on a scrape of a particular target.
@@ -375,6 +373,12 @@ and the metric name prefixed by the exporter name, for example
 `jmx_scrape_duration_seconds`. Usually the `_exporter` is excluded and
 if the exporter also makes sense to use as just a collector, then
 definitely exclude it.
+
+Other scrape "meta" metrics should be avoided. For example, a counter for
+the number of scrapes, or a histogram of the scrape duration. Having the
+exporter track these metrics duplicate the [automatically generated
+metrics](docs/concepts/jobs_instances/#automatically-generated-labels-and-time-series)
+of Prometheus itself. This adds to the storage cost of every exporter instance.
 
 ### Machine and process metrics
 
@@ -497,7 +501,7 @@ that has a value of 0 or 1 depending on whether the scrape worked.
 The latter is better where there’s still some useful metrics you can get
 even with a failed scrape, such as the HAProxy exporter providing
 process stats. The former is a tad easier for users to deal with, as
-`up` works in the usual way, although you can’t distinguish between the
+[`up` works in the usual way](/docs/concepts/jobs_instances/#automatically-generated-labels-and-time-series), although you can’t distinguish between the
 exporter being down and the application being down.
 
 ### Landing page
@@ -527,4 +531,4 @@ port allocations.
 
 Once you’re ready to announce your exporter to the world, email the
 mailing list and send a PR to add it to [the list of available
-exporters](https://github.com/prometheus/docs/blob/master/content/docs/instrumenting/exporters.md).
+exporters](https://github.com/prometheus/docs/blob/main/content/docs/instrumenting/exporters.md).

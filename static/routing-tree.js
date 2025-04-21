@@ -25,13 +25,14 @@ var tooltip = d3.select("body")
     .style("z-index", "10")
     .style("visibility", "hidden");
 
+const promQlRegExp = /\b(?<label>[a-z0-9_]\w*)\s?(?<selector>=~?|![=~])\s?"?(?<value>(?<=")(?:[^\\"]|\\.)*(?=")|\w+[^\s},]+)/gmi;
+
 function parseSearch(searchString) {
-  var labels = searchString.replace(/{|}|\"|\'/g, "").split(",");
-  var o = {};
-  labels.forEach(function(label) {
-    var l = label.trim().split("=");
-    o[l[0]] = l[1];
-  });
+  let o = {};
+  let matchedExpressions;
+  while ((matchedExpressions = promQlRegExp.exec(searchString)) !== null) {
+    o[matchedExpressions[1]] = matchedExpressions[3];
+  }
   return o;
 }
 
@@ -113,6 +114,13 @@ function matchLabels(matchers, labelSet) {
   return true;
 }
 
+const Matcher = Object.freeze({
+  EQ: "MatchEqual",
+  NE: "MatchNotEqual",
+  RE: "MatchRegexp",
+  NRE: "MatchNotRegexp",
+})
+
 // Compare single matcher to labelSet
 function matchLabel(matcher, labelSet) {
   var v = "";
@@ -120,11 +128,30 @@ function matchLabel(matcher, labelSet) {
     v = labelSet[matcher.name];
   }
 
-  if (matcher.isRegex) {
-    return matcher.value.test(v)
+  if (matcher.op !== undefined) {
+    return matchNewSyntax(matcher, v);
+  } else {
+    // Deprecated matchers check
+    if (matcher.isRegex) {
+      return matcher.value.test(v)
+    }
+    return matcher.value === v;
   }
+}
 
-  return matcher.value === v;
+function matchNewSyntax(matcher, v) {
+  switch (matcher.op) {
+    case Matcher.EQ:
+      return matcher.value === v;
+    case Matcher.NE:
+      return matcher.value !== v;
+    case Matcher.RE:
+    case Matcher.NRE:
+      return matcher.value.test(v);
+    default:
+      console.log("Invalid matcher");
+      break;
+  }
 }
 
 // Load the parsed config and create the tree
@@ -164,6 +191,42 @@ function massage(root, receivers) {
       o.name = key;
       matchers.push(o);
     }
+  }
+
+  // PromQL matcher syntax check
+  if (root.matchers) {
+    root.matchers.forEach((matcher) => {
+      let o = {};
+      let matchedExpressions;
+
+      while ((matchedExpressions = promQlRegExp.exec(matcher)) !== null) {
+        let [match, label, selector, value] = matchedExpressions;
+        o.name = label;
+
+        switch (selector) {
+          case "=~":
+            o.value = new RegExp("^(?:" + value + ")$");
+            o.op = Matcher.RE;
+            matchers.push(o);
+            break;
+          case "!=":
+            o.op = Matcher.NE
+            o.value = value;
+            matchers.push(o);
+            break;
+          case "!~":
+            o.op = Matcher.NRE
+            o.value = new RegExp("^(?!" + value + "$)");
+            matchers.push(o);
+            break;
+          case "=":
+            o.op = Matcher.EQ
+            o.value = value
+            matchers.push(o);
+            break;
+        }
+      }
+    });
   }
 
   root.matchers = matchers;

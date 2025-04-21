@@ -13,9 +13,9 @@ class AddAnchorsFilter < ::Nanoc::Filter
     doc = Nokogiri::HTML::DocumentFragment.parse(content.dup)
     doc.css('h1,h2,h3,h4,h5,h6').each do |h_node|
       next if h_node['id'].nil?
-      node = Nokogiri::XML::Node.new('a', doc).tap do |a|
+      node = Nokogiri::XML::DocumentFragment.parse("<a></a>").at_css("a").tap do |a|
         a.content = ''
-        a['class'] = 'header-anchor'
+        a['class'] = 'header-anchor ti ti-link'
 
         # Replace sequences of non-word characters with single dashes. Remove
         # extra dashes at the beginning or end.

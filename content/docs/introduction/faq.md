@@ -11,7 +11,9 @@ toc: full-width
 ### What is Prometheus?
 
 Prometheus is an open-source systems monitoring and alerting toolkit
-with an active ecosystem. See the [overview](/docs/introduction/overview/).
+with an active ecosystem.
+It is the only system directly supported by [Kubernetes](https://kubernetes.io/) and the de facto standard across the [cloud native ecosystem](https://landscape.cncf.io/).
+See the [overview](/docs/introduction/overview/).
 
 ### How does Prometheus compare against other monitoring systems?
 
@@ -19,23 +21,32 @@ See the [comparison](/docs/introduction/comparison/) page.
 
 ### What dependencies does Prometheus have?
 
-The main Prometheus server runs standalone and has no external dependencies.
+The main Prometheus server runs standalone as a single monolithic binary and has no external dependencies.
+
+#### Is this cloud native?
+
+Yes.
+
+Cloud native is a flexible operating model, breaking up old service boundaries to allow for more flexible and scalable deployments.
+
+Prometheus's [service discovery](https://prometheus.io/docs/prometheus/latest/configuration/configuration/) integrates with most tools and clouds. Its dimensional data model and scale into the tens of millions of active series allows it to monitor large cloud-native deployments.
+There are always trade-offs to make when running services, and Prometheus values reliably getting alerts out to humans above all else.
 
 ### Can Prometheus be made highly available?
 
 Yes, run identical Prometheus servers on two or more separate machines.
 Identical alerts will be deduplicated by the [Alertmanager](https://github.com/prometheus/alertmanager).
 
-For [high availability of the Alertmanager](https://github.com/prometheus/alertmanager#high-availability),
-you can run multiple instances in a
-[Mesh cluster](https://github.com/weaveworks/mesh) and configure the Prometheus
-servers to send notifications to each of them.
+Alertmanager supports [high availability](https://github.com/prometheus/alertmanager#high-availability) by interconnecting multiple Alertmanager instances to build an Alertmanager cluster. Instances of a cluster communicate using a gossip protocol managed via [HashiCorp's Memberlist](https://github.com/hashicorp/memberlist) library. 
 
 ### I was told Prometheus “doesn't scale”.
 
-There are in fact various ways to scale and federate
-Prometheus. Read [Scaling and Federating Prometheus](https://www.robustperception.io/scaling-and-federating-prometheus/)
-on the Robust Perception blog to get started.
+This is often more of a marketing claim than anything else.
+
+A single instance of Prometheus can be more performant than some systems positioning themselves as long term storage solution for Prometheus.
+You can run Prometheus reliably with tens of millions of active series.
+
+If you need more than that, there are several options. [Scaling and Federating Prometheus](https://www.robustperception.io/scaling-and-federating-prometheus/) on the Robust Perception blog is a good starting point, as are the long storage systems listed on our [integrations page](https://prometheus.io/docs/operating/integrations/#remote-endpoints-and-storage).
 
 ### What language is Prometheus written in?
 
@@ -60,8 +71,8 @@ have formal releases yet.
 
 Pulling over HTTP offers a number of advantages:
 
-* You can run your monitoring on your laptop when developing changes.
-* You can more easily tell if a target is down.
+* You can start extra monitoring instances as needed, e.g. on your laptop when developing changes.
+* You can more easily and reliably tell if a target is down.
 * You can manually go to a target and inspect its health with a web browser.
 
 Overall, we believe that pulling is slightly better than pushing, but it should
@@ -71,15 +82,14 @@ For cases where you must push, we offer the [Pushgateway](/docs/instrumenting/pu
 
 ### How to feed logs into Prometheus?
 
-Short answer: Don't! Use something like the [ELK stack](https://www.elastic.co/products) instead.
+Short answer: Don't! Use something like [Grafana Loki](https://grafana.com/oss/loki/) or [OpenSearch](https://opensearch.org/) instead.
 
 Longer answer: Prometheus is a system to collect and process metrics, not an
-event logging system. The Raintank blog post
-[Logs and Metrics and Graphs, Oh My!](https://blog.raintank.io/logs-and-metrics-and-graphs-oh-my/)
+event logging system. The Grafana blog post
+[Logs and Metrics and Graphs, Oh My!](https://grafana.com/blog/2016/01/05/logs-and-metrics-and-graphs-oh-my/)
 provides more details about the differences between logs and metrics.
 
-If you want to extract Prometheus metrics from application logs, Google's
-[mtail](https://github.com/google/mtail) might be helpful.
+If you want to extract Prometheus metrics from application logs, Grafana Loki is designed for just that. See Loki's [metric queries](https://grafana.com/docs/loki/latest/logql/metric_queries/) documentation.
 
 ### Who wrote Prometheus?
 
@@ -88,17 +98,19 @@ Prometheus was initially started privately by
 [Julius Volz](http://juliusv.com). The majority of its
 initial development was sponsored by [SoundCloud](https://soundcloud.com).
 
-It's now maintained and extended by a wide range of companies and individuals.
+It's now maintained and extended by a wide range of [companies](https://prometheus.devstats.cncf.io/d/5/companies-table?orgId=1) and [individuals](https://prometheus.io/governance).
 
 ### What license is Prometheus released under?
 
 Prometheus is released under the
-[Apache 2.0](https://github.com/prometheus/prometheus/blob/master/LICENSE) license.
+[Apache 2.0](https://github.com/prometheus/prometheus/blob/main/LICENSE) license.
 
 ### What is the plural of Prometheus?
 
 After [extensive research](https://youtu.be/B_CDeYrqxjQ), it has been determined
 that the correct plural of 'Prometheus' is 'Prometheis'.
+
+If you can not remember this, "Prometheus instances" is a good workaround.
 
 ### Can I reload Prometheus's configuration?
 
@@ -110,16 +122,7 @@ various components attempt to handle failing changes gracefully.
 
 Yes, with the [Alertmanager](https://github.com/prometheus/alertmanager).
 
-Currently, the following external systems are supported:
-
-* Email
-* Generic Webhooks
-* [OpsGenie](https://www.opsgenie.com/)
-* [PagerDuty](http://www.pagerduty.com/)
-* [Pushover](https://pushover.net/)
-* [Slack](https://slack.com/)
-* [VictorOps](https://victorops.com/)
-* [WeChat](https://www.wechat.com)
+We support sending alerts through [email, various native integrations](https://prometheus.io/docs/alerting/latest/configuration/), and a [webhook system anyone can add integrations to](https://prometheus.io/docs/operating/integrations/#alertmanager-webhook-receiver).
 
 ### Can I create dashboards?
 
@@ -158,6 +161,7 @@ bandwidth.
 
 Yes, the [SNMP Exporter](https://github.com/prometheus/snmp_exporter) allows
 monitoring of devices that support SNMP.
+For industrial networks, there's also a [Modbus exporter](https://github.com/RichiH/modbus_exporter).
 
 ### Can I monitor batch jobs?
 
@@ -177,37 +181,14 @@ either standalone or as a Java Agent.
 ### What is the performance impact of instrumentation?
 
 Performance across client libraries and languages may vary. For Java,
-[benchmarks](https://github.com/prometheus/client_java/blob/master/benchmark/README.md)
+[benchmarks](https://github.com/prometheus/client_java/blob/main/benchmarks/README.md)
 indicate that incrementing a counter/gauge with the Java client will take
 12-17ns, depending on contention. This is negligible for all but the most
 latency-critical code.
 
-## Troubleshooting
-
-### My Prometheus 1.x server takes a long time to start up and spams the log with copious information about crash recovery.
-
-You are suffering from an unclean shutdown. Prometheus has to shut down cleanly
-after a `SIGTERM`, which might take a while for heavily used servers. If the
-server crashes or is killed hard (e.g. OOM kill by the kernel or your runlevel
-system got impatient while waiting for Prometheus to shutdown), a crash
-recovery has to be performed, which should take less than a minute under normal
-circumstances, but can take quite long under certain circumstances. See
-[crash recovery](/docs/prometheus/1.8/storage/#crash-recovery) for details.
-
-### My Prometheus 1.x server runs out of memory.
-
-See [the section about memory usage](/docs/prometheus/1.8/storage/#memory-usage)
-to configure Prometheus for the amount of memory you have available.
-
-### My Prometheus 1.x server reports to be in “rushed mode” or that “storage needs throttling”.
-
-Your storage is under heavy load. Read
-[the section about configuring the local storage](/docs/prometheus/1.8/storage/)
-to find out how you can tweak settings for better performance.
-
 ## Implementation
 
-### Why are all sample values 64-bit floats? I want integers.
+### Why are all sample values 64-bit floats?
 
 We restrained ourselves to 64-bit floats to simplify the design. The
 [IEEE 754 double-precision binary floating-point
@@ -219,18 +200,3 @@ for different sample value types (including some kind of big integer,
 supporting even more than 64 bit) could be implemented, but it is not
 a priority right now. A counter, even if incremented one million times per
 second, will only run into precision issues after over 285 years.
-
-### Why don't the Prometheus server components support TLS or authentication? Can I add those?
-
-TLS and basic authentication is gradually being rolled out to the different
-components. Please follow the different releases and changelogs to know which
-components have already implemented it.
-
-The components currently supporting TLS and authentication are:
-
-- Prometheus 2.24.0 and later
-- Node Exporter 1.0.0 and later
-
-This applies only to inbound connections. Prometheus does support
-[scraping TLS- and auth-enabled targets](/docs/prometheus/latest/configuration/configuration/#scrape_config), and other
-Prometheus components that create outbound connections have similar support.

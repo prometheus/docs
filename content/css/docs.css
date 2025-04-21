@@ -120,7 +120,7 @@ body {
   background-color: #eee;
   text-align: center;
   font-family: Lato, sans-serif;
-  padding: 25px 0;
+  padding: 25px 50px;
   font-size: 24px;
   font-weight: 300;
   margin-bottom: 50px;
@@ -156,7 +156,7 @@ body {
   line-height: normal;
 }
 
-.feature-item .fa {
+.feature-item .ti {
   margin-right: 5px;
   color: #e6522c;
 }
@@ -292,9 +292,10 @@ footer {
   padding: 5px 20px 20px 7px;
 }
 
-.side-nav .fa {
+.side-nav .ti {
   width: 20px;
   color: #555;
+  font-size: 1.1em;
 }
 
 .side-nav a {
@@ -311,7 +312,9 @@ footer {
 }
 
 .side-nav .nav-header {
-  display: block;
+  display: flex;
+  gap: 5px;
+  align-items: baseline;
   margin: 20px auto 15px auto;
   font-size: 16px;
 }
@@ -342,9 +345,16 @@ footer {
   font-size: 16px;
 }
 
-.doc-content p, .doc-content.ul, .doc-content .alert {
+.doc-content p, .doc-content.ul {
   margin: 15px 0 15px 0;
   line-height: 1.5;
+}
+
+.doc-content .alert {
+  margin: 15px 0 15px 0;
+  line-height: 1.5;
+  /* This is to prevent NOTE/admonition alert boxes from overlapping the table of contents at the top of a docs page. */
+  display: inline-block; width: 100%;
 }
 
 .doc-content > h1 {
@@ -390,14 +400,9 @@ footer {
 }
 
 .doc-content a.header-anchor {
-  padding-left: 15px;
-}
-
-.doc-content a.header-anchor:after {
-  content: "\F0C1";
-  font-family: FontAwesome;
-  font-weight: normal;
   font-size: .8em;
+  padding-left: 8px;
+  text-decoration: none;
 }
 
 .doc-content a.header-anchor:link,

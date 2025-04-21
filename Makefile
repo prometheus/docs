@@ -1,12 +1,13 @@
 NANOC      = bundle exec nanoc
 GUARD      = bundle exec guard
-DOWNLOADS := prometheus alertmanager blackbox_exporter consul_exporter graphite_exporter haproxy_exporter memcached_exporter mysqld_exporter node_exporter pushgateway statsd_exporter
+DOWNLOADS := prometheus alertmanager blackbox_exporter consul_exporter graphite_exporter memcached_exporter mysqld_exporter node_exporter promlens pushgateway statsd_exporter
 
 build: clean downloads compile
 
 bundle:
 	bundle config build.nokogiri --use-system-libraries
-	bundle install --path vendor
+	bundle config set path vendor
+	bundle install
 
 clean:
 	rm -rf output downloads

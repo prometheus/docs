@@ -112,7 +112,7 @@ counter that is incremented. If you find an interesting log message, you want to
 be able to see how often it has been happening and for how long.
 
 If there are multiple closely-related log messages in the same function (for example,
-different branches of an if or switch statement), it can sometimes make sense
+different branches of an if or switch statement), it can sometimes make sense to
 increment a single counter for all of them.
 
 It is also generally useful to export the total number of info/error/warning
@@ -245,7 +245,7 @@ inside a given process, you may wish to take some care as to how many metrics
 you update.
 
 A Java counter takes
-[12-17ns](https://github.com/prometheus/client_java/blob/master/benchmark/README.md)
+[12-17ns](https://github.com/prometheus/client_java/blob/main/benchmarks/README.md)
 to increment depending on contention. Other languages will have similar
 performance. If that amount of time is significant for your inner loop, limit
 the number of metrics you increment in the inner loop and avoid labels (or

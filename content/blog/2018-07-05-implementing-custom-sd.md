@@ -16,9 +16,9 @@ outside the team and then not maintained or tested well. We want to commit to on
 integration with service discovery mechanisms that we know we can maintain, and that work as intended.
 For this reason, there is currently a moratorium on new SD integrations.
 
-However, we know there is still a desire to be able to integrate with other SD mechanisms, such as 
-Docker Swarm. Recently a small code change plus an example was committed to the documentation 
-[directory](https://github.com/prometheus/prometheus/tree/master/documentation/examples/custom-sd)
+However, we know there is still a desire to be able to integrate with other SD mechanisms, such as
+Docker Swarm. Recently a small code change plus an example was committed to the documentation
+[directory](https://github.com/prometheus/prometheus/tree/main/documentation/examples/custom-sd)
 within the Prometheus repository for implementing a custom service discovery integration without having
 to merge it into the main Prometheus binary. The code change allows us to make use of the internal
 Discovery Manager code to write another executable that interacts with a new SD mechanism and outputs
@@ -26,17 +26,17 @@ a file that is compatible with Prometheus' file\_sd. By co-locating Prometheus a
 we can configure Prometheus to read the file\_sd-compatible output of our executable, and therefore
 scrape targets from that service discovery mechanism. In the future this will enable us to move SD
 integrations out of the main Prometheus binary, as well as to move stable SD integrations that make
-use of the adapter into the Prometheus 
-[discovery](https://github.com/prometheus/prometheus/tree/master/discovery) package. 
+use of the adapter into the Prometheus
+[discovery](https://github.com/prometheus/prometheus/tree/main/discovery) package.
 
-Integrations using file_sd, such as those that are implemented with the adapter code, are listed 
+Integrations using file_sd, such as those that are implemented with the adapter code, are listed
 [here](https://prometheus.io/docs/operating/integrations/#file-service-discovery).
 
 Let’s take a look at the example code.
 
 ## Adapter
-First we have the file 
-[adapter.go](https://github.com/prometheus/prometheus/blob/master/documentation/examples/custom-sd/adapter/adapter.go).
+First we have the file
+[adapter.go](https://github.com/prometheus/prometheus/blob/main/documentation/examples/custom-sd/adapter/adapter.go).
 You can just copy this file for your custom SD implementation, but it's useful to understand what's
 happening here.
 
@@ -70,13 +70,13 @@ from our SD mechanism.
         Labels  map[string]string `json:"labels"`
     }
 
-This `customSD` struct exists mostly to help us convert the internal Prometheus `targetgroup.Group` 
+This `customSD` struct exists mostly to help us convert the internal Prometheus `targetgroup.Group`
 struct into JSON for the file\_sd format.
 
 When running, the adapter will listen on a channel for updates from our custom SD implementation.
 Upon receiving an update, it will parse the targetgroup.Groups into another `map[string]*customSD`,
 and compare it with what’s stored in the `groups` field of Adapter. If the two are different, we assign
-the new groups to the Adapter struct, and write them as JSON to the output file. Note that this 
+the new groups to the Adapter struct, and write them as JSON to the output file. Note that this
 implementation assumes that each update sent by the SD implementation down the channel contains
 the full list of all target groups the SD knows about.
 
@@ -84,11 +84,11 @@ the full list of all target groups the SD knows about.
 
 Now we want to actually use the Adapter to implement our own custom SD. A full working example is in
 the same examples directory
-[here](https://github.com/prometheus/prometheus/blob/master/documentation/examples/custom-sd/adapter-usage/main.go).  
+[here](https://github.com/prometheus/prometheus/blob/main/documentation/examples/custom-sd/adapter-usage/main.go).
 
-Here you can see that we’re importing the adapter code 
+Here you can see that we’re importing the adapter code
 `"github.com/prometheus/prometheus/documentation/examples/custom-sd/adapter"` as well as some other
-Prometheus libraries. In order to write a custom SD we need an implementation of the Discoverer interface. 
+Prometheus libraries. In order to write a custom SD we need an implementation of the Discoverer interface.
 
     // Discoverer provides information about target groups. It maintains a set
     // of sources from which TargetGroups can originate. Whenever a discovery provider
@@ -110,13 +110,13 @@ We really just have to implement one function, `Run(ctx context.Context, up chan
 This is the function the manager within the Adapter code will call within a goroutine. The Run function
 makes use of a context to know when to exit, and is passed a channel for sending it's updates of target groups.
 
-Looking at the [Run](https://github.com/prometheus/prometheus/blob/master/documentation/examples/custom-sd/adapter-usage/main.go#L153-L211) 
+Looking at the [Run](https://github.com/prometheus/prometheus/blob/main/documentation/examples/custom-sd/adapter-usage/main.go#L153-L211)
 function within the provided example, we can see a few key things happening that we would need to do
 in an implementation for another SD. We periodically make calls, in this case to Consul (for the sake
-of this example, assume there isn’t already a built-in Consul SD implementation), and convert the 
+of this example, assume there isn’t already a built-in Consul SD implementation), and convert the
 response to a set of `targetgroup.Group` structs. Because of the way Consul works, we have to first make
 a call to get all known services, and then another call per service to get information about all the
-backing instances. 
+backing instances.
 
 Note the comment above the loop that’s calling out to Consul for each service:
 
@@ -149,7 +149,7 @@ Prometheus as Docker containers via docker-compose when working with the example
         container_name: consul
         ports:
         - 8300:8300
-        - 8500:8500      
+        - 8500:8500
         volumes:
         - ${PWD}/consul.json:/consul/config/consul.json
     prometheus:

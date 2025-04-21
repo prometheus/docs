@@ -2,6 +2,7 @@
 title: Exporters and integrations
 sort_rank: 4
 ---
+
 # Exporters and integrations
 
 There are a number of libraries and servers which help in exporting existing
@@ -96,7 +97,6 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [JIRA exporter](https://github.com/AndreyVMarkelov/jira-prometheus-exporter)
 
 ### Messaging systems
-
    * [Beanstalkd exporter](https://github.com/messagebird/beanstalkd_exporter)
    * [EMQ exporter](https://github.com/nuvo/emq_exporter)
    * [Gearman exporter](https://github.com/bakins/gearman-exporter)
@@ -113,7 +113,6 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [Solace exporter](https://github.com/solacecommunity/solace-prometheus-exporter)
 
 ### Storage
-
    * [Ceph exporter](https://github.com/digitalocean/ceph_exporter)
    * [Ceph RADOSGW exporter](https://github.com/blemmenes/radosgw_usage_exporter)
    * [Gluster exporter](https://github.com/ofesseler/gluster_exporter)
@@ -167,7 +166,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
 ### Logging
 
    * [Fluentd exporter](https://github.com/V3ckt0r/fluentd_exporter)
-   * [Google&#39;s mtail log data extractor](https://github.com/google/mtail)
+   * [Google's mtail log data extractor](https://github.com/google/mtail)
    * [Grok exporter](https://github.com/fstab/grok_exporter)
 
 ### FinOps
@@ -176,7 +175,6 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [Kubernetes Cost Exporter](https://github.com/electrolux-oss/kubernetes-cost-exporter)
 
 ### Other monitoring systems
-
    * [Akamai Cloudmonitor exporter](https://github.com/ExpressenAB/cloudmonitor_exporter)
    * [Alibaba Cloudmonitor exporter](https://github.com/aylei/aliyun-exporter)
    * [AWS CloudWatch exporter](https://github.com/prometheus/cloudwatch_exporter) (**official**)
@@ -265,58 +263,6 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [Rundeck exporter](https://github.com/phsmith/rundeck_exporter)
    * [SABnzbd exporter](https://github.com/msroest/sabnzbd_exporter)
    * [SAML exporter](https://github.com/DoodleScheduling/saml-exporter)
-   * [Script exporter](https://github.com/adhocteam/script_exporter)
-   * [Shield exporter](https://github.com/cloudfoundry-community/shield_exporter)
-   * [Smokeping prober](https://github.com/SuperQ/smokeping_prober)
-   * [SMTP/Maildir MDA blackbox prober](https://github.com/cherti/mailexporter)
-   * [SoftEther exporter](https://github.com/dalance/softether_exporter)
-   * [SSH exporter](https://github.com/treydock/ssh_exporter)
-   * [Teamspeak3 exporter](https://github.com/hikhvar/ts3exporter)
-   * [Transmission exporter](https://github.com/metalmatze/transmission-exporter)
-   * [Unbound exporter](https://github.com/kumina/unbound_exporter)
-   * [WireGuard exporter](https://github.com/MindFlavor/prometheus_wireguard_exporter)
-   * [Xen exporter](https://github.com/lovoo/xenstats_exporter)
-
-   * [ACT Fibernet Exporter](https://git.captnemo.in/nemo/prometheus-act-exporter)
-   * [BIND exporter](https://github.com/prometheus-community/bind_exporter)
-   * [BIND query exporter](https://github.com/DRuggeri/bind_query_exporter)
-   * [Bitcoind exporter](https://github.com/LePetitBloc/bitcoind-exporter)
-   * [Blackbox exporter](https://github.com/prometheus/blackbox_exporter) (**official**)
-   * [BOSH exporter](https://github.com/cloudfoundry-community/bosh_exporter)
-   * [cAdvisor](https://github.com/google/cadvisor)
-   * [Cachet exporter](https://github.com/ContaAzul/cachet_exporter)
-   * [ccache exporter](https://github.com/virtualtam/ccache_exporter)
-   * [c-lightning exporter](https://github.com/lightningd/plugins/tree/master/prometheus)
-   * [DHCPD leases exporter](https://github.com/DRuggeri/dhcpd_leases_exporter)
-   * [Dovecot exporter](https://github.com/kumina/dovecot_exporter)
-   * [Dnsmasq exporter](https://github.com/google/dnsmasq_exporter)
-   * [eBPF exporter](https://github.com/cloudflare/ebpf_exporter)
-   * [Ethereum Client exporter](https://github.com/31z4/ethereum-prometheus-exporter)
-   * [JFrog Artifactory Exporter](https://github.com/peimanja/artifactory_exporter)
-   * [Hostapd Exporter](https://github.com/Fundacio-i2CAT/hostapd_prometheus_exporter)
-   * [IRCd exporter](https://github.com/dgl/ircd_exporter)
-   * [Linux HA ClusterLabs exporter](https://github.com/ClusterLabs/ha_cluster_exporter)
-   * [JMeter plugin](https://github.com/johrstrom/jmeter-prometheus-plugin)
-   * [JSON exporter](https://github.com/prometheus-community/json_exporter)
-   * [Kannel exporter](https://github.com/apostvav/kannel_exporter)
-   * [Kemp LoadBalancer exporter](https://github.com/giantswarm/prometheus-kemp-exporter)
-   * [Kibana Exporter](https://github.com/pjhampton/kibana-prometheus-exporter)
-   * [kube-state-metrics](https://github.com/kubernetes/kube-state-metrics)
-   * [Locust Exporter](https://github.com/ContainerSolutions/locust_exporter)
-   * [Meteor JS web framework exporter](https://atmospherejs.com/sevki/prometheus-exporter)
-   * [Minecraft exporter module](https://github.com/Baughn/PrometheusIntegration)
-   * [Nomad exporter](https://gitlab.com/yakshaving.art/nomad-exporter)
-   * [nftables exporter](https://github.com/Intrinsec/nftables_exporter)
-   * [OpenStack exporter](https://github.com/openstack-exporter/openstack-exporter)
-   * [OpenStack blackbox exporter](https://github.com/infraly/openstack_client_exporter)
-   * [oVirt exporter](https://github.com/czerwonk/ovirt_exporter)
-   * [Pact Broker exporter](https://github.com/ContainerSolutions/pactbroker_exporter)
-   * [PHP-FPM exporter](https://github.com/bakins/php-fpm-exporter)
-   * [PowerDNS exporter](https://github.com/ledgr/powerdns_exporter)
-   * [Process exporter](https://github.com/ncabatoff/process-exporter)
-   * [rTorrent exporter](https://github.com/mdlayher/rtorrent_exporter)
-   * [Rundeck exporter](https://github.com/phsmith/rundeck_exporter)
-   * [SABnzbd exporter](https://github.com/msroest/sabnzbd_exporter)
    * [Script exporter](https://github.com/adhocteam/script_exporter)
    * [Shield exporter](https://github.com/cloudfoundry-community/shield_exporter)
    * [Smokeping prober](https://github.com/SuperQ/smokeping_prober)

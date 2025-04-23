@@ -19,9 +19,9 @@ Every time series is uniquely identified by its metric name and optional key-val
 
 * Metric names SHOULD specify the general feature of a system that is measured (e.g. `http_requests_total` - the total number of HTTP requests received). 
 * Metric names MAY use any UTF-8 characters.
-* Metric names SHOULD match the regex `[a-zA-Z_:][a-zA-Z0-9_:]*` for the best experience and compatibility (see the warning below). Metric names outside of that set will require escaping e.g. when used in PromQL (see the [UTF-8 guide](../guides/utf8.md#querying)).
+* Metric names SHOULD match the regex `[a-zA-Z_:][a-zA-Z0-9_:]*` for the best experience and compatibility (see the warning below). Metric names outside of that set will require quoting e.g. when used in PromQL (see the [UTF-8 guide](../guides/utf8.md#querying)).
 
-NOTE: Colons (':') are reserved for user-defined recording rules. They should not be used by exporters or direct instrumentation.
+NOTE: Colons (':') are reserved for user-defined recording rules. They SHOULD NOT be used by exporters or direct instrumentation.
 
 ***Metric labels:***
 
@@ -29,11 +29,11 @@ Labels let you capture different instances of the same metric name. For example:
 
 * Label names MAY use any UTF-8 characters. 
 * Label names beginning with `__` (two underscores) MUST be reserved for internal Prometheus use.
-* Label names SHOULD match the regex `[a-zA-Z_][a-zA-Z0-9_]*` for the best experience and compatibility (see the warning below). Label names outside of that regex will require escaping e.g. when used in PromQL (see the [UTF-8 guide](../guides/utf8.md#querying)).
+* Label names SHOULD match the regex `[a-zA-Z_][a-zA-Z0-9_]*` for the best experience and compatibility (see the warning below). Label names outside of that regex will require quoting e.g. when used in PromQL (see the [UTF-8 guide](../guides/utf8.md#querying)).
 * Label values MAY contain any UTF-8 characters.
 * Labels with an empty label value are considered equivalent to labels that do not exist.
 
-WARNING: The [UTF-8](../guides/utf8.md) support for metric and label names was added relatively recently in Prometheus v3.0.0. It might take time for the wider ecosystem (downstream PromQL compatible projects and vendors, tooling, 3P instrumentation, collectors, etc.) to adopt new escaping mechanisms, relaxed validation etc. For the best compatibility it's recommended to stick to the recommended ("SHOULD") character set.
+WARNING: The [UTF-8](../guides/utf8.md) support for metric and label names was added relatively recently in Prometheus v3.0.0. It might take time for the wider ecosystem (downstream PromQL compatible projects and vendors, tooling, third-party instrumentation, collectors, etc.) to adopt new quoting mechanisms, relaxed validation etc. For the best compatibility it's recommended to stick to the recommended ("SHOULD") character set.
 
 INFO: See also the [best practices for naming metrics and labels](/docs/practices/naming/).
 

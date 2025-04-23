@@ -82,12 +82,6 @@ the underlying metric type and unit you work with.
 * **Metric collisions**: With growing adoption and metric changes over time, there are cases where lack
 of unit and type information in the metric name will cause certain series to collide (e.g. `process_cpu` for seconds and milliseconds).
 
-NOTE: While Prometheus community experiments with ways to reduce the above negative effects
-(e.g. [`type-and-unit-labels` feature](https://github.com/prometheus/proposals/pull/39))
-including unit and _total suffixes in Prometheus metric names is still the best way to avoid those issues.
-As a result, those suffixes are still strongly recommended and there are no plans to lift that recommendation in the
-next decade.
-
 ## Labels
 
 Use labels to differentiate the characteristics of the thing that is being measured:

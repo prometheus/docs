@@ -50,7 +50,7 @@ Implementers MUST expose metrics in the OpenMetrics text format in response to a
 
 ## Changes from version 1.0
 
-In the data model it is no longer recommended that histograms omit the Sum if there are negative measured event values. #2627.
+In the data model it is no longer required that histograms omit the Sum if there are negative measured event values. #2627.
 
 ### Metrics and Time Series
 

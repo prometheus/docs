@@ -61,7 +61,7 @@ meaningful, split the data up into multiple metrics. For example, having the
 capacity of various queues in one metric is good, while mixing the capacity of a
 queue with the current number of elements in the queue is not.
 
-### Why including unit (and _total for counter) suffixes in metric names?
+### Why include unit and type suffixes in metric names?
 
 Some metric naming conventions (e.g. OpenTelemetry) do not recommend or even do not allow
 including information about a metric unit and type in the metric name. A common
@@ -69,17 +69,17 @@ argument is that those pieces of information are already defined somewhere else 
 metadata, other labels, etc.).
 
 Prometheus strongly recommends including unit and type in a metric name, even if you store that
-information elsewhere, because of the two main reasons:
+information elsewhere, because of the following practical reasons:
 
 * **Metric consumption reliability and UX**: When interacting with a modern UI to 
 use such a metric in PromQL, it's possible to display rich information about the metric's type and unit
-(autocompletion, overlays, pop-ups). Unfortunately, interactive, adhoc querying in a powerful UI is only
-a tiny fraction of the metric consumption use journeys (CUJs). Metric consumption ecosystem is vast. Majority
+(autocompletion, overlays, pop-ups). Unfortunately, interactive, adhoc querying in a powerful UI is not
+the only way that users interact with metrics. Metric consumption ecosystem is vast. Majority
 of the consumption comes in a form of the plain YAML configuration for variety of observability tools like
-alerting, recording, autoscaling, dashboard, analysis, processing, etc. It's **critical**, especially 
-during monitoring/SRE incident practices to look on PromQL expressions in the plain YAML and understand
+alerting, recording, autoscaling, dashboards, analysis, processing, etc. It's **critical**, especially 
+during monitoring/SRE incident practices to look on PromQL expressions in plain YAML and understand
 the underlying metric type and unit you work with.
-* **Metric collisions**: With the enormous adoption and metric changes over time, there are cases where lack
+* **Metric collisions**: With growing adoption and metric changes over time, there are cases where lack
 of unit and type information in the metric name will cause certain series to collide (e.g. `process_cpu` for seconds and milliseconds).
 
 NOTE: While Prometheus community experiments with ways to reduce the above negative effects

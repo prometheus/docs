@@ -50,7 +50,7 @@ Implementers MUST expose metrics in the OpenMetrics text format in response to a
 
 ## Changes from version 1.0
 
-In the data model, histograms are no longer required to omit the Sum if there are negative measured event values. #2627.
+In the data model it is no longer recommended that histograms omit the Sum if there are negative measured event values. #2627.
 
 ### Metrics and Time Series
 
@@ -224,16 +224,15 @@ Histograms measure distributions of discrete events. Common examples are the lat
 
 A Histogram MetricPoint MUST contain at least one bucket, and SHOULD contain Sum, and Created values. Every bucket MUST have a threshold and a value.
 
-Histogram MetricPoints MUST have one bucket with threshold equal to +Inf. Buckets MUST be cumulative.
-As an example: for a metric representing request latency in seconds that has the following bucket thresholds: 1, 2, 3, and +Inf,
-it MUST follow that value_1 <= value_2 <= value_3 <= value_+Inf. If ten requests took 1 second each, the values of the 1, 2, 3, and +Inf buckets MUST equal 10.
-Or in other words, the count of measured event values that are >1 and <=2 is equal to value_2 - value_1.
+Histogram MetricPoints MUST have one bucket with an +Inf threshold. Buckets MUST be cumulative. As an example for a metric representing request latency in seconds its values for buckets with thresholds 1, 2, 3, and +Inf MUST follow value_1 <= value_2 <= value_3 <= value_+Inf. If ten requests took 1 second each, the values of the 1, 2, 3, and +Inf buckets MUST equal 10.
 
-The +Inf bucket counts all requests. Bucket thresholds within a MetricPoint MUST be unique. Negative threshold buckets MAY be used. Bucket thresholds MUST NOT equal NaN.
+The +Inf bucket counts all requests. If present, the Sum value MUST equal the Sum of all the measured event values. Bucket thresholds within a MetricPoint MUST be unique.
 
-Semantically, buckets values are counters so MUST NOT be NaN or negative. Bucket values MUST be integers.
+Semantically, buckets values are counters so MUST NOT be NaN or negative.
 
-If present, the Sum value MUST equal the Sum of all the measured event values. The histogram MAY count negative event values, which means that the Sum may decrease.
+The Sum is only a counter semantically as long as there are no negative event values measured by the Histogram MetricPoint. The Sum MUST NOT be NaN.
+
+Negative threshold buckets MAY be used. Bucket thresholds MUST NOT equal NaN. Count and bucket values MUST be integers.
 
 A Histogram MetricPoint SHOULD have a Timestamp value called Created. This can help ingestors discern between new metrics and long-running ones it did not see before.
 

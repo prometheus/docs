@@ -51,7 +51,7 @@ export OTEL_SERVICE_NAME="my-example-service"
 export OTEL_RESOURCE_ATTRIBUTES="service.instance.id=$(uuidgen)"
 ```
 
-The above assumes that `uuidgen` command is available on your system. Make sure that `service.instance.id` is unique for each instance, and that a new `service.instance.id` is generated whenever a resource attribute chances. The [recommended](https://github.com/open-telemetry/semantic-conventions/tree/main/docs/resource) way is to generate a new UUID on each startup of an instance.
+The above assumes that `uuidgen` command is available on your system. Make sure that `service.instance.id` is unique for each instance, and that a new `service.instance.id` is generated whenever a resource attribute changes. The [recommended](https://github.com/open-telemetry/semantic-conventions/tree/main/docs/resource) way is to generate a new UUID on each startup of an instance.
 
 ## Configuring Prometheus
 
@@ -126,7 +126,7 @@ target_info
 
 What happens in this query is that the time series resulting from `rate(http_server_request_duration_seconds_count[2m])` are augmented with the `k8s_cluster_name` label from the `target_info` series that share the same `job` and `instance` labels.
 In other words, the `job` and `instance` labels are shared between `http_server_request_duration_seconds_count` and `target_info`, akin to SQL foreign keys.
-The `k8s_cluster_name` label, On the other hand, corresponds to the OTel resource attribute `k8s.cluster.name` (Prometheus converts dots to underscores).
+The `k8s_cluster_name` label, on the other hand, corresponds to the OTel resource attribute `k8s.cluster.name` (Prometheus converts dots to underscores).
 
 So, what is the relation between the `target_info` metric and OTel resource attributes?
 When Prometheus processes an OTLP write request, and provided that contained resources include the attributes `service.instance.id` and/or `service.name`, Prometheus generates the info metric `target_info` for every (OTel) resource.
@@ -149,7 +149,7 @@ For each of a resource's OTel metrics, Prometheus converts it to a corresponding
 
 From the 3.x version, Prometheus supports UTF-8 for metric names and labels, so [Prometheus normalization translator package from OpenTelemetry](https://github.com/open-telemetry/opentelemetry-collector-contrib/tree/main/pkg/translator/prometheus) can be omitted.
 
-UTF-8 is enabled by default in Prometheus storage and UI, but you need to `translation_strategy` for OTLP metric receiver, which by default is set to old normalization `UnderscoreEscapingWithSuffixes`.
+UTF-8 is enabled by default in Prometheus storage and UI, but you need to set `translation_strategy` for OTLP metric receiver, which by default is set to old normalization `UnderscoreEscapingWithSuffixes`.
 
 Setting it to `NoUTF8EscapingWithSuffixes`, which we recommend, will disable changing special characters to `_` which allows native use of OpenTelemetry metric format, especially with [the semantic conventions](https://opentelemetry.io/docs/specs/semconv/general/metrics/). Note that special suffixes like units and `_total` for counters will be attached. There is [ongoing work to have no suffix generation](https://github.com/prometheus/proposals/pull/39), stay tuned for that. 
 

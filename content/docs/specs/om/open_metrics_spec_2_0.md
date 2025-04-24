@@ -64,7 +64,15 @@ This section MUST be read together with the ABNF section. In case of disagreemen
 
 #### Values
 
-Metric values in OpenMetrics MUST be either floating points or integers. Note that ingestors of the format MAY only support float64. The non-real values NaN, +Inf and -Inf MUST be supported. NaN MUST NOT be considered a missing value, but it MAY be used to signal a division by zero.
+Metric values in OpenMetrics MUST be either numbers or complex data types.
+
+Numbers MUST be either floating points or integers. Note that ingestors of the format MAY only support float64. The non-real values NaN, +Inf and -Inf MUST be supported. NaN MUST NOT be considered a missing value, but it MAY be used to signal a division by zero.
+
+Complex data types MUST contain all information necessary to recreate a Metric Type, with the exception of Created time and Exemplars.
+
+List of complex data types:
+- Integer (counter) native histograms,
+- Integer gauge native histograms.
 
 ##### Booleans
 
@@ -219,6 +227,8 @@ MetricFamilies of type Info MUST have an empty Unit string.
 Histograms measure distributions of discrete events. Common examples are the latency of HTTP requests, function runtimes, or I/O request sizes.
 
 A Histogram MetricPoint MUST contain at least one bucket, and SHOULD contain Sum, and Created values. Every bucket MUST have a threshold and a value.
+
+
 
 Histogram MetricPoints MUST have one bucket with an +Inf threshold. Buckets MUST be cumulative. As an example for a metric representing request latency in seconds its values for buckets with thresholds 1, 2, 3, and +Inf MUST follow value_1 <= value_2 <= value_3 <= value_+Inf. If ten requests took 1 second each, the values of the 1, 2, 3, and +Inf buckets MUST equal 10.
 

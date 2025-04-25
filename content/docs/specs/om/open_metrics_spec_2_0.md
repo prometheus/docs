@@ -226,7 +226,9 @@ MetricFamilies of type Info MUST have an empty Unit string.
 
 Histograms measure distributions of discrete events. Common examples are the latency of HTTP requests, function runtimes, or I/O request sizes.
 
-A Histogram MetricPoint MAY contain any number of buckets, and SHOULD contain Count, Sum, and Created values. Every bucket MUST have well defined boundaries and a value. Boundaries of a bucket MUST NOT be NaN. Count and bucket values MUST be integers.
+A Histogram MetricPoint MUST contain either classic buckets or exponential buckets or both.
+
+A Histogram MetricPoint SHOULD contain Count, Sum, and Created values. Every bucket MUST have well defined boundaries and a value. Boundaries of a bucket MUST NOT be NaN. Count and bucket values MUST be integers.
 
 Semantically, Count, and buckets values are counters so MUST NOT be NaN or negative.
 
@@ -236,17 +238,15 @@ A Histogram MetricPoint SHOULD have a Timestamp value called Created. This can h
 
 A Histogram's Metric's LabelSet MUST NOT have a "le" label name.
 
-A Histogram MetricPoint MUST include either classic buckets or exponential buckets or both.
-
 ##### Classic buckets
 
 Every classic bucket MUST have a threshold. Classic bucket thresholds within a MetricPoint MUST be unique.
 
-A classic bucket MUST cover every measured value less or equal to its threshold, or to put it another way, buckets MUST be cumulative. Classic buckets are cumulative to allow monitoring systems to drop any non-+Inf bucket for performance/anti-denial-of-service reasons in a way that loses granularity but is still a valid Histogram.
+A classic bucket MUST cover every measured value less or equal to its threshold, or to put it another way, classic buckets MUST be cumulative. Classic buckets are cumulative to allow monitoring systems to drop any non-+Inf bucket for performance/anti-denial-of-service reasons in a way that loses granularity but is still a valid Histogram.
 
 As an example for a metric representing request latency in seconds its values for classic buckets with thresholds 1, 2, 3, and +Inf MUST follow value_1 <= value_2 <= value_3 <= value_+Inf. If ten requests took 1 second each, the values of the 1, 2, 3, and +Inf buckets MUST equal 10.
 
-Histogram MetricPoints with classic buckets MUST have one classic bucket with an +Inf threshold. The +Inf bucket counts all requests.
+Histogram MetricPoints with classic buckets MUST have one classic bucket with a +Inf threshold. The +Inf bucket counts all requests.
 
 The Count value MUST equal the value of the +Inf bucket.
 

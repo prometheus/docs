@@ -302,17 +302,17 @@ The values of exemplars in a Histogram MetricPoint with native buckets SHOULD be
 
 GaugeHistograms measure current distributions. Common examples are how long items have been waiting in a queue, or size of the requests in a queue.
 
-A GaugeHistogram MetricPoint MUST have one bucket with an +Inf threshold, and SHOULD contain a Gsum value. Every bucket MUST have a threshold and a value.
+A GaugeHistogram MetricPoint MUST contain either classic buckets or exponential buckets or both.
 
-The buckets for a GaugeHistogram follow all the same rules as for a Histogram.
+A GaugeHistogram MetricPoint SHOULD contain Gcount, Gsum. Every bucket MUST have well defined boundaries and a value. Boundaries of a bucket MUST NOT be NaN. Gcount and bucket values MUST be integers.
 
-The bucket and Gsum of a GaugeHistogram are conceptually gauges, however bucket values MUST NOT be negative or NaN. If negative threshold buckets are present, then sum MAY be negative. Gsum MUST NOT be NaN. Bucket values MUST be integers.
+The bucket and Gsum of a GaugeHistogram are conceptually gauges, however bucket values MUST NOT be negative or NaN. If negative threshold buckets are present, then Gsum MAY be negative. Gsum MUST NOT be NaN. Bucket values MUST be integers.
 
 A GaugeHistogram's Metric's LabelSet MUST NOT have a "le" label name.
 
-Bucket values can have exemplars.
+The buckets for a GaugeHistogram follow all the same rules as for a Histogram, with Gcount playing the same role as Count.
 
-Each bucket covers the values less and or equal to it, and the value of the exemplar MUST be within this range. Exemplars SHOULD be put into the bucket with the highest value. A bucket MUST NOT have more than one exemplar.
+The exemplars for a GaugeHistogram follow all the same rules as for a Histogram.
 
 #### Summary
 

@@ -1669,8 +1669,7 @@ the histogram has observed negative values.)
 Note that the counter reset hints of counter histograms returned by sub-queries
 MUST NOT be taken into account to avoid explicit counter reset detection,
 unless the PromQL engine can safely detect that consecutive counter histograms
-returned from the sub-query are also consecutive in the TSDB. (TODO: This is
-not implemented yet.)
+returned from the sub-query are also consecutive in the TSDB.
 
 ### Gauge histograms vs. counter histograms
 
@@ -2252,8 +2251,7 @@ or receiving them. However, this does not overcome the known consistency
 problems classic histograms suffer from when transmitted via remote write.
 Instead, classic histograms SHOULD be converted to NHCBs during scraping.
 Similarly, explicit OTel histograms SHOULD be converted to NHCBs during [OTLP
-ingestion](#otlp) already. (TODO: See [tracking
-issue](https://github.com/prometheus/prometheus/issues/15022).)
+ingestion](#otlp) already.
 
 TODO: A remaining possible problem with remote write is what to do if multiple
 exemplars originally ingested for the same native histogram are sent in
@@ -2280,10 +2278,7 @@ the ingestion will fail.)
 
 Explicit OTel histograms are the equivalent of Prometheus's classic histograms.
 Prometheus therefore converts them to classic histograms by default, but
-optionally offers direct conversion to NHCBs. (TODO: Not implemented yet, see
-[tracking issue](https://github.com/prometheus/prometheus/issues/15022).)
-
-TODO: Is the OTLP receiver documented anywhere? Link the documentation here.
+optionally offers direct conversion to NHCBs.
 
 ## Pushgateway
 

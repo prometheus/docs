@@ -48,10 +48,6 @@ OpenMetrics is primarily a wire format, independent of any particular transport 
 
 Implementers MUST expose metrics in the OpenMetrics text format in response to a simple HTTP GET request to a documented URL for a given process or device. This endpoint SHOULD be called "/metrics". Implementers MAY also expose OpenMetrics formatted metrics in other ways, such as by regularly pushing metric sets to an operator-configured endpoint over HTTP.
 
-## Changes from version 1.0
-
-In the data model it is no longer required that histograms omit the Sum if there are negative measured event values. #2627.
-
 ### Metrics and Time Series
 
 This standard expresses all system states as numerical values; counts, current values, enumerations, and boolean states being common examples. Contrary to metrics, singular events occur at a specific time. Metrics tend to aggregate data temporally. While this can lose information, the reduction in overhead is an engineering trade-off commonly chosen in many modern monitoring systems.

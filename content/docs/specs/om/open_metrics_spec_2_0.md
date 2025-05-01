@@ -382,13 +382,15 @@ metric = *sample
 metric-type = counter / gauge / histogram / gaugehistogram / stateset
 metric-type =/ info / summary / unknown
 
-sample = metricname [labels] SP number [SP timestamp] [exemplar] LF
+sample = metricname [labels] SP value [SP timestamp] [exemplar] LF
 
 exemplar = SP HASH SP labels SP number [SP timestamp]
 
 labels = "{" [label *(COMMA label)] "}"
 
 label = label-name EQ DQUOTE escaped-string DQUOTE
+
+value = number / complextype-
 
 number = realnumber
 ; Case insensitive
@@ -444,6 +446,11 @@ escaped-char =/ BS normal-char
 
 ; Any unicode character, except newline, double quote, and backslash
 normal-char = %x00-09 / %x0B-21 / %x23-5B / %x5D-D7FF / %xE000-10FFFF
+
+; Complex types
+complextype = "{" complextype "}"
+
+nativehistogram 
 ```
 
 #### Overall Structure

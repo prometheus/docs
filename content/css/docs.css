@@ -78,6 +78,37 @@ body {
   color: white;
 }
 
+.banner {
+  background-color: #ffc107;
+  text-align: center;
+  width: 100%;
+  display: flex;
+  gap: 32px;
+  align-items: center;
+  justify-content: center;
+}
+
+.banner button {
+  background-color: transparent;
+  color: rgb(36, 36, 152);
+  border: none;
+}
+
+.banner button:hover {
+  border: rgb(36, 36, 152);
+}
+
+.banner a {
+  text-decoration: underline;
+  font-style: italic;
+}
+
+.banner h3 {
+  font-size: 16px;
+  font-weight: 600;
+  font-family: Lato, sans-serif;
+}
+
 .jumbotron {
   background-color: #e6522c;
   background-image: url("/assets/jumbotron-background.png");

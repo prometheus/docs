@@ -79,8 +79,7 @@ body {
 }
 
 .banner {
-  background-color: #ffc107;
-  text-align: center;
+  background-color: rgb(252, 232, 170);
   width: 100%;
   display: flex;
   gap: 32px;
@@ -100,12 +99,11 @@ body {
 
 .banner a {
   text-decoration: underline;
-  font-style: italic;
 }
 
 .banner h3 {
+  margin: 1.2em 0;
   font-size: 16px;
-  font-weight: 600;
   font-family: Lato, sans-serif;
 }
 

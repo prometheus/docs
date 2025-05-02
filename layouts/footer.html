@@ -24,6 +24,11 @@
         if (banner) {
           banner.style.display = 'none';
         }
+        localStorage.setItem("hide-banner", "true");
+      }
+
+      if (localStorage.getItem("hide-banner") === "true") {
+        hideBanner();
       }
     </script>
   </body>

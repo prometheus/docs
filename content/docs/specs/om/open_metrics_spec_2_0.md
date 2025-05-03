@@ -126,14 +126,14 @@ MetricFamily names beginning with underscores are RESERVED and MUST NOT be used 
 
 ###### Suffixes
 
-The name of a MetricFamily MUST NOT result in a potential clash for sample metric names as per the ABNF with another MetricFamily in the Text Format within a MetricSet. An example would be a gauge called "foo_created" as a counter called "foo" could create a "foo_created" in the text format.
+The name of a MetricFamily MUST NOT result in a potential clash for sample metric names as per the ABNF with another MetricFamily in the Text Format within a MetricSet. An example would be a gauge called "foo_total" as a counter called "foo" could create a "foo_total" in the text format.
 
 Exposers SHOULD avoid names that could be confused with the suffixes that text format sample metric names use.
 
 * Suffixes for the respective types are:
-* Counter: `_total`, `_created`
-* Summary: `_count`, `_sum`, `_created`, `` (empty)
-* Histogram: `_count`, `_sum`, `_bucket`, `_created`
+* Counter: `_total`
+* Summary: `_count`, `_sum`, `` (empty)
+* Histogram: `_count`, `_sum`, `_bucket`
 * GaugeHistogram: `_gcount`, `_gsum`, `_bucket`
 * Info: `_info`
 * Gauge: `` (empty)
@@ -405,12 +405,11 @@ An example of a complete exposition:
 # TYPE acme_http_router_request_seconds summary
 # UNIT acme_http_router_request_seconds seconds
 # HELP acme_http_router_request_seconds Latency though all of ACME's HTTP request router.
-acme_http_router_request_seconds_sum{path="/api/v1",method="GET"} 9036.32
-acme_http_router_request_seconds_count{path="/api/v1",method="GET"} 807283.0
-acme_http_router_request_seconds_created{path="/api/v1",method="GET"} 1605281325.0
-acme_http_router_request_seconds_sum{path="/api/v2",method="POST"} 479.3
-acme_http_router_request_seconds_count{path="/api/v2",method="POST"} 34.0
-acme_http_router_request_seconds_created{path="/api/v2",method="POST"} 1605281325.0
+acme_http_router_request_seconds_sum{path="/api/v1",method="GET"} 9036.32 ct@1605281325.0
+acme_http_router_request_seconds_count{path="/api/v1",method="GET"} 807283.0 ct@1605281325.0
+acme_http_router_request_seconds_created{path="/api/v1",method="GET"} 1605281325.0 ct@1605281325.0
+acme_http_router_request_seconds_sum{path="/api/v2",method="POST"} 479.3 ct@1605281325.0
+acme_http_router_request_seconds_count{path="/api/v2",method="POST"} 34.0 ct@1605281325.0
 # TYPE go_goroutines gauge
 # HELP go_goroutines Number of goroutines that currently exist.
 go_goroutines 69
@@ -635,7 +634,7 @@ foo 18.0 456
 
 ##### Counter
 
-The MetricPoint's Total Value Sample MetricName MUST have the suffix `_total`. If present the MetricPoint's Created Value Sample MetricName MUST have the suffix `_created`.
+The MetricPoint's Total Value Sample MetricName MUST have the suffix `_total`. If present the MetricPoint's Created Value MUST be inlined with the Metric point with a `ct@` prefix. If the value's timestamp is present, the Created Value MUST be added right after it. If exemplars are present, the Created Value MUST be added before it.
 
 An example with a Metric with no labels, and a MetricPoint with no timestamp and no created:
 
@@ -655,19 +654,24 @@ An example with a Metric with no labels, and a MetricPoint with no timestamp and
 
 ```
 # TYPE foo counter
-foo_total 17.0
-foo_created 1520430000.123
+foo_total 17.0 ct@1520430000.123
 ```
 
 An example with a Metric with no labels, and a MetricPoint with a timestamp and a created:
 
 ```
 # TYPE foo counter
-foo_total 17.0 1520879607.789
-foo_created 1520430000.123 1520879607.789
+foo_total 17.0 1520879607.789 ct@1520430000.123
 ```
 
 Exemplars MAY be attached to the MetricPoint's Total sample.
+
+An example with a Metric with no labels, and a MetricPoint with a timestamp and a created and an exemplar:
+
+```
+# TYPE foo counter
+foo_total 17.0 1520879607.789 ct@1520430000.123 # {trace_id="KOO5S4vxi0o"} 0.67
+```
 
 ##### StateSet
 
@@ -719,30 +723,34 @@ Metric labels and MetricPoint value labels MAY be in any order.
 
 ##### Summary
 
-If present, the MetricPoint's Sum Value Sample MetricName MUST have the suffix `_sum`. If present, the MetricPoint's Count Value Sample MetricName MUST have the suffix `_count`. If present, the MetricPoint's Created Value Sample MetricName MUST have the suffix `_created`. If present, the MetricPoint's Quantile Values MUST specify the quantile measured using a label with a label name of "quantile" and with a label value of the quantile measured.
+If present, the MetricPoint's Sum Value Sample MetricName MUST have the suffix `_sum`. If present, the MetricPoint's Count Value MetricName MUST have the suffix `_count`. If present, the MetricPoint's Quantile Values MUST specify the quantile measured using a label with a label name of "quantile" and with a label value of the quantile measured. 
+
+If present the MetricPoint's Created Value MUST be inlined with the Metric point with a `ct@` prefix. If the value's timestamp is present, the Created Value MUST be added right after it. If exemplars are present, the Created Value MUST be added before it. Createad Value MUST be appended to all Quantile Values, to the MetricPoint's Sum and MetricPoint's Count.
 
 An example of a Metric with no labels and a MetricPoint with Sum, Count and Created values:
 
 ```
 # TYPE foo summary
-foo_count 17.0
-foo_sum 324789.3
-foo_created 1520430000.123
+foo_count 17.0 ct@1520430000.123
+foo_sum 324789.3 ct@1520430000.123
 ```
 
-An example of a Metric with no labels and a MetricPoint with two quantiles:
+An example of a Metric with no labels and a MetricPoint with two quantiles and Created values:
 
 ```
 # TYPE foo summary
-foo{quantile="0.95"} 123.7
-foo{quantile="0.99"} 150.0
+foo{quantile="0.95"} 123.7 ct@1520430000.123
+foo{quantile="0.99"} 150.0 ct@1520430000.123
 ```
 
 Quantiles MAY be in any order.
 
 ##### Histogram
 
-The MetricPoint's Bucket Values Sample MetricNames MUST have the suffix `_bucket`. If present, the MetricPoint's Sum Value Sample MetricName MUST have the suffix `_sum`. If present, the MetricPoint's Created Value Sample MetricName MUST have the suffix `_created`.
+The MetricPoint's Bucket Values Sample MetricNames MUST have the suffix `_bucket`. If present, the MetricPoint's Sum Value Sample MetricName MUST have the suffix `_sum`. 
+
+If present the MetricPoint's Created Value MUST be inlined with the Metric point with a `ct@` prefix. If the value's timestamp is present, the Created Value MUST be added right after it. If exemplars are present, the Created Value MUST be added before it. Createad Value MUST be appended to all Bucket Values, to the MetricPoint's Sum and MetricPoint's Count.
+
 If and only if a Sum Value is present in a MetricPoint, then the MetricPoint's +Inf Bucket value MUST also appear in a Sample with a MetricName with the suffix "_count".
 
 Buckets MUST be sorted in number increasing order of "le", and the value of the "le" label MUST follow the rules for Canonical Numbers.
@@ -751,20 +759,19 @@ An example of a Metric with no labels and a MetricPoint with Sum, Count, and Cre
 
 ```
 # TYPE foo histogram
-foo_bucket{le="0.0"} 0
-foo_bucket{le="1e-05"} 0
-foo_bucket{le="0.0001"} 5
-foo_bucket{le="0.1"} 8
-foo_bucket{le="1.0"} 10
-foo_bucket{le="10.0"} 11
-foo_bucket{le="100000.0"} 11
-foo_bucket{le="1e+06"} 15
-foo_bucket{le="1e+23"} 16
-foo_bucket{le="1.1e+23"} 17
-foo_bucket{le="+Inf"} 17
-foo_count 17
-foo_sum 324789.3
-foo_created 1520430000.123
+foo_bucket{le="0.0"} 0 ct@1520430000.123
+foo_bucket{le="1e-05"} 0 ct@1520430000.123
+foo_bucket{le="0.0001"} 5 ct@1520430000.123
+foo_bucket{le="0.1"} 8 ct@1520430000.123
+foo_bucket{le="1.0"} 10 ct@1520430000.123
+foo_bucket{le="10.0"} 11 ct@1520430000.123
+foo_bucket{le="100000.0"} 11 ct@1520430000.123
+foo_bucket{le="1e+06"} 15 ct@1520430000.123
+foo_bucket{le="1e+23"} 16 ct@1520430000.123
+foo_bucket{le="1.1e+23"} 17 ct@1520430000.123
+foo_bucket{le="+Inf"} 17 ct@1520430000.123
+foo_count 17 ct@1520430000.123
+foo_sum 324789.3 ct@1520430000.123
 ```
 
 ###### Exemplars
@@ -783,7 +790,6 @@ foo_bucket{le="10"} 17 # {trace_id="oHg5SJYRHA0"} 9.8 1520879607.789
 foo_bucket{le="+Inf"} 17
 foo_count 17
 foo_sum 324789.3
-foo_created  1520430000.123
 ```
 
 ##### GaugeHistogram
@@ -1122,7 +1128,7 @@ my_time_since_boot_seconds 123
 ```
 
 Conversely, there are no best practice restrictions on exemplars timestamps.
-Keep in mind that due to race conditions or time not being perfectly synced across devices, that an exemplar timestamp may appear to be slightly in the future relative to a ingestor's system clock or other metrics from the same exposition. Similarly it is possible that a "_created" for a MetricPoint could appear to be slightly after an exemplar or sample timestamp for that same MetricPoint.
+Keep in mind that due to race conditions or time not being perfectly synced across devices, that an exemplar timestamp may appear to be slightly in the future relative to a ingestor's system clock or other metrics from the same exposition. Similarly it is possible that a "ct@" for a MetricPoint could appear to be slightly after an exemplar or sample timestamp for that same MetricPoint.
 
 Keep in mind that there are monitoring systems in common use which support everything from nanosecond to second resolution, so having two MetricPoints that have the same timestamp when truncated to second resolution may cause an apparent duplicate in the ingestor. In this case the MetricPoint with the earliest timestamp MUST be used.
 

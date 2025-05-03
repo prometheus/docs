@@ -54,6 +54,10 @@ An instance is a label that uniquely identifies a target in a job.
 
 A collection of targets with the same purpose, for example monitoring a group of like processes replicated for scalability or reliability, is called a job.
 
+### Mixins
+
+Mixins are a way to extend and share monitoring best practices and configurations for various applications and services. They provide pre-defined sets of Prometheus rules and alerts, and Grafana dashboards, that can be easily included in your own Prometheus configuration.
+
 ### Notification
 
 A notification represents a group of one or more alerts, and is sent by the Alertmanager to email, Pagerduty, Slack etc.

@@ -107,6 +107,7 @@ For notification mechanisms not natively supported by the Alertmanager, the
   * [XMPP Bot](https://github.com/jelmer/prometheus-xmpp-alerts)
   * [Zenduty](https://docs.zenduty.com/docs/prometheus/)
   * [Zoom](https://github.com/Code2Life/nodess-apps/tree/master/src/zoom-alert-2.0)
+  * [calert](https://github.com/mr-karan/calert): forwards notifications to Google Chat
 
 ## Management
 

@@ -80,6 +80,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [Node/system metrics exporter](https://github.com/prometheus/node_exporter) (**official**)
    * [NVIDIA GPU exporter](https://github.com/mindprince/nvidia_gpu_prometheus_exporter)
    * [ProSAFE exporter](https://github.com/dalance/prosafe_exporter)
+   * [Redfish exporter](https://github.com/comcast/fishymetrics)
    * [SmartRAID exporter](https://gitlab.com/calestyo/prometheus-smartraid-exporter)
    * [Waveplus Radon Sensor Exporter](https://github.com/jeremybz/waveplus_exporter)
    * [Weathergoose Climate Monitor Exporter](https://github.com/branttaylor/watchdog-prometheus-exporter)

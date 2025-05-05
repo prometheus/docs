@@ -230,6 +230,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [JFrog Artifactory Exporter](https://github.com/peimanja/artifactory_exporter)
    * [Hostapd Exporter](https://github.com/Fundacio-i2CAT/hostapd_prometheus_exporter)
    * [IBM Security Verify Access / Security Access Manager Exporter](https://gitlab.com/zeblawson/isva-prometheus-exporter)
+   * [ICMP Exporter](https://github.com/SidingsMedia/icmp_exporter)
    * [IPsec exporter](https://github.com/torilabs/ipsec-prometheus-exporter)
    * [ipset exporter](https://github.com/hatamiarash7/ipset-exporter)
    * [IRCd exporter](https://github.com/dgl/ircd_exporter)

@@ -2,24 +2,48 @@
   "name": "prometheus-next",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "next dev --turbopack",
+    "fetch-repo-docs": "tsx scripts/fetch-repo-docs.ts",
+    "clean": "rm -rf generated out .next",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
+    "@mantine/code-highlight": "^8.0.0",
+    "@mantine/core": "^8.0.0",
+    "@mantine/hooks": "^8.0.0",
+    "@tabler/icons-react": "^3.31.0",
+    "gray-matter": "^4.0.3",
+    "hast-util-from-html": "^2.0.3",
+    "hast-util-select": "^6.0.4",
+    "hastscript": "^9.0.1",
+    "next": "15.3.1",
+    "octokit": "^4.1.3",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "next": "15.3.1"
+    "react-markdown": "^10.1.0",
+    "rehype-autolink-headings": "^7.1.0",
+    "rehype-slug": "^6.0.0",
+    "remark-frontmatter": "^5.0.0",
+    "remark-gfm": "^4.0.1",
+    "shiki": "^3.4.0"
   },
   "devDependencies": {
-    "typescript": "^5",
+    "@eslint/eslintrc": "^3",
+    "@shikijs/rehype": "^3.4.0",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "dotenv": "^16.5.0",
     "eslint": "^9",
     "eslint-config-next": "15.3.1",
-    "@eslint/eslintrc": "^3"
+    "postcss": "^8.5.3",
+    "postcss-preset-mantine": "^1.17.0",
+    "postcss-simple-vars": "^7.0.1",
+    "tsx": "^4.19.4",
+    "typescript": "^5"
   }
 }

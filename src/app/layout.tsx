@@ -17,9 +17,14 @@ import {
 // https://mantine.dev/styles/mantine-styles/#css-layers.
 import "@mantine/core/styles.layer.css";
 import "@mantine/code-highlight/styles.layer.css";
+import "@mantine/spotlight/styles.layer.css";
 import "./globals.css";
 import { Header } from "@/components/Header";
 import { theme } from "@/theme";
+// import docsearch from "@docsearch/js";
+
+import "@docsearch/css";
+// import { useEffect } from "react";
 
 const interFont = Inter({
   variable: "--font-inter",
@@ -36,6 +41,15 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // useEffect(() => {
+  //   docsearch({
+  //     container: "#docsearch",
+  //     appId: "prometheus",
+  //     indexName: "prometheus",
+  //     apiKey: "48ac0b7924908a1fd40b1cb18b402ba1",
+  //   });
+  // }, []);
+
   return (
     <html lang="en" {...mantineHtmlProps} className={interFont.variable}>
       <head>
@@ -44,20 +58,33 @@ export default function RootLayout({
       <body>
         <MantineProvider theme={theme}>
           <Header />
-          {children}
-          <Space h={50} />
-          <footer style={{ backgroundColor: "var(--mantine-color-gray-0)" }}>
-            <Container size="lg" p="xl">
+          {/* <div id="docsearch" /> */}
+          <Container
+            size="xl"
+            mt="xl"
+            mih="calc(100vh - var(--header-height) - var(--header-to-content-margin))"
+          >
+            {children}
+            <Space h={50} />
+          </Container>
+
+          <footer
+            style={{
+              backgroundColor:
+                "light-dark(var(--mantine-color-gray-0), var(--mantine-color-dark-9))",
+            }}
+          >
+            <Container size="xl" p="xl">
               <Group h={100}>
                 <Text c="dimmed" fz="sm">
-                  &copy; Prometheus Authors 2014-2024 | Documentation
-                  Distributed under CC-BY-4.0
+                  &copy; Prometheus Authors 2014-{new Date().getFullYear()} |
+                  Documentation Distributed under CC-BY-4.0
                 </Text>
                 <Text c="dimmed" fz="sm">
-                  &copy; 2024 The Linux Foundation. All rights reserved. The
-                  Linux Foundation has registered trademarks and uses
-                  trademarks. For a list of trademarks of The Linux Foundation,
-                  please see our{" "}
+                  &copy; {new Date().getFullYear()} The Linux Foundation. All
+                  rights reserved. The Linux Foundation has registered
+                  trademarks and uses trademarks. For a list of trademarks of
+                  The Linux Foundation, please see our{" "}
                   <Anchor
                     inherit
                     href="https://www.linuxfoundation.org/trademark-usage"

@@ -2,6 +2,7 @@ export type DocsConfig = {
   localMarkdownSources: LocalMarkdownSource[];
   githubMarkdownSources: GithubMarkdownSource[];
   ltsVersions: LTSConfig;
+  downloads: DownloadConfig;
 };
 
 export type GithubMarkdownSource = {
@@ -19,4 +20,9 @@ export type LocalMarkdownSource = {
 
 export type LTSConfig = {
   [repo: string]: string[];
+};
+
+export type DownloadConfig = {
+  owner: string;
+  repos: string[];
 };

@@ -31,4 +31,23 @@ export default {
   ltsVersions: {
     prometheus: ["2.53"],
   },
+
+  // Repositories for the downloads page. The order in this file is the
+  // order in which they will be displayed on the downloads page.
+  downloads: {
+    owner: "prometheus",
+    repos: [
+      "prometheus",
+      "alertmanager",
+      "blackbox_exporter",
+      "consul_exporter",
+      "graphite_exporter",
+      "memcached_exporter",
+      "mysqld_exporter",
+      "node_exporter",
+      "promlens",
+      "pushgateway",
+      "statsd_exporter",
+    ],
+  },
 } satisfies DocsConfig;

@@ -73,7 +73,6 @@ export default function rehypeConfigLinker() {
           );
           changed = true;
         }
-        console.log(`Matched for ${anchor} with ${html}, changed ${changed}`);
       });
 
       if (changed) {

@@ -1,19 +1,20 @@
 .header {
-  height: rem(72px);
-  margin-bottom: rem(60px);
-  /* background-color: var(--mantine-color-body); */
-  /* background-color: var(--mantine-color-gray-7); */
-  /* background-color: #3e4a56; */
-  /* background-color: #2d3b48; */
-  background-color: #28313a;
-  /* border-bottom: rem(1px) solid
-      light-dark(var(--mantine-color-gray-3), var(--mantine-color-dark-4)); */
-  padding-left: var(--mantine-spacing-md);
-  padding-right: var(--mantine-spacing-md);
+  height: var(--header-height);
+  /* padding-left: var(--mantine-spacing-md);
+  padding-right: var(--mantine-spacing-md); */
+  position: sticky;
+  top: 0;
+  background-color: color-mix(
+    in srgb,
+    var(--mantine-color-body),
+    transparent 15%
+  );
+  backdrop-filter: blur(5px);
+  z-index: 1000;
 }
 
 .inner {
-  height: rem(72px);
+  height: var(--header-height);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -25,11 +26,14 @@
   padding: rem(8px) rem(12px);
   border-radius: var(--mantine-radius-sm);
   text-decoration: none;
-  color: var(--mantine-color-gray-2);
+  color: light-dark(var(--mantine-color-gray-7), var(--mantine-color-gray-3));
   font-size: var(--mantine-font-size-sm);
   font-weight: 500;
 
   @mixin hover {
-    background-color: var(--mantine-color-dark-6);
+    background-color: light-dark(
+      var(--mantine-color-gray-1),
+      var(--mantine-color-dark-5)
+    );
   }
 }

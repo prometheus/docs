@@ -6,16 +6,21 @@
   "scripts": {
     "dev": "next dev --turbopack",
     "fetch-repo-docs": "tsx scripts/fetch-repo-docs.ts",
+    "fetch-downloads-info": "tsx scripts/fetch-downloads-info.ts",
     "clean": "rm -rf generated out .next",
     "build": "next build",
+    "build-all": "npm run clean && npm run fetch-repo-docs && npm run fetch-downloads-info && next build",
     "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
+    "@docsearch/js": "^3.9.0",
     "@mantine/code-highlight": "^8.0.0",
     "@mantine/core": "^8.0.0",
     "@mantine/hooks": "^8.0.0",
+    "@mantine/spotlight": "^8.0.0",
     "@tabler/icons-react": "^3.31.0",
+    "@types/semver": "^7.7.0",
     "gray-matter": "^4.0.3",
     "hast-util-from-html": "^2.0.3",
     "hast-util-select": "^6.0.4",
@@ -29,6 +34,7 @@
     "rehype-slug": "^6.0.0",
     "remark-frontmatter": "^5.0.0",
     "remark-gfm": "^4.0.1",
+    "semver": "^7.7.1",
     "shiki": "^3.4.0"
   },
   "devDependencies": {

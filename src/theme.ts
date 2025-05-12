@@ -17,6 +17,7 @@ export const theme = createTheme({
   colors: {
     prometheusColor,
   },
+  black: "var(--mantine-color-gray-8)",
   primaryColor: "prometheusColor",
   headings: {
     fontFamily: "var(--font-inter)",

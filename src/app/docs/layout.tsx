@@ -7,15 +7,15 @@ import {
   RepoDocMetadata,
 } from "@/docs-collection-types";
 import {
-  Container,
   Group,
   Box,
-  List,
-  ListItem,
-  Text,
   Select,
   NavLink,
   Alert,
+  ScrollAreaAutosize,
+  Button,
+  Popover,
+  Text,
 } from "@mantine/core";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
@@ -33,12 +33,13 @@ import {
   IconFileDescription,
   IconProps,
   IconInfoCircle,
-  IconVersions,
   IconTag,
+  IconMenu2,
 } from "@tabler/icons-react";
-import { ReactElement } from "react";
+import { ReactElement, useEffect, useRef } from "react";
+import TOC from "@/components/TOC";
 
-const iconMap: Record<string, React.ComponentType<any>> = {
+const iconMap: Record<string, React.ComponentType<IconProps>> = {
   flask: IconFlask,
   server: IconServer,
   code: IconCode,
@@ -52,10 +53,7 @@ const iconMap: Record<string, React.ComponentType<any>> = {
   "file-description": IconFileDescription,
 };
 
-export function NavIcon({
-  iconName,
-  ...props
-}: { iconName: string } & IconProps) {
+function NavIcon({ iconName, ...props }: { iconName: string } & IconProps) {
   const Icon = iconMap[iconName];
   return Icon ? (
     <Icon {...props} color="var(--mantine-primary-color-4)" />
@@ -203,9 +201,11 @@ function buildRecursiveNav(
 
         const navIcon =
           node.document.type === "local-doc" && node.document.navIcon;
+        const active = currentPageSlug.startsWith(node.path);
 
         return (
           <NavLink
+            defaultOpened={active || undefined}
             key={node.path}
             href="#required-for-focus"
             label={node.document.title}
@@ -217,13 +217,7 @@ function buildRecursiveNav(
             }
             ff={level === 0 ? "var(--font-inter)" : undefined}
             fw={level === 0 ? 500 : undefined}
-            c={level === 0 ? "black" : "gray.7"}
             style={{ borderRadius: 2.5 }}
-            // style={
-            //   level === 1
-            //     ? { borderLeft: "1px solid var(--mantine-color-gray-3)" }
-            //     : {}
-            // }
           >
             {level === 0 && repoVersions && (
               <Select
@@ -279,16 +273,14 @@ function buildRecursiveNav(
           label={node.document.title}
           href={`/docs/${node.path}`}
           style={{ borderRadius: 2.5 }}
-          c={active ? undefined : "gray.7"}
-          // style={
-          //   level === 1
-          //     ? { borderLeft: "1px solid var(--mantine-color-gray-3)" }
-          //     : {}
-          // }
         />
       );
     });
 }
+
+const breadcrumbs = (pageSlug: string, docsTree: DocsTree[]) => {
+  const segments = pageSlug.split("/").filter(Boolean);
+};
 
 function compareVersions(a: string, b: string): number {
   const [majorA, minorA] = a.split(".").map(Number);
@@ -309,6 +301,13 @@ export default function DocsLayout({
   const docsTree = buildDocsTree(docsCollection);
   const pageSlug = usePathname().replace(/^\/docs\//, "");
   const currentPage = docsCollection[pageSlug];
+  const reinitializeTOCRef = useRef(() => {});
+
+  const bc = breadcrumbs(pageSlug, docsTree);
+
+  useEffect(() => {
+    reinitializeTOCRef.current();
+  }, [pageSlug]);
 
   let alert: ReactElement | null = null;
   if (currentPage.type === "repo-doc") {
@@ -348,16 +347,75 @@ export default function DocsLayout({
   }
 
   return (
-    <Container size="lg">
-      <Group wrap="nowrap" align="flex-start" gap={80}>
-        <Box w={250} flex="0 0 auto" mih={300}>
-          {buildRecursiveNav(docsTree, pageSlug, router)}
+    <>
+      {/* The mobile main nav */}
+      <Popover position="bottom" withArrow shadow="md">
+        <Popover.Target>
+          <Button
+            hiddenFrom="sm"
+            variant="outline"
+            color="gray"
+            mb="lg"
+            leftSection={<IconMenu2 />}
+          >
+            Show nav
+          </Button>
+        </Popover.Target>
+        <Popover.Dropdown mah="calc(100vh - var(--header-height))">
+          <ScrollAreaAutosize mah="calc(80vh - var(--header-height))">
+            {buildRecursiveNav(docsTree, pageSlug, router)}
+          </ScrollAreaAutosize>
+        </Popover.Dropdown>
+      </Popover>
+      <Group wrap="nowrap" align="flex-start" gap={50}>
+        {/* The left-hand side main nav */}
+        <Box
+          w={250}
+          flex="0 0 auto"
+          mih={300}
+          pos="sticky"
+          top="calc(var(--header-height) + var(--header-to-content-margin))"
+          visibleFrom="sm"
+          style={{
+            borderRight:
+              "1px solid light-dark(var(--mantine-color-gray-3), var(--mantine-color-gray-7))",
+          }}
+        >
+          <ScrollAreaAutosize mah="calc(100vh - var(--header-height))">
+            <Box pr="xs">{buildRecursiveNav(docsTree, pageSlug, router)}</Box>
+          </ScrollAreaAutosize>
         </Box>
-        <Box miw={0}>
+
+        {/* The main docs page content */}
+        <Box miw={0} className="docs-content">
           {alert}
           {children}
         </Box>
+
+        {/* The right-hand-side table of contents for headings
+              within the current document */}
+        <Box
+          w="fit-content"
+          maw={230}
+          flex="0 0 auto"
+          pos="sticky"
+          top="calc(var(--header-height) + var(--header-to-content-margin))"
+          visibleFrom="md"
+        >
+          <Text mb="sm" c="dimmed" fw={600} fz="sm">
+            On this page
+          </Text>
+          <ScrollAreaAutosize mah="calc(100vh - var(--header-height))">
+            <TOC
+              reinitializeRef={reinitializeTOCRef}
+              scrollSpyOptions={{
+                selector:
+                  ".docs-content :is(h2, h3), .docs-content h1:not(:first-of-type)",
+              }}
+            />
+          </ScrollAreaAutosize>
+        </Box>
       </Group>
-    </Container>
+    </>
   );
 }

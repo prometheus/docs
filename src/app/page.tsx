@@ -1,12 +1,14 @@
 import NextImage from "next/image";
-import { Image } from "@mantine/core";
+import { Box, Image } from "@mantine/core";
 import classes from "@/components/FeaturesCards.module.css";
 import { FeaturesCards } from "@/components/FeaturesCards";
 import { Hero } from "@/components/Hero";
 import { UserLogos } from "@/components/UserLogos";
 import { Space, Title, Group, Anchor, Text } from "@mantine/core";
-import cncfLogo from "../assets/cncf-logo.svg";
+import cncfLogoLightMode from "../assets/cncf-logo.svg";
+import cncfLogoDarkMode from "../assets/cncf-logo-white.svg";
 import githubLogo from "../assets/github-logo.svg";
+import { GitHubStars } from "@/components/GitHubStars";
 
 export default function Home() {
   return (
@@ -21,56 +23,61 @@ export default function Home() {
             component={NextImage}
             src={githubLogo}
             style={{ height: 40, width: 40 }}
+            className="invertInDarkMode"
             alt="GitHub logo"
           />{" "}
           Open Source
         </Group>
       </Title>
 
-      <Text c="dimmed" className={classes.description} ta="center" mt="md">
-        Prometheus is 100% open source and community-driven. All components are
-        available under the{" "}
-        <Anchor href="http://www.apache.org/licenses/LICENSE-2.0">
-          Apache 2 License
-        </Anchor>{" "}
-        on <Anchor href="https://github.com/prometheus">GitHub</Anchor>.
-        <iframe
-          src="https://ghbtns.com/github-btn.html?user=prometheus&repo=prometheus&type=star&count=true&size=large"
-          scrolling="0"
-          style={{
-            width: 200,
-            height: 30,
-            margin: "auto",
-            display: "block",
-            marginTop: 20,
-            marginBottom: 20,
-            border: 0,
-          }}
-        ></iframe>
-      </Text>
+      <Box className={classes.description}>
+        <Text c="dimmed" ta="center" mt="md">
+          Prometheus is 100% open source and community-driven. All components
+          are available under the{" "}
+          <Anchor href="http://www.apache.org/licenses/LICENSE-2.0">
+            Apache 2 License
+          </Anchor>{" "}
+          on <Anchor href="https://github.com/prometheus">GitHub</Anchor>.
+        </Text>
+        <GitHubStars />
+      </Box>
 
-      <Title order={2} className={classes.title} mt={80}>
-        <Group justify="center">Open Governance</Group>
-      </Title>
-      <Text c="dimmed" className={classes.description} ta="center" mt="md">
-        Prometheus is a{" "}
-        <Anchor href="https://cncf.io/">
-          Cloud Native Computing Foundation
-        </Anchor>{" "}
-        graduated project.
-        <Image
-          component={NextImage}
-          mt="md"
-          m="auto"
-          w="auto"
-          src={cncfLogo}
-          alt="CNCF logo"
-          className={classes.cncfLogo}
-          style={{
-            objectFit: "fill",
-          }}
-        />
-      </Text>
+      <Box className={classes.description}>
+        <Title order={2} className={classes.title} mt={80}>
+          <Group justify="center">Open Governance</Group>
+        </Title>
+        <Text c="dimmed" ta="center" mt="md">
+          Prometheus is a{" "}
+          <Anchor href="https://cncf.io/">
+            Cloud Native Computing Foundation
+          </Anchor>{" "}
+          graduated project.
+        </Text>
+        <Box mt="md">
+          <a href="https://cncf.io/" target="_blank">
+            <Image
+              darkHidden
+              component={NextImage}
+              src={cncfLogoLightMode}
+              alt="CNCF logo"
+              style={{
+                objectFit: "fill",
+              }}
+            />
+
+            <Image
+              lightHidden
+              component={NextImage}
+              src={cncfLogoDarkMode}
+              alt="CNCF logo"
+              style={{
+                objectFit: "fill",
+                opacity: 0.8,
+              }}
+            />
+          </a>
+        </Box>
+      </Box>
     </>
   );
 }

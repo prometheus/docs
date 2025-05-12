@@ -1,4 +1,3 @@
-import { Octokit } from "octokit";
 import { execSync } from "child_process";
 import * as fs from "fs";
 import * as path from "path";
@@ -10,15 +9,10 @@ import {
   RepoDocMetadata,
 } from "@/docs-collection-types";
 import matter from "gray-matter";
-import dotenv from "dotenv";
-
-dotenv.config();
+import { octokit } from "./githubClient";
+import { compareFullVersion, filterUnique, majorMinor } from "./utils";
 
 const OUTDIR = "./generated";
-
-const octokit = new Octokit({
-  auth: `${process.env.GITHUB_TOKEN}`,
-});
 
 const docsCollection: DocsCollection = {};
 const allRepoVersions: AllRepoVersions = {};
@@ -130,33 +124,14 @@ const fetchRepoDocs = async ({
     }
   }
   // We still need to sort the releases by version number, as e.g. "2.53.4"
-  // was released after "3.2.1".
-  //
-  // Sorting by major + minor should be sufficient, as patch versions and
-  // other suffixes should be in the expected order already when sorting by
-  // release date.
-  allReleaseTags
-    .sort((a, b) => {
-      const [majorA, minorA] = a.replace(/^v/, "").split(".").map(Number);
-      const [majorB, minorB] = b.replace(/^v/, "").split(".").map(Number);
-      return majorA === majorB ? minorA - minorB : majorA - majorB;
-    })
-    .reverse();
-
-  function onlyUnique(value: string, index: number, array: string[]) {
-    return array.indexOf(value) === index;
-  }
-
-  // "v3.4.1" -> "3.4"
-  function shortVersion(version: string) {
-    return version.replace(/^v/, "").split(".").slice(0, 2).join(".");
-  }
+  // was released after "3.2.1"..
+  allReleaseTags.sort(compareFullVersion).reverse();
 
   // Get all <major>.<minor> versions, regardless of the patch version.
   const allVersions = allReleaseTags
     .filter((tag) => tag.startsWith("v")) // Ignore prehistoric release tags like "0.1.0"
-    .map((tag) => shortVersion(tag))
-    .filter(onlyUnique); // Remove dupes (e.g. "3.4.0" and "3.4.1" both become "3.4")
+    .map((tag) => majorMinor(tag))
+    .filter(filterUnique); // Remove dupes (e.g. "3.4.0" and "3.4.1" both become "3.4")
 
   // First, get the last 10 versions, regardless of the major version.
   const recentVersions = allVersions.slice(0, minNumVersions);
@@ -177,7 +152,7 @@ const fetchRepoDocs = async ({
   if (!latestTag) {
     throw new Error(`No latest version found for ${owner}/${repo}.`);
   }
-  const latestVersion = shortVersion(latestTag);
+  const latestVersion = majorMinor(latestTag);
 
   // Store metadata about the repo and its versions.
   if (!allRepoVersions[owner]) {

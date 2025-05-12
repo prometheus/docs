@@ -27,12 +27,12 @@
   border: rem(1px) solid
     light-dark(var(--mantine-color-gray-1), var(--mantine-color-dark-5));
   cursor: pointer;
-  transition: border-color 100ms ease, background-color 500ms ease;
+  transition: border-color 100ms ease, background-color 250ms ease;
 }
 
 .card:hover {
   border-color: var(--mantine-primary-color-filled);
-  background-color: var(--mantine-primary-color-0);
+  background-color: var(--mantine-primary-color-light);
 }
 
 .cardTitle {

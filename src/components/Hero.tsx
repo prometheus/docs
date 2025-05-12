@@ -1,7 +1,8 @@
-import { Title, Text, Button, Container } from "@mantine/core";
+import { Title, Text, Button, Container, Group } from "@mantine/core";
 import { Dots } from "./Dots";
 import classes from "./Hero.module.css";
 import { IconDownload } from "@tabler/icons-react";
+import Link from "next/link";
 
 export function Hero() {
   return (
@@ -12,56 +13,39 @@ export function Hero() {
       <Dots className={classes.dots} style={{ right: 0, top: 60 }} />
 
       <div className={classes.inner}>
-        {/* <Container p={0} size={800}>
-          <Title className={classes.title}>
-            The leading{" "}
-            <Text component="span" className={classes.highlight} inherit>
-              metrics and monitoring
-            </Text>{" "}
-            solution
-          </Title>
-        </Container> */}
-        {/* <Container p={0} size={800}>
-          <Title className={classes.title}>
-            Open source{" "}
-            <Text component="span" className={classes.highlight} inherit>
-              metrics and monitoring
-            </Text>{" "}
-            for your systems and services
-          </Title>
-        </Container> */}
-        <Container p={0} size={800}>
-          <Title className={classes.title}>
-            Open source{" "}
-            <Text component="span" className={classes.highlight} inherit>
-              metrics and monitoring
-            </Text>{" "}
-            for your systems and services
-          </Title>
-        </Container>
+        <Title className={classes.title}>
+          Open source{" "}
+          <Text component="span" className={classes.highlight} inherit>
+            metrics and monitoring
+          </Text>{" "}
+          for your systems and services
+        </Title>
 
-        <Container p={0} size={600} my="xl">
-          <Text size="lg" c="dimmed" className={classes.description}>
-            Monitor your applications, systems, and services with the leading
-            open source monitoring solution. Instrument, collect, store, and
-            query your metrics for alerting, dashboarding, and other use cases.
-          </Text>
-        </Container>
+        <Text c="dimmed" className={classes.description}>
+          Monitor your applications, systems, and services with the leading open
+          source monitoring solution. Instrument, collect, store, and query your
+          metrics for alerting, dashboarding, and other use cases.
+        </Text>
 
-        <div className={classes.controls}>
-          <Button className={classes.control} size="lg">
+        <Group gap="md" justify="center" className={classes.buttons}>
+          <Button
+            component={Link}
+            href="/docs/prometheus/latest/getting_started/"
+            size="lg"
+            w={{ base: "100%", xs: "fit-content" }}
+          >
             Get started
           </Button>
           <Button
-            className={classes.control}
-            size="lg"
             variant="default"
             color="gray"
+            size="lg"
+            w={{ base: "100%", xs: "fit-content" }}
             leftSection={<IconDownload />}
           >
             Download
           </Button>
-        </div>
+        </Group>
       </div>
     </Container>
   );

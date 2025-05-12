@@ -32,13 +32,6 @@ export default function DownloadPage() {
       ? ["linux", "windows", "darwin"]
       : [os];
 
-  const archList =
-    arch === "all"
-      ? downloadsMetadata.architectures
-      : arch === "popular"
-      ? ["amd64", "arm64"]
-      : [arch];
-
   return (
     <>
       <Title order={1}>Download</Title>
@@ -157,13 +150,23 @@ export default function DownloadPage() {
                     </TableTr>
                   </TableThead>
                   {release.binaries
-                    .filter(
-                      (b) =>
+                    .filter((b) => {
+                      if (
                         osList.includes(b.os) &&
-                        archList.includes(b.arch) &&
+                        arch === "popular" &&
                         (b.arch === "amd64" ||
                           (b.os === "darwin" && b.arch === "arm64"))
-                    )
+                      ) {
+                        return true;
+                      } else if (
+                        osList.includes(b.os) &&
+                        (arch === "all" || b.arch === arch)
+                      ) {
+                        return true;
+                      } else {
+                        return false;
+                      }
+                    })
                     .map((binary) => (
                       <TableTr key={binary.name}>
                         <TableTd>

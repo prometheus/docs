@@ -138,8 +138,13 @@ export default async function DocsPage({
             isAbsoluteUrl(src) ||
             docMeta.type === "local-doc"
           ) {
+            let srcUrl = src;
+            if (typeof srcUrl === "string") {
+              // Remove the "https://prometheus.io" from links that start with it.
+              srcUrl = srcUrl.replace(/^\/assets\//, "/assets/docs/");
+            }
             // eslint-disable-next-line jsx-a11y/alt-text
-            return <img {...rest} src={src} />;
+            return <img {...rest} src={srcUrl} />;
           }
 
           // eslint-disable-next-line jsx-a11y/alt-text

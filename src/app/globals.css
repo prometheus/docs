@@ -36,6 +36,12 @@ h6 {
   }
 }
 
+.docs-content img {
+  max-width: 100%;
+  height: auto;
+  margin: 1em 0;
+}
+
 a.header-auto-link {
   position: absolute;
   transform: translate(-140%, 5%);
@@ -62,8 +68,11 @@ pre > code a {
   }
 }
 
+/* Important: only target "pre > code > span" and not "pre > code" so we
+   don't invert non-highlighted code boxes. */
 .invertInDarkMode,
-pre > code {
+.docs-content img[src$=".svg"],
+pre > code > span {
   filter: light-dark("", invert(1));
 }
 

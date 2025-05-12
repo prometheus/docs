@@ -14,8 +14,7 @@ export default function TOC(props: TableOfContentsProps) {
         href: `#${data.id}`,
         children: data.value,
         style: {
-          borderLeftStyle: "solid",
-          borderLeftWidth: active ? 2 : 1,
+          borderLeft: "1px solid",
           borderLeftColor: active
             ? "var(--mantine-color-primary-filled)"
             : "light-dark(var(--mantine-color-gray-3), var(--mantine-color-gray-7))",

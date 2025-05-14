@@ -16,13 +16,21 @@ h6 {
   margin-top: calc(var(--mantine-spacing-xl) * 1.2);
   margin-bottom: calc(var(--mantine-spacing-md) * 1.2);
 
-  scroll-margin-top: calc(
-    var(--header-height) + var(--header-to-content-margin)
-  );
-
   &:is(h1) {
     margin-top: 0;
   }
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+code {
+  scroll-margin-top: calc(
+    var(--header-height) + var(--header-to-content-margin)
+  );
 }
 
 .docs-content a {
@@ -69,11 +77,20 @@ pre > code a {
 }
 
 /* Important: only target "pre > code > span" and not "pre > code" so we
-   don't invert non-highlighted code boxes. */
+   don't invert code boxes where shiki didn't apply any highlighting. */
 .invertInDarkMode,
-.docs-content img[src$=".svg"],
 pre > code > span {
-  filter: light-dark("", invert(1));
+  @mixin dark {
+    filter: invert(1);
+  }
+}
+
+.docs-content img[src$=".svg"] {
+  @mixin dark {
+    background-color: var(--mantine-color-gray-2);
+    border-radius: 0.3em;
+    padding: 0.1em 0.3em;
+  }
 }
 
 :not(pre) > code {
@@ -84,4 +101,7 @@ pre > code > span {
   font-size: 0.9em;
   padding: 0.1em 0.3em;
   border-radius: 0.3em;
+  /* There are some long words in <code> tags that break the layout
+  if we don't force them to wrap. */
+  overflow-wrap: break-word;
 }

@@ -6,9 +6,9 @@ import {
   Container,
   TextInput,
   ActionIcon,
+  AppShell,
 } from "@mantine/core";
 import Image from "next/image";
-import { useDisclosure } from "@mantine/hooks";
 import {
   IconDashboard,
   IconFileText,
@@ -55,9 +55,13 @@ const actions: SpotlightActionData[] = [
   },
 ];
 
-export const Header: FC = () => {
-  const [opened, { toggle }] = useDisclosure(false);
-
+export const Header = ({
+  burgerOpened,
+  toggleBurger,
+}: {
+  burgerOpened: boolean;
+  toggleBurger: () => void;
+}) => {
   const items = links.map((link) => (
     <Link key={link.label} href={link.link} className={classes.link}>
       {link.label}
@@ -65,120 +69,110 @@ export const Header: FC = () => {
   ));
 
   return (
-    <header className={classes.header}>
-      <Container size="xl">
-        <div className={classes.inner}>
-          {/* Logo + Text */}
-          <Link href="/" style={{ textDecoration: "none", color: "inherit" }}>
-            <Group wrap="nowrap" align="center">
-              <Image src={prometheusLogo} height={32} alt="Prometheus logo" />
-              <Text
-                fz={25}
-                ff="Lato Light"
-                c="light-dark(var(--mantine-color-gray-7), var(--mantine-color-gray-0))"
-              >
-                Prometheus
-              </Text>
-            </Group>
-          </Link>
+    <>
+      <AppShell.Header className={classes.header} px="md">
+        <Container size="xl">
+          <div className={classes.inner}>
+            {/* Logo + Text */}
+            <Link href="/" style={{ textDecoration: "none", color: "inherit" }}>
+              <Group wrap="nowrap" align="center">
+                <Image src={prometheusLogo} height={32} alt="Prometheus logo" />
+                <Text
+                  fz={25}
+                  ff="Lato Light"
+                  c="light-dark(var(--mantine-color-gray-7), var(--mantine-color-gray-0))"
+                >
+                  Prometheus
+                </Text>
+              </Group>
+            </Link>
 
-          {/* Menu items + search */}
-          <Group align="center">
-            <Group gap={5} visibleFrom="sm" align="center">
-              {items}
-            </Group>
+            {/* Menu items + search */}
+            <Group align="center">
+              <Group gap={5} visibleFrom="sm" align="center">
+                {items}
+              </Group>
 
-            <Group visibleFrom="md" gap="xs">
-              <TextInput
-                placeholder="Search"
-                w={220}
-                mx="lg"
-                leftSection={
+              <Group visibleFrom="md" gap="xs">
+                <TextInput
+                  placeholder="Search"
+                  w={220}
+                  mx="lg"
+                  leftSection={
+                    <IconSearch
+                      style={{ width: rem(16), height: rem(16) }}
+                      stroke={1.5}
+                    />
+                  }
+                  rightSection={
+                    <Text
+                      size="xs"
+                      mx={5}
+                      p={6}
+                      fw={700}
+                      bg="light-dark(var(--mantine-color-gray-1), var(--mantine-color-dark-7))"
+                      lh={1}
+                      style={{ borderRadius: "0.25em" }}
+                    >
+                      Ctrl + K
+                    </Text>
+                  }
+                  onClick={spotlight.open}
+                  rightSectionWidth="fit-content"
+                  visibleFrom="lg"
+                />
+                <ActionIcon
+                  hiddenFrom="lg"
+                  color="gray"
+                  variant="subtle"
+                  onClick={spotlight.open}
+                >
                   <IconSearch
-                    style={{ width: rem(16), height: rem(16) }}
-                    stroke={1.5}
+                    {...{
+                      style: {
+                        width: rem(20),
+                        height: rem(20),
+                        display: "block",
+                      },
+                      stroke: 2,
+                    }}
                   />
-                }
-                rightSection={
-                  <Text
-                    size="xs"
-                    mx={5}
-                    p={6}
-                    fw={700}
-                    bg="light-dark(var(--mantine-color-gray-1), var(--mantine-color-dark-7))"
-                    lh={1}
-                    style={{ borderRadius: "0.25em" }}
-                  >
-                    Ctrl + K
-                  </Text>
-                }
-                onClick={spotlight.open}
-                rightSectionWidth="fit-content"
-                visibleFrom="lg"
+                </ActionIcon>
+
+                <ThemeSelector />
+
+                <ActionIcon
+                  component="a"
+                  href="https://github.com/prometheus"
+                  target="_blank"
+                  color="gray"
+                  variant="subtle"
+                >
+                  <Image
+                    src={githubLogo}
+                    style={{
+                      height: 20,
+                      width: 20,
+                      opacity: 0.9,
+                      verticalAlign: "middle",
+                    }}
+                    className="invertInDarkMode"
+                    alt="GitHub Logo"
+                  />
+                </ActionIcon>
+              </Group>
+              <Burger
+                opened={burgerOpened}
+                onClick={toggleBurger}
+                color="gray.3"
+                size="sm"
+                hiddenFrom="sm"
               />
-              <ActionIcon
-                hiddenFrom="lg"
-                color="gray"
-                variant="subtle"
-                onClick={spotlight.open}
-              >
-                <IconSearch
-                  {...{
-                    style: {
-                      width: rem(20),
-                      height: rem(20),
-                      display: "block",
-                    },
-                    stroke: 2,
-                  }}
-                />
-              </ActionIcon>
-
-              <ThemeSelector />
-
-              <ActionIcon
-                component="a"
-                href="https://github.com/prometheus"
-                target="_blank"
-                color="gray"
-                variant="subtle"
-              >
-                <Image
-                  src={githubLogo}
-                  style={{
-                    height: 20,
-                    width: 20,
-                    opacity: 0.9,
-                    verticalAlign: "middle",
-                  }}
-                  className="invertInDarkMode"
-                  alt="GitHub Logo"
-                />
-              </ActionIcon>
-              {/* <a href="https://github.com/prometheus" target="_blank">
-                <Image
-                  src={githubLogo}
-                  style={{
-                    height: 20,
-                    width: 20,
-                    opacity: 0.9,
-                    verticalAlign: "middle",
-                  }}
-                  className="invertInDarkMode"
-                  alt="GitHub Logo"
-                />
-              </a> */}
             </Group>
-            <Burger
-              opened={opened}
-              onClick={toggle}
-              color="gray.3"
-              size="sm"
-              hiddenFrom="sm"
-            />
-          </Group>
-        </div>
-      </Container>
+          </div>
+        </Container>
+      </AppShell.Header>
+      <AppShell.Navbar px="lg">{items}</AppShell.Navbar>
       <Spotlight
         actions={actions}
         nothingFound="Nothing found..."
@@ -188,6 +182,6 @@ export const Header: FC = () => {
           placeholder: "Search...",
         }}
       />
-    </header>
+    </>
   );
 };

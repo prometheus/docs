@@ -16,6 +16,7 @@ import {
   Button,
   Popover,
   Text,
+  ScrollArea,
 } from "@mantine/core";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
@@ -370,20 +371,24 @@ export default function DocsLayout({
       <Group wrap="nowrap" align="flex-start" gap={50}>
         {/* The left-hand side main nav */}
         <Box
+          component="nav"
           w={250}
           flex="0 0 auto"
-          mih={300}
+          h="calc(100vh - var(--header-height) - var(--header-to-content-margin))"
           pos="sticky"
           top="calc(var(--header-height) + var(--header-to-content-margin))"
           visibleFrom="sm"
           style={{
-            borderRight:
+            borderInlineEnd:
               "1px solid light-dark(var(--mantine-color-gray-3), var(--mantine-color-gray-7))",
           }}
         >
-          <ScrollAreaAutosize mah="calc(100vh - var(--header-height))">
-            <Box pr="xs">{buildRecursiveNav(docsTree, pageSlug, router)}</Box>
-          </ScrollAreaAutosize>
+          <ScrollArea
+            h="calc(100vh - var(--header-height) - var(--header-to-content-margin))"
+            type="never"
+          >
+            <Box p="xs">{buildRecursiveNav(docsTree, pageSlug, router)}</Box>
+          </ScrollArea>
         </Box>
 
         {/* The main docs page content */}

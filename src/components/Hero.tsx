@@ -37,6 +37,8 @@ export function Hero() {
             Get started
           </Button>
           <Button
+            component={Link}
+            href="/download/"
             variant="default"
             color="gray"
             size="lg"

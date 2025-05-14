@@ -1,16 +1,17 @@
 .header {
-  height: var(--header-height);
+  /* height: var(--header-height); */
   /* padding-left: var(--mantine-spacing-md);
   padding-right: var(--mantine-spacing-md); */
-  position: sticky;
-  top: 0;
+  /* position: sticky;
+  top: 0; */
+  /* max-width: 100vw; */
   background-color: color-mix(
     in srgb,
     var(--mantine-color-body),
     transparent 15%
   );
   backdrop-filter: blur(5px);
-  z-index: 1000;
+  border-bottom: none;
 }
 
 .inner {

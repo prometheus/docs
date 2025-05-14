@@ -10,6 +10,12 @@ import cncfLogoDarkMode from "../assets/cncf-logo-white.svg";
 import githubLogo from "../assets/github-logo.svg";
 import { GitHubStars } from "@/components/GitHubStars";
 
+export const metadata = {
+  title: "Prometheus - Monitoring system & time series database",
+  description:
+    "An open-source monitoring system with a dimensional data model, flexible query language, efficient time series database and modern alerting approach.",
+};
+
 export default function Home() {
   return (
     <>

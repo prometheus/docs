@@ -11,6 +11,7 @@ import {
   Select,
   Stack,
   Table,
+  TableTbody,
   TableTd,
   TableTh,
   TableThead,
@@ -34,7 +35,9 @@ export default function DownloadPage() {
 
   return (
     <>
-      <Title order={1}>Download</Title>
+      <Title order={1} fw={600}>
+        Download
+      </Title>
 
       <Group wrap="nowrap" align="flex-start">
         <Box>
@@ -61,10 +64,11 @@ export default function DownloadPage() {
           scrollSpyOptions={{
             selector: "h2",
           }}
+          visibleFrom="sm"
         />
       </Group>
 
-      <Stack mt="xl" gap="md">
+      <Stack mt="xl" gap="md" style={{ overflowX: "scroll" }}>
         <Group>
           <Select
             label="Operating System"
@@ -149,39 +153,41 @@ export default function DownloadPage() {
                       <TableTh>SHA256 Checksum</TableTh>
                     </TableTr>
                   </TableThead>
-                  {release.binaries
-                    .filter((b) => {
-                      if (
-                        osList.includes(b.os) &&
-                        arch === "popular" &&
-                        (b.arch === "amd64" ||
-                          (b.os === "darwin" && b.arch === "arm64"))
-                      ) {
-                        return true;
-                      } else if (
-                        osList.includes(b.os) &&
-                        (arch === "all" || b.arch === arch)
-                      ) {
-                        return true;
-                      } else {
-                        return false;
-                      }
-                    })
-                    .map((binary) => (
-                      <TableTr key={binary.name}>
-                        <TableTd>
-                          <a className="download" href={binary.url}>
-                            {binary.name}
-                          </a>
-                        </TableTd>
-                        <TableTd>{binary.os}</TableTd>
-                        <TableTd>{binary.arch}</TableTd>
-                        <TableTd>
-                          {(binary.sizeBytes / 1024 / 1024).toFixed(2)} MiB
-                        </TableTd>
-                        <TableTd fz="xs">{binary.checksum}</TableTd>
-                      </TableTr>
-                    ))}
+                  <TableTbody>
+                    {release.binaries
+                      .filter((b) => {
+                        if (
+                          osList.includes(b.os) &&
+                          arch === "popular" &&
+                          (b.arch === "amd64" ||
+                            (b.os === "darwin" && b.arch === "arm64"))
+                        ) {
+                          return true;
+                        } else if (
+                          osList.includes(b.os) &&
+                          (arch === "all" || b.arch === arch)
+                        ) {
+                          return true;
+                        } else {
+                          return false;
+                        }
+                      })
+                      .map((binary) => (
+                        <TableTr key={binary.name}>
+                          <TableTd>
+                            <a className="download" href={binary.url}>
+                              {binary.name}
+                            </a>
+                          </TableTd>
+                          <TableTd>{binary.os}</TableTd>
+                          <TableTd>{binary.arch}</TableTd>
+                          <TableTd>
+                            {(binary.sizeBytes / 1024 / 1024).toFixed(2)} MiB
+                          </TableTd>
+                          <TableTd fz="xs">{binary.checksum}</TableTd>
+                        </TableTr>
+                      ))}
+                  </TableTbody>
                 </React.Fragment>
               ))}
             </Table>

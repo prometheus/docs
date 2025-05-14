@@ -7,9 +7,11 @@ import rehypeSlug from "rehype-slug";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import rehypeConfigLinker from "@/rehypeConfigLinker";
 import rehypeShiki from "@shikijs/rehype";
-import { IconLink } from "@tabler/icons-react";
+import { IconAlertCircle, IconInfoCircle, IconLink } from "@tabler/icons-react";
 import { docsCollection } from "@/docs-collection";
 import {
+  Alert,
+  Blockquote,
   em,
   Table,
   TableTbody,
@@ -20,7 +22,10 @@ import {
   Title,
   TitleProps,
 } from "@mantine/core";
+import rehypeRaw from "rehype-raw";
+import { Children } from "react";
 
+// TODO: Move to global config.
 const SITE_URL = "https://prometheus.io";
 
 function isAbsoluteUrl(url: string) {
@@ -39,6 +44,24 @@ export async function generateStaticParams() {
     slug: slug.split("/"),
   }));
   return params;
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string[] }>;
+}) {
+  const slug = (await params).slug;
+  const docMeta = docsCollection[slug.join("/")];
+  return {
+    title: `${docMeta.title} | Prometheus`,
+    // description: docMeta.description,
+    openGraph: {
+      title: `${docMeta.title} | Prometheus`,
+      // description: docMeta.description,
+      url: `${SITE_URL}/docs/${slug.join("/")}`,
+    },
+  };
 }
 
 const h = (order: 1 | 2 | 3 | 4 | 5 | 6) => {
@@ -67,7 +90,12 @@ export default async function DocsPage({
     <MarkdownAsync
       remarkPlugins={[remarkFrontmatter, remarkGfm]}
       rehypePlugins={[
+        // "rehypeRaw" is required for raw HTML in some old Markdown files to work.
+        // See https://github.com/remarkjs/react-markdown?tab=readme-ov-file#appendix-a-html-in-markdown
+        rehypeRaw,
+        // Add "id" attributes to headings so links can point to them.
         rehypeSlug,
+        // Add "<a>" tags with a link symbol to headings to link to themselves.
         () =>
           rehypeAutolinkHeadings({
             properties: {
@@ -77,6 +105,7 @@ export default async function DocsPage({
             // Don't link top-level page headings (h1).
             test: (el) => el.tagName !== "h1",
           }),
+        // Highlight code blocks with Shiki.
         [
           rehypeShiki,
           {
@@ -87,7 +116,10 @@ export default async function DocsPage({
             },
           },
         ],
-
+        // Custom plugin: On the configuration page, link from placeholders like
+        // <string> or <scrape_config> in code blocks to their corresponding type
+        // definitions in the same file.
+        //
         // Important: this has to run after rehypeSlug, since it
         // relies on the headers to already have IDs.
         rehypeConfigLinker,
@@ -104,20 +136,21 @@ export default async function DocsPage({
             );
           }
 
-          // For local docs, keep links as is.
+          // For local docs, keep links as is. If they're wrong, they should
+          // be fixed in the local Markdown files, not here.
           const href = props.href;
           if (!href || docMeta.type === "local-doc") {
             return <a {...rest}>{children}</a>;
           }
 
-          // For external docs, do some postprocessing on the hrefs to make
+          // For external repo docs, do some postprocessing on the hrefs to make
           // sure they point to the right place.
           let normalizedHref = href;
           if (href.startsWith(SITE_URL)) {
             // Remove the "https://prometheus.io" from links that start with it.
             normalizedHref = href.slice(SITE_URL.length);
           } else if (href.startsWith("/")) {
-            // Turn "/<path>" into e.g. "https://github.com/prometheus/prometheus/blob/release-3.3.0/<path>"
+            // Turn "/<path>" into e.g. "https://github.com/prometheus/prometheus/blob/release-3.3/<path>"
             normalizedHref = `https://github.com/prometheus/prometheus/blob/release-${docMeta.version}${href}`;
           } else if (href.includes(".md") && !isAbsoluteUrl(href)) {
             // Turn "foo/bar/baz.md" into "foo/bar/baz" for relative links between Markdown pages.
@@ -130,6 +163,46 @@ export default async function DocsPage({
             </a>
           );
         },
+        p: (props) => {
+          const { children, node: _node, ...rest } = props;
+          // The React children can either be an array or a single element, and
+          // each element can be a string or something else. The Children.toArray()
+          // method from React helps us convert either situation into an array.
+          const arrayChildren = Children.toArray(children);
+          const fc = arrayChildren[0];
+          if (fc && typeof fc === "string") {
+            // Paragraphs that start with "TIP:", "NOTE:", "CAUTION:", or "TODO:"
+            // are rendered as blockquotes with an icon.
+            const alertRegex = new RegExp(
+              /^(TIP|NOTE|CAUTION|TODO): (.*)$/,
+              "s"
+            );
+            const match = fc.match(alertRegex);
+
+            if (match) {
+              const alertType = match[1];
+              const alertText = match[2];
+              return (
+                <Blockquote
+                  py="lg"
+                  my="xl"
+                  color={alertType === "CAUTION" ? "yellow" : "blue"}
+                  icon={
+                    alertType === "CAUTION" ? (
+                      <IconAlertCircle size={30} />
+                    ) : (
+                      <IconInfoCircle size={30} />
+                    )
+                  }
+                >
+                  <strong>{alertType}</strong>: {alertText}
+                  {arrayChildren.slice(1)}
+                </Blockquote>
+              );
+            }
+          }
+          return <p {...rest}>{children}</p>;
+        },
         img: (props) => {
           const { src, node: _node, ...rest } = props;
           if (
@@ -141,6 +214,7 @@ export default async function DocsPage({
             let srcUrl = src;
             if (typeof srcUrl === "string") {
               // Remove the "https://prometheus.io" from links that start with it.
+              // TODO: Fix this in the old Markdown files instead.
               srcUrl = srcUrl.replace(/^\/assets\//, "/assets/docs/");
             }
             // eslint-disable-next-line jsx-a11y/alt-text
@@ -151,17 +225,19 @@ export default async function DocsPage({
           return <img {...rest} src={`${docMeta.assetsRoot}/${src}`} />;
         },
         pre: (props) => {
-          const firstChild = props.node?.children[0];
+          const { children, node, ...rest } = props;
+          const firstChild = node?.children[0];
           if (
             !firstChild ||
             firstChild?.type !== "element" ||
             firstChild?.tagName !== "code"
           ) {
-            return <pre>{props.children}</pre>;
+            return <pre {...rest}>{children}</pre>;
           }
 
           return (
             <pre
+              {...rest}
               style={{
                 fontSize: 14,
                 backgroundColor:
@@ -173,7 +249,7 @@ export default async function DocsPage({
                 overflow: "auto",
               }}
             >
-              {props.children}
+              {children}
             </pre>
           );
         },

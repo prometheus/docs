@@ -4,6 +4,7 @@
 import { Inter } from "next/font/google";
 import {
   Anchor,
+  AppShell,
   ColorSchemeScript,
   Container,
   Group,
@@ -24,6 +25,7 @@ import { theme } from "@/theme";
 // import docsearch from "@docsearch/js";
 
 import "@docsearch/css";
+import { useDisclosure } from "@mantine/hooks";
 // import { useEffect } from "react";
 
 const interFont = Inter({
@@ -41,6 +43,8 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const [burgerOpened, { toggle: toggleBurger }] = useDisclosure();
+
   // useEffect(() => {
   //   docsearch({
   //     container: "#docsearch",
@@ -57,46 +61,57 @@ export default function RootLayout({
       </head>
       <body>
         <MantineProvider theme={theme}>
-          <Header />
-          {/* <div id="docsearch" /> */}
-          <Container
-            size="xl"
-            mt="xl"
-            mih="calc(100vh - var(--header-height) - var(--header-to-content-margin))"
-          >
-            {children}
-            <Space h={50} />
-          </Container>
-
-          <footer
-            style={{
-              backgroundColor:
-                "light-dark(var(--mantine-color-gray-0), var(--mantine-color-dark-9))",
+          <AppShell
+            header={{ height: "var(--header-height)" }}
+            navbar={{
+              width: 300,
+              breakpoint: "sm",
+              collapsed: { desktop: true, mobile: !burgerOpened },
             }}
           >
-            <Container size="xl" p="xl">
-              <Group h={100}>
-                <Text c="dimmed" fz="sm">
-                  &copy; Prometheus Authors 2014-{new Date().getFullYear()} |
-                  Documentation Distributed under CC-BY-4.0
-                </Text>
-                <Text c="dimmed" fz="sm">
-                  &copy; {new Date().getFullYear()} The Linux Foundation. All
-                  rights reserved. The Linux Foundation has registered
-                  trademarks and uses trademarks. For a list of trademarks of
-                  The Linux Foundation, please see our{" "}
-                  <Anchor
-                    inherit
-                    href="https://www.linuxfoundation.org/trademark-usage"
-                    target="_blank"
-                  >
-                    Trademark Usage
-                  </Anchor>{" "}
-                  page.
-                </Text>
-              </Group>
-            </Container>
-          </footer>
+            <Header burgerOpened={burgerOpened} toggleBurger={toggleBurger} />
+            {/* <div id="docsearch" /> */}
+            <AppShell.Main>
+              <Container
+                size="xl"
+                mt="xl"
+                // mih="calc(100vh - var(--header-height) - var(--header-to-content-margin))"
+              >
+                {children}
+                <Space h={50} />
+              </Container>
+            </AppShell.Main>
+
+            <footer
+              style={{
+                backgroundColor:
+                  "light-dark(var(--mantine-color-gray-0), var(--mantine-color-dark-9))",
+              }}
+            >
+              <Container size="xl" p="xl">
+                <Group h={100}>
+                  <Text c="dimmed" fz="sm">
+                    &copy; Prometheus Authors 2014-{new Date().getFullYear()} |
+                    Documentation Distributed under CC-BY-4.0
+                  </Text>
+                  <Text c="dimmed" fz="sm">
+                    &copy; {new Date().getFullYear()} The Linux Foundation. All
+                    rights reserved. The Linux Foundation has registered
+                    trademarks and uses trademarks. For a list of trademarks of
+                    The Linux Foundation, please see our{" "}
+                    <Anchor
+                      inherit
+                      href="https://www.linuxfoundation.org/trademark-usage"
+                      target="_blank"
+                    >
+                      Trademark Usage
+                    </Anchor>{" "}
+                    page.
+                  </Text>
+                </Group>
+              </Container>
+            </footer>
+          </AppShell>
         </MantineProvider>
       </body>
     </html>

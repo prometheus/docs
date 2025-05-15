@@ -57,7 +57,7 @@ const iconMap: Record<string, React.ComponentType<IconProps>> = {
 function NavIcon({ iconName, ...props }: { iconName: string } & IconProps) {
   const Icon = iconMap[iconName];
   return Icon ? (
-    <Icon {...props} color="var(--mantine-primary-color-4)" />
+    <Icon {...props} color="var(--mantine-primary-color-3)" />
   ) : (
     <span>?</span>
   );
@@ -369,7 +369,7 @@ export default function DocsLayout({
         </Popover.Dropdown>
       </Popover>
       <Group wrap="nowrap" align="flex-start" gap={50}>
-        {/* The left-hand side main nav */}
+        {/* The left-hand side main docs nav */}
         <Box
           component="nav"
           w={250}
@@ -386,13 +386,19 @@ export default function DocsLayout({
           <ScrollArea
             h="calc(100vh - var(--header-height) - var(--header-to-content-margin))"
             type="never"
+            // Negative margin hack to counteract the inner padding of the scroll area Box
+            // which prevents cutting off the browser's focus ring when a nav item is focused (e.g. via TAB).
+            m={-10}
+            mr={0}
           >
-            <Box p="xs">{buildRecursiveNav(docsTree, pageSlug, router)}</Box>
+            <Box p={10} pr="xs">
+              {buildRecursiveNav(docsTree, pageSlug, router)}
+            </Box>
           </ScrollArea>
         </Box>
 
         {/* The main docs page content */}
-        <Box miw={0} className="docs-content">
+        <Box miw={0} className="markdown-content">
           {alert}
           {children}
         </Box>
@@ -415,7 +421,7 @@ export default function DocsLayout({
               reinitializeRef={reinitializeTOCRef}
               scrollSpyOptions={{
                 selector:
-                  ".docs-content :is(h2, h3), .docs-content h1:not(:first-of-type)",
+                  ".markdown-content :is(h2, h3), .markdown-content h1:not(:first-of-type)",
               }}
             />
           </ScrollAreaAutosize>

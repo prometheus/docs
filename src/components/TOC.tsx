@@ -1,3 +1,5 @@
+"use client";
+
 import { TableOfContents, TableOfContentsProps } from "@mantine/core";
 
 export default function TOC(props: TableOfContentsProps) {

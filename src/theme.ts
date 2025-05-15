@@ -23,7 +23,7 @@ export const theme = createTheme({
     fontFamily: "var(--font-inter)",
     sizes: {
       h1: {
-        fontWeight: "800",
+        // fontWeight: "600",
       },
     },
   },

@@ -10,7 +10,7 @@ import rehypeShiki from "@shikijs/rehype";
 import { IconAlertCircle, IconInfoCircle, IconLink } from "@tabler/icons-react";
 import { docsCollection } from "@/docs-collection";
 import {
-  Alert,
+  Anchor,
   Blockquote,
   em,
   Table,
@@ -101,7 +101,7 @@ export default async function DocsPage({
             properties: {
               className: ["header-auto-link"],
             },
-            behavior: "prepend",
+            behavior: "append",
             // Don't link top-level page headings (h1).
             test: (el) => el.tagName !== "h1",
           }),
@@ -140,7 +140,11 @@ export default async function DocsPage({
           // be fixed in the local Markdown files, not here.
           const href = props.href;
           if (!href || docMeta.type === "local-doc") {
-            return <a {...rest}>{children}</a>;
+            return (
+              <Anchor c="var(--secondary-link-color)" {...rest}>
+                {children}
+              </Anchor>
+            );
           }
 
           // For external repo docs, do some postprocessing on the hrefs to make
@@ -158,9 +162,13 @@ export default async function DocsPage({
           }
 
           return (
-            <a {...rest} href={normalizedHref}>
+            <Anchor
+              c="var(--secondary-link-color)"
+              {...rest}
+              href={normalizedHref}
+            >
               {children}
-            </a>
+            </Anchor>
           );
         },
         p: (props) => {
@@ -213,7 +221,6 @@ export default async function DocsPage({
           ) {
             let srcUrl = src;
             if (typeof srcUrl === "string") {
-              // Remove the "https://prometheus.io" from links that start with it.
               // TODO: Fix this in the old Markdown files instead.
               srcUrl = srcUrl.replace(/^\/assets\//, "/assets/docs/");
             }

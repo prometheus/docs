@@ -27,9 +27,16 @@
   padding: rem(8px) rem(12px);
   border-radius: var(--mantine-radius-sm);
   text-decoration: none;
-  color: light-dark(var(--mantine-color-gray-7), var(--mantine-color-gray-3));
+  color: light-dark(
+    lighten(var(--mantine-color-gray-7), 0.2),
+    var(--mantine-color-gray-5)
+  );
   font-size: var(--mantine-font-size-sm);
   font-weight: 500;
+
+  &[aria-current="page"] {
+    color: light-dark(black, white);
+  }
 
   @mixin hover {
     background-color: light-dark(

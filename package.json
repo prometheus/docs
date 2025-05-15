@@ -21,6 +21,7 @@
     "@mantine/spotlight": "^8.0.0",
     "@tabler/icons-react": "^3.31.0",
     "@types/semver": "^7.7.0",
+    "dayjs": "^1.11.13",
     "gray-matter": "^4.0.3",
     "hast-util-from-html": "^2.0.3",
     "hast-util-select": "^6.0.4",

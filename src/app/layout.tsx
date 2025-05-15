@@ -71,7 +71,7 @@ export default function RootLayout({
           >
             <Header burgerOpened={burgerOpened} toggleBurger={toggleBurger} />
             {/* <div id="docsearch" /> */}
-            <AppShell.Main>
+            <AppShell.Main px={{ base: 0, sm: "md" }}>
               <Container
                 size="xl"
                 mt="xl"

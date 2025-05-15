@@ -177,51 +177,54 @@ function ProviderCard({
 export default function SupportTrainingPage() {
   return (
     <>
-      <Title order={1} fw={600}>
-        Support and Training
-      </Title>
+      <Title order={1}>Support and Training</Title>
       <Text>
         This page lists organizations and companies that provide support,
         training, or other services around Prometheus. This list is provided in
         alphabetical order.
       </Text>
-      <Title order={2} fw={500}>
-        Certifications
-      </Title>
-      <SimpleGrid cols={{ base: 1, xs: 2, sm: 4 }}>
-        <ProviderCard
-          name="PCA"
-          logo="/assets/docs/certification-logos/pca-logo.png"
-          url="https://www.cncf.io/training/certification/pca/"
-          aspectRatio="1/1"
-        />
-      </SimpleGrid>
+      <Title order={2}>Certifications</Title>
+      <Card withBorder bg="gray.0">
+        <SimpleGrid cols={{ base: 1, xs: 2, sm: 4 }}>
+          <ProviderCard
+            name="PCA"
+            logo="/assets/docs/certification-logos/pca-logo.png"
+            url="https://www.cncf.io/training/certification/pca/"
+            aspectRatio="1/1"
+          />
+        </SimpleGrid>
+      </Card>
       <Text mt="lg">
-        <strong>Note:</strong> While the Linux Foundation is the only
-        organization offering an official certification exam for Prometheus,
-        there are multiple independent training providers (listed below) that
-        can help you prepare for the PCA certification.
+        <strong>Note:</strong> While the Linux Foundation as the trademark owner
+        is the only organization offering an official certification exam for
+        Prometheus, there are multiple independent training providers (listed
+        below) that can help you prepare for the PCA certification.
       </Text>
 
-      <Title order={2} mt={65} fw={500}>
+      <Title order={2} mt={65}>
         Courses and Trainings
       </Title>
-      <SimpleGrid cols={{ base: 1, xs: 2, sm: 4 }}>
-        {trainingProviders.map((provider) => (
-          <ProviderCard key={provider.name} {...provider} />
-        ))}
-      </SimpleGrid>
 
-      <Title order={2} mt={65} fw={500}>
+      <Card withBorder bg="gray.0">
+        <SimpleGrid cols={{ base: 1, xs: 2, sm: 4 }}>
+          {trainingProviders.map((provider) => (
+            <ProviderCard key={provider.name} {...provider} />
+          ))}
+        </SimpleGrid>
+      </Card>
+
+      <Title order={2} mt={65}>
         Commercial support
       </Title>
-      <SimpleGrid cols={{ base: 1, xs: 2, sm: 4 }}>
-        {commercialSupportProviders.map((provider) => (
-          <ProviderCard key={provider.name} {...provider} />
-        ))}
-      </SimpleGrid>
+      <Card withBorder bg="gray.0">
+        <SimpleGrid cols={{ base: 1, xs: 2, sm: 4 }}>
+          {commercialSupportProviders.map((provider) => (
+            <ProviderCard key={provider.name} {...provider} />
+          ))}
+        </SimpleGrid>
+      </Card>
 
-      <Title order={2} mt={65} fw={500}>
+      <Title order={2} mt={65}>
         Add a resource
       </Title>
       <Stack gap="xl">

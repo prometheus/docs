@@ -1,6 +1,14 @@
 :root {
   --header-height: 72px;
   --header-to-content-margin: var(--mantine-spacing-xl);
+
+  @mixin light-root {
+    --secondary-link-color: var(--mantine-color-blue-7);
+  }
+
+  @mixin dark-root {
+    --secondary-link-color: var(--mantine-color-blue-3);
+  }
 }
 
 html {
@@ -16,64 +24,17 @@ h6 {
   margin-top: calc(var(--mantine-spacing-xl) * 1.2);
   margin-bottom: calc(var(--mantine-spacing-md) * 1.2);
 
-  &:is(h1) {
+  &:is(h1):first-of-type {
     margin-top: 0;
   }
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-code {
+* {
+  /* When jumping to a linkified header or other element (like <code>),
+     we don't want the target item to scroll behind the fixed site header. */
   scroll-margin-top: calc(
     var(--header-height) + var(--header-to-content-margin)
   );
-}
-
-.docs-content a {
-  color: var(--mantine-color-blue-8);
-  text-decoration: none;
-  font-weight: 500;
-
-  &:hover {
-    color: var(--mantine-color-blue-6);
-    text-decoration: underline;
-  }
-}
-
-.docs-content img {
-  max-width: 100%;
-  height: auto;
-  margin: 1em 0;
-}
-
-a.header-auto-link {
-  position: absolute;
-  transform: translate(-140%, 5%);
-  opacity: 0;
-  color: var(--mantine-color-gray-6);
-
-  &:hover {
-    color: var(--mantine-primary-color-filled);
-  }
-}
-
-*:hover > .header-auto-link {
-  opacity: 1;
-}
-
-pre > code a {
-  color: #337ab7;
-  font-style: italic;
-  text-decoration: none;
-
-  &:hover {
-    color: #23527c;
-    text-decoration: underline;
-  }
 }
 
 /* Important: only target "pre > code > span" and not "pre > code" so we
@@ -85,23 +46,60 @@ pre > code > span {
   }
 }
 
-.docs-content img[src$=".svg"] {
-  @mixin dark {
-    background-color: var(--mantine-color-gray-2);
-    border-radius: 0.3em;
-    padding: 0.1em 0.3em;
+.markdown-content {
+  img {
+    max-width: 90%;
+    max-height: 50vh;
+    height: auto;
+    margin: 1.5em auto;
+    display: block;
   }
-}
 
-:not(pre) > code {
-  background-color: light-dark(
-    var(--mantine-color-gray-1),
-    var(--mantine-color-dark-5)
-  );
-  font-size: 0.9em;
-  padding: 0.1em 0.3em;
-  border-radius: 0.3em;
-  /* There are some long words in <code> tags that break the layout
-  if we don't force them to wrap. */
-  overflow-wrap: break-word;
+  img[src$=".svg"] {
+    @mixin dark {
+      background-color: var(--mantine-color-gray-2);
+      border-radius: 0.3em;
+      padding: 0.1em 0.3em;
+    }
+  }
+
+  a.header-auto-link {
+    position: absolute;
+    transform: translateY(8%);
+    margin-left: 0.25em;
+    opacity: 0;
+    color: var(--mantine-color-gray-6);
+
+    &:hover {
+      color: var(--mantine-primary-color-filled);
+    }
+  }
+
+  *:hover > .header-auto-link {
+    opacity: 1;
+  }
+
+  pre > code a {
+    color: #337ab7;
+    font-style: italic;
+    text-decoration: none;
+
+    &:hover {
+      color: #23527c;
+      text-decoration: underline;
+    }
+  }
+
+  :not(pre) > code {
+    background-color: light-dark(
+      var(--mantine-color-gray-1),
+      var(--mantine-color-dark-5)
+    );
+    font-size: 0.9em;
+    padding: 0.1em 0.3em;
+    border-radius: 0.3em;
+    /* There are some long words in <code> tags that break the layout
+    if we don't force them to wrap. */
+    overflow-wrap: break-word;
+  }
 }

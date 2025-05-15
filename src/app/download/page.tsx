@@ -35,15 +35,17 @@ export default function DownloadPage() {
 
   return (
     <>
-      <Title order={1} fw={600}>
-        Download
-      </Title>
+      <Title order={1}>Download</Title>
 
       <Group wrap="nowrap" align="flex-start">
         <Box>
           <p>
             We provide precompiled binaries and{" "}
-            <Anchor href="https://hub.docker.com/r/prom/" target="_blank">
+            <Anchor
+              c="var(--secondary-link-color)"
+              href="https://hub.docker.com/r/prom/"
+              target="_blank"
+            >
               Docker images
             </Anchor>{" "}
             for most officially maintained Prometheus components. If a component
@@ -54,9 +56,13 @@ export default function DownloadPage() {
           <p>
             There is also a constantly growing number of independently
             maintained exporters listed at{" "}
-            <Link href="/docs/instrumenting/exporters/">
+            <Anchor
+              c="var(--secondary-link-color)"
+              component={Link}
+              href="/docs/instrumenting/exporters/"
+            >
               Exporters and integrations
-            </Link>
+            </Anchor>
             .
           </p>
         </Box>
@@ -68,7 +74,7 @@ export default function DownloadPage() {
         />
       </Group>
 
-      <Stack mt="xl" gap="md" style={{ overflowX: "scroll" }}>
+      <Stack mt="xl" gap="md">
         <Group>
           <Select
             label="Operating System"
@@ -112,7 +118,11 @@ export default function DownloadPage() {
             </Title>
             <Group justify="space-between" mb="xs" align="flex-end">
               {repo.description}
-              <Anchor href={repo.url} target="_blank">
+              <Anchor
+                c="var(--secondary-link-color)"
+                href={repo.url}
+                target="_blank"
+              >
                 <Group gap={5} align="center">
                   <IconBrandGithub size="1em" /> {repo.fullName}
                 </Group>
@@ -141,7 +151,14 @@ export default function DownloadPage() {
                               </Badge>
                             )}
                           </Group>
-                          <a href={release.url}>Release notes</a>
+                          <Anchor
+                            c="var(--secondary-link-color)"
+                            size="sm"
+                            href={release.url}
+                            target="_blank"
+                          >
+                            Release notes
+                          </Anchor>
                         </Group>
                       </TableTd>
                     </TableTr>
@@ -175,9 +192,14 @@ export default function DownloadPage() {
                       .map((binary) => (
                         <TableTr key={binary.name}>
                           <TableTd>
-                            <a className="download" href={binary.url}>
+                            <Anchor
+                              c="var(--secondary-link-color)"
+                              inherit
+                              className="download"
+                              href={binary.url}
+                            >
                               {binary.name}
-                            </a>
+                            </Anchor>
                           </TableTd>
                           <TableTd>{binary.os}</TableTd>
                           <TableTd>{binary.arch}</TableTd>

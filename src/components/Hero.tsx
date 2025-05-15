@@ -3,6 +3,7 @@ import { Dots } from "./Dots";
 import classes from "./Hero.module.css";
 import { IconDownload } from "@tabler/icons-react";
 import Link from "next/link";
+import React from "react";
 
 export function Hero() {
   return (
@@ -28,25 +29,32 @@ export function Hero() {
         </Text>
 
         <Group gap="md" justify="center" className={classes.buttons}>
-          <Button
-            component={Link}
-            href="/docs/prometheus/latest/getting_started/"
-            size="lg"
-            w={{ base: "100%", xs: "fit-content" }}
-          >
-            Get started
-          </Button>
-          <Button
-            component={Link}
-            href="/download/"
-            variant="default"
-            color="gray"
-            size="lg"
-            w={{ base: "100%", xs: "fit-content" }}
-            leftSection={<IconDownload />}
-          >
-            Download
-          </Button>
+          {[
+            { size: "lg", hiddenFrom: "md" },
+            { size: "xl", visibleFrom: "md", mt: "xs" },
+          ].map((props) => (
+            <React.Fragment key={props.size}>
+              <Button
+                component={Link}
+                href="/docs/prometheus/latest/getting_started/"
+                w={{ base: "100%", xs: "fit-content" }}
+                {...props}
+              >
+                Get started
+              </Button>
+              <Button
+                component={Link}
+                href="/download/"
+                variant="default"
+                color="gray"
+                w={{ base: "100%", xs: "fit-content" }}
+                leftSection={<IconDownload />}
+                {...props}
+              >
+                Download
+              </Button>
+            </React.Fragment>
+          ))}
         </Group>
       </div>
     </Container>

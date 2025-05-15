@@ -17,14 +17,18 @@ import {
 } from "@tabler/icons-react";
 import prometheusLogo from "../assets/prometheus-logo.svg";
 import classes from "./Header.module.css";
-import { FC } from "react";
 import githubLogo from "../assets/github-logo.svg";
 import Link from "next/link";
 import { ThemeSelector } from "./ThemeSelector";
 import { Spotlight, SpotlightActionData, spotlight } from "@mantine/spotlight";
+import { usePathname } from "next/navigation";
 
 const links = [
-  { link: "/docs/introduction/overview", label: "Docs" },
+  {
+    link: "/docs/introduction/overview",
+    label: "Docs",
+    activeBasePath: "/docs",
+  },
   { link: "/download", label: "Download" },
   { link: "/community", label: "Community" },
   { link: "/support-training", label: "Support & Training" },
@@ -62,8 +66,17 @@ export const Header = ({
   burgerOpened: boolean;
   toggleBurger: () => void;
 }) => {
+  const path = usePathname();
+
   const items = links.map((link) => (
-    <Link key={link.label} href={link.link} className={classes.link}>
+    <Link
+      key={link.label}
+      href={link.link}
+      className={classes.link}
+      aria-current={
+        path.startsWith(link.activeBasePath || link.link) ? "page" : undefined
+      }
+    >
       {link.label}
     </Link>
   ));

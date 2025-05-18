@@ -281,7 +281,10 @@ export default function DocsLayout({
           </Button>
         </Popover.Target>
         <Popover.Dropdown mah="calc(100vh - var(--header-height))">
-          <ScrollAreaAutosize mah="calc(80vh - var(--header-height))">
+          <ScrollAreaAutosize
+            mah="calc(80vh - var(--header-height))"
+            type="never"
+          >
             {nav}
           </ScrollAreaAutosize>
         </Popover.Dropdown>
@@ -411,7 +414,10 @@ export default function DocsLayout({
           <Text mb="sm" c="dimmed" fw={600} fz="sm">
             On this page
           </Text>
-          <ScrollAreaAutosize mah="calc(100vh - var(--header-height))">
+          <ScrollAreaAutosize
+            mah="calc(100vh - var(--header-height))"
+            type="never"
+          >
             <TOC
               reinitializeRef={reinitializeTOCRef}
               scrollSpyOptions={{

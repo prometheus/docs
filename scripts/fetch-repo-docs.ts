@@ -6,7 +6,7 @@ import { GithubMarkdownSource } from "../src/docs-config-types";
 import {
   DocsCollection,
   AllRepoVersions,
-  RepoDocMetadata,
+  DocMetadata,
 } from "@/docs-collection-types";
 import matter from "gray-matter";
 import { octokit } from "./githubClient";
@@ -202,7 +202,6 @@ const fetchRepoDocs = async ({
 
         const {
           data: { title, nav_title: navTitle, sort_rank: sortRank },
-          content,
         } = matter(fs.readFileSync(file, "utf-8"));
 
         if (!title) {
@@ -216,10 +215,15 @@ const fetchRepoDocs = async ({
           }
         }
 
-        const newDoc: RepoDocMetadata = {
+        const slug = path.join(
+          slugPrefix,
+          version,
+          filePath.replace(/(\/index)*\.md$/, "")
+        );
+        const newDoc: DocMetadata = {
           type: "repo-doc",
+          slug,
           filePath: file,
-          content: "",
           owner,
           repo,
           version,
@@ -230,18 +234,20 @@ const fetchRepoDocs = async ({
           title,
           navTitle,
           sortRank: sortRank ?? 0,
+          children: [],
         };
 
-        docsCollection[
-          path.join(slugPrefix, version, filePath.replace(/\.md$/, ""))
-        ] = newDoc;
+        docsCollection[slug] = newDoc;
 
         if (version === latestVersion) {
+          const latestSlug = path.join(
+            slugPrefix,
+            "latest",
+            filePath.replace(/(\/index)*\.md$/, "")
+          );
           // Also add the latest version to the collection with
           // "latest" as the version in the slug.
-          docsCollection[
-            path.join(slugPrefix, "latest", filePath.replace(/\.md$/, ""))
-          ] = newDoc;
+          docsCollection[latestSlug] = { ...newDoc, slug: latestSlug };
         }
       } else {
         console.log("Found non-Markdown asset file:", filePath);
@@ -272,7 +278,6 @@ for (const sourceConfig of docsConfig.localMarkdownSources) {
     const filePath = path.relative(docsDir, file);
     const {
       data: { title, sort_rank: sortRank, nav_icon: navIcon },
-      content,
     } = matter(fs.readFileSync(file, "utf-8"));
     if (!title) {
       throw new Error(`Missing title in ${file}`);
@@ -287,13 +292,18 @@ for (const sourceConfig of docsConfig.localMarkdownSources) {
 
     if (file.endsWith(".md")) {
       console.log("Found Markdown file:", filePath);
-      docsCollection[path.join(slugPrefix, filePath.replace(/\.md$/, ""))] = {
+      const slug = path.join(
+        slugPrefix,
+        filePath.replace(/(\/index)*\.md$/, "")
+      );
+      docsCollection[slug] = {
         type: "local-doc",
+        slug,
         filePath: file,
-        content: "",
         title,
         sortRank: sortRank ?? 0,
         navIcon,
+        children: [],
       };
     }
 

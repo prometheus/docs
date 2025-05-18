@@ -1,5 +1,5 @@
-import Markdown, { MarkdownAsync } from "react-markdown";
-import { getAllPostParams, getPost, getPostFileContent } from "@/blog-helpers";
+import { MarkdownAsync } from "react-markdown";
+import { getAllPostParams, getPost } from "@/blog-helpers";
 import {
   Anchor,
   Blockquote,
@@ -42,9 +42,9 @@ const h = (order: 1 | 2 | 3 | 4 | 5 | 6) => {
 export default async function BlogPostPage({
   params,
 }: {
-  params: { year: string; month: string; day: string; slug: string };
+  params: Promise<{ year: string; month: string; day: string; slug: string }>;
 }) {
-  const { frontmatter, content } = getPost(params);
+  const { frontmatter, content } = getPost(await params);
 
   return (
     <Box className="markdown-content">

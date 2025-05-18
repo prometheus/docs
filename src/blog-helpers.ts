@@ -16,7 +16,7 @@ export const paramsToPostFileName = (params: {
   slug: string;
 }) => {
   const { year, month, day, slug } = params;
-  return `${year}-${month}-${day}-${slug}.md`;
+  return `${year}-${month}-${day}-${decodeURIComponent(slug)}.md`;
 };
 
 export const postFileNameToPath = (fileName: string) => {

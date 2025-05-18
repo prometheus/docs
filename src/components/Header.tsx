@@ -163,6 +163,7 @@ export const Header = ({
                 >
                   <Image
                     src={githubLogo}
+                    priority
                     style={{
                       height: 20,
                       width: 20,

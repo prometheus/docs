@@ -1,5 +1,5 @@
 import TOC from "@/components/TOC";
-import { Box, Group, Mark, Title } from "@mantine/core";
+import { Box, Group, Title } from "@mantine/core";
 import { readFileSync } from "fs";
 import Markdown from "react-markdown";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";

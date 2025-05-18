@@ -1,11 +1,11 @@
 "use client";
 
-import { docsCollection, allRepoVersions } from "@/docs-collection";
 import {
-  DocsCollection,
-  LocalDocMetadata,
-  RepoDocMetadata,
-} from "@/docs-collection-types";
+  docsCollection,
+  allRepoVersions,
+  getDocsRoots,
+} from "@/docs-collection";
+import { DocMetadata } from "@/docs-collection-types";
 import {
   Group,
   Box,
@@ -17,6 +17,8 @@ import {
   Popover,
   Text,
   ScrollArea,
+  Stack,
+  Divider,
 } from "@mantine/core";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
@@ -36,6 +38,8 @@ import {
   IconInfoCircle,
   IconTag,
   IconMenu2,
+  IconArrowRight,
+  IconArrowLeft,
 } from "@tabler/icons-react";
 import { ReactElement, useEffect, useRef } from "react";
 import TOC from "@/components/TOC";
@@ -63,225 +67,137 @@ function NavIcon({ iconName, ...props }: { iconName: string } & IconProps) {
   );
 }
 
-type DocsTree =
-  | {
-      type: "directory";
-      path: string;
-      document: LocalDocMetadata | RepoDocMetadata;
-      children: DocsTree[];
-    }
-  | {
-      type: "document";
-      path: string;
-      document: LocalDocMetadata | RepoDocMetadata;
-    };
-
-function buildDocsTree(docs: DocsCollection): DocsTree[] {
-  // Remove any final /index segments from paths.
-  const paths = Object.keys(docs).map((path) => {
-    return path.replace(/\/index$/, "");
-  });
-
-  // Normalize and sort paths by depth
-  const sortedPaths = paths.sort(
-    (a, b) => a.split("/").length - b.split("/").length
-  );
-
-  const pathTrees = new Map<string, DocsTree>();
-
-  for (const path of sortedPaths) {
-    const isDoc = !sortedPaths.some((p) => p.startsWith(`${path}/`));
-    const node: DocsTree = isDoc
-      ? { type: "document", path, document: docs[path] }
-      : {
-          type: "directory",
-          path,
-          document: docs[`${path}/index`],
-          children: [],
-        };
-
-    pathTrees.set(path, node);
-
-    const segments = path.split("/").filter(Boolean);
-    if (segments.length === 1) {
-      continue; // Top-level, no parent
-    }
-
-    // Try to find a parent by removing trailing segments until a match is found
-    let parentPath = segments.slice(0, -1).join("/");
-    let parentNode: DocsTree | undefined = undefined;
-
-    while (parentPath && !parentNode) {
-      parentNode = pathTrees.get(parentPath);
-      if (parentNode && parentNode.type === "directory") {
-        parentNode.children.push(node);
-        break;
-      } else if (parentPath.includes("/")) {
-        // Keep removing segments until we find a parent or run out of segments
-        parentPath = parentPath.split("/").slice(0, -1).join("/");
-      } else {
-        // No more segments to remove
-        break;
-      }
-    }
-  }
-  // console.log("Path map", pathMap);
-
-  // Return only top-level nodes
-  return Array.from(pathTrees.values()).filter((node) => {
-    const segments = node.path.split("/").filter(Boolean);
-    return segments.length === 1;
-  });
-}
-
 // Return a navigation tree UI for the DocsTree.
 function buildRecursiveNav(
-  docsTree: DocsTree[],
+  docsTree: DocMetadata[],
   currentPageSlug: string,
   router: ReturnType<typeof useRouter>,
   level = 0
 ) {
-  return docsTree
-    .sort((a, b) => a.document.sortRank - b.document.sortRank)
-    .map((node) => {
-      if (node.type === "directory") {
-        const fc = node.children[0];
-        const repoVersions =
-          fc && fc.document.type === "repo-doc"
-            ? allRepoVersions[fc.document.owner][fc.document.repo]
-            : null;
+  return docsTree.map((doc) => {
+    if (doc.children.length > 0) {
+      const fc = doc.children[0];
+      const repoVersions =
+        fc && fc.type === "repo-doc"
+          ? allRepoVersions[fc.owner][fc.repo]
+          : null;
 
-        const currentPage = docsCollection[currentPageSlug];
-        const currentPageVersion =
-          currentPage.type === "repo-doc" &&
-          fc.document.type === "repo-doc" &&
-          currentPage.owner === fc.document.owner &&
-          currentPage.repo === fc.document.repo
-            ? currentPage.version
-            : null;
+      const currentPage = docsCollection[currentPageSlug];
+      const currentPageVersion =
+        currentPage.type === "repo-doc" &&
+        fc.type === "repo-doc" &&
+        currentPage.owner === fc.owner &&
+        currentPage.repo === fc.repo
+          ? currentPage.version
+          : null;
 
-        const shownChildren = node.children.filter((child) => {
-          // Always show unversioned local docs in the nav.
-          if (child.document.type === "local-doc") {
+      const shownChildren = doc.children.filter((child) => {
+        // Always show unversioned local docs in the nav.
+        if (child.type === "local-doc") {
+          return true;
+        }
+
+        // Always show latest version docs if we're not looking at a different version of the same repo.
+        if (
+          !currentPageVersion &&
+          child.version === repoVersions?.latestVersion
+        ) {
+          if (child.slug.startsWith(child.versionRoot)) {
+            // Don't show "3.4", even if it is the latest.
+            return false;
+          } else {
+            // Show "latest".
             return true;
           }
+        }
 
-          // Always show latest version docs if we're not looking at a different version of the same repo.
-          if (
-            !currentPageVersion &&
-            child.document.version === repoVersions?.latestVersion
-          ) {
-            if (child.path.startsWith(child.document.versionRoot)) {
-              // Don't show "3.4", even if it is the latest.
+        // If we're looking at a specific version and it's not the latest version,
+        // show all children with that same version.
+        if (child.version === currentPageVersion) {
+          if (currentPageVersion !== repoVersions?.latestVersion) {
+            return true;
+          } else {
+            if (child.slug.startsWith(child.versionRoot)) {
               return false;
             } else {
-              // Show "latest".
               return true;
             }
           }
+        }
+      });
 
-          // If we're looking at a specific version and it's not the latest version,
-          // show all children with that same version.
-          if (child.document.version === currentPageVersion) {
-            if (currentPageVersion !== repoVersions?.latestVersion) {
-              return true;
-            } else {
-              if (child.path.startsWith(child.document.versionRoot)) {
-                return false;
-              } else {
-                return true;
-              }
-            }
-          }
-        });
+      // If the latest version (3.3) is selected, only show nav items for "latest". Otherwise,
+      // show nav items for the selected version (3.3).
+      //
+      // currentPageVersion === repoVersions?.latestVersion && child.path.startsWith(currentPage.versionRoot.replace)
 
-        // If the latest version (3.3) is selected, only show nav items for "latest". Otherwise,
-        // show nav items for the selected version (3.3).
-        //
-        // currentPageVersion === repoVersions?.latestVersion && child.path.startsWith(currentPage.versionRoot.replace)
-
-        const navIcon =
-          node.document.type === "local-doc" && node.document.navIcon;
-        const active = currentPageSlug.startsWith(node.path);
-
-        return (
-          <NavLink
-            defaultOpened={active || undefined}
-            key={node.path}
-            href="#required-for-focus"
-            label={node.document.title}
-            childrenOffset={level === 0 ? 28 : 14}
-            leftSection={
-              navIcon ? (
-                <NavIcon iconName={navIcon} size={16} stroke={1.8} />
-              ) : undefined
-            }
-            ff={level === 0 ? "var(--font-inter)" : undefined}
-            fw={level === 0 ? 500 : undefined}
-            style={{ borderRadius: 2.5 }}
-          >
-            {level === 0 && repoVersions && (
-              <Select
-                w="100%"
-                size="sm"
-                my="xs"
-                leftSection={<IconTag size={16} />}
-                // placeholder="Pick version"
-                value={currentPageVersion || repoVersions.latestVersion}
-                data={repoVersions.versions.map((version) => ({
-                  value: version,
-                  label:
-                    version === repoVersions.latestVersion
-                      ? `${version} (latest)`
-                      : repoVersions.ltsVersions.includes(version)
-                      ? `${version} (LTS)`
-                      : version,
-                }))}
-                onChange={(version) => {
-                  const newPageNode = node.children
-                    .filter(
-                      (child) =>
-                        child.document.type === "repo-doc" &&
-                        child.document.version === version
-                    )
-                    .sort(
-                      (a, b) => a.document.sortRank - b.document.sortRank
-                    )[0];
-                  if (newPageNode) {
-                    router.push(`/docs/${newPageNode.path}`);
-                  }
-                }}
-              />
-            )}
-            {buildRecursiveNav(
-              shownChildren,
-              currentPageSlug,
-              router,
-              level + 1
-            )}
-          </NavLink>
-        );
-      }
-
-      const active = currentPageSlug === node.path;
+      const navIcon = doc.type === "local-doc" && doc.navIcon;
+      const active = currentPageSlug.startsWith(doc.slug);
 
       return (
         <NavLink
-          active={active}
-          variant="light"
-          component={Link}
-          key={node.path}
-          label={node.document.title}
-          href={`/docs/${node.path}`}
+          defaultOpened={active || undefined}
+          key={doc.slug}
+          href="#required-for-focus"
+          label={doc.title}
+          childrenOffset={level === 0 ? 28 : 14}
+          leftSection={
+            navIcon ? (
+              <NavIcon iconName={navIcon} size={16} stroke={1.8} />
+            ) : undefined
+          }
+          ff={level === 0 ? "var(--font-inter)" : undefined}
+          fw={level === 0 ? 500 : undefined}
           style={{ borderRadius: 2.5 }}
-        />
+        >
+          {level === 0 && repoVersions && (
+            <Select
+              w="100%"
+              size="sm"
+              my="xs"
+              leftSection={<IconTag size={16} />}
+              // placeholder="Pick version"
+              value={currentPageVersion || repoVersions.latestVersion}
+              data={repoVersions.versions.map((version) => ({
+                value: version,
+                label:
+                  version === repoVersions.latestVersion
+                    ? `${version} (latest)`
+                    : repoVersions.ltsVersions.includes(version)
+                    ? `${version} (LTS)`
+                    : version,
+              }))}
+              onChange={(version) => {
+                const newPageNode = doc.children.filter(
+                  (child) =>
+                    child.type === "repo-doc" && child.version === version
+                )[0];
+                if (newPageNode) {
+                  router.push(`/docs/${newPageNode.slug}`);
+                }
+              }}
+            />
+          )}
+          {buildRecursiveNav(shownChildren, currentPageSlug, router, level + 1)}
+        </NavLink>
       );
-    });
-}
+    }
 
-const breadcrumbs = (pageSlug: string, docsTree: DocsTree[]) => {
-  const segments = pageSlug.split("/").filter(Boolean);
-};
+    const active = currentPageSlug === doc.slug;
+
+    return (
+      <NavLink
+        active={active}
+        variant="light"
+        component={Link}
+        key={doc.slug}
+        label={doc.title}
+        href={`/docs/${doc.slug}`}
+        style={{ borderRadius: 2.5 }}
+      />
+    );
+  });
+}
 
 function compareVersions(a: string, b: string): number {
   const [majorA, minorA] = a.split(".").map(Number);
@@ -299,12 +215,9 @@ export default function DocsLayout({
   children: React.ReactNode;
 }>) {
   const router = useRouter();
-  const docsTree = buildDocsTree(docsCollection);
   const pageSlug = usePathname().replace(/^\/docs\//, "");
   const currentPage = docsCollection[pageSlug];
   const reinitializeTOCRef = useRef(() => {});
-
-  const bc = breadcrumbs(pageSlug, docsTree);
 
   useEffect(() => {
     reinitializeTOCRef.current();
@@ -312,6 +225,8 @@ export default function DocsLayout({
 
   let alert: ReactElement | null = null;
   if (currentPage.type === "repo-doc") {
+    // TODO: Clean this up, the version could theoretically appear in the path
+    // in unintended places as well.
     const latestSlug = pageSlug.replace(currentPage.version, "latest");
 
     switch (compareVersions(currentPage.version, currentPage.latestVersion)) {
@@ -347,6 +262,9 @@ export default function DocsLayout({
     }
   }
 
+  // TODO: Handle hideInNav.
+  const nav = buildRecursiveNav(getDocsRoots(), pageSlug, router);
+
   return (
     <>
       {/* The mobile main nav */}
@@ -364,7 +282,7 @@ export default function DocsLayout({
         </Popover.Target>
         <Popover.Dropdown mah="calc(100vh - var(--header-height))">
           <ScrollAreaAutosize mah="calc(80vh - var(--header-height))">
-            {buildRecursiveNav(docsTree, pageSlug, router)}
+            {nav}
           </ScrollAreaAutosize>
         </Popover.Dropdown>
       </Popover>
@@ -392,7 +310,7 @@ export default function DocsLayout({
             mr={0}
           >
             <Box p={10} pr="xs">
-              {buildRecursiveNav(docsTree, pageSlug, router)}
+              {nav}
             </Box>
           </ScrollArea>
         </Box>
@@ -401,6 +319,58 @@ export default function DocsLayout({
         <Box miw={0} className="markdown-content">
           {alert}
           {children}
+
+          {/* Previous / next sibling page navigation */}
+          <Divider my="xl" />
+          <Group
+            component="nav"
+            aria-label="pagination"
+            justify="space-between"
+            mt="xl"
+          >
+            <div>
+              {currentPage.prev && (
+                <Button
+                  component={Link}
+                  href={`/docs/${currentPage.prev.slug}`}
+                  variant="outline"
+                  color="gray"
+                  h={80}
+                  leftSection={<IconArrowLeft />}
+                >
+                  <Stack align="flex-start" gap={5}>
+                    <Text size="sm" c="dimmed">
+                      Previous
+                    </Text>
+                    <Text size="sm" fw={700}>
+                      {currentPage.prev.title}
+                    </Text>
+                  </Stack>
+                </Button>
+              )}
+            </div>
+            <div>
+              {currentPage.next && (
+                <Button
+                  component={Link}
+                  href={`/docs/${currentPage.next.slug}`}
+                  variant="outline"
+                  color="gray"
+                  h={80}
+                  rightSection={<IconArrowRight />}
+                >
+                  <Stack align="flex-start" gap={5}>
+                    <Text size="sm" c="dimmed">
+                      Next
+                    </Text>
+                    <Text size="sm" fw={700}>
+                      {currentPage.next.title}
+                    </Text>
+                  </Stack>
+                </Button>
+              )}
+            </div>
+          </Group>
         </Box>
 
         {/* The right-hand-side table of contents for headings

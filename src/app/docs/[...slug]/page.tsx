@@ -80,7 +80,6 @@ export default async function DocsPage({
   params: Promise<{ slug: string[] }>;
 }) {
   const slug = (await params).slug;
-  console.log("Building docs page", slug.join("/"));
 
   const docMeta = docsCollection[slug.join("/")];
   // TODO: Use the content from the meta json.

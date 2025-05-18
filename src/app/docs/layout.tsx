@@ -76,6 +76,7 @@ function buildRecursiveNav(
 ) {
   return docsTree.map((doc) => {
     if (doc.children.length > 0) {
+      // Node is a "directory".
       const fc = doc.children[0];
       const repoVersions =
         fc && fc.type === "repo-doc"
@@ -126,11 +127,6 @@ function buildRecursiveNav(
         }
       });
 
-      // If the latest version (3.3) is selected, only show nav items for "latest". Otherwise,
-      // show nav items for the selected version (3.3).
-      //
-      // currentPageVersion === repoVersions?.latestVersion && child.path.startsWith(currentPage.versionRoot.replace)
-
       const navIcon = doc.type === "local-doc" && doc.navIcon;
       const active = currentPageSlug.startsWith(doc.slug);
 
@@ -140,7 +136,9 @@ function buildRecursiveNav(
           key={doc.slug}
           href="#required-for-focus"
           label={doc.title}
-          childrenOffset={level === 0 ? 28 : 14}
+          // We offset the children, but we do it manually via a mix of margin and padding
+          // to position the left-hand-side border on the first level correctly.
+          childrenOffset={0}
           leftSection={
             navIcon ? (
               <NavIcon iconName={navIcon} size={16} stroke={1.8} />
@@ -150,41 +148,59 @@ function buildRecursiveNav(
           fw={level === 0 ? 500 : undefined}
           style={{ borderRadius: 2.5 }}
         >
-          {level === 0 && repoVersions && (
-            <Select
-              w="100%"
-              size="sm"
-              my="xs"
-              leftSection={<IconTag size={16} />}
-              // placeholder="Pick version"
-              value={currentPageVersion || repoVersions.latestVersion}
-              data={repoVersions.versions.map((version) => ({
-                value: version,
-                label:
-                  version === repoVersions.latestVersion
-                    ? `${version} (latest)`
-                    : repoVersions.ltsVersions.includes(version)
-                    ? `${version} (LTS)`
-                    : version,
-              }))}
-              onChange={(version) => {
-                const newPageNode = doc.children.filter(
-                  (child) =>
-                    child.type === "repo-doc" && child.version === version
-                )[0];
-                if (newPageNode) {
-                  router.push(`/docs/${newPageNode.slug}`);
-                }
-              }}
-            />
-          )}
-          {buildRecursiveNav(shownChildren, currentPageSlug, router, level + 1)}
+          <Box
+            ml={level === 0 ? 19 : 12}
+            pl={level === 0 ? 9 : 2}
+            style={
+              level === 0
+                ? {
+                    borderLeft:
+                      "1px solid light-dark(var(--mantine-color-gray-3), var(--mantine-color-gray-7))",
+                  }
+                : undefined
+            }
+          >
+            {level === 0 && repoVersions && (
+              <Select
+                py="xs"
+                size="sm"
+                leftSection={<IconTag size={16} />}
+                title="Select version"
+                value={currentPageVersion || repoVersions.latestVersion}
+                data={repoVersions.versions.map((version) => ({
+                  value: version,
+                  label:
+                    version === repoVersions.latestVersion
+                      ? `${version} (latest)`
+                      : repoVersions.ltsVersions.includes(version)
+                      ? `${version} (LTS)`
+                      : version,
+                }))}
+                onChange={(version) => {
+                  const newPageNode = doc.children.filter(
+                    (child) =>
+                      child.type === "repo-doc" && child.version === version
+                  )[0];
+                  if (newPageNode) {
+                    router.push(`/docs/${newPageNode.slug}`);
+                  }
+                }}
+              />
+            )}
+            {buildRecursiveNav(
+              shownChildren,
+              currentPageSlug,
+              router,
+              level + 1
+            )}
+          </Box>
         </NavLink>
       );
     }
 
     const active = currentPageSlug === doc.slug;
 
+    // Node is a "file" (document).
     return (
       <NavLink
         active={active}
@@ -307,14 +323,8 @@ export default function DocsLayout({
           <ScrollArea
             h="calc(100vh - var(--header-height) - var(--header-to-content-margin))"
             type="never"
-            // Negative margin hack to counteract the inner padding of the scroll area Box
-            // which prevents cutting off the browser's focus ring when a nav item is focused (e.g. via TAB).
-            m={-10}
-            mr={0}
           >
-            <Box p={10} pr="xs">
-              {nav}
-            </Box>
+            <Box px="xs">{nav}</Box>
           </ScrollArea>
         </Box>
 

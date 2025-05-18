@@ -140,7 +140,7 @@ export default async function DocsPage({
           const href = props.href;
           if (!href || docMeta.type === "local-doc") {
             return (
-              <Anchor c="var(--secondary-link-color)" {...rest}>
+              <Anchor inherit c="var(--secondary-link-color)" {...rest}>
                 {children}
               </Anchor>
             );
@@ -162,6 +162,7 @@ export default async function DocsPage({
 
           return (
             <Anchor
+              inherit
               c="var(--secondary-link-color)"
               {...rest}
               href={normalizedHref}

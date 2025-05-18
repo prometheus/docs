@@ -61,11 +61,10 @@ const iconMap: Record<string, React.ComponentType<IconProps>> = {
 
 function NavIcon({ iconName, ...props }: { iconName: string } & IconProps) {
   const Icon = iconMap[iconName];
-  return Icon ? (
-    <Icon {...props} color="var(--mantine-primary-color-3)" />
-  ) : (
-    <span>?</span>
-  );
+  if (!Icon) {
+    throw new Error(`Unknown icon name: ${iconName}`);
+  }
+  return <Icon {...props} color="var(--mantine-color-gray-6)" />;
 }
 
 // Return a navigation tree UI for the DocsTree.

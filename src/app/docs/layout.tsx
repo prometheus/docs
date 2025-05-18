@@ -40,6 +40,7 @@ import {
   IconMenu2,
   IconArrowRight,
   IconArrowLeft,
+  IconPencil,
 } from "@tabler/icons-react";
 import { ReactElement, useEffect, useRef } from "react";
 import TOC from "@/components/TOC";
@@ -328,13 +329,14 @@ export default function DocsLayout({
             justify="space-between"
             mt="xl"
           >
-            <div>
+            <Box flex="1" miw={0}>
               {currentPage.prev && (
                 <Button
                   component={Link}
                   href={`/docs/${currentPage.prev.slug}`}
                   variant="outline"
                   color="gray"
+                  w="100%"
                   h={80}
                   leftSection={<IconArrowLeft />}
                 >
@@ -348,14 +350,38 @@ export default function DocsLayout({
                   </Stack>
                 </Button>
               )}
-            </div>
-            <div>
+            </Box>
+            <Button
+              flex="1"
+              miw={0}
+              component="a"
+              href={
+                currentPage.type === "local-doc"
+                  ? `https://github.com/prometheus/docs/blob/main/docs/${currentPage.slug}.md`
+                  : `https://github.com/${currentPage.owner}/${
+                      currentPage.repo
+                    }/blob/main/docs/${currentPage.slug
+                      .split("/")
+                      .slice(currentPage.slugPrefix.split("/").length + 1)
+                      .join("/")}.md`
+              }
+              target="_blank"
+              variant="subtle"
+              color="gray"
+              w="100%"
+              h={80}
+              leftSection={<IconPencil size={18} />}
+            >
+              Edit this page
+            </Button>
+            <Box flex="1" miw={0}>
               {currentPage.next && (
                 <Button
                   component={Link}
                   href={`/docs/${currentPage.next.slug}`}
                   variant="outline"
                   color="gray"
+                  w="100%"
                   h={80}
                   rightSection={<IconArrowRight />}
                 >
@@ -369,7 +395,7 @@ export default function DocsLayout({
                   </Stack>
                 </Button>
               )}
-            </div>
+            </Box>
           </Group>
         </Box>
 

@@ -184,7 +184,7 @@ any single company. To emphasize this we joined the [Cloud Native
 Computing Foundation](https://cncf.io/) in 2016 as the second project
 after [Kubernetes](https://kubernetes.io/).
 
-<a href="https://cncf.io/"><img class="orig-size" src="/assets/cncf_logo.png" alt="CNCF logo"></a>
+<a href="https://cncf.io/"><img src="/assets/docs/cncf_logo.png" alt="CNCF logo"></a>
 
 ## Acknowledgements
 

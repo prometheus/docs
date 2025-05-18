@@ -81,6 +81,51 @@ export const Header = ({
     </Link>
   ));
 
+  const actionIcons = (
+    <>
+      <ActionIcon
+        hiddenFrom="lg"
+        color="gray"
+        variant="subtle"
+        onClick={spotlight.open}
+      >
+        <IconSearch
+          {...{
+            style: {
+              width: rem(20),
+              height: rem(20),
+              display: "block",
+            },
+            stroke: 2,
+          }}
+        />
+      </ActionIcon>
+
+      <ThemeSelector />
+
+      <ActionIcon
+        component="a"
+        href="https://github.com/prometheus"
+        target="_blank"
+        color="gray"
+        variant="subtle"
+      >
+        <Image
+          src={githubLogo}
+          priority
+          style={{
+            height: 20,
+            width: 20,
+            opacity: 0.9,
+            verticalAlign: "middle",
+          }}
+          className="invertInDarkMode"
+          alt="GitHub Logo"
+        />
+      </ActionIcon>
+    </>
+  );
+
   return (
     <>
       <AppShell.Header className={classes.header} px="md">
@@ -134,46 +179,7 @@ export const Header = ({
                   rightSectionWidth="fit-content"
                   visibleFrom="lg"
                 />
-                <ActionIcon
-                  hiddenFrom="lg"
-                  color="gray"
-                  variant="subtle"
-                  onClick={spotlight.open}
-                >
-                  <IconSearch
-                    {...{
-                      style: {
-                        width: rem(20),
-                        height: rem(20),
-                        display: "block",
-                      },
-                      stroke: 2,
-                    }}
-                  />
-                </ActionIcon>
-
-                <ThemeSelector />
-
-                <ActionIcon
-                  component="a"
-                  href="https://github.com/prometheus"
-                  target="_blank"
-                  color="gray"
-                  variant="subtle"
-                >
-                  <Image
-                    src={githubLogo}
-                    priority
-                    style={{
-                      height: 20,
-                      width: 20,
-                      opacity: 0.9,
-                      verticalAlign: "middle",
-                    }}
-                    className="invertInDarkMode"
-                    alt="GitHub Logo"
-                  />
-                </ActionIcon>
+                {actionIcons}
               </Group>
               <Burger
                 opened={burgerOpened}
@@ -186,7 +192,12 @@ export const Header = ({
           </div>
         </Container>
       </AppShell.Header>
-      <AppShell.Navbar px="lg">{items}</AppShell.Navbar>
+      <AppShell.Navbar p="lg">
+        {items}
+        <Group m="xs" gap="xs">
+          {actionIcons}
+        </Group>
+      </AppShell.Navbar>
       <Spotlight
         actions={actions}
         nothingFound="Nothing found..."

@@ -1,6 +1,6 @@
 .wrapper {
   position: relative;
-  margin-top: clamp(0px, 5vw, rem(80px));
+  margin-top: clamp(0px, 7vw, rem(80px));
   padding-bottom: rem(60px);
 }
 

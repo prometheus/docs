@@ -1,6 +1,8 @@
 import { DocsConfig } from "./src/docs-config-types";
 
 export default {
+  siteUrl: "https://prometheus.io",
+
   // Docs to load from repo-local files.
   localMarkdownSources: [
     {
@@ -33,7 +35,7 @@ export default {
   },
 
   // Repositories for the downloads page. The order in this file is the
-  // order in which they will be displayed on the downloads page.
+  // order in which the repos are displayed on the downloads page.
   downloads: {
     owner: "prometheus",
     repos: [

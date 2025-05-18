@@ -1,9 +1,8 @@
 import { getAllPosts } from "@/blog-helpers";
+import PromMarkdown from "@/components/PromMarkdown";
 import { Anchor, Title, Text, Card, Stack, Button, Box } from "@mantine/core";
 import dayjs from "dayjs";
 import Link from "next/link";
-import Markdown from "react-markdown";
-import rehypeRaw from "rehype-raw";
 
 export default function BlogPage() {
   const allPosts = getAllPosts();
@@ -28,17 +27,13 @@ export default function BlogPage() {
               {frontmatter.author_name}
             </Text>
             <Box className="markdown-content">
-              <Markdown rehypePlugins={[rehypeRaw]}>{excerpt}</Markdown>
+              <PromMarkdown>{excerpt}</PromMarkdown>
             </Box>
 
-            {/* <Anchor size="sm" href={path}>
-              Read more...
-            </Anchor> */}
             <Button
               component={Link}
               href={path}
               variant="light"
-              // color="gray"
               mt="md"
               w={{ base: "100%", xs: "fit-content" }}
             >

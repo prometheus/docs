@@ -76,6 +76,7 @@ const features = [
   // },
 ];
 
+// Based on the design at https://ui.mantine.dev/category/features/#features-cards
 export function FeaturesCards() {
   const featureCards = features.map((feature) => (
     <Card

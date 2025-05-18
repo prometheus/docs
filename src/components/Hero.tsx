@@ -5,6 +5,7 @@ import { IconDownload } from "@tabler/icons-react";
 import Link from "next/link";
 import React from "react";
 
+// Based on the design at https://ui.mantine.dev/category/hero/#hero-text.
 export function Hero() {
   return (
     <Container className={classes.wrapper} size={1400}>

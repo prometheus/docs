@@ -1,13 +1,4 @@
-import {
-  Badge,
-  Group,
-  Title,
-  Text,
-  Card,
-  SimpleGrid,
-  Container,
-  rem,
-} from "@mantine/core";
+import { Text, Card, SimpleGrid, Container, rem } from "@mantine/core";
 import {
   IconGauge,
   IconChartGridDots,
@@ -46,6 +37,8 @@ const features = [
     description:
       "Prometheus servers operate independently and only rely on local storage. Developed in Go, the statically linked binaries are easy to deploy across various environments.",
     icon: IconRun,
+    // TODO: Find a better link - the complex configuration page is
+    // not a good a good advertisement for simplicity.
     link: "/docs/prometheus/latest/configuration/configuration/",
   },
   {
@@ -62,73 +55,37 @@ const features = [
     icon: IconAffiliate,
     link: "/docs/instrumenting/exporters/",
   },
-  // {
-  //   title: "Efficient storage",
-  //   description:
-  //     "Prometheus stores data in an efficient custom-designed format. You can scale Prometheus by sharding, federating, or other using external integrations.",
-  //   icon: IconServerBolt,
-  // },
-  // {
-  //   title: "Alerting",
-  //   description:
-  //     "Alerts are defined based on Prometheus's flexible PromQL and maintain dimensional information. An alertmanager handles notifications and silencing.",
-  //   icon: IconBell,
-  // },
 ];
 
 // Based on the design at https://ui.mantine.dev/category/features/#features-cards
 export function FeaturesCards() {
-  const featureCards = features.map((feature) => (
-    <Card
-      key={feature.title}
-      component={Link}
-      href={feature.link}
-      shadow="md"
-      radius="md"
-      className={classes.card}
-      padding="xl"
-    >
-      <feature.icon
-        style={{ width: rem(40), height: rem(40) }}
-        stroke={1.5}
-        color="var(--mantine-primary-color-filled)"
-      />
-      <Text fz="lg" fw={500} className={classes.cardTitle} mt="md">
-        {feature.title}
-      </Text>
-      <Text fz="sm" c="dimmed" mt="sm">
-        {feature.description}
-      </Text>
-    </Card>
-  ));
-
   return (
-    <Container size="lg" pb={90}>
+    <Container size="lg">
       <SimpleGrid cols={{ base: 1, xs: 2, sm: 3 }} spacing="xl" my={50}>
-        {featureCards}
+        {features.map((feature) => (
+          <Card
+            key={feature.title}
+            component={Link}
+            href={feature.link}
+            shadow="md"
+            radius="md"
+            className={classes.card}
+            padding="xl"
+          >
+            <feature.icon
+              style={{ width: rem(40), height: rem(40) }}
+              stroke={1.5}
+              color="var(--mantine-primary-color-filled)"
+            />
+            <Text fz="lg" fw={500} className={classes.cardTitle} mt="md">
+              {feature.title}
+            </Text>
+            <Text fz="sm" c="dimmed" mt="sm">
+              {feature.description}
+            </Text>
+          </Card>
+        ))}
       </SimpleGrid>
-      <Group justify="center" mt={120}>
-        <Badge variant="filled" size="lg">
-          Modern monitoring
-        </Badge>
-      </Group>
-
-      <Title order={2} className={classes.title} ta="center" mt="sm">
-        Monitoring for the cloud native world
-      </Title>
-
-      <Text c="dimmed" className={classes.description} ta="center" mt="md">
-        Designed for the cloud native world, Prometheus integrates with
-        Kubernetes and other cloud and container managers to continuously
-        discover and monitor your services. It is the second project to graduate
-        from the CNCF after Kubernetes.
-      </Text>
-
-      {/* <Group justify="center" mt={120}>
-        <Badge variant="filled" size="lg">
-          100% Open Source
-        </Badge>
-      </Group> */}
     </Container>
   );
 }

@@ -1,5 +1,5 @@
 import NextImage from "next/image";
-import { Box, Image } from "@mantine/core";
+import { Badge, Blockquote, Box, Image } from "@mantine/core";
 import classes from "@/components/FeaturesCards.module.css";
 import { FeaturesCards } from "@/components/FeaturesCards";
 import { Hero } from "@/components/Hero";
@@ -9,6 +9,7 @@ import cncfLogoLightMode from "../assets/cncf-logo.svg";
 import cncfLogoDarkMode from "../assets/cncf-logo-white.svg";
 import githubLogo from "../assets/github-logo.svg";
 import { GitHubStars } from "@/components/GitHubStars";
+import { IconQuote } from "@tabler/icons-react";
 
 export const metadata = {
   title: "Prometheus - Monitoring system & time series database",
@@ -20,9 +21,39 @@ export default function Home() {
   return (
     <>
       <Hero />
+
       <FeaturesCards />
-      <UserLogos />
-      <Space h="xl" mb={50} />
+
+      <Group justify="center" mt={120}>
+        <Badge variant="filled" size="lg">
+          Modern monitoring
+        </Badge>
+      </Group>
+      <Title order={2} className={classes.title} ta="center" mt="sm">
+        Monitoring for the cloud native world
+      </Title>
+      <Text c="dimmed" className={classes.description} ta="center" mt="md">
+        Designed for the cloud native world, Prometheus integrates with
+        Kubernetes and other cloud and container managers to continuously
+        discover and monitor your services. It is the second project to graduate
+        from the CNCF after Kubernetes.
+      </Text>
+
+      <Blockquote
+        my={80}
+        icon={<IconQuote />}
+        maw={600}
+        bg="light-dark(var(--mantine-color-gray-0), var(--mantine-color-dark-6))"
+        mx="auto"
+        cite="Site Reliability Engineering: How Google Runs Production Systems (O'Reilly Media)"
+      >
+        Even though Borgmon remains internal to Google, the idea of treating
+        time-series data as a data source for generating alerts is now
+        accessible to everyone through those open source tools like Prometheus
+        [...]
+      </Blockquote>
+      {/* <UserLogos /> */}
+      {/* <Space h="xl" mb={50} /> */}
       <Title order={2} className={classes.title} mt="sm">
         <Group justify="center">
           <Image

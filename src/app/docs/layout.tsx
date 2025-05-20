@@ -234,6 +234,10 @@ export default function DocsLayout({
   const pageSlug = usePathname().replace(/^\/docs\//, "");
   const currentPage = docsCollection[pageSlug];
   const reinitializeTOCRef = useRef(() => {});
+  const pagefindShouldIndex =
+    currentPage.type === "local-doc" ||
+    (currentPage.version === currentPage.latestVersion &&
+      !currentPage.slug.startsWith(currentPage.versionRoot));
 
   useEffect(() => {
     reinitializeTOCRef.current();
@@ -329,7 +333,11 @@ export default function DocsLayout({
         </Box>
 
         {/* The main docs page content */}
-        <Box miw={0} className="markdown-content">
+        <Box
+          miw={0}
+          className="markdown-content"
+          data-pagefind-body={pagefindShouldIndex ? "true" : undefined}
+        >
           {alert}
           {children}
 

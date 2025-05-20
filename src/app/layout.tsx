@@ -45,15 +45,6 @@ export default function RootLayout({
 }>) {
   const [burgerOpened, { toggle: toggleBurger }] = useDisclosure();
 
-  // useEffect(() => {
-  //   docsearch({
-  //     container: "#docsearch",
-  //     appId: "prometheus",
-  //     indexName: "prometheus",
-  //     apiKey: "48ac0b7924908a1fd40b1cb18b402ba1",
-  //   });
-  // }, []);
-
   return (
     <html lang="en" {...mantineHtmlProps} className={interFont.variable}>
       <head>
@@ -70,7 +61,7 @@ export default function RootLayout({
             }}
           >
             <Header burgerOpened={burgerOpened} toggleBurger={toggleBurger} />
-            {/* <div id="docsearch" /> */}
+
             <AppShell.Main px={{ base: 0, sm: "md" }}>
               <Container
                 size="xl"

@@ -30,7 +30,7 @@ export default async function BlogPostPage({
   const { frontmatter, content } = getPost(await params);
 
   return (
-    <Box className="markdown-content">
+    <Box className="markdown-content" data-pagefind-body>
       <Title order={2} mt={0} mb="xs">
         {frontmatter.title}
       </Title>

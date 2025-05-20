@@ -185,6 +185,7 @@ export default function SpotlightSearch() {
           return;
         }
         console.log(`Found ${search.results.length} results`);
+        console.log("All results:", search.results);
         setResults(search.results as PagefindResult[]);
       }}
     >

@@ -29,7 +29,13 @@ h6 {
   }
 }
 
-* {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+code {
   /* When jumping to a linkified header or other element (like <code>),
      we don't want the target item to scroll behind the fixed site header. */
   scroll-margin-top: calc(

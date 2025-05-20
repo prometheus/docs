@@ -1,7 +1,7 @@
 .wrapper {
   position: relative;
-  margin-top: clamp(0px, 7vw, rem(80px));
-  padding-bottom: rem(60px);
+  margin-block: clamp(0px, 7vw, rem(80px));
+  padding-bottom: 1rem;
 }
 
 .inner {

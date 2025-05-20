@@ -61,7 +61,7 @@ const features = [
 export function FeaturesCards() {
   return (
     <Container size="lg">
-      <SimpleGrid cols={{ base: 1, xs: 2, sm: 3 }} spacing="xl" my={40}>
+      <SimpleGrid cols={{ base: 1, xs: 2, sm: 3 }} spacing="xl">
         {features.map((feature) => (
           <Card
             key={feature.title}

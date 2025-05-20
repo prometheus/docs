@@ -2,7 +2,7 @@
 
 This repository contains both the content and the static-site generator code for the Prometheus documentation site and associated landing pages.
 
-This is a [Next.js](https://nextjs.org)-based website.
+This is a [Next.js](https://nextjs.org)-based website with some custom code to integrate documentation from other repositories and fetch information about available Prometheus component downloads from GitHub.
 
 ## Contributing Changes
 
@@ -52,14 +52,16 @@ To build the website, run:
 npm run build-all
 ```
 
-This cleans any previous build artifacts, fetches the latest documentation from the Prometheus and Alertmanager repositories, fetches information about available downloads (for the Download page) and builds the website. The output is a static website in the `out` directory.
+This cleans any previous build artifacts, fetches the latest documentation from the Prometheus and Alertmanager repositories, fetches information about available downloads (for the Download page), builds the website, and then indexes it (for the built-in [Pagefind](https://pagefind.app/)-based search functionality).
+
+The final output is a static website in the `out` directory.
 
 You can also run each of these build steps separately:
 
-* `npm run clean` - Cleans the `out` directory.
+* `npm run clean` - Cleans any build output and generated files from previous runs.
 * `npm run fetch-repo-docs` - Fetches the latest documentation from the Prometheus and Alertmanager repositories.
 * `npm run fetch-downloads-info` - Fetches information about available downloads (for the Download page).
-* `npm run build` - Builds the website.
+* `npm run build` - Builds the website. Note: This also runs the `postbuild` script, which generates [Pagefind](https://pagefind.app/) search indexes.
 
 ### Serving the static output
 
@@ -83,9 +85,11 @@ This will start a web server on port 3000. You can access the website at [http:/
 
 The website will automatically reload when you make changes to the source files.
 
+NOTE: Spotlight search is not available in development mode, as it requires building a [Pagefind](https://pagefind.app/) index on the static output and then loading the generated `/pagefind/pagefind.js` file. This only happens when building the app for production via `npm run build` (part of `npm run build-all`).
+
 ## Configuration
 
-Some high-level settings for the documentation website are configured using the [`docs-config.ts`](docs-config.ts) file in the root of the repository. This file configures:
+You can configure some high-level settings for the documentation website in the [`docs-config.ts`](docs-config.ts) file in the root of the repository. This file configures:
 
 * The base URL of the website.
 * Which repositories to fetch documentation from.

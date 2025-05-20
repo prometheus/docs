@@ -48,6 +48,9 @@ const SearchResult = ({
 
   return (
     <Spotlight.ActionsGroup label={data.meta.title}>
+      <Text c="red" fz="xs" px="md" py="xs">
+        Pagefind result ID: {result.id}
+      </Text>
       <Space h="xs" />
       {data.sub_results.slice(0, 4).map((subResult, subIdx) => (
         <Spotlight.Action
@@ -193,7 +196,7 @@ export default function SpotlightSearch() {
         {results.length > 0 ? (
           results.map((result, idx) => (
             <React.Fragment key={result.id}>
-              |{result.id}|{idx > 0 && <Divider my="xs" />}
+              {idx > 0 && <Divider my="xs" />}
               <SearchResult query={searchInput} result={result} />
             </React.Fragment>
           ))

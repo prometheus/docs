@@ -15,7 +15,7 @@ Grafana and [Console Templates](https://prometheus.io/docs/visualization/console
 
 Install and Run Grafana by following the steps from [here](https://grafana.com/docs/grafana/latest/installation/requirements/#supported-operating-systems) for your operating system.
 
-Once Grafana is installed and run, navigate to [http://localhost:3000](http://localhost:3000) in your browser. Use the default credentials, username as `admin` and password as `admin` to log in and setup new credentials.
+Once Grafana is installed and run, navigate to [http://localhost:3000](http://localhost:3000) in your browser. Use the default credentials, username as `admin` and password as `admin` to log in and set up new credentials.
 
 
 ## Adding Prometheus as a Data Source in Grafana.

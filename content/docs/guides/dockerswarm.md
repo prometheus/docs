@@ -31,7 +31,7 @@ NOTE: The rest of this post assumes that you have a Swarm running.
 
 ## Setting up Prometheus
 
-For this guide, you need to [setup Prometheus][setup]. We will assume that
+For this guide, you need to [set up Prometheus][setup]. We will assume that
 Prometheus runs on a Docker Swarm manager node and has access to the Docker
 socket at `/var/run/docker.sock`.
 

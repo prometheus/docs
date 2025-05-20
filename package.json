@@ -9,7 +9,8 @@
     "fetch-downloads-info": "tsx scripts/fetch-downloads-info.ts",
     "clean": "rm -rf generated out .next",
     "build": "next build",
-    "build-all": "npm run clean && npm run fetch-repo-docs && npm run fetch-downloads-info && next build",
+    "postbuild": "pagefind --site out",
+    "build-all": "npm run clean && npm run fetch-repo-docs && npm run fetch-downloads-info && npm run build",
     "start": "next start",
     "lint": "next lint"
   },
@@ -50,6 +51,7 @@
     "dotenv": "^16.5.0",
     "eslint": "^9",
     "eslint-config-next": "15.3.1",
+    "pagefind": "^1.3.0",
     "postcss": "^8.5.3",
     "postcss-preset-mantine": "^1.17.0",
     "postcss-simple-vars": "^7.0.1",

@@ -355,16 +355,16 @@ export default function DocsLayout({
                   component={Link}
                   href={`/docs/${currentPage.prev.slug}`}
                   variant="outline"
-                  color="gray"
+                  color="var(--mantine-color-text)"
+                  justify="space-between"
                   w="100%"
                   h={80}
                   leftSection={<IconArrowLeft />}
+                  ta="right"
                 >
-                  <Stack align="flex-start" gap={5}>
-                    <Text size="sm" c="dimmed">
-                      Previous
-                    </Text>
-                    <Text size="sm" fw={700}>
+                  <Stack align="flex-end" gap={5}>
+                    <Text size="sm">Previous</Text>
+                    <Text size="sm" fw={700} style={{ whiteSpace: "normal" }}>
                       {currentPage.prev.title}
                     </Text>
                   </Stack>
@@ -387,7 +387,7 @@ export default function DocsLayout({
               }
               target="_blank"
               variant="subtle"
-              color="gray"
+              color="var(--mantine-color-text)"
               w="100%"
               h={80}
               leftSection={<IconPencil size={18} />}
@@ -400,16 +400,16 @@ export default function DocsLayout({
                   component={Link}
                   href={`/docs/${currentPage.next.slug}`}
                   variant="outline"
-                  color="gray"
+                  color="var(--mantine-color-text)"
+                  justify="space-between"
                   w="100%"
                   h={80}
                   rightSection={<IconArrowRight />}
+                  ta="left"
                 >
                   <Stack align="flex-start" gap={5}>
-                    <Text size="sm" c="dimmed">
-                      Next
-                    </Text>
-                    <Text size="sm" fw={700}>
+                    <Text size="sm">Next</Text>
+                    <Text size="sm" fw={700} style={{ whiteSpace: "normal" }}>
                       {currentPage.next.title}
                     </Text>
                   </Stack>

@@ -3,14 +3,14 @@
 import { Spotlight } from "@mantine/spotlight";
 import { IconSearch } from "@tabler/icons-react";
 import { useRouter } from "next/navigation";
-import { Divider, Group, Highlight, Loader, Space, Text } from "@mantine/core";
+import { Divider, Group, Highlight, Loader, Space } from "@mantine/core";
 import React, { useState, useEffect } from "react";
 import { decode } from "html-entities";
 
 // Extend Window interface to include pagefind
 declare global {
   interface Window {
-    /* eslint-disable  @typescript-eslint/no-explicit-any */
+    /* eslint-disable @typescript-eslint/no-explicit-any */
     pagefind: any;
   }
 }
@@ -47,17 +47,14 @@ const SearchResult = ({
   }
 
   return (
-    <Spotlight.ActionsGroup label={data.meta.title}>
-      <Text c="red" fz="xs" px="md" pt="xs">
-        Pagefind result ID: {result.id}
-      </Text>
+    <Spotlight.ActionsGroup
+      label={data.meta.title.replace("'", "\\'") || "No title"}
+    >
       <Space h="xs" />
       {data.sub_results.slice(0, 4).map((subResult, subIdx) => (
         <Spotlight.Action
-          key={`${result.id}-${subIdx}`}
+          key={subIdx}
           id={`${result.id}-${subIdx}`}
-          label={subResult.title}
-          description={subResult.excerpt}
           onClick={() => {
             router.push(
               subResult.url.replace(/(\/[^?#]+)\.html(?=[?#]|$)/, "$1")
@@ -120,7 +117,7 @@ type PagefindResult = {
 };
 
 export default function SpotlightSearch() {
-  const [searchInput, setSearchInput] = useState("");
+  const [activeQuery, setActiveQuery] = useState("");
   const [results, setResults] = useState<PagefindResult[]>([]);
 
   useEffect(() => {
@@ -138,7 +135,7 @@ export default function SpotlightSearch() {
           });
         } catch (e) {
           window.pagefind = {
-            search: () => ({
+            debouncedSearch: () => ({
               results: [
                 {
                   id: "error",
@@ -176,17 +173,13 @@ export default function SpotlightSearch() {
       maxHeight="90vh"
       scrollable
       onQueryChange={async (query) => {
-        setSearchInput(query);
-        console.log("searching for", query);
         const search = await window.pagefind.debouncedSearch(query);
         if (search === null) {
           // A more recent search call has been made, nothing to do.
-          console.log("search cancelled");
           return;
         }
-        console.log(`Found ${search.results.length} results`);
-        console.log("All results:", search.results);
         setResults(search.results as PagefindResult[]);
+        setActiveQuery(query);
       }}
     >
       <Spotlight.Search
@@ -196,13 +189,19 @@ export default function SpotlightSearch() {
       <Spotlight.ActionsList>
         {results.length > 0 ? (
           results.map((result, idx) => (
-            <React.Fragment key={result.id}>
+            // The result ID can be the same between search terms and is not sufficient
+            // as a React key, see https://github.com/CloudCannon/pagefind/issues/816
+            <React.Fragment key={`${activeQuery}-${result.id}`}>
               {idx > 0 && <Divider my="xs" />}
-              <SearchResult query={searchInput} result={result} />
+              <SearchResult query={activeQuery} result={result} />
             </React.Fragment>
           ))
         ) : (
-          <Spotlight.Empty>Nothing found...</Spotlight.Empty>
+          <Spotlight.Empty>
+            {activeQuery.trim() === ""
+              ? "Type to search the documentation and blog content..."
+              : "Nothing found..."}
+          </Spotlight.Empty>
         )}
       </Spotlight.ActionsList>
     </Spotlight.Root>

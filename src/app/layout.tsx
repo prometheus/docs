@@ -63,11 +63,7 @@ export default function RootLayout({
             <Header burgerOpened={burgerOpened} toggleBurger={toggleBurger} />
 
             <AppShell.Main px={{ base: 0, sm: "md" }}>
-              <Container
-                size="xl"
-                mt="xl"
-                // mih="calc(100vh - var(--header-height) - var(--header-to-content-margin))"
-              >
+              <Container size="xl" mt="xl">
                 {children}
                 <Space h={50} />
               </Container>

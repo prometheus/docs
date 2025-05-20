@@ -11,7 +11,7 @@
     transparent 15%
   );
   backdrop-filter: blur(5px);
-  /* border-bottom: none; */
+  border-bottom: none;
 }
 
 .inner {

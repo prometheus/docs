@@ -205,10 +205,14 @@ so do not limit a user's ability to run arbitrary queries in proxy mode.
 
 ## Secrets
 
-Non-secret information or fields may be available via the HTTP API and/or logs.
+Non-secret information or fields may be available via the HTTP API, browser
+local storage, and/or logs.
 
 In Prometheus, metadata retrieved from service discovery is not considered
 secret. Throughout the Prometheus system, metrics are not considered secret.
+
+Forms in the web interfaces are not considered secrets. That includes free-text
+fields, like the silences in Alertmanager.
 
 Fields containing secrets in configuration files (marked explicitly as such in
 the documentation) will not be exposed in logs or via the HTTP API. Secrets

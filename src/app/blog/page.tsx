@@ -4,6 +4,16 @@ import { Anchor, Title, Text, Card, Stack, Button, Box } from "@mantine/core";
 import dayjs from "dayjs";
 import Link from "next/link";
 
+export async function generateMetadata() {
+  return {
+    title: "Blog | Prometheus",
+    openGraph: {
+      title: "Blog | Prometheus",
+      url: "https://prometheus.io/blog",
+    },
+  };
+}
+
 export default function BlogPage() {
   const allPosts = getAllPosts();
 

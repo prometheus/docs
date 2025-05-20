@@ -7,6 +7,21 @@ export async function generateStaticParams() {
   return getAllPostParams();
 }
 
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ year: string; month: string; day: string; slug: string }>;
+}) {
+  const { frontmatter } = getPost(await params);
+  return {
+    title: `${frontmatter.title} | Prometheus`,
+    openGraph: {
+      title: `${frontmatter.title} | Prometheus`,
+      url: `https://prometheus.io/blog/${frontmatter.slug}`,
+    },
+  };
+}
+
 export default async function BlogPostPage({
   params,
 }: {

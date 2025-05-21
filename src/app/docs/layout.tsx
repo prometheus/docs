@@ -326,6 +326,9 @@ export default function DocsLayout({
             borderInlineEnd:
               "1px solid light-dark(var(--mantine-color-gray-3), var(--mantine-color-gray-7))",
           }}
+          // Counter-act the padding of the Box inside which exists so
+          // that the focus rings (e.g. when tab-ing) of the nav items are not cut off.
+          mx="calc(var(--mantine-spacing-xs) * -1)"
         >
           <ScrollArea
             h="calc(100vh - var(--header-height) - var(--header-to-content-margin))"

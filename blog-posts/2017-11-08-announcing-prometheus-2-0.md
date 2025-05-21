@@ -5,7 +5,7 @@ kind: article
 author_name: Fabian Reinartz on behalf of the Prometheus team
 ---
 
-## Announcing Prometheus 2.0
+# Announcing Prometheus 2.0
 
 Nearly one and a half years ago, we released Prometheus 1.0 into the wild. The release marked a significant milestone for the project. We had reached a broad set of features that make up Prometheus' simple yet extremely powerful monitoring philosophy.
 

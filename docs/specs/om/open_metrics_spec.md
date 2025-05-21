@@ -1,7 +1,7 @@
 ---
-title: "1.0"
-title_prefix: "OpenMetrics 1.0"
-sort_rank: 5
+title: "OpenMetrics 1.0"
+nav_title: "1.0"
+sort_rank: 1
 
 author:
 - role: editor
@@ -391,9 +391,9 @@ UTF-8 MUST be used. Byte order markers (BOMs) MUST NOT be used. As an important 
 
 The content type MUST be:
 
-``` 
+```
 application/openmetrics-text; version=1.0.0; charset=utf-8
-``` 
+```
 
 Line endings MUST be signalled with line feed (\n) and MUST NOT contain carriage returns (\r). Expositions MUST end with EOF and SHOULD end with `EOF\n`.
 

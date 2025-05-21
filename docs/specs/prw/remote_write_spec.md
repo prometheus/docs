@@ -1,7 +1,7 @@
 ---
-title: "1.0"
-title_prefix: "Remote Write 1.0"
-sort_rank: 5
+title: "Remote Write 1.0"
+nav_title: "1.0"
+sort_rank: 1
 ---
 
 # Prometheus Remote-Write Specification
@@ -16,7 +16,7 @@ The remote write specification is intended to document the standard for how Prom
 
 The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED",  "MAY", and "OPTIONAL" in this document are to be interpreted as described in [RFC 2119](https://datatracker.ietf.org/doc/html/rfc2119).
 
-> NOTE: This specification has a 2.0 version available, see [here](./remote_write_spec_2_0.md).
+> NOTE: This specification has a 2.0 version available, see [here](./remote_write_spec_2_0).
 
 ## Introduction
 ### Background
@@ -158,7 +158,7 @@ This document does not intend to explain all the features required for a fully P
 
 **HTTP Path** The path for HTTP handler can be anything - and MUST be provided by the sender.  Generally we expect the whole URL to be specified in config.
 
-**Persistence** It is recommended that Prometheus Remote Write compatible senders should persistently buffer sample data in the event of outages in the receiver. 
+**Persistence** It is recommended that Prometheus Remote Write compatible senders should persistently buffer sample data in the event of outages in the receiver.
 
 **Authentication & Encryption** as remote write uses HTTP, we consider authentication & encryption to be a transport-layer problem.  Senders and receivers should support all the usual suspects (Basic auth, TLS etc) and are free to add potentially custom authentication options.  Support for custom authentication in the Prometheus remote write sender and eventual agent should not be assumed, but we will endeavour to support common and widely used auth protocols, where feasible.
 

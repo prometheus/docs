@@ -93,6 +93,10 @@ function buildRecursiveNav(
           : null;
 
       const shownChildren = doc.children.filter((child) => {
+        if (child.hideInNav) {
+          return false;
+        }
+
         // Always show unversioned local docs in the nav.
         if (child.type === "local-doc") {
           return true;
@@ -135,7 +139,7 @@ function buildRecursiveNav(
           defaultOpened={active || undefined}
           key={doc.slug}
           href="#required-for-focus"
-          label={doc.title}
+          label={doc.navTitle ?? doc.title}
           // We offset the children, but we do it manually via a mix of margin and padding
           // to position the left-hand-side border on the first level correctly.
           childrenOffset={0}
@@ -207,7 +211,7 @@ function buildRecursiveNav(
         variant="light"
         component={Link}
         key={doc.slug}
-        label={doc.title}
+        label={doc.navTitle ?? doc.title}
         href={`/docs/${doc.slug}`}
         style={{ borderRadius: 2.5 }}
       />
@@ -282,7 +286,6 @@ export default function DocsLayout({
     }
   }
 
-  // TODO: Handle hideInNav.
   const nav = buildRecursiveNav(getDocsRoots(), pageSlug, router);
 
   return (

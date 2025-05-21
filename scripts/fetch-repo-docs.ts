@@ -201,7 +201,12 @@ const fetchRepoDocs = async ({
         console.log("Found Markdown file:", filePath);
 
         const {
-          data: { title, nav_title: navTitle, sort_rank: sortRank },
+          data: {
+            title,
+            nav_title: navTitle,
+            sort_rank: sortRank,
+            hide_in_nav: hideInNav,
+          },
         } = matter(fs.readFileSync(file, "utf-8"));
 
         if (!title) {
@@ -234,6 +239,7 @@ const fetchRepoDocs = async ({
           title,
           navTitle,
           sortRank: sortRank ?? 0,
+          hideInNav,
           children: [],
         };
 
@@ -277,7 +283,13 @@ for (const sourceConfig of docsConfig.localMarkdownSources) {
 
     const filePath = path.relative(docsDir, file);
     const {
-      data: { title, sort_rank: sortRank, nav_icon: navIcon },
+      data: {
+        title,
+        nav_title: navTitle,
+        sort_rank: sortRank,
+        nav_icon: navIcon,
+        hide_in_nav: hideInNav,
+      },
     } = matter(fs.readFileSync(file, "utf-8"));
     if (!title) {
       throw new Error(`Missing title in ${file}`);
@@ -301,8 +313,10 @@ for (const sourceConfig of docsConfig.localMarkdownSources) {
         slug,
         filePath: file,
         title,
+        navTitle,
         sortRank: sortRank ?? 0,
         navIcon,
+        hideInNav,
         children: [],
       };
     }

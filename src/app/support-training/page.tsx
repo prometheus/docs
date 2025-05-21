@@ -160,6 +160,7 @@ function ProviderCard({
           aspectRatio,
         }}
         {...cardProps}
+        bg="light-dark(white, var(--mantine-color-dark-3))"
       >
         {logo ? (
           <Image src={logo} alt={`${name} logo`} />
@@ -183,7 +184,10 @@ export default function SupportTrainingPage() {
         alphabetical order.
       </Text>
       <Title order={2}>Certifications</Title>
-      <Card withBorder bg="gray.0">
+      <Card
+        withBorder
+        bg="light-dark(var(--mantine-color-gray-0), var(--mantine-color-dark-6))"
+      >
         <SimpleGrid cols={{ base: 1, xs: 2, sm: 4 }}>
           <ProviderCard
             name="PCA"
@@ -204,7 +208,10 @@ export default function SupportTrainingPage() {
         Courses and Trainings
       </Title>
 
-      <Card withBorder bg="gray.0">
+      <Card
+        withBorder
+        bg="light-dark(var(--mantine-color-gray-0), var(--mantine-color-dark-6))"
+      >
         <SimpleGrid cols={{ base: 1, xs: 2, sm: 4 }}>
           {trainingProviders.map((provider) => (
             <ProviderCard key={provider.name} {...provider} />
@@ -215,7 +222,10 @@ export default function SupportTrainingPage() {
       <Title order={2} mt={65}>
         Commercial support
       </Title>
-      <Card withBorder bg="gray.0">
+      <Card
+        withBorder
+        bg="light-dark(var(--mantine-color-gray-0), var(--mantine-color-dark-6))"
+      >
         <SimpleGrid cols={{ base: 1, xs: 2, sm: 4 }}>
           {commercialSupportProviders.map((provider) => (
             <ProviderCard key={provider.name} {...provider} />

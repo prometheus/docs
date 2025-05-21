@@ -49,14 +49,13 @@ export default async function DocsPage({
           return href;
         }
 
-        // Do some postprocessing on the hrefs to make
-        // sure they point to the right place.
+        // Do some postprocessing on the hrefs to make sure they point to the right place.
         if (href.startsWith(docsConfig.siteUrl)) {
           // Remove the "https://prometheus.io" from links that start with it.
           return href.slice(docsConfig.siteUrl.length);
-        } else if (href.startsWith("/")) {
+        } else if (href.startsWith("/") && docMeta.type === "repo-doc") {
           // Turn "/<path>" into e.g. "https://github.com/prometheus/prometheus/blob/release-3.3/<path>"
-          return `https://github.com/prometheus/prometheus/blob/release-${docMeta.version}${href}`;
+          return `https://github.com/${docMeta.owner}/${docMeta.repo}/blob/release-${docMeta.version}${href}`;
         } else if (href.includes(".md") && !isAbsoluteUrl(href)) {
           // Turn "foo/bar/baz.md" into "foo/bar/baz" for relative links between Markdown pages.
           return `${href.replace(/\.md($|#)/, "$1")}`;

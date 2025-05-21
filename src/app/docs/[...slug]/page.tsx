@@ -45,13 +45,11 @@ export default async function DocsPage({
   return (
     <PromMarkdown
       normalizeHref={(href: string | undefined) => {
-        // For local docs, keep links as is. If they're wrong, they should
-        // be fixed in the local Markdown files, not here.
-        if (!href || docMeta.type === "local-doc") {
+        if (!href) {
           return href;
         }
 
-        // For external repo docs, do some postprocessing on the hrefs to make
+        // Do some postprocessing on the hrefs to make
         // sure they point to the right place.
         if (href.startsWith(docsConfig.siteUrl)) {
           // Remove the "https://prometheus.io" from links that start with it.

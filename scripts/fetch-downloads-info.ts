@@ -67,21 +67,27 @@ for (const repoName of docsConfig.downloads.repos) {
 
   // Fetch releases information for the repo.
   console.log(`Fetching releases info for ${repoName}`);
-  const releasesInfo = await octokit.rest.repos.listReleases({
-    owner: docsConfig.downloads.owner,
-    repo: repoName,
-  });
+  const releases = (
+    await octokit.rest.repos.listReleases({
+      owner: docsConfig.downloads.owner,
+      repo: repoName,
+    })
+  ).data;
 
-  releasesInfo.data
-    .sort((a, b) => compareFullVersion(a.tag_name, b.tag_name))
-    .reverse();
+  releases.sort((a, b) => compareFullVersion(a.tag_name, b.tag_name)).reverse();
 
   // Select the relevant stable, pre-release, and LTS versions to show.
   const preReleases: string[] = [];
   const stableReleases: string[] = [];
   const shownReleases: OctokitRelease[] = [];
 
-  for (const r of releasesInfo.data) {
+  for (const r of releases) {
+    if (r.draft) {
+      // A read-only token shouldn't be able to see draft releases in the
+      // first place, but let's make sure.
+      continue;
+    }
+
     const version = majorMinor(r.tag_name);
 
     if (r.prerelease) {

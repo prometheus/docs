@@ -109,7 +109,7 @@ export const Header = ({
                 <Image src={prometheusLogo} height={32} alt="Prometheus logo" />
                 <Text
                   fz={25}
-                  ff="Lato Light"
+                  ff="var(--font-lato)"
                   c="light-dark(var(--mantine-color-gray-7), var(--mantine-color-gray-0))"
                 >
                   Prometheus

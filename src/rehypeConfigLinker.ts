@@ -69,7 +69,11 @@ export default function rehypeConfigLinker() {
         if (currentHtml.includes(html)) {
           currentHtml = currentHtml.replaceAll(
             html,
-            `<a href="#${anchor}">${html}</a>`
+            // invertInDarkMode is to counteract the inversion of the
+            // surrounding <code> element in dark mode. The link color
+            // actually gets adjusted to the dark mode already, so we
+            // want to revert it to the original color.
+            `<a href="#${anchor}" class="invertInDarkMode">${html}</a>`
           );
           changed = true;
         }

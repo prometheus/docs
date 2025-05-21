@@ -424,30 +424,15 @@ export default function DocsLayout({
 
         {/* The right-hand-side table of contents for headings
               within the current document */}
-        <Box
-          w="fit-content"
+        <TOC
           maw={230}
-          flex="0 0 auto"
-          pos="sticky"
-          top="calc(var(--header-height) + var(--header-to-content-margin))"
-          visibleFrom="md"
-        >
-          <Text mb="sm" c="dimmed" fw={600} fz="sm">
-            On this page
-          </Text>
-          <ScrollAreaAutosize
-            mah="calc(100vh - var(--header-height))"
-            type="never"
-          >
-            <TOC
-              reinitializeRef={reinitializeTOCRef}
-              scrollSpyOptions={{
-                selector:
-                  ".markdown-content :is(h2, h3), .markdown-content h1:not(:first-of-type)",
-              }}
-            />
-          </ScrollAreaAutosize>
-        </Box>
+          wrapperProps={{ visibleFrom: "lg" }}
+          reinitializeRef={reinitializeTOCRef}
+          scrollSpyOptions={{
+            selector:
+              ".markdown-content :is(h2, h3), .markdown-content h1:not(:first-of-type)",
+          }}
+        />
       </Group>
     </>
   );

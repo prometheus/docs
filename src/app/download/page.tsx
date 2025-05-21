@@ -37,7 +37,7 @@ export default function DownloadPage() {
     <>
       <Title order={1}>Download</Title>
 
-      <Group wrap="nowrap" align="flex-start">
+      <Group wrap="nowrap" align="flex-start" gap="xl">
         <Box>
           <p>
             We provide precompiled binaries and{" "}
@@ -70,7 +70,6 @@ export default function DownloadPage() {
           scrollSpyOptions={{
             selector: "h2",
           }}
-          visibleFrom="sm"
         />
       </Group>
 

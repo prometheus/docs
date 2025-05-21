@@ -64,7 +64,7 @@ curl http://localhost:9100/metrics | grep "node_"
 
 ## Configuring your Prometheus instances
 
-Your locally running Prometheus instance needs to be properly configured in order to access Node Exporter metrics. The following [`prometheus.yml`](../../prometheus/latest/configuration/configuration/) example configuration file will tell the Prometheus instance to scrape, and how frequently, from the Node Exporter via `localhost:9100`:
+Your locally running Prometheus instance needs to be properly configured in order to access Node Exporter metrics. The following [`prometheus.yml`](../prometheus/latest/configuration/configuration/) example configuration file will tell the Prometheus instance to scrape, and how frequently, from the Node Exporter via `localhost:9100`:
 
 <a id="config"></a>
 

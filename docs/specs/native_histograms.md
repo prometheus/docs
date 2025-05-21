@@ -25,7 +25,7 @@ referring to other sources. With all that said, it should be noted that this
 document is neither suitable as an introduction for beginners nor does it focus
 on the needs of developers. For the former, the plan is to provide an updated
 version of the [Best Practices article on histograms and
-summaries](../../practices/histograms/). (TODO: And a blog post or maybe even a
+summaries](../practices/histograms/). (TODO: And a blog post or maybe even a
 series of them.) For the latter, there is Carrie
 Edward's [Developer’s Guide to Prometheus Native
 Histograms](https://docs.google.com/document/d/1VhtB_cGnuO2q_zqEMgtoaLDvJ_kFSXRXoE0Wo74JlSY/edit).
@@ -293,7 +293,7 @@ in the following) and the positive and negative infinity values (`+Inf` and
   previous item) has an upper exclusive limit of `MinFloat64` and an lower
   inclusive limit of `-Inf`. (It could be called a _negative overflow bucket_.)
 - Buckets beyond the `+Inf` and `-Inf` buckets described above MUST NOT be used.
-  
+
 There are more exceptions for values close to zero, see the [zero bucket
 section](#zero-bucket) below.
 
@@ -766,7 +766,7 @@ libraries supporting native histograms:
   [documentation](https://pkg.go.dev/github.com/prometheus/client_golang/prometheus)
 - Java: [source](https://github.com/prometheus/client_java) –
   [documentation](https://prometheus.github.io/client_java/)
-  
+
 Adding native histogram support to other instrumentation libraries is
 relatively easy if the library already supports protobuf exposition. For purely
 text based libraries, the completion of a [text based exposition
@@ -892,7 +892,7 @@ the limit again:
    merging neighboring buckets, thereby doubling the width of the buckets. This
    is repeated until the bucket count is within the configured limit or schema
    -4 is reached.
-   
+
 If step 2 or 3 have changed the histogram, a reset will be performed once
 `NativeHistogramMinResetDuration` has passed since the last reset, not only to
 remove the buckets but also to return to the initial values for the zero
@@ -1376,9 +1376,9 @@ compatible resolution reduction:
   histogram is either completely included in the zero bucket of the second
   histogram or not at all (i.e. no partial overlap of old regular buckets with
   the new zero bucket).
-  
+
 If any of the conditions are not met, the change is not a compatible resolution
-reduction. Because such a change is only possible by resetting or newly 
+reduction. Because such a change is only possible by resetting or newly
 creating a histogram, it is considered a counter reset and the detection
 procedure is concluded.
 
@@ -1441,7 +1441,7 @@ package. Their names and meanings are the following:
 - `UnknownCounterReset` (bit pattern `00`): It is unknown if there was a
   counter reset between the last histogram of the previous chunk and the 1st
   histogram of this chunk.
-  
+
 `UnknownCounterReset` is always a safe choice. It does not prevent counter
 reset detection, but merely requires that the counter reset detection procedure
 has to be performed (again) whenever counter reset information is needed.
@@ -1521,7 +1521,7 @@ by the following examples:
   counter reset detection has to be performed between A and B, and another one
   between C and D. Or both B and D have to be returned with a
   `CounterResetHint` of `UnknownCounterReset`.
-  
+
 In summary, whenever the TSDB cannot safely establish that a counter reset
 detection between two samples has happened upon ingestion, it either has to
 perform another counter reset detection or it has to return a
@@ -2292,7 +2292,7 @@ the query API, which can be used to query the pushed metrics as JSON, will only
 be able to return one kind of buckets and will prefer native buckets if
 present.)
 
-## `promtool` 
+## `promtool`
 
 This section describes `promtool` commands added or changed to support native
 histograms. Commands not mentioned explicitly do not directly interact with
@@ -2304,7 +2304,7 @@ A new command `promtool query analyze` was specifically added to analyze
 classic and native histogram usage patterns returned by the query API.
 
 The rules unit testing via `promtool test rules` works with native histograms,
-using the format described [above](#testing-framework). 
+using the format described [above](#testing-framework).
 
 `promtool tsdb analyze` and `promtool tsdb list` work normally with native
 histograms. The `--extended` output of the former has specific sections for
@@ -2368,7 +2368,7 @@ sources of issues to consider:
    high resolution, but do not allow to set bucket boundaries at arbitrary
    values. In those cases, the user experience with native histograms might
    actually be worse.
-   
+
 To address (3), it is of course possible to not migrate the classic histogram
 in question and leave things as they are. Another option is to leave the
 instrumentation the same but convert classic histograms to NHCBs upon

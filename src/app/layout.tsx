@@ -23,7 +23,6 @@ import "@mantine/spotlight/styles.layer.css";
 import "./globals.css";
 import { Header } from "@/components/Header";
 import { theme } from "@/theme";
-// import docsearch from "@docsearch/js";
 
 import "@docsearch/css";
 import { useDisclosure } from "@mantine/hooks";

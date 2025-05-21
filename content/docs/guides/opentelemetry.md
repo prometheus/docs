@@ -12,8 +12,8 @@ By default, the OTLP receiver is disabled, similarly to the Remote Write receive
 This is because Prometheus can work without any authentication, so it would not be
 safe to accept incoming traffic unless explicitly configured.
 
-To enable the receiver you need to toggle the CLI flag `--web.enable-otlp-receiver`. 
-This will cause Prometheus to serve OTLP metrics receiving on HTTP `/api/v1/otlp/v1/metrics` path. 
+To enable the receiver you need to toggle the CLI flag `--web.enable-otlp-receiver`.
+This will cause Prometheus to serve OTLP metrics receiving on HTTP `/api/v1/otlp/v1/metrics` path.
 
 ```shell
 $ prometheus --web.enable-otlp-receiver
@@ -147,16 +147,18 @@ For each of a resource's OTel metrics, Prometheus converts it to a corresponding
 
 ## UTF-8
 
-From the 3.x version, Prometheus supports UTF-8 for metric names and labels, so [Prometheus normalization translator package from OpenTelemetry](https://github.com/open-telemetry/opentelemetry-collector-contrib/tree/main/pkg/translator/prometheus) can be omitted.
+From the 3.x version, Prometheus supports UTF-8 for metric names and labels, so [Prometheus normalization translator package from OpenTelemetry](https://github.com/open-telemetry/opentelemetry-collector-contrib/tree/main/pkg/translator/prometheus) can be omitted. Note that when Prometheus announces through content negotiation that it allows UTF-8 characters, it does not require that metric names contain previously-unsupported characters. The OTLP metrics may be converted in several different ways, depending on the configuration of the endpoint. So while UTF-8 is enabled by default in Prometheus storage and UI, you need to set the `translation_strategy` for OTLP metrics receiver, which by default is set to old normalization `UnderscoreEscapingWithSuffixes`.
 
-UTF-8 is enabled by default in Prometheus storage and UI, but you need to `translation_strategy` for OTLP metric receiver, which by default is set to old normalization `UnderscoreEscapingWithSuffixes`.
+There are three possible translation strategies, two of which require UTF-8 support to be enabled in Prometheus:
 
-Setting it to `NoUTF8EscapingWithSuffixes`, which we recommend, will disable changing special characters to `_` which allows native use of OpenTelemetry metric format, especially with [the semantic conventions](https://opentelemetry.io/docs/specs/semconv/general/metrics/). Note that special suffixes like units and `_total` for counters will be attached. There is [ongoing work to have no suffix generation](https://github.com/prometheus/proposals/pull/39), stay tuned for that. 
+* `UnderscoreEscapingWithSuffixes`, the default. This fully escapes metric names for classic [Prometheus metric name compatibility](https://prometheus.io/docs/practices/naming/), and includes appending type and unit suffixes.
+* `NoUTF8EscapingWithSuffixes` will disable changing special characters to `_` which allows native use of OpenTelemetry metric format, especially with [the semantic conventions](https://opentelemetry.io/docs/specs/semconv/general/metrics/). Note that special suffixes like units and `_total` for counters will be attached to prevent possible collisions with multiple metrics of the same name having different type or units. This mode requires UTF-8 to be enabled.
+* `NoTranslation`. This strategy bypasses all metric and label name translation, passing them through unaltered. This mode requires UTF-8 to be enabled.
 
 ```
 otlp:
   # Ingest OTLP data keeping UTF-8 characters in metric/label names.
-  translation_strategy: NoUTF8EscapingWithSuffixes
+  translation_strategy: NoTranslation
 ```
 
 ## Delta Temporality

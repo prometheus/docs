@@ -13,7 +13,13 @@ import {
   TitleProps,
 } from "@mantine/core";
 import rehypeShiki from "@shikijs/rehype";
-import { IconLink, IconAlertCircle, IconInfoCircle } from "@tabler/icons-react";
+import {
+  IconLink,
+  IconAlertCircle,
+  IconInfoCircle,
+  IconExternalLink,
+} from "@tabler/icons-react";
+import Link from "next/link";
 import { Children, PropsWithChildren } from "react";
 import { MarkdownAsync } from "react-markdown";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
@@ -21,6 +27,16 @@ import rehypeRaw from "rehype-raw";
 import rehypeSlug from "rehype-slug";
 import remarkFrontmatter from "remark-frontmatter";
 import remarkGfm from "remark-gfm";
+import docsConfig from "../../docs-config";
+
+export function isAbsoluteUrl(url: string) {
+  try {
+    new URL(url); // will succeed for absolute URLs
+    return true;
+  } catch {
+    return false;
+  }
+}
 
 const h = (order: 1 | 2 | 3 | 4 | 5 | 6) => {
   const HeadingComponent = (props: TitleProps) => (
@@ -92,14 +108,43 @@ export default async function PromMarkdown({
             );
           }
 
+          const href = normalizeHref(rest.href);
+          const isExternalLink =
+            isAbsoluteUrl(href || "") &&
+            !href?.startsWith(`${docsConfig.siteUrl}`);
+
+          if (!isExternalLink) {
+            return (
+              <Anchor
+                inherit
+                c="var(--secondary-link-color)"
+                component={Link}
+                {...rest}
+                href={href || ""}
+              >
+                {children}
+              </Anchor>
+            );
+          }
+
           return (
             <Anchor
               inherit
               c="var(--secondary-link-color)"
               {...rest}
-              href={normalizeHref(rest.href)}
+              href={href}
+              target="_blank"
+              rel="noopener noreferrer"
             >
-              {children}
+              {/* <Group> with display: "inline-flex" somehow breaks link underlining,
+                so going for this manual solution instead. */}
+              <span>
+                {children}
+                <IconExternalLink
+                  size="0.9em"
+                  style={{ marginLeft: 4, marginBottom: -1.5 }}
+                />
+              </span>
             </Anchor>
           );
         },

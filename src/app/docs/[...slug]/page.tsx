@@ -1,17 +1,8 @@
 import fs from "fs/promises";
 // import { CodeHighlight } from "@mantine/code-highlight";
 import { docsCollection } from "@/docs-collection";
-import PromMarkdown from "@/components/PromMarkdown";
+import PromMarkdown, { isAbsoluteUrl } from "@/components/PromMarkdown";
 import docsConfig from "../../../../docs-config";
-
-function isAbsoluteUrl(url: string) {
-  try {
-    new URL(url); // will succeed for absolute URLs
-    return true;
-  } catch {
-    return false;
-  }
-}
 
 // Next.js uses this function at build time to figure out which
 // docs pages it should statically generate.

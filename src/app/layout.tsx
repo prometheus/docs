@@ -26,7 +26,6 @@ import { theme } from "@/theme";
 
 import "@docsearch/css";
 import { useDisclosure } from "@mantine/hooks";
-// import { useEffect } from "react";
 
 const interFont = Inter({
   variable: "--font-inter",

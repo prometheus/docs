@@ -16,6 +16,8 @@ The documentation hosted on this website is pulled together from multiple reposi
 
 As a guideline, please keep the documentation generally applicable and avoid use-case-specific changes.
 
+For guidelines around Markdown formatting and available frontmatter fields and features, please see the [Markdown guide](markdown-guide.md).
+
 ## Building and running the website
 
 ### Prerequisites

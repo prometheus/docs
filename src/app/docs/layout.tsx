@@ -365,12 +365,15 @@ export default function DocsLayout({
                   justify="space-between"
                   w="100%"
                   h={80}
-                  leftSection={<IconArrowLeft />}
+                  leftSection={<IconArrowLeft stroke={1.5} />}
                   ta="right"
+                  bd="1px solid var(--mantine-color-gray-5)"
                 >
                   <Stack align="flex-end" gap={5}>
-                    <Text size="sm">Previous</Text>
-                    <Text size="sm" fw={700} style={{ whiteSpace: "normal" }}>
+                    <Text size="sm" fw={700}>
+                      Previous
+                    </Text>
+                    <Text size="sm" style={{ whiteSpace: "normal" }}>
                       {currentPage.prev.title}
                     </Text>
                   </Stack>
@@ -396,7 +399,8 @@ export default function DocsLayout({
               color="var(--mantine-color-text)"
               w="100%"
               h={80}
-              leftSection={<IconPencil size={18} />}
+              leftSection={<IconPencil size={18} stroke={1.5} />}
+              fw="normal"
             >
               Edit this page
             </Button>
@@ -410,12 +414,15 @@ export default function DocsLayout({
                   justify="space-between"
                   w="100%"
                   h={80}
-                  rightSection={<IconArrowRight />}
+                  rightSection={<IconArrowRight stroke={1.5} />}
                   ta="left"
+                  bd="1px solid var(--mantine-color-gray-5)"
                 >
                   <Stack align="flex-start" gap={5}>
-                    <Text size="sm">Next</Text>
-                    <Text size="sm" fw={700} style={{ whiteSpace: "normal" }}>
+                    <Text size="sm" fw={700}>
+                      Next
+                    </Text>
+                    <Text size="sm" style={{ whiteSpace: "normal" }}>
                       {currentPage.next.title}
                     </Text>
                   </Stack>

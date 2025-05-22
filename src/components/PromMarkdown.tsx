@@ -94,7 +94,9 @@ export default async function PromMarkdown({
         //
         // Important: this has to run after rehypeSlug, since it
         // relies on the headers to already have IDs.
-        rehypeConfigLinker, // XXX
+        //
+        // TODO: Only run this on the "Configuration" page, like in the old site?
+        rehypeConfigLinker,
       ]}
       components={{
         a: (props) => {

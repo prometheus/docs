@@ -14,7 +14,6 @@ function generateAnchor(text: string) {
 
 const placeholderRegex = /^<[^>]+>$/;
 
-// TODO: Only run this on the "Configuration" page, like in the old site?
 const getPlaceholderTypes = (tree: Root): Record<string, string> => {
   const types: Record<string, string> = {};
 

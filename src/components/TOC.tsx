@@ -13,7 +13,7 @@ export default function TOC(
 ) {
   return (
     <ScrollAreaAutosize
-      mah="calc(100vh - var(--header-height))"
+      mah="calc(100vh - var(--header-height) - var(--header-to-content-margin))"
       type="never"
       pos="sticky"
       top="calc(var(--header-height) + var(--header-to-content-margin))"

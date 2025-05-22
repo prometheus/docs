@@ -303,7 +303,7 @@ export default function DocsLayout({
             Show nav
           </Button>
         </Popover.Target>
-        <Popover.Dropdown mah="calc(100vh - var(--header-height))">
+        <Popover.Dropdown mah="calc(100vh - var(--header-height) - var(--header-to-content-margin))">
           <ScrollAreaAutosize
             mah="calc(80vh - var(--header-height))"
             type="never"

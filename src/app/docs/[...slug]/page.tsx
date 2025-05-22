@@ -3,6 +3,7 @@ import fs from "fs/promises";
 import { docsCollection } from "@/docs-collection";
 import PromMarkdown, { isAbsoluteUrl } from "@/components/PromMarkdown";
 import docsConfig from "../../../../docs-config";
+import { getPageMetadata } from "@/page-metadata";
 
 // Next.js uses this function at build time to figure out which
 // docs pages it should statically generate.
@@ -20,15 +21,12 @@ export async function generateMetadata({
 }) {
   const slug = (await params).slug;
   const docMeta = docsCollection[slug.join("/")];
-  return {
-    title: `${docMeta.title} | Prometheus`,
-    // description: docMeta.description,
-    openGraph: {
-      title: `${docMeta.title} | Prometheus`,
-      // description: docMeta.description,
-      url: `${docsConfig.siteUrl}/docs/${slug.join("/")}`,
-    },
-  };
+
+  return getPageMetadata({
+    pageTitle: docMeta.title,
+    pageDescription: `Prometheus project documentation for ${docMeta.title}`,
+    pagePath: `/docs/${slug.join("/")}`,
+  });
 }
 
 export default async function DocsPage({

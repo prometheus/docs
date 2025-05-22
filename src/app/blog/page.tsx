@@ -1,6 +1,7 @@
 import { getAllPosts } from "@/blog-helpers";
 import PromMarkdown from "@/components/PromMarkdown";
 import TOC from "@/components/TOC";
+import { getPageMetadata } from "@/page-metadata";
 import {
   Anchor,
   Title,
@@ -12,17 +13,14 @@ import {
   Group,
 } from "@mantine/core";
 import dayjs from "dayjs";
+import { Metadata } from "next";
 import Link from "next/link";
 
-export async function generateMetadata() {
-  return {
-    title: "Blog | Prometheus",
-    openGraph: {
-      title: "Blog | Prometheus",
-      url: "https://prometheus.io/blog",
-    },
-  };
-}
+export const metadata: Metadata = getPageMetadata({
+  pageTitle: "Blog",
+  pageDescription:
+    "The Prometheus blog contains articles about the project, its components, and the ecosystem.",
+});
 
 function headingSlug({ year, month, day, slug }) {
   return `${year}-${month}-${day}-${slug}`.replace(/[^A-Za-z0-9\-_]/g, "-");

@@ -3,19 +3,16 @@ import { Badge, Blockquote, Box, Image } from "@mantine/core";
 import classes from "@/components/FeaturesCards.module.css";
 import { FeaturesCards } from "@/components/FeaturesCards";
 import { Hero } from "@/components/Hero";
-import { UserLogos } from "@/components/UserLogos";
-import { Space, Title, Group, Anchor, Text } from "@mantine/core";
+import { Title, Group, Anchor, Text } from "@mantine/core";
 import cncfLogoLightMode from "../assets/cncf-logo.svg";
 import cncfLogoDarkMode from "../assets/cncf-logo-white.svg";
 import githubLogo from "../assets/github-logo.svg";
 import { GitHubStars } from "@/components/GitHubStars";
 import { IconQuote } from "@tabler/icons-react";
+import { getPageMetadata } from "@/page-metadata";
+import { Metadata } from "next";
 
-export const metadata = {
-  title: "Prometheus - Monitoring system & time series database",
-  description:
-    "An open-source monitoring system with a dimensional data model, flexible query language, efficient time series database and modern alerting approach.",
-};
+export const metadata: Metadata = getPageMetadata({});
 
 export default function Home() {
   return (

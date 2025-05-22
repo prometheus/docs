@@ -1,3 +1,4 @@
+import { getPageMetadata } from "@/page-metadata";
 import {
   Title,
   Text,
@@ -8,6 +9,13 @@ import {
   Button,
   Stack,
 } from "@mantine/core";
+import { Metadata } from "next";
+
+export const metadata: Metadata = getPageMetadata({
+  pageTitle: "Support & Training",
+  pageDescription:
+    "Support and training providers for the Prometheus monitoring system and time series database.",
+});
 
 type ProviderCardProps = {
   name: string;

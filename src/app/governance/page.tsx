@@ -1,7 +1,15 @@
 import PromMarkdown from "@/components/PromMarkdown";
 import TOC from "@/components/TOC";
+import { getPageMetadata } from "@/page-metadata";
 import { Box, Group, Title } from "@mantine/core";
 import { readFileSync } from "fs";
+import { Metadata } from "next";
+
+export const metadata: Metadata = getPageMetadata({
+  pageTitle: "Governance",
+  pageDescription:
+    "Project governance rules for the Prometheus monitoring system and time series database.",
+});
 
 export default function CommunityPage() {
   const content = readFileSync(

@@ -2,6 +2,7 @@ import { getAllPostParams, getPost } from "@/blog-helpers";
 import { Box, Text, Title } from "@mantine/core";
 import dayjs from "dayjs";
 import PromMarkdown from "@/components/PromMarkdown";
+import { getPageMetadata } from "@/page-metadata";
 
 export async function generateStaticParams() {
   return getAllPostParams();
@@ -13,13 +14,16 @@ export async function generateMetadata({
   params: Promise<{ year: string; month: string; day: string; slug: string }>;
 }) {
   const { frontmatter } = getPost(await params);
-  return {
-    title: `${frontmatter.title} | Prometheus`,
-    openGraph: {
-      title: `${frontmatter.title} | Prometheus`,
-      url: `https://prometheus.io/blog/${frontmatter.slug}`,
-    },
-  };
+  const excerpt = frontmatter.excerpt
+    ? frontmatter.excerpt.length > 160
+      ? frontmatter.excerpt.substring(0, 157) + "..."
+      : frontmatter.excerpt
+    : "";
+
+  return getPageMetadata({
+    pageTitle: `${frontmatter.title}`,
+    pageDescription: excerpt,
+  });
 }
 
 export default async function BlogPostPage({

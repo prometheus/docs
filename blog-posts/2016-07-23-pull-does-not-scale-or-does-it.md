@@ -19,6 +19,8 @@ but it does not focus specifically on scaling aspects. Let's have a closer look
 at the usual misconceptions around this claim and analyze whether and how they
 would apply to Prometheus.
 
+<!-- more -->
+
 ## Prometheus is not Nagios
 
 When people think of a monitoring system that actively pulls, they often think

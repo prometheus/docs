@@ -28,6 +28,8 @@ countries](http://www.iadvize.com/en/customers/). We are an international
 company of 200 employees with offices in France, UK, Germany, Spain and Italy.
 We raised $16 Million in 2015.
 
+<!-- more -->
+
 ## What was your pre-Prometheus monitoring experience?
 
 I joined iAdvize in February 2016. Previously I worked in companies specialized
@@ -92,7 +94,7 @@ Pingdom checks but it wasn't enough.
 We developed a few custom exporters in Go to scrape some business metrics from
 our databases (MySQL and Redis).
 
-Soon enough, we were able to replace all the legacy monitoring by Prometheus. 
+Soon enough, we were able to replace all the legacy monitoring by Prometheus.
 
 ![One of iAdvize's Grafana dashboards](/assets/blog/2017-05-17/iadvize-dashboard-2.png)
 
@@ -146,4 +148,4 @@ We use alertmanager to send some alerts by SMS or in to our
   time and business metrics.
 * I used to work with [Netuitive](http://www.netuitive.com/), it had a great
   anomaly detection feature with automatic correlation. It would be great to
-  have some in Prometheus. 
+  have some in Prometheus.

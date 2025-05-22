@@ -5,8 +5,6 @@ kind: article
 author_name: Callum Styan
 ---
 
-## Implementing Custom Service Discovery
-
 Prometheus contains built in integrations for many service discovery (SD) systems such as Consul,
 Kubernetes, and public cloud providers such as Azure. However, we can’t provide integration
 implementations for every service discovery option out there. The Prometheus team is already stretched
@@ -33,6 +31,8 @@ Integrations using file_sd, such as those that are implemented with the adapter 
 [here](https://prometheus.io/docs/operating/integrations/#file-service-discovery).
 
 Let’s take a look at the example code.
+
+<!-- more -->
 
 ## Adapter
 First we have the file

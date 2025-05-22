@@ -24,6 +24,8 @@ This API allows 3rd party systems to interact with metrics data through two meth
 Both methods are using HTTP with messages encoded with [protobufs](https://github.com/protocolbuffers/protobuf).
 The request and response for both methods are compressed using [snappy](https://github.com/google/snappy).
 
+<!-- more -->
+
 ### Remote Write
 
 This is the most popular way to replicate Prometheus data into 3rd party system. In this mode, Prometheus streams samples,

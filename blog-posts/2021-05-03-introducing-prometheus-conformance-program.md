@@ -11,6 +11,8 @@ The CNCF Governing Board is expected to formally review and approve the program 
 
 With the help of our [extensive and expanding test suite](https://github.com/prometheus/compliance), projects and vendors can determine the compliance to our specifications and compatibility within the Prometheus ecosystem.
 
+<!-- more -->
+
 At launch, we are offering compliance tests for three components:
 
 * PromQL (needs manual interpretation, somewhat complete)

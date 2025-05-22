@@ -9,6 +9,8 @@ Today, we're launching the [Prometheus Conformance Program](/blog/2021/05/03/int
 
 As a quick reminder: The program is called Prometheus **Conformance**, software can be **compliant** to specific tests, which result in a **compatibility** rating. The nomenclature might seem complex, but it allows us to speak about this topic without using endless word snakes.
 
+<!-- more -->
+
 # Preamble
 
 ## New Categories

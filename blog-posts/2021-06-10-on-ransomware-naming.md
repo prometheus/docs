@@ -11,6 +11,8 @@ The names "Prometheus" and "Thanos" have [recently been taken up by a ransomware
 
 While we do *NOT* have reason to believe that this group will try to trick anyone into downloading fake binaries of our projects, we still recommend following common supply chain & security practices. When deploying software, do it through one of those mechanisms:
 
+<!-- more -->
+
 * Binary downloads from the official release pages for [Prometheus](https://github.com/prometheus/prometheus/releases) and [Thanos](https://github.com/thanos-io/thanos/releases), with verification of checksums provided.
 * Docker downloads from official project controlled repositories:
   * Prometheus: https://quay.io/repository/prometheus/prometheus and https://hub.docker.com/r/prom/prometheus

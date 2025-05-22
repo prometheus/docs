@@ -17,6 +17,8 @@ In Prometheus v2.25.0, we have introduced a new PromQL modifier `@`. Similar to 
 
 The `<timestamp>` is a unix timestamp and described with a float literal.
 
+<!-- more -->
+
 For example, the query `http_requests_total @ 1609746000` returns the value of `http_requests_total` at `2021-01-04T07:40:00+00:00`. The query `rate(http_requests_total[5m] @ 1609746000)` returns the 5-minute rate of `http_requests_total` at the same time.
 
 Additionally, `start()` and `end()` can also be used as values for the `@` modifier as special values. For a range query, they resolve to the start and end of the range query respectively and remain the same for all steps. For an instant query, `start()` and `end()` both resolve to the evaluation time.

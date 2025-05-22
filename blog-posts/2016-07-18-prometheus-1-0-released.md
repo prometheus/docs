@@ -17,6 +17,8 @@ If you have been using Prometheus for a while, you may have noticed that the rat
 In the same spirit, reaching 1.0 means that subsequent 1.x releases will remain API stable. Upgrades won’t break programs built atop the Prometheus API, and updates won’t require storage re-initialization or deployment changes. Custom dashboards and alerts will remain intact across 1.x version updates as well.
 We’re confident Prometheus 1.0 is a solid monitoring solution. Now that the Prometheus server has reached a stable API state, other modules will follow it to their own stable version 1.0 releases over time.
 
+<!-- more -->
+
 ### Fine print
 
 So what does API stability mean? Prometheus has a large surface area and some parts are certainly more mature than others.

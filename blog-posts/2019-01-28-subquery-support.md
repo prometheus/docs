@@ -21,6 +21,8 @@ When you want some quick results on data spanning days or weeks, it can be quite
 
 With subquery support, all the waiting and frustration is taken care of.
 
+<!-- more -->
+
 ## Subqueries
 
 A subquery is similar to a [/api/v1/query_range](https://prometheus.io/docs/prometheus/latest/querying/api/#range-queries) API call, but embedded within an instant query. The result of a subquery is a range vector.

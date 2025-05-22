@@ -17,6 +17,8 @@ My name is Ian Hansen and I work on the platform metrics team.
 To date, we’ve created 20 million Droplets (SSD cloud servers) across 13
 regions. We also recently released a new Block Storage product.
 
+<!-- more -->
+
 ![DigitalOcean logo](/assets/blog/2016-09-14/DO_Logo_Horizontal_Blue-3db19536.png)
 
 ## What was your pre-Prometheus monitoring experience?
@@ -33,7 +35,7 @@ We do still use Graphite but we no longer run OpenTSDB.
 I was frustrated with OpenTSDB because I was responsible for keeping the
 cluster online, but found it difficult to guard against metric storms.
 Sometimes a team would launch a new (very chatty) service that would impact the
-total capacity of the cluster and hurt my SLAs. 
+total capacity of the cluster and hurt my SLAs.
 
 We are able to blacklist/whitelist new metrics coming in to OpenTSDB, but
 didn’t have a great way to guard against chatty services except for

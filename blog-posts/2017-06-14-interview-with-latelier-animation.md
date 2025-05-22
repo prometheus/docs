@@ -24,6 +24,7 @@ Our infrastructure consists of around 300 render blades, 150 workstations and
 twenty various servers. With the exception of a couple of Macs, everything runs
 on Linux ([CentOS](https://www.centos.org/)) and not a single Windows machine.   
 
+<!-- more -->
  
 ## What was your pre-Prometheus monitoring experience?
  

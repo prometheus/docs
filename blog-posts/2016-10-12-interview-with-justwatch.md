@@ -22,6 +22,8 @@ purchase behavior and movie taste of fans worldwide from our consumer apps. We
 help studios to advertise their content to the right audience and make digital
 video advertising a lot more efficient in minimizing waste coverage.
 
+<!-- more -->
+
 ![JustWatch logo](/assets/blog/2016-10-12/JW_logo_long_black.jpg)
 
 Since our launch in 2014 we went from zero to one of the largest 20k websites

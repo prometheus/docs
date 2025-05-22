@@ -28,8 +28,9 @@ We used AWS CloudWatch. This was easy to set up, but we found that as we
 adopted a more distributed development model (microservices), we wanted more
 flexibility and control. For example, we wanted each team to be able to
 customize their monitoring on an as-needed basis, without requiring operational
-help. 
+help.
 
+<!-- more -->
 
 ## Why did you decide to look at Prometheus?
 

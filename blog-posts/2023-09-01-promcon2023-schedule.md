@@ -13,6 +13,8 @@ Now in its 8th installment, PromCon brings together Prometheus users and develop
 
 "We are super excited for PromCon to be coming home to Berlin. Prometheus was started in Berlin at Soundcloud in 2012. The first PromCon was hosted in Berlin and in between moved to Munich. This year we're hosting around 300 attendees at Radialsystem in Friedrichshain, Berlin. Berlin has a vibrant Prometheus community and many of the Prometheus team members live in the neighborhood. It is a great opportunity to network and connect with the Prometheus family who are all passionate about systems and service monitoring," said Matthias Loibl, Senior Software Engineer at Polar Signals and Prometheus team member who leads this year's PromCon program committee. "It will be a great event to learn about the latest developments from the Prometheus team itself and connect to some big-scale users of Prometheus up close."
 
+<!-- more -->
+
 The community-curated schedule will feature sessions from open source community members, including:
 
 - [Towards making Prometheus OpenTelemetry native](https://promcon.io/2023-berlin/talks/towards-making-prometheus-opentelemetry-native)

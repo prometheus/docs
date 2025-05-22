@@ -79,7 +79,7 @@ Grafana graphs, up to the point where we had total service coverage.
 
 We were also currently looking at InfluxDB for long term storage, but due to
 [recent developments](https://influxdata.com/blog/update-on-influxdb-clustering-high-availability-and-monetization/),
-this may no longer be a viable option. 
+this may no longer be a viable option.
 
 We then added exporters for MySQL, Node, Cloudwatch, HAProxy, JMX, NSQ (with a
 bit of our own code), Redis and Blackbox (with our own contribution to add

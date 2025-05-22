@@ -13,7 +13,7 @@ from Presslabs talks about their monitoring journey.*
 [Presslabs](https://www.presslabs.com/) is a high-performance managed WordPress
 hosting platform targeted at publishers, Enterprise brands and digital agencies
 which seek to offer a seamless experience to their website visitors, 100% of
-the time. 
+the time.
 
 Recently, we have developed an innovative component to our core
 product—WordPress Business Intelligence. Users can now get real—time,
@@ -22,11 +22,13 @@ issue-to-deployment process and continuous improvement of their sites.
 
 We support the seamless delivery of up to 2 billion pageviews per month, on a
 fleet of 100 machines entirely dedicated to managed WordPress hosting for
-demanding customers. 
+demanding customers.
 
 We’re currently on our mission to bring the best experience to WordPress
 publishers around the world. In this journey, Kubernetes facilitates our route
 to an upcoming standard in high availability WordPress hosting infrastructure.
+
+<!-- more -->
 
 ## What was your pre-Prometheus monitoring experience?
 
@@ -40,7 +42,7 @@ on our platform.
 
 Graphite was our second choice on the list, which solved the time challenge
 addressed by Munin. We added collectd in to the mix to expose metrics, and used
-Graphite to collect and aggregate it. 
+Graphite to collect and aggregate it.
 
 Then we made Viz, a tool we’ve written in JavaScript & Python for visualisation
 and alerting. However, we stopped actively using this service because

@@ -39,6 +39,8 @@ Beautiful is better than ugly, right?
 We use CumulusOS which is in our case mostly x86 thus there is absolutely no
 problem to run any kind of Linux stuff.
 
+<!-- more -->
+
 ## Why did you decide to look at Prometheus?
 
 In 2015 when we started automating everything that could be automated,

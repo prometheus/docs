@@ -17,6 +17,8 @@ Since reaching incubation level, a lot of things happened; some of which stand o
 * We had a large push towards stability, especially with 2.3.2
 * We started a documentation push with a special focus on making Prometheus adoption and joining the community easier
 
+<!-- more -->
+
 Especially the last point is important as we currently enter our fourth phase of adoption. These phases were adoption by
 
 1. Monitoring-centric users actively looking for the very best in monitoring

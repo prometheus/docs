@@ -28,6 +28,8 @@ most recent versions. Other products only had REST or JMX. As a result,
 monitoring the whole platform was complex and required tools that were able to
 integrate those protocols.
 
+<!-- more -->
+
 ## Why did you decide to look at Prometheus?
 
 We needed to have a single and common interface for monitoring all our

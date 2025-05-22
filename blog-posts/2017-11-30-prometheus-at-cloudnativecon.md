@@ -5,8 +5,6 @@ kind: article
 author_name: Tom Wilkie on behalf of the Prometheus team
 ---
 
-## Prometheus at CloudNativeCon 2017
-
 Wednesday 6th December is Prometheus Day at CloudNativeCon Austin, and we’ve got
 a fantastic lineup of talks and events for you.  Go to the Prometheus Salon for
 hands on advice on how best to monitor Kubernetes, attend a series of talks on

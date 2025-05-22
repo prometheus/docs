@@ -9,17 +9,19 @@ author_name: Brian Brazil
 
 ## What does ShuttleCloud do?
 
-ShuttleCloud is the world’s most scalable email and contacts data importing system. We help some of the leading email and address book providers, including Google and Comcast, increase user growth and engagement by automating the switching experience through data import. 
+ShuttleCloud is the world’s most scalable email and contacts data importing system. We help some of the leading email and address book providers, including Google and Comcast, increase user growth and engagement by automating the switching experience through data import.
 
 By integrating our API into their offerings, our customers allow their users to easily migrate their email and contacts from one participating provider to another, reducing the friction users face when switching to a new provider. The 24/7 email providers supported include all major US internet service providers: Comcast, Time Warner Cable, AT&T, Verizon, and more.
 
 By offering end users a simple path for migrating their emails (while keeping complete control over the import tool’s UI), our customers dramatically improve user activation and onboarding.
 
+<!-- more -->
+
 ![ShuttleCloud's integration with Gmail](/assets/blog/2016-09-07/gmail-integration.png)
 ***ShuttleCloud’s [integration](https://support.google.com/mail/answer/164640?hl=en) with Google’s Gmail Platform.*** *Gmail has imported data for 3 million users with our API.*
 
 
-ShuttleCloud’s technology encrypts all the data required to process an import, in addition to following the most secure standards (SSL, oAuth) to ensure the confidentiality and integrity of API requests. Our technology allows us to guarantee our platform’s high availability, with up to 99.5% uptime assurances. 
+ShuttleCloud’s technology encrypts all the data required to process an import, in addition to following the most secure standards (SSL, oAuth) to ensure the confidentiality and integrity of API requests. Our technology allows us to guarantee our platform’s high availability, with up to 99.5% uptime assurances.
 
 ![ShuttleCloud by Numbers](/assets/blog/2016-09-07/shuttlecloud-numbers.png)
 
@@ -30,7 +32,7 @@ In the beginning, a proper monitoring system for our infrastructure was not one 
    * We had a set of automatic scripts to monitor most of the operational metrics for the machines. These were cron-based and executed, using Ansible from a centralized machine. The alerts were emails sent directly to the entire development team.
    * We trusted Pingdom for external blackbox monitoring and checking that all our frontends were up. They provided an easy interface and alerting system in case any of our external services were not reachable.
 
-Fortunately, big customers arrived, and the SLAs started to be more demanding. Therefore, we needed something else to measure how we were performing and to ensure that we were complying with all SLAs. One of the features we required was to have accurate stats about our performance and business metrics (i.e., how many migrations finished correctly), so reporting was more on our minds than monitoring. 
+Fortunately, big customers arrived, and the SLAs started to be more demanding. Therefore, we needed something else to measure how we were performing and to ensure that we were complying with all SLAs. One of the features we required was to have accurate stats about our performance and business metrics (i.e., how many migrations finished correctly), so reporting was more on our minds than monitoring.
 
 We developed the following system:
 
@@ -38,11 +40,11 @@ We developed the following system:
 
    * The source of all necessary data is a status database in a CouchDB. There, each document represents one status of an operation. This information is processed by the Status Importer and stored in a relational manner in a MySQL database.
 
-   * A component gathers data from that database, with the information aggregated and post-processed into several views. 
-      * One of the views is the email report, which we needed for reporting purposes. This is sent via email. 
+   * A component gathers data from that database, with the information aggregated and post-processed into several views.
+      * One of the views is the email report, which we needed for reporting purposes. This is sent via email.
       * The other view pushes data to a dashboard, where it can be easily controlled. The dashboard service we used was external. We trusted Ducksboard, not only because the dashboards were easy to set up and looked beautiful, but also because they provided automatic alerts if a threshold was reached.
 
-With all that in place, it didn’t take us long to realize that we would need a proper metrics, monitoring, and alerting system as the number of projects started to increase. 
+With all that in place, it didn’t take us long to realize that we would need a proper metrics, monitoring, and alerting system as the number of projects started to increase.
 
 Some drawbacks of the systems we had at that time were:
 
@@ -78,7 +80,7 @@ Our internal DNS service is integrated to be used for service discovery, so ever
 
 Some of the metrics we used, which were not provided by the node_exporter by default, were exported using the [node_exporter textfile collector](https://github.com/prometheus/node_exporter#textfile-collector) feature. The first alerts we declared on the Prometheus Alertmanager were mainly related to the operational metrics mentioned above.
 
-We later developed an operation exporter that allowed us to know the status of the system almost in real time. It exposed business metrics, namely the statuses of all operations, the number of incoming migrations, the number of finished migrations, and the number of errors. We could aggregate these on the Prometheus side and let it calculate different rates. 
+We later developed an operation exporter that allowed us to know the status of the system almost in real time. It exposed business metrics, namely the statuses of all operations, the number of incoming migrations, the number of finished migrations, and the number of errors. We could aggregate these on the Prometheus side and let it calculate different rates.
 
 We decided to export and monitor the following metrics:
 
@@ -109,6 +111,6 @@ We can't compare Prometheus with our previous solution because we didn’t have 
 
 ## What do you think the future holds for ShuttleCloud and Prometheus?
 
-We’re very happy with Prometheus, but new exporters are always welcome (Celery or Spark, for example). 
+We’re very happy with Prometheus, but new exporters are always welcome (Celery or Spark, for example).
 
 One question that we face every time we add a new alarm is: how do we test that the alarm works as expected? It would be nice to have a way to inject fake metrics in order to raise an alarm, to test it.

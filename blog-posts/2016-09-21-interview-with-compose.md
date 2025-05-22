@@ -24,6 +24,7 @@ where supported and is home to around 1000 highly-available database
 deployments in their own private networks. More regions and providers are in
 the works.
 
+<!-- more -->
 
 ## What was your pre-Prometheus monitoring experience?
 
@@ -35,7 +36,7 @@ overloaded our systems. While we were aware that Graphite could be scaled
 horizontally relatively easily, it would have been an expensive cluster.
 [InfluxDB](https://www.influxdata.com/) looked more promising so we started
 trying out the early-ish versions of that and it seemed to work well for a good
-while. Goodbye Graphite. 
+while. Goodbye Graphite.
 
 The earlier versions of InfluxDB had some issues with data corruption
 occasionally. We semi-regularly had to purge all of our metrics. It wasn’t a

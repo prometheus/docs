@@ -31,7 +31,7 @@ export default async function BlogPostPage({
 
   return (
     <Box className="markdown-content" data-pagefind-body>
-      <Title order={2} mt={0} mb="xs">
+      <Title order={1} mt={0} mb="xs">
         {frontmatter.title}
       </Title>
       <Text size="sm" c="dimmed" mb="xl">

@@ -12,6 +12,8 @@ To give everyone an overview of where the ecosystem is before running tests offi
 During Monday's [PromCon](https://promcon.io/2021-online/), [Tom Wilkie](https://twitter.com/tom_wilkie) presented the test results from the time of recording a few weeks ago. In the live section, he already had an [update](https://docs.google.com/presentation/d/1RcN58LlS3V5tYCUsftqUvNuCpCsgGR2P7-GoH1MVL0Q/edit#slide=id.gd1789c7f7c_0_0). Two days later we have two more updates:
 The addition of the [observability pipeline tool Vector](https://github.com/prometheus/compliance/pull/24), as well as [new versions of existing systems](https://github.com/prometheus/compliance/pull/25).
 
+<!-- more -->
+
 So, without further ado, the current results in alphabetical order are:
 
 | Sender | Version | Score

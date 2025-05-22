@@ -11,7 +11,7 @@ which uses a new data structure for labels. This blog post will answer some
 frequently asked questions about the 2.43 release and the `stringlabels`
 optimizations.
 
-### What is the `stringlabels` release?
+## What is the `stringlabels` release?
 
 The `stringlabels` release is a Prometheus 2.43 version that uses a new data
 structure for labels. It stores all the label/values in a single string,
@@ -19,19 +19,21 @@ resulting in a smaller heap size and some speedups in most cases. These
 optimizations are not shipped in the default binaries and require compiling
 Prometheus using the Go tag `stringlabels`.
 
-### Why didn't you go for a feature flag that we can toggle?
+<!-- more -->
+
+## Why didn't you go for a feature flag that we can toggle?
 
 We considered using a feature flag but it would have a memory overhead that was
 not worth it. Therefore, we decided to provide a separate release with these
 optimizations for those who are interested in testing and measuring the gains on
 their production environment.
 
-### When will these optimizations be generally available?
+## When will these optimizations be generally available?
 
 These optimizations will be available in the upcoming Prometheus 2.44 release
 by default.
 
-### How do I get the 2.43 release?
+## How do I get the 2.43 release?
 
 The [Prometheus 2.43 release](https://github.com/prometheus/prometheus/releases/tag/v2.43.0) is available on the official Prometheus GitHub
 releases page, and users can download the binary files directly from there.
@@ -44,7 +46,7 @@ release](https://github.com/prometheus/prometheus/releases/tag/v2.43.0%2Bstringl
 binary or the [Docker images tagged
 v2.43.0-stringlabels](https://quay.io/repository/prometheus/prometheus?tab=tags) specifically.
 
-### Why is the release `v2.43.0+stringlabels` and the Docker tag `v2.43.0-stringlabels`?
+## Why is the release `v2.43.0+stringlabels` and the Docker tag `v2.43.0-stringlabels`?
 
 In semantic versioning, the plus sign (+) is used to denote build
 metadata. Therefore, the Prometheus 2.43 release with the `stringlabels`
@@ -55,7 +57,7 @@ the plus sign in their names. Hence, the plus sign has been replaced with a dash
 pass the semantic versioning checks of downstream projects such as the
 Prometheus Operator.
 
-### What are the other noticeable features in the Prometheus 2.43 release?
+## What are the other noticeable features in the Prometheus 2.43 release?
 
 Apart from the `stringlabels` optimizations, the Prometheus 2.43 release
 brings several new features and enhancements. Some of the significant additions

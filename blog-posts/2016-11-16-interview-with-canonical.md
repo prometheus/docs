@@ -21,6 +21,8 @@ https://www.openstack.org/assets/survey/April-2016-User-Survey-Report.pdf#page=4
 My group, BootStack, is our fully managed private cloud service.  We build and
 operate OpenStack clouds for Canonical customers.
 
+<!-- more -->
+
 ## What was your pre-Prometheus monitoring experience?
 
 We’d used a combination of [Nagios](https://www.nagios.org/),

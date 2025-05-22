@@ -19,6 +19,8 @@ The features in this list are considered experimental and comes with following c
     * For example the assumption that a query does not look ahead of the evaluation time for samples, which will be broken by `@` modifier and negative offset.
 4. They may be unstable but we will try to keep them stable, of course.
 
+<!-- more -->
+
 These considerations allow us to be more bold with experimentation and to innovate more quickly. Once any feature gets widely used and is considered stable with respect to its API, behavior, and implementation, they may be moved from disabled features list and enabled by default . If we find any feature to be not worth it or broken, we may completely remove it. If enabling some feature is considered a big breaking change for Prometheus, it would stay disabled until the next major release.
 
 Keep an eye out on this list on every release, and do try them out!

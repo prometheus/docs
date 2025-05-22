@@ -18,6 +18,8 @@ accept Prometheus as a second hosted project after Kubernetes! You can find
 more information about these plans in the
 [official press release by the CNCF](https://cncf.io/news/news/2016/05/cloud-native-computing-foundation-accepts-prometheus-second-hosted-project).
 
+<!-- more -->
+
 By joining the CNCF, we hope to establish a clear and sustainable project
 governance model, as well as benefit from the resources, infrastructure, and
 advice that the independent foundation provides to its members.

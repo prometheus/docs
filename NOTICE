@@ -1,0 +1,9 @@
+Prometheus documentation: content and static site generator
+Copyright 2014-2025 The Prometheus Authors
+
+This product includes software developed at
+SoundCloud Ltd. (http://soundcloud.com/).
+
+We also use code from a large number of npm packages. For details, see:
+- https://github.com/prometheus/prometheus/blob/main/web/ui/react-app/package.json
+- https://github.com/prometheus/prometheus/blob/main/web/ui/react-app/package-lock.json

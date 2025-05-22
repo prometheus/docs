@@ -1,4 +1,0 @@
-[[redirects]]
-from = "https://www.prometheus.io/*"
-to = "https://prometheus.io/:splat"
-force = true

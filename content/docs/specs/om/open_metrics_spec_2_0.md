@@ -68,10 +68,10 @@ Metric values in OpenMetrics MUST be either numbers or complex data types.
 
 Numbers MUST be either floating points or integers. Note that ingestors of the format MAY only support float64. The non-real values NaN, +Inf and -Inf MUST be supported. NaN MUST NOT be considered a missing value, but it MAY be used to signal a division by zero.
 
-Complex data types MUST contain all information necessary to recreate a Metric Type, with the exception of Created time and Exemplars.
+Complex data types MUST contain all information necessary to recreate a sample of a Metric Type, with the exception of Created time and Exemplars.
 
 List of complex data types:
-- Integer (counter) native histograms,
+- Integer counter native histograms,
 - Integer gauge native histograms.
 
 ##### Booleans
@@ -226,11 +226,11 @@ MetricFamilies of type Info MUST have an empty Unit string.
 
 Histograms measure distributions of discrete events. Common examples are the latency of HTTP requests, function runtimes, or I/O request sizes.
 
-A Histogram MetricPoint MUST contain either classic buckets or exponential buckets or both.
+A Histogram MetricPoint MUST contain either [classic buckets](#classic-buckets) or [exponential buckets](#exponential-buckets) or both.
 
 A Histogram MetricPoint SHOULD contain Count, Sum, and Created values. Every bucket MUST have well defined boundaries and a value. Boundaries of a bucket MUST NOT be NaN. Count and bucket values MUST be integers.
 
-Semantically, Count, and buckets values are counters so MUST NOT be NaN or negative.
+Semantically, Count and bucket values are counters so MUST NOT be NaN or negative.
 
 The Sum is only a counter semantically as long as there are no negative event values measured by the Histogram MetricPoint. The Sum MUST NOT be NaN. If present, the Sum value MUST equal the Sum of all the measured event values.
 
@@ -254,49 +254,49 @@ Negative threshold classic buckets MAY be used.
 
 Classic bucket values MAY have exemplars. The value of the exemplar MUST be within the classic bucket. Exemplars SHOULD be put into the classic bucket with the highest threshold. A classic bucket MUST NOT have more than one exemplar.
 
-##### Native buckets
+##### Exponential buckets
 
-Histogram MetricPoints with native buckets MUST have a Schema value. The Schema is an 8 bit signed integer between -4 and 127. Schema values between -4 and 127 are also called Standard Schemas.
+Histogram MetricPoints with exponential buckets MUST have a Schema value. The Schema is an 8 bit signed integer between -4 and 127. Schema values between -4 and 127 are also called Standard Schemas.
 
-For any Standard Schema n, the Histogram MetricPoint MAY contain positive, negative native buckets and possibly a single zero native bucket. It is valid to have no native buckets at all.
+For any Standard Schema n, the Histogram MetricPoint MAY contain positive, negative exponential buckets and a single zero bucket. It is valid to have no exponentual buckets at all.
 
-The boundaries of a positive or negative native bucket with index i MUST BE calculated as follows (using Python syntax):
+The boundaries of a positive or negative exponential bucket with index i MUST BE calculated as follows (using Python syntax):
 
-The upper inclusive limit of a positive native bucket: `(2**2**-n)**i`
+The upper inclusive limit of a positive exponential bucket: `(2**2**-n)**i`
 
-The lower exclusive limit of a positive native bucket: `(2**2**-n)**(i-1)`
+The lower exclusive limit of a positive exponential bucket: `(2**2**-n)**(i-1)`
 
-The lower inclusive limit of a negative native bucket: `-((2**2**-n)**i)`
+The lower inclusive limit of a negative exponential bucket: `-((2**2**-n)**i)`
 
-The upper exclusive limit of a negative native bucket: `-((2**2**-n)**(i-1))`
+The upper exclusive limit of a negative exponential bucket: `-((2**2**-n)**(i-1))`
 
 i is an integer number that MAY be negative.
 
 There are exceptions to the rules above concerning the largest and smallest finite values representable as a float64 (called MaxFloat64 and MinFloat64 in the following) and the positive and negative infinity values (+Inf and -Inf):
 
-The positive native bucket that contains MaxFloat64 (according to the boundary formulas above) has an upper inclusive limit of MaxFloat64 (rather than the limit calculated by the formulas above, which would overflow float64).
+The positive exponential bucket that contains MaxFloat64 (according to the boundary formulas above) has an upper inclusive limit of MaxFloat64 (rather than the limit calculated by the formulas above, which would overflow float64).
 
-The next positive native bucket (index i+1 relative to the bucket from the previous item) has a lower exclusive limit of MaxFloat64 and an upper inclusive limit of +Inf. (It could be called a positive native overflow bucket.)
+The next positive exponential bucket (index i+1 relative to the bucket from the previous item) has a lower exclusive limit of MaxFloat64 and an upper inclusive limit of +Inf. (It could be called a positive exponential overflow bucket.)
 
-The negative native bucket that contains MinFloat64 (according to the boundary formulas above) has a lower inclusive limit of MinFloat64 (rather than the limit calculated by the formulas above, which would underflow float64).
+The negative exponential bucket that contains MinFloat64 (according to the boundary formulas above) has a lower inclusive limit of MinFloat64 (rather than the limit calculated by the formulas above, which would underflow float64).
 
-The next negative native bucket (index i+1 relative to the bucket from the previous item) has an upper exclusive limit of MinFloat64 and an lower inclusive limit of -Inf. (It could be called a negative native overflow bucket.)
+The next negative exponential bucket (index i+1 relative to the bucket from the previous item) has an upper exclusive limit of MinFloat64 and an lower inclusive limit of -Inf. (It could be called a negative exponential overflow bucket.)
 
-Native buckets beyond the +Inf and -Inf buckets described above MUST NOT be used.
+Exponential buckets beyond the +Inf and -Inf buckets described above MUST NOT be used.
 
-If the zero native bucket is present, the Historam MetricPoint MUST have a Zero threshold. The Zero threshold is a non-negative float64 value (threshold >= 0.0). The boundaries of the Zero native bucket are `[-threshold, threshold]` inclusive.
+If the zero bucket is present, the Historam MetricPoint MUST have a Zero threshold. The Zero threshold MUST BE a non-negative float64 value (threshold >= 0.0). The boundaries of the Zero native bucket are `[-threshold, threshold]` inclusive.
 
-If the zero native bucket is present, any measured value that falls into the zero native bucket MUST BE counted towards the Zero bucket and MUST NOT be counted in any other native bucket. The Zero threshold SHOULD be equal to a lower limit of an arbitraty Standard native bucket.
+If the zero bucket is present, any measured value that falls into the zero bucket MUST BE counted towards the zero bucket and MUST NOT be counted in any other exponential bucket. The Zero threshold SHOULD be equal to a lower limit of an arbitraty exponential bucket.
 
 The Count value MUST equal the sum of the values of the positive, negative and the zero bucket.
 
-A Histogram MetricPoint with native buckets MAY contain exemplars.
+A Histogram MetricPoint with exponential buckets MAY contain exemplars.
 
-Exemplars associated with a Histogram MetricPoint with native buckets MUST have a timestamp.
+Exemplars associated with a Histogram MetricPoint with exponential buckets MUST have a timestamp.
 
-The values of exemplars in a Histogram MetricPoint with native buckets MUST fall into one of the native buckets.
+The values of exemplars in a Histogram MetricPoint with exponential buckets MUST fall into one of the exponential buckets.
 
-The values of exemplars in a Histogram MetricPoint with native buckets SHOULD be evenly distributed to avoid only representing the bucket with the highest value and therefore most common case.
+The values of exemplars in a Histogram MetricPoint with exponential buckets SHOULD be evenly distributed to avoid only representing the bucket with the highest value and therefore most common case.
 
 #### GaugeHistogram
 

@@ -2045,15 +2045,14 @@ histogram sample notation is complex and explained in the [documentation for
 rules unit
 testing](https://prometheus.io/docs/prometheus/latest/configuration/unit_testing_rules/#series).
 
-There is an alternative `load` command called `load_with_nhcb`, which converts
-classic histograms to NHCBs and loads both the float series of the classic
-histogram as well as the NHCB series resulting from the conversion.
+In the unit test framework there is an alternative `load` command called
+`load_with_nhcb`, which converts classic histograms to NHCBs and loads both the
+float series of the classic histogram as well as the NHCB series resulting from
+the conversion.
 
-Not specific to native histograms, but very useful in their context, are the
-`eval_info` and `eval_warn` keywords that expect the evaluation to result in at
-least one info-level annotation or at least one warn-level annotation,
-respectively. It is currently neither possible to test for the presence of
-annotations of both levels nor to test for specific annotations.
+Not specific to native histograms, but very useful in their context, is the
+`expect` keyword in the unit test framework that can define expectations about
+the info- and warn-level annotations.
 
 ### Optimizations
 

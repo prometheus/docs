@@ -67,11 +67,16 @@ export const getPost = (params: {
 export const getAllPosts = () => {
   const fileNames = getAllPostFileNames();
   return fileNames.map((fileName) => {
-    const filePath = getPostFilePath(postFileNameToParams(fileName));
-    const content = fs.readFileSync(filePath, "utf8");
+    const params = postFileNameToParams(fileName);
+    const content = getPostFileContent(params);
     const { data, excerpt } = matter(content, {
       excerpt_separator: "<!-- more -->",
     });
-    return { frontmatter: data, excerpt, path: postFileNameToPath(fileName) };
+    return {
+      frontmatter: data,
+      excerpt,
+      path: postFileNameToPath(fileName),
+      params,
+    };
   });
 };

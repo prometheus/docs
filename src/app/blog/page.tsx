@@ -24,6 +24,10 @@ export async function generateMetadata() {
   };
 }
 
+function headingSlug({ year, month, day, slug }) {
+  return `${year}-${month}-${day}-${slug}`.replace(/[^A-Za-z0-9\-_]/g, "-");
+}
+
 export default function BlogPage() {
   const allPosts = getAllPosts();
 
@@ -36,10 +40,13 @@ export default function BlogPage() {
               new Date(b.frontmatter.created_at).valueOf() -
               new Date(a.frontmatter.created_at).valueOf()
           )
-          .map(({ frontmatter, excerpt, path }) => (
-            <Card key={path} withBorder>
+          .map(({ frontmatter, excerpt, path, params }) => (
+            // "overflow: unset" is needed, since otherwise "overflow: hidden"
+            // on the Card breaks the scroll-margin-top of the Title / h1, and
+            // the title ends up under the sticky header.
+            <Card key={path} withBorder style={{ overflow: "unset" }}>
               <Anchor c="inherit" href={path}>
-                <Title order={2} mt={0} mb="xs">
+                <Title order={1} mt={0} mb="xs" id={headingSlug(params)}>
                   {frontmatter.title}
                 </Title>
               </Anchor>
@@ -63,7 +70,12 @@ export default function BlogPage() {
             </Card>
           ))}
       </Stack>
-      <TOC maw={400} />
+      <TOC
+        maw={400}
+        scrollSpyOptions={{
+          selector: ".mantine-Card-root h1",
+        }}
+      />
     </Group>
   );
 }

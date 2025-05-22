@@ -390,7 +390,7 @@ labels = "{" [label *(COMMA label)] "}"
 
 label = label-name EQ DQUOTE escaped-string DQUOTE
 
-value = number / complextype-
+value = number / "{" complextype "}"
 
 number = realnumber
 ; Case insensitive
@@ -448,9 +448,42 @@ escaped-char =/ BS normal-char
 normal-char = %x00-09 / %x0B-21 / %x23-5B / %x5D-D7FF / %xE000-10FFFF
 
 ; Complex types
-complextype = "{" complextype "}"
+complextype = nativehistogram
 
-nativehistogram 
+nativehistogram = nh-count "," nh-sum "," nh-schema "," nh-zero-threshold "," nh-zero-count [ "," nh-negative-spans "," nh-negative-deltas ] [ "," nh-positive-spans "," nh-positive-deltas ]
+; count:n
+nh-count = %d99.111.117.110.116 ":" non-negative-integer
+; sum:f Does not allow +-Inf and NaN
+nh-sum = %d115.117.109 ":" realnumber
+; schema:i
+nh-schema = %d115.99.104.101.109.97 ":" integer
+; zero_threshold:f
+nh-zero-threshold = %d122.101.114.111 "_" %d116.104.114.101.115.104.111.108.100 ":" realnumber
+; zero_count:n
+nh-zero-count = %d122.101.114.111 "_" %d99.111.117.110.116 ":" non-negative-integer
+; negative_spans:[1:2,3:4]
+nh-negative-spans = %d110.101.103.97.116.105.118.101 "_" %d115.112.97.110.115 ":" "[" nh-spans "]"
+nh-positive-spans = %d112.111.115.105.116.105.118.101 "_" %d115.112.97.110.115 ":" "[" nh-spans "]"
+; Spans can start from any index, even negative, however subsequent spans
+; can only advance the index, not decrease it.
+nh-spans = nh-start-span *("," nh-span)
+nh-start-span = integer ":" positive-integer
+nh-span = non-negative-integer ":" positive-integer
+
+nh-negative-deltas = %d110.101.103.97.116.105.118.101 "_" %d100.101.108.116.97.115 ":" "[" nh-deltas "]"
+nh-positive-deltas = %d112.111.115.105.116.105.118.101 "_" %d100.101.108.116.97.115 ":" "[" nh-deltas "]"
+
+; Bucket counts are non-negative, thus the first absolute count must be non-negative.
+nh-deltas = non-negative-integer *("," integer)
+
+; Integers, does not allow -0, or +n.
+integer = non-negative-integer / "-" positive-integer
+
+non-negative-integer = "0" / positive-integer
+
+positive-integer = positive-digit [ *DIGIT ]
+
+positive-digit = "1" / "2" / "3" / "4" / "5" / "6" / "7" / "8" / "9"
 ```
 
 #### Overall Structure
@@ -484,6 +517,16 @@ go_goroutines 69
 # UNIT process_cpu_seconds seconds
 # HELP process_cpu_seconds Total user and system CPU time spent in seconds.
 process_cpu_seconds_total 4.20072246e+06
+# TYPE acme_http_request_seconds histogram
+# UNIT acme_http_request_seconds seconds
+# HELP acme_http_request_seconds Latency histogram of all of ACME's HTTP requests.
+acme_http_request_seconds{path="/api/v1",method="GET"} {count:123,sum:1.2e2,schema:0,zero_threshold:1e-4,zero_count:0,positive_spans:[1:2,3:4],positive_deltas:[5,2,3]}
+acme_http_request_seconds_count{path="/api/v1",method="GET"} 123
+acme_http_request_seconds_sum{path="/api/v1",method="GET"} 1.2e2
+acme_http_request_seconds_buckets{path="/api/v1",method="GET",le="0.5"} 0
+acme_http_request_seconds_buckets{path="/api/v1",method="GET",le="1"} 1
+acme_http_request_seconds_buckets{path="/api/v1",method="GET",le="+Inf"} 1
+acme_http_request_seconds_created{path="/api/v1",method="GET"} 1605281325.0
 # EOF
 ```
 
@@ -806,7 +849,7 @@ foo{quantile="0.99"} 150.0
 
 Quantiles MAY be in any order.
 
-##### Histogram
+##### Histogram with class buckets
 
 The MetricPoint's Bucket Values Sample MetricNames MUST have the suffix `_bucket`. If present, the MetricPoint's Sum Value Sample MetricName MUST have the suffix `_sum`. If present, the MetricPoint's Created Value Sample MetricName MUST have the suffix `_created`.
 If and only if a Sum Value is present in a MetricPoint, then the MetricPoint's +Inf Bucket value MUST also appear in a Sample with a MetricName with the suffix "_count".
@@ -831,6 +874,30 @@ foo_bucket{le="+Inf"} 17
 foo_count 17
 foo_sum 324789.3
 foo_created 1520430000.123
+```
+
+##### Histogram with exponential buckets
+
+The MetricPoint's value MUST BE a complex data type.
+
+Histograms with exponential buckets use the integer native histogram data type.
+
+The native histogram data type is a JSON like structure with fields.
+The native histogram data type MUST include the Count, Sum, Schema, Zero Threshold, Zero bucket value as the fields `count`, `sum`, `schema`, `zero_threshold`, `zero_count`.
+
+If there are no negative exponential buckets, then the fields `negative_spans` and `negative_deltas` MUST BE omitted.
+If there are no positive exponential buckets, then the fields `positive_spans` and `positive_deltas` MUST BE omitted.
+
+If there are negative (or positive) exponential buckets then the bucket values MUST BE ordered by their index, and their values MUST BE placed in the `negative_deltas` (or `positive_deltas`) field using delta encoding, that is the first bucket value is written as is and the following values only as a delta relative to the previous value. For example bucket values 1, 5, 4 will become 1, 4, -1.
+
+To map the `negative_deltas` (or `positive_deltas`) back to their indices, the `negative_spans` (or `positive_spans`) field must be constructed in the following way: each span consists of a pair of numbers, a signed 32-bit integer (short: int32) called offset and an unsigned 32-bit integer (short: uint32) called length. Only the first span in each list can have a negative offset. It defines the index of the first bucket in its corresponding `negative_deltas` (or `positive_deltas`). The length defines the number of consecutive buckets the bucket list starts with. The offsets of the following spans define the number of excluded (and thus unpopulated buckets). The lengths define the number of consecutive buckets in the list following the excluded buckets.
+
+The sum of all length values in each span list MUST be equal to the length of the corresponding bucket list.
+
+```
+# TYPE acme_http_request_seconds histogram
+acme_http_request_seconds{path="/api/v1",method="GET"} {count:123,sum:1.2e2,schema:0,zero_threshold:1e-4,zero_count:0,positive_spans:[1:2,3:4],positive_deltas:[5,2,3]}
+acme_http_request_seconds_created 1520430000.123
 ```
 
 ###### Exemplars

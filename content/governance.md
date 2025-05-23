@@ -74,7 +74,7 @@ The current team members are:
 * Fabian Stäber ([Grafana Labs](https://grafana.com/))
 * Fiona Liao ([Grafana Labs](https://grafana.com/))
 * Frederic Branczyk ([Polar Signals](https://www.polarsignals.com/))
-* Ganesh Vernekar ([Grafana Labs](https://grafana.com/))
+* Ganesh Vernekar ([Reddit](https://www.redditinc.com/))
 * George Robinson ([Grafana Labs](https://grafana.com/))
 * Goutham Veeramachaneni ([Grafana Labs](https://grafana.com/))
 * Gregor Zeitlinger ([Grafana Labs](https://grafana.com/))

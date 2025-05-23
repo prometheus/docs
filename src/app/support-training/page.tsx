@@ -53,7 +53,9 @@ const commercialSupportProviders: ProviderCardProps[] = [
     name: "Container Solutions",
     logo: "/assets/docs/commercial-support-logos/container-solutions.svg",
     url: "https://www.container-solutions.com/",
-    cardProps: { bg: "gray.5" },
+    cardProps: {
+      bg: "light-dark(var(--mantine-color-gray-5), var(--mantine-color-dark-3))",
+    },
   },
   {
     name: "Cloudraft",
@@ -167,8 +169,8 @@ function ProviderCard({
           justifyContent: "center",
           aspectRatio,
         }}
+        bg="light-dark(white, var(--mantine-color-dark-2))"
         {...cardProps}
-        bg="light-dark(white, var(--mantine-color-dark-3))"
       >
         {logo ? (
           <Image src={logo} alt={`${name} logo`} />

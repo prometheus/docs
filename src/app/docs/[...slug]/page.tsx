@@ -37,7 +37,6 @@ export default async function DocsPage({
   const slug = (await params).slug;
 
   const docMeta = docsCollection[slug.join("/")];
-  // TODO: Use the content from the meta json.
   const markdown = await fs.readFile(docMeta.filePath, "utf-8");
 
   return (
@@ -69,7 +68,7 @@ export default async function DocsPage({
 
         switch (docMeta.type) {
           case "local-doc":
-            // TODO: Fix this in the old Markdown files instead.
+            // TODO: Fix this in the old Markdown files instead?
             return src.replace(/^\/assets\//, "/assets/docs/");
           case "repo-doc":
             return `${docMeta.assetsRoot}/${src}`;

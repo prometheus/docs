@@ -60,7 +60,7 @@ const features = [
 // Based on the design at https://ui.mantine.dev/category/features/#features-cards
 export function FeaturesCards() {
   return (
-    <Container size="lg">
+    <Container size="lg" p={0}>
       <SimpleGrid cols={{ base: 1, xs: 2, sm: 3 }} spacing="xl">
         {features.map((feature) => (
           <Card

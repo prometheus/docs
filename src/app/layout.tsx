@@ -73,8 +73,8 @@ export default function RootLayout({
           >
             <Header burgerOpened={burgerOpened} toggleBurger={toggleBurger} />
 
-            <AppShell.Main px={{ base: 0, sm: "md" }}>
-              <Container size="xl" mt="xl">
+            <AppShell.Main px={{ base: "md", xs: "xl" }}>
+              <Container size="xl" mt="xl" p={0}>
                 {children}
                 <Space h={50} />
               </Container>
@@ -86,7 +86,7 @@ export default function RootLayout({
                   "light-dark(var(--mantine-color-gray-0), var(--mantine-color-dark-9))",
               }}
             >
-              <Container size="xl" p="xl">
+              <Container size="xl" px={{ base: "md", xs: "xl" }} py="xl">
                 <Group h={100}>
                   <Text c="dimmed" fz="sm">
                     &copy; Prometheus Authors 2014-{new Date().getFullYear()} |

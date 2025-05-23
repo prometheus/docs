@@ -8,11 +8,7 @@ import React from "react";
 // Based on the design at https://ui.mantine.dev/category/hero/#hero-text.
 export function Hero() {
   return (
-    <Container
-      className={classes.wrapper}
-      size={1400}
-      px={{ base: "md", xs: "xl" }}
-    >
+    <Container className={classes.wrapper} size={1400} px={0}>
       <Dots className={classes.dots} style={{ left: 0, top: 0 }} />
       <Dots className={classes.dots} style={{ left: 60, top: 0 }} />
       <Dots className={classes.dots} style={{ left: 0, top: 140 }} />

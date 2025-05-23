@@ -100,7 +100,14 @@ export const Header = ({
 
   return (
     <>
-      <AppShell.Header className={classes.header}>
+      <AppShell.Header
+        className={classes.header}
+        style={
+          path === "/"
+            ? { borderBottomColor: "rgba(222, 226, 230, 0)" }
+            : undefined
+        }
+      >
         <Container size="xl" px={{ base: "md", xs: "xl" }}>
           <div className={classes.inner}>
             {/* Logo + Text */}

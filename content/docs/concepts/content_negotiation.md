@@ -16,7 +16,7 @@ available format for metric exposition.
 
 Prometheus supports multiple formats for scraping metrics, including both
 text-based and binary protobuf formats. Based on the value of the Accept header,
-Prometheus will pick the best available Content Type for its reply.
+the target will pick the best available Content Type for its reply.
 
 ## Protocol Types
 
@@ -53,7 +53,7 @@ The Accept header MUST be constructed as follows:
 
 1. For each protocol supported by the target:
    - The protocol's MIME type and parameters MUST be specified.
-   - For Proto protocols, an encoding of "delimited" MUST be specified.
+   - For protobuf protocols, an encoding of "delimited" MUST be specified.
    - For PrometheusText1.0.0 and OpenMetricsText1.0.0, the escaping scheme
      parameter SHOULD be appended.
    - A quality value (q) parameter SHOULD be appended.
@@ -96,9 +96,9 @@ Prometheus:
 
 1. It MUST use the protocol in the Accept header with the highest weighting that
    is supported by Prometheus.
-2. If no protocols are supported, Prometheus MAY use a user-configured fallback
+2. If no protocols are supported, the target MAY use a user-configured fallback
    scrape protocol.
-3. If no fallback is specified, Prometheus MUST use PrometheusText0.0.4 as a
+3. If no fallback is specified, the target MUST use PrometheusText0.0.4 as a
    last resort.
 
 ## Content-Type Response

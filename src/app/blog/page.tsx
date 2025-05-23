@@ -31,7 +31,7 @@ export default function BlogPage() {
 
   return (
     <Group wrap="nowrap" align="flex-start">
-      <Stack>
+      <Stack miw={0}>
         {allPosts
           .sort(
             (a, b) =>

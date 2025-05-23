@@ -67,7 +67,7 @@ Scrape config settings override the global setting.
 ## Scrape Content Negotiation for UTF-8 escaping
 
 At scrape time, the scraping system **must** pass `escaping=allow-utf-8` in the
-Accept header in order to be served UTF-8 names. If scrape endpoint does not see
+Accept header in order to be served UTF-8 names. If scrape target does not see
 this header, it will automatically convert UTF-8 names to legacy-compatible
 using underscore replacement.
 

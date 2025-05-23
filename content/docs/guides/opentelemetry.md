@@ -153,7 +153,7 @@ There are three possible translation strategies, two of which require UTF-8 supp
 
 * `UnderscoreEscapingWithSuffixes`, the default. This fully escapes metric names for classic [Prometheus metric name compatibility](https://prometheus.io/docs/practices/naming/), and includes appending type and unit suffixes.
 * `NoUTF8EscapingWithSuffixes` will disable changing special characters to `_` which allows native use of OpenTelemetry metric format, especially with [the semantic conventions](https://opentelemetry.io/docs/specs/semconv/general/metrics/). Note that special suffixes like units and `_total` for counters will be attached to prevent possible collisions with multiple metrics of the same name having different type or units. This mode requires UTF-8 to be enabled.
-* `NoTranslation`. This strategy bypasses all metric and label name translation, passing them through unaltered. This mode requires UTF-8 to be enabled.
+* `NoTranslation`. This strategy bypasses all metric and label name translation, passing them through unaltered. This mode requires UTF-8 to be enabled. Note that without suffixes, it is possible to have collisions when multiple metrics of the same name have different type or units.
 
 ```
 otlp:

@@ -952,7 +952,7 @@ foo_sum 324789.3
 foo_created  1520430000.123
 ```
 
-##### GaugeHistogram
+##### GaugeHistogram with classic buckets
 
 The MetricPoint's Bucket Values Sample MetricNames MUST have the suffix `_bucket`. If present, the MetricPoint's Sum Value Sample MetricName MUST have the suffix `_gsum`.
 If and only if a Sum Value is present in a MetricPoint, then the MetricPoint's +Inf Bucket value MUST also appear in a Sample with a MetricName with the suffix `_gcount`.
@@ -971,6 +971,20 @@ foo_bucket{le="+Inf"} 42.0
 foo_gcount 42.0
 foo_gsum 3289.3
 ```
+
+##### GaugeHistogram with exponential buckets
+
+GaugeHistogram MetricPoints with exponential buckets follow the same syntax as Histogram MetricPoints with exponential buckets.
+
+```
+# TYPE acme_http_request_seconds gaugehistogram
+acme_http_request_seconds{path="/api/v1",method="GET"} {count:59,sum:1.2e2,schema:7,zero_threshold:1e-4,zero_count:0,negative_spans:[1:2],negative_deltas:[5,2],positive_spans:[-1:2,3:4],positive_deltas:[5,2,3,-1,-1,0]}
+acme_http_request_seconds_created 1520430000.123
+```
+
+##### GaugeHistogram with both classic and exponential buckets
+
+If a GaugeHistogram MetricPoint has both classic and exponential buckets, the exponential buckets MUST come first and the created time MUST NOT BE duplicated.
 
 ##### Unknown
 

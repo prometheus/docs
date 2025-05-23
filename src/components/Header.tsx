@@ -100,8 +100,8 @@ export const Header = ({
 
   return (
     <>
-      <AppShell.Header className={classes.header} px={{ base: "md", xs: "xl" }}>
-        <Container size="xl" p={0}>
+      <AppShell.Header className={classes.header}>
+        <Container size="xl" px={{ base: "md", xs: "xl" }}>
           <div className={classes.inner}>
             {/* Logo + Text */}
             <Link href="/" style={{ textDecoration: "none", color: "inherit" }}>

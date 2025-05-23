@@ -1,7 +1,6 @@
 .wrapper {
   position: relative;
   margin-block: clamp(0px, 7vw, rem(80px));
-  padding-inline: 0;
   padding-bottom: 1rem;
 }
 

@@ -71,8 +71,10 @@ Numbers MUST be either floating points or integers. Note that ingestors of the f
 Complex data types MUST contain all information necessary to recreate a sample of a Metric Type, with the exception of Created time and Exemplars.
 
 List of complex data types:
-- Integer counter native histograms,
-- Integer gauge native histograms.
+- Integer counter native histograms for the Metric Type Histogram.
+- Integer gauge native histograms for the Metric Type GaugeHistogram.
+
+Complex data types MUST occure only in the corresponding MetricFamily. This means for example that a counter cannot have an integer counter native histogram value.
 
 ##### Booleans
 
@@ -461,17 +463,17 @@ nh-schema = %d115.99.104.101.109.97 ":" integer
 nh-zero-threshold = %d122.101.114.111 "_" %d116.104.114.101.115.104.111.108.100 ":" realnumber
 ; zero_count:n
 nh-zero-count = %d122.101.114.111 "_" %d99.111.117.110.116 ":" non-negative-integer
-; negative_spans:[1:2,3:4]
-nh-negative-spans = %d110.101.103.97.116.105.118.101 "_" %d115.112.97.110.115 ":" "[" nh-spans "]"
-nh-positive-spans = %d112.111.115.105.116.105.118.101 "_" %d115.112.97.110.115 ":" "[" nh-spans "]"
+; negative_spans:[1:2,3:4] and negative_spans:[]
+nh-negative-spans = %d110.101.103.97.116.105.118.101 "_" %d115.112.97.110.115 ":" "[" [nh-spans] "]"
+nh-positive-spans = %d112.111.115.105.116.105.118.101 "_" %d115.112.97.110.115 ":" "[" [nh-spans] "]"
 ; Spans can start from any index, even negative, however subsequent spans
 ; can only advance the index, not decrease it.
 nh-spans = nh-start-span *("," nh-span)
 nh-start-span = integer ":" positive-integer
 nh-span = non-negative-integer ":" positive-integer
 
-nh-negative-deltas = %d110.101.103.97.116.105.118.101 "_" %d100.101.108.116.97.115 ":" "[" nh-deltas "]"
-nh-positive-deltas = %d112.111.115.105.116.105.118.101 "_" %d100.101.108.116.97.115 ":" "[" nh-deltas "]"
+nh-negative-deltas = %d110.101.103.97.116.105.118.101 "_" %d100.101.108.116.97.115 ":" "[" [nh-deltas] "]"
+nh-positive-deltas = %d112.111.115.105.116.105.118.101 "_" %d100.101.108.116.97.115 ":" "[" [nh-deltas] "]"
 
 ; Bucket counts are non-negative, thus the first absolute count must be non-negative.
 nh-deltas = non-negative-integer *("," integer)
@@ -520,12 +522,12 @@ process_cpu_seconds_total 4.20072246e+06
 # TYPE acme_http_request_seconds histogram
 # UNIT acme_http_request_seconds seconds
 # HELP acme_http_request_seconds Latency histogram of all of ACME's HTTP requests.
-acme_http_request_seconds{path="/api/v1",method="GET"} {count:123,sum:1.2e2,schema:0,zero_threshold:1e-4,zero_count:0,positive_spans:[1:2,3:4],positive_deltas:[5,2,3]}
-acme_http_request_seconds_count{path="/api/v1",method="GET"} 123
+acme_http_request_seconds{path="/api/v1",method="GET"} {count:2,sum:1.2e2,schema:0,zero_threshold:1e-4,zero_count:0,positive_spans:[1:2],positive_deltas:[1,0]}
+acme_http_request_seconds_count{path="/api/v1",method="GET"} 2
 acme_http_request_seconds_sum{path="/api/v1",method="GET"} 1.2e2
-acme_http_request_seconds_buckets{path="/api/v1",method="GET",le="0.5"} 0
-acme_http_request_seconds_buckets{path="/api/v1",method="GET",le="1"} 1
-acme_http_request_seconds_buckets{path="/api/v1",method="GET",le="+Inf"} 1
+acme_http_request_seconds_buckets{path="/api/v1",method="GET",le="0.5"} 1
+acme_http_request_seconds_buckets{path="/api/v1",method="GET",le="1"} 2
+acme_http_request_seconds_buckets{path="/api/v1",method="GET",le="+Inf"} 2
 acme_http_request_seconds_created{path="/api/v1",method="GET"} 1605281325.0
 # EOF
 ```
@@ -882,22 +884,53 @@ The MetricPoint's value MUST BE a complex data type.
 
 Histograms with exponential buckets use the integer native histogram data type.
 
-The native histogram data type is a JSON like structure with fields.
-The native histogram data type MUST include the Count, Sum, Schema, Zero Threshold, Zero bucket value as the fields `count`, `sum`, `schema`, `zero_threshold`, `zero_count`.
+The integer native histogram data type is a JSON like structure with fields. There MUST NOT BE any whitespace around fields.
+The integer native histogram data type MUST include the Count, Sum, Schema, Zero Threshold, Zero bucket value as the fields `count`, `sum`, `schema`, `zero_threshold`, `zero_count`.
 
-If there are no negative exponential buckets, then the fields `negative_spans` and `negative_deltas` MUST BE omitted.
-If there are no positive exponential buckets, then the fields `positive_spans` and `positive_deltas` MUST BE omitted.
+If there are no negative exponential buckets, then the fields `negative_spans` and `negative_deltas` SHOULD BE omitted.
+If there are no positive exponential buckets, then the fields `positive_spans` and `positive_deltas` SHOULD BE omitted.
 
-If there are negative (or positive) exponential buckets then the bucket values MUST BE ordered by their index, and their values MUST BE placed in the `negative_deltas` (or `positive_deltas`) field using delta encoding, that is the first bucket value is written as is and the following values only as a delta relative to the previous value. For example bucket values 1, 5, 4 will become 1, 4, -1.
+If there are negative (and/or positive) exponential buckets then the fields `negative_spans`, `negative_deltas` (and/or `positive_spans`, `positive_deltas`) MUST BE present in this order after the `zero_count` field.
 
-To map the `negative_deltas` (or `positive_deltas`) back to their indices, the `negative_spans` (or `positive_spans`) field must be constructed in the following way: each span consists of a pair of numbers, a signed 32-bit integer (short: int32) called offset and an unsigned 32-bit integer (short: uint32) called length. Only the first span in each list can have a negative offset. It defines the index of the first bucket in its corresponding `negative_deltas` (or `positive_deltas`). The length defines the number of consecutive buckets the bucket list starts with. The offsets of the following spans define the number of excluded (and thus unpopulated buckets). The lengths define the number of consecutive buckets in the list following the excluded buckets.
+Exponential bucket values MUST BE ordered by their index, and their values MUST BE placed in the `negative_deltas` (and/or `positive_deltas`) field using delta encoding, that is the first bucket value is written as is and the following values only as a delta relative to the previous value. For example bucket values 1, 5, 4, 4 will become 1, 4, -1, 0.
 
-The sum of all length values in each span list MUST be equal to the length of the corresponding bucket list.
+To map the `negative_deltas` (and/or `positive_deltas`) back to their indices, the `negative_spans` (and/or `positive_spans`) field MUST BE constructed in the following way: each span consists of a pair of numbers, an integer called offset and an non-negative integer called length. Only the first span in each list can have a negative offset. It defines the index of the first bucket in its corresponding `negative_deltas` (and/or `positive_deltas`). The length defines the number of consecutive buckets the bucket list starts with. The offsets of the following spans define the number of excluded (and thus unpopulated buckets). The lengths define the number of consecutive buckets in the list following the excluded buckets.
+
+The sum of all length values in each span list MUST BE equal to the length of the corresponding bucket list.
+
+An example with all fields:
 
 ```
 # TYPE acme_http_request_seconds histogram
-acme_http_request_seconds{path="/api/v1",method="GET"} {count:123,sum:1.2e2,schema:0,zero_threshold:1e-4,zero_count:0,positive_spans:[1:2,3:4],positive_deltas:[5,2,3]}
+acme_http_request_seconds{path="/api/v1",method="GET"} {count:59,sum:1.2e2,schema:7,zero_threshold:1e-4,zero_count:0,negative_spans:[1:2],negative_deltas:[5,2],positive_spans:[-1:2,3:4],positive_deltas:[5,2,3,-1,-1,0]}
 acme_http_request_seconds_created 1520430000.123
+```
+
+An example without any buckets in use:
+
+```
+# TYPE acme_http_request_seconds histogram
+acme_http_request_seconds{path="/api/v1",method="GET"} {count:0,sum:0,schema:3,zero_threshold:1e-4,zero_count:0}
+acme_http_request_seconds_created 1520430000.123
+```
+
+##### Histogram with both classic and exponential buckets
+
+If a Histogram MetricPoint has both classic and exponential buckets, the exponential buckets MUST come first and the created time MUST NOT BE duplicated.
+
+The order ensures that implementations can easily skip the classic buckets if the exponential buckets are preferred.
+
+```
+# TYPE acme_http_request_seconds histogram
+# UNIT acme_http_request_seconds seconds
+# HELP acme_http_request_seconds Latency histogram of all of ACME's HTTP requests.
+acme_http_request_seconds{path="/api/v1",method="GET"} {count:2,sum:1.2e2,schema:0,zero_threshold:1e-4,zero_count:0,positive_spans:[1:2],positive_deltas:[1,0]}
+acme_http_request_seconds_count{path="/api/v1",method="GET"} 2
+acme_http_request_seconds_sum{path="/api/v1",method="GET"} 1.2e2
+acme_http_request_seconds_buckets{path="/api/v1",method="GET",le="0.5"} 1
+acme_http_request_seconds_buckets{path="/api/v1",method="GET",le="1"} 2
+acme_http_request_seconds_buckets{path="/api/v1",method="GET",le="+Inf"} 2
+acme_http_request_seconds_created{path="/api/v1",method="GET"} 1605281325.0
 ```
 
 ###### Exemplars

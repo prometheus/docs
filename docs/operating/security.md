@@ -31,7 +31,7 @@ as possible and coordinate a release date with you. You will be able to choose
 if you want public acknowledgement of your effort and if you want to be
 mentioned by name.
 
-### Automated security scanners
+## Automated security scanners
 
 Special note for security scanner users: Please be mindful with the reports produced.
 Most scanners are generic and produce lots of false positives. More and more

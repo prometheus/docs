@@ -64,7 +64,17 @@ This section MUST be read together with the ABNF section. In case of disagreemen
 
 #### Values
 
-Metric values in OpenMetrics MUST be either floating points or integers. Note that ingestors of the format MAY only support float64. The non-real values NaN, +Inf and -Inf MUST be supported. NaN MUST NOT be considered a missing value, but it MAY be used to signal a division by zero.
+Metric values in OpenMetrics MUST be either numbers or complex data types.
+
+Numbers MUST be either floating points or integers. Note that ingestors of the format MAY only support float64. The non-real values NaN, +Inf and -Inf MUST be supported. NaN MUST NOT be considered a missing value, but it MAY be used to signal a division by zero.
+
+Complex data types MUST contain all information necessary to recreate a sample of a Metric Type, with the exception of Created time and Exemplars.
+
+List of complex data types:
+- Integer counter native histograms for the Metric Type Histogram.
+- Integer gauge native histograms for the Metric Type GaugeHistogram.
+
+Complex data types MUST occure only in the corresponding MetricFamily. This means for example that a counter cannot have an integer counter native histogram value.
 
 ##### Booleans
 
@@ -218,42 +228,93 @@ MetricFamilies of type Info MUST have an empty Unit string.
 
 Histograms measure distributions of discrete events. Common examples are the latency of HTTP requests, function runtimes, or I/O request sizes.
 
-A Histogram MetricPoint MUST contain at least one bucket, and SHOULD contain Sum, and Created values. Every bucket MUST have a threshold and a value.
+A Histogram MetricPoint MUST contain either [classic buckets](#classic-buckets) or [exponential buckets](#exponential-buckets) or both.
 
-Histogram MetricPoints MUST have one bucket with an +Inf threshold. Buckets MUST be cumulative. As an example for a metric representing request latency in seconds its values for buckets with thresholds 1, 2, 3, and +Inf MUST follow value_1 <= value_2 <= value_3 <= value_+Inf. If ten requests took 1 second each, the values of the 1, 2, 3, and +Inf buckets MUST equal 10.
+A Histogram MetricPoint SHOULD contain Count, Sum, and Created values. Every bucket MUST have well defined boundaries and a value. Boundaries of a bucket MUST NOT be NaN. Count and bucket values MUST be integers.
 
-The +Inf bucket counts all requests. If present, the Sum value MUST equal the Sum of all the measured event values. Bucket thresholds within a MetricPoint MUST be unique.
+Semantically, Count and bucket values are counters so MUST NOT be NaN or negative.
 
-Semantically, Sum, and buckets values are counters so MUST NOT be NaN or negative.
-Negative threshold buckets MAY be used, but then the Histogram MetricPoint MUST NOT contain a sum value as it would no longer be a counter semantically. Bucket thresholds MUST NOT equal NaN. Count and bucket values MUST be integers.
+The Sum is only a counter semantically as long as there are no negative event values measured by the Histogram MetricPoint. The Sum MUST NOT be NaN. If present, the Sum value MUST equal the Sum of all the measured event values.
 
 A Histogram MetricPoint SHOULD have a Timestamp value called Created. This can help ingestors discern between new metrics and long-running ones it did not see before.
 
 A Histogram's Metric's LabelSet MUST NOT have a "le" label name.
 
-Bucket values MAY have exemplars. Buckets are cumulative to allow monitoring systems to drop any non-+Inf bucket for performance/anti-denial-of-service reasons in a way that loses granularity but is still a valid Histogram.
+##### Classic buckets
 
-<!---
-# EDITOR’S NOTE: The second sentence is a consideration, it can be moved if needed
--->
+Every classic bucket MUST have a threshold. Classic bucket thresholds within a MetricPoint MUST be unique.
 
-Each bucket covers the values less and or equal to it, and the value of the exemplar MUST be within this range. Exemplars SHOULD be put into the bucket with the highest value. A bucket MUST NOT have more than one exemplar.
+A classic bucket MUST cover every measured value less or equal to its threshold, or to put it another way, classic buckets MUST be cumulative. Classic buckets are cumulative to allow monitoring systems to drop any non-+Inf bucket for performance/anti-denial-of-service reasons in a way that loses granularity but is still a valid Histogram.
+
+As an example for a metric representing request latency in seconds its values for classic buckets with thresholds 1, 2, 3, and +Inf MUST follow value_1 <= value_2 <= value_3 <= value_+Inf. If ten requests took 1 second each, the values of the 1, 2, 3, and +Inf buckets MUST equal 10.
+
+Histogram MetricPoints with classic buckets MUST have one classic bucket with a +Inf threshold. The +Inf bucket counts all requests.
+
+The Count value MUST equal the value of the +Inf bucket.
+
+Negative threshold classic buckets MAY be used.
+
+Classic bucket values MAY have exemplars. The value of the exemplar MUST be within the classic bucket. Exemplars SHOULD be put into the classic bucket with the highest threshold. A classic bucket MUST NOT have more than one exemplar.
+
+##### Exponential buckets
+
+Histogram MetricPoints with exponential buckets MUST have a Schema value. The Schema is an 8 bit signed integer between -4 and 127. Schema values between -4 and 127 are also called Standard Schemas.
+
+For any Standard Schema n, the Histogram MetricPoint MAY contain positive, negative exponential buckets and a single zero bucket. It is valid to have no exponentual buckets at all.
+
+The boundaries of a positive or negative exponential bucket with index i MUST BE calculated as follows (using Python syntax):
+
+The upper inclusive limit of a positive exponential bucket: `(2**2**-n)**i`
+
+The lower exclusive limit of a positive exponential bucket: `(2**2**-n)**(i-1)`
+
+The lower inclusive limit of a negative exponential bucket: `-((2**2**-n)**i)`
+
+The upper exclusive limit of a negative exponential bucket: `-((2**2**-n)**(i-1))`
+
+i is an integer number that MAY be negative.
+
+There are exceptions to the rules above concerning the largest and smallest finite values representable as a float64 (called MaxFloat64 and MinFloat64 in the following) and the positive and negative infinity values (+Inf and -Inf):
+
+The positive exponential bucket that contains MaxFloat64 (according to the boundary formulas above) has an upper inclusive limit of MaxFloat64 (rather than the limit calculated by the formulas above, which would overflow float64).
+
+The next positive exponential bucket (index i+1 relative to the bucket from the previous item) has a lower exclusive limit of MaxFloat64 and an upper inclusive limit of +Inf. (It could be called a positive exponential overflow bucket.)
+
+The negative exponential bucket that contains MinFloat64 (according to the boundary formulas above) has a lower inclusive limit of MinFloat64 (rather than the limit calculated by the formulas above, which would underflow float64).
+
+The next negative exponential bucket (index i+1 relative to the bucket from the previous item) has an upper exclusive limit of MinFloat64 and an lower inclusive limit of -Inf. (It could be called a negative exponential overflow bucket.)
+
+Exponential buckets beyond the +Inf and -Inf buckets described above MUST NOT be used.
+
+If the zero bucket is present, the Historam MetricPoint MUST have a Zero threshold. The Zero threshold MUST BE a non-negative float64 value (threshold >= 0.0). The boundaries of the Zero native bucket are `[-threshold, threshold]` inclusive.
+
+If the zero bucket is present, any measured value that falls into the zero bucket MUST BE counted towards the zero bucket and MUST NOT be counted in any other exponential bucket. The Zero threshold SHOULD be equal to a lower limit of an arbitraty exponential bucket.
+
+The Count value MUST equal the sum of the values of the positive, negative and the zero bucket.
+
+A Histogram MetricPoint with exponential buckets MAY contain exemplars.
+
+Exemplars associated with a Histogram MetricPoint with exponential buckets MUST have a timestamp.
+
+The values of exemplars in a Histogram MetricPoint with exponential buckets MUST fall into one of the exponential buckets.
+
+The values of exemplars in a Histogram MetricPoint with exponential buckets SHOULD be evenly distributed to avoid only representing the bucket with the highest value and therefore most common case.
 
 #### GaugeHistogram
 
 GaugeHistograms measure current distributions. Common examples are how long items have been waiting in a queue, or size of the requests in a queue.
 
-A GaugeHistogram MetricPoint MUST have one bucket with an +Inf threshold, and SHOULD contain a Gsum value. Every bucket MUST have a threshold and a value.
+A GaugeHistogram MetricPoint MUST contain either classic buckets or exponential buckets or both.
 
-The buckets for a GaugeHistogram follow all the same rules as for a Histogram.
+A GaugeHistogram MetricPoint SHOULD contain Gcount, Gsum. Every bucket MUST have well defined boundaries and a value. Boundaries of a bucket MUST NOT be NaN. Gcount and bucket values MUST be integers.
 
-The bucket and Gsum of a GaugeHistogram are conceptually gauges, however bucket values MUST NOT be negative or NaN. If negative threshold buckets are present, then sum MAY be negative. Gsum MUST NOT be NaN. Bucket values MUST be integers.
+The bucket and Gsum of a GaugeHistogram are conceptually gauges, however bucket values MUST NOT be negative or NaN. If negative threshold buckets are present, then Gsum MAY be negative. Gsum MUST NOT be NaN. Bucket values MUST be integers.
 
 A GaugeHistogram's Metric's LabelSet MUST NOT have a "le" label name.
 
-Bucket values can have exemplars.
+The buckets for a GaugeHistogram follow all the same rules as for a Histogram, with Gcount playing the same role as Count.
 
-Each bucket covers the values less and or equal to it, and the value of the exemplar MUST be within this range. Exemplars SHOULD be put into the bucket with the highest value. A bucket MUST NOT have more than one exemplar.
+The exemplars for a GaugeHistogram follow all the same rules as for a Histogram.
 
 #### Summary
 
@@ -323,13 +384,15 @@ metric = *sample
 metric-type = counter / gauge / histogram / gaugehistogram / stateset
 metric-type =/ info / summary / unknown
 
-sample = metricname [labels] SP number [SP timestamp] [exemplar] LF
+sample = metricname [labels] SP value [SP timestamp] [exemplar] LF
 
 exemplar = SP HASH SP labels SP number [SP timestamp]
 
 labels = "{" [label *(COMMA label)] "}"
 
 label = label-name EQ DQUOTE escaped-string DQUOTE
+
+value = number / "{" complextype "}"
 
 number = realnumber
 ; Case insensitive
@@ -385,6 +448,44 @@ escaped-char =/ BS normal-char
 
 ; Any unicode character, except newline, double quote, and backslash
 normal-char = %x00-09 / %x0B-21 / %x23-5B / %x5D-D7FF / %xE000-10FFFF
+
+; Complex types
+complextype = nativehistogram
+
+nativehistogram = nh-count "," nh-sum "," nh-schema "," nh-zero-threshold "," nh-zero-count [ "," nh-negative-spans "," nh-negative-deltas ] [ "," nh-positive-spans "," nh-positive-deltas ]
+; count:n
+nh-count = %d99.111.117.110.116 ":" non-negative-integer
+; sum:f Does not allow +-Inf and NaN
+nh-sum = %d115.117.109 ":" realnumber
+; schema:i
+nh-schema = %d115.99.104.101.109.97 ":" integer
+; zero_threshold:f
+nh-zero-threshold = %d122.101.114.111 "_" %d116.104.114.101.115.104.111.108.100 ":" realnumber
+; zero_count:n
+nh-zero-count = %d122.101.114.111 "_" %d99.111.117.110.116 ":" non-negative-integer
+; negative_spans:[1:2,3:4] and negative_spans:[]
+nh-negative-spans = %d110.101.103.97.116.105.118.101 "_" %d115.112.97.110.115 ":" "[" [nh-spans] "]"
+nh-positive-spans = %d112.111.115.105.116.105.118.101 "_" %d115.112.97.110.115 ":" "[" [nh-spans] "]"
+; Spans can start from any index, even negative, however subsequent spans
+; can only advance the index, not decrease it.
+nh-spans = nh-start-span *("," nh-span)
+nh-start-span = integer ":" positive-integer
+nh-span = non-negative-integer ":" positive-integer
+
+nh-negative-deltas = %d110.101.103.97.116.105.118.101 "_" %d100.101.108.116.97.115 ":" "[" [nh-deltas] "]"
+nh-positive-deltas = %d112.111.115.105.116.105.118.101 "_" %d100.101.108.116.97.115 ":" "[" [nh-deltas] "]"
+
+; Bucket counts are non-negative, thus the first absolute count must be non-negative.
+nh-deltas = non-negative-integer *("," integer)
+
+; Integers, does not allow -0, or +n.
+integer = non-negative-integer / "-" positive-integer
+
+non-negative-integer = "0" / positive-integer
+
+positive-integer = positive-digit [ *DIGIT ]
+
+positive-digit = "1" / "2" / "3" / "4" / "5" / "6" / "7" / "8" / "9"
 ```
 
 #### Overall Structure
@@ -418,6 +519,16 @@ go_goroutines 69
 # UNIT process_cpu_seconds seconds
 # HELP process_cpu_seconds Total user and system CPU time spent in seconds.
 process_cpu_seconds_total 4.20072246e+06
+# TYPE acme_http_request_seconds histogram
+# UNIT acme_http_request_seconds seconds
+# HELP acme_http_request_seconds Latency histogram of all of ACME's HTTP requests.
+acme_http_request_seconds{path="/api/v1",method="GET"} {count:2,sum:1.2e2,schema:0,zero_threshold:1e-4,zero_count:0,positive_spans:[1:2],positive_deltas:[1,0]}
+acme_http_request_seconds_count{path="/api/v1",method="GET"} 2
+acme_http_request_seconds_sum{path="/api/v1",method="GET"} 1.2e2
+acme_http_request_seconds_buckets{path="/api/v1",method="GET",le="0.5"} 1
+acme_http_request_seconds_buckets{path="/api/v1",method="GET",le="1"} 2
+acme_http_request_seconds_buckets{path="/api/v1",method="GET",le="+Inf"} 2
+acme_http_request_seconds_created{path="/api/v1",method="GET"} 1605281325.0
 # EOF
 ```
 
@@ -740,7 +851,7 @@ foo{quantile="0.99"} 150.0
 
 Quantiles MAY be in any order.
 
-##### Histogram
+##### Histogram with class buckets
 
 The MetricPoint's Bucket Values Sample MetricNames MUST have the suffix `_bucket`. If present, the MetricPoint's Sum Value Sample MetricName MUST have the suffix `_sum`. If present, the MetricPoint's Created Value Sample MetricName MUST have the suffix `_created`.
 If and only if a Sum Value is present in a MetricPoint, then the MetricPoint's +Inf Bucket value MUST also appear in a Sample with a MetricName with the suffix "_count".
@@ -767,6 +878,61 @@ foo_sum 324789.3
 foo_created 1520430000.123
 ```
 
+##### Histogram with exponential buckets
+
+The MetricPoint's value MUST BE a complex data type.
+
+Histograms with exponential buckets use the integer native histogram data type.
+
+The integer native histogram data type is a JSON like structure with fields. There MUST NOT BE any whitespace around fields.
+The integer native histogram data type MUST include the Count, Sum, Schema, Zero Threshold, Zero bucket value as the fields `count`, `sum`, `schema`, `zero_threshold`, `zero_count`.
+
+If there are no negative exponential buckets, then the fields `negative_spans` and `negative_deltas` SHOULD BE omitted.
+If there are no positive exponential buckets, then the fields `positive_spans` and `positive_deltas` SHOULD BE omitted.
+
+If there are negative (and/or positive) exponential buckets then the fields `negative_spans`, `negative_deltas` (and/or `positive_spans`, `positive_deltas`) MUST BE present in this order after the `zero_count` field.
+
+Exponential bucket values MUST BE ordered by their index, and their values MUST BE placed in the `negative_deltas` (and/or `positive_deltas`) field using delta encoding, that is the first bucket value is written as is and the following values only as a delta relative to the previous value. For example bucket values 1, 5, 4, 4 will become 1, 4, -1, 0.
+
+To map the `negative_deltas` (and/or `positive_deltas`) back to their indices, the `negative_spans` (and/or `positive_spans`) field MUST BE constructed in the following way: each span consists of a pair of numbers, an integer called offset and an non-negative integer called length. Only the first span in each list can have a negative offset. It defines the index of the first bucket in its corresponding `negative_deltas` (and/or `positive_deltas`). The length defines the number of consecutive buckets the bucket list starts with. The offsets of the following spans define the number of excluded (and thus unpopulated buckets). The lengths define the number of consecutive buckets in the list following the excluded buckets.
+
+The sum of all length values in each span list MUST BE equal to the length of the corresponding bucket list.
+
+An example with all fields:
+
+```
+# TYPE acme_http_request_seconds histogram
+acme_http_request_seconds{path="/api/v1",method="GET"} {count:59,sum:1.2e2,schema:7,zero_threshold:1e-4,zero_count:0,negative_spans:[1:2],negative_deltas:[5,2],positive_spans:[-1:2,3:4],positive_deltas:[5,2,3,-1,-1,0]}
+acme_http_request_seconds_created 1520430000.123
+```
+
+An example without any buckets in use:
+
+```
+# TYPE acme_http_request_seconds histogram
+acme_http_request_seconds{path="/api/v1",method="GET"} {count:0,sum:0,schema:3,zero_threshold:1e-4,zero_count:0}
+acme_http_request_seconds_created 1520430000.123
+```
+
+##### Histogram with both classic and exponential buckets
+
+If a Histogram MetricPoint has both classic and exponential buckets, the exponential buckets MUST come first and the created time MUST NOT BE duplicated.
+
+The order ensures that implementations can easily skip the classic buckets if the exponential buckets are preferred.
+
+```
+# TYPE acme_http_request_seconds histogram
+# UNIT acme_http_request_seconds seconds
+# HELP acme_http_request_seconds Latency histogram of all of ACME's HTTP requests.
+acme_http_request_seconds{path="/api/v1",method="GET"} {count:2,sum:1.2e2,schema:0,zero_threshold:1e-4,zero_count:0,positive_spans:[1:2],positive_deltas:[1,0]}
+acme_http_request_seconds_count{path="/api/v1",method="GET"} 2
+acme_http_request_seconds_sum{path="/api/v1",method="GET"} 1.2e2
+acme_http_request_seconds_buckets{path="/api/v1",method="GET",le="0.5"} 1
+acme_http_request_seconds_buckets{path="/api/v1",method="GET",le="1"} 2
+acme_http_request_seconds_buckets{path="/api/v1",method="GET",le="+Inf"} 2
+acme_http_request_seconds_created{path="/api/v1",method="GET"} 1605281325.0
+```
+
 ###### Exemplars
 
 Exemplars without Labels MUST represent an empty LabelSet as {}.
@@ -786,7 +952,7 @@ foo_sum 324789.3
 foo_created  1520430000.123
 ```
 
-##### GaugeHistogram
+##### GaugeHistogram with classic buckets
 
 The MetricPoint's Bucket Values Sample MetricNames MUST have the suffix `_bucket`. If present, the MetricPoint's Sum Value Sample MetricName MUST have the suffix `_gsum`.
 If and only if a Sum Value is present in a MetricPoint, then the MetricPoint's +Inf Bucket value MUST also appear in a Sample with a MetricName with the suffix `_gcount`.
@@ -805,6 +971,20 @@ foo_bucket{le="+Inf"} 42.0
 foo_gcount 42.0
 foo_gsum 3289.3
 ```
+
+##### GaugeHistogram with exponential buckets
+
+GaugeHistogram MetricPoints with exponential buckets follow the same syntax as Histogram MetricPoints with exponential buckets.
+
+```
+# TYPE acme_http_request_seconds gaugehistogram
+acme_http_request_seconds{path="/api/v1",method="GET"} {count:59,sum:1.2e2,schema:7,zero_threshold:1e-4,zero_count:0,negative_spans:[1:2],negative_deltas:[5,2],positive_spans:[-1:2,3:4],positive_deltas:[5,2,3,-1,-1,0]}
+acme_http_request_seconds_created 1520430000.123
+```
+
+##### GaugeHistogram with both classic and exponential buckets
+
+If a GaugeHistogram MetricPoint has both classic and exponential buckets, the exponential buckets MUST come first and the created time MUST NOT BE duplicated.
 
 ##### Unknown
 

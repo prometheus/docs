@@ -29,12 +29,11 @@ You'll need to have the following installed on your system:
 
 ### Environment variables
 
-For downloading documentation from other repositories as well as for fetching information about available downloads, the build scripts need a GitHub access token with read access to the repositories. You can create a personal access token in your GitHub account settings (https://github.com/settings/tokens/new).
+To bypass anonymous user rate limits while downloading documentation from the other repositories, as well as fetching information about available downloads from the GitHub API, the pre-build scripts require a GitHub access token with read access to the repositories (no write access is required). You can create a personal access token in your GitHub account settings (https://github.com/settings/tokens/new).
 
 Create a `.env` file in the root of the repository and add the following environment variable:
 
 ```env
-# The URL of the Prometheus server repository
 GITHUB_TOKEN=<your_github_token>
 ```
 
@@ -63,9 +62,9 @@ You can also run each of these build steps separately:
 * `npm run clean` - Cleans any build output and generated files from previous runs.
 * `npm run fetch-repo-docs` - Fetches the latest documentation from the Prometheus and Alertmanager repositories.
 * `npm run fetch-downloads-info` - Fetches information about available downloads (for the Download page).
-* `npm run build` - Builds the website. Note: This also runs the `postbuild` script, which generates [Pagefind](https://pagefind.app/) search indexes.
+* `npm run build` - Builds the website. When using `npm`, this automatically also runs the `postbuild` script, which generates [Pagefind](https://pagefind.app/) search indexes. If you are using `pnpm`, you will either need to run `npm run postbuild` manually, or set the [`enablePrePostScripts` option](https://pnpm.io/cli/run#pnpm-workspaceyaml-settings) in your `pnpm-workspace.yaml` file.
 
-### Serving the static output
+### Serving the static build output
 
 To serve the static build output, run:
 
@@ -87,7 +86,7 @@ This will start a web server on port 3000. You can access the website at [http:/
 
 The website will automatically reload when you make changes to the source files.
 
-NOTE: Spotlight search is not available in development mode, as it requires building a [Pagefind](https://pagefind.app/) index on the static output and then loading the generated `/pagefind/pagefind.js` file. This only happens when building the app for production via `npm run build` (part of `npm run build-all`).
+**NOTE:** Site search is not available in development mode, as it requires building a [Pagefind](https://pagefind.app/) index on the static build output and then loading the generated `/pagefind/pagefind.js` file. This only happens when building the app for production via `npm run build` (part of `npm run build-all`).
 
 ## Configuration
 

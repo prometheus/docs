@@ -7,6 +7,7 @@ import {
   TextInput,
   ActionIcon,
   AppShell,
+  Popover,
 } from "@mantine/core";
 import Image from "next/image";
 import { IconSearch } from "@tabler/icons-react";
@@ -18,6 +19,7 @@ import { ThemeSelector } from "./ThemeSelector";
 import { usePathname } from "next/navigation";
 import { spotlight } from "@mantine/spotlight";
 import SpotlightSearch from "./SpotlightSearch";
+import { useDisclosure } from "@mantine/hooks";
 
 const links = [
   {
@@ -31,14 +33,9 @@ const links = [
   { link: "/blog", label: "Blog" },
 ];
 
-export const Header = ({
-  burgerOpened,
-  toggleBurger,
-}: {
-  burgerOpened: boolean;
-  toggleBurger: () => void;
-}) => {
+export const Header = () => {
   const path = usePathname();
+  const [burgerOpened, { toggle: toggleBurger }] = useDisclosure(false);
 
   const items = links.map((link) => (
     <Link
@@ -48,6 +45,12 @@ export const Header = ({
       aria-current={
         path.startsWith(link.activeBasePath || link.link) ? "page" : undefined
       }
+      // Close burger menu when clicking a link.
+      onClick={() => {
+        if (burgerOpened) {
+          toggleBurger();
+        }
+      }}
     >
       {link.label}
     </Link>
@@ -160,24 +163,34 @@ export const Header = ({
                 />
                 {actionIcons}
               </Group>
-              <Burger
+              <Popover
                 opened={burgerOpened}
-                onClick={toggleBurger}
-                color="gray.3"
-                size="sm"
-                hiddenFrom="sm"
-              />
+                onChange={toggleBurger}
+                position="bottom"
+                withArrow
+                shadow="md"
+              >
+                <Popover.Target>
+                  <Burger
+                    opened={burgerOpened}
+                    onClick={toggleBurger}
+                    color="gray.5"
+                    size="sm"
+                    hiddenFrom="sm"
+                  />
+                </Popover.Target>
+                <Popover.Dropdown>
+                  {items}
+                  <Group m="xs" gap="xs">
+                    {actionIcons}
+                  </Group>
+                </Popover.Dropdown>
+              </Popover>
             </Group>
           </div>
         </Container>
         <SpotlightSearch />
       </AppShell.Header>
-      <AppShell.Navbar p="lg">
-        {items}
-        <Group m="xs" gap="xs">
-          {actionIcons}
-        </Group>
-      </AppShell.Navbar>
     </>
   );
 };

@@ -13,10 +13,17 @@ Generally, we use [GitHub Flavored Markdown](https://github.github.com/gfm/) for
 
 ## Heading levels
 
-For both blog posts and documentation pages, please use headings in the following ways:
+For blog posts and documentation pages, please use headings in the following ways:
+
+### For documentation pages
+
+* Start the Markdown content with a single top-level heading (`# Heading`, `<h1>`) that reflects the page title (should usually be the same as the `title` frontmatter field).
+* Use second-level headings (`## Heading`, `<h2>`) for the main sections of the page and use lower-level headings for subsections as appropriate.
+
+### For blog posts
 
 * **DO NOT use any top-level headings (`# Heading`, `<h1>`) in the Markdown content itself.** The final rendered page will include an automatic H1 heading based on the `title` frontmatter field.
-* Use second-level headings (`## Heading`, `<h2>`) for the main sections of a page and use lower-level headings for subsections as appropriate.
+* Use second-level headings (`## Heading`, `<h2>`) for the main sections of the blog post and use lower-level headings for subsections as appropriate.
 
 ## Frontmatter fields
 

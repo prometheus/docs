@@ -4,6 +4,7 @@ import { downloadsMetadata } from "@/downloads-metadata";
 import {
   Anchor,
   Badge,
+  Box,
   Card,
   Group,
   Select,
@@ -85,91 +86,93 @@ export default function DownloadsSelector() {
               </Group>
             </Anchor>
           </Group>
-          <Table withColumnBorders withRowBorders withTableBorder fz="sm">
-            {repo.releases.map((release) => (
-              <React.Fragment key={release.id}>
-                <TableThead>
-                  <TableTr>
-                    <TableTd colSpan={5}>
-                      <Group justify="space-between" align="center">
-                        <Group gap="xs">
-                          <strong>{release.name}</strong>
-                          {release.prerelease ? (
-                            <Badge size="sm" color="yellow">
-                              Pre-release
-                            </Badge>
-                          ) : release.ltsRelease ? (
-                            <Badge size="sm" color="blue">
-                              LTS
-                            </Badge>
-                          ) : (
-                            <Badge size="sm" color="green">
-                              Latest
-                            </Badge>
-                          )}
-                        </Group>
-                        <Anchor
-                          c="var(--secondary-link-color)"
-                          size="sm"
-                          href={release.url}
-                          target="_blank"
-                        >
-                          Release notes
-                        </Anchor>
-                      </Group>
-                    </TableTd>
-                  </TableTr>
-                  <TableTr>
-                    <TableTh>File name</TableTh>
-                    <TableTh>OS</TableTh>
-                    <TableTh>Arch</TableTh>
-                    <TableTh>Size</TableTh>
-                    <TableTh>SHA256 Checksum</TableTh>
-                  </TableTr>
-                </TableThead>
-                <TableTbody>
-                  {release.binaries
-                    .filter((b) => {
-                      if (
-                        osList.includes(b.os) &&
-                        arch === "popular" &&
-                        (b.arch === "amd64" ||
-                          (b.os === "darwin" && b.arch === "arm64"))
-                      ) {
-                        return true;
-                      } else if (
-                        osList.includes(b.os) &&
-                        (arch === "all" || b.arch === arch)
-                      ) {
-                        return true;
-                      } else {
-                        return false;
-                      }
-                    })
-                    .map((binary) => (
-                      <TableTr key={binary.name}>
-                        <TableTd>
+          <Box style={{ overflowX: "auto" }}>
+            <Table withColumnBorders withRowBorders withTableBorder fz="sm">
+              {repo.releases.map((release) => (
+                <React.Fragment key={release.id}>
+                  <TableThead>
+                    <TableTr>
+                      <TableTd colSpan={5}>
+                        <Group justify="space-between" align="center">
+                          <Group gap="xs">
+                            <strong>{release.name}</strong>
+                            {release.prerelease ? (
+                              <Badge size="sm" color="yellow">
+                                Pre-release
+                              </Badge>
+                            ) : release.ltsRelease ? (
+                              <Badge size="sm" color="blue">
+                                LTS
+                              </Badge>
+                            ) : (
+                              <Badge size="sm" color="green">
+                                Latest
+                              </Badge>
+                            )}
+                          </Group>
                           <Anchor
                             c="var(--secondary-link-color)"
-                            inherit
-                            className="download"
-                            href={binary.url}
+                            size="sm"
+                            href={release.url}
+                            target="_blank"
                           >
-                            {binary.name}
+                            Release notes
                           </Anchor>
-                        </TableTd>
-                        <TableTd>{binary.os}</TableTd>
-                        <TableTd>{binary.arch}</TableTd>
-                        <TableTd>
-                          {(binary.sizeBytes / 1024 / 1024).toFixed(2)} MiB
-                        </TableTd>
-                        <TableTd fz="xs">{binary.checksum}</TableTd>
-                      </TableTr>
-                    ))}
-                </TableTbody>
-              </React.Fragment>
-            ))}
-          </Table>
+                        </Group>
+                      </TableTd>
+                    </TableTr>
+                    <TableTr>
+                      <TableTh>File name</TableTh>
+                      <TableTh>OS</TableTh>
+                      <TableTh>Arch</TableTh>
+                      <TableTh>Size</TableTh>
+                      <TableTh>SHA256 Checksum</TableTh>
+                    </TableTr>
+                  </TableThead>
+                  <TableTbody>
+                    {release.binaries
+                      .filter((b) => {
+                        if (
+                          osList.includes(b.os) &&
+                          arch === "popular" &&
+                          (b.arch === "amd64" ||
+                            (b.os === "darwin" && b.arch === "arm64"))
+                        ) {
+                          return true;
+                        } else if (
+                          osList.includes(b.os) &&
+                          (arch === "all" || b.arch === arch)
+                        ) {
+                          return true;
+                        } else {
+                          return false;
+                        }
+                      })
+                      .map((binary) => (
+                        <TableTr key={binary.name}>
+                          <TableTd>
+                            <Anchor
+                              c="var(--secondary-link-color)"
+                              inherit
+                              className="download"
+                              href={binary.url}
+                            >
+                              {binary.name}
+                            </Anchor>
+                          </TableTd>
+                          <TableTd>{binary.os}</TableTd>
+                          <TableTd>{binary.arch}</TableTd>
+                          <TableTd>
+                            {(binary.sizeBytes / 1024 / 1024).toFixed(2)} MiB
+                          </TableTd>
+                          <TableTd fz="xs">{binary.checksum}</TableTd>
+                        </TableTr>
+                      ))}
+                  </TableTbody>
+                </React.Fragment>
+              ))}
+            </Table>
+          </Box>
         </Card>
       ))}
     </Stack>

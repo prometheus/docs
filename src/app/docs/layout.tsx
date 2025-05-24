@@ -296,9 +296,11 @@ export default function DocsLayout({
           <Button
             hiddenFrom="sm"
             variant="outline"
-            color="gray"
             mb="lg"
-            leftSection={<IconMenu2 />}
+            leftSection={<IconMenu2 stroke={1.5} />}
+            color="light-dark(var(--mantine-color-gray-7), var(--mantine-color-gray-4))"
+            fw="normal"
+            bd="1px solid var(--mantine-color-gray-5)"
           >
             Show nav
           </Button>

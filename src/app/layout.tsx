@@ -72,7 +72,7 @@ export default function RootLayout({
               }}
             >
               <Container size="xl" px={{ base: "md", xs: "xl" }} py="xl">
-                <Group h={100}>
+                <Group>
                   <Text c="dimmed" fz="sm">
                     &copy; Prometheus Authors 2014-{new Date().getFullYear()} |
                     Documentation Distributed under CC-BY-4.0

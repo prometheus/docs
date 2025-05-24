@@ -4,7 +4,7 @@ import { Anchor, Box, Group, Title } from "@mantine/core";
 import { Metadata } from "next";
 import Link from "next/link";
 import React from "react";
-import DownloadsSelector from "./downloads-selector";
+import DownloadsSelector from "./DownloadsSelector";
 
 export const metadata: Metadata = getPageMetadata({
   pageTitle: "Download",

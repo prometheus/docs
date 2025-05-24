@@ -58,7 +58,7 @@ export default function RootLayout({
           <AppShell header={{ height: "var(--header-height)" }}>
             <Header />
 
-            <AppShell.Main style={{ overflowX: "auto" }}>
+            <AppShell.Main>
               <Container size="xl" mt="xl" px={{ base: "md", xs: "xl" }}>
                 {children}
                 <Space h={50} />

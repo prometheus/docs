@@ -10,9 +10,8 @@ import githubLogo from "../assets/github-logo.svg";
 import { GitHubStars } from "@/components/GitHubStars";
 import { IconQuote } from "@tabler/icons-react";
 import { getPageMetadata } from "@/page-metadata";
-import { Metadata } from "next";
 
-export const metadata: Metadata = getPageMetadata({});
+export const metadata = getPageMetadata({ pagePath: "/" });
 
 export default function Home() {
   return (

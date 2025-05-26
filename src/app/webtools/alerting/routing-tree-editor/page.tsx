@@ -6,6 +6,7 @@ export const metadata: Metadata = getPageMetadata({
   pageTitle: "Alertmanager Routing Tree Editor",
   pageDescription:
     "A routing tree editor and visualizer for Alertmanager routing configurations.",
+  pagePath: "/webtools/alerting/routing-tree-editor/",
 });
 
 export default function RoutingTreeEditorPage() {

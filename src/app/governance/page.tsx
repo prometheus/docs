@@ -9,6 +9,7 @@ export const metadata: Metadata = getPageMetadata({
   pageTitle: "Governance",
   pageDescription:
     "Project governance rules for the Prometheus monitoring system and time series database.",
+  pagePath: "/governance/",
 });
 
 export default function CommunityPage() {
@@ -19,13 +20,7 @@ export default function CommunityPage() {
 
   return (
     <Group wrap="nowrap" align="flex-start" pos="relative" gap="xl">
-      <Box
-        pos="sticky"
-        top={0}
-        w="fit-content"
-        className="markdown-content"
-        data-pagefind-body
-      >
+      <Box pos="sticky" top={0} w="fit-content" data-pagefind-body>
         <Title order={1}>Governance</Title>
         <PromMarkdown>{content}</PromMarkdown>
       </Box>

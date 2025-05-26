@@ -10,6 +10,7 @@ export const metadata: Metadata = getPageMetadata({
   pageTitle: "Download",
   pageDescription:
     "Downloads for the latest releases of the Prometheus monitoring system and its major ecosystem components.",
+  pagePath: "/download/",
 });
 
 export default function DownloadPage() {

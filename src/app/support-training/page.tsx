@@ -15,6 +15,7 @@ export const metadata: Metadata = getPageMetadata({
   pageTitle: "Support & Training",
   pageDescription:
     "Support and training providers for the Prometheus monitoring system and time series database.",
+  pagePath: "/support-training/",
 });
 
 type ProviderCardProps = {

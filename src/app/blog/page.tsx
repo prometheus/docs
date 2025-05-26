@@ -2,16 +2,7 @@ import { getAllPosts } from "@/blog-helpers";
 import PromMarkdown from "@/components/PromMarkdown";
 import TOC from "@/components/TOC";
 import { getPageMetadata } from "@/page-metadata";
-import {
-  Anchor,
-  Title,
-  Text,
-  Card,
-  Stack,
-  Button,
-  Box,
-  Group,
-} from "@mantine/core";
+import { Anchor, Title, Text, Card, Stack, Button, Group } from "@mantine/core";
 import dayjs from "dayjs";
 import { Metadata } from "next";
 import Link from "next/link";
@@ -20,6 +11,7 @@ export const metadata: Metadata = getPageMetadata({
   pageTitle: "Blog",
   pageDescription:
     "The Prometheus blog contains articles about the project, its components, and the ecosystem.",
+  pagePath: "/blog/",
 });
 
 function headingSlug({ year, month, day, slug }) {
@@ -52,9 +44,7 @@ export default function BlogPage() {
                 {dayjs(frontmatter.created_at).format("MMMM D, YYYY")} by{" "}
                 {frontmatter.author_name}
               </Text>
-              <Box className="markdown-content">
-                <PromMarkdown>{excerpt}</PromMarkdown>
-              </Box>
+              <PromMarkdown>{excerpt}</PromMarkdown>
 
               <Button
                 component={Link}

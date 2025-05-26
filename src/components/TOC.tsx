@@ -7,10 +7,19 @@ import {
   TableOfContentsProps,
   Text,
 } from "@mantine/core";
+import { usePathname } from "next/navigation";
+import { useEffect, useRef } from "react";
 
 export default function TOC(
   props: TableOfContentsProps & { wrapperProps?: ScrollAreaAutosizeProps }
 ) {
+  const reinitializeTOCRef = useRef(() => {});
+  const path = usePathname();
+
+  useEffect(() => {
+    reinitializeTOCRef.current();
+  }, [path]);
+
   return (
     <ScrollAreaAutosize
       mah="calc(100vh - var(--header-height) - var(--header-to-content-margin))"
@@ -25,6 +34,7 @@ export default function TOC(
         On this page
       </Text>
       <TableOfContents
+        reinitializeRef={reinitializeTOCRef}
         maw={300}
         pr="xs"
         size="sm"

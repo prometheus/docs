@@ -13,6 +13,7 @@ export async function generateMetadata({
 }: {
   params: Promise<{ year: string; month: string; day: string; slug: string }>;
 }) {
+  const { year, month, day, slug } = await params;
   const { frontmatter } = getPost(await params);
   const excerpt = frontmatter.excerpt
     ? frontmatter.excerpt.length > 160
@@ -23,6 +24,7 @@ export async function generateMetadata({
   return getPageMetadata({
     pageTitle: `${frontmatter.title}`,
     pageDescription: excerpt,
+    pagePath: `/blog/${year}/${month}/${day}/${slug}/`,
   });
 }
 
@@ -34,7 +36,7 @@ export default async function BlogPostPage({
   const { frontmatter, content } = getPost(await params);
 
   return (
-    <Box className="markdown-content" data-pagefind-body>
+    <Box data-pagefind-body>
       <Title order={1} mt={0} mb="xs">
         {frontmatter.title}
       </Title>

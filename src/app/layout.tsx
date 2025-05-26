@@ -1,11 +1,10 @@
-"use client";
-
 // import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { Lato } from "next/font/google";
 import {
   Anchor,
   AppShell,
+  AppShellMain,
   ColorSchemeScript,
   Container,
   Group,
@@ -23,8 +22,6 @@ import "@mantine/spotlight/styles.layer.css";
 import "./globals.css";
 import { Header } from "@/components/Header";
 import { theme } from "@/theme";
-
-import "@docsearch/css";
 
 const interFont = Inter({
   variable: "--font-inter",
@@ -58,12 +55,12 @@ export default function RootLayout({
           <AppShell header={{ height: "var(--header-height)" }}>
             <Header />
 
-            <AppShell.Main>
+            <AppShellMain>
               <Container size="xl" mt="xl" px={{ base: "md", xs: "xl" }}>
                 {children}
                 <Space h={50} />
               </Container>
-            </AppShell.Main>
+            </AppShellMain>
 
             <footer
               style={{

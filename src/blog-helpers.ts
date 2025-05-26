@@ -21,7 +21,7 @@ export const paramsToPostFileName = (params: {
 
 export const postFileNameToPath = (fileName: string) => {
   const { year, month, day, slug } = postFileNameToParams(fileName);
-  return `/blog/${year}/${month}/${day}/${slug}`;
+  return `/blog/${year}/${month}/${day}/${slug}/`;
 };
 
 export const getPostFilePath = (params: {

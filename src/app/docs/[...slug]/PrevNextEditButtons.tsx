@@ -14,8 +14,10 @@ export default function PrevNextEditButtons({
       aria-label="pagination"
       justify="space-between"
       mt="xl"
+      wrap="nowrap"
+      gap="xs"
     >
-      <Box flex="1" miw={0}>
+      <Box flex="0 1 40%" maw="40%">
         {currentPage.prev && (
           <Button
             component={Link}
@@ -23,7 +25,6 @@ export default function PrevNextEditButtons({
             variant="outline"
             color="var(--mantine-color-text)"
             justify="space-between"
-            w="100%"
             h={80}
             leftSection={<IconArrowLeft stroke={1.5} />}
             ta="right"
@@ -33,7 +34,12 @@ export default function PrevNextEditButtons({
               <Text size="sm" fw={700}>
                 Previous
               </Text>
-              <Text size="sm" style={{ whiteSpace: "normal" }}>
+              <Text
+                size="sm"
+                style={{
+                  whiteSpace: "normal",
+                }}
+              >
                 {currentPage.prev.title}
               </Text>
             </Stack>
@@ -41,8 +47,8 @@ export default function PrevNextEditButtons({
         )}
       </Box>
       <Button
-        flex="1"
-        miw={0}
+        flex="0 1 40%"
+        maw="40%"
         component="a"
         href={
           currentPage.type === "local-doc"
@@ -57,14 +63,19 @@ export default function PrevNextEditButtons({
         target="_blank"
         variant="subtle"
         color="var(--mantine-color-text)"
-        w="100%"
         h={80}
         leftSection={<IconPencil size={18} stroke={1.5} />}
         fw="normal"
+        visibleFrom="xs"
       >
-        Edit this page
+        <Text inherit hiddenFrom="md">
+          Edit
+        </Text>
+        <Text inherit visibleFrom="md">
+          Edit this page
+        </Text>
       </Button>
-      <Box flex="1" miw={0}>
+      <Box flex="0 1 40%" maw="40%" ta="right">
         {currentPage.next && (
           <Button
             component={Link}
@@ -72,17 +83,21 @@ export default function PrevNextEditButtons({
             variant="outline"
             color="var(--mantine-color-text)"
             justify="space-between"
-            w="100%"
             h={80}
             rightSection={<IconArrowRight stroke={1.5} />}
             ta="left"
             bd="1px solid var(--mantine-color-gray-5)"
           >
-            <Stack align="flex-start" gap={5}>
+            <Stack gap={5}>
               <Text size="sm" fw={700}>
                 Next
               </Text>
-              <Text size="sm" style={{ whiteSpace: "normal" }}>
+              <Text
+                size="sm"
+                style={{
+                  whiteSpace: "normal",
+                }}
+              >
                 {currentPage.next.title}
               </Text>
             </Stack>

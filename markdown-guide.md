@@ -25,6 +25,16 @@ For blog posts and documentation pages, please use headings in the following way
 * **DO NOT use any top-level headings (`# Heading`, `<h1>`) in the Markdown content itself.** The final rendered page will include an automatic H1 heading based on the `title` frontmatter field.
 * Use second-level headings (`## Heading`, `<h2>`) for the main sections of the blog post and use lower-level headings for subsections as appropriate.
 
+### Links between pages
+
+When linking *between* documentation pages, use the following rules:
+
+* When linking between docs within the same repository:
+  * Use either a full repo-rooted path (`/docs/concepts/data_model.md`) or a relative file path (`../guides/utf8.md`) in such a way that the link also works on GitHub.
+  * Note: Keep the `.md` extension in the link.
+* When linking between docs that live in different source repos:
+  * Use absolute site URL paths that start with `/docs/...`, omit the `.md` extension, but end with a slash, e.g. `/docs/concepts/data_model/`.
+
 ## Frontmatter fields
 
 The following frontmatter fields are available:

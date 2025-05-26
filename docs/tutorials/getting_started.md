@@ -22,7 +22,7 @@ The basic components of a Prometheus setup are:
 
 (Note: Apart from this Prometheus has push_gateway which is not covered here).
 
-[![Architecture](/assets/tutorial/architecture.png)](/assets/tutorial/architecture.png)
+[![Architecture](/assets/docs/tutorial/architecture.png)](/assets/docs/tutorial/architecture.png)
 
 Let's consider a web server as an example application and we want to extract a certain metric like the number of API calls processed by the web server. So we add certain instrumentation code using the Prometheus client library and expose the metrics information. Now that our web server exposes its metrics we can configure Prometheus to scrape it. Now Prometheus is configured to fetch the metrics from the web server which is listening on xyz IP address port 7500 at a specific time interval, say, every minute.
 
@@ -46,7 +46,7 @@ Prometheus also has an API which allows to query metrics which have been stored 
 
 A simple Line chart created on the Request Count metric will look like this
 
-[![Graph](/assets/tutorial/sample_graph.png)](/assets/tutorial/sample_graph.png)
+[![Graph](/assets/docs/tutorial/sample_graph.png)](/assets/docs/tutorial/sample_graph.png)
 
 One can scrape multiple useful metrics to understand what is happening in the application and create multiple charts on them. Group the charts into a dashboard and use it to get an overview of the application.
 
@@ -81,7 +81,7 @@ Run the node exporter in a terminal.
 
 <code>./node_exporter</code>
 
-[![Node exporter](/assets/tutorial/node_exporter.png)](/assets/tutorial/node_exporter.png)
+[![Node exporter](/assets/docs/tutorial/node_exporter.png)](/assets/docs/tutorial/node_exporter.png)
 
 Next, add node exporter to the list of scrape_configs:
 

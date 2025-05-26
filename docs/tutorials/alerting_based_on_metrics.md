@@ -6,13 +6,13 @@ sort_rank: 5
 # Alerting based on metrics
 
 In this tutorial we will create alerts on the `ping_request_count` metric that we instrumented earlier in the
-[Instrumenting HTTP server written in Go](./instrumenting_http_server_in_go/) tutorial.
+[Instrumenting HTTP server written in Go](./instrumenting_http_server_in_go.md) tutorial.
 
-For the sake of this tutorial we will alert when the `ping_request_count` metric is greater than 5, Checkout real world [best practices](../practices/alerting) to learn more about alerting principles.
+For the sake of this tutorial we will alert when the `ping_request_count` metric is greater than 5, Checkout real world [best practices](../practices/alerting.md) to learn more about alerting principles.
 
 Download the latest release of Alertmanager for your operating system from [here](https://github.com/prometheus/alertmanager/releases)
 
-Alertmanager supports various receivers like `email`, `webhook`, `pagerduty`, `slack` etc through which it can notify when an alert is firing. You can find the list of receivers and how to configure them [here](../alerting/latest/configuration). We will use `webhook` as a receiver for this tutorial, head over to [webhook.site](https://webhook.site) and copy the webhook URL which we will use later to configure the Alertmanager.
+Alertmanager supports various receivers like `email`, `webhook`, `pagerduty`, `slack` etc through which it can notify when an alert is firing. You can find the list of receivers and how to configure them [here](/docs/alerting/latest/configuration/). We will use `webhook` as a receiver for this tutorial, head over to [webhook.site](https://webhook.site) and copy the webhook URL which we will use later to configure the Alertmanager.
 
 First let's setup Alertmanager with webhook receiver.
 

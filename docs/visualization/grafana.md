@@ -10,7 +10,7 @@ The Grafana data source for Prometheus is included since Grafana 2.5.0 (2015-10-
 
 The following shows an example Grafana dashboard which queries Prometheus for data:
 
-[![Grafana screenshot](/assets/grafana_prometheus.png)](/assets/grafana_prometheus.png)
+[![Grafana screenshot](/assets/docs/grafana_prometheus.png)](/assets/docs/grafana_prometheus.png)
 
 ## Installing
 
@@ -37,7 +37,7 @@ To create a Prometheus data source in Grafana:
 
 The following shows an example data source configuration:
 
-[![Data source configuration](/assets/grafana_configuring_datasource.png)](/assets/grafana_configuring_datasource.png)
+[![Data source configuration](/assets/docs/grafana_configuring_datasource.png)](/assets/docs/grafana_configuring_datasource.png)
 
 ### Creating a Prometheus graph
 
@@ -54,7 +54,7 @@ Follow the standard way of adding a new Grafana graph. Then:
 5. Tune other graph settings until you have a working graph.
 
 The following shows an example Prometheus graph configuration:
-[![Prometheus graph creation](/assets/grafana_qps_graph.png)](/assets/grafana_qps_graph.png)
+[![Prometheus graph creation](/assets/docs/grafana_qps_graph.png)](/assets/docs/grafana_qps_graph.png)
 
 In Grafana 7.2 and later, the `$__rate_interval` variable is
 [recommended](https://grafana.com/docs/grafana/latest/datasources/prometheus/#using-__rate_interval)

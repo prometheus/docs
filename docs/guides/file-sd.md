@@ -8,13 +8,13 @@ Prometheus offers a variety of [service discovery options](https://github.com/pr
 
 In this guide, we will:
 
-* Install and run a Prometheus [Node Exporter](./node-exporter) locally
+* Install and run a Prometheus [Node Exporter](./node-exporter.md) locally
 * Create a `targets.json` file specifying the host and port information for the Node Exporter
 * Install and run a Prometheus instance that is configured to discover the Node Exporter using the `targets.json` file
 
 ## Installing and running the Node Exporter
 
-See [this section](./node-exporter#installing-and-running-the-node-exporter) of the [Monitoring Linux host metrics with the Node Exporter](./node-exporter) guide. The Node Exporter runs on port 9100. To ensure that the Node Exporter is exposing metrics:
+See [this section](./node-exporter.md#installing-and-running-the-node-exporter) of the [Monitoring Linux host metrics with the Node Exporter](./node-exporter.md) guide. The Node Exporter runs on port 9100. To ensure that the Node Exporter is exposing metrics:
 
 ```bash
 curl http://localhost:9100/metrics

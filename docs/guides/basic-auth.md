@@ -6,7 +6,7 @@ title: Basic auth
 
 Prometheus supports [basic authentication](https://en.wikipedia.org/wiki/Basic_access_authentication) (aka "basic auth") for connections to the Prometheus [expression browser](/docs/visualization/browser) and [HTTP API](/docs/prometheus/latest/querying/api).
 
-NOTE: This tutorial covers basic auth connections *to* Prometheus instances. Basic auth is also supported for connections *from* Prometheus instances to [scrape targets](../prometheus/latest/configuration/configuration/#scrape_config).
+NOTE: This tutorial covers basic auth connections *to* Prometheus instances. Basic auth is also supported for connections *from* Prometheus instances to [scrape targets](/docs/prometheus/latest/configuration/configuration/#scrape_config).
 
 ## Hashing a password
 

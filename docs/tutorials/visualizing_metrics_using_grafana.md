@@ -5,7 +5,7 @@ sort_rank: 4
 
 # Visualizing metrics.
 
-In this tutorial we will create a simple dashboard using [Grafana](https://github.com/grafana/grafana) to visualize the `ping_request_count` metric that we instrumented in the [previous tutorial](./instrumenting_http_server_in_go).
+In this tutorial we will create a simple dashboard using [Grafana](https://github.com/grafana/grafana) to visualize the `ping_request_count` metric that we instrumented in the [previous tutorial](./instrumenting_http_server_in_go.md).
 
 If you are wondering why one should use a tool like Grafana when one can query and see the graphs using Prometheus, the answer is that the graph that we see when we run queries on Prometheus is to run ad-hoc queries.
 Grafana and [Console Templates](https://prometheus.io/docs/visualization/consoles/) are two recommended ways of creating graphs.

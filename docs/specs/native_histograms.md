@@ -25,7 +25,7 @@ referring to other sources. With all that said, it should be noted that this
 document is neither suitable as an introduction for beginners nor does it focus
 on the needs of developers. For the former, the plan is to provide an updated
 version of the [Best Practices article on histograms and
-summaries](../practices/histograms/). (TODO: And a blog post or maybe even a
+summaries](../practices/histograms.md). (TODO: And a blog post or maybe even a
 series of them.) For the latter, there is Carrie
 Edward's [Developer’s Guide to Prometheus Native
 Histograms](https://docs.google.com/document/d/1VhtB_cGnuO2q_zqEMgtoaLDvJ_kFSXRXoE0Wo74JlSY/edit).
@@ -2298,7 +2298,7 @@ histograms. Commands not mentioned explicitly do not directly interact with
 native histograms and require no changes.
 
 The `promtool query ...` commands work with native histograms. See the [query
-API documentation](instant-and-range-queries) to learn about the output format.
+API documentation](#instant-and-range-queries) to learn about the output format.
 A new command `promtool query analyze` was specifically added to analyze
 classic and native histogram usage patterns returned by the query API.
 

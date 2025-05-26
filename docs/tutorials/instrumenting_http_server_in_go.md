@@ -1,5 +1,5 @@
 ---
-title: Instrumenting HTTP server written in Go  
+title: Instrumenting HTTP server written in Go
 sort_rank: 3
 ---
 
@@ -36,7 +36,7 @@ go build server.go
 
 Now open `http://localhost:8090/ping` in your browser and you must see `pong`.
 
-[![Server](/assets/tutorial/server.png)](/assets/tutorial/server.png)
+[![Server](/assets/docs/tutorial/server.png)](/assets/docs/tutorial/server.png)
 
 
 Now lets add a metric to the server which will instrument the number of requests made to the ping endpoint,the counter metric type is suitable for this as we know the request count doesn’t go down and only increases.
@@ -76,7 +76,7 @@ The `prometheus.MustRegister` function registers the pingCounter to the default 
 To expose the metrics the Go Prometheus client library provides the promhttp package.
 `promhttp.Handler()` provides a `http.Handler` which exposes the metrics registered in the Default Register.
 
-The sample code depends on the  
+The sample code depends on the
 
 ```go
 package main
@@ -120,7 +120,7 @@ go run server.go
 
 Now hit the localhost:8090/ping endpoint a couple of times and sending a request to localhost:8090 will provide the metrics.
 
-[![Ping Metric](/assets/tutorial/ping_metric.png)](/assets/tutorial/ping_metric.png)
+[![Ping Metric](/assets/docs/tutorial/ping_metric.png)](/assets/docs/tutorial/ping_metric.png)
 
 Here the `ping_request_count` shows that `/ping` endpoint was called 3 times.
 

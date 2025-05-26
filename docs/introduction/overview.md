@@ -61,7 +61,7 @@ them easy to build and deploy as static binaries.
 This diagram illustrates the architecture of Prometheus and some of
 its ecosystem components:
 
-![Prometheus architecture](/assets/architecture.svg)
+![Prometheus architecture](/assets/docs/architecture.svg)
 
 Prometheus scrapes metrics from instrumented jobs, either directly or via an
 intermediary push gateway for short-lived jobs. It stores all scraped samples

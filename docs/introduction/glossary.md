@@ -13,7 +13,7 @@ actively firing. Alerts are sent from Prometheus to the Alertmanager.
 
 ### Alertmanager
 
-The [Alertmanager](../alerting/overview/) takes in alerts, aggregates them into
+The [Alertmanager](/docs/alerting/latest/overview/) takes in alerts, aggregates them into
 groups, de-duplicates, applies silences, throttles, and then sends out
 notifications to email, Pagerduty, Slack etc.
 
@@ -60,7 +60,7 @@ A notification represents a group of one or more alerts, and is sent by the Aler
 
 ### Promdash
 
-Promdash was a native dashboard builder for Prometheus. It has been deprecated and replaced by [Grafana](../visualization/grafana/).
+Promdash was a native dashboard builder for Prometheus. It has been deprecated and replaced by [Grafana](../visualization/grafana.md).
 
 ### Prometheus
 
@@ -74,7 +74,7 @@ a wide range of operations including aggregation, slicing and dicing, prediction
 
 ### Pushgateway
 
-The [Pushgateway](../instrumenting/pushing/) persists the most recent push
+The [Pushgateway](../instrumenting/pushing.md) persists the most recent push
 of metrics from batch jobs. This allows Prometheus to scrape their metrics
 after they have terminated.
 

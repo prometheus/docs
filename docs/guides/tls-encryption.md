@@ -5,9 +5,9 @@ sort_rank: 1
 
 # Securing Prometheus API and UI endpoints using TLS encryption
 
-Prometheus supports [Transport Layer Security](https://en.wikipedia.org/wiki/Transport_Layer_Security) (TLS) encryption for connections to Prometheus instances (i.e. to the expression browser or [HTTP API](../prometheus/latest/querying/api)). If you would like to enforce TLS for those connections, you would need to create a specific web configuration file.
+Prometheus supports [Transport Layer Security](https://en.wikipedia.org/wiki/Transport_Layer_Security) (TLS) encryption for connections to Prometheus instances (i.e. to the expression browser or [HTTP API](/docs/prometheus/latest/querying/api/)). If you would like to enforce TLS for those connections, you would need to create a specific web configuration file.
 
-NOTE: This guide is about TLS connections *to* Prometheus instances. TLS is also supported for connections *from* Prometheus instances to [scrape targets](../prometheus/latest/configuration/configuration/#tls_config).
+NOTE: This guide is about TLS connections *to* Prometheus instances. TLS is also supported for connections *from* Prometheus instances to [scrape targets](/docs/prometheus/latest/configuration/configuration/#tls_config).
 
 ## Pre-requisites
 

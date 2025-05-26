@@ -103,7 +103,7 @@ You can access the cAdvisor [web UI](https://github.com/google/cadvisor/blob/mas
 
 cAdvisor's web UI is a useful interface for exploring the kinds of things that cAdvisor monitors, but it doesn't provide an interface for exploring container *metrics*. For that we'll need the Prometheus [expression browser](/docs/visualization/browser), which is available at `http://localhost:9090/graph`. You can enter Prometheus expressions into the expression bar, which looks like this:
 
-![Prometheus expression bar](/assets/prometheus-expression-bar.png)
+![Prometheus expression bar](/assets/docs/prometheus-expression-bar.png)
 
 Let's start by exploring the `container_start_time_seconds` metric, which records the start time of containers (in seconds). You can select for specific containers by name using the `name="<container_name>"` expression. The container name corresponds to the `container_name` parameter in the Docker Compose configuration. The [`container_start_time_seconds{name="redis"}`](http://localhost:9090/graph?g0.range_input=1h&g0.expr=container_start_time_seconds%7Bname%3D%22redis%22%7D&g0.tab=1) expression, for example, shows the start time for the `redis` container.
 

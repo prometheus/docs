@@ -1,5 +1,5 @@
 ---
-title: Understanding metric types  
+title: Understanding metric types
 sort_rank: 2
 ---
 
@@ -9,7 +9,7 @@ Prometheus supports four types of metrics, which are
     - Counter
     - Gauge
     - Histogram
-    - Summary 
+    - Summary
 
 ## Counter
 
@@ -20,19 +20,19 @@ Type the below query in the query bar and click execute.
 <code>go\_gc\_duration\_seconds\_count</code>
 
 
-[![Counter](/assets/tutorial/counter_example.png)](/assets/tutorial/counter_example.png)
+[![Counter](/assets/docs/tutorial/counter_example.png)](/assets/docs/tutorial/counter_example.png)
 
 The rate() function in PromQL takes the history of metrics over a time frame and calculates how fast the value is increasing per second. Rate is applicable on counter values only.
 
 <code> rate(go\_gc\_duration\_seconds\_count[5m])</code>
-[![Rate Counter](/assets/tutorial/rate_example.png)](/assets/tutorial/rate_example.png)
+[![Rate Counter](/assets/docs/tutorial/rate_example.png)](/assets/docs/tutorial/rate_example.png)
 
 ## Gauge
 
 Gauge is a number which can either go up or down. It can be used for metrics like the number of pods in a cluster, the number of events in a queue, etc.
 
 <code> go\_memstats\_heap\_alloc\_bytes</code>
-[![Gauge](/assets/tutorial/gauge_example.png)](/assets/tutorial/gauge_example.png)
+[![Gauge](/assets/docs/tutorial/gauge_example.png)](/assets/docs/tutorial/gauge_example.png)
 
 PromQL functions like `max_over_time`, `min_over_time` and `avg_over_time` can be used on gauge metrics
 
@@ -78,19 +78,19 @@ Let's explore a histogram metric from the Prometheus UI and apply a few function
 
 <code>prometheus\_http\_request\_duration\_seconds\_bucket{handler="/graph"}</code>
 
-[![Histogram](/assets/tutorial/histogram_example.png)](/assets/tutorial/histogram_example.png)
+[![Histogram](/assets/docs/tutorial/histogram_example.png)](/assets/docs/tutorial/histogram_example.png)
 
 `histogram_quantile()` function can be used to calculate quantiles from a histogram
 
 <code>histogram\_quantile(0.9,prometheus\_http\_request\_duration\_seconds\_bucket{handler="/graph"})</code>
 
-[![Histogram Quantile](/assets/tutorial/histogram_quantile_example.png)](/assets/tutorial/histogram_quantile_example.png)
+[![Histogram Quantile](/assets/docs/tutorial/histogram_quantile_example.png)](/assets/docs/tutorial/histogram_quantile_example.png)
 
 The graph shows that the 90th percentile is 0.09, To find the histogram_quantile over the last 5m you can use the rate() and time frame
 
 <code>histogram_quantile(0.9, rate(prometheus\_http\_request\_duration\_seconds\_bucket{handler="/graph"}[5m]))</code>
 
-[![Histogram Quantile Rate](/assets/tutorial/histogram_rate_example.png)](/assets/tutorial/histogram_rate_example.png)
+[![Histogram Quantile Rate](/assets/docs/tutorial/histogram_rate_example.png)](/assets/docs/tutorial/histogram_rate_example.png)
 
 
 ## Summary

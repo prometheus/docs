@@ -54,12 +54,12 @@ see if you can find the exact moment in this graph (ironically, a Gnuplot and
 not Prometheus graph) when we went out of "dark mode" and got hit by Hacker
 News:
 
-[![Prometheus GitHub stars](/assets/prometheus_github_stars.png)](/assets/prometheus_github_stars.png)
+[![Prometheus GitHub stars](/assets/blog/2016-01-26/prometheus_github_stars.png)](/assets/blog/2016-01-26/prometheus_github_stars.png)
 
 This attention also put us in the 4th place of GitHub's trending repositories
 worldwide:
 
-[![Prometheus trending on GitHub](/assets/prometheus_github_trending.png)](/assets/prometheus_github_trending.png)
+[![Prometheus trending on GitHub](/assets/blog/2016-01-26/prometheus_github_trending.png)](/assets/blog/2016-01-26/prometheus_github_trending.png)
 
 ## After the first wave
 

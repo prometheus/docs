@@ -28,22 +28,22 @@ type ProviderCardProps = {
 const trainingProviders: ProviderCardProps[] = [
   {
     name: "Linux Foundation",
-    logo: "/assets/docs/commercial-support-logos/linux-foundation.png",
+    logo: "/assets/commercial-support-logos/linux-foundation.png",
     url: "https://training.linuxfoundation.org/training/monitoring-systems-and-services-with-prometheus-lfs241/",
   },
   {
     name: "PromLabs",
-    logo: "/assets/docs/commercial-support-logos/promlabs.svg",
+    logo: "/assets/commercial-support-logos/promlabs.svg",
     url: "https://training.promlabs.com/",
   },
   {
     name: "Robust Perception",
-    logo: "/assets/docs/commercial-support-logos/robust-perception.png",
+    logo: "/assets/commercial-support-logos/robust-perception.png",
     url: "https://training.robustperception.io/",
   },
   {
     name: "acend",
-    logo: "/assets/docs/commercial-support-logos/acend.svg",
+    logo: "/assets/commercial-support-logos/acend.svg",
     url: "https://acend.ch/en/trainings/prometheus/",
   },
 ];
@@ -51,7 +51,7 @@ const trainingProviders: ProviderCardProps[] = [
 const commercialSupportProviders: ProviderCardProps[] = [
   {
     name: "Container Solutions",
-    logo: "/assets/docs/commercial-support-logos/container-solutions.svg",
+    logo: "/assets/commercial-support-logos/container-solutions.svg",
     url: "https://www.container-solutions.com/",
     cardProps: {
       bg: "light-dark(var(--mantine-color-gray-5), var(--mantine-color-dark-3))",
@@ -59,32 +59,32 @@ const commercialSupportProviders: ProviderCardProps[] = [
   },
   {
     name: "Cloudraft",
-    logo: "/assets/docs/commercial-support-logos/cloudraft.png",
+    logo: "/assets/commercial-support-logos/cloudraft.png",
     url: "https://cloudraft.io/",
   },
   {
     name: "Fullstaq",
-    logo: "/assets/docs/commercial-support-logos/fullstaq.png",
+    logo: "/assets/commercial-support-logos/fullstaq.png",
     url: "https://fullstaq.com/",
   },
   {
     name: "Grafana Labs",
-    logo: "/assets/docs/commercial-support-logos/grafana-labs.svg",
+    logo: "/assets/commercial-support-logos/grafana-labs.svg",
     url: "https://grafana.com/oss/prometheus/",
   },
   {
     name: "InfraCloud",
-    logo: "/assets/docs/commercial-support-logos/infracloud.svg",
+    logo: "/assets/commercial-support-logos/infracloud.svg",
     url: "https://www.infracloud.io/prometheus-commercial-support/",
   },
   {
     name: "IT-Schulungen.com",
-    logo: "/assets/docs/commercial-support-logos/it-schulungen.png",
+    logo: "/assets/commercial-support-logos/it-schulungen.png",
     url: "https://www.it-schulungen.com/seminare/netzwerktechnologien/prometheus/index.html",
   },
   {
     name: "LabyrinthLabs",
-    logo: "/assets/docs/commercial-support-logos/lablabs.svg",
+    logo: "/assets/commercial-support-logos/lablabs.svg",
     url: "https://lablabs.io/",
   },
   {
@@ -93,57 +93,57 @@ const commercialSupportProviders: ProviderCardProps[] = [
   },
   {
     name: "CGI",
-    logo: "/assets/docs/commercial-support-logos/cgi.png",
+    logo: "/assets/commercial-support-logos/cgi.png",
     url: "https://www.cgi.com/en",
   },
   {
     name: "O11y",
-    logo: "/assets/docs/commercial-support-logos/o11y.svg",
+    logo: "/assets/commercial-support-logos/o11y.svg",
     url: "https://o11y.eu/prometheus-support/",
   },
   {
     name: "OpenObserve",
-    logo: "/assets/docs/commercial-support-logos/openobserve.png",
+    logo: "/assets/commercial-support-logos/openobserve.png",
     url: "https://openobserve.ai",
   },
   {
     name: "PlatformEngineers.io",
-    logo: "/assets/docs/commercial-support-logos/platformengineers.png",
+    logo: "/assets/commercial-support-logos/platformengineers.png",
     url: "https://platformengineers.io/",
   },
   {
     name: "PromLabs",
-    logo: "/assets/docs/commercial-support-logos/promlabs.svg",
+    logo: "/assets/commercial-support-logos/promlabs.svg",
     url: "https://promlabs.com/",
   },
   {
     name: "Puzzle ITC",
-    logo: "/assets/docs/commercial-support-logos/puzzle.svg",
+    logo: "/assets/commercial-support-logos/puzzle.svg",
     url: "https://www.puzzle.ch/de/prometheus",
   },
   {
     name: "Robust Perception",
-    logo: "/assets/docs/commercial-support-logos/robust-perception.png",
+    logo: "/assets/commercial-support-logos/robust-perception.png",
     url: "https://www.robustperception.io/",
   },
   {
     name: "SentinelFox",
-    logo: "/assets/docs/commercial-support-logos/sentinelfox.svg",
+    logo: "/assets/commercial-support-logos/sentinelfox.svg",
     url: "https://sentinelfox.com/services/observability/prometheus/",
   },
   {
     name: "Sysdig",
-    logo: "/assets/docs/commercial-support-logos/sysdig.svg",
+    logo: "/assets/commercial-support-logos/sysdig.svg",
     url: "https://sysdig.com/solutions/prometheus-monitoring/",
   },
   {
     name: "Tasrie IT Services",
-    logo: "/assets/docs/commercial-support-logos/tasrie-it-services.png",
+    logo: "/assets/commercial-support-logos/tasrie-it-services.png",
     url: "https://tasrieit.com/cloudnativeconsulting/",
   },
   {
     name: "xamira networks",
-    logo: "/assets/docs/commercial-support-logos/xamira_networks.png",
+    logo: "/assets/commercial-support-logos/xamira_networks.png",
     url: "https://www.xamira.de/en/technologies/monitoring/",
   },
 ];
@@ -201,7 +201,7 @@ export default function SupportTrainingPage() {
         <SimpleGrid cols={{ base: 1, xs: 2, sm: 4 }}>
           <ProviderCard
             name="PCA"
-            logo="/assets/docs/certification-logos/pca-logo.png"
+            logo="/assets/certification-logos/pca-logo.png"
             url="https://www.cncf.io/training/certification/pca/"
             aspectRatio="1/1"
           />

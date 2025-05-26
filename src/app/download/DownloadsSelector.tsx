@@ -47,7 +47,6 @@ export default function DownloadsSelector() {
           ]}
           value={os}
           onChange={(value) => {
-            console.log(value);
             setOs(value || "all");
           }}
         />

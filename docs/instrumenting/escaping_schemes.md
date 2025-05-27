@@ -1,9 +1,9 @@
 ---
-title: Prometheus Metric and Label Name Escaping Schemes
-sort_rank: 4
+title: UTF-8 escaping schemes
+sort_rank: 7
 ---
 
-# Prometheus Metric and Label Name Escaping Schemes
+# UTF-8 metric and label name escaping schemes
 
 ## Abstract
 

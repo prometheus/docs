@@ -22,6 +22,7 @@ import "@mantine/spotlight/styles.layer.css";
 import "./globals.css";
 import { Header } from "@/components/Header";
 import { theme } from "@/theme";
+import docsConfig from "../../docs-config";
 
 const interFont = Inter({
   variable: "--font-inter",
@@ -35,6 +36,10 @@ const latoFont = Lato({
   weight: "300",
   display: "swap",
 });
+
+export const metadata = {
+  metadataBase: new URL(docsConfig.siteUrl),
+};
 
 export default function RootLayout({
   children,

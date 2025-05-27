@@ -1,0 +1,58 @@
+# Redirects for old site structure.
+/docs/introduction/getting_started/         /docs/prometheus/latest/getting_started/
+/docs/introduction/install/                 /docs/prometheus/latest/installation/
+/docs/operating/configuration/              /docs/prometheus/latest/configuration/configuration/
+/docs/operating/federation/                 /docs/prometheus/latest/federation/
+/docs/operating/storage/                    /docs/prometheus/latest/storage/
+/docs/querying/api/                         /docs/prometheus/latest/querying/api/
+/docs/querying/basics/                      /docs/prometheus/latest/querying/basics/
+/docs/querying/examples/                    /docs/prometheus/latest/querying/examples/
+/docs/querying/functions/                   /docs/prometheus/latest/querying/functions/
+/docs/querying/operators/                   /docs/prometheus/latest/querying/operators/
+/docs/querying/rules/                       /docs/prometheus/latest/configuration/recording_rules/
+/docs/visualization/template_examples/      /docs/prometheus/latest/configuration/template_examples/
+/docs/visualization/template_reference/     /docs/prometheus/latest/configuration/template_reference/
+/docs/alerting/overview/                    /docs/alerting/latest/overview/
+/docs/alerting/alertmanager/                /docs/alerting/latest/alertmanager/
+/docs/alerting/configuration/               /docs/alerting/latest/configuration/
+/docs/alerting/clients/                     /docs/alerting/latest/clients/
+/docs/alerting/notifications/               /docs/alerting/latest/notifications/
+/docs/alerting/notification_examples/       /docs/alerting/latest/notification_examples/
+/docs/alerting/management_api/              /docs/alerting/latest/management_api/
+
+# Moved PRW spec from Concepts to a new section.
+/docs/concepts/remote_write_spec  /docs/specs/prw/remote_write_spec
+# Moved PRW into separate dir.
+/docs/specs/remote_write_spec /docs/specs/prw/remote_write_spec
+/docs/specs/remote_write_spec_2_0 /docs/specs/prw/remote_write_spec_2_0
+
+# Redirect for HTTP SD docs, which briefly lived in the wrong category / repo.
+/docs/instrumenting/http_sd/ /docs/prometheus/latest/http_sd/
+
+# Redirect for "disabled_features", which is now called "feature_flags".
+/docs/prometheus/latest/disabled_features/ /docs/prometheus/latest/feature_flags/
+
+# Redirects for sections.
+# TODO(ts): Auto-generate from menu.
+/docs/                      /docs/introduction/overview/                302!
+/docs/introduction/         /docs/introduction/overview/                302!
+/docs/concepts/             /docs/concepts/data_model/                  302!
+/docs/specs/                /docs/specs/remote_write_spec/              302!
+/docs/prometheus/           /docs/prometheus/latest/getting_started/    302!
+/docs/alerting/             /docs/alerting/latest/overview/             302!
+/docs/visualization/        /docs/visualization/browser/                302!
+/docs/instrumenting/        /docs/instrumenting/clientlibs/             302!
+/docs/operating/            /docs/operating/security/                   302!
+/docs/alerting/             /docs/alerting/latest/overview/             302!
+/docs/practices/            /docs/practices/naming/                     302!
+/docs/guides/               /docs/guides/basic-auth/                    302!
+
+# Redirects for index.hml pages.
+/:foo/index.html                        /:foo/                          302!
+/:foo/:bar/index.html                   /:foo/:bar/                     302!
+/:foo/:bar/:baz/index.html              /:foo/:bar/:baz/                302!
+/:foo/:bar/:baz/:qux/index.html         /:foo/:bar/:baz/:qux/           302!
+/:foo/:bar/:baz/:qux/:quux/index.html   /:foo/:bar/:baz/:qux/:quux/     302!
+
+# Blog post duplicated
+/blog/2021/05/14/prometheus-conformance-results/ /blog/2021/10/14/prometheus-conformance-results/ 302!

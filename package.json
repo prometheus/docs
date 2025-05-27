@@ -15,10 +15,10 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@mantine/code-highlight": "^8.0.0",
-    "@mantine/core": "^8.0.0",
-    "@mantine/hooks": "^8.0.0",
-    "@mantine/spotlight": "^8.0.0",
+    "@mantine/code-highlight": "^8.0.2",
+    "@mantine/core": "^8.0.2",
+    "@mantine/hooks": "^8.0.2",
+    "@mantine/spotlight": "^8.0.2",
     "@tabler/icons-react": "^3.31.0",
     "@types/semver": "^7.7.0",
     "dayjs": "^1.11.13",

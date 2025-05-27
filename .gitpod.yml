@@ -1,8 +1,0 @@
-# Gitpod config, https://www.gitpod.io/docs/config-gitpod-file.
-
-tasks:
-  - init: >-
-      rvm install `cat .ruby-version` &&
-      make bundle &&
-      make build
-    command: echo "Site files are under ./output"

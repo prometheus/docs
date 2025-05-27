@@ -68,13 +68,13 @@ Metric values in OpenMetrics MUST be either numbers or complex data types.
 
 Numbers MUST be either floating points or integers. Note that ingestors of the format MAY only support float64. The non-real values NaN, +Inf and -Inf MUST be supported. NaN MUST NOT be considered a missing value, but it MAY be used to signal a division by zero.
 
-Complex data types MUST contain all information necessary to recreate a sample of a Metric Type, with the exception of Created time and Exemplars.
+Complex data types MUST contain all information necessary to recreate a sample of a Metric Type, with the exception of Created Value and Exemplars.
 
 List of complex data types:
 - Integer counter native histograms for the Metric Type Histogram.
 - Integer gauge native histograms for the Metric Type GaugeHistogram.
 
-Complex data types MUST occure only in the corresponding MetricFamily. This means for example that a counter cannot have an integer counter native histogram value.
+Complex data types MUST occur only in the corresponding MetricFamily. This means for example that a counter cannot have an integer counter native histogram value.
 
 ##### Booleans
 
@@ -230,17 +230,17 @@ Histograms measure distributions of discrete events. Common examples are the lat
 
 A Histogram MetricPoint MUST contain Count, Sum values.
 
-The Count value MUST equal the number of measurements taken by the Histogram. The Count is a counter semantically. The Count MUST be an integer and MUST NOT be NaN or negative.
+The Count value MUST be equal to the number of measurements taken by the Histogram. The Count is a counter semantically. The Count MUST be an integer and MUST NOT be NaN or negative.
 
-The Sum value MUST equal the Sum of all the measured event values. The Sum is only a counter semantically as long as there are no negative event values measured by the Histogram MetricPoint.
+The Sum value MUST be equal to the Sum of all the measured event values. The Sum is only a counter semantically as long as there are no negative event values measured by the Histogram MetricPoint.
 
 A Histogram MetricPoint MUST contain either [classic buckets](#classic-buckets) or [exponential buckets](#exponential-buckets) or both.
 
 Every bucket MUST have well defined boundaries and a value. Boundaries of a bucket MUST NOT be NaN. Bucket values MUST be integers. Semantically, bucket values are counters so MUST NOT be NaN or negative.
 
-A Histogram SHOULD refuse to measure NaN value as adding NaN to the Sum will make the Sum equal to NaN and mask the sum of the real measurements until the next reset of the counters. If a Histogram does allow NaN, it MUST be counted in the Count and MUST be added to the Sum, resulting in the Sum becoming NaN.
+A Histogram SHOULD refuse to measure NaN value as adding NaN to the Sum will make the Sum equal to NaN and mask the sum of the real measurements until the next reset of the counters. If a Histogram does allow NaN, then NaN MUST be counted in the Count and MUST be added to the Sum, resulting in the Sum becoming NaN.
 
-A Histogram MAY refuse to measure +Inf and -Inf values as adding these to the Sum will mask the sum of the real measurements until the next reset of the counters. If a Histogram measures +Inf or -Inf, they MUST be counted in the Count and MUST be added to the Sum, potentially resulting in +Inf, -Inf or NaN in the Sum, the later for example in case of adding +Inf to -Inf.
+A Histogram MAY refuse to measure +Inf and -Inf values as adding these to the Sum will mask the sum of the real measurements until the next reset of the counters. If a Histogram measures +Inf or -Inf, then +Inf or -Inf MUST be counted in the Count and MUST be added to the Sum, potentially resulting in +Inf, -Inf or NaN in the Sum, the later for example in case of adding +Inf to -Inf.
 
 A Histogram MetricPoint SHOULD have a Timestamp value called Created. This can help ingestors discern between new metrics and long-running ones it did not see before.
 
@@ -270,7 +270,7 @@ Histogram MetricPoints with exponential buckets MUST have a Schema value. The Sc
 
 For any Standard Schema n, the Histogram MetricPoint MAY contain positive, negative exponential buckets and a single zero bucket. It is valid to have no exponentual buckets at all.
 
-The boundaries of a positive or negative exponential bucket with index i MUST BE calculated as follows (using Python syntax):
+The boundaries of a positive or negative exponential bucket with index i MUST be calculated as follows (using Python syntax):
 
 The upper inclusive limit of a positive exponential bucket: `(2**2**-n)**i`
 
@@ -294,9 +294,9 @@ The next negative exponential bucket (index i+1 relative to the bucket from the 
 
 Exponential buckets beyond the +Inf and -Inf buckets described above MUST NOT be used.
 
-If the zero bucket is present, the Historam MetricPoint MUST have a Zero threshold. The Zero threshold MUST BE a non-negative float64 value (threshold >= 0.0). The boundaries of the Zero native bucket are `[-threshold, threshold]` inclusive.
+If the zero bucket is present, the Historam MetricPoint MUST have a Zero threshold. The Zero threshold MUST be a non-negative float64 value (threshold >= 0.0). The boundaries of the Zero native bucket are `[-threshold, threshold]` inclusive.
 
-If the zero bucket is present, any measured value that falls into the zero bucket MUST BE counted towards the zero bucket and MUST NOT be counted in any other exponential bucket. The Zero threshold SHOULD be equal to a lower limit of an arbitraty exponential bucket.
+If the zero bucket is present, any measured value that falls into the zero bucket MUST be counted towards the zero bucket and MUST NOT be counted in any other exponential bucket. The Zero threshold SHOULD be equal to a lower limit of an arbitraty exponential bucket.
 
 If the NaN value is not allowed, then the Count value MUST be equal to the sum of the negative, positive and zero buckets.
 
@@ -890,23 +890,23 @@ foo_created 1520430000.123
 
 ##### Histogram with exponential buckets
 
-The MetricPoint's value MUST BE a complex data type.
+The MetricPoint's value MUST be a complex data type.
 
 Histograms with exponential buckets use the integer native histogram data type.
 
-The integer native histogram data type is a JSON like structure with fields. There MUST NOT BE any whitespace around fields.
+The integer native histogram data type is a JSON like structure with fields. There MUST NOT be any whitespace around fields.
 The integer native histogram data type MUST include the Count, Sum, Schema, Zero Threshold, Zero bucket value as the fields `count`, `sum`, `schema`, `zero_threshold`, `zero_count`.
 
-If there are no negative exponential buckets, then the fields `negative_spans` and `negative_deltas` SHOULD BE omitted.
-If there are no positive exponential buckets, then the fields `positive_spans` and `positive_deltas` SHOULD BE omitted.
+If there are no negative exponential buckets, then the fields `negative_spans` and `negative_deltas` SHOULD be omitted.
+If there are no positive exponential buckets, then the fields `positive_spans` and `positive_deltas` SHOULD be omitted.
 
-If there are negative (and/or positive) exponential buckets then the fields `negative_spans`, `negative_deltas` (and/or `positive_spans`, `positive_deltas`) MUST BE present in this order after the `zero_count` field.
+If there are negative (and/or positive) exponential buckets then the fields `negative_spans`, `negative_deltas` (and/or `positive_spans`, `positive_deltas`) MUST be present in this order after the `zero_count` field.
 
-Exponential bucket values MUST BE ordered by their index, and their values MUST BE placed in the `negative_deltas` (and/or `positive_deltas`) field using delta encoding, that is the first bucket value is written as is and the following values only as a delta relative to the previous value. For example bucket values 1, 5, 4, 4 will become 1, 4, -1, 0.
+Exponential bucket values MUST be ordered by their index, and their values MUST be placed in the `negative_deltas` (and/or `positive_deltas`) field using delta encoding, that is the first bucket value is written as is and the following values only as a delta relative to the previous value. For example bucket values 1, 5, 4, 4 will become 1, 4, -1, 0.
 
-To map the `negative_deltas` (and/or `positive_deltas`) back to their indices, the `negative_spans` (and/or `positive_spans`) field MUST BE constructed in the following way: each span consists of a pair of numbers, an integer called offset and an non-negative integer called length. Only the first span in each list can have a negative offset. It defines the index of the first bucket in its corresponding `negative_deltas` (and/or `positive_deltas`). The length defines the number of consecutive buckets the bucket list starts with. The offsets of the following spans define the number of excluded (and thus unpopulated buckets). The lengths define the number of consecutive buckets in the list following the excluded buckets.
+To map the `negative_deltas` (and/or `positive_deltas`) back to their indices, the `negative_spans` (and/or `positive_spans`) field MUST be constructed in the following way: each span consists of a pair of numbers, an integer called offset and an non-negative integer called length. Only the first span in each list can have a negative offset. It defines the index of the first bucket in its corresponding `negative_deltas` (and/or `positive_deltas`). The length defines the number of consecutive buckets the bucket list starts with. The offsets of the following spans define the number of excluded (and thus unpopulated buckets). The lengths define the number of consecutive buckets in the list following the excluded buckets.
 
-The sum of all length values in each span list MUST BE equal to the length of the corresponding bucket list.
+The sum of all length values in each span list MUST be equal to the length of the corresponding bucket list.
 
 An example with all fields:
 
@@ -926,7 +926,7 @@ acme_http_request_seconds_created 1520430000.123
 
 ##### Histogram with both classic and exponential buckets
 
-If a Histogram MetricPoint has both classic and exponential buckets, the exponential buckets MUST come first and the created time MUST NOT BE duplicated.
+If a Histogram MetricPoint has both classic and exponential buckets, the exponential buckets MUST come first and the created time MUST NOT be duplicated.
 
 The order ensures that implementations can easily skip the classic buckets if the exponential buckets are preferred.
 
@@ -994,7 +994,7 @@ acme_http_request_seconds_created 1520430000.123
 
 ##### GaugeHistogram with both classic and exponential buckets
 
-If a GaugeHistogram MetricPoint has both classic and exponential buckets, the exponential buckets MUST come first and the created time MUST NOT BE duplicated.
+If a GaugeHistogram MetricPoint has both classic and exponential buckets, the exponential buckets MUST come first and the created time MUST NOT be duplicated.
 
 ##### Unknown
 

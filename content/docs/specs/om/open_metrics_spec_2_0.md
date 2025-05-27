@@ -228,13 +228,19 @@ MetricFamilies of type Info MUST have an empty Unit string.
 
 Histograms measure distributions of discrete events. Common examples are the latency of HTTP requests, function runtimes, or I/O request sizes.
 
+A Histogram MetricPoint MUST contain Count, Sum values.
+
+The Count value MUST equal the number of measurements taken by the Histogram. The Count is a counter semantically. The Count MUST be an integer and MUST NOT be NaN or negative.
+
+The Sum value MUST equal the Sum of all the measured event values. The Sum is only a counter semantically as long as there are no negative event values measured by the Histogram MetricPoint.
+
 A Histogram MetricPoint MUST contain either [classic buckets](#classic-buckets) or [exponential buckets](#exponential-buckets) or both.
 
-A Histogram MetricPoint SHOULD contain Count, Sum, and Created values. Every bucket MUST have well defined boundaries and a value. Boundaries of a bucket MUST NOT be NaN. Count and bucket values MUST be integers.
+Every bucket MUST have well defined boundaries and a value. Boundaries of a bucket MUST NOT be NaN. Bucket values MUST be integers. Semantically, bucket values are counters so MUST NOT be NaN or negative.
 
-Semantically, Count and bucket values are counters so MUST NOT be NaN or negative.
+A Histogram SHOULD refuse to measure NaN value as adding NaN to the Sum will make the Sum equal to NaN and mask the sum of the real measurements until the next reset of the counters. If a Histogram does allow NaN, it MUST be counted in the Count and MUST be added to the Sum, resulting in the Sum becoming NaN.
 
-The Sum is only a counter semantically as long as there are no negative event values measured by the Histogram MetricPoint. The Sum MUST NOT be NaN. If present, the Sum value MUST equal the Sum of all the measured event values.
+A Histogram MAY refuse to measure +Inf and -Inf values as adding these to the Sum will mask the sum of the real measurements until the next reset of the counters. If a Histogram measures +Inf or -Inf, they MUST be counted in the Count and MUST be added to the Sum, potentially resulting in +Inf, -Inf or NaN in the Sum, the later for example in case of adding +Inf to -Inf.
 
 A Histogram MetricPoint SHOULD have a Timestamp value called Created. This can help ingestors discern between new metrics and long-running ones it did not see before.
 
@@ -250,7 +256,9 @@ As an example for a metric representing request latency in seconds its values fo
 
 Histogram MetricPoints with classic buckets MUST have one classic bucket with a +Inf threshold. The +Inf bucket counts all requests.
 
-The Count value MUST equal the value of the +Inf bucket.
+If the NaN value is not allowed, then the Count value MUST be equal to the value of the +Inf bucket.
+
+If the NaN value is allowed, it SHOULD be counted in the +Inf bucket, and MUST not be counted in any other bucket. In case the NaN is counted in the +Inf bucket, then the Count MUST be equal to the value of the +Inf bucket, otherwise the Count MUST be greater. The ratonale is that NaN does not belong to any bucket mathematically, however instrumentation libraries traditionally put it into the +Inf bucket, which is why the wording "SHOULD" is used.
 
 Negative threshold classic buckets MAY be used.
 
@@ -290,7 +298,9 @@ If the zero bucket is present, the Historam MetricPoint MUST have a Zero thresho
 
 If the zero bucket is present, any measured value that falls into the zero bucket MUST BE counted towards the zero bucket and MUST NOT be counted in any other exponential bucket. The Zero threshold SHOULD be equal to a lower limit of an arbitraty exponential bucket.
 
-The Count value MUST equal the sum of the values of the positive, negative and the zero bucket.
+If the NaN value is not allowed, then the Count value MUST be equal to the sum of the negative, positive and zero buckets.
+
+If the NaN value is allowed, it SHOULD NOT be counted in any bucket. The value NaN MAY be counted in the +Inf bucket, and MUST not be counted in any other bucket. In case the NaN is counted in the +Inf bucket, then the Count value MUST be equal to the sum of the negative, positive and zero buckets, otherwise the Count MUST be greater. The ratonale is that NaN does not belong to any bucket mathematically, and instrumentation libraries traditionally don't put it into any bucket, which is why the wording "SHOULD NOT" is used.
 
 A Histogram MetricPoint with exponential buckets MAY contain exemplars.
 
@@ -456,7 +466,7 @@ nativehistogram = nh-count "," nh-sum "," nh-schema "," nh-zero-threshold "," nh
 ; count:n
 nh-count = %d99.111.117.110.116 ":" non-negative-integer
 ; sum:f Does not allow +-Inf and NaN
-nh-sum = %d115.117.109 ":" realnumber
+nh-sum = %d115.117.109 ":" number
 ; schema:i
 nh-schema = %d115.99.104.101.109.97 ":" integer
 ; zero_threshold:f

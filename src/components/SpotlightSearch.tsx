@@ -61,12 +61,17 @@ const SearchResult = ({
             );
           }}
         >
-          <Group wrap="nowrap" gap="xs" align="flex-start" w="100%">
+          <Group
+            gap="xs"
+            align="flex-start"
+            w="100%"
+            style={{ wordBreak: "break-word" }}
+          >
             <Highlight
               highlight={query}
               fw="bold"
               fz="sm"
-              w="30%"
+              flex={1}
               display="block"
             >
               {subResult.title}
@@ -76,7 +81,7 @@ const SearchResult = ({
               size="xs"
               display="block"
               opacity={0.7}
-              flex="1"
+              flex={2}
             >
               {decode(subResult.excerpt.replace(/<\/?mark>/g, ""))}
             </Highlight>

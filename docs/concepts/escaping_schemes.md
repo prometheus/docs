@@ -1,6 +1,6 @@
 ---
 title: Prometheus Metric and Label Name Escaping Schemes
-sort_rank: 2
+sort_rank: 4
 ---
 
 # Prometheus Metric and Label Name Escaping Schemes
@@ -16,7 +16,7 @@ via the `escaping` parameter in the Accept and Content-Type headers.
 
 Prometheus supports multiple escaping schemes to handle metric and label names
 in text exposition that contain characters outside the legacy character set
-(a-zA-Z0-9_:). The escaping scheme is negotiated during scraping and affects how
+(a-zA-Z0-9\_:). The escaping scheme is negotiated during scraping and affects how
 metric producers should format their metric names.
 
 ## Escaping Schemes
@@ -26,6 +26,7 @@ metric producers should format their metric names.
 **Header Value**: `escaping=allow-utf-8`
 
 **Behavior**:
+
 - Metric and label names MUST be valid UTF-8 strings.
 - When names appear inside double quotes in the exposition format, `\`, `\n`,
   and `"` MUST be escaped with a backslash.
@@ -39,7 +40,8 @@ metric producers should format their metric names.
 **Header Value**: `escaping=underscores`
 
 **Behavior**:
-- Any character that is not in the legacy character set (a-zA-Z0-9_:) MUST be
+
+- Any character that is not in the legacy character set (a-zA-Z0-9\_:) MUST be
   replaced with an underscore.
 - The first character MUST be either a letter, underscore, or colon.
 - Subsequent characters MUST be either letters, numbers, underscores, or colons.
@@ -50,6 +52,7 @@ metric producers should format their metric names.
 **Header Value**: `escaping=dots`
 
 **Behavior**:
+
 - Dots (.) MUST be replaced with `_dot_`.
 - Existing underscores MUST be replaced with double underscores (`__`).
 - Other non-legacy characters MUST be replaced with single underscores.
@@ -62,8 +65,9 @@ metric producers should format their metric names.
 **Header Value**: `escaping=values`
 
 **Behavior**:
+
 - The name MUST be prefixed with `U__`.
-- Each character that is not part of the legacy character set (a-zA-Z0-9_:) MUST
+- Each character that is not part of the legacy character set (a-zA-Z0-9\_:) MUST
   be replaced with its Unicode code point in hexadecimal, surrounded by
   underscores.
 - Single underscores MUST be replaced with double underscores.
@@ -81,4 +85,3 @@ SHOULD be used.
 2. The escaping scheme MUST be validated to prevent injection attacks.
 3. The `allow-utf-8` scheme MUST only be used when both producer and consumer
    support UTF-8 names.
-

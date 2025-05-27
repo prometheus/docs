@@ -1,6 +1,6 @@
 ---
 title: Prometheus Scraping Protocol Content Negotiation
-sort_rank: 2
+sort_rank: 5
 ---
 
 # Prometheus Scraping Protocol Content Negotiation
@@ -74,6 +74,7 @@ For PrometheusText1.0.0 and OpenMetricsText1.0.0 protocols, the Accept header
 SHOULD include an escaping scheme parameter: `escaping=<scheme>`
 
 Where `<scheme>` MUST be one of:
+
 - `allow-utf8`
 - `underscores`
 - `dots`
@@ -85,6 +86,7 @@ schemes function.
 ### Compression
 
 The Accept-Encoding header SHOULD be set to:
+
 - `gzip` if compression is enabled
 - `identity` if compression is disabled
 
@@ -123,7 +125,6 @@ accepted formats. The Content-Type header MUST include:
 ```
 Accept: application/openmetrics-text;version=1.0.0;escaping=allow-utf8;q=0.5,application/openmetrics-text;version=0.0.1;q=0.4,text/plain;version=1.0.0;escaping=allow-utf8;q=0.3,text/plain;version=0.0.4;q=0.2,/;q=0.1
 ```
-
 
 ### Protobuf-First Accept Header
 

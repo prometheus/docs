@@ -20,6 +20,7 @@ export default function PrevNextEditButtons({
       <Box flex="0 1 40%" maw="40%">
         {currentPage.prev && (
           <Button
+            w="100%"
             component={Link}
             href={`/docs/${currentPage.prev.slug}/`}
             variant="outline"
@@ -78,6 +79,7 @@ export default function PrevNextEditButtons({
       <Box flex="0 1 40%" maw="40%" ta="right">
         {currentPage.next && (
           <Button
+            w="100%"
             component={Link}
             href={`/docs/${currentPage.next.slug}/`}
             variant="outline"

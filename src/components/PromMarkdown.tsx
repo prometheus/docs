@@ -116,7 +116,7 @@ export default async function PromMarkdown({
             const href = normalizeHref(rest.href);
             const isExternalLink =
               isAbsoluteUrl(href || "") &&
-              !href?.startsWith(`${docsConfig.siteUrl}`);
+              !href?.startsWith(`${docsConfig.siteUrl}/`);
 
             if (!isExternalLink) {
               return (

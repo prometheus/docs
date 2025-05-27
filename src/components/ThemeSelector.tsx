@@ -1,9 +1,19 @@
-import { useMantineColorScheme, rem, ActionIcon } from "@mantine/core";
+"use client";
+
+import {
+  rem,
+  ActionIcon,
+  useComputedColorScheme,
+  useMantineColorScheme,
+} from "@mantine/core";
 import { IconBrightnessFilled, IconSun, IconMoon } from "@tabler/icons-react";
 import { FC } from "react";
 
 export const ThemeSelector: FC = () => {
-  const { colorScheme, setColorScheme } = useMantineColorScheme();
+  const { setColorScheme } = useMantineColorScheme();
+  const computedColorScheme = useComputedColorScheme("light", {
+    getInitialValueInEffect: true,
+  });
   const iconProps = {
     style: { width: rem(20), height: rem(20), display: "block" },
     stroke: 1.5,
@@ -14,36 +24,36 @@ export const ThemeSelector: FC = () => {
       color="gray"
       variant="subtle"
       title={`Switch to ${
-        colorScheme === "light"
+        computedColorScheme === "light"
           ? "dark"
-          : colorScheme === "dark"
+          : computedColorScheme === "dark"
           ? "browser-preferred"
           : "light"
       } theme`}
       aria-label={`Switch to ${
-        colorScheme === "light"
+        computedColorScheme === "light"
           ? "dark"
-          : colorScheme === "dark"
+          : computedColorScheme === "dark"
           ? "browser-preferred"
           : "light"
       } theme`}
       size={32}
       onClick={() =>
         setColorScheme(
-          colorScheme === "light"
+          computedColorScheme === "light"
             ? "dark"
-            : colorScheme === "dark"
+            : computedColorScheme === "dark"
             ? "auto"
             : "light"
         )
       }
     >
-      {colorScheme === "light" ? (
-        <IconSun suppressHydrationWarning {...iconProps} />
-      ) : colorScheme === "dark" ? (
-        <IconMoon suppressHydrationWarning {...iconProps} />
+      {computedColorScheme === "light" ? (
+        <IconSun {...iconProps} />
+      ) : computedColorScheme === "dark" ? (
+        <IconMoon {...iconProps} />
       ) : (
-        <IconBrightnessFilled suppressHydrationWarning {...iconProps} />
+        <IconBrightnessFilled {...iconProps} />
       )}
     </ActionIcon>
   );

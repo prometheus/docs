@@ -35,7 +35,7 @@ export default function BlogPage() {
             // on the Card breaks the scroll-margin-top of the Title / h1, and
             // the title ends up under the sticky header.
             <Card key={path} withBorder style={{ overflow: "unset" }}>
-              <Anchor c="inherit" href={path}>
+              <Anchor component={Link} c="inherit" href={path}>
                 <Title order={1} mt={0} mb="xs" id={headingSlug(params)}>
                   {frontmatter.title}
                 </Title>

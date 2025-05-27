@@ -132,6 +132,8 @@ export default async function PromMarkdown({
               );
             }
 
+            const firstChild = Children.toArray(children)[0];
+
             return (
               <Anchor
                 inherit
@@ -143,7 +145,7 @@ export default async function PromMarkdown({
               >
                 {/* Only add the icon if the first child is a string. This is to avoid
                 breaking the layout of other components like image links etc. */}
-                {typeof Children.toArray(children)[0] === "string" ? (
+                {typeof firstChild === "string" && firstChild.trim() !== "" ? (
                   // <Group> with display: "inline-flex" somehow breaks link underlining,
                   // so going for this manual solution instead.
                   <span>

@@ -48,7 +48,7 @@ const SearchResult = ({
 
   return (
     <Spotlight.ActionsGroup
-      label={data.meta.title.replace("'", "\\'") || "No title"}
+      label={data.meta.breadcrumbs || data.meta.title || "No page title"}
     >
       <Space h="xs" />
       {data.sub_results.slice(0, 4).map((subResult, subIdx) => (
@@ -105,6 +105,7 @@ type PagefindResultData = {
   excerpt: string;
   meta: {
     title: string;
+    breadcrumbs?: string;
   };
   sub_results: PagefindSubResult[];
 };

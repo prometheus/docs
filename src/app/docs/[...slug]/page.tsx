@@ -8,6 +8,7 @@ import { Divider } from "@mantine/core";
 import PrevNextEditButtons from "./PrevNextEditButtons";
 import { HTMLAttributes } from "react";
 import path from "path";
+import { DocMetadata } from "@/docs-collection-types";
 
 // Next.js uses this function at build time to figure out which
 // docs pages it should statically generate.
@@ -54,6 +55,14 @@ function resolveRelativeUrl(currentPath: string, relativeUrl: string): string {
   return resolvedPath + (query ? `?${query}` : "") + (hash ? `#${hash}` : "");
 }
 
+function pagefindBreadcrumbsTitle(currentPage: DocMetadata) {
+  const titles: string[] = [];
+  for (let node = currentPage; node; node = node.parent!) {
+    titles.unshift(node.title);
+  }
+  return titles.join(" > ");
+}
+
 export default async function DocsPage({
   params,
 }: {
@@ -81,6 +90,9 @@ export default async function DocsPage({
         wrapperProps={
           {
             "data-pagefind-body": pagefindShouldIndex ? "true" : undefined,
+            "data-pagefind-meta": `breadcrumbs:${pagefindBreadcrumbsTitle(
+              docMeta
+            )}`,
           } as HTMLAttributes<HTMLDivElement>
         }
         normalizeHref={(href: string | undefined) => {

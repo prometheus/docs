@@ -111,6 +111,7 @@ export default async function DocsPage({
             // Turn relative links like "d.md" in "docs/a/b/c.md" into full paths like "/docs/a/b/d/".
             return resolveRelativeUrl(`/docs/${docMeta.slug}`, href);
           }
+          return href;
         }}
         normalizeImgSrc={(src: string | Blob | undefined) => {
           // Leave anything alone that doesn't look like a normal relative URL.

@@ -58,7 +58,7 @@ function resolveRelativeUrl(currentPath: string, relativeUrl: string): string {
 function pagefindBreadcrumbsTitle(currentPage: DocMetadata) {
   const titles: string[] = [];
   for (let node = currentPage; node; node = node.parent!) {
-    titles.unshift(node.title);
+    titles.unshift(node.navTitle ?? node.title);
   }
   return titles.join(" > ");
 }

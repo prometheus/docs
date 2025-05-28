@@ -41,7 +41,7 @@ export default function PrevNextEditButtons({
                   whiteSpace: "normal",
                 }}
               >
-                {currentPage.prev.title}
+                {currentPage.prev.navTitle ?? currentPage.prev.title}
               </Text>
             </Stack>
           </Button>
@@ -100,7 +100,7 @@ export default function PrevNextEditButtons({
                   whiteSpace: "normal",
                 }}
               >
-                {currentPage.next.title}
+                {currentPage.next.navTitle ?? currentPage.next.title}
               </Text>
             </Stack>
           </Button>

@@ -1,9 +1,9 @@
 ---
-title: Prometheus Scraping Protocol Content Negotiation
-sort_rank: 5
+title: Content negotiation
+sort_rank: 8
 ---
 
-# Prometheus Scraping Protocol Content Negotiation
+# Scrape protocol content negotiation
 
 ## Abstract
 

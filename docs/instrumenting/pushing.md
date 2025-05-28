@@ -3,8 +3,6 @@ title: Pushing metrics
 sort_rank: 3
 ---
 
-# Pushing metrics
-
 Occasionally you will need to monitor components which cannot be scraped. The
 [Prometheus Pushgateway](https://github.com/prometheus/pushgateway) allows you
 to push time series from [short-lived service-level batch

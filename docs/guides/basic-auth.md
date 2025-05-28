@@ -1,8 +1,7 @@
 ---
-title: Basic auth
+title: Securing Prometheus API and UI endpoints using basic auth
+nav_title: Basic auth
 ---
-
-# Securing Prometheus API and UI endpoints using basic auth
 
 Prometheus supports [basic authentication](https://en.wikipedia.org/wiki/Basic_access_authentication) (aka "basic auth") for connections to the Prometheus [expression browser](/docs/visualization/browser) and [HTTP API](/docs/prometheus/latest/querying/api).
 

@@ -1,10 +1,8 @@
 ---
-title: "Remote Write 2.0 [EXPERIMENTAL]"
+title: "Prometheus Remote-Write 2.0 specification [EXPERIMENTAL]"
 nav_title: "2.0"
 sort_rank: 2
 ---
-
-# Prometheus Remote-Write Specification
 
 * Version: 2.0-rc.3
 * Status: **Experimental**

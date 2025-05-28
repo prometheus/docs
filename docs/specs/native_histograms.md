@@ -3,8 +3,6 @@ title: Native Histograms [EXPERIMENTAL]
 sort_rank: 1
 ---
 
-# Native Histograms
-
 Native histograms were introduced as an experimental feature in November 2022.
 They are a concept that touches almost every part of the Prometheus stack. The
 first version of the Prometheus server supporting native histograms was

@@ -3,8 +3,6 @@ title: Integrations
 sort_rank: 5
 ---
 
-# Integrations
-
 In addition to [client libraries](/docs/instrumenting/clientlibs/) and
 [exporters and related libraries](/docs/instrumenting/exporters/), there are
 numerous other generic integration points in Prometheus. This page lists some

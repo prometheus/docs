@@ -1,9 +1,8 @@
 ---
-title: Grafana
+title: Grafana support for Prometheus
+nav_title: Grafana
 sort_rank: 2
 ---
-
-# Grafana support for Prometheus
 
 [Grafana](http://grafana.com/) supports querying Prometheus.
 The Grafana data source for Prometheus is included since Grafana 2.5.0 (2015-10-28).

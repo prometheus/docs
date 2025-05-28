@@ -2,7 +2,7 @@
 title: UTF-8 in Prometheus
 ---
 
-# Introduction
+## Introduction
 
 Versions of Prometheus before 3.0 required that metric and label names adhere to
 a strict set of character requirements. With Prometheus 3.0, all UTF-8 strings
@@ -15,7 +15,7 @@ does not yet support UTF-8.
 
 This document guides you through the UTF-8 transition details.
 
-# Go Instrumentation
+## Go Instrumentation
 
 Currently, metrics created by the official Prometheus [client_golang library](https://github.com/prometheus/client_golang) will reject UTF-8 names
 by default. It is necessary to change the default validation scheme to allow
@@ -36,12 +36,12 @@ scheme to `LegacyValidation`.
 Setting the validation scheme must be done before the instantiation of metrics
 and can be set on the fly if desired.
 
-## Instrumenting in other languages
+### Instrumenting in other languages
 
 Other client libraries may have similar requirements to set the validation
 scheme. Check the documentation for the library you are using.
 
-# Configuring Name Validation during Scraping
+## Configuring Name Validation during Scraping
 
 By default, Prometheus 3.0 accepts all UTF-8 strings as valid metric and label
 names. It is possible to override this behavior for scraped targets and reject
@@ -64,7 +64,7 @@ scrape_configs:
 
 Scrape config settings override the global setting.
 
-## Scrape Content Negotiation for UTF-8 escaping
+### Scrape Content Negotiation for UTF-8 escaping
 
 At scrape time, the scraping system **must** pass `escaping=allow-utf-8` in the
 Accept header in order to be served UTF-8 names. If scrape target does not see
@@ -91,12 +91,12 @@ their end. The choice of exact name translation strategy is up to the metrics
 producer. The requirement is that when Prometheus requests an escaping scheme
 other than allow-utf-8, the producer convert the names in the manner requested.
 
-## Remote Write 2.0
+### Remote Write 2.0
 
 Remote Write 2.0 automatically accepts all UTF-8 names in Prometheus 3.0. There
 is no way to enforce the legacy character set validation with Remote Write 2.0.
 
-# OTLP Metrics
+## OTLP Metrics
 
 OTLP receiver in Prometheus 3.0 still normalizes all names to Prometheus format by default. You can change this in `otlp` section of the Prometheus configuration as follows:
 
@@ -109,7 +109,7 @@ OTLP receiver in Prometheus 3.0 still normalizes all names to Prometheus format 
 See [OpenTelemetry guide](/docs/guides/opentelemetry) for more details.
 
 
-# Querying
+## Querying
 
 
 Querying for metrics with UTF-8 names will require a slightly different syntax

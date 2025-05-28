@@ -3,8 +3,6 @@ title: Comparison to alternatives
 sort_rank: 4
 ---
 
-# Comparison to alternatives
-
 ## Prometheus vs. Graphite
 
 ### Scope
@@ -132,16 +130,16 @@ boundaries like products, services, datacenters, or similar aspects.
 Independent servers (which can be run redundantly in parallel) may also give
 you better reliability and failure isolation.
 
-Kapacitor's open-source release has no built-in distributed/redundant options for 
-rules,  alerting, or notifications.  The open-source release of Kapacitor can 
+Kapacitor's open-source release has no built-in distributed/redundant options for
+rules,  alerting, or notifications.  The open-source release of Kapacitor can
 be scaled via manual sharding by the user, similar to Prometheus itself.
-Influx offers [Enterprise Kapacitor](https://docs.influxdata.com/enterprise_kapacitor), which supports an 
+Influx offers [Enterprise Kapacitor](https://docs.influxdata.com/enterprise_kapacitor), which supports an
 HA/redundant alerting system.
 
-Prometheus and the Alertmanager by contrast offer a fully open-source redundant 
-option via running redundant replicas of Prometheus and using the Alertmanager's 
+Prometheus and the Alertmanager by contrast offer a fully open-source redundant
+option via running redundant replicas of Prometheus and using the Alertmanager's
 [High Availability](https://github.com/prometheus/alertmanager#high-availability)
-mode. 
+mode.
 
 ### Summary
 
@@ -183,10 +181,10 @@ The same scope differences as in the case of
 
 OpenTSDB's data model is almost identical to Prometheus's: time series are
 identified by a set of arbitrary key-value pairs (OpenTSDB tags are
-Prometheus labels). All data for a metric is 
+Prometheus labels). All data for a metric is
 [stored together](http://opentsdb.net/docs/build/html/user_guide/writing/index.html#time-series-cardinality),
 limiting the cardinality of metrics. There are minor differences though: Prometheus
-allows arbitrary characters in label values, while OpenTSDB is more restrictive. 
+allows arbitrary characters in label values, while OpenTSDB is more restrictive.
 OpenTSDB also lacks a full query language, only allowing simple aggregation and math via its API.
 
 ### Storage
@@ -213,8 +211,8 @@ good choice.
 
 ### Scope
 
-Nagios is primarily about alerting based on the exit codes of scripts. These are 
-called “checks”. There is silencing of individual alerts, however no grouping, 
+Nagios is primarily about alerting based on the exit codes of scripts. These are
+called “checks”. There is silencing of individual alerts, however no grouping,
 routing or deduplication.
 
 There are a variety of plugins. For example, piping the few kilobytes of
@@ -250,7 +248,7 @@ environment, then Prometheus is a good choice.
 
 ### Scope
 
-Sensu is an observability pipeline that focuses on processing and alerting of observability data as a stream of [Events](https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-events/events/). It provides an extensible framework for event [filtering](https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-filter/), aggregation, [transformation](https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-transform/), and [processing](https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-process/) – including sending alerts to other systems and storing events in third-party systems. Sensu's event processing capabilities are similar in scope to Prometheus alerting rules and Alertmanager. 
+Sensu is an observability pipeline that focuses on processing and alerting of observability data as a stream of [Events](https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-events/events/). It provides an extensible framework for event [filtering](https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-filter/), aggregation, [transformation](https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-transform/), and [processing](https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-process/) – including sending alerts to other systems and storing events in third-party systems. Sensu's event processing capabilities are similar in scope to Prometheus alerting rules and Alertmanager.
 
 ### Data model
 
@@ -258,26 +256,26 @@ Sensu [Events](https://docs.sensu.io/sensu-go/latest/observability-pipeline/obse
 
 ### Storage
 
-Sensu stores current and recent event status information and real-time inventory data in an embedded database (etcd) or an external RDBMS (PostgreSQL). 
+Sensu stores current and recent event status information and real-time inventory data in an embedded database (etcd) or an external RDBMS (PostgreSQL).
 
 ### Architecture
 
-All components of a Sensu deployment can be clustered for high availability and improved event-processing throughput. 
+All components of a Sensu deployment can be clustered for high availability and improved event-processing throughput.
 
 ### Summary
 
 Sensu and Prometheus have a few capabilities in common, but they take very different approaches to monitoring. Both offer extensible discovery mechanisms for dynamic cloud-based environments and ephemeral compute platforms, though the underlying mechanisms are quite different. Both provide support for collecting multi-dimensional metrics via labels and annotations. Both have extensive integrations, and Sensu natively supports collecting metrics from all Prometheus exporters. Both are capable of forwarding observability data to third-party data platforms (e.g. event stores or TSDBs). Where Sensu and Prometheus differ the most is in their use cases.
 
-Where Sensu is better: 
+Where Sensu is better:
 
 - If you're collecting and processing hybrid observability data (including metrics _and/or_ events)
 - If you're consolidating multiple monitoring tools and need support for metrics _and_ Nagios-style plugins or check scripts
 - More powerful event-processing platform
 
-Where Prometheus is better: 
+Where Prometheus is better:
 
 - If you're primarily collecting and evaluating metrics
 - If you're monitoring homogeneous Kubernetes infrastructure (if 100% of the workloads you're monitoring are in K8s, Prometheus offers better K8s integration)
-- More powerful query language, and built-in support for historical data analysis 
+- More powerful query language, and built-in support for historical data analysis
 
 Sensu is maintained by a single commercial company following the open-core business model, offering premium features like closed-source event correlation and aggregation, federation, and support. Prometheus is a fully open source and independent project, maintained by a number of companies and individuals, some of whom also offer commercial services and support.

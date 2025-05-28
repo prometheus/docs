@@ -1,9 +1,8 @@
 ---
-title: Content negotiation
+title: Scrape protocol content negotiation
+nav_title: Content negotiation
 sort_rank: 8
 ---
-
-# Scrape protocol content negotiation
 
 ## Abstract
 

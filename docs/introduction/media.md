@@ -3,8 +3,6 @@ title: Media
 sort_rank: 8
 ---
 
-# Media
-
 There is a [subreddit](https://www.reddit.com/r/prometheusmonitoring)
 collecting all Prometheus-related resources on the internet.
 

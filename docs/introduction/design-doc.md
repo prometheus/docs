@@ -1,16 +1,14 @@
 ---
-title: Design Documents
+title: Design documents
 sort_rank: 7
 ---
-
-# Design Documents
 
 See the [github.com/prometheus/proposals](https://github.com/prometheus/proposals)
 repository to see all the past and current proposals for the Prometheus Ecosystem.
 
 If you are interested in creating a new proposal, read our [proposal process](https://github.com/prometheus/proposals#proposal-process).
 
-# Problem statements and exploratory documents
+## Problem statements and exploratory documents
 
 Sometimes we're looking even further into potential futures. The documents in
 this section are largely exploratory. They should be taken as informing our

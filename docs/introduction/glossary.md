@@ -3,9 +3,6 @@ title: Glossary
 sort_rank: 9
 ---
 
-# Glossary
-
-
 ### Alert
 
 An alert is the outcome of an alerting rule in Prometheus that is

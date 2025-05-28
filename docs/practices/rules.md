@@ -3,15 +3,13 @@ title: Recording rules
 sort_rank: 6
 ---
 
-# Recording rules
-
 A consistent naming scheme for [recording rules](/docs/prometheus/latest/configuration/recording_rules/)
 makes it easier to interpret the meaning of a rule at a glance. It also avoids
 mistakes by making incorrect or meaningless calculations stand out.
 
 This page documents proper naming conventions and aggregation for recording rules.
 
-## Naming 
+## Naming
 
 * Recording rules should be of the general form `level:metric:operations`.
 * `level` represents the aggregation level and labels of the rule output.

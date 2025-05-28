@@ -3,8 +3,6 @@ title: Alerting
 sort_rank: 5
 ---
 
-# Alerting
-
 We recommend that you read [My Philosophy on Alerting](https://docs.google.com/a/boxever.com/document/d/199PqyG3UsyXlwieHaqbGiWVa8eMWi8zzAn0YfcApr8Q/edit)
 based on Rob Ewaschuk's observations at Google.
 

@@ -3,8 +3,6 @@ title: Exposition formats
 sort_rank: 6
 ---
 
-# Exposition formats
-
 Metrics can be exposed to Prometheus using a simple [text-based](#text-based-format)
 exposition format. There are various [client libraries](/docs/instrumenting/clientlibs/)
 that implement this format for you. If your preferred language doesn't have a client

@@ -3,8 +3,6 @@ title: Exporters and integrations
 sort_rank: 4
 ---
 
-# Exporters and integrations
-
 There are a number of libraries and servers which help in exporting existing
 metrics from third-party systems as Prometheus metrics. This is useful for
 cases where it is not feasible to instrument a given system with Prometheus

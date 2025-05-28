@@ -2,8 +2,6 @@
 title: Understanding and using the multi-target exporter pattern
 ---
 
-# Understanding and using the multi-target exporter pattern
-
 This guide will introduce you to the multi-target exporter pattern. To achieve this we will:
 
 * describe the multi-target exporter pattern and why it is used,
@@ -102,7 +100,7 @@ process_virtual_memory_bytes 1.5609856e+07
 
 Those are metrics in the Prometheus [format](/docs/instrumenting/exposition_formats/#text-format-example). They come from the exporter’s [instrumentation](/docs/practices/instrumentation/) and tell us about the state of the exporter itself while it is running. This is called whitebox monitoring and very useful in daily ops practice. If you are curious, try out our guide on how to [instrument your own applications](https://prometheus.io/docs/guides/go-application/).
 
-For the second type of querying we need to provide a target and module as parameters in the HTTP GET Request. The target is a URI or IP and the module must defined in the exporter’s configuration. The blackbox exporter container comes with a meaningful default configuration.  
+For the second type of querying we need to provide a target and module as parameters in the HTTP GET Request. The target is a URI or IP and the module must defined in the exporter’s configuration. The blackbox exporter container comes with a meaningful default configuration.
 We will use the target `prometheus.io` and the predefined module `http_2xx`. It tells the exporter to make a GET request like a browser would if you go to `prometheus.io` and to expect a [200 OK](https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#2xx_Success) response.
 
 You can now tell your blackbox exporter to query `prometheus.io` in the terminal with curl:
@@ -161,7 +159,7 @@ We could now either tell Docker to allow IPv6 or the blackbox exporter to use IP
 
 The modules are predefined in a file inside the docker container called `config.yml` which is a copy of [blackbox.yml](https://github.com/prometheus/blackbox_exporter/blob/master/blackbox.yml) in the github repo.
 
-We will copy this file, [adapt](https://github.com/prometheus/blackbox_exporter/blob/master/CONFIGURATION.md) it to our own needs and tell the exporter to use our config file instead of the one included in the container.  
+We will copy this file, [adapt](https://github.com/prometheus/blackbox_exporter/blob/master/CONFIGURATION.md) it to our own needs and tell the exporter to use our config file instead of the one included in the container.
 
 First download the file using curl or your browser:
 
@@ -181,7 +179,7 @@ modules:
       method: POST
 ```
 
-[YAML](https://en.wikipedia.org/wiki/YAML) uses whitespace indentation to express hierarchy, so you can recognise that two `modules` named `http_2xx` and `http_post_2xx` are defined, and that they both have a prober `http` and for one the method value is specifically set to `POST`.  
+[YAML](https://en.wikipedia.org/wiki/YAML) uses whitespace indentation to express hierarchy, so you can recognise that two `modules` named `http_2xx` and `http_post_2xx` are defined, and that they both have a prober `http` and for one the method value is specifically set to `POST`.
 You will now change the module `http_2xx` by setting the `preferred_ip_protocol` of the prober `http` explicitly to the string `ip4`.
 
 ```yaml
@@ -198,7 +196,7 @@ modules:
 
 If you want to know more about the available probers and options check out the [documentation](https://github.com/prometheus/blackbox_exporter/blob/master/CONFIGURATION.md).
 
-Now we need to tell the blackbox exporter to use our freshly changed file. You can do that with the flag `--config.file="blackbox.yml"`. But because we are using Docker, we first must make this file [available](https://docs.docker.com/storage/bind-mounts/) inside the container using the `--mount` command.  
+Now we need to tell the blackbox exporter to use our freshly changed file. You can do that with the flag `--config.file="blackbox.yml"`. But because we are using Docker, we first must make this file [available](https://docs.docker.com/storage/bind-mounts/) inside the container using the `--mount` command.
 
 NOTE: If you are using macOS you first need to allow the Docker daemon to access the directory in which your `blackbox.yml` is. You can do that by clicking on the little Docker whale in menu bar and then on `Preferences`->`File Sharing`->`+`. Afterwards press `Apply & Restart`.
 
@@ -288,12 +286,12 @@ probe_success 1
 probe_tls_version_info{version="TLS 1.3"} 1
 ```
 
-You can see that the probe was successful and get many useful metrics, like latency by phase, status code, ssl status or certificate expiry in [Unix time](https://en.wikipedia.org/wiki/Unix_time).  
+You can see that the probe was successful and get many useful metrics, like latency by phase, status code, ssl status or certificate expiry in [Unix time](https://en.wikipedia.org/wiki/Unix_time).
 The blackbox exporter also offers a tiny web interface at [localhost:9115](http://localhost:9115) for you to check out the last few probes, the loaded config and debug information. It even offers a direct link to probe `prometheus.io`. Handy if you are wondering why something does not work.
 
 ## Querying multi-target exporters with Prometheus
 
-So far, so good. Congratulate yourself. The blackbox exporter works and you can manually tell it to query a remote target. You are almost there. Now you need to tell Prometheus to do the queries for us.  
+So far, so good. Congratulate yourself. The blackbox exporter works and you can manually tell it to query a remote target. You are almost there. Now you need to tell Prometheus to do the queries for us.
 
 Below you find a minimal prometheus config. It is telling Prometheus to scrape the exporter itself as we did [before](#query-exporter) using `curl 'localhost:9115/metrics'`:
 

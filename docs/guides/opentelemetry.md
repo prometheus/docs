@@ -1,8 +1,7 @@
 ---
-title: OpenTelemetry
+title: Using Prometheus as your OpenTelemetry backend
+nav_title: OpenTelemetry
 ---
-
-# Using Prometheus as your OpenTelemetry backend
 
 Prometheus supports [OTLP](https://opentelemetry.io/docs/specs/otlp) (aka "OpenTelemetry Protocol") ingestion through [HTTP](https://opentelemetry.io/docs/specs/otlp/#otlphttp).
 

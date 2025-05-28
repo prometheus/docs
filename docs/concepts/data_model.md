@@ -3,8 +3,6 @@ title: Data model
 sort_rank: 1
 ---
 
-# Data model
-
 Prometheus fundamentally stores all data as [_time
 series_](http://en.wikipedia.org/wiki/Time_series): streams of timestamped
 values belonging to the same metric and the same set of labeled dimensions.

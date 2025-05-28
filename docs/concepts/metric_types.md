@@ -3,8 +3,6 @@ title: Metric types
 sort_rank: 2
 ---
 
-# Metric types
-
 The Prometheus client libraries offer four core metric types. These are
 currently only differentiated in the client libraries (to enable APIs tailored
 to the usage of the specific types) and in the wire protocol. The Prometheus
@@ -13,7 +11,7 @@ untyped time series. This may change in the future.
 
 ## Counter
 
-A _counter_ is a cumulative metric that represents a single [monotonically 
+A _counter_ is a cumulative metric that represents a single [monotonically
 increasing counter](https://en.wikipedia.org/wiki/Monotonic_function) whose
 value can only increase or be reset to zero on restart. For example, you can
 use a counter to represent the number of requests served, tasks completed, or

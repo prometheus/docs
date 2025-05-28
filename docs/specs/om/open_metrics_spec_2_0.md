@@ -25,8 +25,6 @@ author:
   email: rob.skillington@gmail.com
 ---
 
-# OpenMetrics
-
 - Version: 2.0
 - Status: Draft
 - Date: TBD

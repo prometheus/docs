@@ -3,8 +3,6 @@ title: Instrumentation
 sort_rank: 3
 ---
 
-# Instrumentation
-
 This page provides an opinionated set of guidelines for instrumenting your code.
 
 ## How to instrument

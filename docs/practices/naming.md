@@ -3,8 +3,6 @@ title: Metric and label naming
 sort_rank: 1
 ---
 
-# Metric and label naming
-
 The metric and label conventions presented in this document are not required
 for using Prometheus, but can serve as both a style-guide and a collection of
 best practices. Individual organizations may want to approach some of these
@@ -44,7 +42,7 @@ A metric name...
   * <code>prometheus\_tsdb\_head\_truncations\_established\_total</code>
   * <code>prometheus\_tsdb\_head\_truncations\_failed\_total</code>
   * <code>prometheus\_tsdb\_head\_truncations\_total</code><br/>
-  The following examples are also valid, but are following a different trade-off. They are easier to read individually, but unrelated metrics like <code>prometheus\_tsdb\_head\_series</code> might get sorted in between.  
+  The following examples are also valid, but are following a different trade-off. They are easier to read individually, but unrelated metrics like <code>prometheus\_tsdb\_head\_series</code> might get sorted in between.
   * <code>prometheus\_tsdb\_head\_closed\_truncations\_total</code>
   * <code>prometheus\_tsdb\_head\_established\_truncations\_total</code>
   * <code>prometheus\_tsdb\_head\_failed\_truncations\_total</code>
@@ -65,18 +63,18 @@ queue with the current number of elements in the queue is not.
 
 Some metric naming conventions (e.g. OpenTelemetry) do not recommend or even do not allow
 including information about a metric unit and type in the metric name. A common
-argument is that those pieces of information are already defined somewhere else (e.g. schema, 
+argument is that those pieces of information are already defined somewhere else (e.g. schema,
 metadata, other labels, etc.).
 
 Prometheus strongly recommends including unit and type in a metric name, even if you store that
 information elsewhere, because of the following practical reasons:
 
-* **Metric consumption reliability and UX**: When interacting with a modern UI to 
+* **Metric consumption reliability and UX**: When interacting with a modern UI to
 use such a metric in PromQL, it's possible to display rich information about the metric's type and unit
 (autocompletion, overlays, pop-ups). Unfortunately, interactive, adhoc querying in a powerful UI is not
 the only way that users interact with metrics. Metric consumption ecosystem is vast. Majority
 of the consumption comes in a form of the plain YAML configuration for variety of observability tools like
-alerting, recording, autoscaling, dashboards, analysis, processing, etc. It's **critical**, especially 
+alerting, recording, autoscaling, dashboards, analysis, processing, etc. It's **critical**, especially
 during monitoring/SRE incident practices to look on PromQL expressions in plain YAML and understand
 the underlying metric type and unit you work with.
 * **Metric collisions**: With growing adoption and metric changes over time, there are cases where lack

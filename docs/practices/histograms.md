@@ -7,8 +7,6 @@ NOTE: This document predates native histograms (added as an experimental
 feature in Prometheus v2.40). Once native histograms are closer to becoming a
 stable feature, this document will be thoroughly updated.
 
-# Histograms and summaries
-
 Histograms and summaries are more complex metric types. Not only does
 a single histogram or summary create a multitude of time series, it is
 also more difficult to use these metric types correctly. This section

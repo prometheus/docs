@@ -2,8 +2,6 @@
 title: Monitoring Docker container metrics using cAdvisor
 ---
 
-# Monitoring Docker container metrics using cAdvisor
-
 [cAdvisor](https://github.com/google/cadvisor) (short for **c**ontainer **Advisor**) analyzes and exposes resource usage and performance data from running containers. cAdvisor exposes Prometheus metrics out of the box. In this guide, we will:
 
 * create a local multi-container [Docker Compose](https://docs.docker.com/compose/) installation that includes containers running Prometheus, cAdvisor, and a [Redis](https://redis.io/) server, respectively

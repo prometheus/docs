@@ -2,8 +2,6 @@
 title: Monitoring Linux host metrics with the Node Exporter
 ---
 
-# Monitoring Linux host metrics with the Node Exporter
-
 The Prometheus [**Node Exporter**](https://github.com/prometheus/node_exporter) exposes a wide variety of hardware- and kernel-related metrics.
 
 In this guide, you will:

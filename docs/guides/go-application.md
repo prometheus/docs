@@ -1,8 +1,7 @@
 ---
-title: Instrumenting a Go application
+title: Instrumenting a Go application for Prometheus
+nav_title: Instrumenting a Go application
 ---
-
-# Instrumenting a Go application for Prometheus
 
 Prometheus has an official [Go client library](https://github.com/prometheus/client_golang) that you can use to instrument Go applications. In this guide, we'll create a simple Go application that exposes Prometheus metrics via HTTP.
 

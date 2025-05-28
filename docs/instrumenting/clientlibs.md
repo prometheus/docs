@@ -3,8 +3,6 @@ title: Client libraries
 sort_rank: 1
 ---
 
-# Client libraries
-
 Before you can monitor your services, you need to add instrumentation to their
 code via one of the Prometheus client libraries. These implement the Prometheus
 [metric types](/docs/concepts/metric_types/).

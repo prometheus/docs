@@ -3,8 +3,6 @@ title: Remote write tuning
 sort_rank: 8
 ---
 
-# Remote write tuning
-
 Prometheus implements sane defaults for remote write, but many users have
 different requirements and would like to optimize their remote settings.
 

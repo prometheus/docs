@@ -3,8 +3,6 @@ title: Overview
 sort_rank: 1
 ---
 
-# Overview
-
 ## What is Prometheus?
 
 [Prometheus](https://github.com/prometheus) is an open-source systems

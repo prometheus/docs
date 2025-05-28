@@ -3,8 +3,6 @@ title: Writing exporters
 sort_rank: 5
 ---
 
-# Writing exporters
-
 If you are instrumenting your own code, the [general rules of how to
 instrument code with a Prometheus client
 library](/docs/practices/instrumentation/) should be followed. When

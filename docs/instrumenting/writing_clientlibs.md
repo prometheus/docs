@@ -3,8 +3,6 @@ title: Writing client libraries
 sort_rank: 2
 ---
 
-# Writing client libraries
-
 This document covers what functionality and API Prometheus client libraries
 should offer, with the aim of consistency across libraries, making the easy use
 cases easy and avoiding offering functionality that may lead users down the
@@ -77,7 +75,7 @@ this structure as much as is practical.
 
 Client libraries SHOULD follow function/method/class names mentioned in this
 document, keeping in mind the naming conventions of the language they’re
-working in. For example, `set_to_current_time()` is good for a method name in 
+working in. For example, `set_to_current_time()` is good for a method name in
 Python, but `SetToCurrentTime()` is better in Go and `setToCurrentTime()` is
 the convention in Java. Where names differ for technical reasons (e.g. not
 allowing function overloading), documentation/help strings SHOULD point users

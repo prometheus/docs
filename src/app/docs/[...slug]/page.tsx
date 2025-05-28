@@ -4,9 +4,8 @@ import PromMarkdown, { isAbsoluteUrl } from "@/components/PromMarkdown";
 import docsConfig from "../../../../docs-config";
 import { getPageMetadata } from "@/page-metadata";
 import VersionWarning from "./VersionWarning";
-import { Divider } from "@mantine/core";
+import { Divider, Title } from "@mantine/core";
 import PrevNextEditButtons from "./PrevNextEditButtons";
-import { HTMLAttributes } from "react";
 import path from "path";
 import { DocMetadata } from "@/docs-collection-types";
 
@@ -86,49 +85,53 @@ export default async function DocsPage({
   return (
     <>
       <VersionWarning currentPage={docMeta} />
-      <PromMarkdown
-        wrapperProps={
-          {
-            "data-pagefind-body": pagefindShouldIndex ? "true" : undefined,
-            "data-pagefind-meta": `breadcrumbs:${pagefindBreadcrumbsTitle(
-              docMeta
-            )}`,
-          } as HTMLAttributes<HTMLDivElement>
-        }
-        normalizeHref={(href: string | undefined) => {
-          if (!href) {
-            return href;
-          }
-
-          // Do some postprocessing on the hrefs to make sure they point to the right place.
-          if (href.startsWith(docsConfig.siteUrl)) {
-            // Remove the "https://prometheus.io" from links that start with it.
-            return href.slice(docsConfig.siteUrl.length);
-          } else if (href.startsWith("/") && docMeta.type === "repo-doc") {
-            // Turn "/<path>" into e.g. "https://github.com/prometheus/prometheus/blob/release-3.3/<path>"
-            return `https://github.com/${docMeta.owner}/${docMeta.repo}/blob/release-${docMeta.version}${href}`;
-          } else if (href.includes(".md") && !isAbsoluteUrl(href)) {
-            // Turn relative links like "d.md" in "docs/a/b/c.md" into full paths like "/docs/a/b/d/".
-            return resolveRelativeUrl(`/docs/${docMeta.slug}`, href);
-          }
-          return href;
-        }}
-        normalizeImgSrc={(src: string | Blob | undefined) => {
-          // Leave anything alone that doesn't look like a normal relative URL.
-          if (
-            src &&
-            typeof src === "string" &&
-            !isAbsoluteUrl(src) &&
-            docMeta.type === "repo-doc"
-          ) {
-            return `${docMeta.assetsRoot}/${src}`;
-          }
-
-          return src;
+      <div
+        {...{
+          "data-pagefind-body": pagefindShouldIndex ? "true" : undefined,
+          "data-pagefind-meta": `breadcrumbs:${pagefindBreadcrumbsTitle(
+            docMeta
+          )}`,
         }}
       >
-        {markdown}
-      </PromMarkdown>
+        {docMeta.type === "local-doc" && (
+          <Title order={1}>{docMeta.title}</Title>
+        )}
+        <PromMarkdown
+          normalizeHref={(href: string | undefined) => {
+            if (!href) {
+              return href;
+            }
+
+            // Do some postprocessing on the hrefs to make sure they point to the right place.
+            if (href.startsWith(docsConfig.siteUrl)) {
+              // Remove the "https://prometheus.io" from links that start with it.
+              return href.slice(docsConfig.siteUrl.length);
+            } else if (href.startsWith("/") && docMeta.type === "repo-doc") {
+              // Turn "/<path>" into e.g. "https://github.com/prometheus/prometheus/blob/release-3.3/<path>"
+              return `https://github.com/${docMeta.owner}/${docMeta.repo}/blob/release-${docMeta.version}${href}`;
+            } else if (href.includes(".md") && !isAbsoluteUrl(href)) {
+              // Turn relative links like "d.md" in "docs/a/b/c.md" into full paths like "/docs/a/b/d/".
+              return resolveRelativeUrl(`/docs/${docMeta.slug}`, href);
+            }
+            return href;
+          }}
+          normalizeImgSrc={(src: string | Blob | undefined) => {
+            // Leave anything alone that doesn't look like a normal relative URL.
+            if (
+              src &&
+              typeof src === "string" &&
+              !isAbsoluteUrl(src) &&
+              docMeta.type === "repo-doc"
+            ) {
+              return `${docMeta.assetsRoot}/${src}`;
+            }
+
+            return src;
+          }}
+        >
+          {markdown}
+        </PromMarkdown>
+      </div>
       <Divider my="xl" />
       <PrevNextEditButtons currentPage={docMeta} />
     </>

@@ -3,8 +3,6 @@ title: When to use the Pushgateway
 sort_rank: 7
 ---
 
-# When to use the Pushgateway
-
 The Pushgateway is an intermediary service which allows you to push metrics
 from jobs which cannot be scraped. For details, see [Pushing metrics](/docs/instrumenting/pushing/).
 

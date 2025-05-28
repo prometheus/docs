@@ -1,9 +1,8 @@
 ---
-title: Query Log
+title: Using the Prometheus query log
+nav_title: Query log
 sort_rank: 1
 ---
-
-# Using the Prometheus query log
 
 Prometheus has the ability to log all the queries run by the engine to a log
 file, as of 2.16.0. This guide demonstrates how to use that log file, which

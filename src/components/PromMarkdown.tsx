@@ -50,11 +50,9 @@ const h = (order: 1 | 2 | 3 | 4 | 5 | 6) => {
 
 export default async function PromMarkdown({
   children,
-  wrapperProps = {},
   normalizeHref = (href: string | undefined) => href,
   normalizeImgSrc = (src: string | Blob | undefined) => src,
 }: PropsWithChildren<{
-  wrapperProps?: HTMLAttributes<HTMLDivElement>;
   normalizeHref?: (href: string | undefined) => string | undefined;
   normalizeImgSrc?: (
     src: string | Blob | undefined
@@ -65,7 +63,7 @@ export default async function PromMarkdown({
   }
 
   return (
-    <div className="markdown-content" {...wrapperProps}>
+    <div className="markdown-content">
       <MarkdownAsync
         remarkPlugins={[remarkFrontmatter, remarkGfm]}
         rehypePlugins={[

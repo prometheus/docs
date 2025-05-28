@@ -1,10 +1,8 @@
 ---
-title: "Remote Write 1.0"
+title: "Prometheus Remote-Write 1.0 specification"
 nav_title: "1.0"
 sort_rank: 1
 ---
-
-# Prometheus Remote-Write Specification
 
 - Version: 1.0
 - Status: Published

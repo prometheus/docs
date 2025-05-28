@@ -1,5 +1,6 @@
 ---
-title: Security
+title: Security model
+nav_title: Security
 sort_rank: 4
 ---
 
@@ -13,8 +14,6 @@ endpoint of instrumented binaries, the various API endpoints of server
 components, and the `/pprof` endpoint of server components implemented in Go.
 Furthermore, it is easily possible to overload and ultimately DoS servers with
 requests to these endpoints.
-
-# Security Model
 
 Prometheus is a sophisticated system with many components and many integrations
 with other systems. It can be deployed in a variety of trusted and untrusted

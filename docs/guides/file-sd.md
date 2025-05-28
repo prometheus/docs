@@ -2,8 +2,6 @@
 title: Use file-based service discovery to discover scrape targets
 ---
 
-# Use file-based service discovery to discover scrape targets
-
 Prometheus offers a variety of [service discovery options](https://github.com/prometheus/prometheus/tree/main/discovery) for discovering scrape targets, including [Kubernetes](/docs/prometheus/latest/configuration/configuration/#kubernetes_sd_config), [Consul](/docs/prometheus/latest/configuration/configuration/#consul_sd_config), and many others. If you need to use a service discovery system that is not currently supported, your use case may be best served by Prometheus' [file-based service discovery](/docs/prometheus/latest/configuration/configuration/#file_sd_config) mechanism, which enables you to list scrape targets in a JSON file (along with metadata about those targets).
 
 In this guide, we will:

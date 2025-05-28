@@ -23,8 +23,6 @@ author:
   email: rob.skillington@gmail.com
 ---
 
-# OpenMetrics
-
 - Version: 1.0
 - Status: Published
 - Date: March 2022

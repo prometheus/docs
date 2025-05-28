@@ -1,9 +1,8 @@
 ---
-title: UTF-8 escaping schemes
+title: UTF-8 metric and label name escaping schemes
+nav_title: UTF-8 escaping schemes
 sort_rank: 7
 ---
-
-# UTF-8 metric and label name escaping schemes
 
 ## Abstract
 

@@ -3,8 +3,6 @@ title: Console templates
 sort_rank: 3
 ---
 
-# Console templates
-
 Console templates allow for creation of arbitrary consoles using the [Go
 templating language](http://golang.org/pkg/text/template/). These are served
 from the Prometheus server.

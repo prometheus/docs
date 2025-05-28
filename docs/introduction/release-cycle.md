@@ -1,9 +1,7 @@
 ---
-title: Long-Term Support
+title: Long-term support
 sort_rank: 10
 ---
-
-# Long Term Support
 
 Prometheus LTS are selected releases of Prometheus that receive bugfixes for an
 extended period of time.

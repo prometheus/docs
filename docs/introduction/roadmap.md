@@ -3,8 +3,6 @@ title: Roadmap
 sort_rank: 6
 ---
 
-# Roadmap
-
 The following is only a selection of some of the major features we plan to
 implement in the near future. To get a more complete overview of planned
 features and current work, see the issue trackers for the various repositories,
@@ -24,7 +22,7 @@ in Prometheus and provide it via an experimental API endpoint.
 The OpenMetrics working group is developing a new standard for metric exposition.
 We plan to support this format in our client libraries and Prometheus itself.
 
-### Retroactive rule evaluations		
+### Retroactive rule evaluations
 
 Add support for retroactive rule evaluations making use of backfill.
 

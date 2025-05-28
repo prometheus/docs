@@ -1,4 +1,4 @@
-// import type { Metadata } from "next";
+import { GoogleAnalytics } from "@next/third-parties/google";
 import { Inter } from "next/font/google";
 import { Lato } from "next/font/google";
 import {
@@ -99,6 +99,11 @@ export default function RootLayout({
           </AppShell>
         </MantineProvider>
       </body>
+      {/* The Google Analytics ID is not secret, but we want to keep it in an environment variable so that
+          people who clone and host this repo somewhere else don't accidentally pollute our GA4 stats */}
+      {process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID && (
+        <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID} />
+      )}
     </html>
   );
 }

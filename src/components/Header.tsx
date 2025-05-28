@@ -37,7 +37,8 @@ const links = [
 
 export const Header = () => {
   const path = usePathname();
-  const [burgerOpened, { toggle: toggleBurger }] = useDisclosure(false);
+  const [burgerOpened, { toggle: toggleBurger, close: closeBurger }] =
+    useDisclosure(false);
 
   const items = links.map((link) => (
     <Link
@@ -48,11 +49,7 @@ export const Header = () => {
         path.startsWith(link.activeBasePath || link.link) ? "page" : undefined
       }
       // Close burger menu when clicking a link.
-      onClick={() => {
-        if (burgerOpened) {
-          toggleBurger();
-        }
-      }}
+      onClick={closeBurger}
     >
       {link.label}
     </Link>
@@ -165,12 +162,15 @@ export const Header = () => {
                 />
                 {actionIcons}
               </Group>
+
+              {/* Mobile version of the nav */}
               <Popover
                 opened={burgerOpened}
-                onChange={toggleBurger}
+                onDismiss={closeBurger}
                 position="bottom"
                 withArrow
                 shadow="md"
+                hideDetached={false}
               >
                 <Popover.Target>
                   <Burger

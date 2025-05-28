@@ -19,6 +19,7 @@
     "@mantine/core": "^8.0.2",
     "@mantine/hooks": "^8.0.2",
     "@mantine/spotlight": "^8.0.2",
+    "@next/third-parties": "^15.3.2",
     "@tabler/icons-react": "^3.31.0",
     "@types/semver": "^7.7.0",
     "dayjs": "^1.11.13",

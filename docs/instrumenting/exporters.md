@@ -246,6 +246,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [nftables exporter](https://github.com/Intrinsec/nftables_exporter)
    * [OpenStack exporter](https://github.com/openstack-exporter/openstack-exporter)
    * [OpenStack blackbox exporter](https://github.com/infraly/openstack_client_exporter)
+   * [OpenVPN exporter](https://github.com/Fadi-hamwi/OpenVPN-Metrics-Exporter)
    * [oVirt exporter](https://github.com/czerwonk/ovirt_exporter)
    * [Pact Broker exporter](https://github.com/ContainerSolutions/pactbroker_exporter)
    * [PHP-FPM exporter](https://github.com/bakins/php-fpm-exporter)

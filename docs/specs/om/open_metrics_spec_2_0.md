@@ -321,7 +321,7 @@ metric = *sample
 metric-type = counter / gauge / histogram / gaugehistogram / stateset
 metric-type =/ info / summary / unknown
 
-sample = metricname [labels] SP number [SP timestamp] [exemplar] LF
+sample = metricname [labels] SP number [SP timestamp] [SP created] [exemplar] LF
 
 exemplar = SP HASH SP labels SP number [SP timestamp]
 
@@ -383,6 +383,8 @@ escaped-char =/ BS normal-char
 
 ; Any unicode character, except newline, double quote, and backslash
 normal-char = %x00-09 / %x0B-21 / %x23-5B / %x5D-D7FF / %xE000-10FFFF
+
+created = "ct@" timestamp
 ```
 
 #### Overall Structure

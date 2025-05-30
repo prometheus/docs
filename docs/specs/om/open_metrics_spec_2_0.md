@@ -399,7 +399,7 @@ Line endings MUST be signalled with line feed (\n) and MUST NOT contain carriage
 
 An example of a complete exposition:
 
-```
+```openmetrics
 # TYPE acme_http_router_request_seconds summary
 # UNIT acme_http_router_request_seconds seconds
 # HELP acme_http_router_request_seconds Latency though all of ACME's HTTP request router.

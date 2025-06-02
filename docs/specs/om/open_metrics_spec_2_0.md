@@ -384,7 +384,8 @@ escaped-char =/ BS normal-char
 ; Any unicode character, except newline, double quote, and backslash
 normal-char = %x00-09 / %x0B-21 / %x23-5B / %x5D-D7FF / %xE000-10FFFF
 
-created = "ct@" timestamp
+; Lowercase ct @ timestamp
+created = %d99.116 "@" timestamp
 ```
 
 #### Overall Structure

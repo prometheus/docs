@@ -408,7 +408,6 @@ An example of a complete exposition:
 # HELP acme_http_router_request_seconds Latency though all of ACME's HTTP request router.
 acme_http_router_request_seconds_sum{path="/api/v1",method="GET"} 9036.32 ct@1605281325.0
 acme_http_router_request_seconds_count{path="/api/v1",method="GET"} 807283.0 ct@1605281325.0
-acme_http_router_request_seconds_created{path="/api/v1",method="GET"} 1605281325.0 ct@1605281325.0
 acme_http_router_request_seconds_sum{path="/api/v2",method="POST"} 479.3 ct@1605281325.0
 acme_http_router_request_seconds_count{path="/api/v2",method="POST"} 34.0 ct@1605281325.0
 # TYPE go_goroutines gauge

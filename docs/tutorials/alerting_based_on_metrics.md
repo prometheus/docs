@@ -10,7 +10,7 @@ For the sake of this tutorial we will alert when the `ping_request_count` metric
 
 Download the latest release of Alertmanager for your operating system from [here](https://github.com/prometheus/alertmanager/releases).
 
-Alertmanager supports various receivers like `email`, `webhook`, `pagerduty`, `slack` etc through which it can notify when an alert is firing. You can find the list of receivers and how to configure them [here](../../alerting/latest/configuration). We will use `webhook` as a receiver for this tutorial, head over to [webhook.site](https://webhook.site) and copy the webhook URL which we will use later to configure the Alertmanager.
+Alertmanager supports various receivers like `email`, `webhook`, `pagerduty`, `slack` etc through which it can notify when an alert is firing. You can find the list of receivers and how to configure them [here](/docs/alerting/latest/configuration/). We will use `webhook` as a receiver for this tutorial, head over to [webhook.site](https://webhook.site) and copy the webhook URL which we will use later to configure the Alertmanager.
 
 First let's setup Alertmanager with the webhook receiver.
 

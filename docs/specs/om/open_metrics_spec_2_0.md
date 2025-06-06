@@ -634,7 +634,7 @@ foo 18.0 456
 
 ##### Counter
 
-The MetricPoint's Total Value Sample MetricName MUST have the suffix `_total`. If present the MetricPoint's Created Value MUST be inlined with the Metric point with a `ct@` prefix. If the value's timestamp is present, the Created Value MUST be added right after it. If exemplars are present, the Created Value MUST be added before it.
+The MetricPoint's Total Value Sample MetricName MUST have the suffix `_total`. If present, the MetricPoint's Created Value MUST be inlined with the Metric point with a `ct@` prefix. If the value's timestamp is present, the Created Value MUST be added right after it. If exemplar is present, the Created Value MUST be added before it.
 
 An example with a Metric with no labels, and a MetricPoint with no timestamp and no created:
 
@@ -725,7 +725,7 @@ Metric labels and MetricPoint value labels MAY be in any order.
 
 If present, the MetricPoint's Sum Value Sample MetricName MUST have the suffix `_sum`. If present, the MetricPoint's Count Value MetricName MUST have the suffix `_count`. If present, the MetricPoint's Quantile Values MUST specify the quantile measured using a label with a label name of "quantile" and with a label value of the quantile measured. 
 
-If present the MetricPoint's Created Value MUST be inlined with the Metric point with a `ct@` prefix. If the value's timestamp is present, the Created Value MUST be added right after it. If exemplars are present, the Created Value MUST be added before it. Createad Value MUST be appended to all Quantile Values, to the MetricPoint's Sum and MetricPoint's Count.
+If present the MetricPoint's Created Value MUST be inlined with the Metric point with a `ct@` prefix. If the value's timestamp is present, the Created Value MUST be added right after it. If exemplar is present, the Created Value MUST be added before it. Createad Value MUST be appended to all Quantile Values, to the MetricPoint's Sum and MetricPoint's Count.
 
 An example of a Metric with no labels and a MetricPoint with Sum, Count and Created values:
 
@@ -749,7 +749,7 @@ Quantiles MAY be in any order.
 
 The MetricPoint's Bucket Values Sample MetricNames MUST have the suffix `_bucket`. If present, the MetricPoint's Sum Value Sample MetricName MUST have the suffix `_sum`. 
 
-If present the MetricPoint's Created Value MUST be inlined with the Metric point with a `ct@` prefix. If the value's timestamp is present, the Created Value MUST be added right after it. If exemplars are present, the Created Value MUST be added before it. Createad Value MUST be appended to all Bucket Values, to the MetricPoint's Sum and MetricPoint's Count.
+If present the MetricPoint's Created Value MUST be inlined with the Metric point with a `ct@` prefix. If the value's timestamp is present, the Created Value MUST be added right after it. If exemplar  is present, the Created Value MUST be added before it. Createad Value MUST be appended to all Bucket Values, to the MetricPoint's Sum and MetricPoint's Count.
 
 If and only if a Sum Value is present in a MetricPoint, then the MetricPoint's +Inf Bucket value MUST also appear in a Sample with a MetricName with the suffix "_count".
 

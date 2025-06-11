@@ -4,8 +4,12 @@ nav_title: Grafana
 sort_rank: 2
 ---
 
-[Grafana](http://grafana.com/) supports querying Prometheus.
-The Grafana data source for Prometheus is included since Grafana 2.5.0 (2015-10-28).
+[Grafana](http://grafana.com/) is an open-source analytics and visualization platform used to monitor and analyze metrics from various data
+sources. It allows users to create, explore, and share interactive dashboards, supporting integrations with databases
+like Prometheus, InfluxDB, Elasticsearch, and more. Grafana is widely used for observability, providing alerting, plugin
+extensibility, and a flexible query editor for real-time data visualization.
+
+Note: The Grafana data source for Prometheus is included since Grafana 2.5.0 (2015-10-28).
 
 The following shows an example Grafana dashboard which queries Prometheus for data:
 
@@ -62,11 +66,11 @@ for use in the `rate`and `increase` functions.
 ### Importing pre-built dashboards from Grafana.com
 
 Grafana.com maintains [a collection of shared dashboards](https://grafana.com/dashboards)
-which can be downloaded and used with standalone instances of Grafana.  Use
+which can be downloaded and used with standalone instances of Grafana. Use
 the Grafana.com "Filter" option to browse dashboards for the "Prometheus"
 data source only.
 
 You must currently manually edit the downloaded JSON files and correct the
 `datasource:` entries to reflect the Grafana data source name which you
-chose for your Prometheus server.  Use the "Dashboards" → "Home" → "Import"
+chose for your Prometheus server. Use the "Dashboards" → "Home" → "Import"
 option to import the edited dashboard file into your Grafana install.

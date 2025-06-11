@@ -590,14 +590,14 @@ The Sample MetricName for the value of a MetricPoint for a MetricFamily of type 
 
 An example MetricFamily with a Metric with no labels and a MetricPoint with no timestamp:
 
-```
+```openmetrics-add-eof
 # TYPE foo gauge
 foo 17.0
 ```
 
 An example of a MetricFamily with two Metrics with a label and MetricPoints with no timestamp:
 
-```
+```openmetrics-add-eof
 # TYPE foo gauge
 foo{a="bb"} 17.0
 foo{a="ccc"} 17.0
@@ -605,27 +605,27 @@ foo{a="ccc"} 17.0
 
 An example of a MetricFamily with no Metrics:
 
-```
+```openmetrics-add-eof
 # TYPE foo gauge
 ```
 
 An example with a Metric with a  label and a MetricPoint with a timestamp:
 
-```
+```openmetrics-add-eof
 # TYPE foo gauge
 foo{a="b"} 17.0 1520879607.789
 ```
 
 An example with a Metric with no labels and MetricPoint with a timestamp:
 
-```
+```openmetrics-add-eof
 # TYPE foo gauge
 foo 17.0 1520879607.789
 ```
 
 An example with a Metric with no labels and two MetricPoints with timestamps:
 
-```
+```openmetrics-add-eof
 # TYPE foo gauge
 foo 17.0 123
 foo 18.0 456
@@ -637,21 +637,21 @@ The MetricPoint's Total Value Sample MetricName MUST have the suffix `_total`. I
 
 An example with a Metric with no labels, and a MetricPoint with no timestamp and no created:
 
-```
+```openmetrics-add-eof
 # TYPE foo counter
 foo_total 17.0
 ```
 
 An example with a Metric with no labels, and a MetricPoint with a timestamp and no created:
 
-```
+```openmetrics-add-eof
 # TYPE foo counter
 foo_total 17.0 1520879607.789
 ```
 
 An example with a Metric with no labels, and a MetricPoint with no timestamp and a created:
 
-```
+```openmetrics-add-eof
 # TYPE foo counter
 foo_total 17.0
 foo_created 1520430000.123
@@ -659,7 +659,7 @@ foo_created 1520430000.123
 
 An example with a Metric with no labels, and a MetricPoint with a timestamp and a created:
 
-```
+```openmetrics-add-eof
 # TYPE foo counter
 foo_total 17.0 1520879607.789
 foo_created 1520430000.123 1520879607.789
@@ -675,7 +675,7 @@ StateSets MUST have one sample per State in the MetricPoint. Each State's sample
 
 An example with the states "a", "bb", and "ccc" in which only the value bb is enabled and the metric name is foo:
 
-```
+```openmetrics-add-eof
 # TYPE foo stateset
 foo{foo="a"} 0
 foo{foo="bb"} 1
@@ -684,7 +684,7 @@ foo{foo="ccc"} 0
 
 An example of an "entity" label on the Metric:
 
-```
+```openmetrics-add-eof
 # TYPE foo stateset
 foo{entity="controller",foo="a"} 1.0
 foo{entity="controller",foo="bb"} 0.0
@@ -700,14 +700,14 @@ The Sample MetricName for the value of a MetricPoint for a MetricFamily of type 
 
 An example of a Metric with no labels, and one MetricPoint value with "name" and "version" labels:
 
-```
+```openmetrics-add-eof
 # TYPE foo info
 foo_info{name="pretty name",version="8.2.7"} 1
 ```
 
 An example of a Metric with label "entity" and one MetricPoint value with “name” and “version” labels:
 
-```
+```openmetrics-add-eof
 # TYPE foo info
 foo_info{entity="controller",name="pretty name",version="8.2.7"} 1.0
 foo_info{entity="replica",name="prettier name",version="8.1.9"} 1.0
@@ -721,7 +721,7 @@ If present, the MetricPoint's Sum Value Sample MetricName MUST have the suffix `
 
 An example of a Metric with no labels and a MetricPoint with Sum, Count and Created values:
 
-```
+```openmetrics-add-eof
 # TYPE foo summary
 foo_count 17.0
 foo_sum 324789.3
@@ -730,7 +730,7 @@ foo_created 1520430000.123
 
 An example of a Metric with no labels and a MetricPoint with two quantiles:
 
-```
+```openmetrics-add-eof
 # TYPE foo summary
 foo{quantile="0.95"} 123.7
 foo{quantile="0.99"} 150.0
@@ -747,7 +747,7 @@ Buckets MUST be sorted in number increasing order of "le", and the value of the 
 
 An example of a Metric with no labels and a MetricPoint with Sum, Count, and Created values, and with 12 buckets. A wide and atypical but valid variety of “le” values is shown on purpose:
 
-```
+```openmetrics-add-eof
 # TYPE foo histogram
 foo_bucket{le="0.0"} 0
 foo_bucket{le="1e-05"} 0
@@ -772,7 +772,7 @@ Exemplars without Labels MUST represent an empty LabelSet as {}.
 An example of Exemplars showcasing several valid cases:
 The "0.01" bucket has no Exemplar. The 0.1 bucket has an Exemplar with no Labels. The 1 bucket has an Exemplar with one Label. The 10 bucket has an Exemplar with a Label and a timestamp. In practice all buckets SHOULD have the same style of Exemplars.
 
-```
+```openmetrics-add-eof
 # TYPE foo histogram
 foo_bucket{le="0.01"} 0
 foo_bucket{le="0.1"} 8 # {} 0.054
@@ -781,7 +781,7 @@ foo_bucket{le="10"} 17 # {trace_id="oHg5SJYRHA0"} 9.8 1520879607.789
 foo_bucket{le="+Inf"} 17
 foo_count 17
 foo_sum 324789.3
-foo_created  1520430000.123
+foo_created 1520430000.123
 ```
 
 ##### GaugeHistogram
@@ -793,7 +793,7 @@ Buckets MUST be sorted in number increasing order of "le", and the value of the 
 
 An example of a Metric with no labels, and one MetricPoint value with no Exemplar with no Exemplars in the buckets:
 
-```
+```openmetrics-add-eof
 # TYPE foo gaugehistogram
 foo_bucket{le="0.01"} 20.0
 foo_bucket{le="0.1"} 25.0
@@ -810,7 +810,7 @@ The sample metric name for the value of the MetricPoint for a MetricFamily of ty
 
 An example with a Metric with no labels and a MetricPoint with no timestamp:
 
-```
+```openmetrics-add-eof
 # TYPE foo unknown
 foo 42.23
 ```

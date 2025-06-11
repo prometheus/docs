@@ -4,5 +4,5 @@ import { Octokit } from "octokit";
 dotenv.config();
 
 export const octokit = new Octokit({
-  auth: `${process.env.GITHUB_TOKEN}`,
+  auth: process.env.GITHUB_TOKEN,
 });

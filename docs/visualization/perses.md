@@ -4,7 +4,11 @@ nav_title: Perses
 sort_rank: 3
 ---
 
-[Perses](https://perses.dev) supports Prometheus since the beginning of the project.
+[Perses](https://perses.dev) is an open-source dashboard and visualization platform designed for observability, with
+native support for Prometheus as a data source.
+It enables users to create, manage, and share dashboards for monitoring metrics and visualizing data.
+Perses aims to provide a simple, flexible, and extensible alternative to other dashboarding tools, focusing on ease of
+use, community-driven development, GitOps capabilities and dashboard as code approach.
 
 Here is an example of a Perses dashboard querying Prometheus for data:
 
@@ -19,12 +23,12 @@ To install Perses, see the official [Perses documentation](https://perses.dev/pe
 By default, Perses will be listening on port `8080`. You can access the web UI at `http://localhost:8080`. There is no
 login by default.
 
-### Data source in Perses
+### Creating a Prometheus data source
 
-Perses supports and provides a way to define data sources. It slightly differs from how it is done in Grafana, but you
-should not be so surprised if you are familiar with Grafana.
-
-Data sources concept is defined in the [Perses documentation](https://perses.dev/perses/docs/concepts/datasources).
+To learn about how to set up a data source in Perses, please refer
+to [Perses documentation](https://perses.dev/perses/docs/concepts/datasources).
+Once this connection to your Prometheus instance is configured, you are able to query it from the Dashboard and Explore
+views.
 
 ### Importing pre-built dashboards
 

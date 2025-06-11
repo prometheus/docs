@@ -65,6 +65,7 @@ class examples:
 
     def __next__(self):
         collecting = False
+        append_eof = False
         start_line = self.line_number
         example_lines = []
         for line in self.file:
@@ -78,7 +79,11 @@ class examples:
             elif line.startswith('```openmetrics'):
                 start_line = self.line_number
                 collecting = True
+                if line.startswith('```openmetrics-add-eof'):
+                    append_eof = True
         if len(example_lines) > 0:
+            if append_eof:
+                example_lines.append('# EOF')
             return example(start_line, ''.join(example_lines).strip())
 
         raise StopIteration("No more examples found.")

@@ -106,7 +106,7 @@ Each MetricPoint consists of a set of values, depending on the MetricFamily type
 
 Exemplars are references to data outside of the MetricSet. A common use case are IDs of program traces.
 
-Exemplars MUST consist of a LabelSet and a value, and MAY have a timestamp. They MAY each be different from the MetricPoints' LabelSet and timestamp.
+Exemplars MUST consist of a LabelSet and a value. Exemplars associated with numeric values MAY have a timestamp. Exemplars associated with complex types MUST have a timestamp. They MAY each be different from the MetricPoints' LabelSet and timestamp.
 
 The combined length of the label names and values of an Exemplar's LabelSet MUST NOT exceed 128 UTF-8 character code points. Other characters in the text rendering of an exemplar such as `",=` are not included in this limit for implementation simplicity and for consistency between the text and proto formats.
 
@@ -392,15 +392,16 @@ metric = *sample
 metric-type = counter / gauge / histogram / gaugehistogram / stateset
 metric-type =/ info / summary / unknown
 
-sample = metricname [labels] SP value [SP timestamp] [exemplar] LF
+sample = metricname [labels] SP number [SP timestamp] [exemplar] LF
+sample =/ metricname [labels] SP "{" complextype "}" [SP timestamp] *exemplar-ts LF
 
-exemplar = SP HASH SP labels SP number [SP timestamp]
+exemplar = exemplar-base [SP timestamp]
+exemplar-ts = exemplar-base SP timestamp
+exemplar-base = SP HASH SP labels SP number
 
 labels = "{" [label *(COMMA label)] "}"
 
 label = label-name EQ DQUOTE escaped-string DQUOTE
-
-value = number / "{" complextype "}"
 
 number = realnumber
 ; Case insensitive
@@ -859,7 +860,7 @@ foo{quantile="0.99"} 150.0
 
 Quantiles MAY be in any order.
 
-##### Histogram with class buckets
+##### Histogram with classic buckets
 
 The MetricPoint's Bucket Values Sample MetricNames MUST have the suffix `_bucket`. If present, the MetricPoint's Sum Value Sample MetricName MUST have the suffix `_sum`. If present, the MetricPoint's Created Value Sample MetricName MUST have the suffix `_created`.
 If and only if a Sum Value is present in a MetricPoint, then the MetricPoint's +Inf Bucket value MUST also appear in a Sample with a MetricName with the suffix "_count".
@@ -908,7 +909,7 @@ The sum of all length values in each span list MUST be equal to the length of th
 
 An example with all fields:
 
-```
+```openmetrics-add-eof
 # TYPE acme_http_request_seconds histogram
 acme_http_request_seconds{path="/api/v1",method="GET"} {count:59,sum:1.2e2,schema:7,zero_threshold:1e-4,zero_count:0,negative_spans:[1:2],negative_deltas:[5,2],positive_spans:[-1:2,3:4],positive_deltas:[5,2,3,-1,-1,0]}
 acme_http_request_seconds_created 1520430000.123
@@ -916,7 +917,7 @@ acme_http_request_seconds_created 1520430000.123
 
 An example without any buckets in use:
 
-```
+```openmetrics-add-eof
 # TYPE acme_http_request_seconds histogram
 acme_http_request_seconds{path="/api/v1",method="GET"} {count:0,sum:0,schema:3,zero_threshold:1e-4,zero_count:0}
 acme_http_request_seconds_created 1520430000.123
@@ -928,7 +929,7 @@ If a Histogram MetricPoint has both classic and exponential buckets, the exponen
 
 The order ensures that implementations can easily skip the classic buckets if the exponential buckets are preferred.
 
-```
+```openmetrics-add-eof
 # TYPE acme_http_request_seconds histogram
 # UNIT acme_http_request_seconds seconds
 # HELP acme_http_request_seconds Latency histogram of all of ACME's HTTP requests.
@@ -946,10 +947,12 @@ acme_http_request_seconds_created{path="/api/v1",method="GET"} 1605281325.0
 Exemplars without Labels MUST represent an empty LabelSet as {}.
 
 An example of Exemplars showcasing several valid cases:
+The native histogram version of the histogram has multiple Exemplars.
 The "0.01" bucket has no Exemplar. The 0.1 bucket has an Exemplar with no Labels. The 1 bucket has an Exemplar with one Label. The 10 bucket has an Exemplar with a Label and a timestamp. In practice all buckets SHOULD have the same style of Exemplars.
 
 ```openmetrics-add-eof
 # TYPE foo histogram
+foo {count:10,sum:1.0,schema:0,zero_threshold:1e-4,zero_count:0,positive_spans:[0:2],positive_deltas:[5,0]} # {trace_id="shaZ8oxi"} 0.67 1520879607.789 # {trace_id="ookahn0M"} 1.2 1520879608.589
 foo_bucket{le="0.01"} 0
 foo_bucket{le="0.1"} 8 # {} 0.054
 foo_bucket{le="1"} 11 # {trace_id="KOO5S4vxi0o"} 0.67

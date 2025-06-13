@@ -232,7 +232,7 @@ The Count value MUST be equal to the number of measurements taken by the Histogr
 
 The Sum value MUST be equal to the Sum of all the measured event values. The Sum is only a counter semantically as long as there are no negative event values measured by the Histogram MetricPoint.
 
-A Histogram MetricPoint MUST contain either [classic buckets](#classic-buckets) or [native buckets](#native-buckets) or both.
+A Histogram MUST measure non NaN values in either [classic buckets](#classic-buckets) or [native buckets](#native-buckets) or both. If a Histogram stops measuring values in either classic or native buckets and keeps measuring values in the other, it MUST clear and not expose the buckets it stopped measuring into. This avoids exposing different distribution from the two kind of buckets at the same time.
 
 Every bucket MUST have well defined boundaries and a value. Boundaries of a bucket MUST NOT be NaN. Bucket values MUST be integers. Semantically, bucket values are counters so MUST NOT be NaN or negative.
 

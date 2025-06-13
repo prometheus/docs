@@ -264,7 +264,7 @@ Classic bucket values MAY have exemplars. The value of the exemplar MUST be with
 
 ##### Exponential buckets
 
-Histogram MetricPoints with exponential buckets MUST have a Schema value. The Schema is an 8 bit signed integer between -4 and 127. Schema values between -4 and 127 are also called Standard Schemas.
+Histogram MetricPoints with exponential buckets MUST have a Schema value. The Schema is an 8 bit signed integer between -4 and 8. Schemas between -9 and 52 are called Standard Schemas, the currently unused Schemas -9 to -5 and 9 to 52 are reserved to be used as Standard Schemas later.
 
 For any Standard Schema n, the Histogram MetricPoint MAY contain positive, negative exponential buckets and a single zero bucket. It is valid to have no exponentual buckets at all.
 

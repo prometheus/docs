@@ -242,7 +242,7 @@ A Histogram MAY refuse to measure +Inf and -Inf values as adding these to the Su
 
 A Histogram MetricPoint SHOULD have a Timestamp value called Created. This can help ingestors discern between new metrics and long-running ones it did not see before.
 
-A Histogram's Metric's LabelSet MUST NOT have a "le" label name.
+If the Histogram Metric has MetricPoints with classic buckets, the Histogram's Metric's LabelSet MUST NOT have a "le" label name.
 
 ##### Classic buckets
 

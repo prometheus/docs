@@ -260,7 +260,7 @@ If the NaN value is allowed, it MUST be counted in the +Inf bucket, and MUST not
 
 Negative threshold classic buckets MAY be used.
 
-Classic bucket values MAY have exemplars. The value of the exemplar MUST be within the classic bucket. Exemplars SHOULD be put into the classic bucket with the highest threshold. A classic bucket MUST NOT have more than one exemplar.
+Classic bucket values MAY have exemplars. The value of the exemplar MUST be within the classic bucket. Exemplars SHOULD be put into the classic bucket with the lowest threshold that includes the exemplar value. A classic bucket MUST NOT have more than one exemplar.
 
 ##### Exponential buckets
 

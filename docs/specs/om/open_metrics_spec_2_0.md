@@ -254,9 +254,9 @@ As an example for a metric representing request latency in seconds its values fo
 
 Histogram MetricPoints with classic buckets MUST have one classic bucket with a +Inf threshold. The +Inf bucket counts all requests.
 
-If the NaN value is not allowed, then the Count value MUST be equal to the value of the +Inf bucket.
+The Count value MUST be equal to the value of the +Inf bucket.
 
-If the NaN value is allowed, it SHOULD be counted in the +Inf bucket, and MUST not be counted in any other bucket. In case the NaN is counted in the +Inf bucket, then the Count MUST be equal to the value of the +Inf bucket, otherwise the Count MUST be greater. The ratonale is that NaN does not belong to any bucket mathematically, however instrumentation libraries traditionally put it into the +Inf bucket, which is why the wording "SHOULD" is used.
+If the NaN value is allowed, it MUST be counted in the +Inf bucket, and MUST not be counted in any other bucket. The ratonale is that NaN does not belong to any bucket mathematically, however instrumentation libraries traditionally put it into the +Inf bucket.
 
 Negative threshold classic buckets MAY be used.
 

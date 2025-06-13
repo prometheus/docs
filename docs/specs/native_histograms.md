@@ -1933,10 +1933,17 @@ the minimum observation will often be in the lowest bucket.
 `histogram_quantile` treats observations of value `NaN` (which SHOULD NOT
 happen, see [above](#special-cases-of-observed-values)) effectively as
 observations of `+Inf`. This follows the rationale that `NaN` is never less
-than any value that `histogram_quantile` returns and is consistent with how
-classic histograms usually treat `NaN` observations (which end up in the `+Inf`
-bucket in most implementations). (TODO: The correct implementation of this
-behavior still needs to be verified by tests.)
+than any value that `histogram_quantile` returns. As long as the quantile
+falls into an existing bucket we return the quantile calculated as if `NaN`
+observations were observed as `+Inf` and also issue an info level annotation
+to let the user know that results are skewed due to `NaN`. This is consistent
+with how classic histograms usually treat `NaN` observations (which end up in
+the `+Inf` bucket in most implementations). If the quantile falls above all
+existing buckets, we return `NaN` due to the fact that we want to be consistent
+with `histogram_fraction`, since `histogram_fraction` considers `NaN`
+observations to be outside any interval, `NaN` observations cannot be
+considered in the `+Inf` bucket. We also return an info level annotation
+specific to this case.
 
 The following functions have been introduced specifically for native
 histograms:
@@ -1985,8 +1992,7 @@ aligned with the bucket boundaries in the histogram. `+Inf` and `-Inf` are
 valid boundary values and useful to estimate the fraction of all observations
 above or below a certain value. However, observations of value `NaN` are always
 considered to be outside of the specified boundaries (even `+Inf` and `-Inf`).
-(TODO: Verify the correct implementation of this behavior with tests.) Whether
-the provided boundaries are inclusive or exclusive is only relevant if the
+Whether the provided boundaries are inclusive or exclusive is only relevant if the
 provided boundaries are precisely aligned with bucket boundaries in the
 underlying native histogram. In this case, the behavior depends on the precise
 definition of the schema of the histogram.

@@ -862,12 +862,14 @@ Quantiles MAY be in any order.
 
 ##### Histogram with classic buckets
 
-The MetricPoint's Bucket Values Sample MetricNames MUST have the suffix `_bucket`. If present, the MetricPoint's Sum Value Sample MetricName MUST have the suffix `_sum`. If present, the MetricPoint's Created Value Sample MetricName MUST have the suffix `_created`.
-If and only if a Sum Value is present in a MetricPoint, then the MetricPoint's +Inf Bucket value MUST also appear in a Sample with a MetricName with the suffix "_count".
+The MetricPoint's Classic Bucket Values Sample MetricNames MUST have the suffix `_bucket`. If present, the MetricPoint's Sum Value Sample MetricName MUST have the suffix `_sum`. If present, the MetricPoint's Created Value Sample MetricName MUST have the suffix `_created`.
+If and only if a Sum Value is present in a MetricPoint, then the MetricPoint's +Inf Classic Bucket value MUST also appear in a Sample with a MetricName with the suffix "_count".
 
-Buckets MUST be sorted in number increasing order of "le", and the value of the "le" label MUST follow the rules for Canonical Numbers.
+Classic Buckets MUST be sorted in number increasing order of "le", and the value of the "le" label MUST follow the rules for Canonical Numbers.
 
-An example of a Metric with no labels and a MetricPoint with Sum, Count, and Created values, and with 12 buckets. A wide and atypical but valid variety of “le” values is shown on purpose:
+All Classic Buckets must be represented, even the unpopulated ones that didn't measure any values.
+
+An example of a Metric with no labels and a MetricPoint with Sum, Count, and Created values, and with 12 classic buckets. A wide and atypical but valid variety of “le” values is shown on purpose:
 
 ```openmetrics-add-eof
 # TYPE foo histogram

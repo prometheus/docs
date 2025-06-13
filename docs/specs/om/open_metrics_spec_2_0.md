@@ -266,7 +266,7 @@ Classic bucket values MAY have exemplars. The value of the exemplar MUST be with
 
 Histogram MetricPoints with native buckets MUST have a Schema value. The Schema is an 8 bit signed integer between -4 and 8. Schemas between -9 and 52 are called Standard (exponential) Schemas, the currently unused Schemas -9 to -5 and 9 to 52 are reserved to be used as Standard Schemas later.
 
-For any Standard Schema n, the Histogram MetricPoint MAY contain positive, negative native buckets and a single zero native bucket. It is valid to have no native buckets at all.
+For any Standard Schema n, the Histogram MetricPoint MAY contain positive, negative native buckets and MUST contain a zero native bucket. Empty positive or negative native buckets SHOULD NOT be present.
 
 In case of Standard Schemas, the boundaries of a positive or negative native bucket with index i MUST be calculated as follows (using Python syntax):
 
@@ -898,6 +898,8 @@ Histograms with native buckets use the integer native histogram data type.
 The integer native histogram data type is a JSON like structure with fields. There MUST NOT be any whitespace around fields.
 The integer native histogram data type MUST include the Count, Sum, Schema, Zero Threshold, Zero native bucket value as the fields `count`, `sum`, `schema`, `zero_threshold`, `zero_count`.
 
+If a positive or negative native bucket is empty, it SHOULD be omitted. See later for a valid use case when to keep empty buckets.
+
 If there are no negative native buckets, then the fields `negative_spans` and `negative_deltas` SHOULD be omitted.
 If there are no positive native buckets, then the fields `positive_spans` and `positive_deltas` SHOULD be omitted.
 
@@ -906,6 +908,9 @@ If there are negative (and/or positive) native buckets then the fields `negative
 Native bucket values MUST be ordered by their index, and their values MUST be placed in the `negative_deltas` (and/or `positive_deltas`) field using delta encoding, that is the first bucket value is written as is and the following values only as a delta relative to the previous value. For example bucket values 1, 5, 4, 4 will become 1, 4, -1, 0.
 
 To map the `negative_deltas` (and/or `positive_deltas`) back to their indices, the `negative_spans` (and/or `positive_spans`) field MUST be constructed in the following way: each span consists of a pair of numbers, an integer called offset and an non-negative integer called length. Only the first span in each list can have a negative offset. It defines the index of the first bucket in its corresponding `negative_deltas` (and/or `positive_deltas`). The length defines the number of consecutive buckets the bucket list starts with. The offsets of the following spans define the number of excluded (and thus unpopulated buckets). The lengths define the number of consecutive buckets in the list following the excluded buckets.
+
+An example of when to keep empty positive or negative native buckets is to reduce the number of spans needed to represent the case where the offset between two spans is just 1, meaning that with
+the inclusion of one empty bucket, the number of spans is reduced by one.
 
 The sum of all length values in each span list MUST be equal to the length of the corresponding bucket list.
 

@@ -32,6 +32,8 @@ author:
 
 Created in 2012, Prometheus has been the default for cloud-native observability since 2015. A central part of Prometheus' design is its text metric exposition format, called the Prometheus exposition format 0.0.4, stable since 2014. In this format, special care has been taken to make it easy to generate, to ingest, and to understand by humans. As of 2020, there are more than 700 publicly listed exporters, an unknown number of unlisted exporters, and thousands of native library integrations using this format. Dozens of ingestors from various projects and companies support consuming it.
 
+Since 2019, OpenTelemetry has emerged as an alternative way to define a metrics data model. There is a need to be able to expose that data model within OpenMetrics, such that the transport of OpenTelemetry metrics signal is feasable and doesn't violate the OpenMetrics specification.
+
 With OpenMetrics, we are cleaning up and tightening the specification with the express purpose of bringing it into IETF. We are documenting a working standard with wide and organic adoption while introducing minimal, largely backwards-compatible, and well-considered changes. As of 2020, dozens of exporters, integrations, and ingestors use and preferentially negotiate OpenMetrics already.
 
 Given the wide adoption and significant coordination requirements in the ecosystem, sweeping changes to either the Prometheus exposition format 0.0.4 or OpenMetrics 1.0 are considered out of scope.
@@ -124,7 +126,11 @@ MetricFamily names beginning with underscores are RESERVED and MUST NOT be used 
 
 ###### Suffixes
 
-The name of a MetricFamily MUST NOT result in a potential clash for sample metric names as per the ABNF with another MetricFamily in the Text Format within a MetricSet. An example would be a gauge called "foo_created" as a counter called "foo" could create a "foo_created" in the text format.
+The name of a MetricFamily combined with the type and unit MUST NOT result in a potential clash for sample metric names as per the ABNF with another MetricFamily in the Text Format within a MetricSet.
+
+The name of a MetricFamily alone SHOULD NOT result in a potential clash for sample metric names as per the ABNF with another MetricFamily in the Text Format within a MetricSet. This rule relaxes the requirement in previous versions of OpenMetrics and is intended to facilitate exposing OpenTelemetry data model. For other use cases it is highly recommended to continue to adhere to this rule.
+
+An example would be a gauge called "foo_created" as a counter called "foo" could create a "foo_created" in the text format.
 
 Exposers SHOULD avoid names that could be confused with the suffixes that text format sample metric names use.
 
@@ -144,7 +150,9 @@ Type specifies the MetricFamily type. Valid values are "unknown", "gauge", "coun
 
 ##### Unit
 
-Unit specifies MetricFamily units. If non-empty, it MUST be a suffix of the MetricFamily name separated by an underscore. Be aware that further generation rules might make it an infix in the text format.
+Unit specifies MetricFamily units. If non-empty, it SHOULD be a suffix of the MetricFamily name separated by an underscore. This rule relaxes the requirement in previous versions of OpenMetrics and is intended to facilitate exposing OpenTelemetry data model. For other use cases it is highly recommended to continue to adhere to this rule.
+
+Be aware that further generation rules might make it an infix in the text format.
 
 ##### Help
 
@@ -479,20 +487,15 @@ There are four pieces of metadata: The MetricFamily name, TYPE, UNIT and HELP.  
 
 If no TYPE is exposed, the MetricFamily MUST be of type Unknown.
 
-If a unit is specified it MUST be provided in a UNIT metadata line. In addition, an underscore and the unit MUST be the suffix of the MetricFamily name.
+If a unit is specified it MUST be provided in a UNIT metadata line.
+
+In addition, an underscore and the unit SHOULD be the suffix of the MetricFamily name. This rule relaxes the requirement in previous versions of OpenMetrics and is intended to facilitate exposing OpenTelemetry data model. For other use cases it is highly recommended to continue to adhere to this rule.
 
 A valid example for a foo_seconds metric with a unit of "seconds":
 
 ```
 # TYPE foo_seconds counter
 # UNIT foo_seconds seconds
-```
-
-An invalid example, where the unit is not a suffix on the name:
-
-```
-# TYPE foo counter
-# UNIT foo seconds
 ```
 
 It is also valid to have:
@@ -633,7 +636,9 @@ foo 18.0 456
 
 ##### Counter
 
-The MetricPoint's Total Value Sample MetricName MUST have the suffix `_total`. If present the MetricPoint's Created Value Sample MetricName MUST have the suffix `_created`.
+The MetricPoint's Total Value Sample MetricName SHOULD have the suffix `_total`. This rule relaxes the requirement in previous versions of OpenMetrics and is intended to facilitate exposing OpenTelemetry data model. For other use cases it is highly recommended to continue to adhere to this rule.
+
+If present the MetricPoint's Created Value Sample MetricName MUST have the suffix `_created`.
 
 An example with a Metric with no labels, and a MetricPoint with no timestamp and no created:
 

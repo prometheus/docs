@@ -268,6 +268,8 @@ Histogram MetricPoints with native buckets MUST have a Schema value. The Schema 
 
 For any Standard Schema n, the Histogram MetricPoint MAY contain positive, negative native buckets and MUST contain a zero native bucket. Empty positive or negative native buckets SHOULD NOT be present.
 
+As the Standard Schema allows for many positive and negative native buckets, the Histogram SHOULD have strategies to reset itself to empty when the number of native buckets is too high. Such strategies are out of scope for this specification.
+
 In case of Standard Schemas, the boundaries of a positive or negative native bucket with index i MUST be calculated as follows (using Python syntax):
 
 The upper inclusive limit of a positive native bucket: `(2**2**-n)**i`

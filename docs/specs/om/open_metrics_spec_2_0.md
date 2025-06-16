@@ -1184,4 +1184,3 @@ OpenMetrics would like to register two MIME types, `application/openmetrics-text
 <!---
 # EDITOR’S NOTE: We would like to thank Sumeer Bhola, but kramdown 2.x does not support `Contributor:` any more so we will add this by hand once consensus has been achieved.
 -->
-

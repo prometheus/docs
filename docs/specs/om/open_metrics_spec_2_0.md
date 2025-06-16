@@ -466,7 +466,7 @@ complextype = nativehistogram
 nativehistogram = nh-count "," nh-sum "," nh-schema "," nh-zero-threshold "," nh-zero-count [ "," nh-negative-spans "," nh-negative-deltas ] [ "," nh-positive-spans "," nh-positive-deltas ]
 ; count:n
 nh-count = %d99.111.117.110.116 ":" non-negative-integer
-; sum:f Does not allow +-Inf and NaN
+; sum:f allows real numbers and +-Inf and NaN
 nh-sum = %d115.117.109 ":" number
 ; schema:i
 nh-schema = %d115.99.104.101.109.97 ":" integer

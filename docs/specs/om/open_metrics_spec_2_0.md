@@ -118,7 +118,11 @@ A MetricFamily MAY have zero or more Metrics. A MetricFamily MUST have a name, H
 
 ##### Name
 
-MetricFamily names are a string and MUST be unique within a MetricSet. Names SHOULD be in snake_case. Metric names MUST follow the restrictions in the ABNF section.
+MetricFamily names are a string and combined with the TYPE and UNIT MUST be unique within a MetricSet.
+
+MetricFamily names SHOULD be uniq within a MetricSet. This rule relaxes the requirement in previous versions of OpenMetrics and is intended to facilitate exposing OpenTelemetry data model. For other use cases it is highly recommended to continue to adhere to this rule.
+
+Names SHOULD be in snake_case. Metric names MUST follow the restrictions in the ABNF section.
 
 Colons in MetricFamily names are RESERVED to signal that the MetricFamily is the result of a calculation or aggregation of a general purpose monitoring system.
 
@@ -162,7 +166,11 @@ Help is a string and SHOULD be non-empty. It is used to give a brief description
 
 A MetricSet is the top level object exposed by OpenMetrics. It MUST consist of MetricFamilies and MAY be empty.
 
-Each MetricFamily name MUST be unique. The same label name and value SHOULD NOT appear on every Metric within a MetricSet.
+Each MetricFamily name combined with the TYPE and UNIT MUST be unique.
+
+Each MetricFamily name SHOULD be unique. This rule relaxes the requirement in previous versions of OpenMetrics and is intended to facilitate exposing OpenTelemetry data model. For other use cases it is highly recommended to continue to adhere to this rule.
+
+The same label name and value SHOULD NOT appear on every Metric within a MetricSet.
 
 There is no specific ordering of MetricFamilies required within a MetricSet. An exposer MAY make an exposition easier to read for humans, for example sort alphabetically if the performance tradeoff makes sense.
 
@@ -295,7 +303,7 @@ Partial or invalid expositions MUST be considered erroneous in their entirety.
 
 ### Protocol Negotiation
 
-All ingestor implementations MUST be able to ingest data secured with TLS 1.2 or later. All exposers SHOULD be able to emit data secured with TLS 1.2 or later. ingestor implementations SHOULD be able to ingest data from HTTP without TLS. All implementations SHOULD use TLS to transmit data.
+All ingestor implementations MUST be able to ingest data secured with TLS 1.2 or later. All exposers SHOULD be able to emit data secured with TLS 1.2 or later. Ingestor implementations SHOULD be able to ingest data from HTTP without TLS. All implementations SHOULD use TLS to transmit data.
 
 Negotiation of what version of the OpenMetrics format to use is out-of-band. For example for pull-based exposition over HTTP standard HTTP content type negotiation is used, and MUST default to the oldest version of the standard (i.e. 1.0.0) if no newer version is requested.
 

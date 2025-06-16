@@ -105,9 +105,12 @@ if __name__ == "__main__":
         print(f"Error parsing ABNF: {e}")
         sys.exit(1)
     print("ABNF parsed successfully.")
+    exit_code = 0
     for ex in examples(filename):
         try:
             Grammar.get(start_node).parse_all(ex.content)
             print(f"Example parsed successfully: {ex.line_number}: {ex.content[:30]}...")  # Print first 30 chars
         except Exception as e:
             print(f"Error parsing example at line {ex.line_number}: {e}\nExample: {ex.content[:30]}...")
+            exit_code = 2
+    sys.exit(exit_code)

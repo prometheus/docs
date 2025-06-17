@@ -28,16 +28,6 @@ type ProviderCardProps = {
 
 const trainingProviders: ProviderCardProps[] = [
   {
-    name: "acend",
-    logo: "/assets/commercial-support-logos/acend.svg",
-    url: "https://acend.ch/en/trainings/prometheus/",
-  },
-  {
-    name: "KodeKloud",
-    logo: "/assets/commercial-support-logos/kodekloud.svg",
-    url: "https://kodekloud.com/courses/prometheus-certified-associate-pca/",
-  },
-  {
     name: "Linux Foundation",
     logo: "/assets/commercial-support-logos/linux-foundation.png",
     url: "https://training.linuxfoundation.org/training/monitoring-systems-and-services-with-prometheus-lfs241/",
@@ -52,6 +42,16 @@ const trainingProviders: ProviderCardProps[] = [
     logo: "/assets/commercial-support-logos/robust-perception.png",
     url: "https://training.robustperception.io/",
   },
+  {
+    name: "acend",
+    logo: "/assets/commercial-support-logos/acend.svg",
+    url: "https://acend.ch/en/trainings/prometheus/",
+  },
+  {
+    name: "KodeKloud",
+    logo: "/assets/commercial-support-logos/kodekloud-logo.svg",
+    url: "https://kodekloud.com/courses/prometheus-certified-associate-pca/",
+  }
 ];
 
 const commercialSupportProviders: ProviderCardProps[] = [

@@ -90,6 +90,7 @@ For notification mechanisms not natively supported by the Alertmanager, the
   * [IRC Bot](https://github.com/multimfi/bot)
   * [JIRAlert](https://github.com/free/jiralert)
   * [Matrix](https://github.com/matrix-org/go-neb)
+  * [Notion](https://github.com/cthtuf/alertmanager-to-notion): creates/updates record in a Notion database
   * [Phabricator / Maniphest](https://github.com/knyar/phalerts)
   * [prom2teams](https://github.com/idealista/prom2teams): forwards notifications to Microsoft Teams
   * [Ansible Tower](https://github.com/pja237/prom2tower): call Ansible Tower (AWX) API on alerts (launch jobs etc.)

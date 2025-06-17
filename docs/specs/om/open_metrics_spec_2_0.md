@@ -108,7 +108,7 @@ Each MetricPoint consists of a set of values, depending on the MetricFamily type
 
 Exemplars are references to data outside of the MetricSet. A common use case are IDs of program traces.
 
-Exemplars MUST consist of a LabelSet and a value. Exemplars associated with numeric values MAY have a timestamp. Exemplars associated with complex types MUST have a timestamp. They MAY each be different from the MetricPoints' LabelSet and timestamp.
+Exemplars MUST consist of a LabelSet and a value, and MAY have a timestamp. They MAY each be different from the MetricPoints' LabelSet and timestamp.
 
 The combined length of the label names and values of an Exemplar's LabelSet MUST NOT exceed 128 UTF-8 character code points. Other characters in the text rendering of an exemplar such as `",=` are not included in this limit for implementation simplicity and for consistency between the text and proto formats.
 
@@ -306,9 +306,7 @@ If the NaN value is allowed, it MUST NOT be counted in any bucket and the Count 
 
 A Histogram MetricPoint with native buckets MAY contain exemplars.
 
-Exemplars associated with a Histogram MetricPoint with native buckets MUST have a timestamp.
-
-The values of exemplars in a Histogram MetricPoint with native buckets MUST fall into one of the native buckets.
+Exemplars associated with a Histogram MetricPoint with native buckets SHOULD have a timestamp. Note: storage implementations may drop exemplars without timestamps if keeping track of exemplars without timestamps is too resource hungry.
 
 The values of exemplars in a Histogram MetricPoint with native buckets SHOULD be evenly distributed to avoid only representing the bucket with the highest value and therefore most common case.
 
@@ -397,11 +395,9 @@ metric-type = counter / gauge / histogram / gaugehistogram / stateset
 metric-type =/ info / summary / unknown
 
 sample = metricname [labels] SP number [SP timestamp] [exemplar] LF
-sample =/ metricname [labels] SP "{" complextype "}" [SP timestamp] *exemplar-ts LF
+sample =/ metricname [labels] SP "{" complextype "}" [SP timestamp] *exemplar LF
 
-exemplar = exemplar-base [SP timestamp]
-exemplar-ts = exemplar-base SP timestamp
-exemplar-base = SP HASH SP labels SP number
+exemplar = SP HASH SP labels SP number [SP timestamp]
 
 labels = "{" [label *(COMMA label)] "}"
 

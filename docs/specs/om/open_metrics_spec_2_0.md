@@ -62,7 +62,15 @@ This section MUST be read together with the ABNF section. In case of disagreemen
 
 #### Values
 
-Metric values in OpenMetrics MUST be either floating points or integers. Note that ingestors of the format MAY only support float64. The non-real values NaN, +Inf and -Inf MUST be supported. NaN MUST NOT be considered a missing value, but it MAY be used to signal a division by zero.
+Metric values in OpenMetrics MUST be either numbers or complex data types.
+
+Numbers MUST be either floating points or integers. Note that ingestors of the format MAY only support float64. The non-real values NaN, +Inf and -Inf MUST be supported. NaN MUST NOT be considered a missing value, but it MAY be used to signal a division by zero.
+
+Complex data types MUST contain all information necessary to recreate a sample of a Metric Type, with the exception of Created Value and Exemplars.
+
+List of complex data types:
+ - Integer counter classic histogram for the Metric Type Histogram.
+ - Integer classic summary for the Metric Type Summary.
 
 ##### Booleans
 
@@ -322,6 +330,7 @@ metric-type = counter / gauge / histogram / gaugehistogram / stateset
 metric-type =/ info / summary / unknown
 
 sample = metricname [labels] SP number [SP timestamp] [exemplar] LF
+sample =/ metricname [labels] SP "{" complextype "}" [SP timestamp] *exemplar LF
 
 exemplar = SP HASH SP labels SP number [SP timestamp]
 
@@ -342,6 +351,9 @@ realnumber = [SIGN] 1*DIGIT
 realnumber =/ [SIGN] 1*DIGIT ["." *DIGIT] [ "e" [SIGN] 1*DIGIT ]
 realnumber =/ [SIGN] *DIGIT "." 1*DIGIT [ "e" [SIGN] 1*DIGIT ]
 
+; Integer counters for complex types.
+; Leading 0s explicitly okay.
+non-negative-integer = DIGIT *DIGIT
 
 ; RFC 5234 is case insensitive.
 ; Uppercase
@@ -383,6 +395,35 @@ escaped-char =/ BS normal-char
 
 ; Any unicode character, except newline, double quote, and backslash
 normal-char = %x00-09 / %x0B-21 / %x23-5B / %x5D-D7FF / %xE000-10FFFF
+
+; Complex types
+complextype = classic-histogram / classic-summary
+
+; count:12,sum:100.0,bucket:[0.1:3,05:12,+Inf:12]
+classic-histogram = ch-count "," ch-sum "," ch-bucket
+
+; count:x where x is a real number, not +-Inf or NaN
+ch-count = %d99.111.117.110.116 ":" non-negative-integer
+; sum:x where x is a real number or +-Inf or NaN
+ch-sum = %d115.117.109 ":" number
+; bucket:[...]
+ch-bucket = %d98.117.99.107.101.116 ":" "[" ch-le-counts "]"
+ch-le-counts = ch-pos-inf-bucket / (ch-neg-inf-bucket / ch-le-bucket) *("," ch-le-bucket) "," ch-pos-inf-bucket
+ch-pos-inf-bucket = "+" %d73.110.102 ":" non-negative-integer
+ch-neg-inf-bucket = "-" %d73.110.102 ":" non-negative-integer
+ch-le-bucket = realnumber ":" non-negative-integer
+
+; count:12.0,sum:100.0,quantile:[0.9:2.0,0.95:3.0,0.99:20.0]
+classic-summary = cs-count "," cs-sum "," cs-quantile
+
+; count:x where x is a real number, not +-Inf or NaN
+cs-count = %d99.111.117.110.116 ":" non-negative-integer
+; sum:x where x is a real number or +-Inf or NaN
+cs-sum = %d115.117.109 ":" number
+; quantile:[...]
+cs-quantile = %d113.117.97.110.116.105.108.101 ":" "[" cs-q-counts "]"
+cs-q-counts = cs-q-count *("," cs-q-count)
+cs-q-count = realnumber ":" non-negative-integer
 ```
 
 #### Overall Structure
@@ -400,15 +441,16 @@ Line endings MUST be signalled with line feed (\n) and MUST NOT contain carriage
 An example of a complete exposition:
 
 ```openmetrics
+# TYPE acme_http_server_request_seconds histogram
+# UNIT acme_http_server_request_seconds seconds
+# HELP acme_http_server_request_seconds Latency though all of ACME's HTTP request service.
+acme_http_router_request_seconds{path="/api/v1",method="GET"} {count:10,sum:100.0,bucket:[0.1:2,0.5:10,+Inf:10]}
+acme_http_router_request_seconds{path="/api/v2",method="GET"} {count:1,sum:10.0,bucket:[0.1:1,0.5:1,+Inf:1]}
 # TYPE acme_http_router_request_seconds summary
 # UNIT acme_http_router_request_seconds seconds
 # HELP acme_http_router_request_seconds Latency though all of ACME's HTTP request router.
-acme_http_router_request_seconds_sum{path="/api/v1",method="GET"} 9036.32
-acme_http_router_request_seconds_count{path="/api/v1",method="GET"} 807283.0
-acme_http_router_request_seconds_created{path="/api/v1",method="GET"} 1605281325.0
-acme_http_router_request_seconds_sum{path="/api/v2",method="POST"} 479.3
-acme_http_router_request_seconds_count{path="/api/v2",method="POST"} 34.0
-acme_http_router_request_seconds_created{path="/api/v2",method="POST"} 1605281325.0
+acme_http_router_request_seconds{path="/api/v1",method="GET"} {count:10,sum:100.0,quantile:[0.95:2,0.99:20]}
+acme_http_router_request_seconds{path="/api/v2",method="GET"} {count:1,sum:10.0,quantile:[0.95:2,0.99:2]}
 # TYPE go_goroutines gauge
 # HELP go_goroutines Number of goroutines that currently exist.
 go_goroutines 69
@@ -749,19 +791,7 @@ An example of a Metric with no labels and a MetricPoint with Sum, Count, and Cre
 
 ```openmetrics-add-eof
 # TYPE foo histogram
-foo_bucket{le="0.0"} 0
-foo_bucket{le="1e-05"} 0
-foo_bucket{le="0.0001"} 5
-foo_bucket{le="0.1"} 8
-foo_bucket{le="1.0"} 10
-foo_bucket{le="10.0"} 11
-foo_bucket{le="100000.0"} 11
-foo_bucket{le="1e+06"} 15
-foo_bucket{le="1e+23"} 16
-foo_bucket{le="1.1e+23"} 17
-foo_bucket{le="+Inf"} 17
-foo_count 17
-foo_sum 324789.3
+foo {count:17,sum:324789.3,bucket:[0.0:0,1e-05:0,0.0001:5,0.1:8,1.0:10,10.0:11,100000.0:11,1e+06:15,1e+23:16,1.1e+23:17,+Inf:17]}
 foo_created 1520430000.123
 ```
 
@@ -774,13 +804,7 @@ The "0.01" bucket has no Exemplar. The 0.1 bucket has an Exemplar with no Labels
 
 ```openmetrics-add-eof
 # TYPE foo histogram
-foo_bucket{le="0.01"} 0
-foo_bucket{le="0.1"} 8 # {} 0.054
-foo_bucket{le="1"} 11 # {trace_id="KOO5S4vxi0o"} 0.67
-foo_bucket{le="10"} 17 # {trace_id="oHg5SJYRHA0"} 9.8 1520879607.789
-foo_bucket{le="+Inf"} 17
-foo_count 17
-foo_sum 324789.3
+foo {count:17,sum:324789.3,bucket:[0.01:0,0.1:8,1.0:11,10.0:17,+Inf:17]} # {} 0.054 1520879607.7 # {trace_id="KOO5S4vxi0o"} 0.67 1520879602.890 # {trace_id="oHg5SJYRHA0"} 9.8 1520879607.789
 foo_created 1520430000.123
 ```
 

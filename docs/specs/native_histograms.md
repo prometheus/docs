@@ -2009,7 +2009,7 @@ observations outside any bucket. If for example
 to the argument above, we should find some number `x` for which `y<=x` and
 `histogram_fraction(-Inf, x, histogram)` is equal to `0.5`, however this doesn't
 happen for any `y`, which is the reason we return `NaN` if the result of
-`histogram_quantile` would be above the maximum of real observations.
+`histogram_quantile` would be outside all buckets.
 
 The following functions do not interact directly with sample values and
 therefore work with native histogram samples in the same way as they work with

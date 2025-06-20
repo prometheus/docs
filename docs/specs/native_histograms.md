@@ -1933,17 +1933,17 @@ the minimum observation will often be in the lowest bucket.
 `histogram_quantile` treats observations of value `NaN` (which SHOULD NOT
 happen, see [above](#special-cases-of-observed-values)) effectively as
 observations of `+Inf`. This follows the rationale that `NaN` is never less
-than any value that `histogram_quantile` returns. As long as the quantile
-falls into an existing bucket we return the quantile calculated as if `NaN`
-observations were observed as `+Inf` and also issue an info level annotation
-to let the user know that results are skewed due to `NaN`. This is consistent
-with how classic histograms usually treat `NaN` observations (which end up in
-the `+Inf` bucket in most implementations). If the quantile falls above all
-existing buckets, we return `NaN` due to the fact that we want to be consistent
-with `histogram_fraction`, since `histogram_fraction` considers `NaN`
-observations to be outside any interval, `NaN` observations cannot be
-considered in the `+Inf` bucket. We also return an info level annotation
-specific to this case.
+than any value that `histogram_quantile` returns. As long as the result
+falls into an existing bucket we return the result calculated as if
+`NaN` observations were observed as `+Inf` and also issue an info level
+annotation to let the user know that results are skewed due to `NaN`. This is
+consistent with how classic histograms usually treat `NaN` observations (which
+end up in the `+Inf` bucket in most implementations). If the result falls above
+all existing buckets, we return `NaN`. For a detailed explanation why, see
+`histogram_fraction` below; intuitively this case means that we don't have a
+number that is greater than all observations in the quantile as `NaN` is not
+comparable to any number. We also return an info level annotation specific to
+this case.
 
 The following functions have been introduced specifically for native
 histograms:
@@ -1996,6 +1996,20 @@ Whether the provided boundaries are inclusive or exclusive is only relevant if t
 provided boundaries are precisely aligned with bucket boundaries in the
 underlying native histogram. In this case, the behavior depends on the precise
 definition of the schema of the histogram.
+
+The value of `q = histogram_fraction(-Inf, x, histogram)` means that the
+fraction of observations less or equal to `x` is `q`. On the other hand
+`y = histogram_quantile(q, histogram)` means that `q` fraction of observations
+are less or equal to `y`. Since `histogram_quantile` calculates the approximate
+smallest value for `y`, it follows that `y<=x` in general. Consider the case
+when 90% of the observations are `NaN`. Then the maximum value of
+`histogram_fraction` is `0.1` since `histogram_fraction` considers `NaN`
+observations outside any bucket. If for example
+`histogram_quantile(0.5, histogram)` returned any real number `y`, then according
+to the argument above, we should find some number `x` for which `y<=x` and
+`histogram_fraction(-Inf, x, histogram)` is equal to `0.5`, however this doesn't
+happen for any `y`, which is the reason we return `NaN` if the result of
+`histogram_quantile` would be above the maximum of real observations.
 
 The following functions do not interact directly with sample values and
 therefore work with native histogram samples in the same way as they work with

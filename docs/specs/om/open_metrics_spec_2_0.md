@@ -783,14 +783,13 @@ The "0.01" bucket has no Exemplar. The 0.1 bucket has an Exemplar with no Labels
 
 ```openmetrics-add-eof
 # TYPE foo histogram
-foo_bucket{le="0.01"} 0
-foo_bucket{le="0.1"} 8 # {} 0.054
-foo_bucket{le="1"} 11 # {trace_id="KOO5S4vxi0o"} 0.67
-foo_bucket{le="10"} 17 # {trace_id="oHg5SJYRHA0"} 9.8 1520879607.789
-foo_bucket{le="+Inf"} 17
-foo_count 17
-foo_sum 324789.3
-foo_created 1520430000.123
+foo_bucket{le="0.01"} 0 ct@1520430000.123
+foo_bucket{le="0.1"} 8 ct@1520430000.123 # {} 0.054
+foo_bucket{le="1"} 11 ct@1520430000.123 # {trace_id="KOO5S4vxi0o"} 0.67
+foo_bucket{le="10"} 17 ct@1520430000.123 # {trace_id="oHg5SJYRHA0"} 9.8 1520879607.789
+foo_bucket{le="+Inf"} 17 ct@1520430000.123
+foo_count 17 ct@1520430000.123
+foo_sum 324789.3 ct@1520430000.123
 ```
 
 ##### GaugeHistogram

@@ -120,7 +120,7 @@ A MetricFamily MAY have zero or more Metrics. A MetricFamily MUST have a name, H
 
 MetricFamily names are a string and combined with the TYPE and UNIT MUST be unique within a MetricSet.
 
-MetricFamily names SHOULD be uniq within a MetricSet. This rule relaxes the requirement in previous versions of OpenMetrics and is intended to facilitate exposing OpenTelemetry data model. For other use cases it is highly recommended to continue to adhere to this rule.
+MetricFamily names SHOULD be unique within a MetricSet. This rule relaxes the requirement in previous versions of OpenMetrics and is intended to facilitate exposing OpenTelemetry data model. For other use cases it is highly recommended to continue to adhere to this rule.
 
 Names SHOULD be in snake_case. Metric names MUST follow the restrictions in the ABNF section.
 

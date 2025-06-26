@@ -330,7 +330,7 @@ A GaugeHistogram MAY refuse to measure +Inf and -Inf values as adding these to t
 
 If the GaugeHistogram Metric has MetricPoints with classic buckets, the GaugeHistogram's Metric's LabelSet MUST NOT have a "le" label name.
 
-The classic and native buckets for a GaugeHistogram follow all the same rules as for a Histogram, with Gcount playing the same role as Count.
+The classic and native buckets for a GaugeHistogram follow all the same rules as for a Histogram, with Gcount and Gsum playing the same role as Count and Sum.
 
 The exemplars for a GaugeHistogram follow all the same rules as for a Histogram.
 

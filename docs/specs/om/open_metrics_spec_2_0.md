@@ -216,7 +216,7 @@ MetricFamilies of type Info MUST have an empty Unit string.
 
 Histograms measure distributions of discrete events. Common examples are the latency of HTTP requests, function runtimes, or I/O request sizes.
 
-A Histogram MetricPoint MUST contain at least one bucket, and SHOULD contain Sum, and Created values. Every bucket MUST have a threshold and a value.
+A Histogram MetricPoint MUST contain at least one bucket, and SHOULD contain Sum, and Created Values. Every bucket MUST have a threshold and a value.
 
 Histogram MetricPoints MUST have one bucket with an +Inf threshold. Buckets MUST be cumulative. As an example for a metric representing request latency in seconds its values for buckets with thresholds 1, 2, 3, and +Inf MUST follow value_1 <= value_2 <= value_3 <= value_+Inf. If ten requests took 1 second each, the values of the 1, 2, 3, and +Inf buckets MUST equal 10.
 
@@ -408,8 +408,8 @@ An example of a complete exposition:
 # HELP acme_http_router_request_seconds Latency though all of ACME's HTTP request router.
 acme_http_router_request_seconds_sum{path="/api/v1",method="GET"} 9036.32 ct@1605281325.0
 acme_http_router_request_seconds_count{path="/api/v1",method="GET"} 807283.0 ct@1605281325.0
-acme_http_router_request_seconds_sum{path="/api/v2",method="POST"} 479.3 ct@1605281325.0
-acme_http_router_request_seconds_count{path="/api/v2",method="POST"} 34.0 ct@1605281325.0
+acme_http_router_request_seconds_sum{path="/api/v2",method="POST"} 479.3 ct@1605301325.0
+acme_http_router_request_seconds_count{path="/api/v2",method="POST"} 34.0 ct@1605301325.0
 # TYPE go_goroutines gauge
 # HELP go_goroutines Number of goroutines that currently exist.
 go_goroutines 69
@@ -643,21 +643,21 @@ An example with a Metric with no labels, and a MetricPoint with no timestamp and
 foo_total 17.0
 ```
 
-An example with a Metric with no labels, and a MetricPoint with a timestamp and no created:
+An example with a Metric with no labels, and a MetricPoint with a timestamp and no Created Value:
 
 ```openmetrics-add-eof
 # TYPE foo counter
 foo_total 17.0 1520879607.789
 ```
 
-An example with a Metric with no labels, and a MetricPoint with no timestamp and a created:
+An example with a Metric with no labels, and a MetricPoint with no timestamp and a Created Value:
 
 ```openmetrics-add-eof
 # TYPE foo counter
 foo_total 17.0 ct@1520430000.123
 ```
 
-An example with a Metric with no labels, and a MetricPoint with a timestamp and a created:
+An example with a Metric with no labels, and a MetricPoint with a timestamp and a Created Value:
 
 ```openmetrics-add-eof
 # TYPE foo counter
@@ -666,7 +666,7 @@ foo_total 17.0 1520879607.789 ct@1520430000.123
 
 Exemplars MAY be attached to the MetricPoint's Total sample.
 
-An example with a Metric with no labels, and a MetricPoint with a timestamp and a created and an exemplar:
+An example with a Metric with no labels, and a MetricPoint with a timestamp and a Created Value and an exemplar:
 
 ```
 # TYPE foo counter
@@ -725,9 +725,9 @@ Metric labels and MetricPoint value labels MAY be in any order.
 
 If present, the MetricPoint's Sum Value Sample MetricName MUST have the suffix `_sum`. If present, the MetricPoint's Count Value MetricName MUST have the suffix `_count`. If present, the MetricPoint's Quantile Values MUST specify the quantile measured using a label with a label name of "quantile" and with a label value of the quantile measured. 
 
-If present the MetricPoint's Created Value MUST be inlined with the Metric point with a `ct@` prefix. If the value's timestamp is present, the Created Value MUST be added right after it. If exemplar is present, the Created Value MUST be added before it. Createad Value MUST be appended to all Quantile Values, to the MetricPoint's Sum and MetricPoint's Count.
+If present the MetricPoint's Created Value MUST be inlined with the Metric point with a `ct@` prefix. If the value's timestamp is present, the Created Value MUST be added right after it. If exemplar is present, the Created Value MUST be added before it. Created Value MUST be appended to all Quantile Values, to the MetricPoint's Sum and MetricPoint's Count.
 
-An example of a Metric with no labels and a MetricPoint with Sum, Count and Created values:
+An example of a Metric with no labels and a MetricPoint with Sum, Count and Created Values:
 
 ```openmetrics-add-eof
 # TYPE foo summary
@@ -735,7 +735,7 @@ foo_count 17.0 ct@1520430000.123
 foo_sum 324789.3 ct@1520430000.123
 ```
 
-An example of a Metric with no labels and a MetricPoint with two quantiles and Created values:
+An example of a Metric with no labels and a MetricPoint with two quantiles and Created Values:
 
 ```openmetrics-add-eof
 # TYPE foo summary
@@ -749,26 +749,26 @@ Quantiles MAY be in any order.
 
 The MetricPoint's Bucket Values Sample MetricNames MUST have the suffix `_bucket`. If present, the MetricPoint's Sum Value Sample MetricName MUST have the suffix `_sum`. 
 
-If present the MetricPoint's Created Value MUST be inlined with the Metric point with a `ct@` prefix. If the value's timestamp is present, the Created Value MUST be added right after it. If exemplar  is present, the Created Value MUST be added before it. Createad Value MUST be appended to all Bucket Values, to the MetricPoint's Sum and MetricPoint's Count.
+If present the MetricPoint's Created Value MUST be inlined with the Metric point with a `ct@` prefix. If the value's timestamp is present, the Created Value MUST be added right after it. If exemplar  is present, the Created Value MUST be added before it. Created Value MUST be appended to all Bucket Values, to the MetricPoint's Sum and MetricPoint's Count.
 
 If and only if a Sum Value is present in a MetricPoint, then the MetricPoint's +Inf Bucket value MUST also appear in a Sample with a MetricName with the suffix "_count".
 
 Buckets MUST be sorted in number increasing order of "le", and the value of the "le" label MUST follow the rules for Canonical Numbers.
 
-An example of a Metric with no labels and a MetricPoint with Sum, Count, and Created values, and with 12 buckets. A wide and atypical but valid variety of “le” values is shown on purpose:
+An example of a Metric with no labels and a MetricPoint with Sum, Count, and Created Values, and with 12 buckets. A wide and atypical but valid variety of “le” values is shown on purpose:
 
 ```openmetrics-add-eof
 # TYPE foo histogram
 foo_bucket{le="0.0"} 0 ct@1520430000.123
-foo_bucket{le="1e-05"} 0 ct@1520430000.123
-foo_bucket{le="0.0001"} 5 ct@1520430000.123
-foo_bucket{le="0.1"} 8 ct@1520430000.123
-foo_bucket{le="1.0"} 10 ct@1520430000.123
-foo_bucket{le="10.0"} 11 ct@1520430000.123
-foo_bucket{le="100000.0"} 11 ct@1520430000.123
-foo_bucket{le="1e+06"} 15 ct@1520430000.123
-foo_bucket{le="1e+23"} 16 ct@1520430000.123
-foo_bucket{le="1.1e+23"} 17 ct@1520430000.123
+foo_bucket{le="1e-05"} 0 ct@1521430000.123
+foo_bucket{le="0.0001"} 5 ct@1521430020.123
+foo_bucket{le="0.1"} 8 ct@1520430321.123
+foo_bucket{le="1.0"} 10 ct@1522430000.123
+foo_bucket{le="10.0"} 11 ct@1520430123.123
+foo_bucket{le="100000.0"} 11 ct@1521430010.123
+foo_bucket{le="1e+06"} 15 ct@1520430301.123
+foo_bucket{le="1e+23"} 16 ct@1521430001.123
+foo_bucket{le="1.1e+23"} 17 ct@1522430220.123
 foo_bucket{le="+Inf"} 17 ct@1520430000.123
 foo_count 17 ct@1520430000.123
 foo_sum 324789.3 ct@1520430000.123

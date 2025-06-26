@@ -232,7 +232,7 @@ A Histogram MetricPoint MUST contain Count, Sum values.
 
 The Count value MUST be equal to the number of measurements taken by the Histogram. The Count is a counter semantically. The Count MUST be an integer and MUST NOT be NaN or negative.
 
-The Sum value MUST be equal to the Sum of all the measured event values. The Sum is only a counter semantically as long as there are no negative event values measured by the Histogram MetricPoint.
+The Sum value MUST be equal to the sum of all the measured event values. The Sum is only a counter semantically as long as there are no negative event values measured by the Histogram MetricPoint.
 
 A Histogram MUST measure non NaN values in either [classic buckets](#classic-buckets) or [native buckets](#native-buckets) or both. If a Histogram stops measuring values in either classic or native buckets and keeps measuring values in the other, it MUST clear and not expose the buckets it stopped measuring into. This avoids exposing different distribution from the two kind of buckets at the same time.
 
@@ -258,7 +258,7 @@ Histogram MetricPoints with classic buckets MUST have one classic bucket with a 
 
 The Count value MUST be equal to the value of the +Inf bucket.
 
-If the NaN value is allowed, it MUST be counted in the +Inf bucket, and MUST not be counted in any other bucket. The ratonale is that NaN does not belong to any bucket mathematically, however instrumentation libraries traditionally put it into the +Inf bucket.
+If the NaN value is allowed, it MUST be counted in the +Inf bucket, and MUST not be counted in any other bucket. The rationale is that NaN does not belong to any bucket mathematically, however instrumentation libraries traditionally put it into the +Inf bucket.
 
 Negative threshold classic buckets MAY be used.
 
@@ -296,17 +296,17 @@ The next negative native bucket (index i+1 relative to the bucket from the previ
 
 Native buckets beyond the +Inf and -Inf buckets described above MUST NOT be used.
 
-If the zero native bucket is present, the Historam MetricPoint MUST have a Zero threshold. The Zero threshold MUST be a non-negative float64 value (threshold >= 0.0). The boundaries of the zero native bucket are `[-threshold, threshold]` inclusively.
+If the zero native bucket is present, the Histogram MetricPoint MUST have a Zero threshold. The Zero threshold MUST be a non-negative float64 value (threshold >= 0.0). The boundaries of the zero native bucket are `[-threshold, threshold]` inclusively.
 
 If the zero native bucket is present, any measured value that falls into the zero native bucket MUST be counted towards the zero native bucket and MUST NOT be counted in any other native bucket. The Zero threshold SHOULD be equal to a lower limit of an arbitrary native bucket.
 
 If the NaN value is not allowed, then the Count value MUST be equal to the sum of the negative, positive and zero native buckets.
 
-If the NaN value is allowed, it MUST NOT be counted in any bucket and the Count MUST be greater than the sum of the negative, positive and zero native buckets. The ratonale is that NaN does not belong to any bucket mathematically, and instrumentation libraries traditionally don't put it into any bucket.
+If the NaN value is allowed, it MUST NOT be counted in any bucket and the Count MUST be greater than the sum of the negative, positive and zero native buckets. The rationale is that NaN does not belong to any bucket mathematically, and instrumentation libraries traditionally don't put it into any bucket.
 
 A Histogram MetricPoint with native buckets MAY contain exemplars.
 
-Exemplars associated with a Histogram MetricPoint with native buckets SHOULD have a timestamp. Note: storage implementations may drop exemplars without timestamps if keeping track of exemplars without timestamps is too resource hungry.
+Exemplars associated with a Histogram MetricPoint with native buckets SHOULD have a timestamp. Note: storage implementations may drop exemplars without timestamps if keeping track of exemplars without timestamps is too resource intensive.
 
 The values of exemplars in a Histogram MetricPoint with native buckets SHOULD be evenly distributed to avoid only representing the bucket with the highest value and therefore most common case.
 
@@ -314,15 +314,23 @@ The values of exemplars in a Histogram MetricPoint with native buckets SHOULD be
 
 GaugeHistograms measure current distributions. Common examples are how long items have been waiting in a queue, or size of the requests in a queue.
 
-A GaugeHistogram MetricPoint MUST contain either classic buckets or native buckets or both.
+A GaugeHistogram MetricPoint MUST contain Gcount, Gsum values.
 
-A GaugeHistogram MetricPoint SHOULD contain Gcount, Gsum. Every bucket MUST have well defined boundaries and a value. Boundaries of a bucket MUST NOT be NaN. Gcount and bucket values MUST be integers.
+The GCount value MUST be equal to the number of measurements currently in the GaugeHistogram. The GCount is a gauge semantically. The GCount MUST be and integer and MUST NOT be NaN or negative.
 
-The bucket and Gsum of a GaugeHistogram are conceptually gauges, however bucket values MUST NOT be negative or NaN. If negative threshold buckets are present, then Gsum MAY be negative. Gsum MUST NOT be NaN. Bucket values MUST be integers.
+The Gsum value MUST be equal to the sum of all the measured values currently in the GaugeHistogram. The Gsum is a gauge semantically.
 
-A GaugeHistogram's Metric's LabelSet MUST NOT have a "le" label name.
+A GaugeHistogram MUST measure non NaN values in either [classic buckets](#classic-buckets) or [native buckets](#native-buckets) or both. If a GaugeHistogram stops measuring values in either classic or native buckets and keeps measuring values in the other, it MUST clear and not expose the buckets it stopped measuring into. This avoids exposing different distribution from the two kind of buckets at the same time.
 
-The buckets for a GaugeHistogram follow all the same rules as for a Histogram, with Gcount playing the same role as Count.
+Every bucket MUST have well defined boundaries and a value. Boundaries of a bucket MUST NOT be NaN. Bucket values MUST be integers. Semantically, bucket values are gauges and MUST NOT be NaN or negative.
+
+A GaugeHistogram SHOULD refuse to measure NaN value as adding NaN to the Sum will make the Sum equal to NaN and mask the sum of the real measurements until the next reset of the counters. If a GaugeHistogram does allow NaN, then NaN MUST be counted in the Gcount and MUST be added to the Gsum, resulting in the Gsum becoming NaN.
+
+A GaugeHistogram MAY refuse to measure +Inf and -Inf values as adding these to the Sum will mask the sum of the real measurements until the next reset of the counters. If a GaugeHistogram measures +Inf or -Inf, then +Inf or -Inf MUST be counted in the Gcount and MUST be added to the Gsum, potentially resulting in +Inf, -Inf or NaN in the Gsum, the later for example in case of adding +Inf to -Inf.
+
+If the GaugeHistogram Metric has MetricPoints with classic buckets, the GaugeHistogram's Metric's LabelSet MUST NOT have a "le" label name.
+
+The classic and native buckets for a GaugeHistogram follow all the same rules as for a Histogram, with Gcount playing the same role as Count.
 
 The exemplars for a GaugeHistogram follow all the same rules as for a Histogram.
 
@@ -505,7 +513,7 @@ float-format-number = float-format-realnumber
 ; Case insensitive
 float-format-number =/ [SIGN] ("inf" / "infinity")
 float-format-number =/ "nan"
-; Mush have a dot "." or exponent "e" or both.
+; Must have a dot "." or exponent "e" or both.
 ; Leading 0s explicitly okay
 float-format-realnumber = [SIGN] 1*DIGIT ["." *DIGIT] "e" [SIGN] 1*DIGIT
 float-format-realnumber =/ [SIGN] *DIGIT "." 1*DIGIT [ "e" [SIGN] 1*DIGIT ]

@@ -178,9 +178,9 @@ Counters measure discrete events. Common examples are the number of HTTP request
 
 A MetricPoint in a Metric with the type Counter MUST have one value called Total. A Total is a non-NaN and MUST be monotonically non-decreasing over time, starting from 0.
 
-A MetricPoint in a Metric with the type Counter SHOULD have a Timestamp value called Created. This can help ingestors discern between new metrics and long-running ones it did not see before.
+A MetricPoint in a Metric with the type Counter SHOULD have a Timestamp value called Created Timestamp. This can help ingestors discern between new metrics and long-running ones it did not see before.
 
-A MetricPoint in a Metric's Counter's Total MAY reset to 0. If present, the corresponding Created time MUST also be set to the timestamp of the reset.
+A MetricPoint in a Metric's Counter's Total MAY reset to 0. If present, the corresponding Created Timestamp MUST also be set to the timestamp of the reset.
 
 A MetricPoint in a Metric's Counter's Total MAY have an exemplar.
 
@@ -216,7 +216,7 @@ MetricFamilies of type Info MUST have an empty Unit string.
 
 Histograms measure distributions of discrete events. Common examples are the latency of HTTP requests, function runtimes, or I/O request sizes.
 
-A Histogram MetricPoint MUST contain at least one bucket, and SHOULD contain Sum, and Created Values. Every bucket MUST have a threshold and a value.
+A Histogram MetricPoint MUST contain at least one bucket, and SHOULD contain Sum, and Created Timestamp values. Every bucket MUST have a threshold and a value.
 
 Histogram MetricPoints MUST have one bucket with an +Inf threshold. Buckets MUST be cumulative. As an example for a metric representing request latency in seconds its values for buckets with thresholds 1, 2, 3, and +Inf MUST follow value_1 <= value_2 <= value_3 <= value_+Inf. If ten requests took 1 second each, the values of the 1, 2, 3, and +Inf buckets MUST equal 10.
 
@@ -225,7 +225,7 @@ The +Inf bucket counts all requests. If present, the Sum value MUST equal the Su
 Semantically, Sum, and buckets values are counters so MUST NOT be NaN or negative.
 Negative threshold buckets MAY be used, but then the Histogram MetricPoint MUST NOT contain a sum value as it would no longer be a counter semantically. Bucket thresholds MUST NOT equal NaN. Count and bucket values MUST be integers.
 
-A Histogram MetricPoint SHOULD have a Timestamp value called Created. This can help ingestors discern between new metrics and long-running ones it did not see before.
+A Histogram MetricPoint SHOULD have a Timestamp value called Created Timestamp. This can help ingestors discern between new metrics and long-running ones it did not see before.
 
 A Histogram's Metric's LabelSet MUST NOT have a "le" label name.
 
@@ -259,12 +259,12 @@ Summaries also measure distributions of discrete events and MAY be used when His
 
 They MAY also be used for backwards compatibility, because some existing instrumentation libraries expose precomputed quantiles and do not support Histograms. Precomputed quantiles SHOULD NOT be used, because quantiles are not aggregatable and the user often can not deduce what timeframe they cover.
 
-A Summary MetricPoint MAY consist of a Count, Sum, Created, and a set of quantiles.
+A Summary MetricPoint MAY consist of a Count, Sum, Created Timestamp, and a set of quantiles.
 
 Semantically, Count and Sum values are counters so MUST NOT be NaN or negative.
 Count MUST be an integer.
 
-A MetricPoint in a Metric with the type Summary which contains Count or Sum values SHOULD have a Timestamp value called Created. This can help ingestors discern between new metrics and long-running ones it did not see before. Created MUST NOT relate to the collection period of quantile values.
+A MetricPoint in a Metric with the type Summary which contains Count or Sum values SHOULD have a Timestamp value called Created Timestamp. This can help ingestors discern between new metrics and long-running ones it did not see before. Created Timestamp MUST NOT relate to the collection period of quantile values.
 
 Quantiles are a map from a quantile to a value. An example is a quantile 0.95 with value 0.2 in a metric called myapp_http_request_duration_seconds which means that the 95th percentile latency is 200ms over an unknown timeframe. If there are no events in the relevant timeframe, the value for a quantile MUST be NaN.
 A Quantile's Metric's LabelSet MUST NOT have "quantile" label name.
@@ -634,30 +634,30 @@ foo 18.0 456
 
 ##### Counter
 
-The MetricPoint's Total Value Sample MetricName MUST have the suffix `_total`. If present, the MetricPoint's Created Value MUST be inlined with the Metric point with a `ct@` prefix. If the value's timestamp is present, the Created Value MUST be added right after it. If exemplar is present, the Created Value MUST be added before it.
+The MetricPoint's Total Value Sample MetricName MUST have the suffix `_total`. If present, the MetricPoint's Created Timestamp MUST be inlined with the Metric point with a `ct@` prefix. If the value's timestamp is present, the Created Timestamp MUST be added right after it. If exemplar is present, the Created Timestamp MUST be added before it.
 
-An example with a Metric with no labels, and a MetricPoint with no timestamp and no created:
+An example with a Metric with no labels, and a MetricPoint with no timestamp and no Created Timestamp:
 
 ```openmetrics-add-eof
 # TYPE foo counter
 foo_total 17.0
 ```
 
-An example with a Metric with no labels, and a MetricPoint with a timestamp and no Created Value:
+An example with a Metric with no labels, and a MetricPoint with a timestamp and no Created Timestamp:
 
 ```openmetrics-add-eof
 # TYPE foo counter
 foo_total 17.0 1520879607.789
 ```
 
-An example with a Metric with no labels, and a MetricPoint with no timestamp and a Created Value:
+An example with a Metric with no labels, and a MetricPoint with no timestamp and a Created Timestamp:
 
 ```openmetrics-add-eof
 # TYPE foo counter
 foo_total 17.0 ct@1520430000.123
 ```
 
-An example with a Metric with no labels, and a MetricPoint with a timestamp and a Created Value:
+An example with a Metric with no labels, and a MetricPoint with a timestamp and a Created Timestamp:
 
 ```openmetrics-add-eof
 # TYPE foo counter
@@ -666,7 +666,7 @@ foo_total 17.0 1520879607.789 ct@1520430000.123
 
 Exemplars MAY be attached to the MetricPoint's Total sample.
 
-An example with a Metric with no labels, and a MetricPoint with a timestamp and a Created Value and an exemplar:
+An example with a Metric with no labels, and a MetricPoint with a timestamp and a Created Timestamp and an exemplar:
 
 ```openmetrics-add-eof
 # TYPE foo counter
@@ -725,9 +725,9 @@ Metric labels and MetricPoint value labels MAY be in any order.
 
 If present, the MetricPoint's Sum Value Sample MetricName MUST have the suffix `_sum`. If present, the MetricPoint's Count Value MetricName MUST have the suffix `_count`. If present, the MetricPoint's Quantile Values MUST specify the quantile measured using a label with a label name of "quantile" and with a label value of the quantile measured. 
 
-If present the MetricPoint's Created Value MUST be inlined with the Metric point with a `ct@` prefix. If the value's timestamp is present, the Created Value MUST be added right after it. If exemplar is present, the Created Value MUST be added before it. Created Value MUST be appended to all Quantile Values, to the MetricPoint's Sum and MetricPoint's Count.
+If present the MetricPoint's Created Timestamp MUST be inlined with the Metric point with a `ct@` prefix. If the value's timestamp is present, the Created Timestamp MUST be added right after it. If exemplar is present, the Created Timestamp MUST be added before it. Created Timestamp MUST be appended to all Quantile Values, to the MetricPoint's Sum and MetricPoint's Count.
 
-An example of a Metric with no labels and a MetricPoint with Sum, Count and Created Values:
+An example of a Metric with no labels and a MetricPoint with Sum, Count and Created Timestamp values:
 
 ```openmetrics-add-eof
 # TYPE foo summary
@@ -735,7 +735,7 @@ foo_count 17.0 ct@1520430000.123
 foo_sum 324789.3 ct@1520430000.123
 ```
 
-An example of a Metric with no labels and a MetricPoint with two quantiles and Created Values:
+An example of a Metric with no labels and a MetricPoint with two quantiles and Created Timestamp values:
 
 ```openmetrics-add-eof
 # TYPE foo summary
@@ -749,13 +749,13 @@ Quantiles MAY be in any order.
 
 The MetricPoint's Bucket Values Sample MetricNames MUST have the suffix `_bucket`. If present, the MetricPoint's Sum Value Sample MetricName MUST have the suffix `_sum`. 
 
-If present the MetricPoint's Created Value MUST be inlined with the Metric point with a `ct@` prefix. If the value's timestamp is present, the Created Value MUST be added right after it. If exemplar  is present, the Created Value MUST be added before it. Created Value MUST be appended to all Bucket Values, to the MetricPoint's Sum and MetricPoint's Count.
+If present the MetricPoint's Created Timestamp MUST be inlined with the Metric point with a `ct@` prefix. If the value's timestamp is present, the Created Timestamp MUST be added right after it. If exemplar  is present, the Created Timestamp MUST be added before it. Created Timestamp MUST be appended to all Bucket Values, to the MetricPoint's Sum and MetricPoint's Count.
 
 If and only if a Sum Value is present in a MetricPoint, then the MetricPoint's +Inf Bucket value MUST also appear in a Sample with a MetricName with the suffix "_count".
 
 Buckets MUST be sorted in number increasing order of "le", and the value of the "le" label MUST follow the rules for Canonical Numbers.
 
-An example of a Metric with no labels and a MetricPoint with Sum, Count, and Created Values, and with 12 buckets. A wide and atypical but valid variety of “le” values is shown on purpose:
+An example of a Metric with no labels and a MetricPoint with Sum, Count, and Created Timestamp values, and with 12 buckets. A wide and atypical but valid variety of “le” values is shown on purpose:
 
 ```openmetrics-add-eof
 # TYPE foo histogram

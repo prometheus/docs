@@ -136,14 +136,14 @@ MetricFamily names beginning with underscores are RESERVED and MUST NOT be used 
 
 ###### Suffixes
 
-The name of a MetricFamily MUST NOT result in a potential clash for sample metric names as per the ABNF with another MetricFamily in the Text Format within a MetricSet. An example would be a gauge called "foo_created" as a counter called "foo" could create a "foo_created" in the text format.
+The name of a MetricFamily MUST NOT result in a potential clash for sample metric names as per the ABNF with another MetricFamily in the Text Format within a MetricSet. An example would be a gauge called "foo_total" as a counter called "foo" could create a "foo_total" in the text format.
 
 Exposers SHOULD avoid names that could be confused with the suffixes that text format sample metric names use.
 
 * Suffixes for the respective types are:
-* Counter: `_total`, `_created`
-* Summary: `_count`, `_sum`, `_created`, `` (empty)
-* Histogram: `_count`, `_sum`, `_bucket`, `_created`
+* Counter: `_total`
+* Summary: `_count`, `_sum`, `` (empty)
+* Histogram: `_count`, `_sum`, `_bucket`
 * GaugeHistogram: `_gcount`, `_gsum`, `_bucket`
 * Info: `_info`
 * Gauge: `` (empty)
@@ -190,9 +190,9 @@ Counters measure discrete events. Common examples are the number of HTTP request
 
 A MetricPoint in a Metric with the type Counter MUST have one value called Total. A Total is a non-NaN and MUST be monotonically non-decreasing over time, starting from 0.
 
-A MetricPoint in a Metric with the type Counter SHOULD have a Timestamp value called Created. This can help ingestors discern between new metrics and long-running ones it did not see before.
+A MetricPoint in a Metric with the type Counter SHOULD have a Timestamp value called Created Timestamp. This can help ingestors discern between new metrics and long-running ones it did not see before.
 
-A MetricPoint in a Metric's Counter's Total MAY reset to 0. If present, the corresponding Created time MUST also be set to the timestamp of the reset.
+A MetricPoint in a Metric's Counter's Total MAY reset to 0. If present, the corresponding Created Timestamp MUST also be set to the timestamp of the reset.
 
 A MetricPoint in a Metric's Counter's Total MAY have an exemplar.
 
@@ -234,7 +234,7 @@ The Count value MUST be equal to the number of measurements taken by the Histogr
 
 The Sum value MUST be equal to the sum of all the measured event values. The Sum is only a counter semantically as long as there are no negative event values measured by the Histogram MetricPoint.
 
-A Histogram MUST measure non NaN values in either [classic buckets](#classic-buckets) or [native buckets](#native-buckets) or both. If a Histogram stops measuring values in either classic or native buckets and keeps measuring values in the other, it MUST clear and not expose the buckets it stopped measuring into. This avoids exposing different distribution from the two kind of buckets at the same time.
+A Histogram MUST measure values that are not NaN in either [Classic Buckets](#classic-buckets) or [Native Buckets](#native-buckets) or both. If a Histogram stops measuring values in either Classic or Native Buckets and keeps measuring values in the other, it MUST clear and not expose the buckets it stopped measuring into. This avoids exposing different distribution from the two kind of buckets at the same time.
 
 Every bucket MUST have well defined boundaries and a value. Boundaries of a bucket MUST NOT be NaN. Bucket values MUST be integers. Semantically, bucket values are counters so MUST NOT be NaN or negative.
 
@@ -242,73 +242,71 @@ A Histogram SHOULD refuse to measure NaN value as adding NaN to the Sum will mak
 
 A Histogram MAY refuse to measure +Inf and -Inf values as adding these to the Sum will mask the sum of the real measurements until the next reset of the counters. If a Histogram measures +Inf or -Inf, then +Inf or -Inf MUST be counted in the Count and MUST be added to the Sum, potentially resulting in +Inf, -Inf or NaN in the Sum, the later for example in case of adding +Inf to -Inf.
 
-A Histogram MetricPoint SHOULD have a Timestamp value called Created. This can help ingestors discern between new metrics and long-running ones it did not see before.
+A Histogram MetricPoint SHOULD have a Timestamp value called Created Timestamp. This can help ingestors discern between new metrics and long-running ones it did not see before.
 
-If the Histogram Metric has MetricPoints with classic buckets, the Histogram's Metric's LabelSet MUST NOT have a "le" label name.
+If the Histogram Metric has MetricPoints with Classic Buckets, the Histogram's Metric's LabelSet MUST NOT have a "le" label name.
 
-##### Classic buckets
+##### Classic Buckets
 
-Every classic bucket MUST have a threshold. Classic bucket thresholds within a MetricPoint MUST be unique.
+Every Classic Bucket MUST have a threshold. Classic Bucket thresholds within a MetricPoint MUST be unique. Classic Buckets MAY have a negative threshold.
 
-A classic bucket MUST cover every measured value less or equal to its threshold, or to put it another way, classic buckets MUST be cumulative. Classic buckets are cumulative to allow monitoring systems to drop any non-+Inf bucket for performance/anti-denial-of-service reasons in a way that loses granularity but is still a valid Histogram.
+A Classic Bucket MUST cover every measured value less or equal to its threshold, or to put it another way, Classic Buckets MUST be cumulative. Classic Buckets are cumulative to allow monitoring systems to drop any non-+Inf bucket for performance/anti-denial-of-service reasons in a way that loses granularity but is still a valid Histogram.
 
-As an example for a metric representing request latency in seconds its values for classic buckets with thresholds 1, 2, 3, and +Inf MUST follow value_1 <= value_2 <= value_3 <= value_+Inf. If ten requests took 1 second each, the values of the 1, 2, 3, and +Inf buckets MUST equal 10.
+As an example for a metric representing request latency in seconds its values for Classic Buckets with thresholds 1, 2, 3, and +Inf MUST follow value_1 <= value_2 <= value_3 <= value_+Inf. If ten requests took 1 second each, the values of the 1, 2, 3, and +Inf buckets MUST equal 10.
 
-Histogram MetricPoints with classic buckets MUST have one classic bucket with a +Inf threshold. The +Inf bucket counts all requests.
+Histogram MetricPoints with Classic Buckets MUST have one Classic Bucket with a +Inf threshold. The +Inf bucket counts all requests.
 
 The Count value MUST be equal to the value of the +Inf bucket.
 
 If the NaN value is allowed, it MUST be counted in the +Inf bucket, and MUST not be counted in any other bucket. The rationale is that NaN does not belong to any bucket mathematically, however instrumentation libraries traditionally put it into the +Inf bucket.
 
-Negative threshold classic buckets MAY be used.
+Classic Bucket values MAY have exemplars. The value of the exemplar MUST be within the Classic Bucket. Exemplars SHOULD be put into the Classic Bucket with the lowest threshold that includes the exemplar value. A Classic Bucket MUST NOT have more than one exemplar.
 
-Classic bucket values MAY have exemplars. The value of the exemplar MUST be within the classic bucket. Exemplars SHOULD be put into the classic bucket with the lowest threshold that includes the exemplar value. A classic bucket MUST NOT have more than one exemplar.
+##### Native Buckets
 
-##### Native buckets
+Histogram MetricPoints with Native Buckets MUST have a Schema value. The Schema is an 8 bit signed integer between -4 and 8. Schemas between -9 and 52 are called Standard (exponential) Schemas, the currently unused Schemas -9 to -5 and 9 to 52 are reserved to be used as Standard Schemas later.
 
-Histogram MetricPoints with native buckets MUST have a Schema value. The Schema is an 8 bit signed integer between -4 and 8. Schemas between -9 and 52 are called Standard (exponential) Schemas, the currently unused Schemas -9 to -5 and 9 to 52 are reserved to be used as Standard Schemas later.
+For any Standard Schema n, the Histogram MetricPoint MAY contain positive, negative Native Buckets and MUST contain a zero Native Bucket. Empty positive or negative Native Buckets SHOULD NOT be present.
 
-For any Standard Schema n, the Histogram MetricPoint MAY contain positive, negative native buckets and MUST contain a zero native bucket. Empty positive or negative native buckets SHOULD NOT be present.
+As the Standard Schema allows for many positive and negative Native Buckets, the Histogram SHOULD have strategies to reset itself to empty when the number of Native Buckets is too high. Such strategies are out of scope for this specification.
 
-As the Standard Schema allows for many positive and negative native buckets, the Histogram SHOULD have strategies to reset itself to empty when the number of native buckets is too high. Such strategies are out of scope for this specification.
+In case of Standard Schemas, the boundaries of a positive or negative Native Bucket with index i MUST be calculated as follows (using Python syntax):
 
-In case of Standard Schemas, the boundaries of a positive or negative native bucket with index i MUST be calculated as follows (using Python syntax):
+The upper inclusive limit of a positive Native Bucket: `(2**2**-n)**i`
 
-The upper inclusive limit of a positive native bucket: `(2**2**-n)**i`
+The lower exclusive limit of a positive Native Bucket: `(2**2**-n)**(i-1)`
 
-The lower exclusive limit of a positive native bucket: `(2**2**-n)**(i-1)`
+The lower inclusive limit of a negative Native Bucket: `-((2**2**-n)**i)`
 
-The lower inclusive limit of a negative native bucket: `-((2**2**-n)**i)`
-
-The upper exclusive limit of a negative native bucket: `-((2**2**-n)**(i-1))`
+The upper exclusive limit of a negative Native Bucket: `-((2**2**-n)**(i-1))`
 
 i is an integer number that MAY be negative.
 
 There are exceptions to the rules above concerning the largest and smallest finite values representable as a float64 (called MaxFloat64 and MinFloat64 in the following) and the positive and negative infinity values (+Inf and -Inf):
 
-The positive native bucket that contains MaxFloat64 (according to the boundary formulas above) has an upper inclusive limit of MaxFloat64 (rather than the limit calculated by the formulas above, which would overflow float64).
+The positive Native Bucket that contains MaxFloat64 (according to the boundary formulas above) has an upper inclusive limit of MaxFloat64 (rather than the limit calculated by the formulas above, which would overflow float64).
 
-The next positive native bucket (index i+1 relative to the bucket from the previous item) has a lower exclusive limit of MaxFloat64 and an upper inclusive limit of +Inf. (It could be called a positive native overflow bucket.)
+The next positive Native Bucket (index i+1 relative to the bucket from the previous item) has a lower exclusive limit of MaxFloat64 and an upper inclusive limit of +Inf. (It could be called a positive Native overflow Bucket.)
 
-The negative native bucket that contains MinFloat64 (according to the boundary formulas above) has a lower inclusive limit of MinFloat64 (rather than the limit calculated by the formulas above, which would underflow float64).
+The negative Native Bucket that contains MinFloat64 (according to the boundary formulas above) has a lower inclusive limit of MinFloat64 (rather than the limit calculated by the formulas above, which would underflow float64).
 
-The next negative native bucket (index i+1 relative to the bucket from the previous item) has an upper exclusive limit of MinFloat64 and an lower inclusive limit of -Inf. (It could be called a negative native overflow bucket.)
+The next negative Native Bucket (index i+1 relative to the bucket from the previous item) has an upper exclusive limit of MinFloat64 and an lower inclusive limit of -Inf. (It could be called a negative Native overflow Bucket.)
 
-Native buckets beyond the +Inf and -Inf buckets described above MUST NOT be used.
+Native Buckets beyond the +Inf and -Inf buckets described above MUST NOT be used.
 
-If the zero native bucket is present, the Histogram MetricPoint MUST have a Zero threshold. The Zero threshold MUST be a non-negative float64 value (threshold >= 0.0). The boundaries of the zero native bucket are `[-threshold, threshold]` inclusively.
+If the zero Native Bucket is present, the Histogram MetricPoint MUST have a Zero threshold. The Zero threshold MUST be a non-negative float64 value (threshold >= 0.0). The boundaries of the zero Native Bucket are `[-threshold, threshold]` inclusively.
 
-If the zero native bucket is present, any measured value that falls into the zero native bucket MUST be counted towards the zero native bucket and MUST NOT be counted in any other native bucket. The Zero threshold SHOULD be equal to a lower limit of an arbitrary native bucket.
+If the zero Native Bucket is present, any measured value that falls into the zero Native Bucket MUST be counted towards the zero Native Bucket and MUST NOT be counted in any other native bucket. The Zero threshold SHOULD be equal to a lower limit of an arbitrary Native Bucket.
 
-If the NaN value is not allowed, then the Count value MUST be equal to the sum of the negative, positive and zero native buckets.
+If the NaN value is not allowed, then the Count value MUST be equal to the sum of the negative, positive and zero Native Buckets.
 
-If the NaN value is allowed, it MUST NOT be counted in any bucket and the Count MUST be greater than the sum of the negative, positive and zero native buckets. The rationale is that NaN does not belong to any bucket mathematically, and instrumentation libraries traditionally don't put it into any bucket.
+If the NaN value is allowed, it MUST NOT be counted in any Native Bucket, and MUST be counted towards the Count. The difference between the Count and the sum of the negative, positive and zero Native Buckets MUST BE the number of NaN observations. The rationale is that NaN does not belong to any bucket mathematically.
 
-A Histogram MetricPoint with native buckets MAY contain exemplars.
+A Histogram MetricPoint with Native Buckets MAY contain exemplars.
 
-Exemplars associated with a Histogram MetricPoint with native buckets SHOULD have a timestamp. Note: storage implementations may drop exemplars without timestamps if keeping track of exemplars without timestamps is too resource intensive.
+Exemplars associated with a Histogram MetricPoint with Native Buckets SHOULD have a timestamp. Note: storage implementations may drop exemplars without timestamps if keeping track of exemplars without timestamps is too resource intensive.
 
-The values of exemplars in a Histogram MetricPoint with native buckets SHOULD be evenly distributed to avoid only representing the bucket with the highest value and therefore most common case.
+The values of exemplars in a Histogram MetricPoint with Native Buckets SHOULD be evenly distributed to avoid only representing the bucket with the highest value and therefore most common case.
 
 #### GaugeHistogram
 
@@ -320,7 +318,7 @@ The GCount value MUST be equal to the number of measurements currently in the Ga
 
 The Gsum value MUST be equal to the sum of all the measured values currently in the GaugeHistogram. The Gsum is a gauge semantically.
 
-A GaugeHistogram MUST measure non NaN values in either [classic buckets](#classic-buckets) or [native buckets](#native-buckets) or both. If a GaugeHistogram stops measuring values in either classic or native buckets and keeps measuring values in the other, it MUST clear and not expose the buckets it stopped measuring into. This avoids exposing different distribution from the two kind of buckets at the same time.
+A GaugeHistogram MUST measure values that are not NaN in either [Classic Buckets](#classic-buckets) or [native buckets](#native-buckets) or both. If a GaugeHistogram stops measuring values in either Classic or Native buckets and keeps measuring values in the other, it MUST clear and not expose the buckets it stopped measuring into. This avoids exposing different distribution from the two kind of buckets at the same time.
 
 Every bucket MUST have well defined boundaries and a value. Boundaries of a bucket MUST NOT be NaN. Bucket values MUST be integers. Semantically, bucket values are gauges and MUST NOT be NaN or negative.
 
@@ -328,9 +326,9 @@ A GaugeHistogram SHOULD refuse to measure NaN value as adding NaN to the Sum wil
 
 A GaugeHistogram MAY refuse to measure +Inf and -Inf values as adding these to the Sum will mask the sum of the real measurements until the next reset of the counters. If a GaugeHistogram measures +Inf or -Inf, then +Inf or -Inf MUST be counted in the Gcount and MUST be added to the Gsum, potentially resulting in +Inf, -Inf or NaN in the Gsum, the later for example in case of adding +Inf to -Inf.
 
-If the GaugeHistogram Metric has MetricPoints with classic buckets, the GaugeHistogram's Metric's LabelSet MUST NOT have a "le" label name.
+If the GaugeHistogram Metric has MetricPoints with Classic Buckets, the GaugeHistogram's Metric's LabelSet MUST NOT have a "le" label name.
 
-The classic and native buckets for a GaugeHistogram follow all the same rules as for a Histogram, with Gcount and Gsum playing the same role as Count and Sum.
+The Classic and Native buckets for a GaugeHistogram follow all the same rules as for a Histogram, with Gcount and Gsum playing the same role as Count and Sum.
 
 The exemplars for a GaugeHistogram follow all the same rules as for a Histogram.
 
@@ -340,12 +338,12 @@ Summaries also measure distributions of discrete events and MAY be used when His
 
 They MAY also be used for backwards compatibility, because some existing instrumentation libraries expose precomputed quantiles and do not support Histograms. Precomputed quantiles SHOULD NOT be used, because quantiles are not aggregatable and the user often can not deduce what timeframe they cover.
 
-A Summary MetricPoint MAY consist of a Count, Sum, Created, and a set of quantiles.
+A Summary MetricPoint MAY consist of a Count, Sum, Created Timestamp, and a set of quantiles.
 
 Semantically, Count and Sum values are counters so MUST NOT be NaN or negative.
 Count MUST be an integer.
 
-A MetricPoint in a Metric with the type Summary which contains Count or Sum values SHOULD have a Timestamp value called Created. This can help ingestors discern between new metrics and long-running ones it did not see before. Created MUST NOT relate to the collection period of quantile values.
+A MetricPoint in a Metric with the type Summary which contains Count or Sum values SHOULD have a Timestamp value called Created Timestamp. This can help ingestors discern between new metrics and long-running ones it did not see before. Created Timestamp MUST NOT relate to the collection period of quantile values.
 
 Quantiles are a map from a quantile to a value. An example is a quantile 0.95 with value 0.2 in a metric called myapp_http_request_duration_seconds which means that the 95th percentile latency is 200ms over an unknown timeframe. If there are no events in the relevant timeframe, the value for a quantile MUST be NaN.
 A Quantile's Metric's LabelSet MUST NOT have "quantile" label name.
@@ -402,8 +400,8 @@ metric = *sample
 metric-type = counter / gauge / histogram / gaugehistogram / stateset
 metric-type =/ info / summary / unknown
 
-sample = metricname [labels] SP number [SP timestamp] [exemplar] LF
-sample =/ metricname [labels] SP "{" complextype "}" [SP timestamp] *exemplar LF
+sample = metricname [labels] SP number [SP timestamp] [SP created] [exemplar] LF
+sample =/ metricname [labels] SP "{" complextype "}" [SP timestamp] [SP created] *exemplar LF
 
 exemplar = SP HASH SP labels SP number [SP timestamp]
 
@@ -465,6 +463,9 @@ escaped-char =/ BS normal-char
 
 ; Any unicode character, except newline, double quote, and backslash
 normal-char = %x00-09 / %x0B-21 / %x23-5B / %x5D-D7FF / %xE000-10FFFF
+
+; Lowercase ct @ timestamp
+created = %d99.116 "@" timestamp
 
 ; Complex types
 complextype = nativehistogram
@@ -537,12 +538,10 @@ An example of a complete exposition:
 # TYPE acme_http_router_request_seconds summary
 # UNIT acme_http_router_request_seconds seconds
 # HELP acme_http_router_request_seconds Latency though all of ACME's HTTP request router.
-acme_http_router_request_seconds_sum{path="/api/v1",method="GET"} 9036.32
-acme_http_router_request_seconds_count{path="/api/v1",method="GET"} 807283.0
-acme_http_router_request_seconds_created{path="/api/v1",method="GET"} 1605281325.0
-acme_http_router_request_seconds_sum{path="/api/v2",method="POST"} 479.3
-acme_http_router_request_seconds_count{path="/api/v2",method="POST"} 34.0
-acme_http_router_request_seconds_created{path="/api/v2",method="POST"} 1605281325.0
+acme_http_router_request_seconds_sum{path="/api/v1",method="GET"} 9036.32 ct@1605281325.0
+acme_http_router_request_seconds_count{path="/api/v1",method="GET"} 807283.0 ct@1605281325.0
+acme_http_router_request_seconds_sum{path="/api/v2",method="POST"} 479.3 ct@1605301325.0
+acme_http_router_request_seconds_count{path="/api/v2",method="POST"} 34.0 ct@1605301325.0
 # TYPE go_goroutines gauge
 # HELP go_goroutines Number of goroutines that currently exist.
 go_goroutines 69
@@ -553,7 +552,7 @@ process_cpu_seconds_total 4.20072246e+06
 # TYPE acme_http_request_seconds histogram
 # UNIT acme_http_request_seconds seconds
 # HELP acme_http_request_seconds Latency histogram of all of ACME's HTTP requests.
-acme_http_request_seconds{path="/api/v1",method="GET"} {count:2,sum:1.2e2,schema:0,zero_threshold:1e-4,zero_count:0,positive_spans:[1:2],positive_buckets:[1,1]}
+acme_http_request_seconds{path="/api/v1",method="GET"} {count:2,sum:1.2e2,schema:0,zero_threshold:1e-4,zero_count:0,positive_spans:[1:2],positive_buckets:[1,1]} ct@1605301325.0
 acme_http_request_seconds_count{path="/api/v1",method="GET"} 2
 acme_http_request_seconds_sum{path="/api/v1",method="GET"} 1.2e2
 acme_http_request_seconds_buckets{path="/api/v1",method="GET",le="0.5"} 1
@@ -777,39 +776,44 @@ foo 18.0 456
 
 ##### Counter
 
-The MetricPoint's Total Value Sample MetricName MUST have the suffix `_total`. If present the MetricPoint's Created Value Sample MetricName MUST have the suffix `_created`.
+The MetricPoint's Total Value Sample MetricName MUST have the suffix `_total`. If present, the MetricPoint's Created Timestamp MUST be inlined with the Metric point with a `ct@` prefix. If the value's timestamp is present, the Created Timestamp MUST be added right after it. If exemplar is present, the Created Timestamp MUST be added before it.
 
-An example with a Metric with no labels, and a MetricPoint with no timestamp and no created:
+An example with a Metric with no labels, and a MetricPoint with no timestamp and no Created Timestamp:
 
 ```openmetrics-add-eof
 # TYPE foo counter
 foo_total 17.0
 ```
 
-An example with a Metric with no labels, and a MetricPoint with a timestamp and no created:
+An example with a Metric with no labels, and a MetricPoint with a timestamp and no Created Timestamp:
 
 ```openmetrics-add-eof
 # TYPE foo counter
 foo_total 17.0 1520879607.789
 ```
 
-An example with a Metric with no labels, and a MetricPoint with no timestamp and a created:
+An example with a Metric with no labels, and a MetricPoint with no timestamp and a Created Timestamp:
 
 ```openmetrics-add-eof
 # TYPE foo counter
-foo_total 17.0
-foo_created 1520430000.123
+foo_total 17.0 ct@1520430000.123
 ```
 
-An example with a Metric with no labels, and a MetricPoint with a timestamp and a created:
+An example with a Metric with no labels, and a MetricPoint with a timestamp and a Created Timestamp:
 
 ```openmetrics-add-eof
 # TYPE foo counter
-foo_total 17.0 1520879607.789
-foo_created 1520430000.123 1520879607.789
+foo_total 17.0 1520879607.789 ct@1520430000.123
 ```
 
 Exemplars MAY be attached to the MetricPoint's Total sample.
+
+An example with a Metric with no labels, and a MetricPoint with a timestamp and a Created Timestamp and an exemplar:
+
+```openmetrics-add-eof
+# TYPE foo counter
+foo_total 17.0 1520879607.789 ct@1520430000.123 # {trace_id="KOO5S4vxi0o"} 0.67
+```
 
 ##### StateSet
 
@@ -861,77 +865,74 @@ Metric labels and MetricPoint value labels MAY be in any order.
 
 ##### Summary
 
-If present, the MetricPoint's Sum Value Sample MetricName MUST have the suffix `_sum`. If present, the MetricPoint's Count Value Sample MetricName MUST have the suffix `_count`. If present, the MetricPoint's Created Value Sample MetricName MUST have the suffix `_created`. If present, the MetricPoint's Quantile Values MUST specify the quantile measured using a label with a label name of "quantile" and with a label value of the quantile measured.
+If present, the MetricPoint's Sum Value Sample MetricName MUST have the suffix `_sum`. If present, the MetricPoint's Count Value MetricName MUST have the suffix `_count`. If present, the MetricPoint's Quantile Values MUST specify the quantile measured using a label with a label name of "quantile" and with a label value of the quantile measured. 
 
-An example of a Metric with no labels and a MetricPoint with Sum, Count and Created values:
+If present the MetricPoint's Created Timestamp MUST be inlined with the Metric point with a `ct@` prefix. If the value's timestamp is present, the Created Timestamp MUST be added right after it. If exemplar is present, the Created Timestamp MUST be added before it. Created Timestamp MUST be appended to all Quantile Values, to the MetricPoint's Sum and MetricPoint's Count.
+
+An example of a Metric with no labels and a MetricPoint with Sum, Count and Created Timestamp values:
 
 ```openmetrics-add-eof
 # TYPE foo summary
-foo_count 17.0
-foo_sum 324789.3
-foo_created 1520430000.123
+foo_count 17.0 ct@1520430000.123
+foo_sum 324789.3 ct@1520430000.123
 ```
 
-An example of a Metric with no labels and a MetricPoint with two quantiles:
+An example of a Metric with no labels and a MetricPoint with two quantiles and Created Timestamp values:
 
 ```openmetrics-add-eof
 # TYPE foo summary
-foo{quantile="0.95"} 123.7
-foo{quantile="0.99"} 150.0
+foo{quantile="0.95"} 123.7 ct@1520430000.123
+foo{quantile="0.99"} 150.0 ct@1520430000.123
 ```
 
 Quantiles MAY be in any order.
 
-##### Histogram with classic buckets
+##### Histogram with Classic Buckets
 
-The MetricPoint's Classic Bucket Values Sample MetricNames MUST have the suffix `_bucket`. If present, the MetricPoint's Sum Value Sample MetricName MUST have the suffix `_sum`. If present, the MetricPoint's Created Value Sample MetricName MUST have the suffix `_created`.
-If and only if a Sum Value is present in a MetricPoint, then the MetricPoint's +Inf Classic Bucket value MUST also appear in a Sample with a MetricName with the suffix "_count".
+The MetricPoint's Sum Value Sample MetricName MUST have the suffix `_sum`. The MetricPoint's Count Value Sample MetricName MUST have the suffix `_count`. The MetricPoint's Classic Bucket values Sample MetricNames MUST have the suffix `_bucket`.
+
+If present the MetricPoint's Created Timestamp MUST be inlined with the Metric point with a `ct@` prefix. If the value's timestamp is present, the Created Timestamp MUST be added right after it. If exemplar  is present, the Created Timestamp MUST be added before it. Created Timestamp MUST be appended to all Classic Bucket values, to the MetricPoint's Sum and MetricPoint's Count.
 
 Classic Buckets MUST be sorted in number increasing order of "le", and the value of the "le" label MUST follow the rules for Canonical Numbers.
 
-All Classic Buckets must be represented, even the unpopulated ones that didn't measure any values.
-
-An example of a Metric with no labels and a MetricPoint with Sum, Count, and Created values, and with 12 classic buckets. A wide and atypical but valid variety of “le” values is shown on purpose:
+An example of a Metric with no labels and a MetricPoint with Sum, Count, and Created Timestamp values, and with 12 Classic Buckets. A wide and atypical but valid variety of “le” values is shown on purpose:
 
 ```openmetrics-add-eof
 # TYPE foo histogram
-foo_bucket{le="0.0"} 0
-foo_bucket{le="1e-05"} 0
-foo_bucket{le="0.0001"} 5
-foo_bucket{le="0.1"} 8
-foo_bucket{le="1.0"} 10
-foo_bucket{le="10.0"} 11
-foo_bucket{le="100000.0"} 11
-foo_bucket{le="1e+06"} 15
-foo_bucket{le="1e+23"} 16
-foo_bucket{le="1.1e+23"} 17
-foo_bucket{le="+Inf"} 17
-foo_count 17
-foo_sum 324789.3
-foo_created 1520430000.123
+foo_bucket{le="0.0"} 0 ct@1520430000.123
+foo_bucket{le="1e-05"} 0 ct@1521430000.123
+foo_bucket{le="0.0001"} 5 ct@1521430020.123
+foo_bucket{le="0.1"} 8 ct@1520430321.123
+foo_bucket{le="1.0"} 10 ct@1522430000.123
+foo_bucket{le="10.0"} 11 ct@1520430123.123
+foo_bucket{le="100000.0"} 11 ct@1521430010.123
+foo_bucket{le="1e+06"} 15 ct@1520430301.123
+foo_bucket{le="1e+23"} 16 ct@1521430001.123
+foo_bucket{le="1.1e+23"} 17 ct@1522430220.123
+foo_bucket{le="+Inf"} 17 ct@1520430000.123
+foo_count 17 ct@1520430000.123
+foo_sum 324789.3 ct@1520430000.123
 ```
 
 ##### Histogram with native buckets
 
 The MetricPoint's value MUST be a complex data type.
 
-Histograms with native buckets use the integer native histogram data type.
+Histograms with Native Buckets MUST use the integer native histogram data type.
 
-The integer native histogram data type is a JSON like structure with fields. There MUST NOT be any whitespace around fields.
-The integer native histogram data type MUST include the Count, Sum, Schema, Zero Threshold, Zero native bucket value as the fields `count`, `sum`, `schema`, `zero_threshold`, `zero_count`.
+The integer native histogram data type is represented as structured data with fields. There MUST NOT be any whitespace around fields.
+The integer native histogram data type MUST include the Count, Sum, Schema, Zero Threshold, Zero Native Bucket value as the fields `count`, `sum`, `schema`, `zero_threshold`, `zero_count`.
 
-If a positive or negative native bucket is empty, it SHOULD be omitted. See later for a valid use case when to keep empty buckets.
+If there are no negative Native Buckets, then the fields `negative_spans` and `negative_buckets` SHOULD be omitted.
+If there are no positive Native Buckets, then the fields `positive_spans` and `positive_buckets` SHOULD be omitted.
 
-If there are no negative native buckets, then the fields `negative_spans` and `negative_buckets` SHOULD be omitted.
-If there are no positive native buckets, then the fields `positive_spans` and `positive_buckets` SHOULD be omitted.
+If there are negative (and/or positive) Native Buckets, then the fields `negative_spans`, `negative_buckets` (and/or `positive_spans`, `positive_buckets`) MUST be present in this order after the `zero_count` field.
 
-If there are negative (and/or positive) native buckets then the fields `negative_spans`, `negative_buckets` (and/or `positive_spans`, `positive_buckets`) MUST be present in this order after the `zero_count` field.
+Native Bucket values MUST be ordered by their index, and their values MUST be placed in the `negative_buckets` (and/or `positive_buckets`) fields.
 
-Native bucket values MUST be ordered by their index, and their values MUST be placed in the `negative_buckets` (and/or `positive_buckets`) fields.
+To map the `negative_buckets` (and/or `positive_buckets`) back to their indices, the `negative_spans` (and/or `positive_spans`) field MUST be constructed in the following way: Each span consists of a pair of numbers, an integer called offset and an non-negative integer called length. Only the first span in each list can have a negative offset. It defines the index of the first bucket in its corresponding `negative_buckets` (and/or `positive_buckets`). The length defines the number of consecutive buckets the bucket list starts with. The offsets of the following spans define the number of excluded (and thus unpopulated buckets). The lengths define the number of consecutive buckets in the list following the excluded buckets.
 
-To map the `negative_buckets` (and/or `positive_buckets`) back to their indices, the `negative_spans` (and/or `positive_spans`) field MUST be constructed in the following way: each span consists of a pair of numbers, an integer called offset and an non-negative integer called length. Only the first span in each list can have a negative offset. It defines the index of the first bucket in its corresponding `negative_buckets` (and/or `positive_buckets`). The length defines the number of consecutive buckets the bucket list starts with. The offsets of the following spans define the number of excluded (and thus unpopulated buckets). The lengths define the number of consecutive buckets in the list following the excluded buckets.
-
-An example of when to keep empty positive or negative native buckets is to reduce the number of spans needed to represent the case where the offset between two spans is just 1, meaning that with
+An example of when to keep empty positive or negative Native Buckets is to reduce the number of spans needed to represent the case where the offset between two spans is just 1, meaning that with
 the inclusion of one empty bucket, the number of spans is reduced by one.
 
 The sum of all length values in each span list MUST be equal to the length of the corresponding bucket list.
@@ -952,11 +953,11 @@ acme_http_request_seconds{path="/api/v1",method="GET"} {count:0,sum:0,schema:3,z
 acme_http_request_seconds_created 1520430000.123
 ```
 
-##### Histogram with both classic and native buckets
+##### Histogram with both Classic and Native Buckets
 
-If a Histogram MetricPoint has both classic and native buckets, the native buckets MUST come first and the created time MUST NOT be duplicated.
+If a Histogram MetricPoint has both Classic and Native buckets, the Sample for the Native Buckets MUST come first.
 
-The order ensures that implementations can easily skip the classic buckets if the native buckets are preferred.
+The order ensures that implementations can easily skip the Classic Buckets if the Native Buckets are preferred.
 
 ```openmetrics-add-eof
 # TYPE acme_http_request_seconds histogram
@@ -968,7 +969,6 @@ acme_http_request_seconds_sum{path="/api/v1",method="GET"} 1.2e2
 acme_http_request_seconds_buckets{path="/api/v1",method="GET",le="0.5"} 1
 acme_http_request_seconds_buckets{path="/api/v1",method="GET",le="1"} 2
 acme_http_request_seconds_buckets{path="/api/v1",method="GET",le="+Inf"} 2
-acme_http_request_seconds_created{path="/api/v1",method="GET"} 1605281325.0
 ```
 
 ###### Exemplars
@@ -976,28 +976,26 @@ acme_http_request_seconds_created{path="/api/v1",method="GET"} 1605281325.0
 Exemplars without Labels MUST represent an empty LabelSet as {}.
 
 An example of Exemplars showcasing several valid cases:
-The native histogram version of the histogram has multiple Exemplars.
+The Histogram Sample with Native Buckets has multiple Exemplars.
 The "0.01" bucket has no Exemplar. The 0.1 bucket has an Exemplar with no Labels. The 1 bucket has an Exemplar with one Label. The 10 bucket has an Exemplar with a Label and a timestamp. In practice all buckets SHOULD have the same style of Exemplars.
 
 ```openmetrics-add-eof
 # TYPE foo histogram
-foo {count:10,sum:1.0,schema:0,zero_threshold:1e-4,zero_count:0,positive_spans:[0:2],positive_buckets:[5,5]} # {trace_id="shaZ8oxi"} 0.67 1520879607.789 # {trace_id="ookahn0M"} 1.2 1520879608.589
-foo_bucket{le="0.01"} 0
-foo_bucket{le="0.1"} 8 # {} 0.054
-foo_bucket{le="1"} 11 # {trace_id="KOO5S4vxi0o"} 0.67
-foo_bucket{le="10"} 17 # {trace_id="oHg5SJYRHA0"} 9.8 1520879607.789
-foo_bucket{le="+Inf"} 17
-foo_count 17
-foo_sum 324789.3
-foo_created 1520430000.123
+foo {count:10,sum:1.0,schema:0,zero_threshold:1e-4,zero_count:0,positive_spans:[0:2],positive_buckets:[5,5]} ct@1520430000.123 # {trace_id="shaZ8oxi"} 0.67 1520879607.789 # {trace_id="ookahn0M"} 1.2 1520879608.589
+foo_bucket{le="0.01"} 0 ct@1520430000.123
+foo_bucket{le="0.1"} 8 ct@1520430000.123 # {} 0.054
+foo_bucket{le="1"} 11 ct@1520430000.123 # {trace_id="KOO5S4vxi0o"} 0.67
+foo_bucket{le="10"} 17 ct@1520430000.123 # {trace_id="oHg5SJYRHA0"} 9.8 1520879607.789
+foo_bucket{le="+Inf"} 17 ct@1520430000.123
+foo_count 17 ct@1520430000.123
+foo_sum 324789.3 ct@1520430000.123
 ```
 
-##### GaugeHistogram with classic buckets
+##### GaugeHistogram with Classic Buckets
 
-The MetricPoint's Bucket Values Sample MetricNames MUST have the suffix `_bucket`. If present, the MetricPoint's Sum Value Sample MetricName MUST have the suffix `_gsum`.
-If and only if a Sum Value is present in a MetricPoint, then the MetricPoint's +Inf Bucket value MUST also appear in a Sample with a MetricName with the suffix `_gcount`.
+The MetricPoint's Sum Value Sample MetricName MUST have the suffix `_gsum`. The MetricPoint's Count Value Sample MetricName MUST have the suffix `_gcount`. The MetricPoint's Classic Bucket values Sample MetricNames MUST have the suffix `_bucket`.
 
-Buckets MUST be sorted in number increasing order of "le", and the value of the "le" label MUST follow the rules for Canonical Numbers.
+Classic Buckets MUST be sorted in number increasing order of "le", and the value of the "le" label MUST follow the rules for Canonical Numbers.
 
 An example of a Metric with no labels, and one MetricPoint value with no Exemplar with no Exemplars in the buckets:
 
@@ -1012,9 +1010,9 @@ foo_gcount 42.0
 foo_gsum 3289.3
 ```
 
-##### GaugeHistogram with native buckets
+##### GaugeHistogram with Native Buckets
 
-GaugeHistogram MetricPoints with native buckets follow the same syntax as Histogram MetricPoints with native buckets.
+GaugeHistogram MetricPoints with Native Buckets follow the same syntax as Histogram MetricPoints with Native Buckets.
 
 ```openmetrics-add-eof
 # TYPE acme_http_request_seconds gaugehistogram
@@ -1022,9 +1020,11 @@ acme_http_request_seconds{path="/api/v1",method="GET"} {count:59,sum:1.2e2,schem
 acme_http_request_seconds_created 1520430000.123
 ```
 
-##### GaugeHistogram with both classic and native buckets
+##### GaugeHistogram with both Classic and Native buckets
 
-If a GaugeHistogram MetricPoint has both classic and native buckets, the native buckets MUST come first and the created time MUST NOT be duplicated.
+If a GaugeHistogram MetricPoint has both Classic and Native buckets, the Sample for the Native Buckets MUST come first.
+
+The order ensures that implementations can easily skip the Classic Buckets if the Native Buckets are preferred.
 
 ##### Unknown
 
@@ -1342,7 +1342,7 @@ my_time_since_boot_seconds 123
 ```
 
 Conversely, there are no best practice restrictions on exemplars timestamps.
-Keep in mind that due to race conditions or time not being perfectly synced across devices, that an exemplar timestamp may appear to be slightly in the future relative to a ingestor's system clock or other metrics from the same exposition. Similarly it is possible that a "_created" for a MetricPoint could appear to be slightly after an exemplar or sample timestamp for that same MetricPoint.
+Keep in mind that due to race conditions or time not being perfectly synced across devices, that an exemplar timestamp may appear to be slightly in the future relative to a ingestor's system clock or other metrics from the same exposition. Similarly it is possible that a "ct@" for a MetricPoint could appear to be slightly after an exemplar or sample timestamp for that same MetricPoint.
 
 Keep in mind that there are monitoring systems in common use which support everything from nanosecond to second resolution, so having two MetricPoints that have the same timestamp when truncated to second resolution may cause an apparent duplicate in the ingestor. In this case the MetricPoint with the earliest timestamp MUST be used.
 

@@ -66,7 +66,7 @@ Metric values in OpenMetrics MUST be either numbers or complex data types.
 
 Numbers MUST be either floating points or integers. Note that ingestors of the format MAY only support float64. The non-real values NaN, +Inf and -Inf MUST be supported. NaN MUST NOT be considered a missing value, but it MAY be used to signal a division by zero.
 
-Complex data types MUST contain all information necessary to recreate a sample of a Metric Type, with the exception of Created Value and Exemplars.
+Complex data types MUST contain all information necessary to recreate a sample of a Metric Type, with the exception of Created Timestamp and Exemplars.
 
 List of complex data types:
 - Integer counter native histograms for the Metric Type Histogram.

@@ -668,7 +668,7 @@ Exemplars MAY be attached to the MetricPoint's Total sample.
 
 An example with a Metric with no labels, and a MetricPoint with a timestamp and a Created Value and an exemplar:
 
-```
+```openmetrics-add-eof
 # TYPE foo counter
 foo_total 17.0 1520879607.789 ct@1520430000.123 # {trace_id="KOO5S4vxi0o"} 0.67
 ```

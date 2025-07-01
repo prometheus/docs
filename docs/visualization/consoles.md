@@ -1,6 +1,6 @@
 ---
 title: Console templates
-sort_rank: 3
+sort_rank: 4
 ---
 
 Console templates allow for creation of arbitrary consoles using the [Go

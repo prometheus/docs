@@ -47,6 +47,11 @@ const trainingProviders: ProviderCardProps[] = [
     logo: "/assets/commercial-support-logos/acend.svg",
     url: "https://acend.ch/en/trainings/prometheus/",
   },
+  {
+    name: "KodeKloud",
+    logo: "/assets/commercial-support-logos/kodekloud-logo.svg",
+    url: "https://kodekloud.com/courses/prometheus-certified-associate-pca/",
+  }
 ];
 
 const commercialSupportProviders: ProviderCardProps[] = [

@@ -1877,11 +1877,24 @@ In this case, the 1st sample is not included in the calculation, so an
 incompatible bucket layout between the 1st sample and the other samples is
 simply ignored silently.
 
-TODO: Preventing [extrapolation below
-zero](https://github.com/prometheus/prometheus/blob/034d2b24bcae90fce3ac337b4ddd399bd2ff4bc4/promql/functions.go#L153-L159)
-is currently not yet implemented (and might actually not make sense) for native
-histograms. This may lead to slightly different results when comparing classic
-histograms with equivalent NHCBs.
+To prevent extrapolation below zero, the same heuristics is applied as for
+[float counters](https://github.com/prometheus/prometheus/blob/034d2b24bcae90fce3ac337b4ddd399bd2ff4bc4/promql/functions.go#L153-L159),
+but solely based on the count of observations. Therefore, individual buckets
+might still be extrapolated below zero in some cases. An alternative could have
+been to find the smallest extrapolation where neither the count nor any bucket
+would be extropolated below zero. However, this does not necessarily lead to a
+better heuristics while inflicting a significant cost in complexity. In the
+common and important case where the first sample in the range is a synthetic
+zero sample derived from the created-at timestamp, the limited extrapolation
+will actually work perfectly precise, because the count and all buckets are
+zero at precisely the timestamp of the synthetic sample, which is also the
+point in time to which the extrapolation is limited. Note that classic
+histogram apply the heuristics independently to each bucket and the count and
+the sum (as they are all separate series). This is known to lead to
+inconsistencies. NHCBs do not reproduce this problem and work in the same way
+as other native histograms, which means that the result of `rate()` and
+`increase()` may be slightly different when comparing classic histograms and
+equivalent NHCBs.
 
 `avg_over_time()` and `sum_over_time()` work with native histograms in a way
 that corresponds to the respective aggregation operators. In particular, if a

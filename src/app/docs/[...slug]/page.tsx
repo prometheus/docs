@@ -8,6 +8,7 @@ import { Divider, Title } from "@mantine/core";
 import PrevNextEditButtons from "./PrevNextEditButtons";
 import path from "path";
 import { DocMetadata } from "@/docs-collection-types";
+import { compareMajorMinor } from "../../../../scripts/utils";
 
 // Next.js uses this function at build time to figure out which
 // docs pages it should statically generate.
@@ -82,6 +83,18 @@ export default async function DocsPage({
     (docMeta.version === docMeta.latestVersion &&
       !docMeta.slug.startsWith(docMeta.versionRoot));
 
+  // The Markdown format was changed in Prometheus >3.4 and Alertmanager >0.28
+  // to not include the H1 title in the Markdown content itself, so we need to
+  // externally render the title using the frontmatter `title` field instead..
+  const useFrontmatterTitle =
+    docMeta.type === "local-doc" ||
+    (docMeta.type === "repo-doc" &&
+      docMeta.owner === "prometheus" &&
+      ((docMeta.repo === "prometheus" &&
+        compareMajorMinor(docMeta.version, "3.4") === 1) ||
+        (docMeta.repo === "alertmanager" &&
+          compareMajorMinor(docMeta.version, "0.28") === 1)));
+
   return (
     <>
       <VersionWarning currentPage={docMeta} />
@@ -93,9 +106,7 @@ export default async function DocsPage({
           )}`,
         }}
       >
-        {docMeta.type === "local-doc" && (
-          <Title order={1}>{docMeta.title}</Title>
-        )}
+        {useFrontmatterTitle && <Title order={1}>{docMeta.title}</Title>}
         <PromMarkdown
           normalizeHref={(href: string | undefined) => {
             if (!href) {

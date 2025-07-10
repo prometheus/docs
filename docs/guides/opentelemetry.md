@@ -151,9 +151,9 @@ From the 3.x version, Prometheus supports UTF-8 for metric names and labels, so 
 There are four possible translation strategies, two of which require UTF-8 support to be enabled in Prometheus:
 
 * `UnderscoreEscapingWithSuffixes`, the default. This fully escapes metric names for classic [Prometheus metric name compatibility](https://prometheus.io/docs/practices/naming/), and includes appending type and unit suffixes.
+* `UnderscoreEscapingWithoutSuffixes`. This fully escapes metric names similar to UnderscoreEscapingWithSuffixes, but does not append type and unit suffixes. This mode is undesirable from a number of standpoints and users should be aware that the lack of suffixes could cause metric name collisions and only enable this mode in concert with careful testing. It is used by some organizations who prefer this balance of Otel symmetry and limited character support.
 * `NoUTF8EscapingWithSuffixes` will disable changing special characters to `_` which allows native use of OpenTelemetry metric format, especially with [the semantic conventions](https://opentelemetry.io/docs/specs/semconv/general/metrics/). Note that special suffixes like units and `_total` for counters will be attached to prevent possible collisions with multiple metrics of the same name having different type or units. This mode requires UTF-8 to be enabled.
 * `NoTranslation`. This strategy bypasses all metric and label name translation, passing them through unaltered. This mode requires UTF-8 to be enabled. Note that without suffixes, it is possible to have collisions when multiple metrics of the same name have different type or units.
-* `UnderscoreEscapingWithoutSuffixes`. This fully escapes metric names similar to UnderscoreEscapingWithSuffixes, but does not append type and unit suffixes. This mode is undesirable from a number of standpoints and users should be aware that the lack of suffixes could cause metric name collisions and only enable this mode in concert with careful testing. It is used by some organizations who prefer this balance of Otel symmetry and limited character support.
 
 ```
 otlp:

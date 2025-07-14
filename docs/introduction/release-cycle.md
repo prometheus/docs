@@ -38,8 +38,11 @@ having a Prometheus server maintained by the community.
         <tr class="danger">
             <td>Prometheus 2.45</td><td>2023-06-23</td><td>2024-07-31</td>
         </tr>
-        <tr class="success">
+        <tr class="danger">
             <td>Prometheus 2.53</td><td>2024-06-16</td><td>2025-07-31</td>
+        </tr>
+        <tr class="success">
+            <td>Prometheus 3.5</td><td>2025-07-14</td><td>2026-07-31</td>
         </tr>
     </tbody>
 </table>

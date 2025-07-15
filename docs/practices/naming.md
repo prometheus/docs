@@ -80,7 +80,18 @@ the underlying metric type and unit you work with.
 * **Metric collisions**: With growing adoption and metric changes over time, there are cases where lack
 of unit and type information in the metric name will cause certain series to collide (e.g. `process_cpu` for seconds and milliseconds).
 
-## Labels
+### Important Labels
+
+* `job`
+   * The `job` label is a primary key to differentiate metrics from eaach other.
+   * If not specified in PromQL expressions, they will match unrelated metrics with the same name. This is especially true in a multi system or multi tenant installation
+
+WARNING: When using `without`, be careful not to strip out the `job` label accidentally.
+
+* `instance`
+   * The `instance` label will include the `ip:port` what was scraped, providing a crucial breadcrumb for debugging scrape time issues
+
+### General Labelling Advice
 
 Use labels to differentiate the characteristics of the thing that is being measured:
 

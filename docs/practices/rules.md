@@ -19,6 +19,8 @@ This page documents proper naming conventions and aggregation for recording rule
 Keeping the metric name unchanged makes it easy to know what a metric is and
 easy to find in the codebase.
 
+IMPORTANT: `job` label acts as a primary key. It is **strongly** recommended that you use it to scope your PromQL expressions to the system you are monitoring.
+
 To keep the operations clean, `_sum` is omitted if there are other operations,
 as `sum()`. Associative operations can be merged (for example `min_min` is the
 same as `min`).
@@ -26,6 +28,18 @@ same as `min`).
 If there is no obvious operation to use, use `sum`.  When taking a ratio by
 doing division, separate the metrics using `_per_` and call the operation
 `ratio`.
+
+## Labels
+
+NOTE: Omitting a label in a PromQL expression is the functional equivalent of specifying `label=*`
+
+* In both recorded rules and alerting expressions, always specify a `job` label to prevent expression mismatches from occuring.
+  This is especially important in multi-tenant systems where the same metric names may be exported by different jobs or the
+  same job (e.g `node_exporter) in multiple, distinct deployments
+
+* Always specify a `without` clause with the labels you are aggregating away.
+This is to preserve all the other labels such as `job`, which will avoid
+conflicts and give you more useful metrics and alerts.
 
 ## Aggregation
 
@@ -39,10 +53,6 @@ calculate average observation size, treating it as a ratio would be unwieldy.
 Instead keep the metric name without the `_count` or `_sum` suffix and replace
 the `rate` in the operation with `mean`. This represents the average
 observation size over that time period.
-
-* Always specify a `without` clause with the labels you are aggregating away.
-This is to preserve all the other labels such as `job`, which will avoid
-conflicts and give you more useful metrics and alerts.
 
 ## Examples
 

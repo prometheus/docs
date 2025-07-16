@@ -42,6 +42,14 @@ As a courtesy to us and our time, we would ask you not to submit raw reports.
 Instead, please submit them with an analysis outlining which specific results
 are applicable to us and why.
 
+Additionally be aware that as an open source project, we generally do not have
+access to commercial scanning tools and find their output is often misleading
+or just plain wrong. For Go code if your report does not reproduce with the
+open source [govulncheck](https://go.dev/blog/vuln) tool run on the *source
+code* of the version you believe is affected (not a binary, as that cannot do a
+full analysis) -- then we ask you to triple check your findings (including
+whether that code is actually reachable from within the Prometheus codebase).
+
 Prometheus is maintained by volunteers, not by a company. Therefore, fixing
 security issues is done on a best-effort basis. We strive to release security
 fixes within 7 days for: Prometheus, Alertmanager, Node Exporter,

@@ -21,7 +21,6 @@ export default function CommunityPage() {
   return (
     <Group wrap="nowrap" align="flex-start" pos="relative" gap="xl">
       <Box pos="sticky" top={0} w="fit-content" data-pagefind-body>
-        <Title order={1}>Governance</Title>
         <PromMarkdown>{content}</PromMarkdown>
       </Box>
       <TOC />

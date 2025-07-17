@@ -28,7 +28,7 @@ The following frontmatter fields are available:
 | `title` | The title of the page. This is displayed as the main heading on the page and as the HTML page title. |
 | `nav_title` | (OPTIONAL) An alternate (usually shorter) title to show in the navigation menu and in the previous/next pagination buttons. If not set, the `title` field is used. |
 | `sort_rank` | The sort order of the page relative to its sibling pages in the same directory. Pages with a lower sort rank will appear first in the navigation menu. Should start at 1 and be incremented by 1 for each page in the same directory. |
-| `nav_icon` | (OPTIONAL) The [Tabler](https://tabler.io/icons) icon to be displayed in the navigation menu for this section. This is only used for the top-level section `index.md` Markdown files and doesn't have any effect when used in actual documentation pages. Any new icons need to be added to the `iconMap` in [`src/app/docs/layout.tsx`](src/app/docs/layout.tsx). |
+| `nav_icon` | (OPTIONAL) The [Tabler](https://tabler.io/icons) icon to be displayed in the navigation menu for this section. This is only used for the top-level section `index.md` Markdown files and doesn't have any effect when used in actual documentation pages. Any new icons need to be added to the `iconMap` in [`src/app/docs/LeftNav.tsx`](src/app/docs/LeftNav.tsx). |
 | `hide_in_nav` | (OPTIONAL) If set to `true`, the page will not be included in the navigation menu but still be accessible via its URL. |
 
 ### For blog posts

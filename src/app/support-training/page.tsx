@@ -51,7 +51,7 @@ const trainingProviders: ProviderCardProps[] = [
     name: "KodeKloud",
     logo: "/assets/commercial-support-logos/kodekloud-logo.svg",
     url: "https://kodekloud.com/courses/prometheus-certified-associate-pca/",
-  }
+  },
 ];
 
 const commercialSupportProviders: ProviderCardProps[] = [
@@ -165,7 +165,7 @@ function ProviderCard({
     <a
       href={url}
       target="_blank"
-      rel="noopener noreferrer"
+      rel="noopener"
       style={{ textDecoration: "none" }}
     >
       <Card

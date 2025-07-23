@@ -22,7 +22,7 @@ library](https://github.com/prometheus/client_golang) accept UTF-8 names by
 default.
 
 Previously, documentation recommended that users override the value of
-`model.NameValidationScheme` to select lrgacy validation by default. This
+`model.NameValidationScheme` to select legacy validation by default. This
 boolean is now deprecated and should always be set to UTF8Validation. Legacy
 validation enforcement, if desired, should be done by individual implementations
 calling the appropriate validation APIs and is no longer a library feature.

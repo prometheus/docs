@@ -96,7 +96,12 @@ configuration as follows:
 
     otlp:
       # Ingest OTLP data keeping UTF-8 characters in metric/label names.
-      translation_strategy: NoUTF8EscapingWithSuffixes
+      translation_strategy: NoTranslation
+
+Note that when not appending type and unit suffixes, if there are two metrics
+with the same name but differing type or unit, those metrics will collide in
+Prometheus. Once Prometheus has native support for type and unit metadata this
+issue will go away.
 
 
 See [OpenTelemetry guide](/docs/guides/opentelemetry) for more details.

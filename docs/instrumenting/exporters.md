@@ -297,7 +297,7 @@ separate exporters are needed:
    * [Diffusion](https://docs.pushtechnology.com/docs/latest/manual/html/administratorguide/systemmanagement/r_statistics.html)
    * [Docker Daemon](https://docs.docker.com/engine/reference/commandline/dockerd/#daemon-metrics)
    * [Doorman](https://github.com/youtube/doorman) (**direct**)
-   * [Dovecot](https://doc.dovecot.org/configuration_manual/stats/openmetrics/)
+   * [Dovecot](https://doc.dovecot.org/main/core/config/statistics.html#openmetrics)
    * [Envoy](https://www.envoyproxy.io/docs/envoy/latest/operations/admin.html#get--stats?format=prometheus)
    * [Etcd](https://github.com/coreos/etcd) (**direct**)
    * [Flink](https://github.com/apache/flink)

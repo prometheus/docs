@@ -53,7 +53,11 @@ scrape_configs:
     metric_name_validation_scheme: legacy
 ```
 
-Scrape config settings override the global setting.
+Scrape config settings override the global setting. If a scrape config
+validation is set but the escaping scheme is not set, the escaping scheme will
+be inferred from the validation scheme. This allows users to set only
+metric_name_validation_scheme in scrape configs without also having to specify a
+metric_name_escaping_scheme.
 
 ### Scrape Content Negotiation for UTF-8 escaping
 
@@ -96,7 +100,12 @@ configuration as follows:
 
     otlp:
       # Ingest OTLP data keeping UTF-8 characters in metric/label names.
-      translation_strategy: NoUTF8EscapingWithSuffixes
+      translation_strategy: NoTranslation
+
+Note that when not appending type and unit suffixes, if there are two metrics
+with the same name but differing type or unit, those metrics will collide in
+Prometheus. Once Prometheus has native support for type and unit metadata this
+issue will go away.
 
 
 See [OpenTelemetry guide](/docs/guides/opentelemetry) for more details.

@@ -23,12 +23,22 @@ This page describes the general security assumptions of Prometheus and the
 attack vectors that some configurations may enable.
 
 As with any complex system, it is near certain that bugs will be found, some of
-them security-relevant. If you find a _security bug_ please report it
-privately to the maintainers listed in the MAINTAINERS of the relevant
+them security-relevant.
+
+For _security bugs_ that have already been publicly disclosed (e.g. via public CVEs)
+and require more than just a dependency version bump to fix, please open a
+[Bug report](https://github.com/prometheus/prometheus/issues) including all relevant
+details, unless one has already been filed.
+
+If you discover a _security bug_ that has not yet been publicly disclosed, please
+report it privately to the maintainers listed in the MAINTAINERS of the relevant
 repository and CC prometheus-team@googlegroups.com. We will fix the issue as soon
-as possible and coordinate a release date with you. You will be able to choose
-if you want public acknowledgement of your effort and if you want to be
-mentioned by name.
+as possible and coordinate a release date with you. You will be able to choose if
+you want public acknowledgement of your effort and if you want to be mentioned by name.
+
+Most dependency version updates are handled automatically. However, if a _security bug_
+fix only requires updating a dependency version and our automation missed it, feel
+free to submit the update directly.
 
 ## Automated security scanners
 
@@ -41,6 +51,14 @@ bad with Go and NPM dependency scanners.
 As a courtesy to us and our time, we would ask you not to submit raw reports.
 Instead, please submit them with an analysis outlining which specific results
 are applicable to us and why.
+
+Additionally be aware that as an open source project, we generally do not have
+access to commercial scanning tools and find their output is often misleading
+or just plain wrong. For Go code if your report does not reproduce with the
+open source [govulncheck](https://go.dev/blog/vuln) tool run on the *source
+code* of the version you believe is affected (not a binary, as that cannot do a
+full analysis) -- then we ask you to triple check your findings (including
+whether that code is actually reachable from within the Prometheus codebase).
 
 Prometheus is maintained by volunteers, not by a company. Therefore, fixing
 security issues is done on a best-effort basis. We strive to release security

@@ -206,10 +206,21 @@ remote_write:
 
 ## Container Deployment
 
-### Docker Configuration
+### **Official Deployment Examples**
+
+For production-ready deployment configurations, we recommend using the official examples that are maintained and tested:
+
+**📁 Prometheus Examples Repository**
+- **Location**: [prometheus/prometheus/documentation/examples](https://github.com/prometheus/prometheus/tree/main/documentation/examples)
+- **Maintained**: Versioned with Prometheus releases
+- **Tested**: Validated configurations for various deployment scenarios
+
+### **Docker Configuration**
+
+**📋 Basic Docker Setup Example**
 
 ```dockerfile
-# Dockerfile for production Prometheus
+# Example Dockerfile for production Prometheus
 FROM prom/prometheus:latest
 
 # Copy configuration
@@ -236,140 +247,54 @@ ENTRYPOINT ["/bin/prometheus", \
   "--web.external-url=https://prometheus.company.com"]
 ```
 
-### Docker Compose for HA Setup
+### **Kubernetes Deployment**
 
+**📋 Recommended Approach**: Use official Helm charts or kustomize examples
+
+**Official Resources**:
+- **Prometheus Community Helm Chart**: [prometheus-community/helm-charts](https://github.com/prometheus-community/helm-charts/tree/main/charts/prometheus)
+- **Prometheus Operator**: [prometheus-operator/prometheus-operator](https://github.com/prometheus-operator/prometheus-operator)
+- **Official Examples**: [prometheus/prometheus examples](https://github.com/prometheus/prometheus/tree/main/documentation/examples)
+
+**📝 Key Kubernetes Considerations**:
+- Use StatefulSets for data persistence
+- Configure proper resource requests and limits
+- Set up horizontal pod autoscaling carefully
+- Use persistent volumes for data storage
+- Configure proper security contexts
+- Set up monitoring and alerting for the Kubernetes deployment itself
+
+**Example Resource Requirements**:
 ```yaml
-# docker-compose.yml
-version: '3.8'
-
-services:
-  prometheus-1:
-    image: prom/prometheus:latest
-    container_name: prometheus-1
-    ports:
-      - "9090:9090"
-    volumes:
-      - ./prometheus-1.yml:/etc/prometheus/prometheus.yml
-      - ./rules:/etc/prometheus/rules
-      - prometheus-1-data:/prometheus
-    command:
-      - '--config.file=/etc/prometheus/prometheus.yml'
-      - '--storage.tsdb.path=/prometheus'
-      - '--storage.tsdb.retention.time=30d'
-      - '--storage.tsdb.wal-compression'
-      - '--web.enable-lifecycle'
-      - '--web.external-url=http://prometheus-1:9090'
-    restart: unless-stopped
-    networks:
-      - monitoring
-
-  prometheus-2:
-    image: prom/prometheus:latest
-    container_name: prometheus-2
-    ports:
-      - "9091:9090"
-    volumes:
-      - ./prometheus-2.yml:/etc/prometheus/prometheus.yml
-      - ./rules:/etc/prometheus/rules
-      - prometheus-2-data:/prometheus
-    command:
-      - '--config.file=/etc/prometheus/prometheus.yml'
-      - '--storage.tsdb.path=/prometheus'
-      - '--storage.tsdb.retention.time=30d'
-      - '--storage.tsdb.wal-compression'
-      - '--web.enable-lifecycle'
-      - '--web.external-url=http://prometheus-2:9090'
-    restart: unless-stopped
-    networks:
-      - monitoring
-
-volumes:
-  prometheus-1-data:
-  prometheus-2-data:
-
-networks:
-  monitoring:
-    driver: bridge
+# Example resource configuration - adjust for your needs
+resources:
+  requests:
+    memory: "2Gi"
+    cpu: "500m"
+  limits:
+    memory: "4Gi"
+    cpu: "2"
 ```
 
-### Kubernetes Deployment
+### **High Availability with Helm**
 
-```yaml
-# prometheus-deployment.yaml
-apiVersion: apps/v1
-kind: StatefulSet
-metadata:
-  name: prometheus
-  namespace: monitoring
-spec:
-  serviceName: prometheus
-  replicas: 2
-  selector:
-    matchLabels:
-      app: prometheus
-  template:
-    metadata:
-      labels:
-        app: prometheus
-    spec:
-      serviceAccountName: prometheus
-      securityContext:
-        runAsUser: 65534
-        runAsGroup: 65534
-        fsGroup: 65534
-      containers:
-      - name: prometheus
-        image: prom/prometheus:latest
-        ports:
-        - containerPort: 9090
-          name: http
-        args:
-        - '--config.file=/etc/prometheus/prometheus.yml'
-        - '--storage.tsdb.path=/prometheus'
-        - '--storage.tsdb.retention.time=30d'
-        - '--storage.tsdb.retention.size=50GiB'
-        - '--storage.tsdb.wal-compression'
-        - '--web.enable-lifecycle'
-        - '--web.external-url=http://prometheus.monitoring.svc.cluster.local:9090'
-        - '--web.route-prefix=/'
-        resources:
-          requests:
-            memory: "2Gi"
-            cpu: "500m"
-          limits:
-            memory: "4Gi"
-            cpu: "2"
-        volumeMounts:
-        - name: config
-          mountPath: /etc/prometheus
-        - name: storage
-          mountPath: /prometheus
-        livenessProbe:
-          httpGet:
-            path: /-/healthy
-            port: 9090
-          initialDelaySeconds: 30
-          timeoutSeconds: 30
-        readinessProbe:
-          httpGet:
-            path: /-/ready
-            port: 9090
-          initialDelaySeconds: 30
-          timeoutSeconds: 30
-      volumes:
-      - name: config
-        configMap:
-          name: prometheus-config
-  volumeClaimTemplates:
-  - metadata:
-      name: storage
-    spec:
-      accessModes: ["ReadWriteOnce"]
-      storageClassName: "fast-ssd"
-      resources:
-        requests:
-          storage: 100Gi
+For production HA deployments, consider the prometheus-community Helm chart with these key configurations:
+
+```bash
+# Example Helm installation with HA configuration
+helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+helm repo update
+
+# Install with custom values for HA
+helm install prometheus prometheus-community/prometheus \
+  --set server.replicaCount=2 \
+  --set server.persistentVolume.size=100Gi \
+  --set server.retention=30d \
+  --namespace monitoring \
+  --create-namespace
 ```
+
+**📋 Important**: Always customize the values.yaml file for your specific requirements. See the [official chart documentation](https://github.com/prometheus-community/helm-charts/tree/main/charts/prometheus) for all available options.
 
 ## Security Hardening
 

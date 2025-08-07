@@ -75,167 +75,68 @@ prometheus_tsdb_head_truncations_failed_total
 
 ## Critical Alerting Rules
 
-### High-Priority Alerts
+### **Prometheus Monitoring Mixins**
+
+Instead of maintaining alerting rules inline (which can become outdated), we recommend using the official Prometheus monitoring mixins that are maintained alongside the codebase:
+
+**📋 Official Prometheus Monitoring Mixin**
+- **Repository**: [prometheus/prometheus](https://github.com/prometheus/prometheus/tree/main/documentation/prometheus-mixin)
+- **Maintained**: Versioned with Prometheus releases
+- **Coverage**: Production-ready alerts for Prometheus infrastructure health
+- **Installation**: Follow the mixin documentation for your environment
+
+**Key Alert Categories Covered**:
+- Prometheus instance health and availability
+- High memory usage and resource constraints  
+- Query performance and latency issues
+- Storage and WAL-related problems
+- Target scraping failures and connectivity
+
+**🔗 Additional Community Mixins**:
+- [monitoring-mixins/prometheus-mixin](https://monitoring.mixins.dev/prometheus/) - Community-maintained alerts
+- [grafana/jsonnet-libs](https://github.com/grafana/jsonnet-libs) - Grafana Labs mixins
+
+### **Example Custom Alerting Rules**
+
+For organizations needing custom alerts beyond the mixins, here are example patterns. **Note**: These are templates that should be adapted and tested for your specific environment:
 
 ```yaml
-# prometheus-alerts.yml
+# Example: Custom capacity planning alerts
+# ⚠️  Disclaimer: Test thoroughly in your environment before production use
 groups:
-- name: prometheus.rules
+- name: prometheus.capacity.examples
   rules:
-  
-  # Prometheus instance down
-  - alert: PrometheusDown
-    expr: up{job="prometheus"} == 0
-    for: 5m
-    labels:
-      severity: critical
-    annotations:
-      summary: "Prometheus instance {{ $labels.instance }} is down"
-      description: "Prometheus instance {{ $labels.instance }} has been down for more than 5 minutes."
-
-  # High memory usage
-  - alert: PrometheusHighMemoryUsage
-    expr: >
+  - alert: PrometheusHighMemoryUsageCustom
+    expr: |
       (
         process_resident_memory_bytes{job="prometheus"} / 
-        prometheus_config_last_reload_success_timestamp_seconds{job="prometheus"} * 0 + 1
-      ) * 100 > 80
+        (1024^3)  # Convert to GB
+      ) > 8  # Adjust threshold for your deployment
     for: 15m
     labels:
       severity: warning
     annotations:
       summary: "Prometheus {{ $labels.instance }} memory usage is high"
-      description: "Prometheus {{ $labels.instance }} memory usage is above 80% for more than 15 minutes."
+      description: "Memory usage is {{ $value }}GB, consider scaling or optimization."
 
-  # Too many active series
-  - alert: PrometheusHighCardinality
-    expr: prometheus_tsdb_head_series > 1000000
-    for: 10m
-    labels:
-      severity: warning
-    annotations:
-      summary: "Prometheus {{ $labels.instance }} has high cardinality"
-      description: "Prometheus {{ $labels.instance }} has {{ $value }} active series, which is above the recommended threshold."
-
-  # Query latency high
-  - alert: PrometheusHighQueryLatency
-    expr: >
-      histogram_quantile(0.95,
-        rate(prometheus_engine_query_duration_seconds_bucket[5m])
-      ) > 30
-    for: 10m
-    labels:
-      severity: warning
-    annotations:
-      summary: "Prometheus {{ $labels.instance }} has high query latency"
-      description: "95th percentile query latency is {{ $value }}s for more than 10 minutes."
-
-  # WAL corruption
-  - alert: PrometheusWALCorruption
-    expr: increase(prometheus_tsdb_wal_corruptions_total[1h]) > 0
-    labels:
-      severity: critical
-    annotations:
-      summary: "Prometheus {{ $labels.instance }} WAL corruption detected"
-      description: "Prometheus {{ $labels.instance }} has detected WAL corruption."
-
-  # Compaction failures
-  - alert: PrometheusCompactionFailed
-    expr: increase(prometheus_tsdb_compactions_failed_total[1h]) > 0
-    labels:
-      severity: warning
-    annotations:
-      summary: "Prometheus {{ $labels.instance }} compaction failed"
-      description: "Prometheus {{ $labels.instance }} has failed compactions in the last hour."
-
-  # Target scrape failures
-  - alert: PrometheusTargetScrapeFailure
-    expr: >
-      (
-        1 - (
-          sum(up) / 
-          count(up)
-        )
-      ) * 100 > 10
-    for: 15m
-    labels:
-      severity: warning
-    annotations:
-      summary: "High percentage of target scrape failures"
-      description: "{{ $value }}% of targets are failing to be scraped."
-
-  # Storage space low
-  - alert: PrometheusStorageSpaceLow
-    expr: >
-      (
-        node_filesystem_free_bytes{mountpoint="/prometheus"} / 
-        node_filesystem_size_bytes{mountpoint="/prometheus"}
-      ) * 100 < 20
-    for: 5m
-    labels:
-      severity: warning
-    annotations:
-      summary: "Prometheus storage space is low"
-      description: "Prometheus storage has less than 20% free space remaining."
-
-  # Configuration reload failed
-  - alert: PrometheusConfigReloadFailed
-    expr: prometheus_config_last_reload_successful == 0
-    for: 5m
-    labels:
-      severity: warning
-    annotations:
-      summary: "Prometheus configuration reload failed"
-      description: "Prometheus {{ $labels.instance }} configuration reload has failed."
-```
-
-### Capacity Planning Alerts
-
-```yaml
-# capacity-alerts.yml
-groups:
-- name: prometheus.capacity
-  rules:
-
-  # Ingestion rate trending up
-  - alert: PrometheusIngestionRateHigh
-    expr: >
+  - alert: PrometheusIngestionRateIncreasing
+    expr: |
       predict_linear(
         rate(prometheus_tsdb_head_samples_appended_total[1h])[4h:], 
         24*3600
-      ) > 50000
+      ) > 50000  # Adjust based on your capacity
     for: 30m
     labels:
       severity: warning
     annotations:
       summary: "Prometheus ingestion rate trending high"
-      description: "Ingestion rate is predicted to exceed 50k samples/sec within 24 hours."
-
-  # Series growth rate
-  - alert: PrometheusSeriesGrowthHigh
-    expr: >
-      predict_linear(
-        prometheus_tsdb_head_series[4h:], 
-        24*3600
-      ) > 2000000
-    for: 1h
-    labels:
-      severity: warning
-    annotations:
-      summary: "Prometheus series count growing rapidly"
-      description: "Active series count is predicted to exceed 2M within 24 hours."
-
-  # Query load increasing
-  - alert: PrometheusQueryLoadHigh
-    expr: >
-      rate(prometheus_engine_queries[5m]) > 100
-    for: 30m
-    labels:
-      severity: warning
-    annotations:
-      summary: "Prometheus query load is high"
-      description: "Query rate is {{ $value }} queries/sec, consider query optimization."
+      description: "Predicted to exceed 50k samples/sec within 24 hours."
 ```
+
+**📝 Important Notes**:
+- These are **example templates** - adapt thresholds for your environment
+- Test thoroughly before deploying to production
+- Consider contributing improvements back to the official mixins
 
 ## Monitoring Dashboard
 
@@ -321,11 +222,14 @@ groups:
 
 ## Health Check Endpoints
 
-### HTTP Health Checks
+### **Example HTTP Health Checks**
+
+The following are example scripts for monitoring Prometheus health endpoints. **⚠️ Disclaimer**: These are templates that should be tested and adapted for your specific environment - no CI validates these scripts.
 
 ```bash
 #!/bin/bash
-# prometheus-health-check.sh
+# example-prometheus-health-check.sh
+# ⚠️  Test thoroughly in your environment before production use
 
 PROMETHEUS_URL="http://localhost:9090"
 
@@ -333,7 +237,7 @@ PROMETHEUS_URL="http://localhost:9090"
 echo "=== Basic Health Check ==="
 curl -s "$PROMETHEUS_URL/-/healthy" || echo "Health check failed"
 
-# Readiness check
+# Readiness check  
 echo "=== Readiness Check ==="
 curl -s "$PROMETHEUS_URL/-/ready" || echo "Readiness check failed"
 
@@ -352,6 +256,12 @@ echo "Healthy targets: $UP_TARGETS/$TOTAL_TARGETS"
 echo "=== Runtime Information ==="
 curl -s "$PROMETHEUS_URL/api/v1/status/runtimeinfo" | jq '.'
 ```
+
+**📝 Usage Notes**:
+- Requires `curl` and `jq` to be installed
+- Adjust `PROMETHEUS_URL` for your deployment
+- Consider adding authentication headers if Prometheus is secured
+- Test timeout and error handling for your environment
 
 ### Kubernetes Health Checks
 

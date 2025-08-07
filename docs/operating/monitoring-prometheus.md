@@ -1,5 +1,6 @@
 ---
 title: Monitoring Prometheus
+sort_rank: 2
 ---
 
 # Monitoring Prometheus

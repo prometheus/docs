@@ -12,7 +12,7 @@ This section provides comprehensive guidance for deploying, monitoring, and main
 
 Running Prometheus in production requires careful planning around scalability, reliability, and operational concerns:
 
-* [Production Deployment Guide](production-deployment/) - Comprehensive guide for production-ready Prometheus deployments including hardware sizing, high availability setup, and configuration best practices
+* [Production Deployment Guide](production-deployment.md) - Comprehensive guide for production-ready Prometheus deployments including hardware sizing, high availability setup, and configuration best practices
 * [Performance Tuning](performance-tuning/) - Optimization techniques for large-scale deployments, memory management, and query performance
 * [Storage Management](storage-management/) - Long-term storage strategies, retention policies, and data lifecycle management
 
@@ -20,7 +20,7 @@ Running Prometheus in production requires careful planning around scalability, r
 
 Effective operation requires monitoring your monitoring infrastructure:
 
-* [Monitoring Prometheus](monitoring-prometheus/) - How to monitor your Prometheus instances, essential metrics, and alerting on infrastructure health
+* [Monitoring Prometheus](monitoring-prometheus.md) - How to monitor your Prometheus instances, essential metrics, and alerting on infrastructure health
 * [Troubleshooting Guide](troubleshooting/) - Common issues, diagnostic techniques, and resolution strategies for production problems
 * [Backup and Recovery](backup-recovery/) - Data protection strategies, disaster recovery procedures, and backup validation
 
@@ -28,7 +28,7 @@ Effective operation requires monitoring your monitoring infrastructure:
 
 Securing monitoring infrastructure is critical for production deployments:
 
-* [Security Best Practices](../operating/security.md) - Authentication, authorization, network security, and data protection
+* [Security Best Practices](security.md) - Authentication, authorization, network security, and data protection
 * [Compliance Considerations](compliance/) - Meeting regulatory requirements, audit trails, and data governance
 
 ## Operational Integration

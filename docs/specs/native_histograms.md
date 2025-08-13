@@ -1746,11 +1746,15 @@ be found [below](#functions).
 
 The unary minus can be used on native histograms. It returns a histogram where
 all bucket populations and the count and the sum of observations have their
-sign inverted. Everything else stays the same, including the counter reset
-hint. Note, however, that explicit counter reset detection will be thrown off
-by the inverted signs. (TODO: Maybe we should mark all negative histograms as
-gauges?) Negative histograms do not really make sense on their own and are only
-supposed to act as intermediate results inside other expressions.
+sign inverted. The counter reset hint is set to `GaugeType` in any case.
+Everything else stays the same. Enforcing `GaugeType` is needed because
+explicit counter reset detection will be thrown off by the inverted sign.
+
+Generally, histograms with negative bucket populations or a negative count of
+observations do not really make sense on their own and are only supposed to act
+as intermediate results inside other expressions. They are always considered
+gauge histograms within PromQL and when stored as the result of a recording
+rule.
 
 ### Binary operators
 

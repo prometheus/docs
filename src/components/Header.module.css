@@ -1,0 +1,41 @@
+.header {
+  background-color: color-mix(
+    in srgb,
+    var(--mantine-color-body),
+    transparent 15%
+  );
+  backdrop-filter: blur(5px);
+  transition: border 0.5s ease-in-out;
+}
+
+.inner {
+  height: var(--header-height);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.link {
+  display: block;
+  line-height: 1;
+  padding: rem(8px) rem(12px);
+  border-radius: var(--mantine-radius-sm);
+  text-decoration: none;
+  color: light-dark(
+    lighten(var(--mantine-color-gray-7), 0.2),
+    var(--mantine-color-gray-5)
+  );
+  font-size: var(--mantine-font-size-sm);
+  font-weight: 500;
+
+  &[aria-current="page"] {
+    color: light-dark(black, white);
+  }
+
+  @mixin hover {
+    background-color: light-dark(
+      var(--mantine-color-gray-1),
+      var(--mantine-color-dark-5)
+    );
+  }
+}

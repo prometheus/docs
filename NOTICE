@@ -1,18 +1,9 @@
 Prometheus documentation: content and static site generator
-Copyright 2014-2018 The Prometheus Authors
+Copyright 2014-2025 The Prometheus Authors
 
 This product includes software developed at
 SoundCloud Ltd. (http://soundcloud.com/).
 
-
-The following components are included in this product:
-
-Bootstrap
-http://getbootstrap.com
-Copyright 2011-2014 Twitter, Inc.
-Licensed under the MIT License
-
-Font Awesome
-http://fontawesome.io
-Copyright by @davegandy
-License - http://fontawesome.io/license (Font: SIL OFL 1.1, CSS: MIT License)
+We also use code from a large number of npm packages. For details, see:
+- https://github.com/prometheus/docs/blob/main/package.json
+- https://github.com/prometheus/docs/blob/main/package-lock.json

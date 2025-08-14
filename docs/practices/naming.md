@@ -83,7 +83,7 @@ of unit and type information in the metric name will cause certain series to col
 ### Important Labels
 
 * `job`
-   * The `job` label is a primary key to differentiate metrics from eaach other.
+   * The `job` label is a primary key to differentiate metrics from each other.
    * If not specified in PromQL expressions, they will match unrelated metrics with the same name. This is especially true in a multi system or multi tenant installation
 
 WARNING: When using `without`, be careful not to strip out the `job` label accidentally.

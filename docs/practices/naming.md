@@ -80,7 +80,7 @@ the underlying metric type and unit you work with.
 * **Metric collisions**: With growing adoption and metric changes over time, there are cases where lack
 of unit and type information in the metric name will cause certain series to collide (e.g. `process_cpu` for seconds and milliseconds).
 
-### Labels
+## Labels
 
 * `job`
    * The `job` label is a primary key to differentiate metrics from each other.

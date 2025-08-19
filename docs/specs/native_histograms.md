@@ -1771,14 +1771,20 @@ The following describes all the operations that actually _do_ work.
 Addition (`+`) and subtraction (`-`) work between two compatible histograms.
 These operators add or subtract all matching bucket populations and the count
 and the sum of observations. Missing buckets are assumed to be empty and
-treated accordingly. Subtraction might result in negative histograms, see
-[notes above](#unary-minus-and-negative-histograms). Generally, both operands
-should be gauges. Adding and subtracting counter histograms requires caution,
-but PromQL allows it. Adding a gauge histogram and a counter histogram results
-in a gauge histogram. Adding two counter histograms with contradicting counter
-reset hints triggers a warn-level annotation. (TODO: The latter not yet
-implemented. Also, subtraction doesn't check/modify counter reset hints yet.
-This should be documented in detail in the PromQL docs.)
+treated accordingly. Generally, both operands should be gauges. Adding and
+subtracting counter histograms requires caution, but PromQL allows it. Adding a
+gauge histogram and a counter histogram results in a gauge histogram. Adding
+two counter histograms results in a counter histogram. If the two operands
+share the same counter reset hint, the resulting counter histogram retains that
+counter reset hint. Otherwise, the resulting counter reset hint is set to
+`UnknownCounterReset`. The result of a subtraction is always marked as a gauge
+histogram because it might result in negative histograms, see [notes
+above](#unary-minus-and-negative-histograms). Adding or subtracting two counter
+histograms with directly contradicting counter reset hints (i.e. `CounterReset`
+and `NotCounterReset`) triggers a warn-level annotation. (TODO: As described
+[above](#counter-reset-considerations), the TSDB currently does not return
+`NotCounterReset`, so this annotation will not happen in practice. See
+[tracking issue](https://github.com/prometheus/prometheus/issues/15346).)
 
 Multiplication (`*`) works between a float sample or a scalar on the one side
 and a histogram on the other side, in any order. It multiplies all bucket
@@ -1835,12 +1841,14 @@ histogram samples (for the reason stated in parentheses):
 - `limit_ratio` (The sampled elements are returned unchanged.)
 
 The `sum` aggregation operator work with native histograms by summing up the
-histogram to be aggregated (in the same way as described for the `+` operator
-above). The `avg` aggregation operator works in the same way, but divides the
-sum by the number of aggregated histogram (in the same way as described for the
-`/` operator above). Both aggregation operators remove elements from the output
-vector that would require the aggregation of float samples with histogram
-samples. Such a removal is flagged by a warn-level annotation.
+histogram to be aggregated in the same way as described for the `+` operator
+above, including the implications regarding counter vs. gauge histograms.
+(Generally, only gauge histograms should be aggregated in this way.) The `avg`
+aggregation operator works in the same way, but divides the sum by the number
+of aggregated histogram (in the same way as described for the `/` operator
+above). Both aggregation operators remove elements from the output vector that
+would require the aggregation of float samples with histogram samples. Such a
+removal is flagged by a warn-level annotation.
 
 All other aggregation operators do _not_ work with native histograms.
 Histograms in the input vector are simply ignored, and an info-level annotation

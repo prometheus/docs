@@ -1562,9 +1562,7 @@ match the sample that directly follows the synthetic zero sample (to not
 trigger the detection of a spurious counter reset).
 
 The counter reset information of the synthetic zero sample is always set to
-`CounterReset`. (TODO: Currently, Prometheus probably sets it to
-`UnknownCounterReset` for the first sample of a series, which is not wrong, but
-I think setting it to `CounterReset` makes more sense.)
+`CounterReset`.
 
 ### Exemplars
 

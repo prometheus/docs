@@ -85,6 +85,8 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [Weathergoose Climate Monitor Exporter](https://github.com/branttaylor/watchdog-prometheus-exporter)
    * [Windows exporter](https://github.com/prometheus-community/windows_exporter)
    * [Intel® Optane™ Persistent Memory Controller Exporter](https://github.com/intel/ipmctl-exporter)
+   * - [HP iLO Exporter](https://github.com/imidevops/hp-ilo-exporter-prometheus) — Prometheus exporter for monitoring HP iLO hardware metrics (disks, RAID, power, temperature) with Grafana dashboard support.
+
 
 ### Issue trackers and continuous integration
 

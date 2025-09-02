@@ -22,19 +22,20 @@ We want posts that feel original, useful, and rooted in the spirit of open sourc
 
 ## How should posts be written?
 
-We understand that everyone has their own writing style, and we’d hate to cramp yours.
+We understand that everyone has their own writing style, and we’d hate to cramp yours. 
 So, there are no rigid rules around style. But here a few formatting guidelines to keep the posts consistent:
-- **Headings:** Use headings (`#, ##, ###`) to break your post into sections.
-  Start with a single `H1` (`#`) for the title, then `H2` for sections and `H3` for subsections.
-  For post titles (`H1`), use Title Case (_e.g., Getting Started with Prometheus Metrics_).
-  For section headings (`H2`, `H3`), use sentence case (_e.g., Setting up your first scrape target_).
+- **Headings:** See [this guide for headings](../markdown-guide.md#proper-usage-of-heading-levels).
 
 - **Links:** Add them with descriptive text instead of just dropping the raw URL. Example:
 `[Prometheus documentation](https://prometheus.io/docs/introduction/overview/)`.
 
 - **Images and diagrams:** Always include alt text so the content is accessible to everyone.
   Store images in the `assets` folder (instead of linking from external sites) and reference them in your post.
-  
+
+> [!NOTE]
+> See the general [Markdown Documentation Formatting Guide](../markdown-guide.md) for more formatting rules.
+
+
 The tone should be friendly and professional.
 If you’re not sure what that looks like, take a look at some of the [previously published posts](https://prometheus.io/blog/) 
 on the blog for inspiration.  
@@ -51,9 +52,9 @@ When multiple people contribute to a post, we’ll make sure everyone is credite
 ## Review process
 
 Every post should be reviewed before it goes live.
-One reviewer will look at technical accuracy (usually a maintainer).
-Another (the editor) will focus on readability and style.
-This ensures that the content is both correct and accessible.  
+Whoever reviews the pull request will check for both technical accuracy and editorial quality. 
+This ensures that the content is both correct and accessible. 
+In some cases, these might be done by different people, but often one reviewer can cover both.
 
 
 ## How to contribute

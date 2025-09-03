@@ -1781,8 +1781,10 @@ above](#unary-minus-and-negative-histograms). Adding or subtracting two counter
 histograms with directly contradicting counter reset hints (i.e. `CounterReset`
 and `NotCounterReset`) triggers a warn-level annotation. (TODO: As described
 [above](#counter-reset-considerations), the TSDB currently does not return
-`NotCounterReset`, so this annotation will not happen in practice. See
-[tracking issue](https://github.com/prometheus/prometheus/issues/15346).)
+`NotCounterReset`, so this annotation will only happen under specific
+circumstances involving the `HistogramStatsIterator`, which includes additional
+counter reset tracking. See [tracking
+issue](https://github.com/prometheus/prometheus/issues/15346).)
 
 Multiplication (`*`) works between a float sample or a scalar on the one side
 and a histogram on the other side, in any order. It multiplies all bucket

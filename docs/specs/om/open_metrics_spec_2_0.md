@@ -494,6 +494,7 @@ nh-spans = nh-start-span *("," nh-span)
 nh-start-span = integer ":" positive-integer
 nh-span = non-negative-integer ":" positive-integer
 
+; negative_buckets:[1,2,3] and positive_buckets:[1,2,3]
 nh-negative-buckets = %d110.101.103.97.116.105.118.101 "_" %d98.117.99.107.101.116.115 ":" "[" [nh-buckets] "]"
 nh-positive-buckets = %d112.111.115.105.116.105.118.101 "_" %d98.117.99.107.101.116.115 ":" "[" [nh-buckets] "]"
 nh-f-negative-buckets = %d110.101.103.97.116.105.118.101 "_" %d98.117.99.107.101.116.115 ":" "[" [nh-f-buckets] "]"

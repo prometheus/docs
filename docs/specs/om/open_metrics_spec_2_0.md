@@ -254,6 +254,8 @@ As an example for a metric representing request latency in seconds its values fo
 
 Histogram MetricPoints with Classic Buckets MUST have one Classic Bucket with a +Inf threshold. The +Inf bucket counts all requests.
 
+Exposed Classic Bucket thresholds SHOULD stay constant over time and between targets whose metrics are intended to be aggregated. A change of thresholds may prevent the affected histograms to be part of the same operation (e.g. an aggregation of different metrics or a rate calculation over time).
+
 The Count value MUST be equal to the value of the +Inf bucket.
 
 If the NaN value is allowed, it MUST be counted in the +Inf bucket, and MUST not be counted in any other bucket. The rationale is that NaN does not belong to any bucket mathematically, however instrumentation libraries traditionally put it into the +Inf bucket.

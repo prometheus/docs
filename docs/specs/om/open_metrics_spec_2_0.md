@@ -294,9 +294,9 @@ The next negative Native Bucket (index i+1 relative to the bucket from the previ
 
 Native Buckets beyond the +Inf and -Inf buckets described above MUST NOT be used.
 
-If the zero Native Bucket is present, the Histogram MetricPoint MUST have a Zero threshold. The Zero threshold MUST be a non-negative float64 value (threshold >= 0.0). The boundaries of the zero Native Bucket are `[-threshold, threshold]` inclusively.
+The boundaries of the zero Native Bucket are `[-threshold, threshold]` inclusively. The Zero threshold MUST be a non-negative float64 value (threshold >= 0.0).
 
-If the zero Native Bucket is present, any measured value that falls into the zero Native Bucket MUST be counted towards the zero Native Bucket and MUST NOT be counted in any other native bucket. The Zero threshold SHOULD be equal to a lower limit of an arbitrary Native Bucket.
+If the Zero threshold is positive (threshold > 0), then any measured value that falls into the zero Native Bucket MUST be counted towards the zero Native Bucket and MUST NOT be counted in any other native bucket. The Zero threshold SHOULD be equal to a lower limit of an arbitrary Native Bucket.
 
 If the NaN value is not allowed, then the Count value MUST be equal to the sum of the negative, positive and zero Native Buckets.
 

@@ -892,6 +892,8 @@ Quantiles MAY be in any order.
 
 The MetricPoint's Sum Value Sample MetricName MUST have the suffix `_sum`. The MetricPoint's Count Value Sample MetricName MUST have the suffix `_count`. The MetricPoint's Classic Bucket values Sample MetricNames MUST have the suffix `_bucket`.
 
+For backwards compatibility with version OpenMetrics 1.0, ingestors MAY allow Histogram MetricPoints without Sum or Count value. In case of missing Sum it MAY be interpreted as 0 if needed. In case of missing Count it MAY be copied from the +Inf bucket if needed.
+
 If present the MetricPoint's Created Timestamp MUST be inlined with the Metric point with a `ct@` prefix. If the value's timestamp is present, the Created Timestamp MUST be added right after it. If exemplar  is present, the Created Timestamp MUST be added before it. Created Timestamp MUST be appended to all Classic Bucket values, to the MetricPoint's Sum and MetricPoint's Count.
 
 Classic Buckets MUST be sorted in number increasing order of "le", and the value of the "le" label MUST follow the rules for Canonical Numbers.
@@ -922,12 +924,14 @@ The MetricPoint's value MUST be a complex data type.
 Histograms with Native Buckets MUST use the integer native histogram data type.
 
 The integer native histogram data type is represented as structured data with fields. There MUST NOT be any whitespace around fields.
-The integer native histogram data type MUST include the Count, Sum, Schema, Zero Threshold, Zero Native Bucket value as the fields `count`, `sum`, `schema`, `zero_threshold`, `zero_count`.
+The integer native histogram data type MUST include the Count, Sum, Schema, Zero Threshold, Zero Native Bucket value as the fields `count`, `sum`, `schema`, `zero_threshold`, `zero_count`, in this order.
 
 If there are no negative Native Buckets, then the fields `negative_spans` and `negative_buckets` SHOULD be omitted.
 If there are no positive Native Buckets, then the fields `positive_spans` and `positive_buckets` SHOULD be omitted.
 
 If there are negative (and/or positive) Native Buckets, then the fields `negative_spans`, `negative_buckets` (and/or `positive_spans`, `positive_buckets`) MUST be present in this order after the `zero_count` field.
+
+With the exception of the `sum` and `zero_threshold` field, all numbers MUST be integers and MUST NOT include dot '.' or exponent 'e'.
 
 Native Bucket values MUST be ordered by their index, and their values MUST be placed in the `negative_buckets` (and/or `positive_buckets`) fields.
 
@@ -995,6 +999,8 @@ foo_sum 324789.3 ct@1520430000.123
 ##### GaugeHistogram with Classic Buckets
 
 The MetricPoint's Sum Value Sample MetricName MUST have the suffix `_gsum`. The MetricPoint's Count Value Sample MetricName MUST have the suffix `_gcount`. The MetricPoint's Classic Bucket values Sample MetricNames MUST have the suffix `_bucket`.
+
+For backwards compatibility with version OpenMetrics 1.0, ingestors MAY allow Histogram MetricPoints without Sum or Count value. In case of missing Sum it MAY be interpreted as 0 if needed. In case of missing Count it MAY be copied from the +Inf bucket if needed.
 
 Classic Buckets MUST be sorted in number increasing order of "le", and the value of the "le" label MUST follow the rules for Canonical Numbers.
 

@@ -70,9 +70,7 @@ Complex data types MUST contain all information necessary to recreate a sample o
 
 List of complex data types:
 - Integer counter native histograms for the Metric Type Histogram.
-- Float counter native histograms for the Metric Type Histogram.
 - Integer gauge native histograms for the Metric Type GaugeHistogram.
-- Float gauge native histograms for the Metric Type GaugeHistogram.
 
 Complex data types MUST occur only in the corresponding MetricFamily. This means for example that a counter cannot have an integer counter native histogram value.
 
@@ -471,11 +469,9 @@ created = %d99.116 "@" timestamp
 complextype = nativehistogram
 
 nativehistogram = nh-count "," nh-sum "," nh-schema "," nh-zero-threshold "," nh-zero-count [ "," nh-negative-spans "," nh-negative-buckets ] [ "," nh-positive-spans "," nh-positive-buckets ]
-nativehistogram =/ nh-f-count "," nh-sum "," nh-schema "," nh-zero-threshold "," nh-f-zero-count [ "," nh-negative-spans "," nh-f-negative-buckets ] [ "," nh-positive-spans "," nh-f-positive-buckets ]
 
 ; count:x
 nh-count = %d99.111.117.110.116 ":" non-negative-integer
-nh-f-count = %d99.111.117.110.116 ":" float-format-number
 ; sum:f allows real numbers and +-Inf and NaN
 nh-sum = %d115.117.109 ":" number
 ; schema:i
@@ -484,7 +480,6 @@ nh-schema = %d115.99.104.101.109.97 ":" integer
 nh-zero-threshold = %d122.101.114.111 "_" %d116.104.114.101.115.104.111.108.100 ":" realnumber
 ; zero_count:x
 nh-zero-count = %d122.101.114.111 "_" %d99.111.117.110.116 ":" non-negative-integer
-nh-f-zero-count = %d122.101.114.111 "_" %d99.111.117.110.116 ":" float-format-number
 ; negative_spans:[1:2,3:4] and negative_spans:[]
 nh-negative-spans = %d110.101.103.97.116.105.118.101 "_" %d115.112.97.110.115 ":" "[" [nh-spans] "]"
 nh-positive-spans = %d112.111.115.105.116.105.118.101 "_" %d115.112.97.110.115 ":" "[" [nh-spans] "]"
@@ -497,28 +492,14 @@ nh-span = non-negative-integer ":" positive-integer
 ; negative_buckets:[1,2,3] and positive_buckets:[1,2,3]
 nh-negative-buckets = %d110.101.103.97.116.105.118.101 "_" %d98.117.99.107.101.116.115 ":" "[" [nh-buckets] "]"
 nh-positive-buckets = %d112.111.115.105.116.105.118.101 "_" %d98.117.99.107.101.116.115 ":" "[" [nh-buckets] "]"
-nh-f-negative-buckets = %d110.101.103.97.116.105.118.101 "_" %d98.117.99.107.101.116.115 ":" "[" [nh-f-buckets] "]"
-nh-f-positive-buckets = %d112.111.115.105.116.105.118.101 "_" %d98.117.99.107.101.116.115 ":" "[" [nh-f-buckets] "]"
 
 nh-buckets = non-negative-integer *("," non-negative-integer)
-nh-f-buckets = float-format-number *("," float-format-number)
 
 integer = [SIGN] 1*"0" / [SIGN] positive-integer
 non-negative-integer = ["+"] 1*"0" / ["+"] positive-integer
 ; Leading 0s explicitly okay.
 positive-integer = *"0" positive-digit *DIGIT
 positive-digit = "1" / "2" / "3" / "4" / "5" / "6" / "7" / "8" / "9"
-
-; float-format-number is a float in the sense that we parse it into a float
-; data structure, but may actually have an integer value.
-float-format-number = float-format-realnumber
-; Case insensitive
-float-format-number =/ [SIGN] ("inf" / "infinity")
-float-format-number =/ "nan"
-; Must have a dot "." or exponent "e" or both.
-; Leading 0s explicitly okay
-float-format-realnumber = [SIGN] 1*DIGIT ["." *DIGIT] "e" [SIGN] 1*DIGIT
-float-format-realnumber =/ [SIGN] *DIGIT "." 1*DIGIT [ "e" [SIGN] 1*DIGIT ]
 ```
 
 #### Overall Structure

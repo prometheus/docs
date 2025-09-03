@@ -879,6 +879,8 @@ If present the MetricPoint's Created Timestamp MUST be inlined with the Metric p
 
 Classic Buckets MUST be sorted in number increasing order of "le", and the value of the "le" label MUST follow the rules for Canonical Numbers.
 
+All Classic Buckets MUST be present, even ones with the value 0.
+
 An example of a Metric with no labels and a MetricPoint with Sum, Count, and Created Timestamp values, and with 12 Classic Buckets. A wide and atypical but valid variety of “le” values is shown on purpose:
 
 ```openmetrics-add-eof
@@ -915,6 +917,8 @@ If there are negative (and/or positive) Native Buckets, then the fields `negativ
 With the exception of the `sum` and `zero_threshold` field, all numbers MUST be integers and MUST NOT include dot '.' or exponent 'e'.
 
 Native Bucket values MUST be ordered by their index, and their values MUST be placed in the `negative_buckets` (and/or `positive_buckets`) fields.
+
+Native Buckets that have a value of 0 SHOULD NOT be present.
 
 To map the `negative_buckets` (and/or `positive_buckets`) back to their indices, the `negative_spans` (and/or `positive_spans`) field MUST be constructed in the following way: Each span consists of a pair of numbers, an integer called offset and an non-negative integer called length. Only the first span in each list can have a negative offset. It defines the index of the first bucket in its corresponding `negative_buckets` (and/or `positive_buckets`). The length defines the number of consecutive buckets the bucket list starts with. The offsets of the following spans define the number of excluded (and thus unpopulated buckets). The lengths define the number of consecutive buckets in the list following the excluded buckets.
 

@@ -875,8 +875,6 @@ Quantiles MAY be in any order.
 
 The MetricPoint's Sum Value Sample MetricName MUST have the suffix `_sum`. The MetricPoint's Count Value Sample MetricName MUST have the suffix `_count`. The MetricPoint's Classic Bucket values Sample MetricNames MUST have the suffix `_bucket`.
 
-For backwards compatibility with version OpenMetrics 1.0, ingestors MAY allow Histogram MetricPoints without Sum or Count value. In case of missing Sum it MAY be interpreted as 0 if needed. In case of missing Count it MAY be copied from the +Inf bucket if needed.
-
 If present the MetricPoint's Created Timestamp MUST be inlined with the Metric point with a `ct@` prefix. If the value's timestamp is present, the Created Timestamp MUST be added right after it. If exemplar  is present, the Created Timestamp MUST be added before it. Created Timestamp MUST be appended to all Classic Bucket values, to the MetricPoint's Sum and MetricPoint's Count.
 
 Classic Buckets MUST be sorted in number increasing order of "le", and the value of the "le" label MUST follow the rules for Canonical Numbers.
@@ -982,8 +980,6 @@ foo_sum 324789.3 ct@1520430000.123
 ##### GaugeHistogram with Classic Buckets
 
 The MetricPoint's Sum Value Sample MetricName MUST have the suffix `_gsum`. The MetricPoint's Count Value Sample MetricName MUST have the suffix `_gcount`. The MetricPoint's Classic Bucket values Sample MetricNames MUST have the suffix `_bucket`.
-
-For backwards compatibility with version OpenMetrics 1.0, ingestors MAY allow Histogram MetricPoints without Sum or Count value. In case of missing Sum it MAY be interpreted as 0 if needed. In case of missing Count it MAY be copied from the +Inf bucket if needed.
 
 Classic Buckets MUST be sorted in number increasing order of "le", and the value of the "le" label MUST follow the rules for Canonical Numbers.
 

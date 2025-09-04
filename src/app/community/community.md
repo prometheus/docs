@@ -185,7 +185,7 @@ See the above links for the future program dates, application details and projec
 >
 > Mentors do have limited time, so we have to skip some cycles and programs. There are ways to help us participate more often:
 > * If you want to help us mentor, feel free to contact the team on [Slack](#slack-channel-1) or [email](mailto:prometheus-team@googlegroups.com).
-> * If you want to propose to convert a certain OSS Prometheus ecosystem to a mentorship project, feel free to comment on the relevant work artifact (e.g. [GitHub](#github) issue).
+> * If you want to propose to convert a certain OSS Prometheus ecosystem initiative to a mentorship project, feel free to comment on the relevant work artifact (e.g. [GitHub](#github) issue).
 
 ### For Mentees
 
@@ -207,19 +207,19 @@ You have been selected for the Prometheus mentorship under LFX or GSoc? Congratu
 
 There are certain suggestion you can follow to make the MOST from your time with us!
 
-- Blocked on the PR, looking for someone to review your contribution, or have some quick question around failed CI? Prefer `public` communication channels [1](#slack-channel), [2](#slack-channel-1) instead of DMs or private channel. Prometheus have a large community that can quickly help you with any issues. There also other mentees who might have had similar questions already! (:
+- Blocked on the PR, looking for someone to review your contribution, or have some quick question around failed CI? Prefer `public` communication channels [1](#slack-channel), [2](#slack-channel-1) instead of DMs or private channel. Prometheus has a large community that can quickly help you with any issues. There are also other mentees who might have had similar questions already! (:
 - Say hello to fellow mentees and ex-mentees. We even created a special channel for that goal, so you can team up and build something bigger together: Relation, maybe a future project together or just helping each other out! Take an example from Summer 2020. Previous Thanos mentees started [Friday fun hangouts](https://twitter.com/bwplotka/status/1270016551664488451) and it went pretty awesome! Want to start something similar? Ask fellow ex-mentees for their tips. 🤗
 - Think out of the box. Do you feel like something is really painful in project development, functionality or community? Help us improve things and suggest improvements!
 - Participate in the Project life cycles. We are active in many conferences e.g. KubeCon, PromCon, FOSDEM, GoDays. We participate in the CNCF SIGs, many side initiatives, blog posts and videos. Please help us! You are welcome to boost your social media visibility, start blog posting, or even start talking at conferences. Feel free to ask your mentors for guidance on whatever you are passionate with! We would love to help.
 - You are **welcome** or even encouraged to contribute to anything you want during your internship. It's common to wait for a review of your PR some time (it's open source after all!), so it's not uncommon to drive 2 or 3 things at the time. You don't need to limit contributions to Prometheus project as well. It's totally ok to contribute to some other project we depend on or relate. It's also encouraged for Prometheus mentee to contribute to Prometheus ecosystem projects like [other Prometheus repos](https://github.com/prometheus/) or even Cortex and Thanos. This is because we are part of a bigger **Prometheus Ecosystem Family**.
 - Try to be independent and responsible for the feature you want to deliver. The sooner you start to lead your task, the better for you! It's hard in the beginning but try to think about the user experience. Is it hard or easy to make mistake using it? How difficult is it to migrate to this feature? Is there anything we can do to reduce data loss errors?
-- Try to help others by **reviewing** other contributors, mentees or mentors' Pull Requests! It sounds scary, but this is actually the best way to learn about coding practices, patterns and how to maintain high quality codebase!
+- Try to help others by **reviewing** other contributors', mentees or mentors' Pull Requests! It sounds scary, but this is actually the best way to learn about coding practices, patterns, and how to maintain high quality codebase!
 - Try using an [iterative process for development](https://en.wikipedia.org/wiki/Iterative_and_incremental_development). Start with small and simple assumptions, and once you have a working example ready, keep improving and discussing with the mentors. Small changes are easy to review and easy to accept 😄.
 - Try working out a [proof of concept](https://en.wikipedia.org/wiki/Proof_of_concept), which can be used as a baseline, and can be improved upon. These are real-world projects, so it's not possible to have a deterministic solution every time, and proof of concepts are quick way to determine feasibility.
 - Behave and act like you would be maintainer of the project. Ideally a [good maintainer that you would like to have for a project you contribute to](https://www.bwplotka.dev/2020/how-to-became-oss-maintainer/). While scary this is the best way to build trust, take more responsibility and bring enormous value (e.g. reviewing other ppl's work and unblock them is often more important that writing code yourself!).
 - Have fun, explore and enjoy learning (even on mistakes)!
 
-> At the end of mentorship, it's not the end! You are welcome to continue contributing, coding and helping others. Who knows, maybe you will find passionate enough to become a maintainer one day!
+> At the end of mentorship, it's not the end! You are welcome to continue contributing, coding and helping others. Who knows, maybe you will be passionate enough to become a maintainer one day!
 
 ### For Mentors
 
@@ -242,7 +242,7 @@ The example retrospective process looks as follows:
 
 #### Public Speaking or Writing
 
-In order to allow mentees to share the knowledge their learned and allow them to improve public speaking skills, at the end of mentorship cycles, mentors can encourage mentee to produce some public content on the relevant forums. Some ideas we did in the past:
+In order to allow mentees to share the knowledge they learned and allow them to improve public speaking skills, at the end of mentorship cycles, mentors can encourage mentee to produce some public content on the relevant forums. Some ideas we did in the past:
 
 * Encourage mentee (or even co-speak with them!) on the next relevant conference or meetup (e.g. PromCon, KubeCon, local meetup), etc! 
   * See post-mentorship [Arthur's](https://www.youtube.com/watch?v=nWf0BfQ5EEA&t=1s) and [M Viswanath Sai and S Ashwin](https://www.youtube.com/watch?v=wkkXh8X0N8s) talk on PromCons.

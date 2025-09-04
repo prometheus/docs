@@ -35,7 +35,7 @@ export const getPostFilePath = (params: {
 };
 
 export const getAllPostFileNames = () => {
-  return fs.readdirSync(blogPostsDir);
+  return fs.readdirSync(blogPostsDir).filter((f) => f !== "README.md");
 };
 
 export const getAllPostParams = () => {

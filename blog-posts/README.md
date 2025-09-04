@@ -30,7 +30,7 @@ So, there are no rigid rules around style. But here a few formatting guidelines 
 `[Prometheus documentation](https://prometheus.io/docs/introduction/overview/)`.
 
 - **Images and diagrams:** Always include alt text so the content is accessible to everyone.
-  Store images in the `assets` folder (instead of linking from external sites) and reference them in your post.
+  Store images in the `<repo_root>/public/assets` folder (instead of linking from external sites) and reference them in your post.
 
 > [!NOTE]
 > See the general [Markdown Documentation Formatting Guide](../markdown-guide.md) for more formatting rules.

@@ -1,0 +1,20 @@
+name: Blog Post Proposal
+description: Propose a new blog post for the Prometheus blog
+title: "[Blog] <Your blog post title here>"
+labels: ["blog-proposal"]
+body:
+  - type: input
+    id: summary
+    attributes:
+      label: Summary
+      description: A quick description of what this post will cover
+    validations:
+      required: true
+
+  - type: input
+    id: author
+    attributes:
+      label: Author(s)
+      description: Who will be writing the post?
+    validations:
+      required: true

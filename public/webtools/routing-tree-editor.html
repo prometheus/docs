@@ -1,0 +1,25 @@
+<html>
+
+<head>
+  <link href="routing-tree-editor.css" rel="stylesheet">
+</head>
+
+<body>
+  <div id="routing-tree-container">
+    <p class="block">Copy and paste your Alertmanager config.yml:</p>
+    <div>
+      <textarea class="js-config-yml" cols="50" rows="10"></textarea>
+      <button type="button" class="js-parse-and-draw">Draw Routing Tree</button>
+    </div>
+    <div>
+      <input class="js-label-set-input" type="text" placeholder='{service="foo-service", severity="critical"}' \>
+      <button type="button" class="js-find-match">Match Label Set</button>
+    </div>
+  </div>
+</body>
+
+<script src="d3.v3.min.js"></script>
+<script src="js-yaml.min.js"></script>
+<script src="routing-tree.js"></script>
+
+</html>

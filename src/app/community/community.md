@@ -171,6 +171,84 @@ Once the meeting is over, the last task of the Facilitator is to find a
 new Facilitator for the next summit by sending an email to the
 Prometheus Team mailing list.
 
+## Mentorship
+
+The Prometheus project occasionally participates in various, periodic mentoring programs:
+
+- [LFX Mentorship (previously Community Bridge)](https://github.com/cncf/mentoring/tree/main/programs/lfx-mentorship)
+- [Google Summer of Code](https://github.com/cncf/mentoring/tree/main/programs/summerofcode)
+
+See the above links for the future program dates, application details and projects.
+
+> NOTE: For Prometheus to participate in a mentorship cycle, potential mentors (including at least one Prometheus maintainer), 
+> have to propose a "project" to a program cycle, e.g. [like in this PR](https://github.com/cncf/mentoring/pull/1490).
+>
+> Mentors do have limited time, so we have to skip some cycles and programs. There are ways to help us participate more often:
+> * If you want to help us mentor, feel free to contact the team on [`#prometheus-dev` Slack channel](#slack-channel-1) or [email](mailto:prometheus-team@googlegroups.com).
+> * If you want to propose to convert a certain OSS Prometheus ecosystem initiative to a mentorship project, feel free to comment on the relevant work artifact (e.g. [GitHub](#github) issue).
+
+### For Mentees
+
+You have been selected for the Prometheus mentorship under LFX or GSoc? Congratulations! Here is some information for a quick start!
+
+#### Onboarding Check List
+
+- [X] Please see and acknowledge our [Code of Conduct](#code-of-conduct). TL;DR: Be nice and friendly, treat others like you would like to be treated.
+- [X] Create an account on the [CNCF Slack](https://slack.cncf.io/). Please add any profile photo to make it unique. You can reach any of the mentors there.
+- [X] Send your mentors your Slack account handle, so we can add you to private channels. We tend to have a private one with just you and your main mentors, and a second one with all mentees, ex-mentees and mentors (`#thanos-prometheus-mentees`).
+- [X] Join the main Prometheus Slack channels [`#prometheus`](#slack-channel) and [`#prometheus-dev`](#slack-channel-1) for future interactions with the community.
+- [X] On the [`#prometheus-dev` Slack channel](#slack-channel-1), write a few sentences about yourself, say hello! 💜
+- [X] You are welcome to join [social media](#social), start following others and gather your own followers! Who knows maybe you will get addicted? (: Feel free to post any related content around Prometheus while mentioning `@prometheus.io`.
+- [X] Ask mentors to set up a weekly 2:1 meeting (highly recommended).
+- [X] Read our [general contributing guidelines](#contributing), as well as the specific ones in the [Prometheus repo](https://github.com/prometheus/prometheus/blob/main/CONTRIBUTING.md)
+- [X] Read your main GitHub issue carefully and start thinking about it, but don't stress out! It's better to start slowly with a smaller task to get things going. 🚀
+
+#### Tips and Suggestions
+
+There are certain suggestion you can follow to make the MOST out of your time with us!
+
+- Blocked on the PR, looking for someone to review your contribution, or have some quick question around failed CI? Prefer `public` communication channels ([`#prometheus` ](#slack-channel) and [`#prometheus-dev`](#slack-channel-1)) instead of DMs or private channels. Prometheus has a large community that can quickly help you with any issues. There are also mentees who might have had similar questions already!
+- Say hello to fellow mentees and ex-mentees. We even created a special channel for that goal, so you can team up and build something bigger together: Relationships, maybe a future project together or just helping each other out! Take an example from Summer 2020. Previous Thanos mentees started [Friday fun hangouts](https://twitter.com/bwplotka/status/1270016551664488451) and it went pretty awesome! Want to start something similar? Ask fellow ex-mentees for their tips. 🤗
+- Think out of the box. Do you feel like something is really painful in project development, functionality or community? Help us improve things and suggest improvements!
+- Participate in the Project life cycles. We are active in many conferences e.g. KubeCon, PromCon, FOSDEM, GoDays. We participate in the CNCF SIGs, many side initiatives, blog posts and videos. Please help us! You are welcome to boost your social media visibility, start blog posting, or even start talking at conferences. Feel free to ask your mentors for guidance on whatever you are passionate about! We would love to help.
+- You are **welcome** or even encouraged to contribute to anything you want during your internship. It's common to wait for a review of your PR for some time (it's open source after all!), so it's not uncommon to drive 2 or 3 things at the same time. You don't need to limit contributions to the Prometheus project as well. It's totally ok to contribute to some other project we depend on or have a relationship with. It's also encouraged for a Prometheus mentee to contribute to Prometheus ecosystem projects like [other Prometheus repos](https://github.com/prometheus/) or even Cortex and Thanos. This is because we are part of a bigger **Prometheus Ecosystem Family**.
+- Try to be independent and responsible for the feature you want to deliver. The sooner you start to lead your task, the better for you! It's hard in the beginning but try to think about the user experience. Is it hard or easy to make mistake using it? How difficult is it to migrate to this feature? Is there anything we can do to reduce data loss errors?
+- Try to help others by **reviewing** other contributors', mentees' or mentors' pull requests! It sounds scary, but this is actually the best way to learn about coding practices, patterns, and how to maintain high quality codebase!
+- Try using an [iterative process for development](https://en.wikipedia.org/wiki/Iterative_and_incremental_development). Start with small and simple assumptions, and once you have a working example ready, keep improving and discussing with the mentors. Small changes are easy to review and easy to accept 😄.
+- Try working out a [proof of concept](https://en.wikipedia.org/wiki/Proof_of_concept), which can be used as a baseline, and can be improved upon. These are real-world projects, so it's not possible to have a deterministic solution every time, and proof of concepts are quick way to determine feasibility.
+- Behave and act like you would be maintainer of the project. Ideally a [good maintainer that you would like to have for a project you contribute to](https://www.bwplotka.dev/2020/how-to-became-oss-maintainer/). While scary, this is the best way to build trust, take more responsibility, and bring enormous value (e.g. reviewing other ppl's work and unblocking them is often more important than writing code yourself!).
+- Have fun, explore and enjoy learning (even on mistakes)!
+
+> At the end of the mentorship, it's not the end! You are welcome to continue contributing, coding and helping others. Who knows, maybe you will be passionate enough to become a maintainer one day!
+
+### For Mentors
+
+This section outlines mentorship recommendations for mentors.
+
+#### Retrospective
+
+On the mid-point and a last meeting of the mentorship it's best to sit down with a mentee and collect *actionable learnings* for both mentors and a mentee. The experience of both Mentors and Mentees is always different due to differences among us, as well as different tasks and circumstances. We always want to check on our experience, no matter if we met the initial goals or not. If goals were not met, then it's extra important to discuss this in an honest and blameless atmosphere. If the experience was mostly positive we also want to know what worked to reinforce best practices.
+
+The example retrospective process looks as follows:
+
+* A week before the meeting, remind Mentees about the planned retrospective and what it will look like (e.g. link this guide). This allows everyone to think through the week about things that worked or that didn't.
+* During the meeting, start with the retrospective first. This is the most important part of meeting, don't let other things (e.g. project status) get in the way.
+    * Write two sections in the working doc: `What we did well`, `What we could do better`.
+    * Give everyone 5-7m to write down (e.g. live) items in those two sections. Be specific, blameless and honest. It's not about offending anyone, but looking for improvements for both mentors and mentee work. Be critical to yourself, but also try to balance the good and to improve parts. There is always something we could do better (or much worse!).
+    * When everyone has finished, create a new section: `Learnings`.
+    * Go through all elements in the list. Discuss the details. Try to find ideas how to mitigate problems or what to continue doing. Write down those things in the `Learning` section.
+    * At the end, share the learnings to the team on the mailing list.
+    * Consider composing all learnings into some form of [public content](#public-speaking-or-writing).
+
+#### Public Speaking or Writing
+
+In order to allow mentees to share the knowledge they learned and allow them to improve public speaking skills, at the end of mentorship cycles, mentors can encourage mentees to create some form of public content in the relevant forums. Some ideas we did in the past:
+
+* Encourage the mentee to speak (or even co-speak with them!) at the next relevant conference or meetup (e.g. PromCon, KubeCon, local meetup), etc!
+  * See the post-mentorship talks by [Arthur](https://www.youtube.com/watch?v=nWf0BfQ5EEA&t=1s) and [M Viswanath Sai and S Ashwin](https://www.youtube.com/watch?v=wkkXh8X0N8s) at PromCon conferences.
+* Encourage the mentee to write a blog post on the [Prometheus blog](https://github.com/prometheus/docs/tree/main/blog-posts) or on their personal blog!
+* A virtual "Mentees Meetup", if we have enough content, is also an option.
+
 ## Code of Conduct
 
 To make Prometheus a welcoming and harassment-free experience for

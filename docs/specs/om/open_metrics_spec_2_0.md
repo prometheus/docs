@@ -118,6 +118,8 @@ A MetricFamily MAY have zero or more Metrics. A MetricFamily MUST have a name, H
 
 MetricFamily names are a string and MUST be unique within a MetricSet. Names SHOULD be in snake_case. Metric names MUST follow the restrictions in the ABNF section.
 
+Ingestors MAY accept duplicate MetricFamily names, provided that there is a mechanism to distinguish the resulting MetricPoints.
+
 Colons in MetricFamily names are RESERVED to signal that the MetricFamily is the result of a calculation or aggregation of a general purpose monitoring system.
 
 MetricFamily names beginning with underscores are RESERVED and MUST NOT be used unless specified by this standard.
@@ -125,6 +127,8 @@ MetricFamily names beginning with underscores are RESERVED and MUST NOT be used 
 ###### Suffixes
 
 The name of a MetricFamily MUST NOT result in a potential clash for sample metric names as per the ABNF with another MetricFamily in the Text Format within a MetricSet. An example would be a gauge called "foo_total" as a counter called "foo" could create a "foo_total" in the text format.
+
+Ingestors MAY accept conflicting MetricFamily names, provided that there is a mechanism to distinguish the resulting MetricPoints. It follows that ingestors MAY accept MetricFamily name without the type specific suffix.
 
 Exposers SHOULD avoid names that could be confused with the suffixes that text format sample metric names use.
 
@@ -145,6 +149,8 @@ Type specifies the MetricFamily type. Valid values are "unknown", "gauge", "coun
 ##### Unit
 
 Unit specifies MetricFamily units. If non-empty, it MUST be a suffix of the MetricFamily name separated by an underscore. Be aware that further generation rules might make it an infix in the text format.
+
+Ingestors MAY accept MetricFamily name without unit suffix.
 
 ##### Help
 
@@ -492,7 +498,7 @@ A valid example for a foo_seconds metric with a unit of "seconds":
 # UNIT foo_seconds seconds
 ```
 
-An invalid example, where the unit is not a suffix on the name:
+An invalid example (which MAY still be accepted by ingestors), where the unit is not a suffix on the name:
 
 ```
 # TYPE foo counter
@@ -638,6 +644,8 @@ foo 18.0 456
 ##### Counter
 
 The MetricPoint's Total Value Sample MetricName MUST have the suffix `_total`. If present, the MetricPoint's Created Timestamp MUST be inlined with the Metric point with a `ct@` prefix. If the value's timestamp is present, the Created Timestamp MUST be added right after it. If exemplar is present, the Created Timestamp MUST be added before it.
+
+Ingestors MAY accept MetricPoint Total Value name without the `_total` suffix.
 
 An example with a Metric with no labels, and a MetricPoint with no timestamp and no Created Timestamp:
 

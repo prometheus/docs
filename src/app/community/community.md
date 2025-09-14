@@ -246,7 +246,7 @@ In order to allow mentees to share the knowledge they learned and allow them to 
 
 * Encourage the mentee to speak (or even co-speak with them!) at the next relevant conference or meetup (e.g. PromCon, KubeCon, local meetup), etc!
   * See the post-mentorship talks by [Arthur](https://www.youtube.com/watch?v=nWf0BfQ5EEA&t=1s) and [M Viswanath Sai and S Ashwin](https://www.youtube.com/watch?v=wkkXh8X0N8s) at PromCon conferences.
-* Encourage the mentee to write a blog post on the [Prometheus blog](https://github.com/prometheus/docs/tree/main/blog-posts) or on their personal blog!
+* Encourage the mentee to write a blog post on the [Prometheus blog](https://github.com/prometheus/docs/tree/main/blog) or on their personal blog!
 * A virtual "Mentees Meetup", if we have enough content, is also an option.
 
 ## Code of Conduct

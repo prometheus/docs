@@ -20,10 +20,6 @@ use to communicate and contribute:
 
 `#prometheus` on [irc.libera.chat](https://libera.chat/).
 
-### Matrix
-
-[`#prometheus:matrix.org`](https://app.element.io/#/room/#prometheus:matrix.org).
-
 ### User mailing lists
 
 - [prometheus-announce](https://groups.google.com/forum/#!forum/prometheus-announce) ([mirror](https://www.mail-archive.com/prometheus-announce@googlegroups.com/))

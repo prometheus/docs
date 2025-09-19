@@ -781,7 +781,7 @@ foo_bucket{le="10"} 17 # {trace_id="oHg5SJYRHA0"} 9.8 1520879607.789
 foo_bucket{le="+Inf"} 17
 foo_count 17
 foo_sum 324789.3
-foo_created  1520430000.123
+foo_created 1520430000.123
 ```
 
 ##### GaugeHistogram

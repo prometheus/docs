@@ -1,7 +1,7 @@
 ---
-title: "OpenMetrics 2.0"
-nav_title: "2.0"
-sort_rank: 3
+title: "OpenMetrics 1.1"
+nav_title: "1.1"
+sort_rank: 2
 
 hide_in_nav: true
 
@@ -25,8 +25,8 @@ author:
   email: rob.skillington@gmail.com
 ---
 
-- Version: 2.0
-- Status: Draft
+- Version: 1.1
+- Status: Published
 - Date: TBD
 - Authors: Richard Hartmann, Ben Kochie, Brian Brazil, Rob Skillington
 
@@ -36,7 +36,7 @@ With OpenMetrics, we are cleaning up and tightening the specification with the e
 
 Given the wide adoption and significant coordination requirements in the ecosystem, sweeping changes to either the Prometheus exposition format 0.0.4 or OpenMetrics 1.0 are considered out of scope.
 
-> NOTE: this document is an early draft, major changes expected. Read [here](https://github.com/prometheus/OpenMetrics/issues/276) on how to join the Prometheus OM 2.0 work group.
+> NOTE: OpenMetrics 2.0 development is in progress. Read [here](https://github.com/prometheus/OpenMetrics/issues/276) on how to join the Prometheus OM 2.0 work group.
 
 ## Overview
 
@@ -124,14 +124,14 @@ MetricFamily names beginning with underscores are RESERVED and MUST NOT be used 
 
 ###### Suffixes
 
-The name of a MetricFamily MUST NOT result in a potential clash for sample metric names as per the ABNF with another MetricFamily in the Text Format within a MetricSet. An example would be a gauge called "foo_total" as a counter called "foo" could create a "foo_total" in the text format.
+The name of a MetricFamily MUST NOT result in a potential clash for sample metric names as per the ABNF with another MetricFamily in the Text Format within a MetricSet. An example would be a gauge called "foo_created" as a counter called "foo" could create a "foo_created" in the text format.
 
 Exposers SHOULD avoid names that could be confused with the suffixes that text format sample metric names use.
 
 * Suffixes for the respective types are:
-* Counter: `_total`
-* Summary: `_count`, `_sum`, `` (empty)
-* Histogram: `_count`, `_sum`, `_bucket`
+* Counter: `_total`, `_created`
+* Summary: `_count`, `_sum`, `_created`, `` (empty)
+* Histogram: `_count`, `_sum`, `_bucket`, `_created`
 * GaugeHistogram: `_gcount`, `_gsum`, `_bucket`
 * Info: `_info`
 * Gauge: `` (empty)
@@ -178,9 +178,9 @@ Counters measure discrete events. Common examples are the number of HTTP request
 
 A MetricPoint in a Metric with the type Counter MUST have one value called Total. A Total is a non-NaN and MUST be monotonically non-decreasing over time, starting from 0.
 
-A MetricPoint in a Metric with the type Counter SHOULD have a Timestamp value called Created Timestamp. This can help ingestors discern between new metrics and long-running ones it did not see before.
+A MetricPoint in a Metric with the type Counter SHOULD have a Timestamp value called Created. This can help ingestors discern between new metrics and long-running ones it did not see before.
 
-A MetricPoint in a Metric's Counter's Total MAY reset to 0. If present, the corresponding Created Timestamp MUST also be set to the timestamp of the reset.
+A MetricPoint in a Metric's Counter's Total MAY reset to 0. If present, the corresponding Created time MUST also be set to the timestamp of the reset.
 
 A MetricPoint in a Metric's Counter's Total MAY have an exemplar.
 
@@ -216,19 +216,16 @@ MetricFamilies of type Info MUST have an empty Unit string.
 
 Histograms measure distributions of discrete events. Common examples are the latency of HTTP requests, function runtimes, or I/O request sizes.
 
-A Histogram MetricPoint MUST contain at least one bucket, and SHOULD contain Sum, and Created Timestamp values. Every bucket MUST have a threshold and a value.
+A Histogram MetricPoint MUST contain at least one bucket, and SHOULD contain Sum, and Created values. Every bucket MUST have a threshold and a value.
 
 Histogram MetricPoints MUST have one bucket with an +Inf threshold. Buckets MUST be cumulative. As an example for a metric representing request latency in seconds its values for buckets with thresholds 1, 2, 3, and +Inf MUST follow value_1 <= value_2 <= value_3 <= value_+Inf. If ten requests took 1 second each, the values of the 1, 2, 3, and +Inf buckets MUST equal 10.
 
 The +Inf bucket counts all requests. If present, the Sum value MUST equal the Sum of all the measured event values. Bucket thresholds within a MetricPoint MUST be unique.
 
-Semantically, buckets values are counters so MUST NOT be NaN or negative.
+Semantically, Sum, and buckets values are counters so MUST NOT be NaN or negative.
+Negative threshold buckets MAY be used, but then the Histogram MetricPoint MUST NOT contain a sum value as it would no longer be a counter semantically. Bucket thresholds MUST NOT equal NaN. Count and bucket values MUST be integers.
 
-The Sum is only a counter semantically as long as there are no negative event values measured by the Histogram MetricPoint. The Sum MUST NOT be NaN.
-
-Negative threshold buckets MAY be used. Bucket thresholds MUST NOT equal NaN. Count and bucket values MUST be integers.
-
-A Histogram MetricPoint SHOULD have a Timestamp value called Created Timestamp. This can help ingestors discern between new metrics and long-running ones it did not see before.
+A Histogram MetricPoint SHOULD have a Timestamp value called Created. This can help ingestors discern between new metrics and long-running ones it did not see before.
 
 A Histogram's Metric's LabelSet MUST NOT have a "le" label name.
 
@@ -262,12 +259,12 @@ Summaries also measure distributions of discrete events and MAY be used when His
 
 They MAY also be used for backwards compatibility, because some existing instrumentation libraries expose precomputed quantiles and do not support Histograms. Precomputed quantiles SHOULD NOT be used, because quantiles are not aggregatable and the user often can not deduce what timeframe they cover.
 
-A Summary MetricPoint MAY consist of a Count, Sum, Created Timestamp, and a set of quantiles.
+A Summary MetricPoint MAY consist of a Count, Sum, Created, and a set of quantiles.
 
 Semantically, Count and Sum values are counters so MUST NOT be NaN or negative.
 Count MUST be an integer.
 
-A MetricPoint in a Metric with the type Summary which contains Count or Sum values SHOULD have a Timestamp value called Created Timestamp. This can help ingestors discern between new metrics and long-running ones it did not see before. Created Timestamp MUST NOT relate to the collection period of quantile values.
+A MetricPoint in a Metric with the type Summary which contains Count or Sum values SHOULD have a Timestamp value called Created. This can help ingestors discern between new metrics and long-running ones it did not see before. Created MUST NOT relate to the collection period of quantile values.
 
 Quantiles are a map from a quantile to a value. An example is a quantile 0.95 with value 0.2 in a metric called myapp_http_request_duration_seconds which means that the 95th percentile latency is 200ms over an unknown timeframe. If there are no events in the relevant timeframe, the value for a quantile MUST be NaN.
 A Quantile's Metric's LabelSet MUST NOT have "quantile" label name.
@@ -324,7 +321,7 @@ metric = *sample
 metric-type = counter / gauge / histogram / gaugehistogram / stateset
 metric-type =/ info / summary / unknown
 
-sample = metricname [labels] SP number [SP timestamp] [SP created] [exemplar] LF
+sample = metricname [labels] SP number [SP timestamp] [exemplar] LF
 
 exemplar = SP HASH SP labels SP number [SP timestamp]
 
@@ -386,9 +383,6 @@ escaped-char =/ BS normal-char
 
 ; Any unicode character, except newline, double quote, and backslash
 normal-char = %x00-09 / %x0B-21 / %x23-5B / %x5D-D7FF / %xE000-10FFFF
-
-; Lowercase ct @ timestamp
-created = %d99.116 "@" timestamp
 ```
 
 #### Overall Structure
@@ -405,14 +399,16 @@ Line endings MUST be signalled with line feed (\n) and MUST NOT contain carriage
 
 An example of a complete exposition:
 
-```openmetrics
+```
 # TYPE acme_http_router_request_seconds summary
 # UNIT acme_http_router_request_seconds seconds
 # HELP acme_http_router_request_seconds Latency though all of ACME's HTTP request router.
-acme_http_router_request_seconds_sum{path="/api/v1",method="GET"} 9036.32 ct@1605281325.0
-acme_http_router_request_seconds_count{path="/api/v1",method="GET"} 807283.0 ct@1605281325.0
-acme_http_router_request_seconds_sum{path="/api/v2",method="POST"} 479.3 ct@1605301325.0
-acme_http_router_request_seconds_count{path="/api/v2",method="POST"} 34.0 ct@1605301325.0
+acme_http_router_request_seconds_sum{path="/api/v1",method="GET"} 9036.32
+acme_http_router_request_seconds_count{path="/api/v1",method="GET"} 807283.0
+acme_http_router_request_seconds_created{path="/api/v1",method="GET"} 1605281325.0
+acme_http_router_request_seconds_sum{path="/api/v2",method="POST"} 479.3
+acme_http_router_request_seconds_count{path="/api/v2",method="POST"} 34.0
+acme_http_router_request_seconds_created{path="/api/v2",method="POST"} 1605281325.0
 # TYPE go_goroutines gauge
 # HELP go_goroutines Number of goroutines that currently exist.
 go_goroutines 69
@@ -594,14 +590,14 @@ The Sample MetricName for the value of a MetricPoint for a MetricFamily of type 
 
 An example MetricFamily with a Metric with no labels and a MetricPoint with no timestamp:
 
-```openmetrics-add-eof
+```
 # TYPE foo gauge
 foo 17.0
 ```
 
 An example of a MetricFamily with two Metrics with a label and MetricPoints with no timestamp:
 
-```openmetrics-add-eof
+```
 # TYPE foo gauge
 foo{a="bb"} 17.0
 foo{a="ccc"} 17.0
@@ -609,27 +605,27 @@ foo{a="ccc"} 17.0
 
 An example of a MetricFamily with no Metrics:
 
-```openmetrics-add-eof
+```
 # TYPE foo gauge
 ```
 
 An example with a Metric with a  label and a MetricPoint with a timestamp:
 
-```openmetrics-add-eof
+```
 # TYPE foo gauge
 foo{a="b"} 17.0 1520879607.789
 ```
 
 An example with a Metric with no labels and MetricPoint with a timestamp:
 
-```openmetrics-add-eof
+```
 # TYPE foo gauge
 foo 17.0 1520879607.789
 ```
 
 An example with a Metric with no labels and two MetricPoints with timestamps:
 
-```openmetrics-add-eof
+```
 # TYPE foo gauge
 foo 17.0 123
 foo 18.0 456
@@ -637,44 +633,39 @@ foo 18.0 456
 
 ##### Counter
 
-The MetricPoint's Total Value Sample MetricName MUST have the suffix `_total`. If present, the MetricPoint's Created Timestamp MUST be inlined with the Metric point with a `ct@` prefix. If the value's timestamp is present, the Created Timestamp MUST be added right after it. If exemplar is present, the Created Timestamp MUST be added before it.
+The MetricPoint's Total Value Sample MetricName MUST have the suffix `_total`. If present the MetricPoint's Created Value Sample MetricName MUST have the suffix `_created`.
 
-An example with a Metric with no labels, and a MetricPoint with no timestamp and no Created Timestamp:
+An example with a Metric with no labels, and a MetricPoint with no timestamp and no created:
 
-```openmetrics-add-eof
+```
 # TYPE foo counter
 foo_total 17.0
 ```
 
-An example with a Metric with no labels, and a MetricPoint with a timestamp and no Created Timestamp:
+An example with a Metric with no labels, and a MetricPoint with a timestamp and no created:
 
-```openmetrics-add-eof
+```
 # TYPE foo counter
 foo_total 17.0 1520879607.789
 ```
 
-An example with a Metric with no labels, and a MetricPoint with no timestamp and a Created Timestamp:
+An example with a Metric with no labels, and a MetricPoint with no timestamp and a created:
 
-```openmetrics-add-eof
+```
 # TYPE foo counter
-foo_total 17.0 ct@1520430000.123
+foo_total 17.0
+foo_created 1520430000.123
 ```
 
-An example with a Metric with no labels, and a MetricPoint with a timestamp and a Created Timestamp:
+An example with a Metric with no labels, and a MetricPoint with a timestamp and a created:
 
-```openmetrics-add-eof
+```
 # TYPE foo counter
-foo_total 17.0 1520879607.789 ct@1520430000.123
+foo_total 17.0 1520879607.789
+foo_created 1520430000.123 1520879607.789
 ```
 
 Exemplars MAY be attached to the MetricPoint's Total sample.
-
-An example with a Metric with no labels, and a MetricPoint with a timestamp and a Created Timestamp and an exemplar:
-
-```openmetrics-add-eof
-# TYPE foo counter
-foo_total 17.0 1520879607.789 ct@1520430000.123 # {trace_id="KOO5S4vxi0o"} 0.67
-```
 
 ##### StateSet
 
@@ -684,7 +675,7 @@ StateSets MUST have one sample per State in the MetricPoint. Each State's sample
 
 An example with the states "a", "bb", and "ccc" in which only the value bb is enabled and the metric name is foo:
 
-```openmetrics-add-eof
+```
 # TYPE foo stateset
 foo{foo="a"} 0
 foo{foo="bb"} 1
@@ -693,7 +684,7 @@ foo{foo="ccc"} 0
 
 An example of an "entity" label on the Metric:
 
-```openmetrics-add-eof
+```
 # TYPE foo stateset
 foo{entity="controller",foo="a"} 1.0
 foo{entity="controller",foo="bb"} 0.0
@@ -709,14 +700,14 @@ The Sample MetricName for the value of a MetricPoint for a MetricFamily of type 
 
 An example of a Metric with no labels, and one MetricPoint value with "name" and "version" labels:
 
-```openmetrics-add-eof
+```
 # TYPE foo info
 foo_info{name="pretty name",version="8.2.7"} 1
 ```
 
 An example of a Metric with label "entity" and one MetricPoint value with “name” and “version” labels:
 
-```openmetrics-add-eof
+```
 # TYPE foo info
 foo_info{entity="controller",name="pretty name",version="8.2.7"} 1.0
 foo_info{entity="replica",name="prettier name",version="8.1.9"} 1.0
@@ -726,55 +717,52 @@ Metric labels and MetricPoint value labels MAY be in any order.
 
 ##### Summary
 
-If present, the MetricPoint's Sum Value Sample MetricName MUST have the suffix `_sum`. If present, the MetricPoint's Count Value MetricName MUST have the suffix `_count`. If present, the MetricPoint's Quantile Values MUST specify the quantile measured using a label with a label name of "quantile" and with a label value of the quantile measured. 
+If present, the MetricPoint's Sum Value Sample MetricName MUST have the suffix `_sum`. If present, the MetricPoint's Count Value Sample MetricName MUST have the suffix `_count`. If present, the MetricPoint's Created Value Sample MetricName MUST have the suffix `_created`. If present, the MetricPoint's Quantile Values MUST specify the quantile measured using a label with a label name of "quantile" and with a label value of the quantile measured.
 
-If present the MetricPoint's Created Timestamp MUST be inlined with the Metric point with a `ct@` prefix. If the value's timestamp is present, the Created Timestamp MUST be added right after it. If exemplar is present, the Created Timestamp MUST be added before it. Created Timestamp MUST be appended to all Quantile Values, to the MetricPoint's Sum and MetricPoint's Count.
+An example of a Metric with no labels and a MetricPoint with Sum, Count and Created values:
 
-An example of a Metric with no labels and a MetricPoint with Sum, Count and Created Timestamp values:
-
-```openmetrics-add-eof
+```
 # TYPE foo summary
-foo_count 17.0 ct@1520430000.123
-foo_sum 324789.3 ct@1520430000.123
+foo_count 17.0
+foo_sum 324789.3
+foo_created 1520430000.123
 ```
 
-An example of a Metric with no labels and a MetricPoint with two quantiles and Created Timestamp values:
+An example of a Metric with no labels and a MetricPoint with two quantiles:
 
-```openmetrics-add-eof
+```
 # TYPE foo summary
-foo{quantile="0.95"} 123.7 ct@1520430000.123
-foo{quantile="0.99"} 150.0 ct@1520430000.123
+foo{quantile="0.95"} 123.7
+foo{quantile="0.99"} 150.0
 ```
 
 Quantiles MAY be in any order.
 
 ##### Histogram
 
-The MetricPoint's Bucket Values Sample MetricNames MUST have the suffix `_bucket`. If present, the MetricPoint's Sum Value Sample MetricName MUST have the suffix `_sum`. 
-
-If present the MetricPoint's Created Timestamp MUST be inlined with the Metric point with a `ct@` prefix. If the value's timestamp is present, the Created Timestamp MUST be added right after it. If exemplar  is present, the Created Timestamp MUST be added before it. Created Timestamp MUST be appended to all Bucket Values, to the MetricPoint's Sum and MetricPoint's Count.
-
+The MetricPoint's Bucket Values Sample MetricNames MUST have the suffix `_bucket`. If present, the MetricPoint's Sum Value Sample MetricName MUST have the suffix `_sum`. If present, the MetricPoint's Created Value Sample MetricName MUST have the suffix `_created`.
 If and only if a Sum Value is present in a MetricPoint, then the MetricPoint's +Inf Bucket value MUST also appear in a Sample with a MetricName with the suffix "_count".
 
 Buckets MUST be sorted in number increasing order of "le", and the value of the "le" label MUST follow the rules for Canonical Numbers.
 
-An example of a Metric with no labels and a MetricPoint with Sum, Count, and Created Timestamp values, and with 12 buckets. A wide and atypical but valid variety of “le” values is shown on purpose:
+An example of a Metric with no labels and a MetricPoint with Sum, Count, and Created values, and with 12 buckets. A wide and atypical but valid variety of “le” values is shown on purpose:
 
-```openmetrics-add-eof
+```
 # TYPE foo histogram
-foo_bucket{le="0.0"} 0 ct@1520430000.123
-foo_bucket{le="1e-05"} 0 ct@1521430000.123
-foo_bucket{le="0.0001"} 5 ct@1521430020.123
-foo_bucket{le="0.1"} 8 ct@1520430321.123
-foo_bucket{le="1.0"} 10 ct@1522430000.123
-foo_bucket{le="10.0"} 11 ct@1520430123.123
-foo_bucket{le="100000.0"} 11 ct@1521430010.123
-foo_bucket{le="1e+06"} 15 ct@1520430301.123
-foo_bucket{le="1e+23"} 16 ct@1521430001.123
-foo_bucket{le="1.1e+23"} 17 ct@1522430220.123
-foo_bucket{le="+Inf"} 17 ct@1520430000.123
-foo_count 17 ct@1520430000.123
-foo_sum 324789.3 ct@1520430000.123
+foo_bucket{le="0.0"} 0
+foo_bucket{le="1e-05"} 0
+foo_bucket{le="0.0001"} 5
+foo_bucket{le="0.1"} 8
+foo_bucket{le="1.0"} 10
+foo_bucket{le="10.0"} 11
+foo_bucket{le="100000.0"} 11
+foo_bucket{le="1e+06"} 15
+foo_bucket{le="1e+23"} 16
+foo_bucket{le="1.1e+23"} 17
+foo_bucket{le="+Inf"} 17
+foo_count 17
+foo_sum 324789.3
+foo_created 1520430000.123
 ```
 
 ###### Exemplars
@@ -784,15 +772,16 @@ Exemplars without Labels MUST represent an empty LabelSet as {}.
 An example of Exemplars showcasing several valid cases:
 The "0.01" bucket has no Exemplar. The 0.1 bucket has an Exemplar with no Labels. The 1 bucket has an Exemplar with one Label. The 10 bucket has an Exemplar with a Label and a timestamp. In practice all buckets SHOULD have the same style of Exemplars.
 
-```openmetrics-add-eof
+```
 # TYPE foo histogram
-foo_bucket{le="0.01"} 0 ct@1520430000.123
-foo_bucket{le="0.1"} 8 ct@1520430000.123 # {} 0.054
-foo_bucket{le="1"} 11 ct@1520430000.123 # {trace_id="KOO5S4vxi0o"} 0.67
-foo_bucket{le="10"} 17 ct@1520430000.123 # {trace_id="oHg5SJYRHA0"} 9.8 1520879607.789
-foo_bucket{le="+Inf"} 17 ct@1520430000.123
-foo_count 17 ct@1520430000.123
-foo_sum 324789.3 ct@1520430000.123
+foo_bucket{le="0.01"} 0
+foo_bucket{le="0.1"} 8 # {} 0.054
+foo_bucket{le="1"} 11 # {trace_id="KOO5S4vxi0o"} 0.67
+foo_bucket{le="10"} 17 # {trace_id="oHg5SJYRHA0"} 9.8 1520879607.789
+foo_bucket{le="+Inf"} 17
+foo_count 17
+foo_sum 324789.3
+foo_created  1520430000.123
 ```
 
 ##### GaugeHistogram
@@ -804,7 +793,7 @@ Buckets MUST be sorted in number increasing order of "le", and the value of the 
 
 An example of a Metric with no labels, and one MetricPoint value with no Exemplar with no Exemplars in the buckets:
 
-```openmetrics-add-eof
+```
 # TYPE foo gaugehistogram
 foo_bucket{le="0.01"} 20.0
 foo_bucket{le="0.1"} 25.0
@@ -821,7 +810,7 @@ The sample metric name for the value of the MetricPoint for a MetricFamily of ty
 
 An example with a Metric with no labels and a MetricPoint with no timestamp:
 
-```openmetrics-add-eof
+```
 # TYPE foo unknown
 foo 42.23
 ```
@@ -1131,7 +1120,7 @@ my_time_since_boot_seconds 123
 ```
 
 Conversely, there are no best practice restrictions on exemplars timestamps.
-Keep in mind that due to race conditions or time not being perfectly synced across devices, that an exemplar timestamp may appear to be slightly in the future relative to a ingestor's system clock or other metrics from the same exposition. Similarly it is possible that a "ct@" for a MetricPoint could appear to be slightly after an exemplar or sample timestamp for that same MetricPoint.
+Keep in mind that due to race conditions or time not being perfectly synced across devices, that an exemplar timestamp may appear to be slightly in the future relative to a ingestor's system clock or other metrics from the same exposition. Similarly it is possible that a "_created" for a MetricPoint could appear to be slightly after an exemplar or sample timestamp for that same MetricPoint.
 
 Keep in mind that there are monitoring systems in common use which support everything from nanosecond to second resolution, so having two MetricPoints that have the same timestamp when truncated to second resolution may cause an apparent duplicate in the ingestor. In this case the MetricPoint with the earliest timestamp MUST be used.
 

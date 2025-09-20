@@ -307,6 +307,12 @@ largest float representable as float64. Therefore, the schema numbers between
 the formulas for bucket boundaries above) and MUST NOT be used for any other
 schemas.
 
+Receivers of native histograms MAY, upon ingestion, reduce the schema and
+thereby the resolution of ingested histograms by merging buckets appropriately.
+Receivers MAY accept schemas between 9 and 52 if they reduce the schema upon
+ingestion to a valid number (i.e. between -4 and 8), following the formulas for
+bucket boundaries above.
+
 For schema -53, the bucket boundaries are set explicitly via _custom values_,
 described in detail in the [custom values section](#custom-values) below. This
 results in a native histogram with custom bucket boundaries (or short _custom
@@ -1031,13 +1037,13 @@ The Prometheus scrape config offers two settings to address this need:
 Both settings accept zero as a valid value, which implies “no limit”. In case
 of the bucket limit, this means that the number of buckets are indeed not
 checked at all. In the case of the bucket factor, Prometheus will still ensure
-that a standard schema will not exceed the capabilities of the used
-storage backend. (TODO: This currently means the schema is at most +8, which is
-also the limit we allow in the exposition format. OTel allows higher
-exponential schemas, and Prometheus might therefore allow them in ingestion
-paths, too, but reduce the schema to +8 upon ingestion, or to whatever limit
-the current implementation requires. See
-https://github.com/prometheus/prometheus/issues/14168 for final clarification.)
+that a standard schema will not exceed the capabilities of the used storage
+backend. Prometheus currently stores histograms with standard exponential
+schemas of at most 8. However, it accepts exponential schemas greater than 8 up
+to the [reserved limit of 52](#schema) but reduces their resolution upon
+ingestion so that schema 8 is reached (or a lower one if required by the
+`native_histogram_bucket_limit` or `native_histogram_min_bucket_factor`
+settings).
 
 If both settings have a non-zero values, the schema is decreased sufficiently
 to satisfy both limits.

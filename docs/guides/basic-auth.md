@@ -22,11 +22,16 @@ web](https://bcrypt-generator.com/).
 Here is a python script which uses python3-bcrypt to prompt for a password and
 hash it:
 
+```
+pip3 install getpass4
+```
+
 ```python
-import getpass
+#!/usr/local/bin/python3
+from getpass4 import getpass
 import bcrypt
 
-password = getpass.getpass("password: ")
+password = getpass("password: ")
 hashed_password = bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt())
 print(hashed_password.decode())
 ```

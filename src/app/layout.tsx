@@ -53,10 +53,10 @@ export default function RootLayout({
       className={`${interFont.variable} ${latoFont.variable}`}
     >
       <head>
-        <ColorSchemeScript />
+        <ColorSchemeScript defaultColorScheme="auto" />
       </head>
       <body>
-        <MantineProvider theme={theme}>
+        <MantineProvider theme={theme} defaultColorScheme="auto">
           <AppShell header={{ height: "var(--header-height)" }}>
             <Header />
 

@@ -248,10 +248,12 @@ observations are a very rare use case for Prometheus histograms and summaries.)
 
 The _schema_ is a signed integer value with a size of 8 bits (short: int8). It
 defines the way bucket boundaries are calculated. The currently valid values
-are -53 and the range between and including -4 and +8. More schemas may be
-added in the future. -53 is a schema for so-called _custom bucket boundaries_
-or short _custom buckets_, while the other schema numbers represent the
-different standard exponential schemas (short: _standard schemas_).
+are -53 and the range between and including -4 and +8 (with a larger range
+between and including -9 and +52 being reserved, see below for details). More
+schemas may be added in the future. -53 is a schema for so-called _custom
+bucket boundaries_ or short _custom buckets_, while the other schema numbers
+represent the different standard exponential schemas (short: _standard
+schemas_).
 
 The standard schemas are mergeable with each other and are RECOMMENDED for
 general use cases. Larger schema numbers correspond to higher resolutions.
@@ -312,6 +314,22 @@ thereby the resolution of ingested histograms by merging buckets appropriately.
 Receivers MAY accept schemas between 9 and 52 if they reduce the schema upon
 ingestion to a valid number (i.e. between -4 and 8), following the formulas for
 bucket boundaries above.
+
+If, after this optional schema conversion, the schema is still unknown to the
+receiver, there are the following options:
+
+- If a scrape (including federation) contains one or more histograms with an
+  unknown schema, the entiry scrape MUST fail, following the Prometheus
+  practice of avoiding incomplete scrapes.
+- For any other ingestion paths (including replaying the WAL/WBL), the receiver
+  MAY ignore histograms with unknown schemas and SHOULD notify the user about
+  this omission in a suitable way.
+
+When a TSDB implementation reads histograms from its permanent storage
+(excluding replaying the WAL/WBL), similar guidelines apply: Schemas between 9
+and 52 MAY be converted to valid schemas. Otherwise, unknown schemas MUST
+return an error on retrieval, and the PromQL query that triggered the retrieval
+MUST fail.
 
 For schema -53, the bucket boundaries are set explicitly via _custom values_,
 described in detail in the [custom values section](#custom-values) below. This

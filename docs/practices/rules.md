@@ -118,7 +118,7 @@ Calculating the average query rate across instances and paths is done using the
 
 ```
 - record: job:request_latency_seconds_count:avg_rate5m
-  expr: avg without (instance, path)(instance:request_latency_seconds_count:rate5m{job="myjob"})
+  expr: avg without (instance, path)(instance_path:request_latency_seconds_count:rate5m{job="myjob"})
 ```
 
 Notice that when aggregating that the labels in the `without` clause are removed

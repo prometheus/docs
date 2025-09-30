@@ -157,9 +157,13 @@ implementation.
 ### General structure
 
 Similar to a classic histogram, a native histogram has a field for the _count_
-of observations and a field for the _sum_ of observations. In addition, it
-contains the following components, which are described in detail in dedicated
-sections below:
+of observations and a field for the _sum_ of observations. While the count of
+observation is generally non-negative (with the only exception being
+[intermediate results in PromQL](#unary-minus-and-negative-histograms)), the
+sum of observations might have any float64 value.
+
+In addition, a native histogram contains the following components, which are
+described in detail in dedicated sections below:
 
 - A _schema_ to identify the method of determining the boundaries of any given
   bucket with an index _i_.
@@ -203,6 +207,13 @@ implementation within Prometheus is not utilizing this option.) Note, however,
 that the most common PromQL function applied to a counter histogram is `rate`,
 which generally produces non-integer numbers, so that results of recording
 rules will commonly be float histograms with non-integer values anyway.
+
+PromQL expression may even create “negative” histograms (e.g. by multiplying a
+histogram with -1). Those negative histograms are only allowed as intermediate
+results and are otherwise considered invalid. They cannot be represented in any
+of the exchange formats (exposition formats, remote-write, OTLP) and they
+cannot be stored in the TSDB. Also see the [detailed section about negative
+histograms](#unary-minus-and-negative-histograms).
 
 Treating native histograms explicitly as integer histograms vs. float histogram
 is a notable deviation from the treatment of conventional simple numeric
@@ -351,13 +362,16 @@ positive bucket list is used, but repurposed for all buckets.
 Any unpopulated buckets MAY be excluded from the lists. (Which is the reason
 why the buckets are often called _sparse buckets_.)
 
-For float histograms, the elements of the lists are float64 and
-represent the bucket population directly.
+For float histograms, the elements of the lists are float64 and represent the
+bucket population directly. Bucket populations are generally non-negative, with
+the only exception being [intermediate results in
+PromQL](#unary-minus-and-negative-histograms).
 
 For integer histograms, the elements of the lists are signed 64-bit integers
 (short: int64), and each element represents the bucket population as a delta to
 the previous bucket in the list. The first bucket in each list contains an
-absolute population (which can also be seen as a delta relative to zero).
+absolute population (which can also be seen as a delta relative to zero). The
+deltas MUST NOT evalute to a negative absolute bucket population.
 
 To map buckets in the lists to the indices as defined in the previous section,
 there are two lists of so-called _spans_, one for the positive buckets and one
@@ -431,7 +445,8 @@ standard schemas above. They are counted in a dedicated bucket called the _zero
 bucket_.
 
 The number of observations in the zero bucket is tracked by a single uint64
-(for integer histograms) or float64 (for float histograms).
+(for integer histograms) or float64 (for float histograms). As for regular
+buckets, this number is generally non-negative.
 
 The zero bucket has an additional parameter called the _zero threshold_, which
 is a float64 ≥ 0. If the threshold is set to zero, only observations of exactly
@@ -1775,8 +1790,10 @@ explicit counter reset detection will be thrown off by the inverted sign.
 Generally, histograms with negative bucket populations or a negative count of
 observations do not really make sense on their own and are only supposed to act
 as intermediate results inside other expressions. They are always considered
-gauge histograms within PromQL and when stored as the result of a recording
-rule.
+gauge histograms within PromQL. They cannot be persisted as a result of a
+recording rule. (A rule evaluating to a negative histogram results in an
+error.) It is impossible to represent negative histograms in any of the
+exchange formats (exposition formats, remote-write, OTLP).
 
 ### Binary operators
 
@@ -2299,27 +2316,27 @@ Example for the text representation of a float histogram:
 {count:3493.3, sum:2.349209324e+06, [-22.62741699796952,-16):1000, [-16,-11.31370849898476):123400, [-4,-2.82842712474619):3, [-2.82842712474619,-2):3.1, [-0.01,0.01]:5.5, (0.35355339059327373,0.5]:1, (1,1.414213562373095]:3.3, (1.414213562373095,2]:4.2, (2,2.82842712474619]:0.1}
 ```
 
-## Remote write & read
+## Remote-write & remote-read
 
-The [protobuf specs for remote write &
-read](https://github.com/prometheus/prometheus/blob/main/prompb) were extended
-for native histograms as an experimental feature. Receivers not capable of
-processing native histograms will simply ignore the newly added fields.
-Nevertheless, Prometheus has to be configured to send native histograms via
-remote write (by setting the `send_native_histograms` remote write config
+The [protobuf specs for remote-write &
+remote-read](https://github.com/prometheus/prometheus/blob/main/prompb) were
+extended for native histograms as an experimental feature. Receivers not
+capable of processing native histograms will simply ignore the newly added
+fields. Nevertheless, Prometheus has to be configured to send native histograms
+via remote-write (by setting the `send_native_histograms` remote-write config
 setting to true).
 
-In [remote write v2](https://prometheus.io/docs/specs/remote_write_spec_2_0/),
+In [remote-write v2](https://prometheus.io/docs/specs/remote_write_spec_2_0/),
 native histograms are a stable feature.
 
 It might appear tempting to convert classic histograms to NHCBs while sending
 or receiving them. However, this does not overcome the known consistency
-problems classic histograms suffer from when transmitted via remote write.
+problems classic histograms suffer from when transmitted via remote-write.
 Instead, classic histograms SHOULD be converted to NHCBs during scraping.
 Similarly, explicit OTel histograms SHOULD be converted to NHCBs during [OTLP
 ingestion](#otlp) already.
 
-TODO: A remaining possible problem with remote write is what to do if multiple
+TODO: A remaining possible problem with remote-write is what to do if multiple
 exemplars originally ingested for the same native histogram are sent in
 different remote-write requests.
 

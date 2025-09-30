@@ -708,12 +708,6 @@ message BucketSpan {
 // [...]
 ```
 
-(TODO: The above does not yet contain the custom values needed for NHCBs. We do
-not need it right now because NHCB can be ingested via scraping classic
-histograms. However, it might still be useful to have custom buckets in the
-exposition format eventually, e.g. for federation, and for future schemas that
-might also utilize the custom values.)
-
 Note the following:
 
 - Both native histograms and classic histograms are encoded by the same
@@ -754,6 +748,12 @@ Note the following:
   proportionally represents the distribution of observations, as the latter
   will rarely yield exemplars from the long tail of a distribution, which are
   often the most interesting exemplars to look at.)
+- There is no representation for the custom values needed for NHCBs. NHCBs are
+  never directly exposed, but presented as classic histograms, to be converted
+  (back) to NHCB upon ingestion. This is also true for
+  [federation](#federation). We might still add fields for the custom values in
+  the future, should the need arise, e.g. for future schemas that also utilize
+  custom values.
 
 ### OpenMetrics
 
@@ -2331,7 +2331,11 @@ be possible, at least in principle, once native histograms are supported in
 that format, but federation via protobuf is preferred for efficiency reasons
 anyway.
 
-TODO: Clarify state of federation of NHCBs. Update once OM supports NH.
+NHCBs are rendered as classic histograms when exposed via the federation
+endpoint. Scrapers have the option of converting them back to NHCBs or ingest
+them as classic histograms. The latter could lead to naming collisions, though.
+
+TODO: Update once OM supports NH.
 
 ## OTLP
 

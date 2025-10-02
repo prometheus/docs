@@ -146,6 +146,8 @@ Type specifies the MetricFamily type. Valid values are "unknown", "gauge", "coun
 
 Unit specifies MetricFamily units. If non-empty, it MUST be a suffix of the MetricFamily name separated by an underscore. Be aware that further generation rules might make it an infix in the text format.
 
+Ingestors MAY accept MetricFamily name without unit suffix. Be aware that exposing such metrics directly to end-users reduces usability due to confusion about what the metric's unit is.
+
 ##### Help
 
 Help is a string and SHOULD be non-empty. It is used to give a brief description of the MetricFamily for human consumption and SHOULD be short enough to be used as a tooltip.
@@ -488,7 +490,7 @@ A valid example for a foo_seconds metric with a unit of "seconds":
 # UNIT foo_seconds seconds
 ```
 
-An invalid example, where the unit is not a suffix on the name:
+An invalid example (which MAY still be accepted by ingestors), where the unit is not a suffix on the name:
 
 ```
 # TYPE foo counter
@@ -634,6 +636,8 @@ foo 18.0 456
 ##### Counter
 
 The MetricPoint's Total Value Sample MetricName MUST have the suffix `_total`. If present the MetricPoint's Created Value Sample MetricName MUST have the suffix `_created`.
+
+Ingestors MAY accept MetricPoint Total Value name without the `_total` suffix. Be aware that exposing such metrics directly to end-users reduces usability due to confusion about what the metric's type is.
 
 An example with a Metric with no labels, and a MetricPoint with no timestamp and no created:
 

@@ -23,6 +23,10 @@ author:
   name: Rob Skillington
   organization: Chronosphere
   email: rob.skillington@gmail.com
+- ins: O. Williams
+  name: Owen Williams
+  organization: Grafana Labs
+  email: owen.williams@grafana.com
 ---
 
 - Version: 1.1
@@ -312,22 +316,24 @@ metricset = *metricfamily
 
 metricfamily = *metric-descriptor *metric
 
-metric-descriptor = HASH SP type SP metricname SP metric-type LF
-metric-descriptor =/ HASH SP help SP metricname SP escaped-string LF
-metric-descriptor =/ HASH SP unit SP metricname SP *metricname-char LF
+metric-descriptor = HASH SP type SP (metricname / metricname-utf8) SP metric-type LF
+metric-descriptor =/ HASH SP help SP (metricname / metricname-utf8) SP escaped-string LF
+metric-descriptor =/ HASH SP unit SP (metricname / metricname-utf8) SP *metricname-char LF
 
 metric = *sample
 
 metric-type = counter / gauge / histogram / gaugehistogram / stateset
 metric-type =/ info / summary / unknown
 
-sample = metricname [labels] SP number [SP timestamp] [exemplar] LF
+sample = metricname-and-labels SP number [SP timestamp] [exemplar] LF
 
-exemplar = SP HASH SP labels SP number [SP timestamp]
+metricname-and-labels = metricname [labels-in-braces] / name-in-braces
+labels-in-braces = "{" [label *(COMMA label)] "}"
+name-in-braces = "{" metricname-utf8 *(COMMA label) "}"
 
-labels = "{" [label *(COMMA label)] "}"
+label = label-key EQ DQUOTE escaped-string DQUOTE
 
-label = label-name EQ DQUOTE escaped-string DQUOTE
+exemplar = SP HASH SP labels-in-braces SP number [SP timestamp]
 
 number = realnumber
 ; Case insensitive
@@ -366,16 +372,16 @@ HASH = "#"
 SIGN = "-" / "+"
 
 metricname = metricname-initial-char 0*metricname-char
-
 metricname-char = metricname-initial-char / DIGIT
 metricname-initial-char = ALPHA / "_" / ":"
+metricname-utf8 = DQUOTE escaped-string DQUOTE
 
+label-key = label-name / DQUOTE escaped-string DQUOTE
 label-name = label-name-initial-char *label-name-char
-
 label-name-char = label-name-initial-char / DIGIT
 label-name-initial-char = ALPHA / "_"
 
-escaped-string = *escaped-char
+escaped-string = 1*escaped-char
 
 escaped-char = normal-char
 escaped-char =/ BS ("n" / DQUOTE / BS)
@@ -429,6 +435,8 @@ Backslash -> `\\\\` (Bytecode 0x5c 0x5c)
 A double backslash SHOULD be used to represent a backslash character.
 A single backslash SHOULD NOT be used for undefined escape sequences.
 As an example, `\\\\a` is equivalent and preferable to `\\a`.
+
+Escaping MUST also be applied to quoted UTF-8 strings.
 
 ##### Numbers
 

@@ -84,12 +84,13 @@ For notification mechanisms not natively supported by the Alertmanager, the
   * [GitLab](https://docs.gitlab.com/ee/operations/metrics/alerts.html#external-prometheus-instances)
   * [Gotify](https://github.com/DRuggeri/alertmanager_gotify_bridge)
   * [GELF](https://github.com/b-com-software-basis/alertmanager2gelf)
-  * [Heii On-Call](https://heiioncall.com/guides/prometheus-integration)
+  * [HeyOnCall](https://heyoncall.com/guides/prometheus-integration)
   * [Icinga2](https://github.com/vshn/signalilo)
   * [iLert](https://docs.ilert.com/integrations/prometheus)
   * [IRC Bot](https://github.com/multimfi/bot)
   * [JIRAlert](https://github.com/free/jiralert)
   * [Matrix](https://github.com/matrix-org/go-neb)
+  * [Notion](https://github.com/cthtuf/alertmanager-to-notion): creates/updates record in a Notion database
   * [Phabricator / Maniphest](https://github.com/knyar/phalerts)
   * [prom2teams](https://github.com/idealista/prom2teams): forwards notifications to Microsoft Teams
   * [Ansible Tower](https://github.com/pja237/prom2tower): call Ansible Tower (AWX) API on alerts (launch jobs etc.)

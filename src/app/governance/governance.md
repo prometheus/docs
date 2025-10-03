@@ -48,7 +48,7 @@ In case a member leaves, the [offboarding](#offboarding) procedure is applied.
 
 The current team members are:
 
-* Alex Greenbank ([Grafana Labs](https://grafana.com/))
+* Alex Greenbank (independent)
 * Arianna Vespri (independent)
 * Arthur Sens ([Grafana Labs](https://grafana.com/))
 * Arve Knudsen ([Grafana Labs](https://grafana.com/))

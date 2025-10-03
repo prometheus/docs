@@ -21,7 +21,7 @@ the target will pick the best available Content Type for its reply.
 
 ### Supported Protocols
 
-The following protocols are be supported by Prometheus:
+The following protocols are supported by Prometheus:
 
 1. `PrometheusProto` - Binary protobuf format
 2. `PrometheusText0.0.4` - Prometheus text format version 0.0.4

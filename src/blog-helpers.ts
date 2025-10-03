@@ -2,7 +2,7 @@ import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
 
-const blogPostsDir = "blog-posts";
+const blogPostsDir = "blog/posts";
 
 export const postFileNameToParams = (fileName: string) => {
   const [year, month, day, ...slug] = fileName.replace(/\.md$/, "").split("-");

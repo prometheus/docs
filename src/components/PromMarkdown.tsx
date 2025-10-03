@@ -139,7 +139,7 @@ export default async function PromMarkdown({
                 {...rest}
                 href={href}
                 target="_blank"
-                rel="noopener noreferrer"
+                rel="noopener"
               >
                 {/* Only add the icon if the first child is a string. This is to avoid
                 breaking the layout of other components like image links etc. */}

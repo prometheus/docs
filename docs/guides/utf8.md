@@ -17,29 +17,20 @@ This document guides you through the UTF-8 transition details.
 
 ## Go Instrumentation
 
-Currently, metrics created by the official Prometheus [client_golang library](https://github.com/prometheus/client_golang) will reject UTF-8 names
-by default. It is necessary to change the default validation scheme to allow
-UTF-8. The requirement to set this value will be removed in a future version of
-the common library.
+Currently, metrics created by the official Prometheus [client_golang
+library](https://github.com/prometheus/client_golang) accept UTF-8 names by
+default.
 
-```golang
-import "github.com/prometheus/common/model"
-
-func init() {
-	model.NameValidationScheme = model.UTF8Validation
-}
-```
-
-If users want to enforce the legacy character set, they can set the validation
-scheme to `LegacyValidation`.
-
-Setting the validation scheme must be done before the instantiation of metrics
-and can be set on the fly if desired.
+Previously, documentation recommended that users override the value of
+`model.NameValidationScheme` to select legacy validation by default. This
+boolean is now deprecated and should always be set to UTF8Validation. Legacy
+validation enforcement, if desired, should be done by individual implementations
+calling the appropriate validation APIs and is no longer a library feature.
 
 ### Instrumenting in other languages
 
-Other client libraries may have similar requirements to set the validation
-scheme. Check the documentation for the library you are using.
+Other client libraries may not yet support UTF-8 and may require special
+handling or configuration. Check the documentation for the library you are using.
 
 ## Configuring Name Validation during Scraping
 
@@ -62,7 +53,11 @@ scrape_configs:
     metric_name_validation_scheme: legacy
 ```
 
-Scrape config settings override the global setting.
+Scrape config settings override the global setting. If a scrape config
+validation is set but the escaping scheme is not set, the escaping scheme will
+be inferred from the validation scheme. This allows users to set only
+metric_name_validation_scheme in scrape configs without also having to specify a
+metric_name_escaping_scheme.
 
 ### Scrape Content Negotiation for UTF-8 escaping
 
@@ -98,12 +93,19 @@ is no way to enforce the legacy character set validation with Remote Write 2.0.
 
 ## OTLP Metrics
 
-OTLP receiver in Prometheus 3.0 still normalizes all names to Prometheus format by default. You can change this in `otlp` section of the Prometheus configuration as follows:
+OTLP receiver in Prometheus 3.0 still normalizes all names to Prometheus format
+by default. You can change this in `otlp` section of the Prometheus
+configuration as follows:
 
 
     otlp:
       # Ingest OTLP data keeping UTF-8 characters in metric/label names.
-      translation_strategy: NoUTF8EscapingWithSuffixes
+      translation_strategy: NoTranslation
+
+Note that when not appending type and unit suffixes, if there are two metrics
+with the same name but differing type or unit, those metrics will collide in
+Prometheus. Once Prometheus has native support for type and unit metadata this
+issue will go away.
 
 
 See [OpenTelemetry guide](/docs/guides/opentelemetry) for more details.

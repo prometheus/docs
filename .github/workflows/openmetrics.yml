@@ -18,6 +18,9 @@ jobs:
     - name: Install dependencies
       run: |
         pip install -r openmetrics-spec-tests/check_openmetrics_spec_requirements.txt
+    - name: Check ABNF for OpenMetrics 1.1
+      run: |
+        python3 openmetrics-spec-tests/check_openmetrics_spec.py docs/specs/om/open_metrics_spec_1_1.md
     - name: Check ABNF for OpenMetrics 2.0
       run: |
         python3 openmetrics-spec-tests/check_openmetrics_spec.py docs/specs/om/open_metrics_spec_2_0.md

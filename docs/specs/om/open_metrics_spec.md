@@ -25,7 +25,7 @@ author:
 
 - Version: 1.0
 - Status: Published
-- Date: March 2022
+- Date: November 2020
 - Authors: Richard Hartmann, Ben Kochie, Brian Brazil, Rob Skillington
 
 Created in 2012, Prometheus has been the default for cloud-native observability since 2015. A central part of Prometheus' design is its text metric exposition format, called the Prometheus exposition format 0.0.4, stable since 2014. In this format, special care has been taken to make it easy to generate, to ingest, and to understand by humans. As of 2020, there are more than 700 publicly listed exporters, an unknown number of unlisted exporters, and thousands of native library integrations using this format. Dozens of ingestors from various projects and companies support consuming it.

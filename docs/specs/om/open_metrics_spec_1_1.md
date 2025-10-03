@@ -490,7 +490,7 @@ A valid example for a foo_seconds metric with a unit of "seconds":
 # UNIT foo_seconds seconds
 ```
 
-A valid example, where the unit is not a suffix on the name:
+A valid, but discouraged example, where the unit is not a suffix on the name:
 
 ```
 # TYPE foo counter

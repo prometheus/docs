@@ -327,9 +327,9 @@ metric-type =/ info / summary / unknown
 
 sample = metricname-and-labels SP number [SP timestamp] [exemplar] LF
 
-metricname-and-labels = metricname [labels-in-braces] / name-in-braces
+metricname-and-labels = metricname [labels-in-braces] / name-and-labels-in-braces
 labels-in-braces = "{" [label *(COMMA label)] "}"
-name-in-braces = "{" metricname-utf8 *(COMMA label) "}"
+name-and-labels-in-braces = "{" metricname-utf8 *(COMMA label) "}"
 
 label = label-key EQ DQUOTE escaped-string DQUOTE
 

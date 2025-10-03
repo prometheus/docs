@@ -756,7 +756,7 @@ An example of a Metric with no labels, and one MetricPoint value with no Exempla
 
 ```openmetrics-add-eof
 # TYPE foo gaugehistogram
-foo {count:42,sum:3289.3,bucket:[0.01:20,01:25.0,1:34,+Inf:42]}
+foo {count:42,sum:3289.3,bucket:[0.01:20,0.1:25,1:34,+Inf:42]}
 ```
 
 ##### Unknown

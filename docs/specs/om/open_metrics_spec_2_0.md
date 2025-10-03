@@ -139,6 +139,9 @@ Exposers SHOULD avoid names that could be confused with the suffixes that text f
 
 * Suffixes for the respective types are:
 * Counter: `_total`
+* Summary: `_count`, `_sum`, `` (empty)
+* Histogram: `_count`, `_sum`, `_bucket`
+* GaugeHistogram: `_gcount`, `_gsum`, `_bucket`
 * Info: `_info`
 * Gauge: `` (empty)
 * StateSet: `` (empty)

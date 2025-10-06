@@ -675,6 +675,7 @@ An example with a Metric with no labels, and a MetricPoint without the `_total` 
 # TYPE foo counter
 foo 17.0 1520879607.789
 foo_created 1520430000.123 1520879607.789
+```
 
 Exemplars MAY be attached to the MetricPoint's Total sample.
 

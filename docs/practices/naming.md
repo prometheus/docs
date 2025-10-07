@@ -82,6 +82,10 @@ of unit and type information in the metric name will cause certain series to col
 
 ## Labels
 
+Prometheus labels can come from both the target and from [relabeling in discovery](https://prometheus.io/docs/prometheus/latest/configuration/configuration/#scrape_config) as well as from the target itself.
+
+By default Prometheus configures two primary discovery target labels.
+
 * `job`
    * The `job` label is one of the few ubiquitious labels, set at scrape time, and is used to identify metrics scraped from the same target/exporter.
    * If not specified in PromQL expressions, they will match unrelated metrics with the same name. This is especially true in a multi system or multi tenant installation

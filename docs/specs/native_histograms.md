@@ -1904,15 +1904,30 @@ histogram samples (for the reason stated in parentheses):
 - `limitk` (The sampled elements are returned unchanged.)
 - `limit_ratio` (The sampled elements are returned unchanged.)
 
-The `sum` aggregation operator work with native histograms by summing up the
+The `sum` aggregation operator works with native histograms by summing up the
 histogram to be aggregated in the same way as described for the `+` operator
-above, including the implications regarding counter vs. gauge histograms.
-(Generally, only gauge histograms should be aggregated in this way.) The `avg`
-aggregation operator works in the same way, but divides the sum by the number
-of aggregated histogram (in the same way as described for the `/` operator
-above). Both aggregation operators remove elements from the output vector that
-would require the aggregation of float samples with histogram samples. Such a
-removal is flagged by a warn-level annotation.
+above. The `avg` aggregation operator works in the same way, but divides the
+sum by the number of aggregated histograms (in the same way as described for
+the `/` operator above).
+
+Both `sum` and `avg` remove elements from the output vector that would require
+the aggregation of float samples with histogram samples. Such a removal is
+flagged by a warn-level annotation.
+
+Both `sum` and `avg` should only be applied to gauge histograms. PromQL allows
+to aggregate counter histograms (and even a mix of both), but it requires
+caution to do so in a meaningful way. The implications for the gauge vs.
+counter flavor and the resulting counter reset hint are derived from those for
+the `+` operator above:
+- If all aggregated histograms share the same counter reset hint, the result
+  retains that same counter reset hint.
+- If there is at least one gauge histogram among the aggregated histograms, the
+  result is a gauge histogram.
+- In all other cases, the counter reset hint of the result is set to
+  `UnknownCounterReset`.
+- In any case, any directly contradicting counter reset hints (i.e.
+  `CounterReset` and `NotCounterReset`) among the aggregated histograms trigger
+  a warn-level annotation.
 
 All other aggregation operators do _not_ work with native histograms.
 Histograms in the input vector are simply ignored, and an info-level annotation

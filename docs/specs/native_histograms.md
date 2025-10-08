@@ -514,10 +514,17 @@ the custom bucket with index zero will stay unpopulated and therefore will
 never be represented explicitly. The only cost is the additional zero element
 at the beginning of the custom values list.)
 
-The last custom value MUST NOT be `+Inf`. Observations greater than the last
-custom value go into an overflow bucket with an upper boundary of `+Inf`. This
-overflow bucket is added with an index equal to the length of the custom
-values list.
+Custom values MUST NOT be `+Inf`. Observations greater than the last custom
+value go into an overflow bucket with an upper boundary of `+Inf`. This
+overflow bucket is added with an index equal to the length of the custom values
+list. As a consequence, the upper boundary of the `+Inf` bucket often included
+in classic histograms is not represented explicitly in the custom values.
+
+Custom values MUST NOT be `NaN`. This is explicitly excluded in OpenMetrics,
+but other exposition formats could, in principle, feature upper boundaries of
+`NaN` in classic histograms (presumably as a result of some error – such a
+boundary would not make any sense). Such a classic histogram MUST be rejected
+and cannot be converted into an NHCB.
 
 ### Exemplars
 
@@ -1401,9 +1408,9 @@ The most common case is a counter histogram being followed by another counter
 histogram. In this case, a possible counter reset is detected by the following
 procedure:
 
-If the two histograms differ in schema or in the zero bucket width, these
-changes could be part of a compatible resolution reduction (which happens
-regularly to [reduce the bucket count of a
+If the two histograms are both using a standard schema, but differ in schema or
+in the zero bucket width, these changes could be part of a compatible
+resolution reduction (which happens regularly to [reduce the bucket count of a
 histogram](#limit-the-bucket-count)). Both of the following is true for a
 compatible resolution reduction:
 
@@ -1425,10 +1432,13 @@ happens in the same way as [previously described](#limit-the-bucket-count):
 Neighboring buckets are merged to reduce the schema, and regular buckets are
 merged with the zero bucket to increase the width of the zero bucket.
 
+If both histograms are NHCBs (schema -53), any difference in their custom
+values is reconciled as described [below](#compatibility-between-histograms).
+
 At this point in the procedure, both histograms have the same schema and zero
 bucket width, either because this was the case from the beginning, or because
-the first histogram was converted accordingly. (Note that NHCBs do not use the
-zero bucket. Their zero bucket widths and population counts are considered
+one of the histograms was converted accordingly. (Note that NHCBs do not use
+the zero bucket. Their zero bucket widths and population counts are considered
 equal for the sake of this procedure.) In this situation, any of the following
 constitutes a counter reset:
 
@@ -1437,10 +1447,6 @@ constitutes a counter reset:
 - A drop in the population count of any bucket, including the zero bucket. This
   includes the case where a populated bucket disappears, because a
   non-represented bucket is equivalent to a bucket with a population of zero.
-- Any change of the custom values. This only applies for schemas that use
-  custom values (currently schema -53, i.e. NHCB). (TODO: In principle, there
-  could be a concept of compatible bucket changes in NHCBs, too, but such a
-  concept is not implemented yet.)
 
 If none of the above is the case, there is no counter reset.
 

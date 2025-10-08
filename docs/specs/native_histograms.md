@@ -1166,8 +1166,18 @@ histogram. Via the boolean scrape config option
 `convert_classic_histograms_to_nhcb`, Prometheus can be configured to ingest
 classic histograms as NHCBs.
 
-NHCBs have the same issue with limited mergeability as classic histograms, but
-they are generally much less expensive to store.
+While NHCBs support [automatic reconciliation between different bucket
+layouts](#compatibility-between-histograms), their mergeability is still
+fundamentally limited. The reconciliation only retains exact matches of bucket
+boundaries between the involved NHCBs. This yields useful results, if most
+bucket boundaries match. However, abitrary changes in the bucket layout can
+easily create a situation where none of the boundaries match, resulting in a
+histogram with only one bucket (the overflow bucket).
+
+A key advantage of NHCBs is that they are generally much less expensive to
+store. In particular, the incremental cost of adding additional buckets is
+relatively low, which allows affordable ingestion of classic histograms with
+many buckets.
 
 ## TSDB
 
@@ -1671,14 +1681,21 @@ retrieved from the TSDB.
 ### Compatibility between histograms
 
 When an operator or function acts on two or more native histograms, the
-histograms involved need to have the same schema and zero bucket width. Within
-certain limits, histograms can be converted on the fly to meet these
-compatibility criteria:
+histograms involved need to have the same schema, the same zero bucket width,
+and (if applicable) the same custom values. Within certain limits, histograms
+can be converted on the fly to meet these compatibility criteria:
 
-- An NHCB (schema -53) is only ever compatible with other NHCBs that also MUST
-  have the exact same custom values. (In principle, there are possible
-  differences in custom values that could be reconciled, but PromQL doesn't yet
-  consider those.)
+- NHCBs (schema -53) are only compatible with each other. Different custom
+  values need to be reconciled by conversion in the following way:
+  - Identify the custom values that are present in each of the original NHCBs.
+    These are the new reconciled custom values.
+  - Convert each original NHCB to the new custom values by merging its buckets
+    into the unified bucket set described by the new custom values.
+  - Note that it is easily possible that the original NHCBs do not share any
+    custom values. In this case, the new bucket set will only consist of the
+    overflow bucket, taking all observations from all of the original buckets.
+  - Any query requiring reconciliation of custom values is flagged with an
+    info-level annotation.
 - Histograms with standard schemas can always be converted to the
   smallest (i.e. lowest resolution) common schema by decreasing the resolution
   of the histograms with greater schemas (i.e. higher resolution). This happens

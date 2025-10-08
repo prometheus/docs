@@ -374,14 +374,15 @@ SIGN = "-" / "+"
 metricname = metricname-initial-char 0*metricname-char
 metricname-char = metricname-initial-char / DIGIT
 metricname-initial-char = ALPHA / "_" / ":"
-metricname-utf8 = DQUOTE escaped-string DQUOTE
+metricname-utf8 = DQUOTE escaped-string-non-empty DQUOTE
 
-label-key = label-name / DQUOTE escaped-string DQUOTE
+label-key = label-name / DQUOTE escaped-string-non-empty DQUOTE
 label-name = label-name-initial-char *label-name-char
 label-name-char = label-name-initial-char / DIGIT
 label-name-initial-char = ALPHA / "_"
 
-escaped-string = 1*escaped-char
+escaped-string = escaped-char
+escaped-string-non-empty = 1*escaped-char
 
 escaped-char = normal-char
 escaped-char =/ BS ("n" / DQUOTE / BS)
@@ -950,7 +951,7 @@ For high availability and ad-hoc access a common approach is to have multiple in
 # EDITOR’S NOTE:  This section might be good for a BCP paper.
 -->
 
-We aim for a balance between understandability, avoiding clashes, and succinctness in the naming of metrics and label names. Names are separated through underscores, so metric names end up being in “snake_case”.
+We aim for a balance between understandability, avoiding clashes, and succinctness in the naming of metrics and label names. Names are separated through underscores, so metric names end up being in “snake_case”. While we strongly recommend the practices recommended in this document, other metric systems have different philosophies regarding naming conventions. OpenMetrics allows metrics to be exposed, but without the conventions and suffixes recommended here there is an increased risk of collisions and incompatibilities along the chain of services in a metrics system. Users wishing to use alternative conventions will need to take special care and expend additional effort to ensure that the entire ecosystem is consistent.
 
 To take an example "http_request_seconds" is succinct but would clash between large numbers of applications, and it's also unclear exactly what this metric is measuring. For example, it might be before or after auth middleware in a complex system.
 
@@ -990,7 +991,7 @@ While there is metadata about metric names such as HELP, TYPE and UNIT there is 
 
 ### Metric Names versus Labels
 
-There are situations in which both using multiple Metrics within a MetricFamily or multiple MetricFamilies seem to make sense. Summing or averaging aMetricFamily should be meaningful even if it's not always useful. For example, mixing voltage and fan speed is not meaningful.
+There are situations in which both using multiple Metrics within a MetricFamily or multiple MetricFamilies seem to make sense. Summing or averaging a MetricFamily should be meaningful even if it's not always useful. For example, mixing voltage and fan speed is not meaningful.
 
 As a reminder, OpenMetrics is built with the assumption that ingestors can process and perform aggregations on data.
 

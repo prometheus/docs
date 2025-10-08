@@ -2371,11 +2371,14 @@ be possible, at least in principle, once native histograms are supported in
 that format, but federation via protobuf is preferred for efficiency reasons
 anyway.
 
-NHCBs are rendered as classic histograms when exposed via the federation
+TODO: Update once OM supports NH.
+
+NHCBs are rendered as classic float histograms when exposed via the federation
 endpoint. Scrapers have the option of converting them back to NHCBs or ingest
 them as classic histograms. The latter could lead to naming collisions, though.
-
-TODO: Update once OM supports NH.
+Note that OpenMetrics v1 does not support classic float histograms.
+Fortunately, Prometheus federation does not use OpenMetrics v1 anyway, but
+either the protobuf format or the classic text format.
 
 ## OTLP
 

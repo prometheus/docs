@@ -1,0 +1,1 @@
+-e git+https://github.com/declaresub/abnf.git@6dc48bc44219e523c2a21ec7a09c104d991b09d0#egg=abnf # 2.3.1

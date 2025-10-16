@@ -1,5 +1,5 @@
 ---
-title: Native Histograms [EXPERIMENTAL]
+title: Native Histograms
 sort_rank: 1
 ---
 
@@ -8,8 +8,8 @@ They are a concept that touches almost every part of the Prometheus stack. The
 first version of the Prometheus server supporting native histograms was
 v2.40.0. The support had to be enabled via a feature flag
 `--enable-feature=native-histograms`. (TODO: This is still the case with the
-current release v2.55 and v3.00. Update this section with the stable release,
-once it has happened.)
+current release v2.xx and v3.xx. Update this section once native histograms are
+enabled by default.)
 
 Due to the pervasive nature of the changes related to native histograms, the
 documentation of those changes and explanation of the underlying concepts are
@@ -330,7 +330,7 @@ If, after this optional schema conversion, the schema is still unknown to the
 receiver, there are the following options:
 
 - If a scrape (including federation) contains one or more histograms with an
-  unknown schema, the entiry scrape MUST fail, following the Prometheus
+  unknown schema, the entire scrape MUST fail, following the Prometheus
   practice of avoiding incomplete scrapes.
 - For any other ingestion paths (including replaying the WAL/WBL), the receiver
   MAY ignore histograms with unknown schemas and SHOULD notify the user about
@@ -655,7 +655,6 @@ message Histogram {
   google.protobuf.Timestamp created_timestamp = 15;
 
   // Everything below here is for native histograms (also known as sparse histograms).
-  // Native histograms are an experimental feature without stability guarantees.
 
   // schema defines the bucket schema. Currently, valid numbers are -4 <= n <= 8.
   // They are all for base-2 bucket schemas, where 1 is a bucket boundary in each case, and
@@ -1564,7 +1563,7 @@ detection between two samples has happened upon ingestion, it either has to
 perform another counter reset detection or it has to return a
 `CounterResetHint` of `UnknownCounterReset` for the second sample.
 
-Note that there is the possiblity of counter resets that are not detected by
+Note that there is the possibility of counter resets that are not detected by
 the procedure described above, namely if the counts in the reset histogram have
 increased quickly enough so that the 1st sample after the counter reset has no
 counts that have decreased compared to the last sample prior to the counter
@@ -1627,7 +1626,7 @@ is then possible in an efficient way:
    the last successfully appended exemplar (which might be from the previous
    scrape for the same metric).
 4. The append succeeds for exemplars that would be sorted after the last
-   successfully appendend exemplar.
+   successfully appended exemplar.
 
 Exemplars are only counted as out of order if all exemplars of an ingested
 histogram would be sorted before the last successfully appended exemplar. This
@@ -1744,7 +1743,7 @@ schemas, linear interpolation can be seen as a misfit. While exponential
 schemas primarily intend to minimize the relative error of quantile
 estimations, they also benefit from a balanced usage of buckets, at least over
 certain ranges of observed values. The basic assumption is that for most
-practically occurring destributions, the density of observations tends to be
+practically occurring distributions, the density of observations tends to be
 higher for smaller observed values. Therefore, PromQL uses exponential
 extrapolation for the standard schemas, which models the assumption
 that dividing a bucket into two when increasing the schema number by one (i.e.
@@ -1935,7 +1934,7 @@ To prevent extrapolation below zero, the same heuristics is applied as for
 but solely based on the count of observations. Therefore, individual buckets
 might still be extrapolated below zero in some cases. An alternative could have
 been to find the smallest extrapolation where neither the count nor any bucket
-would be extropolated below zero. However, this does not necessarily lead to a
+would be extrapolated below zero. However, this does not necessarily lead to a
 better heuristics while inflicting a significant cost in complexity. In the
 common and important case where the first sample in the range is a synthetic
 zero sample derived from the created-at timestamp, the limited extrapolation
@@ -2118,7 +2117,7 @@ float values in the original histogram.
 Alerts work as usual with native histograms. However, it is RECOMMENDED to
 avoid native histograms as output values for alerts. If native histogram
 samples are used in templates, they are [rendered in their simple text
-form](#template-expansion) (as producted by the Go `FloatHistogram.String`
+form](#template-expansion) (as produced by the Go `FloatHistogram.String`
 method), which is hard to read for humans.
 
 ### Testing framework
@@ -2320,11 +2319,10 @@ Example for the text representation of a float histogram:
 
 The [protobuf specs for remote-write &
 remote-read](https://github.com/prometheus/prometheus/blob/main/prompb) were
-extended for native histograms as an experimental feature. Receivers not
-capable of processing native histograms will simply ignore the newly added
-fields. Nevertheless, Prometheus has to be configured to send native histograms
-via remote-write (by setting the `send_native_histograms` remote-write config
-setting to true).
+extended for native histograms. Receivers not capable of processing native
+histograms will simply ignore the newly added fields. Nevertheless, Prometheus
+has to be configured to send native histograms via remote-write (by setting the
+`send_native_histograms` remote-write config setting to true).
 
 In [remote-write v2](https://prometheus.io/docs/specs/remote_write_spec_2_0/),
 native histograms are a stable feature.

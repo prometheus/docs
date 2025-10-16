@@ -504,15 +504,15 @@ their upper boundary within the custom values list.
 
 The lower exclusive boundary is defined by the custom value preceding the upper
 boundary. For the first custom value (at position zero in the list), there is
-no preceding value, in which case the lower boundary is considered to be
-`-Inf`. Therefore, the custom bucket with index zero counts all observations
-between `-Inf` and the first custom value. In the common case that only
-positive observations are expected, the custom bucket with index zero SHOULD
-have an upper boundary of zero to clearly mark if there have been any
-observations at zero or below. (If there are indeed only positive observations,
-the custom bucket with index zero will stay unpopulated and therefore will
-never be represented explicitly. The only cost is the additional zero element
-at the beginning of the custom values list.)
+no preceding value, in which case the lower boundary is considered to be `-Inf`
+inclusively. Therefore, the custom bucket with index zero counts all
+observations between (and including) `-Inf` and the first custom value. In the
+common case that only positive observations are expected, the custom bucket
+with index zero SHOULD have an upper boundary of zero to clearly mark if there
+have been any observations at zero or below. (If there are indeed only positive
+observations, the custom bucket with index zero will stay unpopulated and
+therefore will never be represented explicitly. The only cost is the additional
+zero element at the beginning of the custom values list.)
 
 Custom values MUST NOT be `+Inf`. Observations greater than the last custom
 value go into an overflow bucket with an upper boundary of `+Inf`. This
@@ -1687,7 +1687,7 @@ can be converted on the fly to meet these compatibility criteria:
 
 - NHCBs (schema -53) are only compatible with each other. Different custom
   values need to be reconciled by conversion in the following way:
-  - Identify the custom values that are present in each of the original NHCBs.
+  - Identify the custom values that are shared by all of the original NHCBs.
     These are the new reconciled custom values.
   - Convert each original NHCB to the new custom values by merging its buckets
     into the unified bucket set described by the new custom values.

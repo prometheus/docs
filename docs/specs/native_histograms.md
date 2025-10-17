@@ -7,9 +7,16 @@ Native histograms were introduced as an experimental feature in November 2022.
 They are a concept that touches almost every part of the Prometheus stack. The
 first version of the Prometheus server supporting native histograms was
 v2.40.0. The support had to be enabled via a feature flag
-`--enable-feature=native-histograms`. (TODO: This is still the case with the
-current release v2.xx and v3.xx. Update this section once native histograms are
-enabled by default.)
+`--enable-feature=native-histograms`. Starting with v3.8.0, native histograms
+are supported as a stable feature. However, scraping native histograms still has
+to be activated explicitly via the `scrape_native_histograms` configuration
+setting. To ease transition from the feature flag to the configuration setting,
+setting the feature flag in v3.8 has the only remaining effect to set
+`scrape_native_histograms` to `true` by default. Starting with v3.9, the feature
+flag is a true no-op and explicitly setting `scrape_native_histograms` is
+required. Sending over Remote-Write needs to be enabled with by the
+`send_native_histograms` remote write config. (TODO: let the options be enabled
+by default in 4.0.)
 
 Due to the pervasive nature of the changes related to native histograms, the
 documentation of those changes and explanation of the underlying concepts are
@@ -35,11 +42,10 @@ In those parts, the key words “MUST”, “MUST NOT”, “REQUIRED”, “SHA
 NOT”, “SHOULD”, “SHOULD NOT”, “RECOMMENDED”, “MAY”, and “OPTIONAL” are used as
 described in [RFC 2119](https://datatracker.ietf.org/doc/html/rfc2119).
 
-This document still contains a lot of TODOs. In most cases, they are not just
-referring to incompleteness of this doc but more importantly to incomplete
-implementation or open questions. For now, this is essentially a living
-document that will receive updates as implementations and specifications catch
-up.
+This document still contains a lot of TODOs even though the feature is
+considered stable and we don't expect breaking changes before v4.0.0. These
+TODOs are reminders for completing the documentation, fixing minor issues and
+setting out future changes.
 
 ## Introduction
 
@@ -994,35 +1000,33 @@ libraries might happen in the future.
 
 ## Scrape configuration
 
-To enable the Prometheus server to scrape native histograms, the feature flag
-`--enable-feature=native-histograms` is required. This flag also changes the
-content negotiation to prefer the classic protobuf-based exposition format over
-the OpenMetrics text format. (TODO: This behavior will change once native
-histograms are a stable feature.)
+To enable the Prometheus server to scrape native histograms, set
+`scrape_native_histograms: true` in individual scrape configs, or in the
+global settings. Enabling `scrape_native_histograms` also changes the content
+negotiation to prefer classic protobuf-based exposition format over the
+OpenMetrics 1.x text format.
 
 ### Fine-tuning content negotiation
 
-With Prometheus v2.49 and later, it is possible to fine-tune the scrape
-protocol negotiation globally or per scrape config via the `scrape_protocols`
-config setting. It is a list defining the content negotiation priorities. Its
-default value depends on the `--enable-feature=native-histograms` flag. If the
-flag is set, it is `[ PrometheusProto, OpenMetricsText1.0.0,
-OpenMetricsText0.0.1, PrometheusText0.0.4 ]`, otherwise the first element,
-`PrometheusProto` is removed from the list, resulting in `[
-OpenMetricsText1.0.0, OpenMetricsText0.0.1, PrometheusText0.0.4 ]`. These
-default values result in the behavior described above, i.e. protobuf is unused
-without the `--enable-feature=native-histograms` flag, while it is the first
-priority with the flag set.
+It is possible to fine-tune the scrape protocol negotiation globally or per
+scrape config via the `scrape_protocols` config setting. It is a list defining
+the content negotiation priorities. Its value depends on what feature flags are
+enable (for example `--enable-feature=created-timestamp-zero-ingestion`), what
+value the user sets in it directly and lastly whether
+`scrape_native_histograms` is enabled.
 
-The setting can be used to configure protobuf scrapes without ingesting native
-histograms or enforce a non-protobuf format for certain targets even with the
-`--enable-feature=native-histograms` flag set. As long as the classic
+If `scrape_native_histograms` is enabled and `scrape_protocols` is not set by
+a feature flag or the user locally or per scrape config, then its effective
+value for a scrape config is changed to
+`[ PrometheusProto, OpenMetricsText1.0.0,OpenMetricsText0.0.1, PrometheusText0.0.4 ]`
+to enable scraping native histograms.
+
+The `scrape_protocols` setting can be used to configure protobuf scrapes without
+ingesting native histograms or enforce a non-protobuf format for certain targets
+even with `scrape_native_histograms` enabled. As long as the classic
 Prometheus protobuf format (`PrometheusProto` in the configured list) is the
-only format supporting native histograms, both the feature flag and negotiation
-of protobuf is required to actually ingest native histograms.
-
-(TODO: Update this section once native histograms are a stable feature or native
-histograms are supported by other formats.)
+only format supporting native histograms, both `scrape_native_histograms` and
+negotiation of protobuf is required to actually ingest native histograms.
 
 NOTE: Switching the used exposition format between text-based and
 protobuf-based has some non-obvious implications. Most importantly, certain
@@ -1129,10 +1133,10 @@ some parts are even shared (like the count and sum of observations). This
 section explains which parts will be scraped by Prometheus, and how to control
 the behavior.
 
-Without the `--enable-feature=native-histograms` flag, Prometheus will
-completely ignore the native histogram parts during scraping. (TODO: Update
-once the feature flag has been no-op'd.) With the flag set, Prometheus will
-prefer the native histogram parts over the classic histogram parts, even if
+Without `scrape_native_histograms` being enabled in scrape config, Prometheus
+will completely ignore the native histogram parts during scraping. (TODO: Update
+once feature is opt-out in 4.0) With `scrape_native_histograms` set, Prometheus
+will prefer the native histogram parts over the classic histogram parts, even if
 both are exposed for the same histogram. Prometheus will still scrape the
 classic histogram parts for histograms with no native histogram data.
 

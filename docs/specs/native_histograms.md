@@ -504,20 +504,27 @@ their upper boundary within the custom values list.
 
 The lower exclusive boundary is defined by the custom value preceding the upper
 boundary. For the first custom value (at position zero in the list), there is
-no preceding value, in which case the lower boundary is considered to be
-`-Inf`. Therefore, the custom bucket with index zero counts all observations
-between `-Inf` and the first custom value. In the common case that only
-positive observations are expected, the custom bucket with index zero SHOULD
-have an upper boundary of zero to clearly mark if there have been any
-observations at zero or below. (If there are indeed only positive observations,
-the custom bucket with index zero will stay unpopulated and therefore will
-never be represented explicitly. The only cost is the additional zero element
-at the beginning of the custom values list.)
+no preceding value, in which case the lower boundary is considered to be `-Inf`
+inclusively. Therefore, the custom bucket with index zero counts all
+observations between (and including) `-Inf` and the first custom value. In the
+common case that only positive observations are expected, the custom bucket
+with index zero SHOULD have an upper boundary of zero to clearly mark if there
+have been any observations at zero or below. (If there are indeed only positive
+observations, the custom bucket with index zero will stay unpopulated and
+therefore will never be represented explicitly. The only cost is the additional
+zero element at the beginning of the custom values list.)
 
-The last custom value MUST NOT be `+Inf`. Observations greater than the last
-custom value go into an overflow bucket with an upper boundary of `+Inf`. This
-overflow bucket is added with an index equal to the length of the custom
-values list.
+Custom values MUST NOT be `+Inf`. Observations greater than the last custom
+value go into an overflow bucket with an upper boundary of `+Inf`. This
+overflow bucket is added with an index equal to the length of the custom values
+list. As a consequence, the upper boundary of the `+Inf` bucket often included
+in classic histograms is not represented explicitly in the custom values.
+
+Custom values MUST NOT be `NaN`. This is explicitly excluded in OpenMetrics,
+but other exposition formats could, in principle, feature upper boundaries of
+`NaN` in classic histograms (presumably as a result of some error – such a
+boundary would not make any sense). Such a classic histogram MUST be rejected
+and cannot be converted into an NHCB.
 
 ### Exemplars
 
@@ -1159,8 +1166,18 @@ histogram. Via the boolean scrape config option
 `convert_classic_histograms_to_nhcb`, Prometheus can be configured to ingest
 classic histograms as NHCBs.
 
-NHCBs have the same issue with limited mergeability as classic histograms, but
-they are generally much less expensive to store.
+While NHCBs support [automatic reconciliation between different bucket
+layouts](#compatibility-between-histograms), their mergeability is still
+fundamentally limited. The reconciliation only retains exact matches of bucket
+boundaries between the involved NHCBs. This yields useful results, if most
+bucket boundaries match. However, abitrary changes in the bucket layout can
+easily create a situation where none of the boundaries match, resulting in a
+histogram with only one bucket (the overflow bucket).
+
+A key advantage of NHCBs is that they are generally much less expensive to
+store. In particular, the incremental cost of adding additional buckets is
+relatively low, which allows affordable ingestion of classic histograms with
+many buckets.
 
 ## TSDB
 
@@ -1401,9 +1418,9 @@ The most common case is a counter histogram being followed by another counter
 histogram. In this case, a possible counter reset is detected by the following
 procedure:
 
-If the two histograms differ in schema or in the zero bucket width, these
-changes could be part of a compatible resolution reduction (which happens
-regularly to [reduce the bucket count of a
+If the two histograms are both using a standard schema, but differ in schema or
+in the zero bucket width, these changes could be part of a compatible
+resolution reduction (which happens regularly to [reduce the bucket count of a
 histogram](#limit-the-bucket-count)). Both of the following is true for a
 compatible resolution reduction:
 
@@ -1425,10 +1442,13 @@ happens in the same way as [previously described](#limit-the-bucket-count):
 Neighboring buckets are merged to reduce the schema, and regular buckets are
 merged with the zero bucket to increase the width of the zero bucket.
 
+If both histograms are NHCBs (schema -53), any difference in their custom
+values is reconciled as described [below](#compatibility-between-histograms).
+
 At this point in the procedure, both histograms have the same schema and zero
 bucket width, either because this was the case from the beginning, or because
-the first histogram was converted accordingly. (Note that NHCBs do not use the
-zero bucket. Their zero bucket widths and population counts are considered
+one of the histograms was converted accordingly. (Note that NHCBs do not use
+the zero bucket. Their zero bucket widths and population counts are considered
 equal for the sake of this procedure.) In this situation, any of the following
 constitutes a counter reset:
 
@@ -1437,10 +1457,6 @@ constitutes a counter reset:
 - A drop in the population count of any bucket, including the zero bucket. This
   includes the case where a populated bucket disappears, because a
   non-represented bucket is equivalent to a bucket with a population of zero.
-- Any change of the custom values. This only applies for schemas that use
-  custom values (currently schema -53, i.e. NHCB). (TODO: In principle, there
-  could be a concept of compatible bucket changes in NHCBs, too, but such a
-  concept is not implemented yet.)
 
 If none of the above is the case, there is no counter reset.
 
@@ -1665,14 +1681,21 @@ retrieved from the TSDB.
 ### Compatibility between histograms
 
 When an operator or function acts on two or more native histograms, the
-histograms involved need to have the same schema and zero bucket width. Within
-certain limits, histograms can be converted on the fly to meet these
-compatibility criteria:
+histograms involved need to have the same schema, the same zero bucket width,
+and (if applicable) the same custom values. Within certain limits, histograms
+can be converted on the fly to meet these compatibility criteria:
 
-- An NHCB (schema -53) is only ever compatible with other NHCBs that also MUST
-  have the exact same custom values. (In principle, there are possible
-  differences in custom values that could be reconciled, but PromQL doesn't yet
-  consider those.)
+- NHCBs (schema -53) are only compatible with each other. Different custom
+  values need to be reconciled by conversion in the following way:
+  - Identify the custom values that are shared by all of the original NHCBs.
+    These are the new reconciled custom values.
+  - Convert each original NHCB to the new custom values by merging its buckets
+    into the unified bucket set described by the new custom values.
+  - Note that it is easily possible that the original NHCBs do not share any
+    custom values. In this case, the new bucket set will only consist of the
+    overflow bucket, taking all observations from all of the original buckets.
+  - Any query requiring reconciliation of custom values is flagged with an
+    info-level annotation.
 - Histograms with standard schemas can always be converted to the
   smallest (i.e. lowest resolution) common schema by decreasing the resolution
   of the histograms with greater schemas (i.e. higher resolution). This happens
@@ -1881,15 +1904,30 @@ histogram samples (for the reason stated in parentheses):
 - `limitk` (The sampled elements are returned unchanged.)
 - `limit_ratio` (The sampled elements are returned unchanged.)
 
-The `sum` aggregation operator work with native histograms by summing up the
+The `sum` aggregation operator works with native histograms by summing up the
 histogram to be aggregated in the same way as described for the `+` operator
-above, including the implications regarding counter vs. gauge histograms.
-(Generally, only gauge histograms should be aggregated in this way.) The `avg`
-aggregation operator works in the same way, but divides the sum by the number
-of aggregated histogram (in the same way as described for the `/` operator
-above). Both aggregation operators remove elements from the output vector that
-would require the aggregation of float samples with histogram samples. Such a
-removal is flagged by a warn-level annotation.
+above. The `avg` aggregation operator works in the same way, but divides the
+sum by the number of aggregated histograms (in the same way as described for
+the `/` operator above).
+
+Both `sum` and `avg` remove elements from the output vector that would require
+the aggregation of float samples with histogram samples. Such a removal is
+flagged by a warn-level annotation.
+
+Both `sum` and `avg` should only be applied to gauge histograms. PromQL allows
+to aggregate counter histograms (and even a mix of both), but it requires
+caution to do so in a meaningful way. The implications for the gauge vs.
+counter flavor and the resulting counter reset hint are derived from those for
+the `+` operator above:
+- If all aggregated histograms share the same counter reset hint, the result
+  retains that same counter reset hint.
+- If there is at least one gauge histogram among the aggregated histograms, the
+  result is a gauge histogram.
+- In all other cases, the counter reset hint of the result is set to
+  `UnknownCounterReset`.
+- In any case, any directly contradicting counter reset hints (i.e.
+  `CounterReset` and `NotCounterReset`) among the aggregated histograms trigger
+  a warn-level annotation.
 
 All other aggregation operators do _not_ work with native histograms.
 Histograms in the input vector are simply ignored, and an info-level annotation
@@ -2348,11 +2386,14 @@ be possible, at least in principle, once native histograms are supported in
 that format, but federation via protobuf is preferred for efficiency reasons
 anyway.
 
-NHCBs are rendered as classic histograms when exposed via the federation
+TODO: Update once OM supports NH.
+
+NHCBs are rendered as classic float histograms when exposed via the federation
 endpoint. Scrapers have the option of converting them back to NHCBs or ingest
 them as classic histograms. The latter could lead to naming collisions, though.
-
-TODO: Update once OM supports NH.
+Note that OpenMetrics v1 does not support classic float histograms.
+Fortunately, Prometheus federation does not use OpenMetrics v1 anyway, but
+either the protobuf format or the classic text format.
 
 ## OTLP
 

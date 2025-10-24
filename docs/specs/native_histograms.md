@@ -15,7 +15,8 @@ setting the feature flag in v3.8 has the only remaining effect to set
 `scrape_native_histograms` to `true` by default. Starting with v3.9, the feature
 flag is a true no-op and explicitly setting `scrape_native_histograms` is
 required. Sending over Remote-Write needs to be enabled with by the
-`send_native_histograms` remote write config. (From v4 on, both `scrape_native_histograms` and `send_native_histograms` will default to `true`.)
+`send_native_histograms` remote write config. (From v4 on, both
+`scrape_native_histograms` and `send_native_histograms` will default to `true`.)
 
 Due to the pervasive nature of the changes related to native histograms, the
 documentation of those changes and explanation of the underlying concepts are
@@ -1139,11 +1140,12 @@ some parts are even shared (like the count and sum of observations). This
 section explains which parts will be scraped by Prometheus, and how to control
 the behavior.
 
-If `scrape_native_histograms` is `false` (default in v3) in the scrape config, Prometheus
-will completely ignore the native histogram parts during scraping. If `scrape_native_histograms` is `true` (default in v4+), Prometheus
-will prefer the native histogram parts over the classic histogram parts, even if
-both are exposed for the same histogram. Prometheus will still scrape the
-classic histogram parts for histograms with no native histogram data.
+If `scrape_native_histograms` is `false` (default in v3) in the scrape config,
+Prometheus will completely ignore the native histogram parts during scraping. If
+`scrape_native_histograms` is `true` (default in v4+), Prometheus will prefer
+the native histogram parts over the classic histogram parts, even if both are
+exposed for the same histogram. Prometheus will still scrape the classic
+histogram parts for histograms with no native histogram data.
 
 In situations like [migration scenarios](#migration-considerations), it might
 be desired to scrape both versions, classic and native, for the same histogram,
@@ -2063,14 +2065,14 @@ histograms:
 All these functions silently ignore float samples as input. Each function
 returns a vector of float samples.
 
-`histogram_count()` and `histogram_sum()` return the count of observations or the sum of
-observations, respectively, that are contained in a native histogram. As they are normal
-functions, their result cannot be used in a range selector. Instead of using
-sub-queries, the recommended way to calculate a rate of the count or the sum of
-observations is to first rate the histogram and then apply `histogram_count()`
-or `histogram_sum()` to the result. For example, the following query calculates
-the rate of observations (in this case corresponding to “requests per second”)
-from a native histogram:
+`histogram_count()` and `histogram_sum()` return the count of observations or
+the sum of observations, respectively, that are contained in a native histogram.
+As they are normal functions, their result cannot be used in a range selector.
+Instead of using sub-queries, the recommended way to calculate a rate of the
+count or the sum of observations is to first rate the histogram and then apply
+`histogram_count()` or `histogram_sum()` to the result. For example, the
+following query calculates the rate of observations (in this case corresponding
+to “requests per second”) from a native histogram:
 ```
 histogram_count(rate(http_request_duration_seconds[10m]))
 ```
@@ -2086,8 +2088,10 @@ averaged histogram.)
 
 Similarly, `histogram_stddev()` and `histogram_stdvar()` return the estimated
 standard deviation or standard variance, respectively, of the observations in a
-native histogram. For this estimation, all observations in a bucket are assumed to
-have the value of the mean of the bucket boundaries. For the zero bucket and for buckets with custom boundaries, the arithmetic mean is used. For standard exponential buckets, the geometric mean is used.
+native histogram. For this estimation, all observations in a bucket are assumed
+to have the value of the mean of the bucket boundaries. For the zero bucket and
+for buckets with custom boundaries, the arithmetic mean is used. For standard
+exponential buckets, the geometric mean is used.
 
 `histogram_fraction(lower, upper, histogram)` returns the estimated fraction of
 observations in `histogram` between the provided boundaries, the scalar values
@@ -2097,8 +2101,8 @@ aligned with the bucket boundaries in the histogram. `+Inf` and `-Inf` are
 valid boundary values and useful to estimate the fraction of all observations
 above or below a certain value. However, observations of value `NaN` are always
 considered to be outside of the specified boundaries (even `+Inf` and `-Inf`).
-Whether the provided boundaries are inclusive or exclusive is only relevant if the
-provided boundaries are precisely aligned with bucket boundaries in the
+Whether the provided boundaries are inclusive or exclusive is only relevant if
+the provided boundaries are precisely aligned with bucket boundaries in the
 underlying native histogram. In this case, the behavior depends on the precise
 definition of the schema of the histogram.
 
@@ -2110,10 +2114,10 @@ smallest value for `y`, it follows that `y<=x` in general. Consider the case
 when 90% of the observations are `NaN`. Then the maximum value of
 `histogram_fraction` is `0.1` since `histogram_fraction` considers `NaN`
 observations outside any bucket. If for example
-`histogram_quantile(0.5, histogram)` returned any real number `y`, then according
-to the argument above, we should find some number `x` for which `y<=x` and
-`histogram_fraction(-Inf, x, histogram)` is equal to `0.5`, however this doesn't
-happen for any `y`, which is the reason we return `NaN` if the result of
+`histogram_quantile(0.5, histogram)` returned any real number `y`, then
+according to the argument above, we should find some number `x` for which `y<=x`
+and `histogram_fraction(-Inf, x, histogram)` is equal to `0.5`, however this
+doesn't happen for any `y`, which is the reason we return `NaN` if the result of
 `histogram_quantile` would be outside all buckets.
 
 The following functions do not interact directly with sample values and

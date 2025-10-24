@@ -111,11 +111,21 @@ otlp:
 
 ## Including resource attributes at query time
 
-All non-promoted, more verbose or unique labels are attached to a special `target_info`.
+All OTel resource attributes, by default excepting `service.instance.id`, `service.namespace`, and `service.name`, are translated to labels on the special `target_info` metric.
+This means that, for OTel resource attributes you are not promoting, you can still include the corresponding labels in your queries, through joining with `target_info`.
+To accomplish this, we recommend enabling the experimental PromQL function `info` for easy joining via the following flag:
 
-You can use this metric to join some labels on query time.
+```shell
+--enable-feature=promql-experimental-functions
+```
 
 An example of such a query can look like the following:
+
+```promql
+info(rate(http_server_request_duration_seconds_count[2m]), {k8s_cluster_name=~".+"})
+```
+
+Alternately, the same thing can be accomplished through a raw join query:
 
 ```promql
 rate(http_server_request_duration_seconds_count[2m])
@@ -123,16 +133,19 @@ rate(http_server_request_duration_seconds_count[2m])
 target_info
 ```
 
-What happens in this query is that the time series resulting from `rate(http_server_request_duration_seconds_count[2m])` are augmented with the `k8s_cluster_name` label from the `target_info` series that share the same `job` and `instance` labels.
+What happens in the two above queries is that the time series resulting from `rate(http_server_request_duration_seconds_count[2m])` are augmented with the `k8s_cluster_name` label from the `target_info` series that share the same `job` and `instance` labels.
 In other words, the `job` and `instance` labels are shared between `http_server_request_duration_seconds_count` and `target_info`, akin to SQL foreign keys.
-The `k8s_cluster_name` label, On the other hand, corresponds to the OTel resource attribute `k8s.cluster.name` (Prometheus converts dots to underscores).
+The `k8s_cluster_name` label, on the other hand, corresponds to the OTel resource attribute `k8s.cluster.name` (Prometheus converts dots to underscores, unless configured otherwise).
+
+Be aware though that the `info` function is generally more performant than raw join queries, because it only selects `target_info` series with matching `job` and `instance` labels.
 
 So, what is the relation between the `target_info` metric and OTel resource attributes?
 When Prometheus processes an OTLP write request, and provided that contained resources include the attributes `service.instance.id` and/or `service.name`, Prometheus generates the info metric `target_info` for every (OTel) resource.
 It adds to each such `target_info` series the label `instance` with the value of the `service.instance.id` resource attribute, and the label `job` with the value of the `service.name` resource attribute.
 If the resource attribute `service.namespace` exists, it's prefixed to the `job` label value (i.e., `<service.namespace>/<service.name>`).
 
-By default `service.name`, `service.namespace` and `service.instance.id` themselves are not added to `target_info`, because they are converted into `job` and `instance`. However the following configuration parameter can be enabled to add them to `target_info` directly (going through normalization to replace dots with underscores, if `otlp.translation_strategy` is `UnderscoreEscapingWithSuffixes`) on top of the conversion into `job` and `instance`.
+By default `service.name`, `service.namespace`, and `service.instance.id` themselves are not added to `target_info`, because they are converted into `job` and `instance`.
+However, the following configuration parameter can be enabled to add them to `target_info` directly (going through normalization to replace dots with underscores, if `otlp.translation_strategy` is `UnderscoreEscapingWithSuffixes`) on top of the conversion into `job` and `instance`.
 
 ```
 otlp:
@@ -142,7 +155,7 @@ otlp:
 The rest of the resource attributes are also added as labels to the `target_info` series, names converted to Prometheus format (e.g. dots converted to underscores) if `otlp.translation_strategy` is `UnderscoreEscapingWithSuffixes`.
 If a resource lacks both `service.instance.id` and `service.name` attributes, no corresponding `target_info` series is generated.
 
-For each of a resource's OTel metrics, Prometheus converts it to a corresponding Prometheus time series, and (if `target_info` is generated) adds the right `instance` and `job` labels.
+For each of a resource's OTel metrics, Prometheus converts it to a corresponding Prometheus time series, and (if `target_info` is generated) adds the right `instance` and `job` labels to it.
 
 ## UTF-8
 

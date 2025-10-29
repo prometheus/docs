@@ -17,15 +17,15 @@ author:
 - ins: D. Ashpole
   name: David Ashpole
   organization: Google
-  email: TODO
+  email: dashpole@google.com
 - ins: G. Krajcsovits
   name: György Krajcsovits
   organization: Grafana Labs
-  email: TODO
+  email: krajo@prometheus.io
 - ins: O. Williams
   name: Owen Williams
   organization: Grafana Labs
-  email: TODO
+  email: owen.williams@grafana.com
 - ins: R. Hartmann
   name: Richard Hartmann
   organization: Grafana Labs

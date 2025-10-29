@@ -529,4 +529,4 @@ port allocations.
 
 Once you’re ready to announce your exporter to the world, email the
 mailing list and send a PR to add it to [the list of available
-exporters](https://github.com/prometheus/docs/blob/main/content/docs/instrumenting/exporters.md).
+exporters](https://github.com/prometheus/docs/blob/main/docs/instrumenting/exporters.md).

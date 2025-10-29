@@ -86,7 +86,7 @@ The current team members are:
 * Johannes Ziemke ([5π Consulting](https://5pi.de/))
 * Josh Abreu ([Grafana Labs](https://grafana.com/))
 * Julius Volz ([PromLabs](https://promlabs.com/))
-* Julien Pivotto ([Inuits](https://inuits.eu/))
+* Julien Pivotto ([Grafana Labs](https://grafana.com/))
 * Kemal Akkoyun (independent)
 * Matthias Loibl ([Polar Signals](https://www.polarsignals.com/))
 * Matthias Rampke ([Chronosphere](https://chronosphere.io/))

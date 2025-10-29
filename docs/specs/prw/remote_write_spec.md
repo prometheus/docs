@@ -195,6 +195,7 @@ The spec is intended to describe how the following components interact (as of Ap
 - InfluxData’s Telegraf agent. ([as a sender](https://github.com/influxdata/telegraf/tree/master/plugins/serializers/prometheusremotewrite), and [as a receiver](https://github.com/influxdata/telegraf/pull/8967))
 - [M3](https://m3db.io/docs/integrations/prometheus/#prometheus-configuration) (as a "receiver")
 - [Mimir](https://github.com/grafana/mimir) (as a "receiver")
+- [Oodle](https://docs.oodle.ai/integrations/metrics/prometheus/) (as a "receiver")
 - [OpenTelemetry Collector](https://github.com/open-telemetry/opentelemetry-collector-releases/) (as a ["sender"](https://github.com/open-telemetry/opentelemetry-collector-contrib/tree/main/exporter/prometheusremotewriteexporter#readme) and eventually as a "receiver")
 - [Thanos](https://thanos.io/tip/components/receive.md/) (as a "receiver")
 - Vector (as a ["sender"](https://vector.dev/docs/reference/configuration/sinks/prometheus_remote_write/) and a ["receiver"](https://vector.dev/docs/reference/configuration/sources/prometheus_remote_write/))

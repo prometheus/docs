@@ -6,37 +6,49 @@ sort_rank: 3
 hide_in_nav: true
 
 author:
-- role: editor
-  ins: R. Hartmann
+- ins: A. Silva Sens
+  name: Arthur Silva Sens
+  organization: Grafana Labs
+  email: arthursens2005@gmail.com
+- ins: B. Płotka
+  name: Bartłomiej Płotka
+  organization: Google
+  email: bwplotka@gmail.com
+- ins: D. Ashpole
+  name: David Ashpole
+  organization: Google
+  email: dashpole@google.com
+- ins: G. Krajcsovits
+  name: György Krajcsovits
+  organization: Grafana Labs
+  email: krajo@prometheus.io
+- ins: O. Williams
+  name: Owen Williams
+  organization: Grafana Labs
+  email: owen.williams@grafana.com
+- ins: R. Hartmann
   name: Richard Hartmann
   organization: Grafana Labs
   email: richih@richih.org
-- ins: B. Kochie
-  name: Ben Kochie
-  organization: GitLab
-  email: ben@nerp.net
-- ins: B. Brazil
-  name: Brian Brazil
-  organization: Robust Perception
-  email: brian.brazil@gmail.com
-- ins: R. Skillington
-  name: Rob Skillington
-  organization: Chronosphere
-  email: rob.skillington@gmail.com
 ---
 
 - Version: 2.0
 - Status: Draft
 - Date: TBD
-- Authors: Richard Hartmann, Ben Kochie, Brian Brazil, Rob Skillington
+- Authors: Arthur Silva Sens, Bartłomiej Płotka, David Ashpole, György Krajcsovits, Owen Williams, Richard Hartmann
+- Emeritus: Ben Kochie, Brian Brazil, Rob Skillington
 
 Created in 2012, Prometheus has been the default for cloud-native observability since 2015. A central part of Prometheus' design is its text metric exposition format, called the Prometheus exposition format 0.0.4, stable since 2014. In this format, special care has been taken to make it easy to generate, to ingest, and to understand by humans. As of 2020, there are more than 700 publicly listed exporters, an unknown number of unlisted exporters, and thousands of native library integrations using this format. Dozens of ingestors from various projects and companies support consuming it.
 
-With OpenMetrics, we are cleaning up and tightening the specification with the express purpose of bringing it into IETF. We are documenting a working standard with wide and organic adoption while introducing minimal, largely backwards-compatible, and well-considered changes. As of 2020, dozens of exporters, integrations, and ingestors use and preferentially negotiate OpenMetrics already.
+In 2020, [OpenMetrics 1.0](open_metrics_spec.md) was released to clean up and tighten the specification with the additional purpose of bringing it into IETF. OpenMetrics 1.0 text exposition documented a working standard with wide and organic adoption among dozens of exporters, integrations, and ingestors.
 
-Given the wide adoption and significant coordination requirements in the ecosystem, sweeping changes to either the Prometheus exposition format 0.0.4 or OpenMetrics 1.0 are considered out of scope.
+Around 2024, the OpenMetrics project was incorporated under the CNCF Prometheus project umbrella. Together with production learnings from deploying OpenMetrics 1.0 on wide scale and a backlog of new Prometheus innovations missing from the text formats, Prometheus community decided to pursue a second version of OpenMetrics standard.
 
-> NOTE: this document is an early draft, major changes expected. Read [here](https://github.com/prometheus/OpenMetrics/issues/276) on how to join the Prometheus OM 2.0 work group.
+The intention of OpenMetrics 2.0 is to use OpenMetrics 1.0 as a foundation and enhance it to achieve even greater reliability, usability and consistency with the modern Prometheus data model, without sacrificing the ease of use and readability. See TODO for changes, since the OpenMetrics 1.0.
+
+This document is meant to be used a standalone specification, although the majority of the content is reused from the [OpenMetrics 1.0](open_metrics_spec.md).
+
+> NOTE: This document is an early draft, major changes expected. Read [here](https://github.com/prometheus/OpenMetrics/issues/276) on how to join [the Prometheus OM 2.0 work group](https://docs.google.com/document/d/1FCD-38Xz1-9b3ExgHOeDTQUKUatzgj5KbCND9t-abZY/edit?tab=t.lvx6fags1fga#heading=h.uaaplxxbz60u).
 
 ## Overview
 

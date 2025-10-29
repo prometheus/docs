@@ -23,14 +23,10 @@ author:
   name: Rob Skillington
   organization: Chronosphere
   email: rob.skillington@gmail.com
-- ins: O. Williams
-  name: Owen Williams
-  organization: Grafana Labs
-  email: owen.williams@grafana.com
 ---
 
 - Version: 1.1
-- Status: Draft
+- Status: Published
 - Date: TBD
 - Authors: Richard Hartmann, Ben Kochie, Brian Brazil, Rob Skillington
 
@@ -60,7 +56,7 @@ Common examples of metric time series would be network interface counters, devic
 
 ## Data Model
 
-This section MUST be read together with the ABNF section. In case of disagreements between the two, the ABNF's restrictions MUST take precedence. This reduces repetition as the text wire format MUST be supported.
+This section MUST be read together with the ABNF section. In case of disagreements between the two, the  ABNF's restrictions MUST take precedence. This reduces repetition as the text wire format MUST be supported.
 
 ### Data Types
 
@@ -84,7 +80,7 @@ Strings MUST only consist of valid UTF-8 characters and MAY be zero length. NULL
 
 Labels are key-value pairs consisting of strings.
 
-Label names beginning with two underscores are RESERVED and MUST NOT be used unless specified by this standard. Label names SHOULD follow the restrictions in the ABNF section under the `label-name` section. Label names MAY be any quoted escaped UTF-8 string as described in the ABNF section. Be aware that exposing UTF-8 metrics is still experimental and may reduce usability.
+Label names beginning with underscores are RESERVED and MUST NOT be used unless specified by this standard. Label names MUST follow the restrictions in the ABNF section.
 
 Empty label values SHOULD be treated as if the label was not present.
 
@@ -120,7 +116,7 @@ A MetricFamily MAY have zero or more Metrics. A MetricFamily MUST have a name, H
 
 ##### Name
 
-MetricFamily names are a string and MUST be unique within a MetricSet. Names SHOULD be in snake_case. Names SHOULD follow the restrictions in the ABNF section under `metricname`. Metric names MAY be any quoted and escaped UTF-8 string as described in the ABNF section. Be aware that exposing UTF-8 metrics is still experimental and may reduce usability, especially when suffixes are not included.
+MetricFamily names are a string and MUST be unique within a MetricSet. Names SHOULD be in snake_case. Metric names MUST follow the restrictions in the ABNF section.
 
 Colons in MetricFamily names are RESERVED to signal that the MetricFamily is the result of a calculation or aggregation of a general purpose monitoring system.
 
@@ -148,9 +144,7 @@ Type specifies the MetricFamily type. Valid values are "unknown", "gauge", "coun
 
 ##### Unit
 
-Unit specifies MetricFamily units. If non-empty, it SHOULD be a suffix of the MetricFamily name separated by an underscore. Be aware that further generation rules might make it an infix in the text format.
-
-Be aware that exposing metrics without the unit being a suffix of the MetricFamily name directly to end-users may reduce the usability due to confusion about what the metric's unit is.
+Unit specifies MetricFamily units. If non-empty, it MUST be a suffix of the MetricFamily name separated by an underscore. Be aware that further generation rules might make it an infix in the text format.
 
 ##### Help
 
@@ -318,24 +312,22 @@ metricset = *metricfamily
 
 metricfamily = *metric-descriptor *metric
 
-metric-descriptor = HASH SP type SP (metricname / metricname-utf8) SP metric-type LF
-metric-descriptor =/ HASH SP help SP (metricname / metricname-utf8) SP escaped-string LF
-metric-descriptor =/ HASH SP unit SP (metricname / metricname-utf8) SP *metricname-char LF
+metric-descriptor = HASH SP type SP metricname SP metric-type LF
+metric-descriptor =/ HASH SP help SP metricname SP escaped-string LF
+metric-descriptor =/ HASH SP unit SP metricname SP *metricname-char LF
 
 metric = *sample
 
 metric-type = counter / gauge / histogram / gaugehistogram / stateset
 metric-type =/ info / summary / unknown
 
-sample = metricname-and-labels SP number [SP timestamp] [exemplar] LF
+sample = metricname [labels] SP number [SP timestamp] [exemplar] LF
 
-metricname-and-labels = metricname [labels-in-braces] / name-and-labels-in-braces
-labels-in-braces = "{" [label *(COMMA label)] "}"
-name-and-labels-in-braces = "{" metricname-utf8 *(COMMA label) "}"
+exemplar = SP HASH SP labels SP number [SP timestamp]
 
-label = label-key EQ DQUOTE escaped-string DQUOTE
+labels = "{" [label *(COMMA label)] "}"
 
-exemplar = SP HASH SP labels-in-braces SP number [SP timestamp]
+label = label-name EQ DQUOTE escaped-string DQUOTE
 
 number = realnumber
 ; Case insensitive
@@ -374,17 +366,16 @@ HASH = "#"
 SIGN = "-" / "+"
 
 metricname = metricname-initial-char 0*metricname-char
+
 metricname-char = metricname-initial-char / DIGIT
 metricname-initial-char = ALPHA / "_" / ":"
-metricname-utf8 = DQUOTE escaped-string-non-empty DQUOTE
 
-label-key = label-name / DQUOTE escaped-string-non-empty DQUOTE
 label-name = label-name-initial-char *label-name-char
+
 label-name-char = label-name-initial-char / DIGIT
 label-name-initial-char = ALPHA / "_"
 
-escaped-string = escaped-char
-escaped-string-non-empty = 1*escaped-char
+escaped-string = *escaped-char
 
 escaped-char = normal-char
 escaped-char =/ BS ("n" / DQUOTE / BS)
@@ -439,8 +430,6 @@ A double backslash SHOULD be used to represent a backslash character.
 A single backslash SHOULD NOT be used for undefined escape sequences.
 As an example, `\\\\a` is equivalent and preferable to `\\a`.
 
-Escaping MUST also be applied to quoted UTF-8 strings.
-
 ##### Numbers
 
 Integer numbers MUST NOT have a decimal point. Examples are `23`, `0042`, and `1341298465647914`.
@@ -490,7 +479,7 @@ There are four pieces of metadata: The MetricFamily name, TYPE, UNIT and HELP.  
 
 If no TYPE is exposed, the MetricFamily MUST be of type Unknown.
 
-If a unit is specified it MUST be provided in a UNIT metadata line. In addition, an underscore and the unit SHOULD be the suffix of the MetricFamily name.
+If a unit is specified it MUST be provided in a UNIT metadata line. In addition, an underscore and the unit MUST be the suffix of the MetricFamily name.
 
 A valid example for a foo_seconds metric with a unit of "seconds":
 
@@ -499,7 +488,7 @@ A valid example for a foo_seconds metric with a unit of "seconds":
 # UNIT foo_seconds seconds
 ```
 
-A valid, but discouraged example, where the unit is not a suffix on the name:
+An invalid example, where the unit is not a suffix on the name:
 
 ```
 # TYPE foo counter
@@ -644,9 +633,7 @@ foo 18.0 456
 
 ##### Counter
 
-The MetricPoint's Total Value Sample MetricName SHOULD have the suffix `_total`. If present the MetricPoint's Created Value Sample MetricName MUST have the suffix `_created`.
-
-Be aware that exposing metrics without `_total` being a suffix of the MetricFamily name directly to end-users may reduce the usability due to confusion about what the metric's type is.
+The MetricPoint's Total Value Sample MetricName MUST have the suffix `_total`. If present the MetricPoint's Created Value Sample MetricName MUST have the suffix `_created`.
 
 An example with a Metric with no labels, and a MetricPoint with no timestamp and no created:
 
@@ -675,14 +662,6 @@ An example with a Metric with no labels, and a MetricPoint with a timestamp and 
 ```openmetrics-add-eof
 # TYPE foo counter
 foo_total 17.0 1520879607.789
-foo_created 1520430000.123 1520879607.789
-```
-
-An example with a Metric with no labels, and a MetricPoint without the `_total` suffix and with a timestamp and a created:
-
-```openmetrics-add-eof
-# TYPE foo counter
-foo 17.0 1520879607.789
 foo_created 1520430000.123 1520879607.789
 ```
 
@@ -963,7 +942,7 @@ For high availability and ad-hoc access a common approach is to have multiple in
 # EDITOR’S NOTE:  This section might be good for a BCP paper.
 -->
 
-We aim for a balance between understandability, avoiding clashes, and succinctness in the naming of metrics and label names. Names are separated through underscores, so metric names end up being in “snake_case”. While we strongly recommend the practices recommended in this document, other metric systems have different philosophies regarding naming conventions. OpenMetrics allows these metrics to be exposed, but without the conventions and suffixes recommended here there is an increased risk of collisions and incompatibilities along the chain of services in a metrics system. Users wishing to use alternative conventions will need to take special care and expend additional effort to ensure that the entire system is consistent.
+We aim for a balance between understandability, avoiding clashes, and succinctness in the naming of metrics and label names. Names are separated through underscores, so metric names end up being in “snake_case”.
 
 To take an example "http_request_seconds" is succinct but would clash between large numbers of applications, and it's also unclear exactly what this metric is measuring. For example, it might be before or after auth middleware in a complex system.
 
@@ -1003,7 +982,7 @@ While there is metadata about metric names such as HELP, TYPE and UNIT there is 
 
 ### Metric Names versus Labels
 
-There are situations in which both using multiple Metrics within a MetricFamily or multiple MetricFamilies seem to make sense. Summing or averaging a MetricFamily should be meaningful even if it's not always useful. For example, mixing voltage and fan speed is not meaningful.
+There are situations in which both using multiple Metrics within a MetricFamily or multiple MetricFamilies seem to make sense. Summing or averaging aMetricFamily should be meaningful even if it's not always useful. For example, mixing voltage and fan speed is not meaningful.
 
 As a reminder, OpenMetrics is built with the assumption that ingestors can process and perform aggregations on data.
 

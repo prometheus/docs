@@ -156,7 +156,9 @@ Type specifies the MetricFamily type. Valid values are "unknown", "gauge", "coun
 
 ##### Unit
 
-Unit specifies MetricFamily units. If non-empty, it MUST be a suffix of the MetricFamily name separated by an underscore. Be aware that further generation rules might make it an infix in the text format.
+Unit specifies MetricFamily units. If non-empty, it SHOULD be a suffix of the MetricFamily name separated by an underscore. Be aware that further generation rules might make it an infix in the text format.
+
+Be aware that exposing metrics without the unit being a suffix of the MetricFamily name directly to end-users may reduce the usability due to confusion about what the metric's unit is.
 
 ##### Help
 
@@ -489,31 +491,33 @@ MetricFamilies MUST NOT be interleaved.
 
 There are four pieces of metadata: The MetricFamily name, TYPE, UNIT and HELP.  An example of the metadata for a counter Metric called foo is:
 
-```
+```openmetrics-add-eof
 # TYPE foo counter
 ```
 
 If no TYPE is exposed, the MetricFamily MUST be of type Unknown.
 
-If a unit is specified it MUST be provided in a UNIT metadata line. In addition, an underscore and the unit MUST be the suffix of the MetricFamily name.
+If a unit is specified it MUST be provided in a UNIT metadata line. In addition, an underscore and the unit SHOULD be the suffix of the MetricFamily name.
+
+Be aware that exposing metrics without the unit being a suffix of the MetricFamily name directly to end-users may reduce the usability due to confusion about what the metric's unit is.
 
 A valid example for a foo_seconds metric with a unit of "seconds":
 
-```
+```openmetrics-add-eof
 # TYPE foo_seconds counter
 # UNIT foo_seconds seconds
 ```
 
-An invalid example, where the unit is not a suffix on the name:
+A valid, but discouraged example, where the unit is not a suffix on the name:
 
-```
+```openmetrics-add-eof
 # TYPE foo counter
 # UNIT foo seconds
 ```
 
 It is also valid to have:
 
-```
+```openmetrics-add-eof
 # TYPE foo_seconds counter
 ```
 
@@ -521,7 +525,7 @@ If the unit is known it SHOULD be provided.
 
 The value of a UNIT or HELP line MAY be empty. This MUST be treated as if no metadata line for the MetricFamily existed.
 
-```
+```openmetrics-add-eof
 # TYPE foo_seconds counter
 # UNIT foo_seconds seconds
 # HELP foo_seconds Some text and \n some \" escaping
@@ -539,19 +543,19 @@ See the example in "Text format -> MetricPoint".
 Labels
 A sample without labels or a timestamp and the value 0 MUST be rendered either like:
 
-```
+```openmetrics-add-eof
 bar_seconds_count 0
 ```
 
 or like
 
-```
+```openmetrics-add-eof
 bar_seconds_count{} 0
 ```
 
 Label values MAY be any valid UTF-8 value, so escaping MUST be applied as per the ABNF. A valid example with two labels:
 
-```
+```openmetrics-add-eof
 bar_seconds_count{a="x",b="escaping\" example \n "} 0
 ```
 
@@ -563,7 +567,7 @@ MetricPoints MUST NOT be interleaved.
 
 A correct example where there were multiple MetricPoints and Samples within a MetricFamily would be:
 
-```
+```openmetrics-add-eof
 # TYPE foo_seconds summary
 # UNIT foo_seconds seconds
 foo_seconds_count{a="bb"} 0 123
@@ -649,7 +653,9 @@ foo 18.0 456
 
 ##### Counter
 
-The MetricPoint's Total Value Sample MetricName MUST have the suffix `_total`. If present, the MetricPoint's Created Timestamp MUST be inlined with the Metric point with a `ct@` prefix. If the value's timestamp is present, the Created Timestamp MUST be added right after it. If exemplar is present, the Created Timestamp MUST be added before it.
+The MetricPoint's Total Value Sample MetricName SHOULD have the suffix `_total`. If present, the MetricPoint's Created Timestamp MUST be inlined with the Metric point with a `ct@` prefix. If the value's timestamp is present, the Created Timestamp MUST be added right after it. If exemplar is present, the Created Timestamp MUST be added before it.
+
+Be aware that exposing metrics without `_total` being a suffix of the MetricFamily name directly to end-users may reduce the usability due to confusion about what the metric's type is.
 
 An example with a Metric with no labels, and a MetricPoint with no timestamp and no Created Timestamp:
 
@@ -677,6 +683,13 @@ An example with a Metric with no labels, and a MetricPoint with a timestamp and 
 ```openmetrics-add-eof
 # TYPE foo counter
 foo_total 17.0 1520879607.789 ct@1520430000.123
+```
+
+An example with a Metric with no labels, and a MetricPoint without the `_total` suffix and with a timestamp and a created:
+
+```openmetrics-add-eof
+# TYPE foo counter
+foo 17.0 1520879607.789 ct@1520879607.789
 ```
 
 Exemplars MAY be attached to the MetricPoint's Total sample.
@@ -888,7 +901,9 @@ It also ensures that there is a basic standard which is easy to implement. This 
 
 We want to allow monitoring systems to get usable information from an OpenMetrics exposition without undue burden. If one were to strip away all metadata and structure and just look at an OpenMetrics exposition as an unordered set of samples that should be usable on its own. As such, there are also no opaque binary types, such as sketches or t-digests which could not be expressed as a mix of gauges and counters as they would require custom parsing and handling.
 
-This principle is applied consistently throughout the standard. For example a MetricFamily's unit is duplicated in the name so that the unit is available for systems that don't understand the unit metadata. The "le" label is a normal label value, rather than getting its own special syntax, so that ingestors don't have to add special histogram handling code to ingest them. As a further example, there are no composite data types. For example, there is no geolocation type for latitude/longitude as this can be done with separate gauge metrics.
+This principle is applied consistently throughout the standard. For example it is encouraged that a MetricFamily's unit is duplicated in the name so that the unit is available for systems that don't understand the unit metadata.
+
+The "le" label is a normal label value, rather than getting its own special syntax, so that ingestors don't have to add special histogram handling code to ingest them. As a further example, there are no composite data types. For example, there is no geolocation type for latitude/longitude as this can be done with separate gauge metrics.
 
 ### Units and Base Units
 

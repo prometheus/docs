@@ -338,13 +338,13 @@ metric-type =/ info / summary / unknown
 
 sample = metricname-and-labels SP number [SP timestamp] [SP created] [exemplar] LF
 
+exemplar = SP HASH SP labels-in-braces SP number [SP timestamp]
+
 metricname-and-labels = metricname [labels-in-braces] / name-and-labels-in-braces
 labels-in-braces = "{" [label *(COMMA label)] "}"
 name-and-labels-in-braces = "{" metricname-utf8 *(COMMA label) "}"
 
 label = label-key EQ DQUOTE escaped-string DQUOTE
-
-exemplar = SP HASH SP labels-in-braces SP number [SP timestamp]
 
 number = realnumber
 ; Case insensitive

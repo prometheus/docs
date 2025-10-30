@@ -144,7 +144,9 @@ Type specifies the MetricFamily type. Valid values are "unknown", "gauge", "coun
 
 ##### Unit
 
-Unit specifies MetricFamily units. If non-empty, it MUST be a suffix of the MetricFamily name separated by an underscore. Be aware that further generation rules might make it an infix in the text format.
+Unit specifies MetricFamily units. If non-empty, it SHOULD be a suffix of the MetricFamily name separated by an underscore. Be aware that further generation rules might make it an infix in the text format.
+
+Be aware that exposing metrics without the unit being a suffix of the MetricFamily name directly to end-users may reduce the usability due to confusion about what the metric's unit is.
 
 ##### Help
 
@@ -479,7 +481,7 @@ There are four pieces of metadata: The MetricFamily name, TYPE, UNIT and HELP.  
 
 If no TYPE is exposed, the MetricFamily MUST be of type Unknown.
 
-If a unit is specified it MUST be provided in a UNIT metadata line. In addition, an underscore and the unit MUST be the suffix of the MetricFamily name.
+If a unit is specified it MUST be provided in a UNIT metadata line. In addition, an underscore and the unit SHOULD be the suffix of the MetricFamily name.
 
 A valid example for a foo_seconds metric with a unit of "seconds":
 
@@ -488,7 +490,7 @@ A valid example for a foo_seconds metric with a unit of "seconds":
 # UNIT foo_seconds seconds
 ```
 
-An invalid example, where the unit is not a suffix on the name:
+A valid, but discouraged example, where the unit is not a suffix on the name:
 
 ```
 # TYPE foo counter
@@ -633,7 +635,9 @@ foo 18.0 456
 
 ##### Counter
 
-The MetricPoint's Total Value Sample MetricName MUST have the suffix `_total`. If present the MetricPoint's Created Value Sample MetricName MUST have the suffix `_created`.
+The MetricPoint's Total Value Sample MetricName SHOULD have the suffix `_total`. If present the MetricPoint's Created Value Sample MetricName MUST have the suffix `_created`.
+
+Be aware that exposing metrics without `_total` being a suffix of the MetricFamily name directly to end-users may reduce the usability due to confusion about what the metric's type is.
 
 An example with a Metric with no labels, and a MetricPoint with no timestamp and no created:
 
@@ -662,6 +666,14 @@ An example with a Metric with no labels, and a MetricPoint with a timestamp and 
 ```openmetrics-add-eof
 # TYPE foo counter
 foo_total 17.0 1520879607.789
+foo_created 1520430000.123 1520879607.789
+```
+
+An example with a Metric with no labels, and a MetricPoint without the `_total` suffix and with a timestamp and a created:
+
+```openmetrics-add-eof
+# TYPE foo counter
+foo 17.0 1520879607.789
 foo_created 1520430000.123 1520879607.789
 ```
 

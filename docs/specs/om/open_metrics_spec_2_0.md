@@ -394,7 +394,7 @@ label-name = label-name-initial-char *label-name-char
 label-name-char = label-name-initial-char / DIGIT
 label-name-initial-char = ALPHA / "_"
 
-escaped-string = escaped-char
+escaped-string = *escaped-char
 escaped-string-non-empty = 1*escaped-char
 
 escaped-char = normal-char

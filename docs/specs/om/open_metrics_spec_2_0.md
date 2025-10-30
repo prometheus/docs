@@ -336,7 +336,7 @@ metric = *sample
 metric-type = counter / gauge / histogram / gaugehistogram / stateset
 metric-type =/ info / summary / unknown
 
-sample = metricname-and-labels SP number [SP timestamp] [exemplar] LF
+sample = metricname-and-labels SP number [SP timestamp] [SP created] [exemplar] LF
 
 metricname-and-labels = metricname [labels-in-braces] / name-and-labels-in-braces
 labels-in-braces = "{" [label *(COMMA label)] "}"

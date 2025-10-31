@@ -16,6 +16,8 @@ experienced is nearly universal among non-technical contributors to open source.
 If you're feeling that same uncertainty, this post is for you. I'll share the challenges you're likely to face (or already face), 
 why your contributions matter, and how to find your place in the Prometheus community.
 
+<!-- more -->
+
 ## The Challenges Non-Technical Contributors Face
 As a non-technical contributor, I've had my share of obstacles in open source. And from conversations with others navigating these spaces, 
 I've found the struggles are remarkably consistent. Here are the most common barriers:

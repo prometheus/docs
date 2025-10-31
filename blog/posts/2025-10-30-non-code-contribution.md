@@ -1,6 +1,6 @@
 ---
 title: How Non-Developers Can Contribute to Prometheus
-created_at: 2025-10-30
+created_at: 2025-10-31
 kind: article
 author_name: Victoria Nduka (@nwanduka)
 ---

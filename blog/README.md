@@ -46,8 +46,29 @@ and 1500 words (like [this long deep dive](https://prometheus.io/blog/2021/11/16
 If you include code snippets or configuration examples, please make sure they work as written.
 Diagrams or screenshots are also great additions if they help readers grasp complex ideas more quickly.  
 
-When multiple people contribute to a post, we’ll make sure everyone is credited at the end.  
+When multiple people contribute to a post, we’ll make sure everyone is credited at the end.
 
+> [!IMPORTANT]
+> After your introductory section, add a `<!-- more -->` marker on its own line. 
+This marker indicates where the preview cuts off on https://prometheus.io/blog/. See the example below.
+
+**Example structure:**
+```markdown
+---
+title: "Getting Started with Prometheus"
+author: Your Name (@yourgithubusername)
+date: 2025-11-02
+---
+
+Prometheus makes it easy to collect and query metrics from your applications. In this post, we'll walk through
+setting up your first metrics endpoint and understanding what Prometheus collects.
+
+<!-- more -->
+
+## Installing Prometheus
+
+First, let's get Prometheus installed on your system...
+```
 
 ## Review process
 

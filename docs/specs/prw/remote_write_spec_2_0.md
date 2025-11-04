@@ -305,7 +305,7 @@ message Sample {
   // or delta type metrics.
   //
   // For cumulative metrics, the start timestamp represents the time when the
-  // counter started counting (sometimes referred to as start timestamp), which
+  // counter started counting (sometimes referred to as created timestamp), which
   // can increase the accuracy of certain processing and query semantics (e.g. rates).
   //
   // Note:

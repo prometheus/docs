@@ -4,7 +4,7 @@ nav_title: "2.0"
 sort_rank: 2
 ---
 
-* Version: 2.0-rc.3
+* Version: 2.0-rc.4
 * Status: **Experimental**
 * Date: May 2024
 
@@ -29,7 +29,10 @@ The Remote-Write protocol is designed to be stateless; there is strictly no inte
 
 The Remote-Write protocol contains opportunities for batching, e.g. sending multiple samples for different series in a single request. It is not expected that multiple samples for the same series will be commonly sent in the same request, although there is support for this in the Protobuf Message.
 
-A test suite can be found at https://github.com/prometheus/compliance/tree/main/remote_write_sender. The compliance tests for remote write 2.0 compatibility are still [in progress](https://github.com/prometheus/compliance/issues/101).
+Compliance tests can be found at:
+
+* sender: https://github.com/prometheus/compliance/tree/main/remotewrite/sender
+* receiver: https://github.com/prometheus/compliance/tree/main/remotewrite/receiver
 
 ### Glossary
 
@@ -42,10 +45,10 @@ In this document, the following definitions are followed:
 * a `Sender` is something that sends Remote-Write data.
 * a `Receiver` is something that receives (writes) Remote-Write data. The meaning of `Written` is up to the Receiver e.g. usually it means storing received data in a database, but also just validating, splitting or enhancing it.
 * `Written` refers to data the `Receiver` has received and is accepting. Whether or not it has ingested this data to persistent storage, written it to a WAL, etc. is up to the `Receiver`. The only distinction is that the `Receiver` has accepted this data rather than explicitly rejecting it with an error response.
-* a `Sample` is a pair of (timestamp, value).
-* a `Histogram` is a pair of (timestamp, [histogram value](https://github.com/prometheus/docs/blob/b9657b5f5b264b81add39f6db2f1df36faf03efe/content/docs/concepts/native_histograms.md)).
+* a `Sample` is a triplet of (start timestamp, timestamp, value).
+* a `Histogram` is a triplet of (start timestamp, timestamp, [histogram value](https://github.com/prometheus/docs/blob/b9657b5f5b264b81add39f6db2f1df36faf03efe/content/docs/concepts/native_histograms.md)).
 * a `Label` is a pair of (key, value).
-* a `Series` is a list of samples, identified by a unique set of labels.
+* a `Series` is a list of samples (or histograms), identified by a unique set of labels.
 
 ## Definitions
 
@@ -178,7 +181,7 @@ Senders SHOULD expect [400 HTTP Bad Request](https://www.rfc-editor.org/rfc/rfc9
 
 #### Invalid Samples
 
-Receivers MAY NOT support certain metric types or samples (e.g. a Receiver might reject sample without metadata type specified or without created timestamp, while another Receiver might accept such sample.). It’s up to the Receiver what sample is invalid. Receivers MUST return a [400 HTTP Bad Request](https://www.rfc-editor.org/rfc/rfc9110.html#name-400-bad-request) status code for write requests that contain any invalid samples unless the [partial retriable write](#retries-on-partial-writes) occurs.
+Receivers MAY NOT support certain metric types or samples (e.g. a Receiver might reject sample without metadata type specified or without start timestamp, while another Receiver might accept such sample.). It’s up to the Receiver what sample is invalid. Receivers MUST return a [400 HTTP Bad Request](https://www.rfc-editor.org/rfc/rfc9110.html#name-400-bad-request) status code for write requests that contain any invalid samples unless the [partial retriable write](#retries-on-partial-writes) occurs.
 
 Senders MUST NOT retry on a 4xx HTTP status codes (other than [429](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429)), which MUST be used by Receivers to indicate that the write operation will never be able to succeed and should not be retried. Senders MAY retry on the 415 HTTP status code with a different content type or encoding to see if the Receiver supports it.
 
@@ -220,18 +223,12 @@ The `io.prometheus.write.v2.Request` references the new Protobuf Message that's 
 <!---
 TODO(bwplotka): Move link to the one on Prometheus main or even buf.
 -->
-The full schema and source of the truth is in Prometheus repository in [`prompb/io/prometheus/write/v2/types.proto`](https://github.com/prometheus/prometheus/blob/remote-write-2.0/prompb/io/prometheus/write/v2/types.proto#L32). The `gogo` dependency and options CAN be ignored ([will be removed eventually](https://github.com/prometheus/prometheus/issues/11908)). They are not part of the specification as they don't impact the serialized format.
+The full schema and source of the truth is in Prometheus repository in [`prompb/io/prometheus/write/v2/types.proto`](https://github.com/prometheus/prometheus/blob/main/prompb/io/prometheus/write/v2/types.proto). The `gogo` dependency and options CAN be ignored ([will be removed eventually](https://github.com/prometheus/prometheus/issues/11908)). They are not part of the specification as they don't impact the serialized format.
 
 The simplified version of the new `io.prometheus.write.v2.Request` is presented below.
 
 ```
-// Request represents a request to write the given timeseries to a remote destination.
 message Request {
-  // Since Request supersedes 1.0 spec's prometheus.WriteRequest, we reserve the top-down message
-  // for the deterministic interop between those two.
-  // Generally it's not needed, because Receivers must use the Content-Type header, but we want to
-  // be sympathetic to adopters with mistaken implementations and have deterministic error (empty
-  // message if you use the wrong proto schema).
   reserved 1 to 3;
 
   // symbols contains a de-duplicated array of string elements used for various
@@ -249,13 +246,15 @@ message Request {
 
 // TimeSeries represents a single series.
 message TimeSeries {
+  reserved 6;
+    
   // labels_refs is a list of label name-value pair references, encoded
   // as indices to the Request.symbols array. This list's length is always
   // a multiple of two, and the underlying labels should be sorted lexicographically.
   //
   // Note that there might be multiple TimeSeries objects in the same
   // Requests with the same labels e.g. for different exemplars, metadata
-  // or created timestamp.
+  // or start timestamp.
   repeated uint32 labels_refs = 1;
 
   // Timeseries messages can either specify samples or (native) histogram samples
@@ -271,27 +270,11 @@ message TimeSeries {
 
   // metadata represents the metadata associated with the given series' samples.
   Metadata metadata = 5;
-
-  // created_timestamp represents an optional created timestamp associated with
-  // this series' samples in ms format, typically for counter or histogram type
-  // metrics. Created timestamp represents the time when the counter started
-  // counting (sometimes referred to as start timestamp), which can increase
-  // the accuracy of query results.
-  //
-  // Note that some receivers might require this and in return fail to
-  // write such samples within the Request.
-  //
-  // For Go, see github.com/prometheus/prometheus/model/timestamp/timestamp.go
-  // for conversion from/to time.Time to Prometheus timestamp.
-  //
-  // Note that the "optional" keyword is omitted due to
-  // https://cloud.google.com/apis/design/design_patterns.md#optional_primitive_fields
-  // Zero value means value not set. If you need to use exactly zero value for
-  // the timestamp, use 1 millisecond before or after.
-  int64 created_timestamp = 6;
 }
 
-// Exemplar represents additional information attached to some series' samples.
+// Exemplar is an additional information attached to some series' samples.
+// It is typically used to attach an example trace or request ID associated with
+// the metric changes.
 message Exemplar {
   // labels_refs is an optional list of label name-value pair references, encoded
   // as indices to the Request.symbols array. This list's len is always
@@ -302,6 +285,7 @@ message Exemplar {
   // is attached to a histogram, which only gives an estimated value through buckets.
   double value = 2;
   // timestamp represents the timestamp of the exemplar in ms.
+  //
   // For Go, see github.com/prometheus/prometheus/model/timestamp/timestamp.go
   // for conversion from/to time.Time to Prometheus timestamp.
   int64 timestamp = 3;
@@ -312,7 +296,30 @@ message Sample {
   // value of the sample.
   double value = 1;
   // timestamp represents timestamp of the sample in ms.
+  //
+  // For Go, see github.com/prometheus/prometheus/model/timestamp/timestamp.go
+  // for conversion from/to time.Time to Prometheus timestamp.
   int64 timestamp = 2;
+  // start_timestamp represents an optional start timestamp for the sample,
+  // in ms format. This information is typically used for counter, histogram (cumulative)
+  // or delta type metrics.
+  //
+  // For cumulative metrics, the start timestamp represents the time when the
+  // counter started counting (sometimes referred to as created timestamp), which
+  // can increase the accuracy of certain processing and query semantics (e.g. rates).
+  //
+  // Note:
+  // * That some receivers might require start timestamps for certain metric
+  // types; rejecting such samples within the Request as a result.
+  // * start timestamp is the same as "created timestamp" name Prometheus used in the past.
+  //
+  // For Go, see github.com/prometheus/prometheus/model/timestamp/timestamp.go
+  // for conversion from/to time.Time to Prometheus timestamp.
+  //
+  // Note that the "optional" keyword is omitted due to efficiency and consistency.
+  // Zero value means value not set. If you need to use exactly zero value for
+  // the timestamp, use 1 millisecond before or after.
+  int64 start_timestamp = 3;
 }
 
 // Metadata represents the metadata associated with the given series' samples.
@@ -338,10 +345,11 @@ message Metadata {
   uint32 unit_ref = 4;
 }
 
-// A native histogram, also known as a sparse histogram.
-// See https://github.com/prometheus/prometheus/blob/remote-write-2.0/prompb/io/prometheus/write/v2/types.proto#L142
-// for a full message that follows the native histogram spec for both sparse
-// and exponential, as well as, custom bucketing.
+// A native histogram message, supporting
+// * sparse exponential bucketing, custom bucketing.
+// * float or integer histograms.
+//
+// See the full spec: https://prometheus.io/docs/specs/native_histograms/
 message Histogram { ... }
 ```
 
@@ -361,7 +369,6 @@ Rationales: https://github.com/prometheus/proposals/blob/alexg/remote-write-20-p
 -->
 * `metadata` sub-fields SHOULD be provided. Receivers MAY reject series with unspecified `Metadata.type`.
 * Exemplars SHOULD be provided if they exist for a series.
-* `created_timestamp` SHOULD be provided for metrics that follow counter semantics (e.g. counters and histograms). Receivers MAY reject those series without `created_timestamp` being set.
 
 The following subsections define some schema elements in detail.
 
@@ -372,7 +379,7 @@ Rationales: https://github.com/prometheus/proposals/blob/alexg/remote-write-20-p
 -->
 The `io.prometheus.write.v2.Request` Protobuf Message is designed to [intern all strings](https://en.wikipedia.org/wiki/String_interning) for the proven additional compression and memory efficiency gains on top of the standard compressions.
 
-The `symbols` table MUST be provided and it MUST contain deduplicated strings used in series, exemplar labels, and metadata strings. The first element of the `symbols` table MUST be an empty string, which is used to represent empty or unspecified values such as when `Metadata.unit_ref` or `Metadata.help_ref` are not provided. References MUST point to the existing index in the `symbols` string array.
+The `symbols` table MUST be provided, and it MUST contain deduplicated strings used in series, exemplar labels, and metadata strings. The first element of the `symbols` table MUST be an empty string, which is used to represent empty or unspecified values such as when `Metadata.unit_ref` or `Metadata.help_ref` are not provided. References MUST point to the existing index in the `symbols` string array.
 
 #### Series Labels
 
@@ -404,6 +411,8 @@ Receivers also MAY impose limits on the number and length of labels, but this is
 Rationales: https://github.com/prometheus/proposals/blob/alexg/remote-write-20-proposal/proposals/2024-04-09_remote-write-20.md#partial-writes#native-histograms
 -->
 Senders MUST send `samples` (or `histograms`) for any given `TimeSeries` in timestamp order. Senders MAY send multiple requests for different series in parallel.
+
+Sample's or Histogram's `start_timestamp` SHOULD be provided for types that follow counter semantics (e.g. counters and counter histograms). Receivers MAY reject those series without `start_timestamp` being set. Given optionality, the 0 value MUST be treated by receivers as unset value. To represent the unlikely 0 unix timestamp in milliseconds, "1" or "-1" value MUST be used.
 
 <!---
 Rationales: https://github.com/prometheus/proposals/blob/alexg/remote-write-20-proposal/proposals/2024-04-09_remote-write-20.md#partial-writes#being-pull-vs-push-agnostic
@@ -479,4 +488,4 @@ Samples must be in-order _for a given series_. However, even if a Receiver does 
 **What are the differences between Remote-Write 2.0 and OpenTelemetry's OTLP protocol?**
 [OpenTelemetry OTLP](https://github.com/open-telemetry/opentelemetry-proto/blob/a05597bff803d3d9405fcdd1e1fb1f42bed4eb7a/docs/specification.md) is a protocol for transporting of telemetry data (such as metrics, logs, traces and profiles) between telemetry sources, intermediate nodes and telemetry backends. The recommended transport involves gRPC with protobuf, but HTTP with protobuf or JSON are also described. It was designed from scratch with the intent to support a variety of different observability signals, data types and extra information. For [metrics](https://github.com/open-telemetry/opentelemetry-proto/blob/main/opentelemetry/proto/metrics/v1/metrics.proto) that means additional non-identifying labels, flags, temporal aggregations types, resource or scoped metrics, schema URLs and more. OTLP also requires [the semantic convention](https://opentelemetry.io/docs/concepts/semantic-conventions/) to be used.
 
-Remote-Write was designed for simplicity, efficiency and organic growth. The first version was officially released in 2023, when already [dozens of battle-tested adopters in the CNCF ecosystem](./remote_write_spec.md#compatible-senders-and-receivers) had been using this protocol for years. Remote-Write 2.0 iterates on the previous protocol by adding a few new elements (metadata, exemplars, created timestamp and native histograms) and string interning. Remote-Write 2.0 is always stateless, focuses only on metrics and is opinionated; as such it is scoped down to elements that the Prometheus community considers enough to have a robust metric solution. The intention is to ensure the Remote-Write is a stable protocol that is cheaper and simpler to adopt and use than the alternatives in the observability ecosystem.
+Remote-Write was designed for simplicity, efficiency and organic growth. The first version was officially released in 2023, when already [dozens of battle-tested adopters in the CNCF ecosystem](./remote_write_spec.md#compatible-senders-and-receivers) had been using this protocol for years. Remote-Write 2.0 iterates on the previous protocol by adding a few new elements (metadata, exemplars, start timestamp and native histograms) and string interning. Remote-Write 2.0 is always stateless, focuses only on metrics and is opinionated; as such it is scoped down to elements that the Prometheus community considers enough to have a robust metric solution. The intention is to ensure the Remote-Write is a stable protocol that is cheaper and simpler to adopt and use than the alternatives in the observability ecosystem.

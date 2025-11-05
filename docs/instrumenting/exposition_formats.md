@@ -160,14 +160,12 @@ To enable this experimental feature you must have at least version v2.26.0 and a
 
 Earlier versions of Prometheus supported an exposition format based on [Protocol Buffers](https://developers.google.com/protocol-buffers/) (aka Protobuf) in addition to the current text-based format. With Prometheus 2.0, the Protobuf format was marked as deprecated and Prometheus stopped ingesting samples from said exposition format.
 
-However, new experimental features were added to Prometheus where the Protobuf format was considered the most viable option. Making Prometheus accept Protocol Buffers once again.
+However, new (experimental) features were added to Prometheus where the Protobuf format was considered the most viable option. Making Prometheus accept Protocol Buffers once again.
 
-Here is a list of experimental features that, once enabled, will configure Prometheus to favor the Protobuf exposition format:
-
-| feature flag | version that introduced it |
-|--------------|----------------------------|
-| native-histograms | 2.40.0 |
-| created-timestamp-zero-ingestion | 2.50.0 |
+When such features are enabled either by feature flag
+(`--enable-feature=created-timestamp-zero-ingestion`) or by setting the
+appropriate configuration option (`scrape_native_histograms: true`) then
+Protobuf will be favored over other exposition formats.
 
 ## Historical versions
 

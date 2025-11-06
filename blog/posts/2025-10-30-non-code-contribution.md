@@ -114,7 +114,7 @@ I can tell you from experience that the community is receptive to UX contributio
 If you're a technical writer or content creator, the Prometheus blog is a natural entry point. The blog publishes tutorials, 
 case studies, best practices, community updates, and generally, content that helps users get more value from Prometheus.
 
-Check out the [blog content guide](/blog/README.md) to understand what makes a strong blog proposal and how to publish a post on the blog. 
+Check out the [blog content guide](https://github.com/prometheus/docs/blob/main/blog/README.md) to understand what makes a strong blog proposal and how to publish a post on the blog. 
 There's an audience eager to learn from your experience.
 
 ### 3. Improve and Maintain Documentation

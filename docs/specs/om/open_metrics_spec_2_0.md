@@ -78,9 +78,10 @@ Metric values in OpenMetrics MUST be either numbers or complex data types.
 
 Numbers MUST be either floating points or integers. Note that ingestors of the format MAY only support float64. The non-real values NaN, +Inf and -Inf MUST be supported. NaN MUST NOT be considered a missing value, but it MAY be used to signal a division by zero.
 
-Complex data types MUST contain all information necessary to recreate a sample of a Metric Type, with the exception of Created Timestamp and Exemplars.
+Complex data types MUST contain all information necessary to recreate a sample of a Metric Type, with the exception of Start Timestamp and Exemplars.
 
 List of complex data types:
+
 - Integer counter native histograms for the Metric Type Histogram.
 - Integer gauge native histograms for the Metric Type GaugeHistogram.
 
@@ -240,7 +241,7 @@ MetricFamilies of type Info MUST have an empty Unit string.
 
 Histograms measure distributions of discrete events. Common examples are the latency of HTTP requests, function runtimes, or I/O request sizes.
 
-A Histogram MetricPoint MUST contain Count, Sum values.
+A Histogram MetricPoint MUST contain Count and Sum values.
 
 The Count value MUST be equal to the number of measurements taken by the Histogram. The Count is a counter semantically. The Count MUST be an integer and MUST NOT be NaN or negative.
 
@@ -268,7 +269,7 @@ A Classic Bucket MUST cover every measured value less or equal to its threshold,
 
 As an example, for a metric representing request latency in seconds with Classic Buckets and thresholds 1, 2, 3, and +Inf, it follows that value_1 <= value_2 <= value_3 <= value_+Inf. If ten requests took 1 second each, the values of the 1, 2, 3, and +Inf buckets will be all equal to 10.
 
-Histogram MetricPoints with Classic Buckets MUST have one Classic Bucket with a +Inf threshold. The +Inf bucket counts all requests.
+Histogram MetricPoints with Classic Buckets MUST have one Classic Bucket with a +Inf threshold. The +Inf bucket counts all measurements.
 
 Exposed Classic Bucket thresholds SHOULD stay constant over time and between targets whose metrics are intended to be aggregated. A change of thresholds may prevent the affected histograms to be part of the same operation (e.g. an aggregation of different metrics or a rate calculation over time).
 

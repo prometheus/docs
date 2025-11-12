@@ -26,6 +26,11 @@
 /docs/specs/remote_write_spec /docs/specs/prw/remote_write_spec
 /docs/specs/remote_write_spec_2_0 /docs/specs/prw/remote_write_spec_2_0
 
+# Per spec sub dirs should point the currently "latest" version.
+# E.g. https://openmetrics.io redirects to https://prometheus.io/docs/specs/om
+/docs/specs/om /docs/specs/om/open_metrics_spec
+/docs/specs/prw /docs/specs/prw/remote_write_spec_2_0
+
 # Redirect for HTTP SD docs, which briefly lived in the wrong category / repo.
 /docs/instrumenting/http_sd/ /docs/prometheus/latest/http_sd/
 

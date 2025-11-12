@@ -26,10 +26,8 @@
 /docs/specs/remote_write_spec /docs/specs/prw/remote_write_spec
 /docs/specs/remote_write_spec_2_0 /docs/specs/prw/remote_write_spec_2_0
 
-# Per spec sub dirs should point the currently "latest" version.
-# E.g. https://openmetrics.io redirects to https://prometheus.io/docs/specs/om
-/docs/specs/om /docs/specs/om/open_metrics_spec
-/docs/specs/prw /docs/specs/prw/remote_write_spec_2_0
+# Redirect our custom openmetrics domain to the latest openmetrics spec.
+https://openmetrics.io/* https://prometheus.io/docs/specs/om/open_metrics_spec 301!
 
 # Redirect for HTTP SD docs, which briefly lived in the wrong category / repo.
 /docs/instrumenting/http_sd/ /docs/prometheus/latest/http_sd/
@@ -42,7 +40,9 @@
 /docs/                      /docs/introduction/overview/                302!
 /docs/introduction/         /docs/introduction/overview/                302!
 /docs/concepts/             /docs/concepts/data_model/                  302!
-/docs/specs/                /docs/specs/remote_write_spec/              302!
+/docs/specs/                /docs/specs/prw/remote_write_spec_2.0       302!
+/docs/specs/om              /docs/specs/om/open_metrics_spec            302!
+/docs/specs/prw             /docs/specs/prw/remote_write_spec_2_0       302!
 /docs/prometheus/           /docs/prometheus/latest/getting_started/    302!
 /docs/alerting/             /docs/alerting/latest/overview/             302!
 /docs/visualization/        /docs/visualization/browser/                302!

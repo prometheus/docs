@@ -138,6 +138,10 @@ In other words, the `job` and `instance` labels are shared between `http_server_
 The `k8s_cluster_name` label, on the other hand, corresponds to the OTel resource attribute `k8s.cluster.name` (Prometheus converts dots to underscores, unless configured otherwise).
 
 Be aware though that the `info` function is generally more performant than raw join queries, because it only selects `target_info` series with matching `job` and `instance` labels.
+Maybe more importantly, the `info` function solves an old and rather esoteric problem with the join query approach.
+When the values of other labels than the ones being joined on (i.e. the so-called identifying labels) change (i.e. churn), unless the old `target_info` version gets marked as stale, there will be overlap between the old and new version of `target_info` for the duration of the PromQL lookback delta (5 minutes by default).
+For this duration, join queries against `target_info` will fail due to there being two matching distinct `target_info` time series.
+Fortunately, the `info` function doesn't suffer from this issue however, because it always picks the time series with the latest sample!
 
 So, what is the relation between the `target_info` metric and OTel resource attributes?
 When Prometheus processes an OTLP write request, and provided that contained resources include the attributes `service.instance.id` and/or `service.name`, Prometheus generates the info metric `target_info` for every (OTel) resource.

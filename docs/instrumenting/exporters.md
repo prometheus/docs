@@ -203,6 +203,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [TencentCloud monitor exporter](https://github.com/tencentyun/tencentcloud-exporter)
    * [ThousandEyes exporter](https://github.com/sapcc/1000eyes_exporter)
    * [StatusPage exporter](https://github.com/sergeyshevch/statuspage-exporter)
+   * [DPtech exporter](https://github.com/dptech-dev/dptech_exporter)
 
 ### Miscellaneous
 

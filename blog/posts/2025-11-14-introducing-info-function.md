@@ -12,7 +12,7 @@ The new, still experimental `info()` function, promises a simpler way, making la
 In Prometheus 3.0, we introduced the [`info()`](https://prometheus.io/docs/prometheus/latest/querying/functions/#info) function, a powerful new way to enrich your time series with labels from info metrics.
 `info` doesn't only offer a simpler syntax however.
 It also solves a subtle yet critical problem that has plagued join queries for years: The "churn problem" that causes queries to fail when "non-identifying" info metric labels change.
-Identifying labels here in practice means those that are joined on.
+In practice, "identifying labels" refers to those labels that the join is performed on.
 
 Whether you're working with OpenTelemetry resource attributes, Kubernetes labels, or any other metadata, the `info()` function makes your PromQL queries cleaner, more reliable, and easier to understand.
 

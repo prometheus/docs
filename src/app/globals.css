@@ -53,7 +53,8 @@ pre > code > span {
 }
 
 .markdown-content {
-  img:not(.no-markdown-image-styles) {
+  img:not(.no-markdown-image-styles),
+  video {
     max-width: 90%;
     max-height: 50vh;
     height: auto;

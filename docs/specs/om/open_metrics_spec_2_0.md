@@ -251,7 +251,7 @@ A Histogram MUST measure values that are not NaN in either [Classic Buckets](#cl
 
 Every Bucket MUST have well defined boundaries and a value. Boundaries of a Bucket MUST NOT be NaN. Bucket values MUST be integers. Semantically, bucket values are counters so MUST NOT be NaN or negative.
 
-A Histogram SHOULD refuse to measure NaN value as adding NaN to the Sum will make the Sum equal to NaN and mask the sum of the real measurements until the next reset of the counters. If a Histogram does allow NaN, then NaN MUST be counted in the Count and MUST be added to the Sum, resulting in the Sum becoming NaN.
+A Histogram SHOULD NOT include NaN measurements as including NaN in the Sum will make the Sum equal to NaN and mask the sum of the real measurements for the lifetime of the time series. If a Histogram includes NaN measurements, then NaN measurements MUST be counted in the Count and the Sum MUST be NaN.
 
 A Histogram MAY refuse to measure +Inf and -Inf values as adding these to the Sum will mask the sum of the real measurements until the next reset of the counters. If a Histogram measures +Inf or -Inf, then +Inf or -Inf MUST be counted in the Count and MUST be added to the Sum, potentially resulting in +Inf, -Inf or NaN in the Sum, the later for example in case of adding +Inf to -Inf.
 
@@ -339,7 +339,7 @@ If a GaugeHistogram stops measuring values in either Classic or Native buckets a
 
 Every bucket MUST have well defined boundaries and a value. Boundaries of a bucket MUST NOT be NaN. Bucket values MUST be integers. Semantically, bucket values are gauges and MUST NOT be NaN or negative.
 
-A GaugeHistogram SHOULD refuse to measure NaN value as adding NaN to the Sum will make the Sum equal to NaN and mask the sum of the real measurements until the next reset of the counters. If a GaugeHistogram does allow NaN, then NaN MUST be counted in the Gcount and MUST be added to the Gsum, resulting in the Gsum becoming NaN.
+A GaugeHistogram SHOULD NOT include NaN measurements as including NaN in the Gsum will make the Gsum equal to NaN and mask the sum of the real measurements for the lifetime of the time series. If a GaugeHistogram includes NaN measurements, then NaN measurements MUST be counted in the Gcount and the Gsum MUST be NaN.
 
 A GaugeHistogram MAY refuse to measure +Inf and -Inf values as adding these to the Sum will mask the sum of the real measurements until the next reset of the counters. If a GaugeHistogram measures +Inf or -Inf, then +Inf or -Inf MUST be counted in the Gcount and MUST be added to the Gsum, potentially resulting in +Inf, -Inf or NaN in the Gsum, the later for example in case of adding +Inf to -Inf.
 

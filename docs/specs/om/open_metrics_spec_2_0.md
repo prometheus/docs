@@ -319,8 +319,6 @@ If the NaN value is allowed, it MUST NOT be counted in any Native Bucket, and MU
 
 A Histogram MetricPoint with Native Buckets MAY contain exemplars.
 
-Exemplars associated with a Histogram MetricPoint with Native Buckets SHOULD have a timestamp. Note: storage implementations may drop exemplars without timestamps if keeping track of exemplars without timestamps is too resource intensive.
-
 The values of exemplars in a Histogram MetricPoint with Native Buckets SHOULD be evenly distributed to avoid only representing the bucket with the highest value and therefore most common case.
 
 #### GaugeHistogram

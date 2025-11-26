@@ -167,6 +167,18 @@ When such features are enabled either by feature flag
 appropriate configuration option (`scrape_native_histograms: true`) then
 Protobuf will be favored over other exposition formats.
 
+## HTTP Content-Type requirements
+
+Starting with Prometheus 3.0, scrape targets **must** return a valid `Content-Type` header for the metrics endpoint. If the `Content-Type` is missing, unparsable, or not a supported media type, **the scrape will fail**. See changes in [scrape protocols](https://prometheus.io/docs/prometheus/latest/migration/#scrape-protocols) in the migration guide for details.
+
+See each of the exposition format sections for the accurate HTTP content types.
+
+### ScrapeProtocols vs Content-Type
+
+Prometheus scrape config offers scrape protocol negotiation based on the content-type using the [`scrape_protocols`](https://prometheus.io/docs/prometheus/latest/configuration/configuration/#scrape_config) config. For the Prometheus user convenience the scrape protocols are referenced by a unique name that maps to the concrete content-type. See [Protocol Headers](./content_negotiation.md#protocol-headers) for details.
+
+However, the targets should expose metrics in the exposition format with the absolute, response content-type (e.g. `application/openmetrics-text;version=1.0.0`) and only one.
+
 ## Historical versions
 
 For details on historical format versions, see the legacy

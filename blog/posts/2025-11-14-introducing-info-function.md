@@ -10,7 +10,7 @@ The PromQL join query traditionally used for this is inherently quite complex be
 The new, still experimental `info()` function, promises a simpler way, making label enrichment as simple as wrapping your query in a single function call.
 
 In Prometheus 3.0, we introduced the [`info()`](https://prometheus.io/docs/prometheus/latest/querying/functions/#info) function, a powerful new way to enrich your time series with labels from info metrics.
-What's special about `info()` versus the traditional join query technique is that it relieves you from having to specify _identifying labels_, which info metric(s) to join with, and the (non-identifying) labels to enrich with.
+What's special about `info()` versus the traditional join query technique is that it relieves you from having to specify _identifying labels_, which info metric(s) to join with, and the ("data" or "non-identifying") labels to enrich with.
 Note that "identifying labels" in this particular context refers to the set of labels that identify the info metrics in question, and are shared with associated non-info metrics.
 They are the labels you would join on in a Prometheus [join query](https://grafana.com/blog/2021/08/04/how-to-use-promql-joins-for-more-effective-queries-of-prometheus-metrics-at-scale).
 Conceptually, they can be compared to [foreign keys](https://en.wikipedia.org/wiki/Foreign_key) in relational databases.
@@ -25,6 +25,7 @@ Whether you're working with OpenTelemetry resource attributes, Kubernetes labels
 
 Let us start by looking at what we have had to do until now.
 Imagine you're monitoring HTTP request durations via OpenTelemetry and want to break them down by Kubernetes cluster.
+You push your metrics to Prometheus' OTLP endpoint.
 Your metrics have `job` and `instance` labels, but the cluster name lives in a separate `target_info` metric, as the `k8s_cluster_name` label.
 Here's what the traditional approach looks like:
 
@@ -48,10 +49,11 @@ This requires expert-level PromQL knowledge and makes queries harder to read and
 
 **2. The Churn Problem (The Critical Issue):**
 
-Here's the subtle but serious problem: What happens when a Kubernetes pod gets recreated?
-The `k8s_pod_name` label in `target_info` changes, and Prometheus sees this as a completely new time series.
+Here's the subtle but serious problem: What happens when an OTel resource attribute changes in a Kubernetes container, while the identifying resource attributes stay the same?
+An example could be the resource attribute `k8s.pod.labels.app.kubernetes.io/version`.
+Then the corresponding `target_info` label `k8s.pod.labels.app.kubernetes.io/version` changes, and Prometheus sees a completely new `target_info` time series.
 
-If the old `target_info` series isn't properly marked as stale immediately, both the old and new series can exist simultaneously for up to 5 minutes (the default lookback delta).
+As the OTLP endpoint doesn't mark the old `target_info` series as stale, both the old and new series can exist simultaneously for up to 5 minutes (the default lookback delta).
 During this overlap period, your join query finds **two distinct matching `target_info` time series** and fails with a "many-to-many matching" error.
 
 This could in practice mean your dashboards break and your alerts stop firing when infrastructure changes are happening, perhaps precisely when you would need visibility the most.

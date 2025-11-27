@@ -56,9 +56,6 @@ This could in practice mean your dashboards break and your alerts stop firing wh
 ## The Solution: Simple, Reliable Label Enrichment
 
 The `info()` function solves both problems at once.
-Here's the same query using `info()`:
-
-```promql
 sum by (k8s_cluster_name, http_status_code) (
   info(rate(http_server_request_duration_seconds_count[2m]))
 )

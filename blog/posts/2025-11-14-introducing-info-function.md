@@ -267,7 +267,7 @@ The experimental status allows us to:
 - Iterate on the design before committing to a final API
 
 A future version of the `info()` function should:
-- Support all info metrics (not just `target_info`)
+- Consider all info metrics by default (not just `target_info`)
 - Dynamically determine identifying labels based on the info metric's structure
 
 **Important:** Because this is an experimental feature, the behavior may change in future Prometheus versions, or the function could potentially be removed from PromQL entirely based on user feedback.

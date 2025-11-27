@@ -177,49 +177,52 @@ sum by (job, http_status_code, version) info(
 
 Let's see how the `info()` function simplifies real queries:
 
-### Example 1: Basic Label Enrichment
+### Example 1: OpenTelemetry Resource Attribute Enrichment
 
 **Traditional approach:**
 ```promql
-rate(http_server_request_duration_seconds_count[2m])
-  * on (job, instance) group_left (k8s_cluster_name)
-    target_info
-```
-
-**With info():**
-```promql
-info(
-  rate(http_server_request_duration_seconds_count[2m]),
-  {k8s_cluster_name=~".+"}
-)
-```
-
-### Example 2: Aggregation with Multiple Labels
-
-**Traditional approach:**
-```promql
-sum by (k8s_cluster_name, k8s_namespace_name, http_status_code) (
+sum by (http_status_code, k8s_cluster_name, k8s_container_name, k8s_cronjob_name, k8s_daemonset_name, k8s_deployment_name, k8s_job_name, k8s_namespace_name, k8s_pod_name, k8s_replicaset_name, k8s_statefulset_name) (
     rate(http_server_request_duration_seconds_count[2m])
-  * on (job, instance) group_left (k8s_cluster_name, k8s_namespace_name)
+  * on (job, instance) group_left (k8s_cluster_name, k8s_container_name, k8s_cronjob_name, k8s_daemonset_name, k8s_deployment_name, k8s_job_name, k8s_namespace_name, k8s_pod_name, k8s_replicaset_name, k8s_statefulset_name)
     target_info
 )
 ```
 
 **With info():**
 ```promql
-sum by (k8s_cluster_name, k8s_namespace_name, http_status_code) (
+sum by (http_status_code, k8s_cluster_name, k8s_container_name, k8s_cronjob_name, k8s_daemonset_name, k8s_deployment_name, k8s_job_name, k8s_namespace_name, k8s_pod_name, k8s_replicaset_name, k8s_statefulset_name) (
+  info(rate(http_server_request_duration_seconds_count[2m]))
+)
+```
+
+The intent is much clearer with `info`: We're enriching `http_server_request_duration_seconds_count` with Kubernetes related OpenTelemetry resource attributes.
+
+### Example 2: Filtering by Label Value
+
+**Traditional approach:**
+```promql
+sum by (http_status_code) (
+    rate(http_server_request_duration_seconds_count[2m])
+  * on (job, instance) group_left ()
+    target_info{k8s_cluster_name="us-east-1"}
+)
+```
+
+**With info():**
+```promql
+sum by (http_status_code) (
   info(
     rate(http_server_request_duration_seconds_count[2m]),
-    {k8s_cluster_name=~".+", k8s_namespace_name=~".+"}
+    {k8s_cluster_name="us-east-1"}
   )
 )
 ```
 
-The intent is much clearer with `info`: We're enriching `http_server_request_duration_seconds_count` with cluster and namespace information, then aggregating by those labels and `http_status_code`.
+Here we filter to only include metrics from the `us-east-1` cluster. The `info()` version integrates the filter naturally into the data-label-selector.
 
 ## Technical Benefits
 
-Beyond cleaner syntax, the `info()` function provides several technical advantages:
+Beyond the fundamental UX benefits, the `info()` function provides several technical advantages:
 
 ### 1. Automatic Churn Handling
 
@@ -245,26 +248,6 @@ prometheus --enable-feature=promql-experimental-functions
 ```
 
 Once enabled, you can start using it immediately.
-Here are some simple examples to try:
-
-```promql
-# Basic usage - add all target_info labels
-info(up)
-
-# Selective enrichment - add only cluster name
-info(up, {k8s_cluster_name=~".+"})
-
-# In a real query
-info(
-  rate(http_server_request_duration_seconds_count[5m]),
-  {k8s_cluster_name=~".+"}
-)
-
-# With aggregation
-sum by (k8s_cluster_name) (
-  info(up, {k8s_cluster_name=~".+"})
-)
-```
 
 ## Current Limitations and Future Plans
 
@@ -277,7 +260,7 @@ It has some intentional limitations:
    - Workaround: You can use `__name__` matchers like `{__name__=~"(target|build)_info"}` in the data-label-selector, though this still assumes `job` and `instance` as identifying labels
 
 2. **Fixed identifying labels:** Always assumes `job` and `instance` are the identifying labels for joining
-   - This works for most use cases but may not be suitable for all scenarios
+   - This unfortunately makes `info()` unsuitable for certain scenarios, e.g. including data labels from `kube_pod_labels`, but it's a problem we want to solve in the future
 
 ### Future Development
 
@@ -289,7 +272,7 @@ The experimental status allows us to:
 
 A future version of the `info()` function should:
 - Consider all info metrics by default (not just `target_info`)
-- Dynamically determine identifying labels based on the info metric's structure
+- Automatically understand identifying labels based on info metric metadata
 
 **Important:** Because this is an experimental feature, the behavior may change in future Prometheus versions, or the function could potentially be removed from PromQL entirely based on user feedback.
 

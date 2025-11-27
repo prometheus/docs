@@ -77,10 +77,31 @@ info(v instant-vector, [data-label-selector instant-vector])
 - **`v`**: The instant vector to enrich with metadata labels
 - **`data-label-selector`** (optional): Label matchers in curly braces to filter which labels to include
 
-If you omit the second parameter, `info()` adds **all** data labels from `target_info`:
+In its most basic form, omitting the second parameter, `info()` adds **all** data labels from `target_info`:
 
 ```promql
 info(rate(http_server_request_duration_seconds_count[2m]))
+```
+
+Through the second parameter on the other hand, you can control which data labels to include from `target_info`:
+
+```promql
+info(
+  rate(http_server_request_duration_seconds_count[2m]),
+  {k8s_cluster_name=~".+"}
+)
+```
+
+In the example above, `info()` includes the `k8s_cluster_name` data label from `target_info`.
+Because the selector matches any non-empty string, it will include any `k8s_cluster_name` label value.
+
+It's also possible to filter which `k8s_cluster_name` label values to include:
+
+```promql
+info(
+  rate(http_server_request_duration_seconds_count[2m]),
+  {k8s_cluster_name="us-east-0"}
+)
 ```
 
 ### Selecting Different Info Metrics

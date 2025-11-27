@@ -122,6 +122,7 @@ info(up, {__name__="build_info", version=~".+"})
 
 **Note:** The current implementation always uses `job` and `instance` as the identifying labels for joining, regardless of which info metric you select.
 This works well for most standard info metrics but may have limitations with custom info metrics that use different identifying labels.
+An example of an info metric that has different identifying labels than `job` and `instance` is `kube_pod_labels`, its identifying labels are instead: `namespace` and `pod`.
 The intention is that `info()` in the future knows which metrics in the TSDB are info metrics and automatically uses all of them, unless the selection is explicitly restricted by a name matcher like the above, and which are the identifying labels for each info metric.
 
 ## Real-World Use Cases

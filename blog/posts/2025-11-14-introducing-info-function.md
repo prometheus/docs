@@ -12,7 +12,10 @@ The new, still experimental `info()` function, promises a simpler way, making la
 In Prometheus 3.0, we introduced the [`info()`](https://prometheus.io/docs/prometheus/latest/querying/functions/#info) function, a powerful new way to enrich your time series with labels from info metrics.
 `info` doesn't only offer a simpler syntax however.
 It also solves a subtle yet critical problem that has plagued join queries for years: The "churn problem" that causes queries to fail when "non-identifying" info metric labels change.
-In practice, "identifying labels" refers to those labels that the join is performed on.
+
+In Prometheus, a set of labels on a metric is always considered "identifying", which means that when Prometheus sees any change in any label, it considers that data to be part of a new and distinct metric series. For example, the data associated with "cluster=prod-1" is distinct from data associated with "cluster=prod-2".  However, in practice, some labels are "non-identifying", such as "pod ID."  One service could be rescheduled on a different pod, and although the pod ID changes, the user may consider this as the same data stream as what came before and would prefer to treat it as a contiguous series. Today in Prometheus, these would show up as separate series, requiring aggregations on volatile labels.
+
+The `info()` function helps make this separation explicit by separating labels into two buckets: those on the metric itself (identifying) and those on the target_info metric (non-identifying). When a query is run, the value of labels provided by `info()` can change over time, but the response will appear as a single, non-interrupted series, without the need for further `sum()` aggregations. The question of whether a label is "identifying" -- whether it indicates a distinct series or not -- can vary between installations and is controlled by the user.
 
 Whether you're working with OpenTelemetry resource attributes, Kubernetes labels, or any other metadata, the `info()` function makes your PromQL queries cleaner, more reliable, and easier to understand.
 

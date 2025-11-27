@@ -6,7 +6,7 @@ author_name: Arve Knudsen
 ---
 
 Enriching metrics with metadata labels can be surprisingly tricky in Prometheus, even if you're a PromQL wiz!
-Traditionally, complex PromQL join syntax is required in Prometheus to add even basic information like Kubernetes cluster names or cloud provider regions to queries.
+The PromQL join query traditionally used for this is inherently quite complex because it has to specify the labels to join on, the info metric to join with, and the labels to enrich with. 
 The new, still experimental `info()` function, promises a simpler way, making label enrichment as simple as wrapping your query in a single function call.
 
 In Prometheus 3.0, we introduced the [`info()`](https://prometheus.io/docs/prometheus/latest/querying/functions/#info) function, a powerful new way to enrich your time series with labels from info metrics.

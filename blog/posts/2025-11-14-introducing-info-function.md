@@ -60,10 +60,7 @@ Here's the same query using `info()`:
 
 ```promql
 sum by (k8s_cluster_name, http_status_code) (
-  info(
-    rate(http_server_request_duration_seconds_count[2m]),
-    {k8s_cluster_name=~".+"}
-  )
+  info(rate(http_server_request_duration_seconds_count[2m]))
 )
 ```
 

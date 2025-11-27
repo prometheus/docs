@@ -252,7 +252,8 @@ Once enabled, you can start using it immediately.
 ## Current Limitations and Future Plans
 
 The current implementation is an **MVP (Minimum Viable Product)** designed to validate the approach and gather user feedback.
-It has some intentional limitations:
+You may provide feedback through e.g. our [community connections](https://prometheus.io/community/#community-connections) or by opening a [Prometheus issue](https://github.com/prometheus/prometheus/issues).
+The implementation has some intentional limitations:
 
 ### Current Constraints
 
@@ -288,6 +289,7 @@ We encourage you to try the `info()` function and share your feedback:
 - Do you see improved performance?
 
 Your feedback will directly shape the future of this feature and help us determine whether it should become a permanent part of PromQL.
+Feedback may be provided e.g. through our [community connections](https://prometheus.io/community/#community-connections) or by opening a [Prometheus issue](https://github.com/prometheus/prometheus/issues).
 
 To learn more:
 - [PromQL functions documentation](https://prometheus.io/docs/prometheus/latest/querying/functions/#info)

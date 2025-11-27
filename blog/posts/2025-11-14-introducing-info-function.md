@@ -58,9 +58,6 @@ During this overlap period, your join query finds **two distinct matching `targe
 
 This could in practice mean your dashboards break and your alerts stop firing when infrastructure changes are happening, perhaps precisely when you would need visibility the most.
 
-## The Solution: Simple, Reliable Label Enrichment
-
-The `info()` function solves both problems at once.
 sum by (k8s_cluster_name, http_status_code) (
   info(rate(http_server_request_duration_seconds_count[2m]))
 )

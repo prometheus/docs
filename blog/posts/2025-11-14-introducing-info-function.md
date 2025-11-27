@@ -107,7 +107,7 @@ info(
 ### Selecting Different Info Metrics
 
 By default, `info()` uses the `target_info` metric.
-However, you can select different info metrics (like `build_info`, `node_uname_info`, or `kube_pod_labels`) by including a `__name__` matcher in the data-label-selector:
+However, you can select different info metrics (like `build_info` or `node_uname_info`) by including a `__name__` matcher in the data-label-selector:
 
 ```promql
 # Use build_info instead of target_info
@@ -150,29 +150,26 @@ info(
 )
 ```
 
-### Kubernetes Metadata
+### Build Information
 
-Enrich your metrics with Kubernetes-specific information:
+Enrich your metrics with build-time information:
 
 ```promql
-# Add cluster and namespace information to request rates
-info(
-  sum by (job, http_status_code) (
-    rate(http_server_request_duration_seconds_count[2m])
-  ),
-  {k8s_cluster_name=~".+", k8s_namespace_name=~".+"}
+# Add version and branch information to request rates
+sum by (job, http_status_code, version, branch) info(
+  rate(http_server_request_duration_seconds_count[2m]),
+  {__name__="build_info"}
 )
 ```
 
-### Cloud Provider Metadata
+### Filter on Producer Version
 
-Add cloud provider information to understand costs and performance by region:
+Pick only metrics from certain producer versions:
 
 ```promql
-# Enrich with AWS/GCP/Azure region and availability zone
-info(
-  rate(cloud_storage_request_count[5m]),
-  {cloud_provider=~".+", cloud_region=~".+", cloud_availability_zone=~".+"}
+sum by (job, http_status_code, version) info(
+  rate(http_server_request_duration_seconds_count[2m]),
+  {__name__="build_info", version=~"2\..+"}
 )
 ```
 

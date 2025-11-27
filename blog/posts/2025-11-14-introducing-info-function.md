@@ -10,9 +10,12 @@ The PromQL join query traditionally used for this is inherently quite complex be
 The new, still experimental `info()` function, promises a simpler way, making label enrichment as simple as wrapping your query in a single function call.
 
 In Prometheus 3.0, we introduced the [`info()`](https://prometheus.io/docs/prometheus/latest/querying/functions/#info) function, a powerful new way to enrich your time series with labels from info metrics.
-`info` doesn't only offer a simpler syntax however.
-It also solves a subtle yet critical problem that has plagued join queries for years: The "churn problem" that causes queries to fail when "non-identifying" info metric labels change.
-In practice, "identifying labels" refers to those labels that the join is performed on.
+What's special about `info()` versus the traditional join query technique is that it relieves you from having to specify _identifying labels_, which info metric(s) to join with, and the (non-identifying) labels to enrich with.
+Note that "identifying labels" in this particular context refers to the set of labels that identify the info metrics in question, and are shared with associated non-info metrics.
+They are the labels you would join on in a Prometheus [join query](https://grafana.com/blog/2021/08/04/how-to-use-promql-joins-for-more-effective-queries-of-prometheus-metrics-at-scale).
+Conceptually, they can be compared to [foreign keys](https://en.wikipedia.org/wiki/Foreign_key) in relational databases.
+
+Beyond the main functionality, `info()` also solves a subtle yet critical problem that has plagued join queries for years: The "churn problem" that causes queries to fail when non-identifying info metric labels change, combined with missing staleness marking (as is the case with OTLP ingestion).
 
 Whether you're working with OpenTelemetry resource attributes, Kubernetes labels, or any other metadata, the `info()` function makes your PromQL queries cleaner, more reliable, and easier to understand.
 

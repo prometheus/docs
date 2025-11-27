@@ -58,13 +58,15 @@ During this overlap period, your join query finds **two distinct matching `targe
 
 This could in practice mean your dashboards break and your alerts stop firing when infrastructure changes are happening, perhaps precisely when you would need visibility the most.
 
+```promql
 sum by (k8s_cluster_name, http_status_code) (
   info(rate(http_server_request_duration_seconds_count[2m]))
 )
 ```
 
 Much more comprehensible, no?
-The real magic happens under the hood though: **`info()` automatically selects the time series with the latest sample**, eliminating churn-related join failures entirely.
+Note that this call to `info()` returns all data labels from `target_info`, but it doesn't matter because we aggregate them away with `sum`.
+As regards solving the churn problem, the real magic happens under the hood: **`info()` automatically selects the time series with the latest sample**, eliminating churn-related join failures entirely.
 
 ### Basic Syntax
 

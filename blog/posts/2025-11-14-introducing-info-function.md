@@ -58,7 +58,7 @@ During this overlap period, your join query finds **two distinct matching `targe
 
 This could in practice mean your dashboards break and your alerts stop firing when infrastructure changes are happening, perhaps precisely when you would need visibility the most.
 
-### How the Info Function Solves the Problem
+### The Info Function Presents a Solution
 
 The previous join query can be converted to use the `info` function as follows:
 
@@ -222,7 +222,7 @@ sum by (http_status_code, k8s_cluster_name) (
 )
 ```
 
-Here we filter to only include metrics from clusters in the US (whose name starts with `us-`). The `info()` version integrates the filter naturally into the data-label-selector.
+Here we filter to only include metrics from clusters in the US (which names start with `us-`). The `info()` version integrates the filter naturally into the data-label-selector.
 
 ## Technical Benefits
 

@@ -5,7 +5,9 @@ kind: article
 author_name: Julius Volz (@juliusv)
 ---
 
-Prometheus' [target relabeling](https://prometheus.io/docs/prometheus/latest/configuration/configuration/#relabel_config) feature allows you to adust the labels of a discovered target before it is scraped or even drop the target based on its labels. However, understanding and debugging relabeling rules can be challenging. Your relabeling rules have to match the expected labels that your service discovery mechanism returns, and getting any step wrong could label your target incorrectly or accidentally drop it. To help you figure out where things go wrong, Prometheus 3.8.0 [just added a relabeling visualizer](https://github.com/prometheus/prometheus/pull/17337) to the Prometheus server's web UI that allows you to inspect how each relabeling rule is applied to a discovered target's labels. Let's take a look at how it works!
+Prometheus' [target relabeling](https://prometheus.io/docs/prometheus/latest/configuration/configuration/#relabel_config) feature allows you to adjust the labels of a discovered target or even drop the target entirely. Relabeling rules, while powerful, can be hard to understand and debug. Your rules have to match the expected labels that your service discovery mechanism returns, and getting any step wrong could label your target incorrectly or accidentally drop it.
+
+To help you figure out where things go wrong (or right), Prometheus 3.8.0 [just added a relabeling visualizer](https://github.com/prometheus/prometheus/pull/17337) to the Prometheus server's web UI that allows you to inspect how each relabeling rule is applied to a discovered target's labels. Let's take a look at how it works!
 
 <!-- more -->
 

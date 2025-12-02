@@ -218,7 +218,7 @@ sum by (http_status_code, k8s_cluster_name) (
 )
 ```
 
-Here we filter to only include metrics from the `us-east-1` cluster. The `info()` version integrates the filter naturally into the data-label-selector.
+Here we filter to only include metrics from clusters in the US (whose name starts with `us-`). The `info()` version integrates the filter naturally into the data-label-selector.
 
 ## Technical Benefits
 

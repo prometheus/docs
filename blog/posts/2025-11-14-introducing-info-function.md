@@ -210,10 +210,10 @@ sum by (http_status_code, k8s_cluster_name) (
 
 **With info():**
 ```promql
-sum by (http_status_code) (
+sum by (http_status_code, k8s_cluster_name) (
   info(
     rate(http_server_request_duration_seconds_count[2m]),
-    {k8s_cluster_name="us-east-1"}
+    {k8s_cluster_name=~"us-.*"}
   )
 )
 ```

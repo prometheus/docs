@@ -11,6 +11,7 @@ import {
 import TOC from "@/components/TOC";
 import LeftNav from "./LeftNav";
 import { IconMenu2 } from "@tabler/icons-react";
+import { AnchorScroller } from "@/components/AnchorScroller";
 
 export default function DocsLayout({
   children,
@@ -85,6 +86,7 @@ export default function DocsLayout({
           }}
         />
       </Group>
+      <AnchorScroller />
     </>
   );
 }

@@ -30,7 +30,7 @@ Your metrics have `job` and `instance` labels, but the cluster name lives in a s
 Here's what the traditional approach looks like:
 
 ```promql
-sum by (k8s_cluster_name, http_status_code) (
+sum by (http_status_code, k8s_cluster_name) (
     rate(http_server_request_duration_seconds_count[2m])
   * on (job, instance) group_left (k8s_cluster_name)
     target_info
@@ -51,24 +51,28 @@ This requires expert-level PromQL knowledge and makes queries harder to read and
 
 Here's the subtle but serious problem: What happens when an OTel resource attribute changes in a Kubernetes container, while the identifying resource attributes stay the same?
 An example could be the resource attribute `k8s.pod.labels.app.kubernetes.io/version`.
-Then the corresponding `target_info` label `k8s.pod.labels.app.kubernetes.io/version` changes, and Prometheus sees a completely new `target_info` time series.
+Then the corresponding `target_info` label `k8s_pod_labels_app_kubernetes_io_version` changes, and Prometheus sees a completely new `target_info` time series.
 
 As the OTLP endpoint doesn't mark the old `target_info` series as stale, both the old and new series can exist simultaneously for up to 5 minutes (the default lookback delta).
 During this overlap period, your join query finds **two distinct matching `target_info` time series** and fails with a "many-to-many matching" error.
 
 This could in practice mean your dashboards break and your alerts stop firing when infrastructure changes are happening, perhaps precisely when you would need visibility the most.
 
+### How the Info Function Solves the Problem
+
+The previous join query can be converted to use the `info` function as follows:
+
 ```promql
-sum by (k8s_cluster_name, http_status_code) (
+sum by (http_status_code, k8s_cluster_name) (
   info(rate(http_server_request_duration_seconds_count[2m]))
 )
 ```
 
 Much more comprehensible, isn't it?
-Note that this call to `info()` returns all data labels from `target_info`, but it doesn't matter because we aggregate them away with `sum`.
 As regards solving the churn problem, the real magic happens under the hood: **`info()` automatically selects the time series with the latest sample**, eliminating churn-related join failures entirely.
+Note that this call to `info()` returns all data labels from `target_info`, but it doesn't matter because we aggregate them away with `sum`.
 
-### Basic Syntax
+## Basic Syntax
 
 ```promql
 info(v instant-vector, [data-label-selector instant-vector])
@@ -104,7 +108,7 @@ info(
 )
 ```
 
-### Selecting Different Info Metrics
+## Selecting Different Info Metrics
 
 By default, `info()` uses the `target_info` metric.
 However, you can select different info metrics (like `build_info` or `node_uname_info`) by including a `__name__` matcher in the data-label-selector:

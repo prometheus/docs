@@ -181,16 +181,16 @@ Let's see how the `info()` function simplifies real queries:
 
 **Traditional approach:**
 ```promql
-sum by (http_status_code, k8s_cluster_name, k8s_container_name, k8s_cronjob_name, k8s_daemonset_name, k8s_deployment_name, k8s_job_name, k8s_namespace_name, k8s_pod_name, k8s_replicaset_name, k8s_statefulset_name) (
+sum by (http_status_code, k8s_cluster_name, k8s_namespace_name, k8s_container_name) (
     rate(http_server_request_duration_seconds_count[2m])
-  * on (job, instance) group_left (k8s_cluster_name, k8s_container_name, k8s_cronjob_name, k8s_daemonset_name, k8s_deployment_name, k8s_job_name, k8s_namespace_name, k8s_pod_name, k8s_replicaset_name, k8s_statefulset_name)
+  * on (job, instance) group_left (k8s_cluster_name, k8s_namespace_name, k8s_container_name)
     target_info
 )
 ```
 
 **With info():**
 ```promql
-sum by (http_status_code, k8s_cluster_name, k8s_container_name, k8s_cronjob_name, k8s_daemonset_name, k8s_deployment_name, k8s_job_name, k8s_namespace_name, k8s_pod_name, k8s_replicaset_name, k8s_statefulset_name) (
+sum by (http_status_code, k8s_cluster_name, k8s_namespace_name, k8s_container_name) (
   info(rate(http_server_request_duration_seconds_count[2m]))
 )
 ```

@@ -201,10 +201,10 @@ The intent is much clearer with `info`: We're enriching `http_server_request_dur
 
 **Traditional approach:**
 ```promql
-sum by (http_status_code) (
+sum by (http_status_code, k8s_cluster_name) (
     rate(http_server_request_duration_seconds_count[2m])
-  * on (job, instance) group_left ()
-    target_info{k8s_cluster_name="us-east-1"}
+  * on (job, instance) group_left (k8s_cluster_name)
+    target_info{k8s_cluster_name=~"us-.*"}
 )
 ```
 

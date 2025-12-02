@@ -56,7 +56,7 @@ pre > code > span {
   img:not(.no-markdown-image-styles),
   video {
     max-width: 90%;
-    max-height: 50vh;
+    max-height: 65vh;
     height: auto;
     margin: 1.5em auto;
     display: block;

@@ -256,7 +256,7 @@ The Sum value MUST be equal to the sum of all the measured event values. The Sum
 
 A Histogram MUST measure values that are not NaN in either [Classic Buckets](#classic-buckets) or [Native Buckets](#native-buckets) or both. Measuring NaN is different for Classic and Native Buckets, see in their respective sections.
 
-Every Bucket MUST have well defined boundaries and a value. Boundaries of a Bucket MUST NOT be NaN. Bucket values MUST be integers. Semantically, bucket values are counters so MUST NOT be NaN or negative.
+Every Bucket MUST have well defined boundaries and a value. The bucket value is called the bucket count colloquially. Boundaries of a Bucket MUST NOT be NaN. Bucket values MUST be integers. Semantically, bucket values are counters so MUST NOT be NaN or negative.
 
 A Histogram SHOULD NOT include NaN measurements as including NaN in the Sum will make the Sum equal to NaN and mask the sum of the real measurements for the lifetime of the time series. If a Histogram includes NaN measurements, then NaN measurements MUST be counted in the Count and the Sum MUST be NaN.
 

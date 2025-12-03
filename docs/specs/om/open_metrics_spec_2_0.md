@@ -74,22 +74,15 @@ This section MUST be read together with the ABNF section. In case of disagreemen
 
 #### Values
 
-Metric values in OpenMetrics MUST be either numbers or complex data types.
-
-Numbers MUST be either floating points or integers. Note that ingestors of the format MAY only support float64. The non-real values NaN, +Inf and -Inf MUST be supported. NaN MUST NOT be considered a missing value, but it MAY be used to signal a division by zero.
-
-Complex data types MUST contain all information necessary to recreate a sample of a Metric Type, with the exception of Start Timestamp and Exemplars.
-
-List of complex data types:
-
-- Integer counter native histograms for the Metric Type Histogram.
-- Integer gauge native histograms for the Metric Type GaugeHistogram.
-
 Metric values in OpenMetrics MUST be either Number or ComplexValue.
 
-[Number](#numbers) value MUST be either floating point or integer. Note that ingestors of the format MAY only support float64. The non-real values NaN, +Inf and -Inf MUST be supported. NaN value MUST NOT be considered a missing value, but it MAY be used to signal a division by zero.
+##### Number
 
-ComplexValue MUST contain all information necessary to recreate a sample value for Metric within  the MetricFamily
+Number value MUST be either floating point or integer. Note that ingestors of the format MAY only support float64. The non-real values NaN, +Inf and -Inf MUST be supported. NaN value MUST NOT be considered a missing value, but it MAY be used to signal a division by zero.
+
+##### ComplexValue
+
+ComplexValue MUST contain all information necessary to recreate a sample value for Metric within the MetricFamily.
 
 The following Metric Types MUST use ComplexValue for Metric Values:
 

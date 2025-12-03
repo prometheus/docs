@@ -116,7 +116,9 @@ Ingestors MAY discard exemplars.
 
 #### Metric
 
-Metrics are defined by a unique LabelSet within a MetricFamily. Metrics MUST contain a list of one or more MetricPoints. Metrics with the same name for a given MetricFamily SHOULD have the same set of label names in their LabelSet.
+Metrics are defined by a unique LabelSet within a MetricFamily. Metrics MUST contain a list of one or more MetricPoints. 
+
+Metrics with the same name for a given MetricFamily SHOULD have the same set of label names in their LabelSet.
 
 MetricPoints SHOULD NOT have explicit timestamps.
 
@@ -128,27 +130,21 @@ A MetricFamily MAY have zero or more Metrics. A MetricFamily MUST have a name, H
 
 ##### Name
 
-MetricFamily names are a string and MUST be unique within a MetricSet. Names SHOULD be in snake_case. Names SHOULD follow the restrictions in the ABNF section under `metricname`. Metric names MAY be any quoted and escaped UTF-8 string as described in the ABNF section. Be aware that exposing UTF-8 metrics is still experimental and may reduce usability, especially when suffixes are not included.
+MetricFamily name:
 
+* MUST be string.
+* MUST be unique within a MetricSet.
+* MUST be the same as every MetricPoint's MetricName in the family. TODO(bwplotka): This assumes complex values will be introduced. Otherwise, we need to keep suffixes section for histograms and summaries.
+
+> NOTE: [OpenMetrics 1.0](https://prometheus.io/docs/specs/om/open_metrics_spec/#suffixes) was allowing different MetricFamily Name vs MetricName in the same family. For example MetricFamily Name `foo` for a counter with a MetricName `foo_total`. This is no longer accepted thanks to ComplexValue and for parser reliability and future compatibility.
+
+Names SHOULD be in snake_case. Names SHOULD follow the restrictions in the ABNF section under `metricname`. Metric names MAY be any quoted and escaped UTF-8 string as described in the ABNF section. Be aware that exposing UTF-8 metrics is still experimental and may reduce usability, especially when `_total` or unit suffixes are not included.
+ 
 Colons in MetricFamily names are RESERVED to signal that the MetricFamily is the result of a calculation or aggregation of a general purpose monitoring system.
 
 MetricFamily names beginning with underscores are RESERVED and MUST NOT be used unless specified by this standard.
 
-###### Suffixes
-
-The name of a MetricFamily MUST NOT result in a potential clash for sample metric names as per the ABNF with another MetricFamily in the Text Format within a MetricSet. An example would be a gauge called "foo_total" as a counter called "foo" could create a "foo_total" in the text format.
-
-Exposers SHOULD avoid names that could be confused with the suffixes that text format sample metric names use.
-
-* Suffixes for the respective types are:
-* Counter: `_total`
-* Summary: `_count`, `_sum`, `` (empty)
-* Histogram: `_count`, `_sum`, `_bucket`
-* GaugeHistogram: `_gcount`, `_gsum`, `_bucket`
-* Info: `_info`
-* Gauge: `` (empty)
-* StateSet: `` (empty)
-* Unknown: `` (empty)
+MetricFamily name CAN be used to connect [MetricFamily metadata](#metricfamily-metadata) with [MetricPoint](#metricpoint-1) in the [text format](#text-format).
 
 ##### Type
 
@@ -190,13 +186,13 @@ A gauge MAY be used to encode an enum where the enum has many states and changes
 
 Counters measure discrete events. Common examples are the number of HTTP requests received, CPU seconds spent, or bytes sent. For counters how quickly they are increasing over time is what is of interest to a user.
 
-A MetricPoint in a Metric with the type Counter MUST have one value called Total. A Total is a non-NaN and MUST be monotonically non-decreasing over time, starting from 0.
+A Counter MetricPoint's value MUST be a Number. The value MUST NOT be NaN and MUST be monotonically non-decreasing over time, starting from 0.
 
-A MetricPoint in a Metric with the type Counter SHOULD have a Timestamp value called Start Timestamp. This can help ingestors discern between new metrics and long-running ones it did not see before.
+A Counter MetricPoint SHOULD have a Timestamp value called Start Timestamp. This can help ingestors discern between new metrics and long-running ones it did not see before.
 
-A MetricPoint in a Metric's Counter's Total MAY reset to 0. If present, the corresponding Start Timestamp MUST also be set to the timestamp of the reset.
-
-A MetricPoint in a Metric's Counter's Total MAY have an exemplar.
+A Counter MetricPoint MAY reset to 0. If present, the corresponding Start Timestamp MUST also be set to the timestamp of the reset.
+ 
+A Counter MetricPoint MAY have an exemplar.
 
 #### StateSet
 
@@ -424,6 +420,7 @@ Line endings MUST be signalled with line feed (\n) and MUST NOT contain carriage
 
 An example of a complete exposition:
 
+TODO(bwplotka): acme_http_router_request_seconds breaks MetricFamily rule until complex types are introduced.
 ```openmetrics
 # TYPE acme_http_router_request_seconds summary
 # UNIT acme_http_router_request_seconds seconds
@@ -435,9 +432,9 @@ acme_http_router_request_seconds_count{path="/api/v2",method="POST"} 34.0 st@160
 # TYPE go_goroutines gauge
 # HELP go_goroutines Number of goroutines that currently exist.
 go_goroutines 69
-# TYPE process_cpu_seconds counter
-# UNIT process_cpu_seconds seconds
-# HELP process_cpu_seconds Total user and system CPU time spent in seconds.
+# TYPE process_cpu_seconds_total counter
+# UNIT process_cpu_seconds_total seconds
+# HELP process_cpu_seconds_total Total user and system CPU time spent in seconds.
 process_cpu_seconds_total 4.20072246e+06
 # EOF
 ```
@@ -489,43 +486,50 @@ Timestamps SHOULD NOT use exponential float rendering for timestamps if nanoseco
 
 #### MetricFamily
 
-There MUST NOT be an explicit separator between MetricFamilies. The next MetricFamily MUST be signalled with either metadata or a new sample metric name which cannot be part of the previous MetricFamily.
-
+There MUST NOT be an explicit separator between MetricFamilies. The next MetricFamily MUST be signalled with either metadata or a new sample metric name.
 
 MetricFamilies MUST NOT be interleaved.
 
 ##### MetricFamily metadata
 
-There are four pieces of metadata: The MetricFamily name, TYPE, UNIT and HELP.  An example of the metadata for a counter Metric called foo is:
+There are four pieces of metadata: The MetricFamily name, TYPE, UNIT and HELP. An example of the metadata for a counter Metric called foo is:
 
 ```openmetrics-add-eof
-# TYPE foo counter
+# TYPE foo_total counter
 ```
 
 If no TYPE is exposed, the MetricFamily MUST be of type Unknown.
 
-If a unit is specified it MUST be provided in a UNIT metadata line. In addition, an underscore and the unit SHOULD be the suffix of the MetricFamily name.
+If a unit is specified it MUST be provided in a UNIT metadata line. In addition, an underscore and the unit SHOULD be part of the suffix chain of the MetricFamily name.
 
-Be aware that exposing metrics without the unit being a suffix of the MetricFamily name directly to end-users may reduce the usability due to confusion about what the metric's unit is.
+Be aware that exposing metrics without the unit being part of the suffix of the MetricFamily name directly to end-users may reduce the usability due to confusion about what the metric's unit is.
 
-A valid example for a foo_seconds metric with a unit of "seconds":
+A valid example for a foo_seconds metric gauge with a unit of "seconds":
 
 ```openmetrics-add-eof
-# TYPE foo_seconds counter
+# TYPE foo_seconds gauge
 # UNIT foo_seconds seconds
+``` 
+
+A valid example for a foo_seconds_total metric counter with a unit of "seconds":
+
+```openmetrics-add-eof
+# TYPE foo_seconds_total counter
+# UNIT foo_seconds_total seconds
 ```
 
-A valid, but discouraged example, where the unit is not a suffix on the name:
+
+A valid, but discouraged example, where the unit is not part of the suffix on the name:
 
 ```openmetrics-add-eof
-# TYPE foo counter
-# UNIT foo seconds
+# TYPE foo_total counter
+# UNIT foo_total seconds
 ```
 
 It is also valid to have:
 
 ```openmetrics-add-eof
-# TYPE foo_seconds counter
+# TYPE foo_seconds_total counter
 ```
 
 If the unit is known it SHOULD be provided.
@@ -533,9 +537,9 @@ If the unit is known it SHOULD be provided.
 The value of a UNIT or HELP line MAY be empty. This MUST be treated as if no metadata line for the MetricFamily existed.
 
 ```openmetrics-add-eof
-# TYPE foo_seconds counter
-# UNIT foo_seconds seconds
-# HELP foo_seconds Some text and \n some \" escaping
+# TYPE foo_seconds_total counter
+# UNIT foo_seconds_total seconds
+# HELP foo_seconds_total Some text and \n some \" escaping
 ```
 
 There MUST NOT be more than one of each type of metadata line for a MetricFamily. The ordering SHOULD be TYPE, UNIT, HELP.
@@ -546,8 +550,10 @@ Aside from this metadata and the EOF line at the end of the message, you MUST NO
 
 Metrics MUST NOT be interleaved.
 
-See the example in "Text format -> MetricPoint".
-Labels
+See the example in [MetricPoint](#metricpoint).
+
+##### Labels
+
 A sample without labels or a timestamp and the value 0 MUST be rendered either like:
 
 ```openmetrics-add-eof
@@ -574,6 +580,7 @@ MetricPoints MUST NOT be interleaved.
 
 A correct example where there were multiple MetricPoints and Samples within a MetricFamily would be:
 
+TODO(bwplotka): foo_seconds breaks MetricFamily rule until complex types are introduced.
 ```openmetrics-add-eof
 # TYPE foo_seconds summary
 # UNIT foo_seconds seconds
@@ -589,6 +596,7 @@ foo_seconds_sum{a="ccc"} 0 456
 
 An incorrect example where Metrics are interleaved:
 
+TODO(bwplotka): foo_seconds breaks MetricFamily rule until complex types are introduced.
 ```
 # TYPE foo_seconds summary
 # UNIT foo_seconds seconds
@@ -600,6 +608,7 @@ foo_seconds_count{a="ccc"} 0 456
 
 An incorrect example where MetricPoints are interleaved:
 
+TODO(bwplotka): foo_seconds breaks MetricFamily rule until complex types are introduced.
 ```
 # TYPE foo_seconds summary
 # UNIT foo_seconds seconds
@@ -612,8 +621,6 @@ foo_seconds_sum{a="bb"} 0 456
 #### Metric types
 
 ##### Gauge
-
-The Sample MetricName for the value of a MetricPoint for a MetricFamily of type Gauge MUST NOT have a suffix.
 
 An example MetricFamily with a Metric with no labels and a MetricPoint with no timestamp:
 
@@ -660,35 +667,37 @@ foo 18.0 456
 
 ##### Counter
 
-The MetricPoint's Total Value Sample MetricName SHOULD have the suffix `_total`. If present, the MetricPoint's Start Timestamp MUST be inlined with the Metric point with a `st@` prefix. If the value's timestamp is present, the Start Timestamp MUST be added right after it. If exemplar is present, the Start Timestamp MUST be added before it.
+The Counter MetricPoint's MetricName SHOULD have the suffix `_total`. Be aware that exposing metrics
+without `_total` suffix may reduce the usability due to confusion about what the metric's type is.
 
-Be aware that exposing metrics without `_total` being a suffix of the MetricFamily name directly to end-users may reduce the usability due to confusion about what the metric's type is.
+// TODO Shouldn't it be before t@?
+If present, the MetricPoint's Start Timestamp MUST be inlined with the Metric point with a `st@` prefix, right after the MetricPoint's Timestamp if any, and before any MetricPoint's Exemplar.
 
 An example with a Metric with no labels, and a MetricPoint with no timestamp and no Start Timestamp:
 
 ```openmetrics-add-eof
-# TYPE foo counter
+# TYPE foo_total counter
 foo_total 17.0
 ```
 
 An example with a Metric with no labels, and a MetricPoint with a timestamp and no Start Timestamp:
 
 ```openmetrics-add-eof
-# TYPE foo counter
+# TYPE foo_total counter
 foo_total 17.0 1520879607.789
 ```
 
 An example with a Metric with no labels, and a MetricPoint with no timestamp and a Start Timestamp:
 
 ```openmetrics-add-eof
-# TYPE foo counter
+# TYPE foo_total counter
 foo_total 17.0 st@1520430000.123
 ```
 
 An example with a Metric with no labels, and a MetricPoint with a timestamp and a Start Timestamp:
 
 ```openmetrics-add-eof
-# TYPE foo counter
+# TYPE foo_total counter
 foo_total 17.0 1520879607.789 st@1520430000.123
 ```
 
@@ -699,18 +708,16 @@ An example with a Metric with no labels, and a MetricPoint without the `_total` 
 foo 17.0 1520879607.789 st@1520879607.789
 ```
 
-Exemplars MAY be attached to the MetricPoint's Total sample.
+Exemplars MAY be attached to the MetricPoint's sample.
 
 An example with a Metric with no labels, and a MetricPoint with a timestamp and a Start Timestamp and an exemplar:
 
 ```openmetrics-add-eof
-# TYPE foo counter
+# TYPE foo_total counter
 foo_total 17.0 1520879607.789 st@1520430000.123 # {trace_id="KOO5S4vxi0o"} 0.67
 ```
 
 ##### StateSet
-
-The Sample MetricName for the value of a MetricPoint for a MetricFamily of type StateSet MUST NOT have a suffix.
 
 StateSets MUST have one sample per State in the MetricPoint. Each State's sample MUST have a label with the MetricFamily name as the label name and the State name as the label value. The State sample's value MUST be 1 if the State is true and MUST be 0 if the State is false.
 
@@ -737,19 +744,21 @@ foo{entity="replica",foo="ccc"} 1.0
 
 ##### Info
 
-The Sample MetricName for the value of a MetricPoint for a MetricFamily of type Info MUST have the suffix `_info`. The Sample value MUST always be 1.
+The Info MetricPoint's MetricName MUST have the suffix `_info`. // TODO(bwplotka): Shouldn't this "SHOULD"?
+ 
+The Info MetricPoint's value MUST always be 1.
 
 An example of a Metric with no labels, and one MetricPoint value with "name" and "version" labels:
 
 ```openmetrics-add-eof
-# TYPE foo info
+# TYPE foo_info info
 foo_info{name="pretty name",version="8.2.7"} 1
 ```
 
 An example of a Metric with label "entity" and one MetricPoint value with “name” and “version” labels:
 
 ```openmetrics-add-eof
-# TYPE foo info
+# TYPE foo_info info
 foo_info{entity="controller",name="pretty name",version="8.2.7"} 1.0
 foo_info{entity="replica",name="prettier name",version="8.1.9"} 1.0
 ```
@@ -764,6 +773,7 @@ If present the MetricPoint's Start Timestamp MUST be inlined with the Metric poi
 
 An example of a Metric with no labels and a MetricPoint with Sum, Count and Start Timestamp values:
 
+TODO(bwplotka): foo breaks MetricFamily rule until complex types are introduced.
 ```openmetrics-add-eof
 # TYPE foo summary
 foo_count 17.0 st@1520430000.123
@@ -772,6 +782,7 @@ foo_sum 324789.3 st@1520430000.123
 
 An example of a Metric with no labels and a MetricPoint with two quantiles and Start Timestamp values:
 
+TODO(bwplotka): foo breaks MetricFamily rule until complex types are introduced.
 ```openmetrics-add-eof
 # TYPE foo summary
 foo{quantile="0.95"} 123.7 st@1520430000.123
@@ -792,6 +803,7 @@ Buckets MUST be sorted in number increasing order of "le", and the value of the 
 
 An example of a Metric with no labels and a MetricPoint with Sum, Count, and Start Timestamp values, and with 12 buckets. A wide and atypical but valid variety of “le” values is shown on purpose:
 
+TODO(bwplotka): foo breaks MetricFamily rule until complex types are introduced.
 ```openmetrics-add-eof
 # TYPE foo histogram
 foo_bucket{le="0.0"} 0 st@1520430000.123
@@ -816,6 +828,7 @@ Exemplars without Labels MUST represent an empty LabelSet as {}.
 An example of Exemplars showcasing several valid cases:
 The "0.01" bucket has no Exemplar. The 0.1 bucket has an Exemplar with no Labels. The 1 bucket has an Exemplar with one Label. The 10 bucket has an Exemplar with a Label and a timestamp. In practice all buckets SHOULD have the same style of Exemplars.
 
+TODO(bwplotka): foo breaks MetricFamily rule until complex types are introduced.
 ```openmetrics-add-eof
 # TYPE foo histogram
 foo_bucket{le="0.01"} 0 st@1520430000.123
@@ -836,6 +849,7 @@ Buckets MUST be sorted in number increasing order of "le", and the value of the 
 
 An example of a Metric with no labels, and one MetricPoint value with no Exemplar with no Exemplars in the buckets:
 
+TODO(bwplotka): foo breaks MetricFamily rule until complex types are introduced.
 ```openmetrics-add-eof
 # TYPE foo gaugehistogram
 foo_bucket{le="0.01"} 20.0
@@ -848,8 +862,6 @@ foo_gsum 3289.3
 ```
 
 ##### Unknown
-
-The sample metric name for the value of the MetricPoint for a MetricFamily of type Unknown MUST NOT have a suffix.
 
 An example with a Metric with no labels and a MetricPoint with no timestamp:
 
@@ -1067,8 +1079,8 @@ One approach would be for push-style ingestors to provide target metadata based 
 The preferred solution is to provide this target metadata as part of the exposition, but in a way that does not impact on the exposition as a whole. Info MetricFamilies are designed for this. An exposer may include an Info MetricFamily called "target" with a single Metric with no labels with the metadata. An example in the text format might be:
 
 ```
-# TYPE target info
-# HELP target Target metadata
+# TYPE target_info info
+# HELP target_info Target metadata
 target_info{env="prod",hostname="myhost",datacenter="sdc",region="europe",owner="frontend"} 1
 ```
 
@@ -1117,16 +1129,16 @@ All of this is to say that, in general, MetricPoint timestamps should not be exp
 Presume you had a counter my_counter which was initialized, and then later incremented by 1 at time 123. This would be a correct way to expose it in the text format:
 
 ```
-# HELP my_counter Good increment example
-# TYPE my_counter counter
+# HELP my_counter_total Good increment example
+# TYPE my_counter_total counter
 my_counter_total 1
 ```
 
 As per the parent section, ingestors should be free to attach their own timestamps, so this would be incorrect:
 
 ```
-# HELP my_counter Bad increment example
-# TYPE my_counter counter
+# HELP my_counter_total Bad increment example
+# TYPE my_counter_total counter
 my_counter_total 1 123
 ```
 
@@ -1134,8 +1146,8 @@ my_counter_total 1 123
 In case the specific time of the last change of a counter matters, this would be the correct way:
 
 ```
-# HELP my_counter Good increment example
-# TYPE my_counter counter
+# HELP my_counter_total Good increment example
+# TYPE my_counter_total counter
 my_counter_total 1
 # HELP my_counter_last_increment_timestamp_seconds When my_counter was last incremented
 # TYPE my_counter_last_increment_timestamp_seconds gauge

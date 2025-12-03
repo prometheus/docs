@@ -87,7 +87,7 @@ CompositeValue MUST contain all information necessary to recreate a sample value
 The following Metric Types MUST use CompositeValue for Metric Values:
 
 * [Histogram](#histogram) MetricFamily Type.
-* [GaugeHistogram](#gauge-histogram) MetricFamily Type.
+* [GaugeHistogram](#gaugehistogram) MetricFamily Type.
 * [Summary](#summary) MetricFamily Type.
 
 Other Metric Types MUST use Numbers.
@@ -146,27 +146,34 @@ A MetricFamily MAY have zero or more Metrics. A MetricFamily MUST have a name, H
 
 ##### Name
 
-MetricFamily names are a string and MUST be unique within a MetricSet. Names SHOULD be in snake_case. Names SHOULD follow the restrictions in the ABNF section under `metricname`. Metric names MAY be any quoted and escaped UTF-8 string as described in the ABNF section. Be aware that exposing UTF-8 metrics is still experimental and may reduce usability, especially when suffixes are not included.
+MetricFamily name:
+
+* MUST be string.
+* MUST be unique within a MetricSet.
+* MUST be the same as every MetricPoint's MetricName in the family.
+
+> NOTE: [OpenMetrics 1.0](https://prometheus.io/docs/specs/om/open_metrics_spec/#suffixes) required mandatory suffixes
+> for MetricName and matching MetricFamily names without such suffixes. To improve parser reliability (i.e. matching 
+> [MetricFamily metadata](#metricfamily-metadata)) and future compatibility, this specification requires MetricFamily name to strictly match MetricNames
+> in the same family.
+
+Names SHOULD be in snake_case. Names SHOULD follow the restrictions in the ABNF section under `metricname`. Metric names MAY be any quoted and escaped UTF-8 string as described in the ABNF section. Be aware that exposing UTF-8 metrics may reduce usability, especially when `_total` or unit suffixes are not included in the names.
 
 Colons in MetricFamily names are RESERVED to signal that the MetricFamily is the result of a calculation or aggregation of a general purpose monitoring system.
 
 MetricFamily names beginning with underscores are RESERVED and MUST NOT be used unless specified by this standard.
 
-###### Suffixes
+###### Reserved Suffixes
 
-The name of a MetricFamily MUST NOT result in a potential clash for sample metric names as per the ABNF with another MetricFamily in the Text Format within a MetricSet. An example would be a gauge called "foo_total" as a counter called "foo" could create a "foo_total" in the text format.
+MetricFamily name SHOULD NOT end with `_count`, `_sum`, `_gcount`, `_gsum`, `_bucket`. Specifically name MUST NOT create 
+MetricName collision when converted to [the Text OpenMetrics 1.0](https://prometheus.io/docs/specs/om/open_metrics_spec).
 
-Exposers SHOULD avoid names that could be confused with the suffixes that text format sample metric names use.
+A non-compliant example would be a gauge called `foo_bucket` and a histogram called `foo`. Exposers negotiating the older
+OpenMetrics or Text formats, or ingestors which support only the older data model could end up storing `foo` histogram 
+in a classic representation (`foo_bucket`, `foo_count`, `foo_sum`) causing clash with the gauge and scrape rejection or dropped data.
 
-* Suffixes for the respective types are:
-* Counter: `_total`
-* Summary: `_count`, `_sum`, `` (empty)
-* Histogram: `_count`, `_sum`, `_bucket`
-* GaugeHistogram: `_gcount`, `_gsum`, `_bucket`
-* Info: `_info`
-* Gauge: `` (empty)
-* StateSet: `` (empty)
-* Unknown: `` (empty)
+> This rule is because this specification is following a shift in Prometheus ecosystem towards [composite values](#compositevalues) instead of [the "classic" representation](https://prometheus.io/docs/specs/om/open_metrics_spec/#histogram-1). However, this transformation will take time.
+> Reserving suffixes improves compatibility with older ingestors and the eventual migration process.
 
 ##### Type
 

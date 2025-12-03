@@ -280,16 +280,21 @@ A future version of the `info()` function should:
 
 **Important:** Because this is an experimental feature, the behavior may change in future Prometheus versions, or the function could potentially be removed from PromQL entirely based on user feedback.
 
-## Conclusion
+## Giving Feedback
 
-The experimental `info()` function represents a significant step forward in making PromQL more accessible and reliable.
-By simplifying metadata label enrichment and automatically handling the churn problem, it removes two major pain points for Prometheus users, especially those adopting OpenTelemetry.
+Your feedback will directly shape the future of this feature and help us determine whether it should become a permanent part of PromQL.
+Feedback may be provided e.g. through our [community connections](https://prometheus.io/community/#community-connections) or by opening a [Prometheus issue](https://github.com/prometheus/prometheus/issues).
 
 We encourage you to try the `info()` function and share your feedback:
 - What use cases does it solve for you?
 - What additional functionality would you like to see?
 - How could the API be improved?
 - Do you see improved performance?
+
+## Conclusion
+
+The experimental `info()` function represents a significant step forward in making PromQL more accessible and reliable.
+By simplifying metadata label enrichment and automatically handling the churn problem, it removes two major pain points for Prometheus users, especially those adopting OpenTelemetry.
 
 To learn more:
 - [PromQL functions documentation](https://prometheus.io/docs/prometheus/latest/querying/functions/#info)
@@ -299,8 +304,3 @@ To learn more:
 Please feel welcome to share your thoughts with the Prometheus community on [GitHub Discussions](https://github.com/prometheus/prometheus/discussions) or get in touch with us on the [CNCF Slack #prometheus channel](https://cloud-native.slack.com/).
 
 Happy querying!
-
-## Giving Feedback
-
-Your feedback will directly shape the future of this feature and help us determine whether it should become a permanent part of PromQL.
-Feedback may be provided e.g. through our [community connections](https://prometheus.io/community/#community-connections) or by opening a [Prometheus issue](https://github.com/prometheus/prometheus/issues).

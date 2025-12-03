@@ -256,7 +256,6 @@ Once enabled, you can start using it immediately.
 ## Current Limitations and Future Plans
 
 The current implementation is an **MVP (Minimum Viable Product)** designed to validate the approach and gather user feedback.
-You may provide feedback through e.g. our [community connections](https://prometheus.io/community/#community-connections) or by opening a [Prometheus issue](https://github.com/prometheus/prometheus/issues).
 The implementation has some intentional limitations:
 
 ### Current Constraints
@@ -292,9 +291,6 @@ We encourage you to try the `info()` function and share your feedback:
 - How could the API be improved?
 - Do you see improved performance?
 
-Your feedback will directly shape the future of this feature and help us determine whether it should become a permanent part of PromQL.
-Feedback may be provided e.g. through our [community connections](https://prometheus.io/community/#community-connections) or by opening a [Prometheus issue](https://github.com/prometheus/prometheus/issues).
-
 To learn more:
 - [PromQL functions documentation](https://prometheus.io/docs/prometheus/latest/querying/functions/#info)
 - [OpenTelemetry guide (includes detailed info() usage)](https://prometheus.io/docs/guides/opentelemetry/)
@@ -303,3 +299,8 @@ To learn more:
 Please feel welcome to share your thoughts with the Prometheus community on [GitHub Discussions](https://github.com/prometheus/prometheus/discussions) or get in touch with us on the [CNCF Slack #prometheus channel](https://cloud-native.slack.com/).
 
 Happy querying!
+
+## Giving Feedback
+
+Your feedback will directly shape the future of this feature and help us determine whether it should become a permanent part of PromQL.
+Feedback may be provided e.g. through our [community connections](https://prometheus.io/community/#community-connections) or by opening a [Prometheus issue](https://github.com/prometheus/prometheus/issues).

@@ -346,7 +346,7 @@ A GaugeHistogram MUST measure values that are not NaN in either [Classic Buckets
 
 If a GaugeHistogram stops measuring values in either Classic or Native buckets and keeps measuring values in the other, it MUST clear and not expose the buckets it stopped measuring into. This avoids exposing different distribution from the two kind of buckets at the same time.
 
-Every bucket MUST have well defined boundaries and a value. Boundaries of a bucket MUST NOT be NaN. Bucket values MUST be integers. Semantically, bucket values are gauges and MUST NOT be NaN or negative.
+Every bucket MUST have well-defined boundaries and a value. Boundaries of a bucket MUST NOT be NaN. Bucket values MUST be integers. Semantically, bucket values are gauges and MUST NOT be NaN or negative.
 
 A GaugeHistogram SHOULD NOT include NaN measurements as including NaN in the Gsum will make the Gsum equal to NaN and mask the sum of the real measurements for the lifetime of the time series. If a GaugeHistogram includes NaN measurements, then NaN measurements MUST be counted in the Gcount and the Gsum MUST be NaN.
 

@@ -85,7 +85,21 @@ List of complex data types:
 - Integer counter native histograms for the Metric Type Histogram.
 - Integer gauge native histograms for the Metric Type GaugeHistogram.
 
-Complex data types MUST occur only in the corresponding MetricFamily. This means for example that a counter cannot have an integer counter native histogram value.
+Metric values in OpenMetrics MUST be either Number or ComplexValue.
+
+[Number](#numbers) value MUST be either floating point or integer. Note that ingestors of the format MAY only support float64. The non-real values NaN, +Inf and -Inf MUST be supported. NaN value MUST NOT be considered a missing value, but it MAY be used to signal a division by zero.
+
+ComplexValue MUST contain all information necessary to recreate a sample value for Metric within  the MetricFamily
+
+The following Metric Types MUST use ComplexValue for Metric Values:
+
+TODO: Below will switch to Histogram and Summary in the next PR. 
+* [Histogram](#histogram) MetricFamily Type with [Native Buckets](#native-buckets).
+* [GaugeHistogram](#gauge-histogram) MetricFamily Type with [Native Buckets](#native-buckets).
+
+Other Metric Types MUST use Numbers.
+
+See [Metric Types](#metric-types) for details.
 
 ##### Booleans
 

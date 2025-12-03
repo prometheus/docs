@@ -279,7 +279,11 @@ Classic Bucket values MAY have exemplars. The value of the exemplar MUST be with
 
 ##### Native Buckets
 
-Histogram MetricPoints with Native Buckets MUST have a Schema value. The Schema is an 8 bit signed integer between -4 and 8. Schemas between -9 and 52 are called Standard (exponential) Schemas, the currently unused Schemas -9 to -5 and 9 to 52 are reserved to be used as Standard Schemas later.
+Histogram MetricPoints with Native Buckets MUST have a Schema value. The Schema is an 8 bit signed integer between -4 and 8. 
+
+* Schema values between -9 and 52 are called Standard (exponential) Schemas
+* Schema values between -9 to -5 and 9 to 52 are reserved to be used as Standard Schemas later.
+* Schema value equal to -53 is reserved.
 
 For any Standard Schema n, the Histogram MetricPoint MAY contain positive, negative Native Buckets and MUST contain a zero Native Bucket. Empty positive or negative Native Buckets SHOULD NOT be present.
 
@@ -932,7 +936,7 @@ foo_count 17 st@1520430000.123
 foo_sum 324789.3 st@1520430000.123
 ```
 
-##### Histogram with native buckets
+##### Histogram with Native Buckets
 
 The MetricPoint's value MUST be a complex data type.
 

@@ -427,7 +427,7 @@ metric-type = counter / gauge / histogram / gaugehistogram / stateset
 metric-type =/ info / summary / unknown
 
 sample = metricname-and-labels SP number [SP timestamp] [SP start-timestamp] [exemplar] LF
-sample =/ metricname-and-labels SP "{" complextype "}" [SP timestamp] [SP start-timestamp] *exemplar LF
+sample =/ metricname-and-labels SP "{" complex-value "}" [SP timestamp] [SP start-timestamp] *exemplar LF
 
 exemplar = SP HASH SP labels-in-braces SP number [SP timestamp]
 
@@ -498,8 +498,8 @@ normal-char = %x00-09 / %x0B-21 / %x23-5B / %x5D-D7FF / %xE000-10FFFF
 ; Lowercase st @ timestamp
 start-timestamp = %d115.116 "@" timestamp
 
-; Complex types
-complextype = nativehistogram
+; Complex values
+complex-value = nativehistogram
 
 nativehistogram = nh-count "," nh-sum "," nh-schema "," nh-zero-threshold "," nh-zero-count [ "," nh-negative-spans "," nh-negative-buckets ] [ "," nh-positive-spans "," nh-positive-buckets ]
 
@@ -596,6 +596,10 @@ Integer numbers MUST NOT have a decimal point. Examples are `23`, `0042`, and `1
 Floating point numbers MUST be represented either with a decimal point or using scientific notation. Examples are `8903.123421` and `1.89e-7`. Floating point numbers MUST fit within the range of a 64-bit floating point value as defined by IEEE 754, but MAY require so many bits in the mantissa that results in lost precision. This MAY be used to encode nanosecond resolution timestamps.
 
 Arbitrary integer and floating point rendering of numbers MUST NOT be used for "quantile" and "le" label values as in section "Canonical Numbers". They MAY be used anywhere else numbers are used.
+
+###### ComplexValues
+
+ComplexValue is represented as structured data with fields. There MUST NOT be any whitespace around fields. See the ABNF for exact details about the format and possible values.
 
 ###### Considerations: Canonical Numbers
 
@@ -945,12 +949,9 @@ foo_sum 324789.3 st@1520430000.123
 
 ##### Histogram with Native Buckets
 
-The MetricPoint's value MUST be a complex data type.
+The MetricPoint's value MUST be a ComplexValue.
 
-Histograms with Native Buckets MUST use the integer native histogram data type.
-
-The integer native histogram data type is represented as structured data with fields. There MUST NOT be any whitespace around fields.
-The integer native histogram data type MUST include the Count, Sum, Schema, Zero Threshold, Zero Native Bucket value as the fields `count`, `sum`, `schema`, `zero_threshold`, `zero_count`, in this order.
+The ComplexValue MUST include the Count, Sum, Schema, Zero Threshold, Zero Native Bucket value as the fields `count`, `sum`, `schema`, `zero_threshold`, `zero_count`, in this order.
 
 If there are no negative Native Buckets, then the fields `negative_spans` and `negative_buckets` SHOULD be omitted.
 If there are no positive Native Buckets, then the fields `positive_spans` and `positive_buckets` SHOULD be omitted.

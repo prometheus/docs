@@ -264,7 +264,7 @@ If a Histogram includes +Inf or -Inf measurement, then +Inf or -Inf MUST be coun
 
 A Histogram MetricPoint SHOULD have a Timestamp value called Start Timestamp. This can help ingestors discern between new metrics and long-running ones it did not see before.
 
-If the Histogram Metric has MetricPoints with Classic Buckets, the Histogram's Metric's LabelSet MUST NOT have a "le" label name.
+If the Histogram Metric has MetricPoints with Classic Buckets, the Histogram's Metric's LabelSet MUST NOT have a "le" label name, because in case the MetricPoints are stored as classic histogram series with the `_bucket` suffix, then the "le" label in the Histogram will conflict with the "le" label generated from the bucket thresholds.
 
 ##### Classic Buckets
 
@@ -352,7 +352,7 @@ A GaugeHistogram SHOULD NOT include NaN measurements as including NaN in the Gsu
 
 If a GaugeHistogram includes +Inf or -Inf measurement, then +Inf or -Inf MUST be counted in Gcount and MUST be added to the Gsum, potentially resulting in +Inf, -Inf or NaN in the Gsum, the later for example in case of adding +Inf to -Inf. Note that in this case the Gsum of finite measurements is masked until the next reset of the Histogram.
 
-If the GaugeHistogram Metric has MetricPoints with Classic Buckets, the GaugeHistogram's Metric's LabelSet MUST NOT have a "le" label name.
+If the GaugeHistogram Metric has MetricPoints with Classic Buckets, the GaugeHistogram's Metric's LabelSet MUST NOT have a "le" label name, because in case the MetricPoints are stored as classic histogram series with the `_bucket` suffix, then the "le" label in the GaugeHistogram will conflict with the "le" label generated from the bucket thresholds.
 
 The Classic and Native buckets for a GaugeHistogram follow all the same rules as for a Histogram, with Gcount and Gsum playing the same role as Count and Sum.
 

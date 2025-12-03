@@ -439,6 +439,39 @@ go_goroutines 69
 # UNIT process_cpu_seconds seconds
 # HELP process_cpu_seconds Total user and system CPU time spent in seconds.
 process_cpu_seconds_total 4.20072246e+06
+# TYPE "foodb.read.errors" counter
+# HELP "foodb.read.errors" The number of errors in the read path for fooDb.
+{"foodb.read.errors","service.name"="my_service"} 3482
+# EOF
+```
+
+##### UTF-8 Quoting
+
+Metric names not conforming to the ABNF definition of `metricname` MUST be
+enclosed in double quotes and the alternative UTF-8 syntax MUST be used. In
+these MetricPoints, the quoted metric name MUST be moved inside the brackets
+without a label name and equal sign, in accordance with the ABNF. The metric
+names MUST be enclosed in double quotes in TYPE, UNIT, and HELP lines. Quoting
+and the alternative metric syntax MAY be used for any metric name, regardless of
+whether the name requires quoting or not.
+
+Label names not conforming to the `label-name` ABNF definition MUST be enclosed
+in double quotes. Any label name MAY be enclosed in double quotes.
+
+Expressed as regular expressions, metric names that don't need to be enclosed
+in quotes must match: `^[a-zA-Z_:][a-zA-Z0-9_:]*$`. For label names, the string
+must match: `^[a-zA-Z_][a-zA-Z0-9_]*$`.
+
+Complete example:
+
+```openmetrics
+# TYPE "process.cpu.seconds" counter
+# UNIT "process.cpu.seconds" seconds
+# HELP "process.cpu.seconds" Total user and system CPU time spent in seconds.
+{"process.cpu.seconds","node.name"="my_node"} 4.20072246e+06
+# TYPE "quoting_example" gauge
+# HELP "quoting_example" Number of goroutines that currently exist.
+{"quoting_example","foo"="bar"} 4.5
 # EOF
 ```
 
@@ -538,6 +571,8 @@ The value of a UNIT or HELP line MAY be empty. This MUST be treated as if no met
 # HELP foo_seconds Some text and \n some \" escaping
 ```
 
+See the UTF-8 Quoting section for circumstances where the metric name MUST be enclosed in double quotes.
+
 There MUST NOT be more than one of each type of metadata line for a MetricFamily. The ordering SHOULD be TYPE, UNIT, HELP.
 
 Aside from this metadata and the EOF line at the end of the message, you MUST NOT expose lines beginning with a #.
@@ -564,6 +599,13 @@ Label values MAY be any valid UTF-8 value, so escaping MUST be applied as per th
 
 ```openmetrics-add-eof
 bar_seconds_count{a="x",b="escaping\" example \n "} 0
+```
+
+Metric names and label names MAY also be any valid UTF-8 value, and under certain circumstances they MUST be quoted and escaped per the ABNF.
+See the UTF-8 Quoting section for specifics.
+
+```openmetrics-add-eof
+{"\"bar\".seconds.count","b\\"="escaping\" example \n "} 0
 ```
 
 The rendering of values for a MetricPoint can include additional labels (e.g. the "le" label for a Histogram type), which MUST be rendered in the same way as a Metric's own LabelSet.

@@ -290,7 +290,7 @@ Histogram MetricPoints with Native Buckets MUST have a Schema value. The Schema 
 * Schema values between -9 to -5 and 9 to 52 are reserved to be used as Standard Schemas later.
 * Schema value equal to -53 is reserved.
 
-For any Standard Schema n, the Histogram MetricPoint MAY contain positive, negative Native Buckets and MUST contain a zero Native Bucket. Empty positive or negative Native Buckets SHOULD NOT be present.
+For any Standard Schema n, the Histogram MetricPoint MAY contain positive and/or negative Native Buckets and MUST contain a zero Native Bucket. Empty positive or negative Native Buckets SHOULD NOT be present.
 
 As the Standard Schema allows for many positive and negative Native Buckets, the Histogram SHOULD have strategies to reset itself to empty when the number of Native Buckets is too high. Such strategies are out of scope for this specification.
 

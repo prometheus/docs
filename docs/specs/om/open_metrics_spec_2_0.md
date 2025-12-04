@@ -266,6 +266,8 @@ A Histogram MetricPoint SHOULD have a Timestamp value called Start Timestamp. Th
 
 If the Histogram Metric has MetricPoints with Classic Buckets, the Histogram's Metric's LabelSet MUST NOT have a "le" label name, because in case the MetricPoints are stored as classic histogram series with the `_bucket` suffix, then the "le" label in the Histogram will conflict with the "le" label generated from the bucket thresholds.
 
+The Histogram type is cumulative over time, but MAY be reset. When a Histogram is reset, the Sum, Count, Classic Buckets and Native Buckets MUST be reset to their zero state, and if the Start Timestamp is present then it MUST be set to the approximate reset time. Histogram resets can be useful for limiting the number of Native Buckets used by Histograms.
+
 ##### Classic Buckets
 
 Every Classic Bucket MUST have a threshold. Classic Bucket thresholds within a MetricPoint MUST be unique. Classic Bucket thresholds MAY be negative.
@@ -284,15 +286,13 @@ Classic Bucket values MAY have exemplars. The value of the exemplar MUST be with
 
 ##### Native Buckets
 
-Histogram MetricPoints with Native Buckets MUST have a Schema value. The Schema is an 8 bit signed integer between -4 and 8. 
+Histogram MetricPoints with Native Buckets MUST have a Schema value. The Schema MUST be an 8 bit signed integer between -4 and 8 (inclusive).
 
 * Schema values between -9 and 52 are called Standard (exponential) Schemas
 * Schema values between -9 to -5 and 9 to 52 are reserved to be used as Standard Schemas later.
 * Schema value equal to -53 is reserved.
 
 For any Standard Schema n, the Histogram MetricPoint MAY contain positive and/or negative Native Buckets and MUST contain a zero Native Bucket. Empty positive or negative Native Buckets SHOULD NOT be present.
-
-As the Standard Schema allows for many positive and negative Native Buckets, the Histogram SHOULD have strategies to reset itself to empty when the number of Native Buckets is too high. Such strategies are out of scope for this specification.
 
 In case of Standard Schemas, the boundaries of a positive or negative Native Bucket with index i MUST be calculated as follows (using Python syntax):
 

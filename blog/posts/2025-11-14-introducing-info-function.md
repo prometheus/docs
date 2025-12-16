@@ -160,9 +160,11 @@ Enrich your metrics with build-time information:
 
 ```promql
 # Add version and branch information to request rates
-sum by (job, http_status_code, version, branch) info(
-  rate(http_server_request_duration_seconds_count[2m]),
-  {__name__="build_info"}
+sum by (job, http_status_code, version, branch) (
+  info(
+    rate(http_server_request_duration_seconds_count[2m]),
+    {__name__="build_info"}
+  )
 )
 ```
 
@@ -171,9 +173,11 @@ sum by (job, http_status_code, version, branch) info(
 Pick only metrics from certain producer versions:
 
 ```promql
-sum by (job, http_status_code, version) info(
-  rate(http_server_request_duration_seconds_count[2m]),
-  {__name__="build_info", version=~"2\..+"}
+sum by (job, http_status_code, version) (
+  info(
+    rate(http_server_request_duration_seconds_count[2m]),
+    {__name__="build_info", version=~"2\\..+"}
+  )
 )
 ```
 

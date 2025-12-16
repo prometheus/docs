@@ -1,6 +1,6 @@
 ---
 title: Introducing the Experimental info() Function
-created_at: 2025-11-14
+created_at: 2025-12-16
 kind: article
 author_name: Arve Knudsen
 ---

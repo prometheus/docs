@@ -17,17 +17,17 @@ format.
 
 ### Basic info
 
-| Aspect                               | Description                                                                                                                                                                                        |
-| ------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Inception**                        | April 2014                                                                                                                                                                                         |
-| **Supported in**                     | Prometheus version `>=0.4.0`                                                                                                                                                                       |
-| **Transmission**                     | HTTP                                                                                                                                                                                               |
-| **Encoding**                         | UTF-8, `\n` line endings                                                                                                                                                                           |
-| **HTTP `Content-Type`**              | `text/plain; version=0.0.4` (A missing `version` value will lead to a fall-back to the most recent text format version.)                                                                           |
-| **Optional HTTP `Content-Encoding`** | `gzip`                                                                                                                                                                                             |
-| **Advantages**                       | <ul><li>Human-readable</li><li>Easy to assemble, especially for minimalistic cases (no nesting required)</li><li>Readable line by line (with the exception of type hints and docstrings)</li></ul> |
-| **Limitations**                      | <ul><li>Verbose</li><li>Types and docstrings not integral part of the syntax, meaning little-to-nonexistent metric contract validation</li><li>Parsing cost</li></ul>                              |
-| **Supported metric primitives**      | <ul><li>Counter</li><li>Gauge</li><li>Histogram</li><li>Summary</li><li>Untyped</li></ul>                                                                                                          |
+| Aspect | Description |
+|--------|-------------|
+| **Inception** | April 2014  |
+| **Supported in** |  Prometheus version `>=0.4.0` |
+| **Transmission** | HTTP |
+| **Encoding** | UTF-8, `\n` line endings |
+| **HTTP `Content-Type`** | `text/plain; version=0.0.4` (A missing `version` value will lead to a fall-back to the most recent text format version.) |
+| **Optional HTTP `Content-Encoding`** | `gzip` |
+| **Advantages** | <ul><li>Human-readable</li><li>Easy to assemble, especially for minimalistic cases (no nesting required)</li><li>Readable line by line (with the exception of type hints and docstrings)</li></ul> |
+| **Limitations** | <ul><li>Verbose</li><li>Types and docstrings not integral part of the syntax, meaning little-to-nonexistent metric contract validation</li><li>Parsing cost</li></ul>|
+| **Supported metric primitives** | <ul><li>Counter</li><li>Gauge</li><li>Histogram</li><li>Summary</li><li>Untyped</li></ul> |
 
 ### Text format details
 

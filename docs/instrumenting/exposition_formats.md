@@ -80,13 +80,12 @@ label_pairs = label_pair { "," label_pair } [ "," ]
 label_pair = label_name "=" `"` escaped_string `"`
 
 label_name = identifier | `"` escaped_string `"`
-
-escaped_string = (any UTF-8 characters, but backslash, double-quote, and line feed must be escaped)
 ```
 
 In the sample syntax:
 
 * `identifier` carries the usual Prometheus expression language restrictions.
+* `escaped_string` consists of any UTF-8 characters, but backslash, double-quote, and line feed must be escaped.
 * When `metric_name` is quoted with double quotes, it appears inside the braces instead of outside.
 * `label_name` may be optionally enclosed in double quotes.
 * Metric and label names not corresponding to the usual Prometheus expression language restrictions must use the quoted syntaxes.

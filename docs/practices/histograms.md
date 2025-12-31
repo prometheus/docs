@@ -4,8 +4,8 @@ sort_rank: 4
 ---
 
 NOTE: This document predates native histograms (added as an experimental
-feature in Prometheus v2.40). Once native histograms are closer to becoming a
-stable feature, this document will be thoroughly updated.
+feature in Prometheus v2.40 and becoming stable in v3.8). The intention is to
+thoroughly update this document in the foreseeable future.
 
 Histograms and summaries are more complex metric types. Not only does
 a single histogram or summary create a multitude of time series, it is

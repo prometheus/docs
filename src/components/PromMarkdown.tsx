@@ -139,7 +139,7 @@ export default async function PromMarkdown({
                 {...rest}
                 href={href}
                 target="_blank"
-                rel="noopener noreferrer"
+                rel="noopener"
               >
                 {/* Only add the icon if the first child is a string. This is to avoid
                 breaking the layout of other components like image links etc. */}
@@ -147,10 +147,10 @@ export default async function PromMarkdown({
                   // <Group> with display: "inline-flex" somehow breaks link underlining,
                   // so going for this manual solution instead.
                   <span>
-                    {children}
+                    {children}&nbsp;
                     <IconExternalLink
                       size="0.9em"
-                      style={{ marginLeft: 4, marginBottom: -1.5 }}
+                      style={{ marginBottom: -1.5 }}
                     />
                   </span>
                 ) : (

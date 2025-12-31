@@ -51,7 +51,7 @@ const trainingProviders: ProviderCardProps[] = [
     name: "KodeKloud",
     logo: "/assets/commercial-support-logos/kodekloud-logo.svg",
     url: "https://kodekloud.com/courses/prometheus-certified-associate-pca/",
-  }
+  },
 ];
 
 const commercialSupportProviders: ProviderCardProps[] = [
@@ -152,6 +152,11 @@ const commercialSupportProviders: ProviderCardProps[] = [
     logo: "/assets/commercial-support-logos/xamira_networks.png",
     url: "https://www.xamira.de/en/technologies/monitoring/",
   },
+   {
+    name: "Ksolves",
+    logo: "/assets/commercial-support-logos/ksolvesLogo.svg",
+    url: "https://www.ksolves.com/support-services/prometheus-enterprise-support/",
+  },
 ];
 
 function ProviderCard({
@@ -165,7 +170,7 @@ function ProviderCard({
     <a
       href={url}
       target="_blank"
-      rel="noopener noreferrer"
+      rel="noopener"
       style={{ textDecoration: "none" }}
     >
       <Card

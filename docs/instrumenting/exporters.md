@@ -123,6 +123,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [Pure Storage exporter](https://github.com/PureStorage-OpenConnect/pure-exporter)
    * [ScaleIO exporter](https://github.com/syepes/sio2prom)
    * [Tivoli Storage Manager/IBM Spectrum Protect exporter](https://github.com/treydock/tsm_exporter)
+   * [IBM Storage Scale metrics exporter](https://github.com/IBM/ibm-spectrum-scale-bridge-for-grafana)
 
 ### HTTP
    * [Apache exporter](https://github.com/Lusitaniae/apache_exporter)
@@ -140,7 +141,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [AWS Health exporter](https://github.com/Jimdo/aws-health-exporter)
    * [AWS SQS exporter](https://github.com/jmal98/sqs_exporter)
    * [AWS SQS Prometheus exporter](https://github.com/jmriebold/sqs-prometheus-exporter)
-   * [Azure Health exporter](https://github.com/FXinnovation/azure-health-exporter)
+   * [Azure Health exporter](https://github.com/matzefriedrich/az-health-exporter)
    * [BigBlueButton](https://github.com/greenstatic/bigbluebutton-exporter)
    * [Cloudflare exporter](https://gitlab.com/gitlab-org/cloudflare_exporter)
    * [Cryptowat exporter](https://github.com/nbarrientos/cryptowat_exporter)
@@ -174,6 +175,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [Alibaba Cloudmonitor exporter](https://github.com/aylei/aliyun-exporter)
    * [AWS CloudWatch exporter](https://github.com/prometheus/cloudwatch_exporter) (**official**)
    * [Azure Monitor exporter](https://github.com/RobustPerception/azure_metrics_exporter)
+   * [CCF HuaTuo exporter](https://github.com/ccfos/huatuo)
    * [Cloud Foundry Firehose exporter](https://github.com/cloudfoundry-community/firehose_exporter)
    * [Collectd exporter](https://github.com/prometheus/collectd_exporter) (**official**)
    * [Google Stackdriver exporter](https://github.com/frodenas/stackdriver_exporter)
@@ -297,7 +299,7 @@ separate exporters are needed:
    * [Diffusion](https://docs.pushtechnology.com/docs/latest/manual/html/administratorguide/systemmanagement/r_statistics.html)
    * [Docker Daemon](https://docs.docker.com/engine/reference/commandline/dockerd/#daemon-metrics)
    * [Doorman](https://github.com/youtube/doorman) (**direct**)
-   * [Dovecot](https://doc.dovecot.org/configuration_manual/stats/openmetrics/)
+   * [Dovecot](https://doc.dovecot.org/main/core/config/statistics.html#openmetrics)
    * [Envoy](https://www.envoyproxy.io/docs/envoy/latest/operations/admin.html#get--stats?format=prometheus)
    * [Etcd](https://github.com/coreos/etcd) (**direct**)
    * [Flink](https://github.com/apache/flink)

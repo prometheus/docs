@@ -160,14 +160,24 @@ To enable this experimental feature you must have at least version v2.26.0 and a
 
 Earlier versions of Prometheus supported an exposition format based on [Protocol Buffers](https://developers.google.com/protocol-buffers/) (aka Protobuf) in addition to the current text-based format. With Prometheus 2.0, the Protobuf format was marked as deprecated and Prometheus stopped ingesting samples from said exposition format.
 
-However, new experimental features were added to Prometheus where the Protobuf format was considered the most viable option. Making Prometheus accept Protocol Buffers once again.
+However, new (experimental) features were added to Prometheus where the Protobuf format was considered the most viable option. Making Prometheus accept Protocol Buffers once again.
 
-Here is a list of experimental features that, once enabled, will configure Prometheus to favor the Protobuf exposition format:
+When such features are enabled either by feature flag
+(`--enable-feature=created-timestamp-zero-ingestion`) or by setting the
+appropriate configuration option (`scrape_native_histograms: true`) then
+Protobuf will be favored over other exposition formats.
 
-| feature flag | version that introduced it |
-|--------------|----------------------------|
-| native-histograms | 2.40.0 |
-| created-timestamp-zero-ingestion | 2.50.0 |
+## HTTP Content-Type requirements
+
+Starting with Prometheus 3.0, scrape targets **must** return a valid `Content-Type` header for the metrics endpoint. If the `Content-Type` is missing, unparsable, or not a supported media type, **the scrape will fail**. See changes in [scrape protocols](https://prometheus.io/docs/prometheus/latest/migration/#scrape-protocols) in the migration guide for details.
+
+See each of the exposition format sections for the accurate HTTP content types.
+
+### ScrapeProtocols vs Content-Type
+
+Prometheus scrape config offers scrape protocol negotiation based on the content-type using the [`scrape_protocols`](https://prometheus.io/docs/prometheus/latest/configuration/configuration/#scrape_config) config. For the Prometheus user convenience the scrape protocols are referenced by a unique name that maps to the concrete content-type. See [Protocol Headers](./content_negotiation.md#protocol-headers) for details.
+
+However, the targets should expose metrics in the exposition format with the absolute, response content-type (e.g. `application/openmetrics-text;version=1.0.0`) and only one.
 
 ## Historical versions
 

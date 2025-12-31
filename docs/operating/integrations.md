@@ -84,7 +84,7 @@ For notification mechanisms not natively supported by the Alertmanager, the
   * [GitLab](https://docs.gitlab.com/ee/operations/metrics/alerts.html#external-prometheus-instances)
   * [Gotify](https://github.com/DRuggeri/alertmanager_gotify_bridge)
   * [GELF](https://github.com/b-com-software-basis/alertmanager2gelf)
-  * [Heii On-Call](https://heiioncall.com/guides/prometheus-integration)
+  * [HeyOnCall](https://heyoncall.com/guides/prometheus-integration)
   * [Icinga2](https://github.com/vshn/signalilo)
   * [iLert](https://docs.ilert.com/integrations/prometheus)
   * [IRC Bot](https://github.com/multimfi/bot)

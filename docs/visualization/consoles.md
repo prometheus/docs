@@ -120,8 +120,7 @@ Valid output formats for the third argument to `prom_query_drilldown`:
   This is usually used with `B` as the second argument to produce units such as `KiB` and `MiB`.
 * `printf.3g`: Display 3 significant digits.
 
-Custom formats can be defined. See
-[prom.lib](https://github.com/prometheus/prometheus/blob/main/console_libraries/prom.lib) for examples.
+Custom formats can be defined.
 
 ## Graph Library
 

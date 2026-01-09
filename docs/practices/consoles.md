@@ -3,6 +3,8 @@ title: Consoles and dashboards
 sort_rank: 3
 ---
 
+CAUTION: Starting with Prometheus 3.0, console templates and libraries are no longer bundled with Prometheus. If you wish to use console templates, you must provide your own templates and libraries by specifying the `--web.console.templates` and `--web.console.libraries` command-line flags. This documentation page is maintained for historical reference and to demonstrate the capabilities of console templates. Please be aware that any referenced console libraries from the Prometheus 2.x branch are no longer maintained and may contain known security vulnerabilities (CVEs).
+
 It can be tempting to display as much data as possible on a dashboard, especially
 when a system like Prometheus offers the ability to have such rich
 instrumentation of your applications. This can lead to consoles that are

@@ -3,6 +3,8 @@ title: Console templates
 sort_rank: 4
 ---
 
+CAUTION: Starting with Prometheus 3.0, console templates and libraries are no longer bundled with Prometheus. If you wish to use console templates, you must provide your own templates and libraries by specifying the `--web.console.templates` and `--web.console.libraries` command-line flags. This documentation page is maintained for historical reference and to demonstrate the capabilities of console templates. Please be aware that any referenced console libraries from the Prometheus 2.x branch are no longer maintained and may contain known security vulnerabilities (CVEs).
+
 Console templates allow for creation of arbitrary consoles using the [Go
 templating language](http://golang.org/pkg/text/template/). These are served
 from the Prometheus server.
@@ -121,7 +123,7 @@ Valid output formats for the third argument to `prom_query_drilldown`:
 * `printf.3g`: Display 3 significant digits.
 
 Custom formats can be defined. See
-[prom.lib](https://github.com/prometheus/prometheus/blob/main/console_libraries/prom.lib) for examples.
+[prom.lib](https://github.com/prometheus/prometheus/blob/release-2.55/console_libraries/prom.lib) for examples.
 
 ## Graph Library
 

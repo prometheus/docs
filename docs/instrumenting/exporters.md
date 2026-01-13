@@ -260,6 +260,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [Rundeck exporter](https://github.com/phsmith/rundeck_exporter)
    * [SABnzbd exporter](https://github.com/msroest/sabnzbd_exporter)
    * [SAML exporter](https://github.com/DoodleScheduling/saml-exporter)
+   * [Scraparr](https://github.com/thecfu/scraparr)
    * [Script exporter](https://github.com/adhocteam/script_exporter)
    * [Shield exporter](https://github.com/cloudfoundry-community/shield_exporter)
    * [Smokeping prober](https://github.com/SuperQ/smokeping_prober)

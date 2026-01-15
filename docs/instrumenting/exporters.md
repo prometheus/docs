@@ -153,6 +153,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [Gmail exporter](https://github.com/jamesread/prometheus-gmail-exporter/)
    * [GraphQL exporter](https://github.com/ricardbejarano/graphql_exporter)
    * [InstaClustr exporter](https://github.com/fcgravalos/instaclustr_exporter)
+   * [IO River exporter](https://github.com/ioriver/ioriver-exporter)
    * [Mozilla Observatory exporter](https://github.com/Jimdo/observatory-exporter)
    * [OpenWeatherMap exporter](https://github.com/RichiH/openweathermap_exporter)
    * [Pagespeed exporter](https://github.com/foomo/pagespeed_exporter)

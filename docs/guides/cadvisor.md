@@ -26,6 +26,7 @@ Now we'll need to create a Docker Compose [configuration](https://docs.docker.co
 
 In the same folder where you created the [`prometheus.yml`](#prometheus-configuration) file, create a `docker-compose.yml` file and populate it with this Docker Compose configuration:
 
+### Using Bind Mounts
 ```yaml
 version: '3.2'
 services:
@@ -91,6 +92,71 @@ Your output will look something like this:
 cadvisor     /usr/bin/cadvisor -logtostderr   Up      8080/tcp
 prometheus   /bin/prometheus --config.f ...   Up      0.0.0.0:9090->9090/tcp
 redis        docker-entrypoint.sh redis ...   Up      0.0.0.0:6379->6379/tcp
+```
+### Alternative: Using Inline Docker Configs (Remote Deployments)
+
+If you're managing a remote Docker host and prefer to keep all configuration within the docker-compose.yml file (avoiding the need to manage separate config files on the host), you can use Docker's configs feature:
+
+```yaml
+version: '3.8'
+
+configs:
+  prometheus_config:
+    content: |
+      scrape_configs:
+        - job_name: 'cadvisor'
+          scrape_interval: 5s
+          static_configs:
+            - targets: ['cadvisor:8080']
+
+services:
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    ports:
+      - 9090:9090
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
+    configs:
+      - source: prometheus_config
+        target: /etc/prometheus/prometheus.yml
+        uid: "65534"    # Required: numeric UID for 'nobody' user
+        gid: "65534"    # Required: numeric GID for 'nobody' group
+        mode: 0400      # Required: read-only permissions
+    depends_on:
+      - cadvisor
+
+  cadvisor:
+    image: gcr.io/cadvisor/cadvisor:latest
+    container_name: cadvisor
+    ports:
+      - 8080:8080
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:rw
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+    depends_on:
+      - redis
+
+  redis:
+    image: redis:latest
+    container_name: redis
+    ports:
+      - 6379:6379
+```
+
+#### Important Notes
+
+⚠️ **Required Fields**: When using Docker `configs`, you **must** explicitly specify `uid`, `gid`, and `mode` as numeric values:
+
+- `uid: "65534"` - The numeric user ID (65534 = `nobody` user in the Prometheus image)
+- `gid: "65534"` - The numeric group ID (65534 = `nobody` group)
+- `mode: 0400` - File permissions (read-only for owner)
+
+Omitting these fields or using string values like `"nobody"` will cause the following error:
+```
+strconv.Atoi: parsing "nobody": invalid syntax
 ```
 
 ## Exploring the cAdvisor web UI

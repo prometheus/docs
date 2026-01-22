@@ -78,8 +78,9 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [Netgear Router exporter](https://github.com/DRuggeri/netgear_exporter)
    * [Network UPS Tools (NUT) exporter](https://github.com/DRuggeri/nut_exporter)
    * [Node/system metrics exporter](https://github.com/prometheus/node_exporter) (**official**)
-   * [NVIDIA GPU exporter](https://github.com/mindprince/nvidia_gpu_prometheus_exporter)
+   * [NVIDIA DCGM (GPU) exporter](https://github.com/NVIDIA/dcgm-exporter)
    * [ProSAFE exporter](https://github.com/dalance/prosafe_exporter)
+   * [Redfish exporter](https://github.com/comcast/fishymetrics)
    * [SmartRAID exporter](https://gitlab.com/calestyo/prometheus-smartraid-exporter)
    * [Waveplus Radon Sensor Exporter](https://github.com/jeremybz/waveplus_exporter)
    * [Weathergoose Climate Monitor Exporter](https://github.com/branttaylor/watchdog-prometheus-exporter)
@@ -153,6 +154,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [Gmail exporter](https://github.com/jamesread/prometheus-gmail-exporter/)
    * [GraphQL exporter](https://github.com/ricardbejarano/graphql_exporter)
    * [InstaClustr exporter](https://github.com/fcgravalos/instaclustr_exporter)
+   * [IO River exporter](https://github.com/ioriver/ioriver-exporter)
    * [Mozilla Observatory exporter](https://github.com/Jimdo/observatory-exporter)
    * [OpenWeatherMap exporter](https://github.com/RichiH/openweathermap_exporter)
    * [Pagespeed exporter](https://github.com/foomo/pagespeed_exporter)
@@ -253,7 +255,6 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [oVirt exporter](https://github.com/czerwonk/ovirt_exporter)
    * [Pact Broker exporter](https://github.com/ContainerSolutions/pactbroker_exporter)
    * [PHP-FPM exporter](https://github.com/bakins/php-fpm-exporter)
-   * [PowerDNS exporter](https://github.com/ledgr/powerdns_exporter)
    * [Podman exporter](https://github.com/containers/prometheus-podman-exporter)
    * [Prefect2 exporter](https://github.com/pathfinder177/prefect2-prometheus-exporter)
    * [Process exporter](https://github.com/ncabatoff/process-exporter)
@@ -261,6 +262,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [Rundeck exporter](https://github.com/phsmith/rundeck_exporter)
    * [SABnzbd exporter](https://github.com/msroest/sabnzbd_exporter)
    * [SAML exporter](https://github.com/DoodleScheduling/saml-exporter)
+   * [Scraparr](https://github.com/thecfu/scraparr)
    * [Script exporter](https://github.com/adhocteam/script_exporter)
    * [Shield exporter](https://github.com/cloudfoundry-community/shield_exporter)
    * [Smokeping prober](https://github.com/SuperQ/smokeping_prober)
@@ -272,6 +274,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [Unbound exporter](https://github.com/kumina/unbound_exporter)
    * [WireGuard exporter](https://github.com/MindFlavor/prometheus_wireguard_exporter)
    * [Xen exporter](https://github.com/lovoo/xenstats_exporter)
+   * [ZLMediaKit exporter](https://github.com/guohuachan/ZLMediaKit_exporter)
 
 
 When implementing a new Prometheus exporter, please follow the

@@ -76,13 +76,11 @@ Whenever you handle an error (either by returning it or logging it), consider wh
 
 Histograms are powerful.
 
-Creating a correct bucket layout for your histograms is an art. To ensure usefulness of your observations and correctness of your alerts, you have to come up with a meaningful bucket layout. This is somewhat conflicting with [Instrument first, ask questions later](#instrument-first-ask-questions-later) because you need to have an idea about your latencies before you even measure. To circumvent this issue, you can take an iterative approach or use an event system to obtain your latency distribution.
-
-Let your [SLO](https://www.youtube.com/watch?v=X99X-VDzxnw)s guide your bucket layout; create boundaries to match your SLO.
+With classic histograms, creating a correct bucket layout is an art. To ensure usefulness of your observations and correctness of your alerts, you have to come up with a meaningful bucket layout. This conflicts with [Instrument first, ask questions later](#instrument-first-ask-questions-later) because you need to have an idea about your latencies before you even measure. Let your [SLO](https://www.youtube.com/watch?v=X99X-VDzxnw)s guide your bucket layout; create boundaries to match your SLO.
 
 Classic histograms underneath are just counters with labels, where bucket boundaries are used as labels. Be cautious when adding additional labels to your histograms. Remember, *labels are multiplicative* and [Cardinality Matters](#cardinality-matters).
 
-<!-- TODO: Update this section to cover native histograms, which automatically determine bucket boundaries -->
+[Native histograms](https://prometheus.io/docs/specs/native_histograms/) solve the bucket layout problem. They require no predefined boundaries, adjust resolution dynamically, and use sparse representation where empty buckets cost nothing. If your client library supports them (currently Go and Java), prefer native histograms for new instrumentation.
 
 ---
 

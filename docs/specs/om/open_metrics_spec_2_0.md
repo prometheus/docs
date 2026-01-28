@@ -250,13 +250,17 @@ Histograms measure distributions of discrete events. Common examples are the lat
 
 A Histogram MetricPoint MUST contain Count and Sum values.
 
-The Count value MUST be equal to the number of measurements taken by the Histogram. The Count is a counter semantically. The Count MUST be an integer and MUST NOT be NaN or negative.
+The Count value MUST be equal to the number of measurements taken by the Histogram. The Count is a counter semantically. The Count SHOULD be an integer. The Count MUST NOT be negative. The Count SHOULD NOT be +Inf, NaN.
+
+Float Count is allowed to make it possible to expose results of arithmetic operations on histograms, such as addition that may result in values beyond the range of integers.
 
 The Sum value MUST be equal to the sum of all the measured event values. The Sum is only a counter semantically as long as there are no negative event values measured by the Histogram MetricPoint.
 
 A Histogram MUST measure values that are not NaN in either [Classic Buckets](#classic-buckets) or [Native Buckets](#native-buckets) or both. Measuring NaN is different for Classic and Native Buckets, see in their respective sections.
 
-Every Bucket MUST have well-defined boundaries and a value. The bucket value is called the bucket count colloquially. Boundaries of a Bucket MUST NOT be NaN. Bucket values MUST be integers. Semantically, bucket values are counters so MUST NOT be NaN or negative.
+Every Bucket MUST have well-defined boundaries and a value. The bucket value is called the bucket count colloquially. Boundaries of a Bucket MUST NOT be NaN. Bucket values are counters semantically. Bucket values SHOULD be integers. Bucket values MUST NOT be negative. Bucket values SHOULD NOT be +Inf, NaN.
+
+Float bucket values are allowed to make it possible to expose results of arithmetic operations on histograms, such as addition that may result in values beyond the range of integers.
 
 A Histogram SHOULD NOT include NaN measurements as including NaN in the Sum will make the Sum equal to NaN and mask the sum of the real measurements for the lifetime of the time series. If a Histogram includes NaN measurements, then NaN measurements MUST be counted in the Count and the Sum MUST be NaN.
 
@@ -337,15 +341,19 @@ GaugeHistograms measure current distributions. Common examples are how long item
 
 A GaugeHistogram MetricPoint MUST contain Gcount, Gsum values.
 
-The GCount value MUST be equal to the number of measurements currently in the GaugeHistogram. The GCount is a gauge semantically. The GCount MUST be and integer and MUST NOT be NaN or negative.
+The GCount value MUST be equal to the number of measurements currently in the GaugeHistogram. The GCount is a gauge semantically. The GCount SHOULD be and integer. The GCount SHOULD NOT be -Inf, +Inf, NAN, or negative.
+
+Float and negative GCount is allowed to make it possible to expose results of arithmetic operations on GaugeHistograms, such as the rate of change of a Histogram over time.
 
 The Gsum value MUST be equal to the sum of all the measured values currently in the GaugeHistogram. The Gsum is a gauge semantically.
 
-A GaugeHistogram MUST measure values that are not NaN in either [Classic Buckets](#classic-buckets) or [native buckets](#native-buckets) or both. Measuring NaN is different for Classic and Native Buckets, see in their respective sections.
+A GaugeHistogram MUST measure values that are not NaN in either [Classic Buckets](#classic-buckets) or [Native Buckets](#native-buckets) or both. Measuring NaN is different for Classic and Native Buckets, see in their respective sections.
 
-If a GaugeHistogram stops measuring values in either Classic or Native buckets and keeps measuring values in the other, it MUST clear and not expose the buckets it stopped measuring into. This avoids exposing different distribution from the two kind of buckets at the same time.
+If a GaugeHistogram stops measuring values in either Classic or Native Buckets and keeps measuring values in the other, it MUST clear and not expose the buckets it stopped measuring into. This avoids exposing different distribution from the two kind of buckets at the same time.
 
-Every bucket MUST have well-defined boundaries and a value. Boundaries of a bucket MUST NOT be NaN. Bucket values MUST be integers. Semantically, bucket values are gauges and MUST NOT be NaN or negative.
+Every Bucket MUST have well-defined boundaries and a value. Boundaries of a Bucket MUST NOT be NaN. Bucket values SHOULD be integers. Semantically, bucket values are gauges and SHOULD NOT be -Inf, +Inf, NaN, or negative.
+
+Float and negative bucket values are allowed to make it possible to expose results of arithmetic operations on GaugeHistograms, such as the rate of change of a Histogram over time.
 
 A GaugeHistogram SHOULD NOT include NaN measurements as including NaN in the Gsum will make the Gsum equal to NaN and mask the sum of the real measurements for the lifetime of the time series. If a GaugeHistogram includes NaN measurements, then NaN measurements MUST be counted in the Gcount and the Gsum MUST be NaN.
 
@@ -503,7 +511,7 @@ complex-value = nativehistogram
 nativehistogram = nh-count "," nh-sum "," nh-schema "," nh-zero-threshold "," nh-zero-count [ "," nh-negative-spans "," nh-negative-buckets ] [ "," nh-positive-spans "," nh-positive-buckets ]
 
 ; count:x
-nh-count = %d99.111.117.110.116 ":" non-negative-integer
+nh-count = %d99.111.117.110.116 ":" number
 ; sum:f allows real numbers and +-Inf and NaN
 nh-sum = %d115.117.109 ":" number
 ; schema:i
@@ -511,7 +519,7 @@ nh-schema = %d115.99.104.101.109.97 ":" integer
 ; zero_threshold:f
 nh-zero-threshold = %d122.101.114.111 "_" %d116.104.114.101.115.104.111.108.100 ":" realnumber
 ; zero_count:x
-nh-zero-count = %d122.101.114.111 "_" %d99.111.117.110.116 ":" non-negative-integer
+nh-zero-count = %d122.101.114.111 "_" %d99.111.117.110.116 ":" number
 ; negative_spans:[1:2,3:4] and negative_spans:[]
 nh-negative-spans = %d110.101.103.97.116.105.118.101 "_" %d115.112.97.110.115 ":" "[" [nh-spans] "]"
 nh-positive-spans = %d112.111.115.105.116.105.118.101 "_" %d115.112.97.110.115 ":" "[" [nh-spans] "]"
@@ -525,7 +533,7 @@ nh-span = non-negative-integer ":" positive-integer
 nh-negative-buckets = %d110.101.103.97.116.105.118.101 "_" %d98.117.99.107.101.116.115 ":" "[" [nh-buckets] "]"
 nh-positive-buckets = %d112.111.115.105.116.105.118.101 "_" %d98.117.99.107.101.116.115 ":" "[" [nh-buckets] "]"
 
-nh-buckets = non-negative-integer *("," non-negative-integer)
+nh-buckets = number *("," number)
 
 integer = [SIGN] 1*"0" / [SIGN] positive-integer
 non-negative-integer = ["+"] 1*"0" / ["+"] positive-integer
@@ -572,6 +580,8 @@ acme_http_request_seconds_sum{path="/api/v1",method="GET"} 1.2e2 st@1605301325.0
 acme_http_request_seconds_buckets{path="/api/v1",method="GET",le="0.5"} 1 st@1605301325.0
 acme_http_request_seconds_buckets{path="/api/v1",method="GET",le="1"} 2 st@1605301325.0
 acme_http_request_seconds_buckets{path="/api/v1",method="GET",le="+Inf"} 2 st@1605301325.0
+# TYPE acme_http_request_seconds:rate5m gaugehistogram
+acme_http_request_seconds:rate5m{path="/api/v1",method="GET"} {count:0.01,sum:2.0,schema:0,zero_threshold:1e-4,zero_count:0.0,positive_spans:[1:2],positive_buckets:[0.005,0.005]} st@1605301325.0
 # TYPE "foodb.read.errors" counter
 # HELP "foodb.read.errors" The number of errors in the read path for fooDb.
 {"foodb.read.errors","service.name"="my_service"} 3482
@@ -998,8 +1008,6 @@ If there are no negative Native Buckets, then the fields `negative_spans` and `n
 If there are no positive Native Buckets, then the fields `positive_spans` and `positive_buckets` SHOULD be omitted.
 
 If there are negative (and/or positive) Native Buckets, then the fields `negative_spans`, `negative_buckets` (and/or `positive_spans`, `positive_buckets`) MUST be present in this order after the `zero_count` field.
-
-With the exception of the `sum` and `zero_threshold` field, all numbers MUST be integers and MUST NOT include dot '.' or exponent 'e'.
 
 Native Bucket values MUST be ordered by their index, and their values MUST be placed in the `negative_buckets` (and/or `positive_buckets`) fields.
 

@@ -759,7 +759,7 @@ The rendering of values for a MetricPoint can include additional labels (e.g. th
 
 MetricPoints MUST NOT be interleaved.
 
-A correct example where there were multiple MetricPoints and Samples within a MetricFamily would be:
+A correct example where there were multiple MetricPoints and Samples within a MetricFamily would be with StateSet:
 
 ```openmetrics-add-eof
 # TYPE foo stateset

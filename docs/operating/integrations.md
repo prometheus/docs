@@ -18,7 +18,7 @@ these categories.
 ## File Service Discovery
 
 For service discovery mechanisms not natively supported by Prometheus,
-[file-based service discovery](/docs/operating/configuration/#%3Cfile_sd_config%3E) provides an interface for integrating.
+[file-based service discovery](/docs/operating/configuration/#file_sd_config) provides an interface for integrating.
 
  * [Kuma](https://github.com/kumahq/kuma/tree/master/app/kuma-prometheus-sd)
  * [Lightsail](https://github.com/n888/prometheus-lightsail-sd)

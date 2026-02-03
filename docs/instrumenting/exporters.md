@@ -327,6 +327,7 @@ separate exporters are needed:
    * [Quobyte](https://www.quobyte.com/) (**direct**)
    * [RabbitMQ](https://rabbitmq.com/prometheus.html)
    * [RobustIRC](http://robustirc.net/)
+   * [RTPEngine](https://github.com/sipwise/rtpengine)
    * [ScyllaDB](http://github.com/scylladb/scylla)
    * [Skipper](https://github.com/zalando/skipper)
    * [SkyDNS](https://github.com/skynetservices/skydns) (**direct**)

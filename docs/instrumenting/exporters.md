@@ -87,6 +87,9 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [Windows exporter](https://github.com/prometheus-community/windows_exporter)
    * [Intel® Optane™ Persistent Memory Controller Exporter](https://github.com/intel/ipmctl-exporter)
 
+### Energy
+   * [EGS exporter](https://github.com/oerc-s/egs-exporter) Exports executable marginal energy gradients (ΔkW) via `/egs/v1/gradient` for autonomous allocation systems.
+
 ### Issue trackers and continuous integration
 
    * [Bamboo exporter](https://github.com/AndreyVMarkelov/bamboo-prometheus-exporter)

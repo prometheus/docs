@@ -1833,17 +1833,21 @@ the reason why the level of the annotation is only info.)
 
 The following describes all the operations that actually _do_ work.
 
+#### Addition and subtraction
+
 Addition (`+`) and subtraction (`-`) work between two compatible histograms.
 These operators add or subtract all matching bucket populations and the count
 and the sum of observations. Missing buckets are assumed to be empty and
-treated accordingly. Generally, both operands should be gauges. Adding and
-subtracting counter histograms requires caution, but PromQL allows it. Adding a
-gauge histogram and a counter histogram results in a gauge histogram. Adding
-two counter histograms results in a counter histogram. If the two operands
-share the same counter reset hint, the resulting counter histogram retains that
-counter reset hint. Otherwise, the resulting counter reset hint is set to
-`UnknownCounterReset`. The result of a subtraction is always marked as a gauge
-histogram because it might result in negative histograms, see [notes
+treated accordingly.
+
+Generally, both operands should be gauges. Adding and subtracting counter
+histograms requires caution, but PromQL allows it. Adding a gauge histogram and
+a counter histogram results in a gauge histogram. Adding two counter histograms
+results in a counter histogram. If the two operands share the same counter
+reset hint, the resulting counter histogram retains that counter reset hint.
+Otherwise, the resulting counter reset hint is set to `UnknownCounterReset`.
+The result of a subtraction is always marked as a gauge histogram because it
+might result in negative histograms, see [notes
 above](#unary-minus-and-negative-histograms). Adding or subtracting two counter
 histograms with directly contradicting counter reset hints (i.e. `CounterReset`
 and `NotCounterReset`) triggers a warn-level annotation. (TODO: As described
@@ -1853,14 +1857,20 @@ circumstances involving the `HistogramStatsIterator`, which includes additional
 counter reset tracking. See [tracking
 issue](https://github.com/prometheus/prometheus/issues/15346).)
 
+#### Multiplication
+
 Multiplication (`*`) works between a float sample or a scalar on the one side
 and a histogram on the other side, in any order. It multiplies all bucket
 populations and the count and the sum of observations by the float (sample or
 scalar). This will lead to “scaled” and sometimes even negative histograms,
 which is usually only useful as intermediate results inside other expressions
-(see also [notes above](#unary-minus-and-negative-histograms)). Multiplication
-works for both counter histograms and gauge histograms, and their flavor is left
-unchanged by the operation.
+(see also [notes above](#unary-minus-and-negative-histograms)).
+
+Multiplication works for both counter histograms and gauge histograms, and
+their flavor is left unchanged by the operation, with the exception that a
+negative histogram is always considered to be a gauge histogram.
+
+#### Division
 
 Division (`/`) works between a histogram on the left hand side and a float
 sample or a scalar on the right hand side. It is equivalent to multiplication
@@ -1870,6 +1880,8 @@ and sum of observations all set to `+Inf`, `-Inf`, or `NaN`, depending on their
 values in the input histogram (positive, negative, or zero/`NaN`,
 respectively).
 
+#### Equality and inequality
+
 Equality (`==`) and inequality (`!=`) work between two histograms, both in
 their filtering version as well as with the `bool` modifier. They compare the
 schema, the custom values, the zero threshold, all bucket populations, and the
@@ -1877,23 +1889,69 @@ sum and count of observations. Whether the histograms have counter or gauge
 flavor is irrelevant for the comparison. (A counter histogram could be equal to
 a gauge histogram.)
 
+#### Logical and set operators
+
 The logical/set binary operators (`and`, `or`, `unless`) work as expected even
 if histogram samples are involved. They only check for the existence of a
 vector element and don't change their behavior depending on the sample type or
 flavor of an element (float or histogram, counter or gauge).
 
-The “trim” operators `>/` and `</` were introduced specifically for native
+#### Trim operators
+
+The “trim” operators `</` and `>/` were introduced specifically for native
 histograms. They only work for a histogram on the left hand side and a float
 sample or a scalar on the right hand side. (They do not work for float samples
 or scalars on _both_ sides. An info-level annotation is returned in this case.)
+
 These operators remove observations from the histogram that are greater or
 smaller than the float value on the right side, respectively, and return the
-resulting histogram. The removal is only precise if the threshold coincides
-with a bucket boundary. Otherwise, interpolation within the affected buckets
-has to be used, as described [above](#interpolation-within-a-bucket). The
-counter vs. gauge flavor of the histogram is preserved. (TODO: These operators
-are not yet implemented and might also change in detail, see [tracking
-issue](https://github.com/prometheus/prometheus/issues/14651).)
+resulting histogram.
+
+The removal is only precise if the threshold coincides with a bucket boundary.
+Otherwise, interpolation within the affected buckets has to be used, as
+described [above](#interpolation-within-a-bucket). All observations in buckets
+with any limit of positive or negative infinity are considered to be of
+positive or negative infinity, respectively, for the purpose of this
+interpolation. (In the pathologic edge case where a histogram has only a single
+bucket with a lower limit of -Inf and an upper limit of +Inf, all observations
+are considered to be of value zero.)
+
+If any observations have been removed, the sum of all observations in the
+resulting histogram is estimated from the remaining buckets. The value of each
+observation in a given bucket is estimated to be the following:
+
+- The upper bound of the lowest bucket of an NHCB if this upper bound is
+  negative or zero.
+- The lower bound for the overflow bucket of an NHCB.
+- -Inf for the negative overflow bucket of a standard exponential histogram.
+- +Inf for the positive overflow bucket of a standard exponential histogram.
+- The arithmetic mean for all other buckets of an NHCB and for the zero bucket
+  of a standard exponential histogram, taking into account the known heuristics
+  for the following special cases:
+  - The lowest bucket of an NHCB is considered to have a lower bound of zero if
+    its upper bound is positive.
+  - The lower bound of the zero bucket of a standard exponential histogram is
+    considered to be zero if the histograms has no populated negative buckets.
+  - The upper bound of the zero bucket of a standard exponential histogram is
+    considered to be zero if the histograms has no populated positive buckets.
+- The geometric mean for all other buckets of a standard exponential histogram.
+
+The (arithmetic or geometric) mean calculation for the bucket that was only
+partially removed (using the interpolation described above) is modified in the
+following way: The relevant upper bound (for `</`) or lower bound (for `>/`) is
+considered to be equal to the cutoff threshold provided as the 2nd operand.
+
+Note that this estimation of the sum of observations is inaccurate (even in the
+case where the cutoff threshold conicides with a bucket boundary), up to a
+point where it could yield results that are obviously wrong. For example, after
+removing some positive observation, the estimated sum of observations could be
+larger than the sum of observations in the original histogram. The estimation
+algorithm could be refined to take such cases into account, but it is kept
+deliberately simple to make it easier to reason with. In general, the
+histograms resulting from trim operations are meant to be used for quantile
+estimation. Their sum of observations is considered to be of limited use.
+
+The trim operators preserve the counter vs. gauge flavor of the histogram.
 
 ### Aggregation operators
 

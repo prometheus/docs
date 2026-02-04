@@ -144,7 +144,7 @@ The following subsections specify Sender and Receiver semantics around headers a
 <!---
 Rationales: https://github.com/prometheus/prometheus/issues/14359
 -->
-Upon a successful content negotiation, Receivers process (write) the received batch of data. Once completed (with success or failure) for each important piece of data (currently Samples, Histograms and Exemplars) Receivers MUST send a dedicated HTTP `X-Prometheus-Remote-Write-*-Written` response header with the precise number of successfully written elements.
+Upon a successful content negotiation, Receivers process (write) the received batch of data. Once completed (with success or failure) for each important piece of data (currently Samples, Histograms and Exemplars) Receivers MUST send a dedicated HTTP `X-Prometheus-Remote-Write-*-Written` response header with the precise number of successfully written elements. A successfully written element is eventually queryable.
 
 Each header value MUST be a single 64-bit integer. The header names MUST be as follows:
 

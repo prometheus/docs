@@ -1785,7 +1785,7 @@ histogram are positive, it is assumed that all observations in the zero bucket
 are also positive, i.e. the interpolation is done between zero and the upper
 bound of the zero bucket. In the case of a histogram where all populated
 regular buckets are negative, the situation is mirrored, i.e. the interpolation
-within the zero bucket is done between the lower bond of the zero bucket and
+within the zero bucket is done between the lower bound of the zero bucket and
 zero.
 
 ### Mixed series

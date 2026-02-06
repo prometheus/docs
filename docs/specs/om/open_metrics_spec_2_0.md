@@ -74,21 +74,21 @@ This section MUST be read together with the ABNF section. In case of disagreemen
 
 #### Values
 
-Metric values in OpenMetrics MUST be either Number or ComplexValue.
+Metric values in OpenMetrics MUST be either Number or CompositeValue.
 
 ##### Number
 
 Number value MUST be either floating point or integer. Note that ingestors of the format MAY only support float64. The non-real values NaN, +Inf and -Inf MUST be supported. NaN value MUST NOT be considered a missing value, but it MAY be used to signal a division by zero.
 
-##### ComplexValue
+##### CompositeValue
 
-ComplexValue MUST contain all information necessary to recreate a sample value for Metric within the MetricFamily.
+CompositeValue MUST contain all information necessary to recreate a sample value for Metric within the MetricFamily.
 
-The following Metric Types MUST use ComplexValue for Metric Values:
+The following Metric Types MUST use CompositeValue for Metric Values:
 
-TODO: Below will switch to Histogram and Summary in the next PR. 
-* [Histogram](#histogram) MetricFamily Type with [Native Buckets](#native-buckets).
-* [GaugeHistogram](#gauge-histogram) MetricFamily Type with [Native Buckets](#native-buckets).
+* [Histogram](#histogram) MetricFamily Type.
+* [GaugeHistogram](#gauge-histogram) MetricFamily Type.
+* [Summary](#summary) MetricFamily Type.
 
 Other Metric Types MUST use Numbers.
 
@@ -434,7 +434,7 @@ metric-type = counter / gauge / histogram / gaugehistogram / stateset
 metric-type =/ info / summary / unknown
 
 sample = metricname-and-labels SP number [SP timestamp] [SP start-timestamp] [exemplar] LF
-sample =/ metricname-and-labels SP "{" complex-value "}" [SP timestamp] [SP start-timestamp] *exemplar LF
+sample =/ metricname-and-labels SP "{" composite-value "}" [SP timestamp] [SP start-timestamp] *exemplar LF
 
 exemplar = SP HASH SP labels-in-braces SP number [SP timestamp]
 
@@ -505,10 +505,10 @@ normal-char = %x00-09 / %x0B-21 / %x23-5B / %x5D-D7FF / %xE000-10FFFF
 ; Lowercase st @ timestamp
 start-timestamp = %d115.116 "@" timestamp
 
-; Complex values
-complex-value = nativehistogram
+; Composite values
+composite-value = native-histogram / classic-histogram / classic-summary
 
-nativehistogram = nh-count "," nh-sum "," nh-schema "," nh-zero-threshold "," nh-zero-count [ "," nh-negative-spans "," nh-negative-buckets ] [ "," nh-positive-spans "," nh-positive-buckets ]
+native-histogram = nh-count "," nh-sum "," nh-schema "," nh-zero-threshold "," nh-zero-count [ "," nh-negative-spans "," nh-negative-buckets ] [ "," nh-positive-spans "," nh-positive-buckets ]
 
 ; count:x
 nh-count = %d99.111.117.110.116 ":" number
@@ -540,6 +540,32 @@ non-negative-integer = ["+"] 1*"0" / ["+"] positive-integer
 ; Leading 0s explicitly okay.
 positive-integer = *"0" positive-digit *DIGIT
 positive-digit = "1" / "2" / "3" / "4" / "5" / "6" / "7" / "8" / "9"
+
+; count:12,sum:100.0,bucket:[0.1:3,05:12,+Inf:12]
+classic-histogram = ch-count "," ch-sum "," ch-bucket
+
+; count:x where x is a number
+ch-count = %d99.111.117.110.116 ":" number
+; sum:x where x is a number
+ch-sum = %d115.117.109 ":" number
+; bucket:[...,+Inf:v]  The +Inf bucket is required.
+ch-bucket = %d98.117.99.107.101.116 ":" "[" [ ch-le-counts "," ] ch-pos-inf-bucket "]"
+ch-le-counts = (ch-neg-inf-bucket / ch-le-bucket) *("," ch-le-bucket)
+ch-pos-inf-bucket = "+" %d73.110.102 ":" number
+ch-neg-inf-bucket = "-" %d73.110.102 ":" number
+ch-le-bucket = realnumber ":" number
+
+; count:12.0,sum:100.0,quantile:[0.9:2.0,0.95:3.0,0.99:20.0]
+classic-summary = cs-count "," cs-sum "," cs-quantile
+
+; count:x where x is a number
+cs-count = %d99.111.117.110.116 ":" number
+; sum:x where x is a real number or +-Inf or NaN
+cs-sum = %d115.117.109 ":" number
+; quantile:[...]
+cs-quantile = %d113.117.97.110.116.105.108.101 ":" "[" [ cs-q-counts ] "]"
+cs-q-counts = cs-q-count *("," cs-q-count)
+cs-q-count = realnumber ":" number
 ```
 
 #### Overall Structure
@@ -560,10 +586,8 @@ An example of a complete exposition:
 # TYPE acme_http_router_request_seconds summary
 # UNIT acme_http_router_request_seconds seconds
 # HELP acme_http_router_request_seconds Latency though all of ACME's HTTP request router.
-acme_http_router_request_seconds_sum{path="/api/v1",method="GET"} 9036.32 st@1605281325.0
-acme_http_router_request_seconds_count{path="/api/v1",method="GET"} 807283.0 st@1605281325.0
-acme_http_router_request_seconds_sum{path="/api/v2",method="POST"} 479.3 st@1605301325.0
-acme_http_router_request_seconds_count{path="/api/v2",method="POST"} 34.0 st@1605301325.0
+acme_http_router_request_seconds{path="/api/v1",method="GET"} {count:807283,sum:9036.32,quantile:[0.95:2,0.99:20]} st@1605281325.0
+acme_http_router_request_seconds{path="/api/v2",method="GET"} {count:34,sum:479.3,quantile:[0.95:2.5,0.99:2.9]} st@1605301325.0
 # TYPE go_goroutines gauge
 # HELP go_goroutines Number of goroutines that currently exist.
 go_goroutines 69
@@ -575,11 +599,7 @@ process_cpu_seconds_total 4.20072246e+06
 # UNIT acme_http_request_seconds seconds
 # HELP acme_http_request_seconds Latency histogram of all of ACME's HTTP requests.
 acme_http_request_seconds{path="/api/v1",method="GET"} {count:2,sum:1.2e2,schema:0,zero_threshold:1e-4,zero_count:0,positive_spans:[1:2],positive_buckets:[1,1]} st@1605301325.0
-acme_http_request_seconds_count{path="/api/v1",method="GET"} 2 st@1605301325.0
-acme_http_request_seconds_sum{path="/api/v1",method="GET"} 1.2e2 st@1605301325.0
-acme_http_request_seconds_buckets{path="/api/v1",method="GET",le="0.5"} 1 st@1605301325.0
-acme_http_request_seconds_buckets{path="/api/v1",method="GET",le="1"} 2 st@1605301325.0
-acme_http_request_seconds_buckets{path="/api/v1",method="GET",le="+Inf"} 2 st@1605301325.0
+acme_http_request_seconds{path="/api/v1",method="GET"} {count:2,sum:1.2e2,bucket:[0.5:1,1:2,+Inf:2]} st@1605301325.0
 # TYPE acme_http_request_seconds:rate5m gaugehistogram
 acme_http_request_seconds:rate5m{path="/api/v1",method="GET"} {count:0.01,sum:2.0,schema:0,zero_threshold:1e-4,zero_count:0.0,positive_spans:[1:2],positive_buckets:[0.005,0.005]} st@1605301325.0
 # TYPE "foodb.read.errors" counter
@@ -637,31 +657,9 @@ Integer numbers MUST NOT have a decimal point. Examples are `23`, `0042`, and `1
 
 Floating point numbers MUST be represented either with a decimal point or using scientific notation. Examples are `8903.123421` and `1.89e-7`. Floating point numbers MUST fit within the range of a 64-bit floating point value as defined by IEEE 754, but MAY require so many bits in the mantissa that results in lost precision. This MAY be used to encode nanosecond resolution timestamps.
 
-Arbitrary integer and floating point rendering of numbers MUST NOT be used for "quantile" and "le" label values as in section "Canonical Numbers". They MAY be used anywhere else numbers are used.
+###### CompositeValues
 
-###### ComplexValues
-
-ComplexValue is represented as structured data with fields. There MUST NOT be any whitespace around fields. See the ABNF for exact details about the format and possible values.
-
-###### Considerations: Canonical Numbers
-
-Numbers in the "le" label values of histograms and "quantile" label values of summary metrics are special in that they're label values, and label values are intended to be opaque. As end users will likely directly interact with these string values, and as many monitoring systems lack the ability to deal with them as first-class numbers, it would be beneficial if a given number had the exact same text representation.
-
-Consistency is highly desirable, but real world implementations of languages and their runtimes make mandating this impractical. The most important common quantiles are 0.5, 0.95, 0.9, 0.99, 0.999 and bucket values representing values from a millisecond up to 10.0 seconds, because those cover cases like latency SLAs and Apdex for typical web services. Powers of ten are covered to try to ensure that the switch between fixed point and exponential rendering is consistent as this varies across runtimes. The target rendering is equivalent to the default Go rendering of float64 values (i.e. %g), with a .0 appended in case there is no decimal point or exponent to make clear that they are floats.
-
-Exposers MUST produce output for positive infinity as +Inf.
-
-Exposers SHOULD produce output for the values 0.0 up to 10.0 in 0.001 increments in line with the following examples:
-0.0 0.001 0.002 0.01 0.1 0.9 0.95 0.99 0.999 1.0 1.7 10.0
-
-Exposers SHOULD produce output for the values 1e-10 up to 1e+10 in powers of ten in line with the following examples:
-1e-10 1e-09 1e-05 0.0001 0.1 1.0 100000.0 1e+06 1e+10
-
-Parsers MUST NOT reject inputs which are outside of the canonical values merely because they are not consistent with the canonical values. For example 1.1e-4 must not be rejected, even though it is not the consistent rendering of 0.00011.
-
-Exposers SHOULD follow these patterns for non-canonical numbers, and the intention is by adjusting the rendering algorithm to be consistent for these values that the vast majority of other values will also have consistent rendering. Exposers using only a few particular le/quantile values could also hardcode. In languages such as C where a minimal floating point rendering algorithm such as Grisu3 is not readily available, exposers MAY use a different rendering.
-
-A warning to implementers in C and other languages that share its printf implementation: The standard precision of %f, %e and %g is only six significant digits. 17 significant digits are required for full precision, e.g. `printf("%.17g", d)`.
+CompositeValue is represented as structured data with fields. There MUST NOT be any whitespace around fields. See the ABNF for exact details about the format and possible values.
 
 ##### Timestamps
 
@@ -761,41 +759,45 @@ The rendering of values for a MetricPoint can include additional labels (e.g. th
 
 MetricPoints MUST NOT be interleaved.
 
-A correct example where there were multiple MetricPoints and Samples within a MetricFamily would be:
+A correct example where there were multiple MetricPoints and Samples within a MetricFamily would be with StateSet:
 
 ```openmetrics-add-eof
-# TYPE foo_seconds summary
-# UNIT foo_seconds seconds
-foo_seconds_count{a="bb"} 0 123
-foo_seconds_sum{a="bb"} 0 123
-foo_seconds_count{a="bb"} 0 456
-foo_seconds_sum{a="bb"} 0 456
-foo_seconds_count{a="ccc"} 0 123
-foo_seconds_sum{a="ccc"} 0 123
-foo_seconds_count{a="ccc"} 0 456
-foo_seconds_sum{a="ccc"} 0 456
+# TYPE foo stateset
+foo{entity="controller",foo="a"} 1.0
+foo{entity="controller",foo="bb"} 0.0
+foo{entity="controller",foo="ccc"} 0.0
+foo{entity="replica",foo="a"} 1.0
+foo{entity="replica",foo="bb"} 0.0
+foo{entity="replica",foo="ccc"} 1.0
 ```
 
 An incorrect example where Metrics are interleaved:
 
-```
-# TYPE foo_seconds summary
-# UNIT foo_seconds seconds
-foo_seconds_count{a="bb"} 0 123
-foo_seconds_count{a="ccc"} 0 123
-foo_seconds_count{a="bb"} 0 456
-foo_seconds_count{a="ccc"} 0 456
+```openmetrics-add-eof
+# TYPE foo stateset
+foo{entity="controller",env="dev",foo="a"} 1.0
+foo{entity="controller",env="dev",foo="bb"} 0.0
+foo{entity="controller",env="dev",foo="ccc"} 0.0
+foo{entity="replica",env="dev",foo="a"} 1.0
+foo{entity="replica",env="dev",foo="bb"} 0.0
+foo{entity="replica",env="dev",foo="ccc"} 1.0
+foo{entity="controller",env="prod",foo="a"} 1.0
+foo{entity="controller",env="prod",foo="bb"} 0.0
+foo{entity="controller",env="prod",foo="ccc"} 0.0
 ```
 
 An incorrect example where MetricPoints are interleaved:
 
-```
+```openmetrics-add-eof
 # TYPE foo_seconds summary
 # UNIT foo_seconds seconds
-foo_seconds_count{a="bb"} 0 123
-foo_seconds_count{a="bb"} 0 456
-foo_seconds_sum{a="bb"} 0 123
-foo_seconds_sum{a="bb"} 0 456
+# TYPE foo stateset
+foo{entity="controller",env="dev",foo="a"} 1.0
+foo{entity="controller",env="dev",foo="bb"} 0.0
+foo{entity="controller",env="prod",foo="a"} 1.0
+foo{entity="controller",env="dev",foo="ccc"} 0.0
+foo{entity="controller",env="prod",foo="bb"} 0.0
+foo{entity="controller",env="prod",foo="ccc"} 0.0
 ```
 
 #### Metric types
@@ -947,62 +949,52 @@ Metric labels and MetricPoint value labels MAY be in any order.
 
 ##### Summary
 
-If present, the MetricPoint's Sum Value Sample MetricName MUST have the suffix `_sum`. If present, the MetricPoint's Count Value MetricName MUST have the suffix `_count`. If present, the MetricPoint's Quantile Values MUST specify the quantile measured using a label with a label name of "quantile" and with a label value of the quantile measured.
+The MetricPoint's value MUST be a CompositeValue.
 
-If present the MetricPoint's Start Timestamp MUST be inlined with the Metric point with a `st@` prefix. If the value's timestamp is present, the Start Timestamp MUST be added right after it. If exemplar is present, the Start Timestamp MUST be added before it. Start Timestamp MUST be appended to all Quantile Values, to the MetricPoint's Sum and MetricPoint's Count.
+The CompositeValue MUST include the Count, Sum and quantile values as the fields `count`, `sum`, `quantile`, in this order.
+
+If present the MetricPoint's Start Timestamp MUST be inlined with the Metric point with a `st@` prefix. If the value's timestamp is present, the Start Timestamp MUST be added right after it. If exemplars are present, the Start Timestamp MUST be added before it.
+
+The quantiles MUST be sorted in increasing order of the quantile.
 
 An example of a Metric with no labels and a MetricPoint with Sum, Count and Start Timestamp values:
 
 ```openmetrics-add-eof
 # TYPE foo summary
-foo_count 17.0 st@1520430000.123
-foo_sum 324789.3 st@1520430000.123
+foo {count:17,sum:324789.3,quantile:[]} st@1520430000.123
 ```
 
 An example of a Metric with no labels and a MetricPoint with two quantiles and Start Timestamp values:
 
 ```openmetrics-add-eof
 # TYPE foo summary
-foo{quantile="0.95"} 123.7 st@1520430000.123
-foo{quantile="0.99"} 150.0 st@1520430000.123
+foo {count:0,sum:0.0,quantile:[0.95:123.7,0.99:150]} st@1520430000.123
 ```
-
-Quantiles MAY be in any order.
 
 ##### Histogram with Classic Buckets
 
-The MetricPoint's Sum Value Sample MetricName MUST have the suffix `_sum`. The MetricPoint's Count Value Sample MetricName MUST have the suffix `_count`. The MetricPoint's Classic Bucket values Sample MetricNames MUST have the suffix `_bucket`.
+The MetricPoint's value MUST be a CompositeValue.
 
-If present the MetricPoint's Start Timestamp MUST be inlined with the Metric point with a `st@` prefix. If the value's timestamp is present, the Start Timestamp MUST be added right after it. If exemplar  is present, the Start  Timestamp MUST be added before it. Start Timestamp MUST be appended to all Classic Bucket values, to the MetricPoint's Sum and MetricPoint's Count.
+The CompositeValue MUST include the Count, Sum and Classic Bucket values as the fields `count`, `sum`, `bucket`, in this order.
 
-Classic Buckets MUST be sorted in number increasing order of "le", and the value of the "le" label MUST follow the rules for Canonical Numbers.
+If present the MetricPoint's Start Timestamp MUST be inlined with the Metric point with a `st@` prefix. If the value's timestamp is present, the Start Timestamp MUST be added right after it. If exemplars are present, the Start Timestamp MUST be added before it.
+
+Classic Buckets MUST be sorted in number increasing order of their threshold.
 
 All Classic Buckets MUST be present, even ones with the value 0.
 
-An example of a Metric with no labels and a MetricPoint with Sum, Count, and Start Timestamp values, and with 12 Classic Buckets. A wide and atypical but valid variety of “le” values is shown on purpose:
+An example of a Metric with no labels and a MetricPoint with Sum, Count, and Start Timestamp values, and with 12 Classic Buckets. A wide and atypical but valid variety of bucket threshold values is shown on purpose:
 
 ```openmetrics-add-eof
 # TYPE foo histogram
-foo_bucket{le="0.0"} 0 st@1520430000.123
-foo_bucket{le="1e-05"} 0 st@1521430000.123
-foo_bucket{le="0.0001"} 5 st@1521430020.123
-foo_bucket{le="0.1"} 8 st@1520430321.123
-foo_bucket{le="1.0"} 10 st@1522430000.123
-foo_bucket{le="10.0"} 11 st@1520430123.123
-foo_bucket{le="100000.0"} 11 st@1521430010.123
-foo_bucket{le="1e+06"} 15 st@1520430301.123
-foo_bucket{le="1e+23"} 16 st@1521430001.123
-foo_bucket{le="1.1e+23"} 17 st@1522430220.123
-foo_bucket{le="+Inf"} 17 st@1520430000.123
-foo_count 17 st@1520430000.123
-foo_sum 324789.3 st@1520430000.123
+foo {count:17,sum:324789.3,bucket:[0.0:0,1e-05:0,0.0001:5,0.1:8,1.0:10,10.0:11,100000.0:11,1e+06:15,1e+23:16,1.1e+23:17,+Inf:17]} st@1520430000.123
 ```
 
 ##### Histogram with Native Buckets
 
-The MetricPoint's value MUST be a ComplexValue.
+The MetricPoint's value MUST be a CompositeValue.
 
-The ComplexValue MUST include the Count, Sum, Schema, Zero Threshold, Zero Native Bucket value as the fields `count`, `sum`, `schema`, `zero_threshold`, `zero_count`, in this order.
+The CompositeValue MUST include the Count, Sum, Schema, Zero Threshold, Zero Native Bucket value as the fields `count`, `sum`, `schema`, `zero_threshold`, `zero_count`, in this order.
 
 If there are no negative Native Buckets, then the fields `negative_spans` and `negative_buckets` SHOULD be omitted.
 If there are no positive Native Buckets, then the fields `positive_spans` and `positive_buckets` SHOULD be omitted.
@@ -1045,11 +1037,7 @@ The order ensures that implementations can easily skip the Classic Buckets if th
 # UNIT acme_http_request_seconds seconds
 # HELP acme_http_request_seconds Latency histogram of all of ACME's HTTP requests.
 acme_http_request_seconds{path="/api/v1",method="GET"} {count:2,sum:1.2e2,schema:0,zero_threshold:1e-4,zero_count:0,positive_spans:[1:2],positive_buckets:[1,1]}
-acme_http_request_seconds_count{path="/api/v1",method="GET"} 2
-acme_http_request_seconds_sum{path="/api/v1",method="GET"} 1.2e2
-acme_http_request_seconds_buckets{path="/api/v1",method="GET",le="0.5"} 1
-acme_http_request_seconds_buckets{path="/api/v1",method="GET",le="1"} 2
-acme_http_request_seconds_buckets{path="/api/v1",method="GET",le="+Inf"} 2
+acme_http_request_seconds{path="/api/v1",method="GET"} {count:2,sum:1.2e2,bucket:[0.5:1,1:2,+Inf:2]}
 ```
 
 ###### Exemplars
@@ -1062,33 +1050,23 @@ The "0.01" bucket has no Exemplar. The 0.1 bucket has an Exemplar with no Labels
 
 ```openmetrics-add-eof
 # TYPE foo histogram
-foo {count:10,sum:1.0,schema:0,zero_threshold:1e-4,zero_count:0,positive_spans:[0:2],positive_buckets:[5,5]} st@1520430000.123 # {trace_id="shaZ8oxi"} 0.67 1520879607.789 # {trace_id="ookahn0M"} 1.2 1520879608.589
-foo_bucket{le="0.01"} 0 st@1520430000.123
-foo_bucket{le="0.1"} 8 st@1520430000.123 # {} 0.054
-foo_bucket{le="1"} 11 st@1520430000.123 # {trace_id="KOO5S4vxi0o"} 0.67
-foo_bucket{le="10"} 17 st@1520430000.123 # {trace_id="oHg5SJYRHA0"} 9.8 1520879607.789
-foo_bucket{le="+Inf"} 17 st@1520430000.123
-foo_count 17 st@1520430000.123
-foo_sum 324789.3 st@1520430000.123
+foo {count:17,sum:324789.3,schema:0,zero_threshold:1e-4,zero_count:0,positive_spans:[0:2],positive_buckets:[5,12]} st@1520430000.123 # {trace_id="shaZ8oxi"} 0.67 1520879607.789 # {trace_id="ookahn0M"} 1.2 1520879608.589
+foo {count:17,sum:324789.3,bucket:[0.01:0,0.1:8,1.0:11,10.0:17,+Inf:17]} st@1520430000.123 # {} 0.054 1520879607.7 # {trace_id="KOO5S4vxi0o"} 0.67 1520879602.890 # {trace_id="oHg5SJYRHA0"} 9.8 1520879607.789
 ```
 
 ##### GaugeHistogram with Classic Buckets
 
-The MetricPoint's Sum Value Sample MetricName MUST have the suffix `_gsum`. The MetricPoint's Count Value Sample MetricName MUST have the suffix `_gcount`. The MetricPoint's Classic Bucket values Sample MetricNames MUST have the suffix `_bucket`.
+The MetricPoint's value MUST be a CompositeValue.
 
-Classic Buckets MUST be sorted in number increasing order of "le", and the value of the "le" label MUST follow the rules for Canonical Numbers.
+The CompositeValue MUST include the Gcount, Gsum and Classic Bucket values as the fields `count`, `sum`, `bucket`, in this order.
+
+Classic Buckets MUST be sorted in number increasing order of their threshold.
 
 An example of a Metric with no labels, and one MetricPoint value with no Exemplar with no Exemplars in the buckets:
 
 ```openmetrics-add-eof
 # TYPE foo gaugehistogram
-foo_bucket{le="0.01"} 20.0
-foo_bucket{le="0.1"} 25.0
-foo_bucket{le="1"} 34.0
-foo_bucket{le="10"} 34.0
-foo_bucket{le="+Inf"} 42.0
-foo_gcount 42.0
-foo_gsum 3289.3
+foo {count:42,sum:3289.3,bucket:[0.01:20,0.1:25,1:34,+Inf:42]}
 ```
 
 ##### GaugeHistogram with Native Buckets

@@ -1,8 +1,6 @@
-name: Link Validation (Weekly Check)
+name: Link Validation
 
 on:
-  schedule:
-    - cron: '0 6 * * 1'  # Mondays at 06:00 UTC
   workflow_dispatch:  # Manual trigger
 
 jobs:

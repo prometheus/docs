@@ -39,7 +39,7 @@ Now open `http://localhost:8090/ping` in your browser and you must see `pong`.
 [![Server](/assets/docs/tutorial/server.png)](/assets/docs/tutorial/server.png)
 
 
-Now lets add a metric to the server which will instrument the number of requests made to the ping endpoint, the counter metric type is suitable for this as we know the request count doesn’t go down and only increases.
+Now let's add a metric to the server which will instrument the number of requests made to the ping endpoint. The counter metric type is suitable for this as we know the request count doesn’t go down and only increases.
 
 Create a Prometheus counter
 
@@ -88,8 +88,7 @@ The `prometheus.MustRegister` function registers the pingCounter to the default 
 To expose the metrics the Go Prometheus client library provides the promhttp package.
 `promhttp.Handler()` provides a `http.Handler` which exposes the metrics registered in the Default Register.
 
-The sample code depends on the
-The sample code depends on the
+The sample code is now
 
 ```go
 package main
@@ -142,13 +141,13 @@ go mod tidy
 go run server.go
 ```
 
-Now hit the localhost:8090/ping endpoint a couple of times and sending a request to localhost:8090 will provide the metrics.
+Now hit the localhost:8090/ping endpoint a couple of times and sending a request to localhost:8090/metrics will provide the metrics.
 
 [![Ping Metric](/assets/docs/tutorial/ping_metric.png)](/assets/docs/tutorial/ping_metric.png)
 
 Here the `ping_request_count` shows that `/ping` endpoint was called 3 times.
 
-The Default Register comes with a collector for go runtime metrics and that is why we see other metrics like `go_threads`, `go_goroutines` etc.
+The Default Registry comes with a collector for go runtime metrics and that is why we see other metrics like `go_threads`, `go_goroutines` etc.
 
 We have built our first metric exporter. Let’s update our Prometheus config to scrape the metrics from our server.
 

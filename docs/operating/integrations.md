@@ -84,6 +84,7 @@ For notification mechanisms not natively supported by the Alertmanager, the
   * [GitLab](https://docs.gitlab.com/ee/operations/metrics/alerts.html#external-prometheus-instances)
   * [Gotify](https://github.com/DRuggeri/alertmanager_gotify_bridge)
   * [GELF](https://github.com/b-com-software-basis/alertmanager2gelf)
+  * [Grafana OnCall](https://grafana.com/docs/grafana-cloud/alerting-and-irm/irm/configure/integrations/integration-reference/oncall/alertmanager)
   * [HeyOnCall](https://heyoncall.com/guides/prometheus-integration)
   * [Icinga2](https://github.com/vshn/signalilo)
   * [iLert](https://docs.ilert.com/integrations/prometheus)
@@ -95,6 +96,7 @@ For notification mechanisms not natively supported by the Alertmanager, the
   * [Phabricator / Maniphest](https://github.com/knyar/phalerts)
   * [prom2teams](https://github.com/idealista/prom2teams): forwards notifications to Microsoft Teams
   * [Ansible Tower](https://github.com/pja237/prom2tower): call Ansible Tower (AWX) API on alerts (launch jobs etc.)
+  * [Robusta](https://docs.robusta.dev/master/configuration/alert-manager.html)
   * [Signal](https://github.com/dgl/alertmanager-webhook-signald)
   * [SIGNL4](https://www.signl4.com/blog/portfolio_item/prometheus-alertmanager-mobile-alert-notification-duty-schedule-escalation)
   * [Simplepush](https://codeberg.org/stealth/alertpush)
@@ -107,6 +109,7 @@ For notification mechanisms not natively supported by the Alertmanager, the
   * [XMPP Bot](https://github.com/jelmer/prometheus-xmpp-alerts)
   * [Zenduty](https://docs.zenduty.com/docs/prometheus/)
   * [Zoom](https://github.com/Code2Life/nodess-apps/tree/master/src/zoom-alert-2.0)
+  * [Zulip](https://zulip.com/integrations/alertmanager)
 
 ## Management
 

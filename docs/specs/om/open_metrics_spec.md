@@ -34,7 +34,7 @@ With OpenMetrics, we are cleaning up and tightening the specification with the e
 
 Given the wide adoption and significant coordination requirements in the ecosystem, sweeping changes to either the Prometheus exposition format 0.0.4 or OpenMetrics 1.0 are considered out of scope.
 
-> NOTE: OpenMetrics 2.0 development is in progress. Read [here](https://github.com/prometheus/OpenMetrics/issues/276) on how to join the Prometheus OM 2.0 work group.
+NOTE: OpenMetrics 2.0 development is in progress. Read [here](https://github.com/prometheus/OpenMetrics/issues/276) on how to join the Prometheus OM 2.0 work group.
 
 ## Overview
 
@@ -60,7 +60,9 @@ This section MUST be read together with the ABNF section. In case of disagreemen
 
 #### Values
 
-Metric values in OpenMetrics MUST be either floating points or integers. Note that ingestors of the format MAY only support float64. The non-real values NaN, +Inf and -Inf MUST be supported. NaN MUST NOT be considered a missing value, but it MAY be used to signal a division by zero.
+Metric values in OpenMetrics MUST be either floating points or integers. The non-real values NaN, +Inf and -Inf MUST be supported. NaN MUST NOT be considered a missing value, but it MAY be used to signal a division by zero.
+
+NOTE: The ingestors of the format MAY only support float64.
 
 ##### Booleans
 
@@ -837,7 +839,7 @@ Timestamp representations in the OpenMetrics protobuf schema MUST follow the pub
 
 Protobuf schema is currently available [here](https://github.com/prometheus/OpenMetrics/blob/3bb328ab04d26b25ac548d851619f90d15090e5d/proto/openmetrics_data_model.proto).
 
-> NOTE: Prometheus and ecosystem does not support OpenMetrics protobuf schema, instead it uses similar `io.prometheus.client` [format](https://github.com/prometheus/client_model/blob/master/io/prometheus/client/metrics.proto). Discussions about the future of the protobuf schema in OpenMetrics 2.0 [are in progress](https://github.com/prometheus/OpenMetrics/issues/296).
+NOTE: Prometheus and ecosystem does not support OpenMetrics protobuf schema, instead it uses similar `io.prometheus.client` [format](https://github.com/prometheus/client_model/blob/master/io/prometheus/client/metrics.proto). Discussions about the future of the protobuf schema in OpenMetrics 2.0 [are in progress](https://github.com/prometheus/OpenMetrics/issues/296).
 
 ## Design Considerations
 

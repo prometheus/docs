@@ -27,10 +27,11 @@ only in a limited fashion (lacking [quantile calculation](#quantiles)).
 Histograms and summaries both sample observations, typically request
 durations or response sizes. They track the number of observations
 *and* the sum of the observed values, allowing you to calculate the
-*average* of the observed values. Note that the number of observations
-(showing up in Prometheus as a time series with a `_count` suffix) is
-inherently a counter (as described above, it only goes up). The sum of
-observations (showing up as a time series with a `_sum` suffix)
+*average* of the observed values. 
+
+NOTE: The number of observations (showing up in Prometheus as a time series with a `_count` suffix) is inherently a counter (as described above, it only goes up). 
+
+The sum of observations (showing up as a time series with a `_sum` suffix)
 behaves like a counter, too, as long as there are no negative
 observations. Obviously, request durations or response sizes are
 never negative. In principle, however, you can use summaries and
@@ -84,7 +85,7 @@ following expression yields the Apdex score for each job over the last
       sum(rate(http_request_duration_seconds_bucket{le="1.2"}[5m])) by (job)
     ) / 2 / sum(rate(http_request_duration_seconds_count[5m])) by (job)
 
-Note that we divide the sum of both buckets. The reason is that the histogram
+NOTE: We divide the sum of both buckets. The reason is that the histogram
 buckets are
 [cumulative](https://en.wikipedia.org/wiki/Histogram#Cumulative_histogram). The
 `le="0.3"` bucket is also contained in the `le="1.2"` bucket; dividing it by 2
@@ -119,7 +120,7 @@ The two approaches have a number of different implications:
 | Specification of φ-quantile and sliding time-window | Ad-hoc with [Prometheus expressions](/docs/prometheus/latest/querying/functions/#histogram_quantile). | Preconfigured by the client.
 | Aggregation | Ad-hoc with [Prometheus expressions](/docs/prometheus/latest/querying/functions/#histogram_quantile). | In general [not aggregatable](http://latencytipoftheday.blogspot.de/2014/06/latencytipoftheday-you-cant-average.html).
 
-Note the importance of the last item in the table. Let us return to
+The importance of the last item in the table. Let us return to
 the SLO of serving 95% of requests within 300ms. This time, you do not
 want to display the percentage of requests served within 300ms, but
 instead the 95th percentile, i.e. the request duration within which
@@ -127,7 +128,9 @@ you have served 95% of requests. To do that, you can either configure
 a summary with a 0.95-quantile and (for example) a 5-minute decay
 time, or you configure a histogram with a few buckets around the 300ms
 mark, e.g. `{le="0.1"}`, `{le="0.2"}`, `{le="0.3"}`, and
-`{le="0.45"}`. If your service runs replicated with a number of
+`{le="0.45"}`. 
+
+If your service runs replicated with a number of
 instances, you will collect request durations from every single one of
 them, and then you want to aggregate everything into an overall 95th
 percentile. However, aggregating the precomputed quantiles from a

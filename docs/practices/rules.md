@@ -46,7 +46,7 @@ conflicts and give you more useful metrics and alerts.
 
 ## Examples
 
-_Note the indentation style with outdented operators on their own line between
+NOTE: The indentation style with outdented operators on their own line between
 two vectors. To make this style possible in Yaml, [block quotes with an
 indentation indicator](https://yaml.org/spec/1.2/spec.html#style/block/scalar)
 (e.g. `|2`) are used._

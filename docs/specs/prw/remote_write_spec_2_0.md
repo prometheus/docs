@@ -459,7 +459,9 @@ The same as in [1.0](./remote_write_spec.md#out-of-scope).
 
 ## Future Plans
 
-This section contains speculative plans that are not considered part of protocol specification yet but are mentioned here for completeness. Note that 2.0 specification completed [2 of 3 future plans in the 1.0](./remote_write_spec.md#future-plans).
+This section contains speculative plans that are not considered part of protocol specification yet but are mentioned here for completeness. 
+
+>NOTE: The 2.0 specification completed [2 of 3 future plans in the 1.0](./remote_write_spec.md#future-plans).
 
 * **Transactionality** There is still no transactionality defined for 2.0 specification, mostly because it makes a scalable Sender implementation difficult. Prometheus Sender aims at being "transactional" - i.e. to never expose a partially scraped target to a query. We intend to do the same with Remote-Write -- for instance, in the future we would like to "align" Remote-Write with scrapes, perhaps such that all the samples, metadata and exemplars for a single scrape are sent in a single Remote-Write request.
 

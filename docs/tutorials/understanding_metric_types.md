@@ -54,7 +54,7 @@ Let's say Request 1 for endpoint “/ping” takes 0.25 s. The count values for 
 | 0 - 1.2   | 1     |
 | 0 - +Inf  | 1     |
 
-Note: +Inf bucket is added by default.
+NOTE: +Inf bucket is added by default.
 
 (Since the histogram is a cumulative frequency 1 is added to all the buckets that are greater than the value)
 

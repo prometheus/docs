@@ -21,7 +21,7 @@ The basic components of a Prometheus setup are:
 - Targets to be scraped, for example an instrumented application that exposes its metrics, or an exporter that exposes metrics of another application.
 - Alertmanager to raise alerts based on preset rules.
 
-(Note: Apart from this Prometheus has push_gateway which is not covered here).
+NOTE: Apart from this Prometheus has push_gateway which is not covered here.
 
 [![Architecture](/assets/docs/tutorial/architecture.png)](/assets/docs/tutorial/architecture.png)
 
@@ -41,7 +41,7 @@ The user can control the frequency at which metrics are scraped by Prometheus.
 | 11:01:00   | 1                      |
 | 11:02:00   | 3                      |
 
-(Note: This table is just a representation for understanding purposes. Prometheus doesn’t store the values in this exact format)
+NOTE: This table is just a representation for understanding purposes. Prometheus doesn’t store the values in this exact format.
 
 Prometheus also has an API which allows to query metrics which have been stored by scraping. This API is used to query the metrics, create dashboards/charts on it etc. PromQL is used to query these metrics.
 

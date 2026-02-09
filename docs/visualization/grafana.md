@@ -9,7 +9,7 @@ sources. It allows users to create, explore, and share interactive dashboards, s
 like Prometheus, InfluxDB, Elasticsearch, and more. Grafana is widely used for observability, providing alerting, plugin
 extensibility, and a flexible query editor for real-time data visualization.
 
-Note: The Grafana data source for Prometheus is included since Grafana 2.5.0 (2015-10-28).
+NOTE: The Grafana data source for Prometheus is included since Grafana 2.5.0 (2015-10-28).
 
 The following shows an example Grafana dashboard which queries Prometheus for data:
 

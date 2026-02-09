@@ -89,7 +89,9 @@ Clients MAY allow users to send custom HTTP headers; they MUST NOT allow users t
 
 The remote write request in the body of the HTTP POST MUST be compressed with [Google’s Snappy](https://github.com/google/snappy).  The block format MUST be used - the framed format MUST NOT be used.
 
-The remote write request MUST be encoded using Google Protobuf 3, and MUST use the schema defined above.  Note [the Prometheus implementation](https://github.com/prometheus/prometheus/blob/v2.24.0/prompb/remote.proto) uses [gogoproto optimisations](https://github.com/gogo/protobuf) - for receivers written in languages other than Golang the gogoproto types MAY be substituted for line-level equivalents.
+The remote write request MUST be encoded using Google Protobuf 3, and MUST use the schema defined above.  N
+
+> NOTE:[the Prometheus implementation](https://github.com/prometheus/prometheus/blob/v2.24.0/prompb/remote.proto) uses [gogoproto optimisations](https://github.com/gogo/protobuf) - for receivers written in languages other than Golang the gogoproto types MAY be substituted for line-level equivalents.
 
 The response body from the remote write receiver SHOULD be empty; clients MUST ignore the response body. The response body is RESERVED for future use.
 

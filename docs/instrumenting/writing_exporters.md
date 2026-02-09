@@ -422,7 +422,7 @@ where there’s also nothing to run on. In this case, Prometheus should
 still do service discovery, and pass on the target to be scraped. See
 the blackbox and SNMP exporters for examples.
 
-Note that it is only currently possible to write this type of exporter
+NOTE: It is only currently possible to write this type of exporter
 with the Go, Python and Java client libraries.
 
 The second exception is where you’re pulling some stats out of a random

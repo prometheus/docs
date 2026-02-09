@@ -59,7 +59,9 @@ scrape_configs:
        - targets: ["localhost:8090"]
 ```
 
-Note that the `evaluation_interval`,`rule_files` and `alerting` sections were added to the Prometheus config. `evaluation_interval` defines the intervals at which the rules are evaluated, `rule_files` accepts an array of yaml files that defines the rules and the `alerting` section defines the Alertmanager configuration. As mentioned in the beginning of this tutorial we will create a basic rule where we want to
+> NOTE: The `evaluation_interval`,`rule_files` and `alerting` sections were added to the Prometheus config. `evaluation_interval` defines the intervals at which the rules are evaluated, `rule_files` accepts an array of yaml files that defines the rules and the `alerting` section defines the Alertmanager configuration. 
+
+As mentioned in the beginning of this tutorial we will create a basic rule where we want to
 raise an alert when the `ping_request_count` value is greater than 5.
 
 > rules.yml

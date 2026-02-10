@@ -94,7 +94,7 @@ For notification mechanisms not natively supported by the Alertmanager, the
   * [Notion](https://github.com/cthtuf/alertmanager-to-notion): creates/updates record in a Notion database
   * [Phabricator / Maniphest](https://github.com/knyar/phalerts)
   * [prom2teams](https://github.com/idealista/prom2teams): forwards notifications to Microsoft Teams
-  * [Rootly](https://rootly.com/integrations/prometheus-alertmanager): on-call & incident management
+  * [Rootly](https://docs.rootly.com/integrations/alertmanager): on-call & incident management
   * [Ansible Tower](https://github.com/pja237/prom2tower): call Ansible Tower (AWX) API on alerts (launch jobs etc.)
   * [Signal](https://github.com/dgl/alertmanager-webhook-signald)
   * [SIGNL4](https://www.signl4.com/blog/portfolio_item/prometheus-alertmanager-mobile-alert-notification-duty-schedule-escalation)

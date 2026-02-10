@@ -128,9 +128,9 @@ Exemplars are references to data outside of the MetricSet. A common use case are
 
 Exemplars MUST consist of a LabelSet and a value, and SHOULD have a timestamp. They MAY each be different from the MetricPoints' LabelSet and timestamp.
 
-While there's no [hard limit](#size-limits) specified, Exemplars LabelSet SHOULD NOT be used to transport large data like tracing span details or other event logging.
+While there's no [hard limit](#size-limits) specified, Exemplar's LabelSet SHOULD NOT be used to transport large data like tracing span details or other event logging.
 
-Ingestors MAY discard exemplars.
+Ingestors MAY truncate the Exemplar's LabelSet or discard Exemplars.
 
 #### Metric
 

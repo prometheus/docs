@@ -72,6 +72,7 @@ data volumes.
 For notification mechanisms not natively supported by the Alertmanager, the
 [webhook receiver](/docs/alerting/configuration/#webhook_config) allows for integration.
 
+  * [alertmanager-command-responder](https://github.com/treydock/alertmanager-command-responder): Execute commands based on alerts
   * [alertmanager-webhook-logger](https://github.com/tomtom-international/alertmanager-webhook-logger): logs alerts
   * [Alertsnitch](https://gitlab.com/yakshaving.art/alertsnitch): saves alerts to a MySQL database
   * [All Quiet](https://allquiet.app/integrations/inbound/prometheus): on-call & incident management

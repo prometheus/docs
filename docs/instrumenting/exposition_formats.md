@@ -165,7 +165,7 @@ rpc_duration_seconds_count 2693
 
 ## OpenMetrics Text Format
 
-[OpenMetrics](https://github.com/OpenObservability/OpenMetrics) is the an effort to standardize metric wire formatting built off of Prometheus text format. It is possible to scrape targets
+[OpenMetrics](https://github.com/OpenObservability/OpenMetrics) is the effort to standardize metric wire formatting built off of Prometheus text format. It is possible to scrape targets
 and it is also available to use for federating metrics since at least v2.23.0.
 
 ### Exemplars (Experimental)

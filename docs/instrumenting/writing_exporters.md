@@ -345,7 +345,7 @@ in your `Collect()` method. For Python see
 [https://github.com/prometheus/client_python#custom-collectors](https://prometheus.github.io/client_python/collector/custom/)
 and for Java generate a `List<MetricFamilySamples>` in your collect
 method, see
-[StandardExports.java](https://github.com/prometheus/client_java/blob/master/simpleclient_hotspot/src/main/java/io/prometheus/client/hotspot/StandardExports.java)
+[JvmMetrics.java](https://github.com/prometheus/client_java/blob/main/prometheus-metrics-instrumentation-jvm/src/main/java/io/prometheus/metrics/instrumentation/jvm/JvmMetrics.java)
 for an example.
 
 The reason for this is two-fold. Firstly, two scrapes could happen at
@@ -388,7 +388,7 @@ the Prometheus ecosystem, such metrics should be dropped.
 In the Java world, many instrumentation frameworks expose process-level
 and JVM-level stats such as CPU and GC. The Java client and JMX exporter
 already include these in the preferred form via
-[DefaultExports.java](https://github.com/prometheus/client_java/blob/master/simpleclient_hotspot/src/main/java/io/prometheus/client/hotspot/DefaultExports.java),
+[JvmMetrics.java](https://github.com/prometheus/client_java/blob/main/prometheus-metrics-instrumentation-jvm/src/main/java/io/prometheus/metrics/instrumentation/jvm/JvmMetrics.java),
 so these should also be dropped.
 
 Similarly with other languages and frameworks.

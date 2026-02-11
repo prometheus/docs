@@ -165,15 +165,11 @@ MetricFamily names beginning with underscores are RESERVED and MUST NOT be used 
 
 ###### Reserved Suffixes
 
-MetricFamily name SHOULD NOT end with `_count`, `_sum`, `_gcount`, `_gsum`, `_bucket`. Specifically name MUST NOT create 
-MetricName collision when converted to [the Text OpenMetrics 1.0](https://prometheus.io/docs/specs/om/open_metrics_spec).
+MetricFamily name SHOULD NOT end with `_count`, `_sum`, `_gcount`, `_gsum`, `_bucket`. Specifically a name MUST NOT create a MetricName collision when converted to [the Text OpenMetrics 1.0](https://prometheus.io/docs/specs/om/open_metrics_spec).
 
-A non-compliant example would be a gauge called `foo_bucket` and a histogram called `foo`. Exposers negotiating the older
-OpenMetrics or Text formats, or ingestors which support only the older data model could end up storing `foo` histogram 
-in a classic representation (`foo_bucket`, `foo_count`, `foo_sum`) causing clash with the gauge and scrape rejection or dropped data.
+A non-compliant example would be a gauge called `foo_bucket` and a histogram called `foo`. Exposers negotiating the older OpenMetrics or Text formats, or ingestors which support only the older data model could end up storing the `foo` histogram in the classic representation (`foo_bucket`, `foo_count`, `foo_sum`), which would clash with the gauge and cause a scrape rejection or dropped data.
 
-> This rule is because this specification is following a shift in Prometheus ecosystem towards [composite values](#compositevalues) instead of [the "classic" representation](https://prometheus.io/docs/specs/om/open_metrics_spec/#histogram-1). However, this transformation will take time.
-> Reserving suffixes improves compatibility with older ingestors and the eventual migration process.
+> This rule exists because this specification is following a shift in Prometheus ecosystem towards [composite values](#compositevalues) instead of [the "classic" representation](https://prometheus.io/docs/specs/om/open_metrics_spec/#histogram-1). However, this transformation will take time. Reserving suffixes improves compatibility with older ingestors and the eventual migration process.
 
 ##### Type
 

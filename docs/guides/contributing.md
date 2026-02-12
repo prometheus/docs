@@ -5,13 +5,34 @@ title: Contributing
 # Contributor's guide
 
 This document provides general guidelines for contributors of all experience
-levels. If you are new, you might want to check out [how to pick something to
-work on](#how-to-pick-something-to-work-on) first. If you have concrete plans
-for something more involved already, please refer to the [proposal
+levels.
+
+If you are new, you might want to check out [how to pick something to
+work on](#how-to-pick-something-to-work-on) first.
+
+If you are an experienced contributor Looking to contribute a change, check the 
+[high level process](#how-to-get-a-pr-merged).
+
+If you have concrete plans for something more involved already, please refer to the [proposal
 process](#proposal-process).
 
-For repository-specific information, check out the README.md and
-CONTRIBUTING.md files of each repository.
+This document is guide for the prometheus/prometheus repository. Much of this 
+applies to other repos in the Prometheus community, but these projects might 
+have their own guides and rules. For repository-specific information, check out 
+the README.md and CONTRIBUTING.md files of each repository.
+
+## How to get a PR merged
+
+If you’re working on your first contribution please read this whole document, this section is aimed at experienced Open Source contributors.
+
+- Test changes locally and consider adding tests for your change.
+- Open a PRs against the `main` branch.
+- Reviewers should be assigned automatically, we aim to respond timely but other 
+  priorities can create delays.
+- Check the results of failing CI jobs, all are expected to succeed.
+- Reviewers might request changes. Addressing these quickly will improve the 
+  turn-around time of the PR
+
 
 ## Communication channels
 
@@ -24,7 +45,7 @@ described in this section.
 ### GitHub
 
 Contributions are reviewed in GitHub pull requests. See the [GitHub
-guidelines](github-guibelines) below for details. GitHub issues are often a
+guidelines](github-guidelines) below for details. GitHub issues are often a
 good way to discuss specific bugs and feature requests. For informal or
 overarching discussions, the other channels below might be more appropriate.
 
@@ -47,7 +68,7 @@ without summarizing the content of the linked messages.
 ### IRC
 
 The IRC development channel is `#prometheus-dev` on
-[irc.libera.chat](https://libera.chat/). It is also accesible via Matrix as
+[irc.libera.chat](https://libera.chat/). It is also accessible via Matrix as
 [`#prometheus-dev:matrix.org`](https://app.element.io/#/room/#prometheus-dev:matrix.org).
 In principle, IRC/Matrix is the preferred chat-like communication channel
 because it is much more open than Slack. However, in practice the traffic on
@@ -79,25 +100,119 @@ calendar](https://calendar.google.com/calendar/u/0/embed?src=prometheus.io_bdf9q
 
 ## How to pick something to work on
 
-<!-- TODO -->
+The best feature or bug to work on is something that matters to you. Something 
+you are already a user or even expert on or something you want to become an 
+expert on.
+
+The Prometheus community tries to help with identifying good issues to work on 
+in two way:
+
+1. Look for the label `good-first-issue`. This label identifies work that we 
+   think would be a good starting point for any new contributors.
+2. If you are looking for more complex issues to solve look for the 
+   `triage/accepted` label. This label indicates that an issues has been 
+   triaged, all needed information has been gathered and work can begin.
+   The labels `triage/needs-triage` and `triage/needs-information` mean that 
+   either no one has had time to look at the issue yet or more information is 
+   need. Things might change significantly and any early work might not be 
+   accepted. See <label proposal> for more details on how we use labels.
 
 ## Proposal process
 
-<!-- TODO -->
+For bigger changes and ideas we require a formal proposal and review in the 
+[Proposal repository](https://github.com/prometheus/proposals/). For details 
+please read the accepted [proposal proposal](https://github.com/prometheus/proposals/blob/main/proposals/0001-proposal-process.md).
 
 ## GitHub guidelines
 
-<!-- PRs (CI must be green, linter pragmas within reason), commits (broken or
-not), who/when to merge/rebase/squash, mention DCO -->
+Commit message should describe the change made in the commit.
+We don't have strong opinions on how large or small commits should be, use your 
+best judgment to make a logical series of changes. Good commits make reviews 
+easier and thus can be merged faster. For example it's a good pattern to have a 
+commit adding a test to expose a bug and then have a separate commit to fix the 
+bug.
+Commit messages must include a `Signed-off-by: <author identity>` line. With 
+this the author agrees to the terms published at 
+https://developercertificate.org/ for _that_ particular contribution.
+
+Once you have a change you would like to propose, push it to your personal fork 
+of Prometheus and open a pull request against the `main` branch.
+
+The needed reviewers will be added automatically. Anyone else that should or 
+wants to review a change can be mentioned by their user name in a comment, but 
+please avoid pinging random community members.
+
+We have checks that run on every PR. To merge all checks should succeed. Any 
+failing checks should be investigated and addressed by the PR author.
+
+Reviewers might request changes, which requires the author to either add commits 
+or rewrite the existing commits. Prometheus defaults to merging PR commits (not 
+rebase or squash), so adding a list of `fixup` commits is not a good idea unless 
+they get rebased or squashed by the PR author. Rebase and squash rewrite gits 
+commit history and authors should be aware of the implications (for example see 
+https://git-scm.com/book/en/v2/Git-Branching-Rebasing). Rebasing a branch for a 
+pull request is generally fine. Only once others have changes based on commits 
+that are not part of the `main` branch yet, commit authors should refrain from 
+rewriting those commits.
+
+## AI generated contributions
+
+The Prometheus authors don't discourage the use of AI tools to generate code.
+However we require a [DCO](https://developercertificate.org/) on each commit, by 
+which the author certifies that the contribution was created in whole or in part 
+by the author and that they have the right to submit it. Or if the contribution 
+is based upon previous work, it is covered under an appropriate open source 
+license and the author has the right under that license to submit that work with 
+modifications. See https://www.linuxfoundation.org/legal/generative-ai for more 
+details.
+Please consider the DCO and carefully review AI generate code before submitting 
+it. We encourage explicitly disclosing AI tool usage, for example by adding an 
+`Assisted-by: <name of AI tool used>` to the respective commits.
+
+For discussions around issues and PRs we strongly prefer a dialog with humans.
 
 ## Coding style
 
-<!-- TODO: not repeating general good practices, use proper English, a lot is in the CI, see above -->
+Much has been written about coding styles for a given language elsewhere. For 
+Prometheus contributions stick to the following:
+
+- Use idiomatic code of the language.
+- Stick to the existing style around you. Don’t conflate style improvements with 
+  code changes.
+- We have plenty of linters, use `make format`, `make lint` and `make style` to 
+  correctly format your code.
+- Use proper English grammar and punctuation. Don’t needlessly abbreviate.
+  BAD: // batchQueue full, try again later
+  GOOD: // The batchQueue is full, so we need to try again later.
+- In markdown, limit line length to 80 characters, instead of one line per 
+  paragraph. It makes commenting in reviews so much easier.
+
 
 ### Go style guide
 
-<!-- https://go.dev/wiki/CodeReviewComments -->
-<!-- TODO line breaks in function headers, import grouping, avoid make and new -->
+Go is the main programming language used in Prometheus and its ecosystem. We 
+have a few rules that are worth mentioning here:
+
+- Often we put named imports into a separate block. The blocks should be grouped 
+  into stdlib / other repos / same repo.
+- Doc comments on exported types are not enforced by the linter (because of too 
+  many false positives), but we do care. Use them where they make sense.
+- For long function signatures that require line breaks put closing parentheses 
+  on separate line. For example:
+```
+func (s *shards) sendSamples(
+	ctx context.Context, samples []prompb.TimeSeries,
+	sampleCount, exemplarCount, histogramCount int,
+	pBuf *proto.Buffer, buf compression.EncodeBuffer, compr compression.Type,
+) error {
+```
+**NOT**
+```
+func (s *shards) sendSamples(
+	ctx context.Context, samples []prompb.TimeSeries,
+	sampleCount, exemplarCount, histogramCount int,
+	pBuf *proto.Buffer, buf compression.EncodeBuffer, compr compression.Type) error {
+```
 
 ## Developer summit details
 
@@ -109,7 +224,7 @@ whenever enough active Prometheus developers are gathered at one place for some
 reason, typically at a conference like [PromCon](https://promcon.io/).
 
 The online meetings are open for everyone, while the in-person meetings might
-have some restrictions for logistical reasons. In doubt, ask via the channels
+have some restrictions for logistical reasons. If in doubt, ask via the channels
 listed above, and we'll see what can be done. We also try to make in-person
 summits accessible for online participants on a best-effort basis.
 

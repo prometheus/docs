@@ -160,5 +160,6 @@ I'm hoping we can share stories of other important, orthogonal shifts we see in 
 4. Our journey to organize and extend Prometheus scrape pull protocols with the recent ownership move of OpenMetrics.
 5. An incredible [TSDB Parquet](https://promcon.io/2025-munich/talks/beyond-tsdb-unlocking-prometheus-with-parquet-for-modern-scale/) effort, coming from the three LTS project groups (Cortex, Thanos, Mimir) working together, attempting to improve high cardinality cases. 
 6. Fun experiments with PromQL extensions, like [PromQL with pipes and variables](https://github.com/prometheus/prometheus/pull/17487)and some new SQL transpilation ideas.
+7. Governance changes.
 
-See You in open-source!
+See you in open-source!

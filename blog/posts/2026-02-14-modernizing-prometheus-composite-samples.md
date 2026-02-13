@@ -11,7 +11,7 @@ This post starts (hopefully!) as a series of blog posts that share a few ambitio
 
 <!-- more -->
 
-> WARNING: Disclaimer: This post is intended as a fun overview, from my own personal point of view as a Prometheus maintainer. Some of the mentioned changes haven't been (yet) officially approved by the Prometheus Team; some of them were not proved in production.
+> WARN: Disclaimer: This post is intended as a fun overview, from my own personal point of view as a Prometheus maintainer. Some of the mentioned changes haven't been (yet) officially approved by the Prometheus Team; some of them were not proved in production.
 
 > NOTE: This post was written by humans; AI was used only for cosmetic and grammar fixes.
 
@@ -62,7 +62,7 @@ Unfortunately, there are always tradeoffs. This classic model has a few limitati
 
 * **Efficiency:** It tends to yield overhead for composite types, because every new piece of data (e.g., new bucket) takes a precious index space (it's a new unique series), whereas samples are significantly more compressible (rarely change, time-oriented).
 * **Functionality:** It poses limitations to the shape and flexibility of the data you store (unless we'd go into some JSON-encoded labels, which have massive downsides). 
-* **Transactionality:** Primitive pieces of composite types (separate counters) are processed independently. While we did a lot of work to ensure write isolation and transactionality for scrapes, transactionality completely breaks apart when data is received or send via remote write, OTLP protocols or for distributed long-term storage Prometheus solutions. For example `foo` histogram might be sent but `foo_bucket{le="1.1e+23"} 17` counter might be delayed or dropped accidentally, which risks triggering false positive alerts or no alerts, depending on the situation. 
+* **Transactionality:** Primitive pieces of composite types (separate counters) are processed independently. While we did a lot of work to ensure write isolation and transactionality for scrapes, transactionality completely breaks apart when data is received or sent via remote write, OTLP protocols, or, for distributed long-term storage, Prometheus solutions. For example, `foo` histogram might be sent, but `foo_bucket{le="1.1e+23"} 17` counter might be delayed or dropped accidentally, which risks triggering false positive alerts or no alerts, depending on the situation. 
 * **Reliability:** Consumers of the TSDB data have to essentially guess the type semantics. There's nothing stopping users to write `foo_bucket` gauge or `foo_total` histogram.
 
 ### A Glimpse of Native Storage for Composite Types
@@ -131,7 +131,7 @@ Let's go through evidences of this direction, which also represents efforts you 
 
 When implemented all those pieces should make it possible to fully switch different parts of your metric collection pipeline to native form **transparently**.
 
-> WARNING: The common pattern for migrating to native histograms or NHCBs was double-write -- you could have both `foo` NHCB/native histogram and `foo_bucket` stored in Prometheus. This proven to be difficult to implement and ensure reliability, it obviously adds more overhead and it's hard to tell when to turn double write off in your systems. This mixed collection will also produce tricky cases  with the planned consumption (4th point above) compatibility mode (e.g. collision warnings). As a result, the compatibility mode might replace the previous double write migration story.
+> WARN: The common pattern for migrating to native histograms or NHCBs was double-write -- you could have both `foo` NHCB/native histogram and classic histogram (`foo_bucket`, `foo_sum`, `foo_count` series) stored in Prometheus. This proven to be a bit challenging to implement and ensure reliability, it obviously adds more overhead, and it's hard to tell when to turn double write off in your systems. This mixed collection will also produce tricky cases  with the planned consumption (4th point above) compatibility mode (e.g. collision warnings). As a result, the compatibility mode provide a valid alternative to the previous double-write migration story.
 
 ## Summary
 
@@ -156,7 +156,7 @@ I'm hoping we can share stories of other important, orthogonal shifts we see in 
 
 1. Our native [start timestamp feature journey](https://github.com/prometheus/proposals/pull/60) that cleanly unblocks native [delta temporality](https://github.com/prometheus/proposals/pull/48) without hacks like abusing gauges, new metric types, or label annotations. `__temporality__` labels.
 2. Optional [schematization of Prometheus metrics](https://sched.co/2CVzR) that attempt to solve a ton of stability problems with metric naming and shape; building on top of OpenTelemetry semconv.
-3. Our metadata storage journey that attempts to [improve](https://github.com/prometheus/proposals/pull/71), still developed, OpenTelemetry Entities and resource attributes concepts.
+3. Our [metadata storage journey](https://github.com/prometheus/prometheus/issues/12608) that attempts to improve the OpenTelemetry Entities and resource attributes storage and consumption experience.
 4. Our journey to organize and extend Prometheus scrape pull protocols with the recent ownership move of OpenMetrics.
 5. An incredible [TSDB Parquet](https://promcon.io/2025-munich/talks/beyond-tsdb-unlocking-prometheus-with-parquet-for-modern-scale/) effort, coming from the three LTS project groups (Cortex, Thanos, Mimir) working together, attempting to improve high cardinality cases. 
 6. Fun experiments with PromQL extensions, like [PromQL with pipes and variables](https://github.com/prometheus/prometheus/pull/17487)and some new SQL transpilation ideas.

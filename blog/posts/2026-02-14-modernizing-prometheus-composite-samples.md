@@ -17,11 +17,11 @@ This post starts (hopefully!) as a series of blog posts that share a few ambitio
 
 ## Classic Representation: Primitive Samples
 
-As you might know, Prometheus data model (so server, PromQL, protocols) supports `gauges`, `counters`, `histograms` and `summaries`. [OpenMetrics 1.0](https://prometheus.io/docs/specs/om/open_metrics_spec/) extended this with `gaugehistogram`, `info` and `stateset` types.
+As you might know, the Prometheus data model (so server, PromQL, protocols) supports `gauges`, `counters`, `histograms` and `summaries`. [OpenMetrics 1.0](https://prometheus.io/docs/specs/om/open_metrics_spec/) extended this with `gaugehistogram`, `info` and `stateset` types.
 
-Impressively, for a long time Prometheus TSDB storage implementation had an explicitly clean and simple data model. TSDB was allowing the storage and retrieval of string-labelled **Primitive** samples containing only `float64` values and `int64` timestamps. It was completely metric type agnostic.
+Impressively, for a long time Prometheus' TSDB storage implementation had an explicitly clean and simple data model. The TSDB was allowing the storage and retrieval of string-labelled **Primitive** samples containing only `float64` values and `int64` timestamps. It was completely metric-type-agnostic.
 
-The metric types were implied on top of the TSDB, for humans and basic type-based semantics on PromQL engine. For simplicity, let's call this way of storing types a **Classic** type model or representation. In this model:
+The metric types were implied on top of the TSDB, for humans and basic type-based semantics in PromQL. For simplicity, let's call this way of storing types a **Classic** type model or representation. In this model:
 
 We have **Primitive** types: 
 
@@ -32,9 +32,9 @@ We have **Primitive** types:
    foo_total 17.0
    ```
   
-* `info` that needs `_info` suffix in metric name and has always a value of 1.
+* `info` that needs `_info` suffix in the metric name and always has a value of `1`.
 
-We have **Composite** types. This is where fun begins. In the classic representation, composite metrics are represented as a set of primitive, float samples:
+We have **Composite** types. This is where the fun begins. In the classic representation, composite metrics are represented as a set of primitive float samples:
 
 * `histogram` is a group of `counters` with certain mandatory suffixes and `le` labels:
    
@@ -54,7 +54,7 @@ We have **Composite** types. This is where fun begins. In the classic representa
    foo_sum 324789.3
    ```
   
-* `gaugehistogram`, `summary`, `stateset` type follow the same logic -- a group of special `counters` that compose a single metric.
+* `gaugehistogram`, `summary`, `stateset` type follow the same logic – a group of special `counters` that compose a single metric.
 
 The classic model served the Prometheus project well. It significantly simplified the storage implementation, enabling Prometheus to be one of the most optimized, open-source times-series database, with distributed versions based on the same model available in projects like Cortex, Thanos and Mimir, etc.
 

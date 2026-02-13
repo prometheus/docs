@@ -11,7 +11,7 @@ This post starts (hopefully!) as a series of blog posts that share a few ambitio
 
 <!-- more -->
 
-> WARN: Disclaimer: This post is intended as a fun overview, from my own personal point of view as a Prometheus maintainer. Some of the mentioned changes haven't been (yet) officially approved by the Prometheus Team; some of them were not proved in production.
+> CAUTION: Disclaimer: This post is intended as a fun overview, from my own personal point of view as a Prometheus maintainer. Some of the mentioned changes haven't been (yet) officially approved by the Prometheus Team; some of them were not proved in production.
 
 > NOTE: This post was written by humans; AI was used only for cosmetic and grammar fixes.
 
@@ -131,7 +131,7 @@ Let's go through evidences of this direction, which also represents efforts you 
 
 When implemented all those pieces should make it possible to fully switch different parts of your metric collection pipeline to native form **transparently**.
 
-> WARN: The common pattern for migrating to native histograms or NHCBs was double-write -- you could have both `foo` NHCB/native histogram and classic histogram (`foo_bucket`, `foo_sum`, `foo_count` series) stored in Prometheus. This proven to be a bit challenging to implement and ensure reliability, it obviously adds more overhead, and it's hard to tell when to turn double write off in your systems. This mixed collection will also produce tricky cases  with the planned consumption (4th point above) compatibility mode (e.g. collision warnings). As a result, the compatibility mode provide a valid alternative to the previous double-write migration story.
+> CAUTION: The common pattern for migrating to native histograms or NHCBs was double-write -- you could have both `foo` NHCB/native histogram and classic histogram (`foo_bucket`, `foo_sum`, `foo_count` series) stored in Prometheus. This proven to be a bit challenging to implement and ensure reliability, it obviously adds more overhead, and it's hard to tell when to turn double write off in your systems. This mixed collection will also produce tricky cases  with the planned consumption (4th point above) compatibility mode (e.g. collision warnings). As a result, the compatibility mode provide a valid alternative to the previous double-write migration story.
 
 ## Summary
 

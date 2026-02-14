@@ -1,6 +1,6 @@
 ---
 title: "Modernizing Prometheus: Native Storage for Composite Types"
-created_at: 2025-02-14
+created_at: 2026-02-14
 kind: article
 author_name: "Bartłomiej Płotka (@bwplotka)"
 ---

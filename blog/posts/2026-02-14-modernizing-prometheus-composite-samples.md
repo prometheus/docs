@@ -17,11 +17,11 @@ This post starts (hopefully!) as a series of blog posts that share a few ambitio
 
 ## Classic Representation: Primitive Samples
 
-As you might know, the Prometheus data model (so server, PromQL, protocols) supports `gauges`, `counters`, `histograms` and `summaries`. [OpenMetrics 1.0](https://prometheus.io/docs/specs/om/open_metrics_spec/) extended this with `gaugehistogram`, `info` and `stateset` types.
+As you might know, the Prometheus data model (so server, PromQL, protocols) supports [`gauges`](https://prometheus.io/docs/concepts/metric_types/#gauge), [`counters`](https://prometheus.io/docs/concepts/metric_types/#counter), [`histograms`](https://prometheus.io/docs/concepts/metric_types/#histogram) and [`summaries`](https://prometheus.io/docs/concepts/metric_types/#summary). [OpenMetrics 1.0](https://prometheus.io/docs/specs/om/open_metrics_spec/) extended this with [`gaugehistogram`](https://prometheus.io/docs/specs/om/open_metrics_spec/#gaugehistogram-1), [`info`](https://prometheus.io/docs/specs/om/open_metrics_spec/#info-1) and [`stateset`](https://prometheus.io/docs/specs/om/open_metrics_spec/#stateset-1) types.
 
-Impressively, for a long time Prometheus' TSDB storage implementation had an explicitly clean and simple data model. The TSDB was allowing the storage and retrieval of string-labelled **Primitive** samples containing only `float64` values and `int64` timestamps. It was completely metric-type-agnostic.
+Impressively, for a long time Prometheus' TSDB storage implementation had an explicitly clean and simple data model. The TSDB allowed the storage and retrieval of string-labelled **Primitive** samples containing only `float64` values and `int64` timestamps. It was completely metric-type-agnostic.
 
-The metric types were implied on top of the TSDB, for humans and basic type-based semantics in PromQL. For simplicity, let's call this way of storing types a **Classic** type model or representation. In this model:
+The metric types were implied on top of the TSDB, for humans and basic type-based semantics in PromQL. For simplicity, let's call this way of storing types a **Classic** model or representation. In this model:
 
 We have **Primitive** types: 
 
@@ -32,7 +32,7 @@ We have **Primitive** types:
    foo_total 17.0
    ```
   
-* `info` that needs `_info` suffix in the metric name and always has a value of `1`.
+* `info` that needs an `_info` suffix in the metric name and always has a value of `1`.
 
 We have **Composite** types. This is where the fun begins. In the classic representation, composite metrics are represented as a set of primitive float samples:
 
@@ -54,13 +54,13 @@ We have **Composite** types. This is where the fun begins. In the classic repres
    foo_sum 324789.3
    ```
   
-* `gaugehistogram`, `summary`, `stateset` type follow the same logic – a group of special `counters` that compose a single metric.
+* `gaugehistogram`, `summary`, and `stateset` types follow the same logic – a group of special `gauges` or `counters` that compose a single metric.
 
-The classic model served the Prometheus project well. It significantly simplified the storage implementation, enabling Prometheus to be one of the most optimized, open-source times-series databases, with distributed versions based on the same data model available in projects like Cortex, Thanos and Mimir, etc.
+The classic model served the Prometheus project well. It significantly simplified the storage implementation, enabling Prometheus to be one of the most optimized, open-source time-series databases, with distributed versions based on the same data model available in projects like Cortex, Thanos, and Mimir, etc.
 
 Unfortunately, there are always tradeoffs. This classic model has a few limitations:
 
-* **Efficiency:** It tends to yield overhead for composite types, because every new piece of data (e.g., new bucket) takes a precious index space (it's a new unique series), whereas samples are significantly more compressible (rarely change, time-oriented).
+* **Efficiency:** It tends to yield overhead for composite types because every new piece of data (e.g., new bucket) takes precious index space (it's a new unique series), whereas samples are significantly more compressible (rarely change, time-oriented).
 * **Functionality:** It poses limitations to the shape and flexibility of the data you store (unless we'd go into some JSON-encoded labels, which have massive downsides). 
 * **Transactionality:** Primitive pieces of composite types (separate counters) are processed independently. While we did a lot of work to ensure write isolation and transactionality for scrapes, transactionality completely breaks apart when data is received or sent via remote write, OTLP protocols, or, for distributed long-term storage, Prometheus solutions. For example, `foo` histogram might be sent, but `foo_bucket{le="1.1e+23"} 17` counter might be delayed or dropped accidentally, which risks triggering false positive alerts or no alerts, depending on the situation. 
 * **Reliability:** Consumers of the TSDB data have to essentially guess the type semantics. There's nothing stopping users from writing a `foo_bucket` gauge or `foo_total` histogram.
@@ -71,9 +71,9 @@ The classic model was challenged by the introduction of [native histograms](http
 
 At that point, the common wisdom was to stop there. The special advanced histogram that's generally meant to replace the "classic" histograms uses a composite sample, while the rest of the metrics use the classic model. Making other composite types consistent with the new native model felt extremely disruptive to users, with too much work and risks. A common counter-argument was that users will eventually migrate their classic histograms naturally, and summaries are also less useful, given the more powerful bucketing and lower cost of native histograms.
 
-Unfortunately, the migration to native histograms was known to take time, given the slight PromQL changes required to use them, and the new bucketing and client changes needed (applications have to define new or edit existing metrics to new histograms). There will be also be old software around for a long time that is never migrated. This practically leaves Prometheus with no chance of deprecating classic histograms, with all the software solutions required to support the classic model, likely for decades.
+Unfortunately, the migration to native histograms was known to take time, given the slight PromQL change required to use them, and the new bucketing and client changes needed (applications have to define new or edit existing metrics to new histograms). There will also be old software used for a long time that never is never migrated. Eventually, it leaves Prometheus with no chance of deprecating classic histograms, with all the software solutions required to support the classic model, likely for decades.
 
-However, native histograms did push TSDB and the ecosystem into that new composite sample pattern. Some of those changes could be easily adapted to all composite types. Native histograms also gave us a glimpse of many benefits of that native support. It was tempting to ask ourselves: **would it be possible to add native counterparts of the existing composite metrics to replace them, ideally transparently?**
+However, native histograms did push TSDB and the ecosystem into that new composite sample pattern. Some of those changes could be easily adapted to all composite types. Native histograms also gave us a glimpse of the many benefits of that native support. It was tempting to ask ourselves: **would it be possible to add native counterparts of the existing composite metrics to replace them, ideally transparently?**
 
 Organically, in 2024, for transactionality and efficiency, we introduced a [native histogram custom buckets(NHCB)](https://github.com/prometheus/proposals/blob/main/proposals/0031-classic-histograms-stored-as-native-histograms.md) concept that essentially allows storing classic histograms with explicit buckets natively, reusing native histogram composite sample data structures.
 
@@ -101,7 +101,7 @@ B) **Consumption** is slightly different, especially in the PromQL query syntax.
    # Old syntax: histogram_quantile(0.9, sum(foo_bucket{job="a"}) by (le))
    ```
 
-   On top of that, similar problems occur on other Prometheus outputs (federation, remote read, remote write).
+   On top of that, similar problems occur on other Prometheus outputs (federation, remote read, and remote write).
 
 > NOTE: Fun fact: Prometheus [client data model (SDKs)](https://github.com/prometheus/client_model) and `PrometheusProto`
 > scrape protocol use the composite sample model already!
@@ -110,17 +110,17 @@ B) **Consumption** is slightly different, especially in the PromQL query syntax.
 
 Let's get straight to the point: Organically, the Prometheus community seems to align with the idea of an **eventual move to a fully composite sample model on the storage layer**, given all the benefits. To avoid burdening users (and downstream projects) with migration pains and to deprecate the classic model ASAP for the sustainability of the Prometheus codebase, we seem to agree that this move has to be **a transparent storage layer detail** instead of new "native" types that users have to manually adopt.
 
-Let's go through evidences of this direction, which also represents efforts you can contribute or adopt early!
+Let's go through evidence of this direction, which also represents efforts you can contribute to or adopt early!
 
 1. We are discussing the "native" [summary](https://github.com/prometheus/prometheus/issues/16949) and [stateset](https://github.com/prometheus/prometheus/issues/17914) to fully eliminate classic model for all composite types. Feel free to join and help on that work!
-2. We are working on [the OpenMetrics 2.0](https://docs.google.com/document/d/1FCD-38Xz1-9b3ExgHOeDTQUKUatzgj5KbCND9t-abZY/edit?tab=t.lvx6fags1fga#heading=h.uaaplxxbz60u) to consolidate and improve the pull protocol scene and apply the new learnings. One of the core changes will be the move to [composite values in text](https://github.com/prometheus/docs/pull/2679), which makes the text format trivial to parse for the storages that support composite types natively. This solves the **Combining (A)** challenge. Note that, by default, for now, all composite types will be still "expanded" to classic format on scrape, so there's no breaking change for users. Feel free to join our WG to help or give feedback.
-3. Prometheus' receive and export protocol has been updated. [Remote Write 2.0](https://prometheus.io/docs/specs/prw/remote_write_spec_2_0/) allows transporting histograms in the "native" form instead of a classic representation (classic one is still supported). In the future versions (e.g. 2.1), we could easily follow a similar pattern and add native summaries and stateset. Contributions welcome to [make Remote Write 2.0 stable](https://github.com/prometheus/prometheus/issues/16944)!
+2. We are working on [the OpenMetrics 2.0](https://docs.google.com/document/d/1FCD-38Xz1-9b3ExgHOeDTQUKUatzgj5KbCND9t-abZY/edit?tab=t.lvx6fags1fga#heading=h.uaaplxxbz60u) to consolidate and improve the pull protocol scene and apply the new learnings. One of the core changes will be the move to [composite values in text](https://github.com/prometheus/docs/pull/2679), which makes the text format trivial to parse for storages that support composite types natively. This solves the **Combining (A)** challenge. Note that, by default, for now, all composite types will be still "expanded" to classic format on scrape, so there's no breaking change for users. Feel free to join our WG to help or give feedback.
+3. Prometheus receive and export protocol has been updated. [Remote Write 2.0](https://prometheus.io/docs/specs/prw/remote_write_spec_2_0/) allows transporting histograms in the "native" form instead of a classic representation (classic one is still supported). In the future versions (e.g. 2.1), we could easily follow a similar pattern and add native summaries and stateset. Contributions are welcome to [make Remote Write 2.0 stable](https://github.com/prometheus/prometheus/issues/16944)!
 4. We are experimenting with the **Consumption (B)** compatibility modes that translate the composite types store as composite samples to classic representation. This is not trivial; there are edge cases, but it might be more feasible (and needed!) than we might have initially anticipated. See:
    * [PromQL compatibility mode for NHCB](https://github.com/prometheus/prometheus/issues/16948)
    * [Expanding on remote write](https://github.com/prometheus/prometheus/issues/17147)
    * We need expanding for federation too.
 
-   In PromQL it might work as follows, for NHCB that used to be a classic histogram:
+   In PromQL it might work as follows, for an NHCB that used to be a classic histogram:
     
    ```
    # New syntax gives our "foo" NHCB:    
@@ -129,18 +129,18 @@ Let's go through evidences of this direction, which also represents efforts you 
    histogram_quantile(0.9, sum(foo_bucket{job="a"}) by (le))
    ```
 
-When all those pieces are implemented, it should be possible to fully switch different parts of your metric collection pipeline to native form **transparently**.
+When implemented, it should be possible to fully switch different parts of your metric collection pipeline to native form **transparently**.
 
-> CAUTION: The common pattern for migrating to native histograms or NHCBs was double-write -- you could have both `foo` NHCB/native histogram and classic histogram (`foo_bucket`, `foo_sum`, `foo_count` series) stored in Prometheus. This proven to be a bit challenging to implement and ensure reliability, it obviously adds more overhead, and it's hard to tell when to turn double write off in your systems. This mixed collection will also produce tricky cases  with the planned consumption (4th point above) compatibility mode (e.g. collision warnings). As a result, the compatibility mode provide a valid alternative to the previous double-write migration story.
+> CAUTION: The common pattern for migrating to native histograms or NHCBs was double-write -- you could have both `foo` NHCB/native histogram and classic histogram (`foo_bucket`, `foo_sum`, `foo_count` series) stored in Prometheus. This proved to be a bit challenging to implement and ensure reliability, it obviously adds more overhead, and it's hard to tell when to turn double-write off in your systems. This mixed collection will also produce tricky cases with the planned consumption (4th point above) compatibility mode (e.g. collision warnings). As a result, the compatibility mode provides a valid alternative to the previous double-write migration story.
 
 ## Summary
 
 Moving Prometheus to a native composite type world is not easy and will take time, especially around coding, testing and optimizing. Notably it switches performance characteristics of the metric load from uniform, predictable sample sizes to a sample size that depends on a type. Another challenge is
-coding – maintaining different sample types already proven to be very verbose (we [need unions, Go!](https://github.com/prometheus/prometheus/issues/17925)).
+coding - maintaining different sample types has already proven to be very verbose (we [need unions, Go!](https://github.com/prometheus/prometheus/issues/17925)).
 
-However, the recent work revealed a very clean and **possible** path that yields clear benefits around functionality, transactionality, reliability, and efficiency in the very near future, which is pretty exciting!
+However, recent work revealed a very clean and **possible** path that yields clear benefits around functionality, transactionality, reliability, and efficiency in the very near future, which is pretty exciting!
 
-If you have any questions around any changes feel free to:
+If you have any questions around these changes, feel free to:
 
 * DM me on Slack.
 * Visit the `#prometheus-dev` Slack channel and share your questions.
@@ -158,8 +158,8 @@ I'm hoping we can share stories of other important, orthogonal shifts we see in 
 2. Optional [schematization of Prometheus metrics](https://sched.co/2CVzR) that attempt to solve a ton of stability problems with metric naming and shape; building on top of OpenTelemetry semconv.
 3. Our [metadata storage journey](https://github.com/prometheus/prometheus/issues/12608) that attempts to improve the OpenTelemetry Entities and resource attributes storage and consumption experience.
 4. Our journey to organize and extend Prometheus scrape pull protocols with the recent ownership move of OpenMetrics.
-5. An incredible [TSDB Parquet](https://promcon.io/2025-munich/talks/beyond-tsdb-unlocking-prometheus-with-parquet-for-modern-scale/) effort, coming from the three LTS project groups (Cortex, Thanos, Mimir) working together, attempting to improve high cardinality cases. 
-6. Fun experiments with PromQL extensions, like [PromQL with pipes and variables](https://github.com/prometheus/prometheus/pull/17487)and some new SQL transpilation ideas.
+5. An incredible [TSDB Parquet](https://promcon.io/2025-munich/talks/beyond-tsdb-unlocking-prometheus-with-parquet-for-modern-scale/) effort, coming from the three LTS project groups (Cortex, Thanos, Mimir) working together, attempting to improve high-cardinality cases. 
+6. Fun experiments with PromQL extensions, like [PromQL with pipes and variables](https://github.com/prometheus/prometheus/pull/17487) and some new SQL transpilation ideas.
 7. Governance changes.
-
+ 
 See you in open-source!

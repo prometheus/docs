@@ -26,9 +26,8 @@ You should still measure internal metrics like database availability and CPU sat
 
 ## Labels are the new hierarchies
 
-**Labels are the new hierarchies**, yet more powerful and flexible. Labels are what make Prometheus strong. Using labels, one can group and aggregate measurements afterwards. Slice and dice using Labels. Remember [Instrument first, ask questions later](#instrument-first-ask-questions-later), provide much context as possible.
-
-However, you have to *use labels with care*. The reasons will explain in subsequent rules.
+**Labels are the new hierarchies**, yet more powerful and flexible. Labels are what make Prometheus strong. Using labels, one can group and aggregate measurements afterwards. Slice and dice using Labels. Remember [Instrument first, ask questions later](#instrument-first-ask-questions-later), provide as much context as possible.
+However, you have to *use labels with care*. See explanations below.
 
 ## Avoid missing metrics
 
@@ -36,7 +35,7 @@ Time series that are not present until something happens are difficult to deal w
 
 Remember, labels create time series, so initialize your metrics with the labels you expect to use—your client libraries cannot know what labels you will have.
 
-## Cardinality Matters
+## Cardinality matters
 
 Every unique set of labels creates a new time series. Use labels with care and watch out what you put into them. Avoid cardinality explosions; unbounded labels will blow up Prometheus. Keep in mind that labels are multiplicative across dimensions.
 
@@ -46,17 +45,15 @@ Always remember that [Cardinality is key](https://www.robustperception.io/cardin
 
 ## Naming is hard
 
-One of the hardest problems in computer science. A metric name should have a single meaning within a job. Metrics with the same name in different jobs should represent the same thing (like `process_cpu_seconds_total`).
+A metric name must have a single meaning within a job, and ideally the same meaning across jobs too (like `process_cpu_seconds_total`).
 
 *Respect conventions over preferences*. Conventions are no one's favorite, yet conventions are everyone's favorite. See the documentation on [Naming](https://prometheus.io/docs/practices/naming/) for the nitty-gritty details.
 
----
-
 ## Counters rule and gauges suck
 
-If you can express something as a counter, use a counter and derive what you need later. Counters are powerful; you can use `rate()` and `increase()` to get rates, deltas, and more. Remember [Instrument first, ask questions later](#instrument-first-ask-questions-later).
+Expose raw counters and let Prometheus derive rates for you with `rate()` and `increase()`. Don't precalculate rates on the target—that throws away information. Remember [Instrument first, ask questions later](#instrument-first-ask-questions-later).
 
-Of course, gauges have their place. Use them for values that go up and down (like temperature, queue depth, or concurrent connections). But if something only ever increases, make it a counter.
+Of course, gauges have their place. Use them for periodic measurements where there is simply nothing to count—temperature, disk fullness, queue depth. But if something only ever increases, make it a counter.
 
 Don't add metrics for aggregations; PromQL can do it for you.
 
@@ -68,21 +65,17 @@ Be aware of [counter resets](https://www.robustperception.io/how-does-a-promethe
 
 ## If you can log it, you can have a metric for it
 
-    Logs and metrics complement each other: metrics give the insight that something isn't working as expected and logs give you the "what is happening".
+Logs are often critical for troubleshooting, but metrics are equally valuable—a troubleshooting journey typically jumps back and forth between different signals. Don't underestimate the value of metrics for understanding what is going on.
 
-Whenever you handle an error (either by returning it or logging it), consider whether you can increment a counter and alert on elevated error rates. Spread counters liberally. Remember, a metric without labels is cheap.
+Whenever you log an event, consider counting it by broad category. This is cheap and gives you alerting on elevated error rates plus an overview of what is happening. Remember, a metric without labels is cheap—spread counters liberally.
 
-## One does not simply use Histograms
+## Native histograms are almost always better than classic histograms
 
-Histograms are powerful.
+[Native histograms](https://prometheus.io/docs/specs/native_histograms/) solve the bucket layout problem of classic histograms. They require no predefined boundaries, adjust resolution dynamically, and use sparse representation where empty buckets cost nothing. If your instrumentation library or OTel supports them, prefer native histograms for new instrumentation.
 
 With classic histograms, creating a correct bucket layout is an art. To ensure usefulness of your observations and correctness of your alerts, you have to come up with a meaningful bucket layout. This conflicts with [Instrument first, ask questions later](#instrument-first-ask-questions-later) because you need to have an idea about your latencies before you even measure. Let your [SLO](https://www.youtube.com/watch?v=X99X-VDzxnw)s guide your bucket layout; create boundaries to match your SLO.
 
-Classic histograms underneath are just counters with labels, where bucket boundaries are used as labels. Be cautious when adding additional labels to your histograms. Remember, *labels are multiplicative* and [Cardinality Matters](#cardinality-matters).
-
-[Native histograms](https://prometheus.io/docs/specs/native_histograms/) solve the bucket layout problem. They require no predefined boundaries, adjust resolution dynamically, and use sparse representation where empty buckets cost nothing. If your client library supports them (currently Go and Java), prefer native histograms for new instrumentation.
-
----
+Classic histograms underneath are just counters with labels, where bucket boundaries are used as labels. Be cautious when adding additional labels to your histograms. Remember, *labels are multiplicative* and [Cardinality matters](#cardinality-matters).
 
 ## If you can graph it, you can alert on it
 
@@ -103,6 +96,9 @@ And don't over alert, alert-fatigue is real.
 ## Symptom-based alerts for paging, cause-based for troubleshooting
 
 Similar to [Measure what users care about](#measure-what-users-care-about), alert on what *really* matters. It doesn't matter if your CPU is saturated, as long as your users don't notice. Let your [SLO](https://www.youtube.com/watch?v=X99X-VDzxnw)s guide your alerting.
+
+Not every alert needs to page someone. Cause-based alerts shouldn't wake anyone up—they should feed into dashboards or ticket queues to be checked when needed or handled in batches at leisure. Reserve paging for symptom-based alerts that indicate user-facing impact.
+
 For more context [My Philosophy on Alerting](https://docs.google.com/document/d/199PqyG3UsyXlwieHaqbGiWVa8eMWi8zzAn0YfcApr8Q/edit).
 
 ## Please five more minutes
@@ -112,8 +108,6 @@ Prometheus alerting rules let you specify a `for` duration that determines how l
 ## Context is king
 
 Preserve common and useful labels for your alerts. They are most useful for routing and silencing.
-
----
 
 The inspiration behind the idea comes from [The Zen of Go](https://the-zen-of-go.netlify.app), [Go Proverbs](https://go-proverbs.github.io/) and [The Zen of Python](https://zen-of-python.info/).
 

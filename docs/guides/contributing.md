@@ -26,13 +26,17 @@ the README.md and CONTRIBUTING.md files of each repository.
 If you’re working on your first contribution please read this whole document, this section is aimed at experienced Open Source contributors.
 
 - Test changes locally and consider adding tests for your change.
-- Open a PRs against the `main` branch.
+- Commit with `git commit -s` to sign the DCO.
+- Generally, open a PRs against the repositories default branch, i.e. most often 
+  `main` or sometimes `master`. Reviewers will help with exceptions.
 - Reviewers should be assigned automatically, we aim to respond timely but other 
   priorities can create delays.
 - Check the results of failing CI jobs, all are expected to succeed.
 - Reviewers might request changes. Addressing these quickly will improve the 
-  turn-around time of the PR
+  turn-around time of the PR.
 
+For more details around our git refer to
+[the Github Guidelines](#github-guidelines).
 
 ## Communication channels
 
@@ -64,15 +68,6 @@ the result of a discussion, should also be published via other channels (e.g.
 on [GitHub](github) or the [mailing list](#developer-mailing-list)) to make it
 accessible and durable. Avoid linking to Slack messages from other media
 without summarizing the content of the linked messages.
-
-### IRC
-
-The IRC development channel is `#prometheus-dev` on
-[irc.libera.chat](https://libera.chat/). It is also accessible via Matrix as
-[`#prometheus-dev:matrix.org`](https://app.element.io/#/room/#prometheus-dev:matrix.org).
-In principle, IRC/Matrix is the preferred chat-like communication channel
-because it is much more open than Slack. However, in practice the traffic on
-IRC is very low.
 
 ### Developer mailing list
 
@@ -114,8 +109,9 @@ in two way:
    triaged, all needed information has been gathered and work can begin.
    The labels `triage/needs-triage` and `triage/needs-information` mean that 
    either no one has had time to look at the issue yet or more information is 
-   need. Things might change significantly and any early work might not be 
-   accepted. See <label proposal> for more details on how we use labels.
+   need. Do not work on issues labeled `triage/needs-triage` or 
+   `triage/needs-information` .See <label proposal> for more details on how we 
+   use labels.
 
 ## Proposal process
 
@@ -136,7 +132,12 @@ this the author agrees to the terms published at
 https://developercertificate.org/ for _that_ particular contribution.
 
 Once you have a change you would like to propose, push it to your personal fork 
-of Prometheus and open a pull request against the `main` branch.
+of Prometheus and open a pull request against the default branch. The default 
+branch is usually `main` but can be `master` in some repositories.
+Some situations require a PR against a release branch, e.g. `release-3.5`. The 
+most common situations are fixes for a release candidate for a new release or a 
+fix for a LTS version of Prometheus. If in doubt, ask via one of the channels 
+mentioned in this document.
 
 The needed reviewers will be added automatically. Anyone else that should or 
 wants to review a change can be mentioned by their user name in a comment, but 
@@ -190,7 +191,9 @@ Prometheus contributions stick to the following:
 
 ### Go style guide
 
-Go is the main programming language used in Prometheus and its ecosystem. We 
+Go is the main programming language used in Prometheus and its ecosystem. Go 
+based project tend to follow a very similar style, Prometheus is no exception.  
+https://go.dev/wiki/CodeReviewComments is a great resource for specifics. We 
 have a few rules that are worth mentioning here:
 
 - Often we put named imports into a separate block. The blocks should be grouped 
@@ -221,7 +224,8 @@ meeting. See the [Prometheus
 calendar](https://calendar.google.com/calendar/u/0/embed?src=prometheus.io_bdf9qgm081nrd0fe32g3olsld0%40group.calendar.google.com)
 for the current schedule. In addition, we aim for all-day in-person summits
 whenever enough active Prometheus developers are gathered at one place for some
-reason, typically at a conference like [PromCon](https://promcon.io/).
+reason, typically at a conference like [PromCon](https://promcon.io/) or
+[Kubecon EU](https://events.linuxfoundation.org/kubecon-cloudnativecon-europe/).
 
 The online meetings are open for everyone, while the in-person meetings might
 have some restrictions for logistical reasons. If in doubt, ask via the channels

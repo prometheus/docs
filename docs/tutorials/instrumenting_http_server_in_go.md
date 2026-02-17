@@ -53,14 +53,14 @@ func newMetrics(reg prometheus.Registerer) *metrics {
 		pingCounter: promauto.With(reg).NewCounter(
 			prometheus.CounterOpts{
 				Name: "ping_request_count",
-				Help: "No of request handled by Ping handler",
+				Help: "No of requests handled by Ping handler",
 			}),
 	}
 	return m
 }
 ```
 
-Next lets update the ping Handler to increase the count of the counter using `metrics.pingCounter.Inc()`.
+Next let's update the ping Handler to increase the count of the counter using `metrics.pingCounter.Inc()`.
 
 ```go
 func ping(m *metrics) func(w http.ResponseWriter, req *http.Request) {
@@ -86,9 +86,9 @@ func main() {
 
 The `prometheus.MustRegister` function registers the pingCounter to the default Register.
 To expose the metrics the Go Prometheus client library provides the promhttp package.
-`promhttp.Handler()` provides a `http.Handler` which exposes the metrics registered in the Default Register.
+`promhttp.Handler()` provides an `http.Handler` which exposes the metrics registered in the Default Register.
 
-The sample code is now
+The sample code is now:
 
 ```go
 package main
@@ -145,7 +145,7 @@ Now hit the localhost:8090/ping endpoint a couple of times and sending a request
 
 [![Ping Metric](/assets/docs/tutorial/ping_metric.png)](/assets/docs/tutorial/ping_metric.png)
 
-Here the `ping_request_count` shows that `/ping` endpoint was called 3 times.
+Here the `ping_request_count` shows that the `/ping` endpoint was called 3 times.
 
 The Default Registry comes with a collector for go runtime metrics and that is why we see other metrics like `go_threads`, `go_goroutines` etc.
 

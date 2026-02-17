@@ -3,7 +3,7 @@ title: Instrumenting HTTP server written in Go
 sort_rank: 3
 ---
 
-In this tutorial we will create a simple Go HTTP server and instrumentation it by adding a counter
+In this tutorial, we will create a simple Go HTTP server and instrument it by adding a counter
 metric to keep count of the total number of requests processed by the server.
 
 Here we have a simple HTTP server with `/ping` endpoint which returns `pong` as response.
@@ -60,7 +60,7 @@ func newMetrics(reg prometheus.Registerer) *metrics {
 }
 ```
 
-Next let's update the ping Handler to increase the count of the counter using `metrics.pingCounter.Inc()`.
+Next, let's update the ping Handler to increase the count of the counter using `metrics.pingCounter.Inc()`.
 
 ```go
 func ping(m *metrics) func(w http.ResponseWriter, req *http.Request) {
@@ -71,7 +71,7 @@ func ping(m *metrics) func(w http.ResponseWriter, req *http.Request) {
 }
 ```
 
-Then register the metrics (in this case only one counter) to a Prometheus Register and expose the metrics.
+Then register the metrics (in this case, only one counter) with a Prometheus registry and expose the metrics.
 
 ```go
 func main() {
@@ -84,9 +84,9 @@ func main() {
 }
 ```
 
-The `prometheus.MustRegister` function registers the pingCounter to the default Register.
-To expose the metrics the Go Prometheus client library provides the promhttp package.
-`promhttp.Handler()` provides an `http.Handler` which exposes the metrics registered in the Default Register.
+The `prometheus.MustRegister` function registers the pingCounter with the default registry.
+To expose the metrics, the Go Prometheus client library provides the promhttp package.
+`promhttp.Handler()` provides an `http.Handler` which exposes the metrics registered in the default registry.
 
 The sample code is now:
 
@@ -141,13 +141,13 @@ go mod tidy
 go run server.go
 ```
 
-Now hit the localhost:8090/ping endpoint a couple of times and sending a request to localhost:8090/metrics will provide the metrics.
+Now hit the localhost:8090/ping endpoint a couple of times and then send a request to localhost:8090/metrics to see the metrics.
 
 [![Ping Metric](/assets/docs/tutorial/ping_metric.png)](/assets/docs/tutorial/ping_metric.png)
 
-Here the `ping_request_count` shows that the `/ping` endpoint was called 3 times.
+Here, the `ping_request_count` shows that the `/ping` endpoint was called 3 times.
 
-The Default Registry comes with a collector for go runtime metrics and that is why we see other metrics like `go_threads`, `go_goroutines` etc.
+The default registry comes with a collector for Go runtime metrics, and that is why we see other metrics like `go_threads`, `go_goroutines`, etc.
 
 We have built our first metric exporter. Let’s update our Prometheus config to scrape the metrics from our server.
 

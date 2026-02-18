@@ -3,15 +3,41 @@ title: Histograms and summaries
 sort_rank: 4
 ---
 
-NOTE: This document predates native histograms (added as an experimental
-feature in Prometheus v2.40 and becoming stable in v3.8). The intention is to
-thoroughly update this document in the foreseeable future.
+Histograms and summaries are more complex metric types. For historical reasons,
+histograms exist in two variants: classic histograms and native histograms (the
+latter having a number of sub-variants on top of all that). This document helps
+to understand the difference between all those metric types, how to use them
+correctly, and how to pick the right metric type for your use case.
 
-Histograms and summaries are more complex metric types. Not only does
-a single histogram or summary create a multitude of time series, it is
-also more difficult to use these metric types correctly. This section
-helps you to pick and configure the appropriate metric type for your
-use case.
+The most important lesson to learn from this document is simple: If you can,
+use native histograms and prefer them over both classic histograms and
+summaries.
+
+Where things start to become tricky is if you find yourself in a situation
+where you cannot simply use native histograms. Most commenly, you might have to
+work with existing metrics that include classic histograms or summaries, or
+maybe the instrumentation library you are using does not support native
+histograms yet. Furthermore, there are a few specific use cases where you might
+prefer a summary or a classic histogram.
+
+With this document, you should be able to navigate the related obstacles and
+subtleties.
+
+## Overview
+
+Historically, a sample in the Prometheus world was just a timestamped floating
+point value. This value could be interpreted as a
+[counter](/docs/concepts/metric_types/#counter) or as a
+[gauge](/docs/concepts/metric_types/#gauge), i.e. most of the time Prometheus
+doesn't maintain a notion of “static typing”, and you just have to know what
+kind of metric you are dealing with (assisted by the convention that the name
+of a counter should end on `_total`).
+
+But there are more metric types than counters and gauges. In particular, there
+is a need to represent distributions of observed values (usually simply called
+“observations”).
+
+<!--TODO mark-->
 
 ## Library support
 

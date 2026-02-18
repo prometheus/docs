@@ -194,7 +194,7 @@ Prometheus 3.0, which for backward compatibility prefers OpenMetrics 1.0 unless
 * Manually changed in `scrape_protocols` setting
 * Certain feature are enabled e.g.:
   * `--enable-feature=created-timestamp-zero-ingestion`
-  * appropriate configuration option (`scrape_native_histograms: true`
+  * appropriate configuration option (`scrape_native_histograms: true`)
 
 > In Prometheus 2.0, the Protobuf format was marked as deprecated, but since then this decision was reverted. From Prometheus 3.0,
 > the Prometheus Proto is actively used and maintained, supplementing text formats.

@@ -659,7 +659,16 @@ Floating point numbers MUST be represented either with a decimal point or using 
 
 ###### CompositeValues
 
-CompositeValue is represented as structured data with fields. There MUST NOT be any whitespace around fields. See the ABNF for exact details about the format and possible values.
+CompositeValue is represented as structured data with fields. There MUST NOT be any whitespace around fields. See each of the composite type sections for the known field names. Ingestors MUST ignore unknown fields.
+
+For example, the following histogram is valid:
+
+```openmetrics-add-eof
+# TYPE foo histogram
+foo {newfield1:[],count:17,sum:324789.3,bucket:[0.0:0,1e-05:0,+Inf:17],newfield2:21,newfield3:{}} st@1520430000.123
+```
+
+See the ABNF for the further details about the format.
 
 ##### Timestamps
 

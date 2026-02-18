@@ -1437,7 +1437,7 @@ The port assigned by IANA for clients exposing data is <9099 requested for histo
 
 If more than one metric endpoint needs to be reachable at a common IP address and port, operators might consider using a reverse proxy that communicates with exposers over localhost addresses. To ease multiplexing, endpoints SHOULD carry their own name in their path, i.e. `/node_exporter/metrics`. Expositions SHOULD NOT be combined into one exposition, for the reasons covered under "Supporting target metadata in both push-based and pull-based systems" and to allow for independent ingestion without a single point of failure.
 
-OpenMetrics would like to register two MIME types, `application/openmetrics-text`
+OpenMetrics would like to register the MIME type, `application/openmetrics-text`
 
 <!---
 # EDITOR’S NOTE: We would like to thank Sumeer Bhola, but kramdown 2.x does not support `Contributor:` any more so we will add this by hand once consensus has been achieved.

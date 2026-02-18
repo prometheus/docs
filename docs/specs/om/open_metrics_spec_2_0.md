@@ -392,14 +392,22 @@ Unknown SHOULD NOT be used. Unknown MAY be used when it is impossible to determi
 
 A point in a metric with the unknown type MUST have a single value.
 
-# Data transmission & wire formats
+## Text Format
 
-The text wire format MUST be supported and is the default. The protobuf wire format MAY be supported and MUST ONLY be used after negotiation.
+The text wire format MUST be supported and is the default. 
 
 The OpenMetrics formats are Regular Chomsky Grammars, making writing quick and small parsers possible.
-The text format compresses well, and protobuf is already binary and efficiently encoded.
 
 Partial or invalid expositions MUST be considered erroneous in their entirety.
+
+### Protobuf Representation
+
+The [Prometheus protobuf wire format](https://prometheus.io/docs/instrumenting/exposition_formats/#protobuf-format) MAY be supported
+and MUST ONLY be used after negotiation.
+
+> IMPORTANT: Previous versions of [OpenMetrics](https://prometheus.io/docs/specs/om/open_metrics_spec/#protobuf-format) used
+> to specify a separate, similar, [protobuf format](https://github.com/prometheus/OpenMetrics/blob/3bb328ab04d26b25ac548d851619f90d15090e5d/proto/openmetrics_data_model.proto). Given similarities and wide adoption of [`PrometheusProto`](https://prometheus.io/docs/instrumenting/exposition_formats/#protobuf-format), OpenMetrics Proto is now deprecated and OpenMetrics spec is focusing
+> on the human-readable text representation.
 
 ### Protocol Negotiation
 
@@ -409,9 +417,7 @@ Negotiation of what version of the OpenMetrics format to use is out-of-band. For
 
 Push-based negotiation is inherently more complex, as the exposer typically initiates the connection. Producers MUST use the oldest version of the standard (i.e. 1.0.0) unless requested otherwise by the ingestor.
 
-### Text format
-
-#### ABNF
+### ABNF
 
 ABNF as per RFC 5234
 
@@ -572,7 +578,7 @@ cs-q-counts = cs-q-count *("," cs-q-count)
 cs-q-count = realnumber ":" number
 ```
 
-#### Overall Structure
+### Overall Structure
 
 UTF-8 MUST be used. Byte order markers (BOMs) MUST NOT be used. As an important reminder for implementers, byte 0 is valid UTF-8 while, for example, byte 255 is not.
 
@@ -612,7 +618,7 @@ acme_http_request_seconds:rate5m{path="/api/v1",method="GET"} {count:0.01,sum:2.
 # EOF
 ```
 
-##### UTF-8 Quoting
+#### UTF-8 Quoting
 
 Metric names not conforming to the ABNF definition of `metricname` MUST be
 enclosed in double quotes and the alternative UTF-8 syntax MUST be used. In
@@ -642,7 +648,7 @@ Complete example:
 # EOF
 ```
 
-##### Escaping
+#### Escaping
 
 Where the ABNF notes escaping, the following escaping MUST be applied
 Line feed, `\n` (0x0A) -> literally `\\n` (Bytecode 0x5c 0x6e)
@@ -655,28 +661,28 @@ As an example, `\\\\a` is equivalent and preferable to `\\a`.
 
 Escaping MUST also be applied to quoted UTF-8 strings.
 
-##### Numbers
+#### Numbers
 
 Integer numbers MUST NOT have a decimal point. Examples are `23`, `0042`, and `1341298465647914`.
 
 Floating point numbers MUST be represented either with a decimal point or using scientific notation. Examples are `8903.123421` and `1.89e-7`. Floating point numbers MUST fit within the range of a 64-bit floating point value as defined by IEEE 754, but MAY require so many bits in the mantissa that results in lost precision. This MAY be used to encode nanosecond resolution timestamps.
 
-###### CompositeValues
+##### CompositeValues
 
 CompositeValue is represented as structured data with fields. There MUST NOT be any whitespace around fields. See the ABNF for exact details about the format and possible values.
 
-##### Timestamps
+#### Timestamps
 
 Timestamps SHOULD NOT use exponential float rendering for timestamps if nanosecond precision is needed as rendering of a float64 does not have sufficient precision, e.g. `1604676851.123456789`.
 
-#### MetricFamily
+### MetricFamily
 
 There MUST NOT be an explicit separator between MetricFamilies. The next MetricFamily MUST be signalled with either metadata or a new sample metric name which cannot be part of the previous MetricFamily.
 
 
 MetricFamilies MUST NOT be interleaved.
 
-##### MetricFamily metadata
+#### MetricFamily metadata
 
 There are four pieces of metadata: The MetricFamily name, TYPE, UNIT and HELP.  An example of the metadata for a counter Metric called foo is:
 
@@ -726,7 +732,7 @@ There MUST NOT be more than one of each type of metadata line for a MetricFamily
 
 Aside from this metadata and the EOF line at the end of the message, you MUST NOT expose lines beginning with a #.
 
-##### Metric
+#### Metric
 
 Metrics MUST NOT be interleaved.
 
@@ -759,7 +765,7 @@ See the UTF-8 Quoting section for specifics.
 
 The rendering of values for a MetricPoint can include additional labels (e.g. the "le" label for a Histogram type), which MUST be rendered in the same way as a Metric's own LabelSet.
 
-#### MetricPoint
+### MetricPoint
 
 MetricPoints MUST NOT be interleaved.
 
@@ -804,9 +810,9 @@ foo{entity="controller",env="prod",foo="bb"} 0.0
 foo{entity="controller",env="prod",foo="ccc"} 0.0
 ```
 
-#### Metric types
+### Metric types
 
-##### Gauge
+#### Gauge
 
 The Sample MetricName for the value of a MetricPoint for a MetricFamily of type Gauge MUST NOT have a suffix.
 
@@ -853,7 +859,7 @@ foo 17.0 123
 foo 18.0 456
 ```
 
-##### Counter
+#### Counter
 
 The MetricPoint's Total Value Sample MetricName SHOULD have the suffix `_total`. If present, the MetricPoint's Start Timestamp MUST be inlined with the Metric point with a `st@` prefix. If the value's timestamp is present, the Start Timestamp MUST be added right after it. If exemplar is present, the Start Timestamp MUST be added before it.
 
@@ -903,7 +909,7 @@ An example with a Metric with no labels, and a MetricPoint with a timestamp and 
 foo_total 17.0 1520879607.789 st@1520430000.123 # {trace_id="KOO5S4vxi0o"} 0.67 1520879606.1
 ```
 
-##### StateSet
+#### StateSet
 
 The Sample MetricName for the value of a MetricPoint for a MetricFamily of type StateSet MUST NOT have a suffix.
 
@@ -930,7 +936,7 @@ foo{entity="replica",foo="bb"} 0.0
 foo{entity="replica",foo="ccc"} 1.0
 ```
 
-##### Info
+#### Info
 
 The Sample MetricName for the value of a MetricPoint for a MetricFamily of type Info MUST have the suffix `_info`. The Sample value MUST always be 1.
 
@@ -951,7 +957,7 @@ foo_info{entity="replica",name="prettier name",version="8.1.9"} 1.0
 
 Metric labels and MetricPoint value labels MAY be in any order.
 
-##### Summary
+#### Summary
 
 The MetricPoint's value MUST be a CompositeValue.
 
@@ -975,7 +981,7 @@ An example of a Metric with no labels and a MetricPoint with two quantiles and S
 foo {count:0,sum:0.0,quantile:[0.95:123.7,0.99:150]} st@1520430000.123
 ```
 
-##### Histogram with Classic Buckets
+#### Histogram with Classic Buckets
 
 The MetricPoint's value MUST be a CompositeValue.
 
@@ -994,7 +1000,7 @@ An example of a Metric with no labels and a MetricPoint with Sum, Count, and Sta
 foo {count:17,sum:324789.3,bucket:[0.0:0,1e-05:0,0.0001:5,0.1:8,1.0:10,10.0:11,100000.0:11,1e+06:15,1e+23:16,1.1e+23:17,+Inf:17]} st@1520430000.123
 ```
 
-##### Histogram with Native Buckets
+#### Histogram with Native Buckets
 
 The MetricPoint's value MUST be a CompositeValue.
 
@@ -1030,7 +1036,7 @@ An example without any buckets in use:
 acme_http_request_seconds{path="/api/v1",method="GET"} {count:0,sum:0,schema:3,zero_threshold:1e-4,zero_count:0} st@1520430000.123
 ```
 
-##### Histogram with both Classic and Native Buckets
+#### Histogram with both Classic and Native Buckets
 
 If a Histogram MetricPoint has both Classic and Native buckets, the Sample for the Native Buckets MUST come first.
 
@@ -1044,7 +1050,7 @@ acme_http_request_seconds{path="/api/v1",method="GET"} {count:2,sum:1.2e2,schema
 acme_http_request_seconds{path="/api/v1",method="GET"} {count:2,sum:1.2e2,bucket:[0.5:1,1:2,+Inf:2]}
 ```
 
-###### Exemplars
+##### Exemplars
 
 Exemplars without Labels MUST represent an empty LabelSet as {}.
 
@@ -1058,7 +1064,7 @@ foo {count:17,sum:324789.3,schema:0,zero_threshold:1e-4,zero_count:0,positive_sp
 foo {count:17,sum:324789.3,bucket:[0.01:0,0.1:8,1.0:11,10.0:17,+Inf:17]} st@1520430000.123 # {} 0.054 1520879607.7 # {trace_id="KOO5S4vxi0o"} 0.67 1520879602.890 # {trace_id="oHg5SJYRHA0"} 9.8 1520879607.789
 ```
 
-##### GaugeHistogram with Classic Buckets
+#### GaugeHistogram with Classic Buckets
 
 The MetricPoint's value MUST be a CompositeValue.
 
@@ -1073,7 +1079,7 @@ An example of a Metric with no labels, and one MetricPoint value with no Exempla
 foo {count:42,sum:3289.3,bucket:[0.01:20,0.1:25,1:34,+Inf:42]}
 ```
 
-##### GaugeHistogram with Native Buckets
+#### GaugeHistogram with Native Buckets
 
 GaugeHistogram MetricPoints with Native Buckets follow the same syntax as Histogram MetricPoints with Native Buckets.
 
@@ -1082,13 +1088,13 @@ GaugeHistogram MetricPoints with Native Buckets follow the same syntax as Histog
 acme_http_request_seconds{path="/api/v1",method="GET"} {count:59,sum:1.2e2,schema:7,zero_threshold:1e-4,zero_count:0,negative_spans:[1:2],negative_buckets:[5,7],positive_spans:[-1:2,3:4],positive_buckets:[5,7,10,9,8,8]} st@1520430000.123
 ```
 
-##### GaugeHistogram with both Classic and Native buckets
+#### GaugeHistogram with both Classic and Native buckets
 
 If a GaugeHistogram MetricPoint has both Classic and Native buckets, the Sample for the Native Buckets MUST come first.
 
 The order ensures that implementations can easily skip the Classic Buckets if the Native Buckets are preferred.
 
-##### Unknown
+#### Unknown
 
 The sample metric name for the value of the MetricPoint for a MetricFamily of type Unknown MUST NOT have a suffix.
 
@@ -1098,32 +1104,6 @@ An example with a Metric with no labels and a MetricPoint with no timestamp:
 # TYPE foo unknown
 foo 42.23
 ```
-
-### Protobuf format
-
-#### Overall Structure
-
-Protobuf messages MUST be encoded in binary and MUST have `application/openmetrics-protobuf; version=1.0.0` as their content type.
-
-All payloads MUST be a single binary encoded MetricSet message, as defined by the OpenMetrics protobuf schema.
-
-##### Version
-
-The protobuf format MUST follow the proto3 version of the protocol buffer language.
-
-##### Strings
-
-All string fields MUST be UTF-8 encoded.
-
-##### Timestamps
-
-Timestamp representations in the OpenMetrics protobuf schema MUST follow the published google.protobuf.Timestamp [timestamp] message. The timestamp message MUST be in Unix epoch seconds as an int64 and a non-negative fraction of a second at nanosecond resolution as an int32 that counts forward from the seconds timestamp component. It MUST be within 0 to 999,999,999 inclusive.
-
-#### Protobuf schema
-
-Protobuf schema is currently available [here](https://github.com/prometheus/OpenMetrics/blob/3bb328ab04d26b25ac548d851619f90d15090e5d/proto/openmetrics_data_model.proto).
-
-> NOTE: Prometheus and ecosystem does not support OpenMetrics protobuf schema, instead it uses similar `io.prometheus.client` [format](https://github.com/prometheus/client_model/blob/master/io/prometheus/client/metrics.proto). Discussions about the future of the protobuf schema in OpenMetrics 2.0 [are in progress](https://github.com/prometheus/OpenMetrics/issues/296).
 
 ## Design Considerations
 
@@ -1459,11 +1439,7 @@ The port assigned by IANA for clients exposing data is <9099 requested for histo
 
 If more than one metric endpoint needs to be reachable at a common IP address and port, operators might consider using a reverse proxy that communicates with exposers over localhost addresses. To ease multiplexing, endpoints SHOULD carry their own name in their path, i.e. `/node_exporter/metrics`. Expositions SHOULD NOT be combined into one exposition, for the reasons covered under "Supporting target metadata in both push-based and pull-based systems" and to allow for independent ingestion without a single point of failure.
 
-OpenMetrics would like to register two MIME types, `application/openmetrics-text` and `application/openmetrics-proto`.
-
-<!---
-# EDITOR’S NOTE: `application/openmetrics-text` is in active use since 2018, `application/openmetrics-proto` is not yet in active use.
--->
+OpenMetrics would like to register the MIME type, `application/openmetrics-text`
 
 <!---
 # EDITOR’S NOTE: We would like to thank Sumeer Bhola, but kramdown 2.x does not support `Contributor:` any more so we will add this by hand once consensus has been achieved.

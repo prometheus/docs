@@ -176,16 +176,48 @@ with a tracing system can provide more detailed information related to the speci
 
 To enable this experimental feature you must have at least version v2.26.0 and add `--enable-feature=exemplar-storage` to your arguments.
 
-## Protobuf format
+## Protobuf Format
 
-Earlier versions of Prometheus supported an exposition format based on [Protocol Buffers](https://developers.google.com/protocol-buffers/) (aka Protobuf) in addition to the current text-based format. With Prometheus 2.0, the Protobuf format was marked as deprecated and Prometheus stopped ingesting samples from said exposition format.
+Prometheus officially supports [protobuf exposition format](https://developers.google.com/protocol-buffers/) in addition to
+the text representation.
 
-However, new (experimental) features were added to Prometheus where the Protobuf format was considered the most viable option. Making Prometheus accept Protocol Buffers once again.
+The payload MUST be encoded as a set of Protobuf messages representing MetricFamily. Messages MUST be encoded in binary and 
+prepended with their variadic unsigned-integer encoded size, which serves as a delimitation. The varint encoded size delimited
+encoding offers streaming capabilities, especially important for large scrape targets.
 
-When such features are enabled either by feature flag
-(`--enable-feature=created-timestamp-zero-ingestion`) or by setting the
-appropriate configuration option (`scrape_native_histograms: true`) then
-Protobuf will be favored over other exposition formats.
+The payload MUST have `application/vnd.google.protobuf;proto=io.prometheus.client.MetricFamily;encoding=delimited` as their content type.
+
+All string fields MUST be UTF-8 encoded.
+
+Ingestors SHOULD prioritize scraping Prometheus Proto for the future feature compatibility. This is not true for 
+Prometheus 3.0, which for backward compatibility prefers OpenMetrics 1.0 unless
+* Manually changed in `scrape_protocols` setting
+* Certain feature are enabled e.g.:
+  * `--enable-feature=created-timestamp-zero-ingestion`
+  * appropriate configuration option (`scrape_native_histograms: true`)
+
+> In Prometheus 2.0, the Protobuf format was marked as deprecated, but since then this decision was reverted. From Prometheus 3.0,
+> the Prometheus Proto is actively used and maintained, supplementing text formats.
+
+### When to use Proto over Text?
+
+The text format is human-readable, compresses well and is efficient enough for programming use, but Prometheus community also
+maintains the protobuf formats, because:
+
+* It increases the quality and velocity of new features that can be safely tested in the backward/forward compatible way.
+* Protobuf helps with the exposer/ingestor implementations, given the code generation and flexibility features.
+* In (surprisingly rare) cases binary encoding can be more efficiently encoded/decoded.
+
+You can learn more in [the PromCon 2025 talk](https://www.youtube.com/watch?v=9EgWpkpfl-I&list=PLj6h78yzYM2P534LgwCVm3GQdxLcSt7We&index=3).
+
+### Versioning
+
+At the moment Prometheus protobuf is stable, but explicitly unversioned to lean towards the backward and forward compatibility factor.
+Instead, it follows Prometheus versioning as a reference.
+
+### Schema
+
+Protobuf schema, identified as `io.prometheus.client` is maintained in Prometheus repository [here](https://github.com/prometheus/prometheus/blob/main/prompb/io/prometheus/client/metrics.proto). Schema is also available in [buf registry](https://buf.build/prometheus/prometheus/docs/main:io.prometheus.client).
 
 ## HTTP Content-Type requirements
 

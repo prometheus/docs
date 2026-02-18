@@ -437,8 +437,9 @@ metric = *sample
 metric-type = counter / gauge / histogram / gaugehistogram / stateset
 metric-type =/ info / summary / unknown
 
-sample = metricname-and-labels SP number [SP timestamp] [SP start-timestamp] [exemplar] LF
-sample =/ metricname-and-labels SP "{" composite-value "}" [SP timestamp] [SP start-timestamp] *exemplar LF
+sample = metricname-and-labels SP value [SP timestamp] [SP start-timestamp] *exemplar LF
+
+value = number / "{" composite-value "}"
 
 exemplar = SP HASH SP labels-in-braces SP number SP timestamp
 

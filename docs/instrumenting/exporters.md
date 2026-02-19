@@ -272,6 +272,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [SMTP/Maildir MDA blackbox prober](https://github.com/cherti/mailexporter)
    * [SoftEther exporter](https://github.com/dalance/softether_exporter)
    * [SSH exporter](https://github.com/treydock/ssh_exporter)
+   * [Tailscale exporter](https://github.com/adinhodovic/tailscale-exporter)
    * [Teamspeak3 exporter](https://github.com/hikhvar/ts3exporter)
    * [Transmission exporter](https://github.com/metalmatze/transmission-exporter)
    * [Unbound exporter](https://github.com/kumina/unbound_exporter)

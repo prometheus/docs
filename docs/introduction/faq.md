@@ -33,9 +33,12 @@ There are always trade-offs to make when running services, and Prometheus values
 ### Can Prometheus be made highly available?
 
 Yes, run identical Prometheus servers on two or more separate machines.
+
+Systems like [Thanos](https://thanos.io) can deduplicate the data. Many of the [external systems](/docs/operating/integrations/#remote-endpoints-and-storage) that support [remote write](/docs/prometheus/latest/configuration/configuration/#remote_write) can also deduplicate the data.
+
 Identical alerts will be deduplicated by the [Alertmanager](https://github.com/prometheus/alertmanager).
 
-Alertmanager supports [high availability](https://github.com/prometheus/alertmanager#high-availability) by interconnecting multiple Alertmanager instances to build an Alertmanager cluster. Instances of a cluster communicate using a gossip protocol managed via [HashiCorp's Memberlist](https://github.com/hashicorp/memberlist) library.
+Alertmanager supports [high availability](https://github.com/prometheus/alertmanager#high-availability) by interconnecting multiple Alertmanager instances to build an Alertmanager cluster.
 
 ### I was told Prometheus “doesn't scale”.
 

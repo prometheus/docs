@@ -394,20 +394,12 @@ A point in a metric with the unknown type MUST have a single value.
 
 ## Text Format
 
-The text wire format MUST be supported and is the default. 
-
 The OpenMetrics formats are Regular Chomsky Grammars, making writing quick and small parsers possible.
 
 Partial or invalid expositions MUST be considered erroneous in their entirety.
 
-### Protobuf Representation
-
-The [Prometheus protobuf wire format](https://prometheus.io/docs/instrumenting/exposition_formats/#protobuf-format) MAY be supported
-and MUST ONLY be used after negotiation.
-
 > IMPORTANT: Previous versions of [OpenMetrics](https://prometheus.io/docs/specs/om/open_metrics_spec/#protobuf-format) used
-> to specify a separate, similar, [protobuf format](https://github.com/prometheus/OpenMetrics/blob/3bb328ab04d26b25ac548d851619f90d15090e5d/proto/openmetrics_data_model.proto). Given similarities and wide adoption of [`PrometheusProto`](https://prometheus.io/docs/instrumenting/exposition_formats/#protobuf-format), OpenMetrics Proto is now deprecated and OpenMetrics spec is focusing
-> on the human-readable text representation.
+> to specify a [OpenMetric protobuf format](https://github.com/prometheus/OpenMetrics/blob/3bb328ab04d26b25ac548d851619f90d15090e5d/proto/openmetrics_data_model.proto). OpenMetrics 2.0 does not include the protobuf representation. For available formats, including the official [Prometheus protobuf wire format](https://prometheus.io/docs/instrumenting/exposition_formats/#protobuf-format), see [exposition formats documentation](https://prometheus.io/docs/instrumenting/exposition_formats).
 
 ### Protocol Negotiation
 

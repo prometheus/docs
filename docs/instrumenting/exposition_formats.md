@@ -3,15 +3,17 @@ title: Exposition formats
 sort_rank: 6
 ---
 
-Metrics can be exposed to Prometheus using a simple [text-based](#text-based-format)
-exposition format. There are various [client libraries](/docs/instrumenting/clientlibs/)
-that implement this format for you. If your preferred language doesn't have a client
-library you can [create your own](/docs/instrumenting/writing_clientlibs/).
+As of Prometheus version 2.0, all processes that expose metrics to Prometheus must use
+a **text** format, by default. An alternative, **protobuf** format may be used behind [the HTTP negotiation](./content_negotiation.md).
 
-## Text-based format
+There are various [client libraries](./clientlibs.md) that implement those formats for you. If your preferred language doesn't have a client
+library you can [create your own](./writing_clientlibs.md).
 
-As of Prometheus version 2.0, all processes that expose metrics to Prometheus need to use
-a text-based format. In this section you can find some [basic information](#basic-info)
+This document outlines officially supported exposition formats.
+
+## Prometheus Text Format
+
+In this section you can find some [basic information](#basic-info)
 about this format as well as a more [detailed breakdown](#text-format-details) of the
 format.
 
@@ -29,7 +31,7 @@ format.
 | **Limitations** | <ul><li>Verbose</li><li>Types and docstrings not integral part of the syntax, meaning little-to-nonexistent metric contract validation</li><li>Parsing cost</li></ul>|
 | **Supported metric primitives** | <ul><li>Counter</li><li>Gauge</li><li>Histogram</li><li>Summary</li><li>Untyped</li></ul> |
 
-### Text format details
+### Details
 
 Prometheus' text-based format is line oriented. Lines are separated by a line
 feed character (`\n`). The last line must end with a line feed character.
@@ -115,7 +117,7 @@ format. The following conventions apply:
 * A histogram _must_ have a bucket with `{le="+Inf"}`. Its value _must_ be identical to the value of `x_count`.
 * The buckets of a histogram and the quantiles of a summary must appear in increasing numerical order of their label values (for the `le` or the `quantile` label, respectively).
 
-### Text format example
+### Example
 
 Below is an example of a full-fledged Prometheus metric exposition, including
 comments, `HELP` and `TYPE` expressions, a histogram, a summary, character
@@ -165,8 +167,13 @@ rpc_duration_seconds_count 2693
 
 ## OpenMetrics Text Format
 
-[OpenMetrics](https://github.com/OpenObservability/OpenMetrics) is the effort to standardize metric wire formatting built off of Prometheus text format. It is possible to scrape targets
-and it is also available to use for federating metrics since at least v2.23.0.
+OpenMetrics is an effort to standardize metric wire formatting built off of Prometheus text format. It is possible to scrape targets, and it is also available to use for federating metrics since Prometheus v2.23.0.
+
+There are currently three versions of OpenMetrics:
+
+* [1.0](../specs/om/open_metrics_spec.md)
+* [1.1](../specs/om/open_metrics_spec_1_1.md)
+* [2.0](../specs/om/open_metrics_spec_2_0.md)
 
 ### Exemplars (Experimental)
 
@@ -176,7 +183,7 @@ with a tracing system can provide more detailed information related to the speci
 
 To enable this experimental feature you must have at least version v2.26.0 and add `--enable-feature=exemplar-storage` to your arguments.
 
-## Protobuf Format
+## Prometheus Protobuf Format
 
 Prometheus officially supports [protobuf exposition format](https://developers.google.com/protocol-buffers/) in addition to
 the text representation.
@@ -198,6 +205,20 @@ Prometheus 3.0, which for backward compatibility prefers OpenMetrics 1.0 unless
 
 > In Prometheus 2.0, the Protobuf format was marked as deprecated, but since then this decision was reverted. From Prometheus 3.0,
 > the Prometheus Proto is actively used and maintained, supplementing text formats.
+
+### Basic info
+
+| Aspect                               | Description                                                                                                                                             |
+|--------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **Inception**                        | April 2014                                                                                                                                              |
+| **Supported in**                     | Prometheus version `>=0.4.0`                                                                                                                            |
+| **Transmission**                     | HTTP                                                                                                                                                    |
+| **Encoding**                         | 32-Bit Varint-Encoded Record Length-Delimited Protocol Buffer Messages of `io.prometheus.client.MetricFamily`                                           |
+| **HTTP `Content-Type`**              | `application/vnd.google.protobuf;proto=io.prometheus.client.MetricFamily;encoding=delimited`                                                            |
+| **Optional HTTP `Content-Encoding`** | `gzip`                                                                                                                                                  |
+| **Advantages**                       | <ul><li>Cross-Platform</li><li>Size</li><li>Forward/Backward Compatibility</li><li>Strict Schema</li><li>Supports Concatenation and Streaming</li></ul> |
+| **Limitations**                      | <ul><li>Not human readable</li></ul>                                                                                                                    |
+| **Supported metric primitives**      | <ul><li>Counter</li><li>Gauge</li><li>Histogram</li><li>Summary</li><li>Untyped</li></ul>                                                               |
 
 ### When to use Proto over Text?
 

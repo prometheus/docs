@@ -3,7 +3,7 @@ title: Instrumenting HTTP server written in Go
 sort_rank: 3
 ---
 
-In this tutorial, we will create a simple Go HTTP server and instrument it by adding a counter
+In this tutorial we will create a simple Go HTTP server and instrument it by adding a counter
 metric to keep count of the total number of requests processed by the server.
 
 Here we have a simple HTTP server with `/ping` endpoint which returns `pong` as response.
@@ -16,7 +16,7 @@ import (
    "net/http"
 )
 
-func ping(w http.ResponseWriter, req *http.Request){
+func ping(w http.ResponseWriter, req *http.Request) {
    fmt.Fprintf(w,"pong")
 }
 
@@ -51,7 +51,7 @@ type metrics struct {
 func newMetrics(reg prometheus.Registerer) *metrics {
 	m := &metrics{
 		pingCounter: promauto.With(reg).NewCounter(
-			prometheus.CounterOpts{
+			prometheus.CounterOpts {
 				Name: "ping_request_count",
 				Help: "No of requests handled by Ping handler",
 			}),

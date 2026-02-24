@@ -24,7 +24,7 @@ A metric name...
     (exported by many client libraries)
   * <code><b>http</b>\_request\_duration\_seconds</code>
     (for all HTTP requests)
-* ...MUST have a single unit (i.e. do not mix seconds with milliseconds, or seconds with bytes).
+* ...MUST refer to a single unit (e.g. do not mix seconds with milliseconds) and to a single quantity (e.g. do not mix request size with request duration).
 * ...SHOULD use base units (e.g. seconds, bytes, meters - not milliseconds, megabytes, kilometers). See [below](#base-units) for a list of base units.
 * ...SHOULD have a suffix describing the unit, in plural form. Note that an accumulating count has `total` as a suffix, in addition to the unit if applicable. Also note that this applies to units in the narrow sense (like the units in the table below), but not to countable things in general. For example, <code>connections</code> or <code>notifications</code> are not considered units for this rule and do not have to be at the end of the metric name. (See also examples in the next paragraph.)
   * <code>http\_request\_duration\_<b>seconds</b></code>

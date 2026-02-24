@@ -17,10 +17,20 @@ The Prometheus Node Exporter is a single static binary that you can install [via
 
 ```bash
 # NOTE: Replace the URL with one from the above mentioned "downloads" page.
-# <VERSION>, <OS>, and <ARCH> are placeholders.
-wget https://github.com/prometheus/node_exporter/releases/download/v<VERSION>/node_exporter-<VERSION>.<OS>-<ARCH>.tar.gz
-tar xvfz node_exporter-*.*-amd64.tar.gz
-cd node_exporter-*.*-amd64
+# Node Exporter is available for multiple OS targets and architectures.
+# Downloads are available at:
+# https://github.com/prometheus/node_exporter/releases/download/v<VERSION>/node_exporter-<VERSION>.<OS>-<ARCH>.tar.gz
+#
+# <VERSION>, <OS>, and <ARCH> are placeholders:
+# - <VERSION>: Release version (e.g., 1.10.2)
+# - <OS>: Operating system (e.g., linux, darwin, freebsd)
+# - <ARCH>: Architecture (e.g., amd64, arm64, 386)
+#
+# For this example, we will use Node Exporter version 1.10.2 for a Linux system with amd64 architecture.
+
+wget https://github.com/prometheus/node_exporter/releases/download/v1.10.2/node_exporter-1.10.2.linux-amd64.tar.gz
+tar xvfz node_exporter-1.10.2.linux-amd64.tar.gz
+cd node_exporter-1.10.2.linux-amd64
 ./node_exporter
 ```
 

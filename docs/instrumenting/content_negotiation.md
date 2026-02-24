@@ -21,7 +21,7 @@ the target will pick the best available Content Type for its reply.
 
 ### Supported Protocols
 
-The following protocols are be supported by Prometheus:
+The following protocols are supported by Prometheus:
 
 1. `PrometheusProto` - Binary protobuf format
 2. `PrometheusText0.0.4` - Prometheus text format version 0.0.4
@@ -74,7 +74,7 @@ SHOULD include an escaping scheme parameter: `escaping=<scheme>`
 
 Where `<scheme>` MUST be one of:
 
-- `allow-utf8`
+- `allow-utf-8`
 - `underscores`
 - `dots`
 - `values`
@@ -122,12 +122,12 @@ accepted formats. The Content-Type header MUST include:
 ### Default Accept Header
 
 ```
-Accept: application/openmetrics-text;version=1.0.0;escaping=allow-utf8;q=0.5,application/openmetrics-text;version=0.0.1;q=0.4,text/plain;version=1.0.0;escaping=allow-utf8;q=0.3,text/plain;version=0.0.4;q=0.2,/;q=0.1
+Accept: application/openmetrics-text;version=1.0.0;escaping=allow-utf-8;q=0.5,application/openmetrics-text;version=0.0.1;q=0.4,text/plain;version=1.0.0;escaping=allow-utf-8;q=0.3,text/plain;version=0.0.4;q=0.2,/;q=0.1
 ```
 
 ### Protobuf-First Accept Header
 
 ```
 Accept: application/vnd.google.protobuf;proto=io.prometheus.client.MetricFamily;encoding=delimited;q=0.5,application/
-openmetrics-text;version=1.0.0;escaping=allow-utf8;q=0.4,application/openmetrics-text;version=0.0.1;q=0.3,text/plain;version=1.0.0;escaping=allow-utf8;q=0.2,text/plain;version=0.0.4;q=0.1,/;q=0.0
+openmetrics-text;version=1.0.0;escaping=allow-utf-8;q=0.4,application/openmetrics-text;version=0.0.1;q=0.3,text/plain;version=1.0.0;escaping=allow-utf-8;q=0.2,text/plain;version=0.0.4;q=0.1,/;q=0.0
 ```

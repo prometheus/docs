@@ -21,7 +21,7 @@ func ping(w http.ResponseWriter, req *http.Request){
 }
 
 func main() {
-   http.HandleFunc("/ping",ping)
+   http.HandleFunc("/ping", ping)
 
    http.ListenAndServe(":8090", nil)
 }
@@ -39,36 +39,48 @@ Now open `http://localhost:8090/ping` in your browser and you must see `pong`.
 [![Server](/assets/docs/tutorial/server.png)](/assets/docs/tutorial/server.png)
 
 
-Now lets add a metric to the server which will instrument the number of requests made to the ping endpoint,the counter metric type is suitable for this as we know the request count doesn’t go down and only increases.
+Now lets add a metric to the server which will instrument the number of requests made to the ping endpoint, the counter metric type is suitable for this as we know the request count doesn’t go down and only increases.
 
 Create a Prometheus counter
 
 ```go
-var pingCounter = prometheus.NewCounter(
-   prometheus.CounterOpts{
-       Name: "ping_request_count",
-       Help: "No of request handled by Ping handler",
-   },
-)
-```
+type metrics struct {
+	pingCounter prometheus.Counter
+}
 
-Next lets update the ping Handler to increase the count of the counter using `pingCounter.Inc()`.
-
-```go
-func ping(w http.ResponseWriter, req *http.Request) {
-   pingCounter.Inc()
-   fmt.Fprintf(w, "pong")
+func newMetrics(reg prometheus.Registerer) *metrics {
+	m := &metrics{
+		pingCounter: promauto.With(reg).NewCounter(
+			prometheus.CounterOpts{
+				Name: "ping_request_count",
+				Help: "No of request handled by Ping handler",
+			}),
+	}
+	return m
 }
 ```
 
-Then register the counter to the Default Register and expose the metrics.
+Next lets update the ping Handler to increase the count of the counter using `metrics.pingCounter.Inc()`.
+
+```go
+func ping(m *metrics) func(w http.ResponseWriter, req *http.Request) {
+	return func(w http.ResponseWriter, req *http.Request) {
+		m.pingCounter.Inc()
+		fmt.Fprintf(w, "pong")
+	}
+}
+```
+
+Then register the metrics (in this case only one counter) to a Prometheus Register and expose the metrics.
 
 ```go
 func main() {
-   prometheus.MustRegister(pingCounter)
-   http.HandleFunc("/ping", ping)
-   http.Handle("/metrics", promhttp.Handler())
-   http.ListenAndServe(":8090", nil)
+	reg := prometheus.NewRegistry()
+	m := newMetrics(reg)
+
+	http.HandleFunc("/ping", ping(m))
+	http.Handle("/metrics", promhttp.HandlerFor(reg, promhttp.HandlerOpts{}))
+	http.ListenAndServe(":8090", nil)
 }
 ```
 
@@ -77,42 +89,54 @@ To expose the metrics the Go Prometheus client library provides the promhttp pac
 `promhttp.Handler()` provides a `http.Handler` which exposes the metrics registered in the Default Register.
 
 The sample code depends on the
+The sample code depends on the
 
 ```go
 package main
 
 import (
-   "fmt"
-   "net/http"
+	"fmt"
+	"net/http"
 
-   "github.com/prometheus/client_golang/prometheus"
-   "github.com/prometheus/client_golang/prometheus/promhttp"
+	"github.com/prometheus/client_golang/prometheus"
+	"github.com/prometheus/client_golang/prometheus/promauto"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
 )
 
-var pingCounter = prometheus.NewCounter(
-   prometheus.CounterOpts{
-       Name: "ping_request_count",
-       Help: "No of request handled by Ping handler",
-   },
-)
+type metrics struct {
+	pingCounter prometheus.Counter
+}
 
-func ping(w http.ResponseWriter, req *http.Request) {
-   pingCounter.Inc()
-   fmt.Fprintf(w, "pong")
+func newMetrics(reg prometheus.Registerer) *metrics {
+	m := &metrics{
+		pingCounter: promauto.With(reg).NewCounter(
+			prometheus.CounterOpts{
+				Name: "ping_request_count",
+				Help: "No of request handled by Ping handler",
+			}),
+	}
+	return m
+}
+
+func ping(m *metrics) func(w http.ResponseWriter, req *http.Request) {
+	return func(w http.ResponseWriter, req *http.Request) {
+		m.pingCounter.Inc()
+		fmt.Fprintf(w, "pong")
+	}
 }
 
 func main() {
-   prometheus.MustRegister(pingCounter)
+	reg := prometheus.NewRegistry()
+	m := newMetrics(reg)
 
-   http.HandleFunc("/ping", ping)
-   http.Handle("/metrics", promhttp.Handler())
-   http.ListenAndServe(":8090", nil)
+	http.HandleFunc("/ping", ping(m))
+	http.Handle("/metrics", promhttp.HandlerFor(reg, promhttp.HandlerOpts{}))
+	http.ListenAndServe(":8090", nil)
 }
 ```
 
 Run the example
-
-```sh
+```bash
 go mod init prom_example
 go mod tidy
 go run server.go

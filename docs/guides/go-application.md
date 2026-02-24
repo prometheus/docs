@@ -27,14 +27,21 @@ This minimal application, for example, would expose the default metrics for Go a
 package main
 
 import (
-        "net/http"
+	"net/http"
 
-        "github.com/prometheus/client_golang/prometheus/promhttp"
+	"github.com/prometheus/client_golang/prometheus"
+	"github.com/prometheus/client_golang/prometheus/collectors"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
 )
 
 func main() {
-        http.Handle("/metrics", promhttp.Handler())
-        http.ListenAndServe(":2112", nil)
+	reg := prometheus.NewRegistry()
+	reg.MustRegister(
+		collectors.NewGoCollector(),
+		collectors.NewProcessCollector(collectors.ProcessCollectorOpts{}),
+	)
+	http.Handle("/metrics", promhttp.HandlerFor(reg, promhttp.HandlerOpts{}))
+	http.ListenAndServe(":2112", nil)
 }
 ```
 
@@ -58,35 +65,44 @@ The application [above](#how-go-exposition-works) exposes only the default Go me
 package main
 
 import (
-        "net/http"
-        "time"
+	"net/http"
+	"time"
 
-        "github.com/prometheus/client_golang/prometheus"
-        "github.com/prometheus/client_golang/prometheus/promauto"
-        "github.com/prometheus/client_golang/prometheus/promhttp"
+	"github.com/prometheus/client_golang/prometheus"
+	"github.com/prometheus/client_golang/prometheus/promauto"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
 )
 
-func recordMetrics() {
-        go func() {
-                for {
-                        opsProcessed.Inc()
-                        time.Sleep(2 * time.Second)
-                }
-        }()
+type metrics struct {
+	opsProcessed prometheus.Counter
 }
 
-var (
-        opsProcessed = promauto.NewCounter(prometheus.CounterOpts{
-                Name: "myapp_processed_ops_total",
-                Help: "The total number of processed events",
-        })
-)
+func newMetrics(reg prometheus.Registerer) *metrics {
+	m := &metrics{
+		opsProcessed: promauto.With(reg).NewCounter(prometheus.CounterOpts{
+			Name: "myapp_processed_ops_total",
+			Help: "The total number of processed events",
+		}),
+	}
+	return m
+}
+
+func recordMetrics(m *metrics) {
+	go func() {
+		for {
+			m.opsProcessed.Inc()
+			time.Sleep(2 * time.Second)
+		}
+	}()
+}
 
 func main() {
-        recordMetrics()
+	reg := prometheus.NewRegistry()
+	m := newMetrics(reg)
+	recordMetrics(m)
 
-        http.Handle("/metrics", promhttp.Handler())
-        http.ListenAndServe(":2112", nil)
+	http.Handle("/metrics", promhttp.HandlerFor(reg, promhttp.HandlerOpts{}))
+	http.ListenAndServe(":2112", nil)
 }
 ```
 

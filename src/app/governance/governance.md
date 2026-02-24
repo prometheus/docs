@@ -59,7 +59,6 @@ The current team members are:
 * Ben Reedy ([Indue Ltd](https://www.indue.com.au))
 * Björn Rabenstein ([Grafana Labs](https://grafana.com/))
 * Bryan Boreham ([Grafana Labs](https://grafana.com/))
-* Calle Pettersson ([Instabee Group](https://instabee.com/))
 * Callum Styan (independent)
 * Carrie Edwards ([Grafana Labs](https://grafana.com/))
 * Chris Marchbanks ([Grafana Labs](https://grafana.com/))
@@ -86,7 +85,7 @@ The current team members are:
 * Johannes Ziemke ([5π Consulting](https://5pi.de/))
 * Josh Abreu ([Grafana Labs](https://grafana.com/))
 * Julius Volz ([PromLabs](https://promlabs.com/))
-* Julien Pivotto ([Inuits](https://inuits.eu/))
+* Julien Pivotto ([Grafana Labs](https://grafana.com/))
 * Kemal Akkoyun (independent)
 * Matthias Loibl ([Polar Signals](https://www.polarsignals.com/))
 * Matthias Rampke ([Chronosphere](https://chronosphere.io/))
@@ -105,6 +104,7 @@ The current team members are:
 Previous members:
 
 * Brian Brazil
+* Calle Pettersson
 * Conor Broderick
 * Fabian Reinartz
 * Jessica Grebenschikov

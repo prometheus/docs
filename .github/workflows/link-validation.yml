@@ -1,0 +1,27 @@
+name: Link Validation
+
+on:
+  workflow_dispatch:  # Manual trigger
+
+jobs:
+  validate-links:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
+    
+    - name: Set up Go
+      uses: actions/setup-go@0a12ed9d6a96ab950c8f026ed9f722fe0da7ef32  # v5.2.0
+      with:
+        go-version: stable
+
+    - name: Set up mdox
+      run: |
+        go install github.com/bwplotka/mdox@latest
+        export PATH="$(go env GOPATH)/bin:$PATH"
+        echo "PATH=$PATH" >> $GITHUB_ENV
+    
+    - name: Check for broken links
+      run: |
+        export PATH="$(go env GOPATH)/bin:$PATH"
+        make mdox-check

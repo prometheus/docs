@@ -54,24 +54,41 @@ line may exist for any given metric name.
 
 If the token is `TYPE`, exactly two more tokens are expected. The first is the
 metric name, and the second is either `counter`, `gauge`, `histogram`,
-`summary`, or `untyped`, defining the type for the metric of that name. Only
-one `TYPE` line may exist for a given metric name. The `TYPE` line for a
-metric name must appear before the first sample is reported for that metric
-name. If there is no `TYPE` line for a metric name, the type is set to
-`untyped`.
+`summary`, or `untyped`, defining the type for the metric of that name. Only one
+`TYPE` line may exist for a given metric name. The `TYPE` line for a metric name
+must appear before the first sample is reported for that metric name. If there
+is no `TYPE` line for a metric name, the type is set to `untyped`. Metric names
+not corresponding to the legacy Prometheus metric name character set must be
+quoted and escaped.
 
 The remaining lines describe samples (one per line) using the following syntax
 ([EBNF](https://en.wikipedia.org/wiki/Extended_Backus%E2%80%93Naur_form)):
 
 ```
-metric_name [
-  "{" label_name "=" `"` label_value `"` { "," label_name "=" `"` label_value `"` } [ "," ] "}"
-] value [ timestamp ]
+metric_name_or_labels value [ timestamp ]
+
+metric_name_or_labels = metric_name [ "{" labels "}" ] | "{" quoted_metric_name [ "," labels ] "}"
+
+metric_name = identifier
+
+quoted_metric_name = `"` escaped_string `"`
+
+labels = [ label_pairs ]
+
+label_pairs = label_pair { "," label_pair } [ "," ]
+
+label_pair = label_name "=" `"` escaped_string `"`
+
+label_name = identifier | `"` escaped_string `"`
 ```
 
 In the sample syntax:
 
-*  `metric_name` and `label_name` carry the usual Prometheus expression language restrictions.
+* `identifier` carries the usual Prometheus expression language restrictions.
+* `escaped_string` consists of any UTF-8 characters, but backslash, double-quote, and line feed must be escaped.
+* When `metric_name` is quoted with double quotes, it appears inside the braces instead of outside.
+* `label_name` may be optionally enclosed in double quotes.
+* Metric and label names not corresponding to the usual Prometheus expression language restrictions must use the quoted syntaxes.
 * `label_value` can be any sequence of UTF-8 characters, but the backslash (`\`), double-quote (`"`), and line feed (`\n`) characters have to be escaped as `\\`, `\"`, and `\n`, respectively.
 * `value` is a float represented as required by Go's [`ParseFloat()`](https://golang.org/pkg/strconv/#ParseFloat) function. In addition to standard numerical values, `NaN`, `+Inf`, and `-Inf` are valid values representing not a number, positive infinity, and negative infinity, respectively.
 * The `timestamp` is an `int64` (milliseconds since epoch, i.e. 1970-01-01 00:00:00 UTC, excluding leap seconds), represented as required by Go's [`ParseInt()`](https://golang.org/pkg/strconv/#ParseInt) function.
@@ -113,6 +130,9 @@ http_requests_total{method="post",code="400"}    3 1395066363000
 # Escaping in label values:
 msdos_file_access_time_seconds{path="C:\\DIR\\FILE.TXT",error="Cannot find file:\n\"FILE.TXT\""} 1.458255915e9
 
+# UTF-8 metric and label names:
+{"my.dotted.metric", "error.message"="Not Found"}
+
 # Minimalistic line:
 metric_without_timestamp_and_labels 12.47
 
@@ -145,7 +165,7 @@ rpc_duration_seconds_count 2693
 
 ## OpenMetrics Text Format
 
-[OpenMetrics](https://github.com/OpenObservability/OpenMetrics) is the an effort to standardize metric wire formatting built off of Prometheus text format. It is possible to scrape targets
+[OpenMetrics](https://github.com/OpenObservability/OpenMetrics) is the effort to standardize metric wire formatting built off of Prometheus text format. It is possible to scrape targets
 and it is also available to use for federating metrics since at least v2.23.0.
 
 ### Exemplars (Experimental)
@@ -160,14 +180,24 @@ To enable this experimental feature you must have at least version v2.26.0 and a
 
 Earlier versions of Prometheus supported an exposition format based on [Protocol Buffers](https://developers.google.com/protocol-buffers/) (aka Protobuf) in addition to the current text-based format. With Prometheus 2.0, the Protobuf format was marked as deprecated and Prometheus stopped ingesting samples from said exposition format.
 
-However, new experimental features were added to Prometheus where the Protobuf format was considered the most viable option. Making Prometheus accept Protocol Buffers once again.
+However, new (experimental) features were added to Prometheus where the Protobuf format was considered the most viable option. Making Prometheus accept Protocol Buffers once again.
 
-Here is a list of experimental features that, once enabled, will configure Prometheus to favor the Protobuf exposition format:
+When such features are enabled either by feature flag
+(`--enable-feature=created-timestamp-zero-ingestion`) or by setting the
+appropriate configuration option (`scrape_native_histograms: true`) then
+Protobuf will be favored over other exposition formats.
 
-| feature flag | version that introduced it |
-|--------------|----------------------------|
-| native-histograms | 2.40.0 |
-| created-timestamp-zero-ingestion | 2.50.0 |
+## HTTP Content-Type requirements
+
+Starting with Prometheus 3.0, scrape targets **must** return a valid `Content-Type` header for the metrics endpoint. If the `Content-Type` is missing, unparsable, or not a supported media type, **the scrape will fail**. See changes in [scrape protocols](https://prometheus.io/docs/prometheus/latest/migration/#scrape-protocols) in the migration guide for details.
+
+See each of the exposition format sections for the accurate HTTP content types.
+
+### ScrapeProtocols vs Content-Type
+
+Prometheus scrape config offers scrape protocol negotiation based on the content-type using the [`scrape_protocols`](https://prometheus.io/docs/prometheus/latest/configuration/configuration/#scrape_config) config. For the Prometheus user convenience the scrape protocols are referenced by a unique name that maps to the concrete content-type. See [Protocol Headers](./content_negotiation.md#protocol-headers) for details.
+
+However, the targets should expose metrics in the exposition format with the absolute, response content-type (e.g. `application/openmetrics-text;version=1.0.0`) and only one.
 
 ## Historical versions
 

@@ -218,7 +218,7 @@ A MetricPoint in a Metric with the type Counter SHOULD have a Timestamp value ca
 
 A MetricPoint in a Metric's Counter's Total MAY reset to 0. If present, the corresponding Start Timestamp MUST also be set to the timestamp of the reset.
 
-A MetricPoint in a Metric's Counter's Total MAY have an exemplar.
+A MetricPoint in a Metric's Counter's Total MAY have exemplars.
 
 #### StateSet
 
@@ -290,7 +290,7 @@ Exposed Classic Bucket thresholds SHOULD stay constant over time and between tar
 
 If the NaN value is allowed, it MUST be counted in the +Inf bucket, and MUST NOT be counted in any other bucket. The rationale is that NaN does not belong to any bucket mathematically, however instrumentation libraries traditionally put it into the +Inf bucket.
 
-Classic Bucket values MAY have exemplars. The value of the exemplar MUST be within the Classic Bucket. Exemplars SHOULD be put into the Classic Bucket with the lowest threshold that includes the exemplar value. A Classic Bucket MUST NOT have more than one exemplar.
+A Histogram MetricPoint MAY have exemplars. The values of exemplars in a Histogram MetricPoint SHOULD be evenly distributed, such as by keeping one exemplar for each Classic Bucket.
 
 ##### Native Buckets
 
@@ -437,8 +437,9 @@ metric = *sample
 metric-type = counter / gauge / histogram / gaugehistogram / stateset
 metric-type =/ info / summary / unknown
 
-sample = metricname-and-labels SP number [SP timestamp] [SP start-timestamp] [exemplar] LF
-sample =/ metricname-and-labels SP "{" composite-value "}" [SP timestamp] [SP start-timestamp] *exemplar LF
+sample = metricname-and-labels SP value [SP timestamp] [SP start-timestamp] *exemplar LF
+
+value = number / "{" composite-value "}"
 
 exemplar = SP HASH SP labels-in-braces SP number SP timestamp
 

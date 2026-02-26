@@ -196,15 +196,13 @@ The payload MUST have `application/vnd.google.protobuf;proto=io.prometheus.clien
 
 All string fields MUST be UTF-8 encoded.
 
-Ingestors SHOULD prioritize scraping Prometheus Proto for the future feature compatibility. This is not true for 
-Prometheus 3.0, which for backward compatibility prefers OpenMetrics 1.0 unless
-* Manually changed in `scrape_protocols` setting
-* Certain feature are enabled e.g.:
-  * `--enable-feature=created-timestamp-zero-ingestion`
-  * appropriate configuration option (`scrape_native_histograms: true`)
+Prometheus 3.0 [prefers the text-based protocols by default](./content_negotiation.md#default-accept-header) unless:
+* Manual preference settings in via `scrape_protocols` setting in Prometheus configuration.
+* [Protobuf format first](./content_negotiation.md#protobuf-first-accept-header) when certain features are enabled e.g.:
+  * `--enable-feature=created-timestamp-zero-ingestion` or `--enable-feature=st-storage`
+  * Appropriate configuration option (`scrape_native_histograms: true`)
 
-> In Prometheus 2.0, the Protobuf format was marked as deprecated, but since then this decision was reverted. From Prometheus 3.0,
-> the Prometheus Proto is actively used and maintained, supplementing text formats.
+> In Prometheus 2.0, the Protobuf format was marked as deprecated, but since then this decision was reverted. From Prometheus 3.0, the Prometheus Proto is actively used and maintained, supplementing text-based formats.
 
 ### Basic info
 

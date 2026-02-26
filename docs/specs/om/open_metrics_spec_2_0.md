@@ -398,7 +398,7 @@ The OpenMetrics formats are Regular Chomsky Grammars, making writing quick and s
 
 Partial or invalid expositions MUST be considered erroneous in their entirety.
 
-> IMPORTANT: Previous versions of [OpenMetrics](https://prometheus.io/docs/specs/om/open_metrics_spec/#protobuf-format) used
+> NOTE: Previous versions of [OpenMetrics](https://prometheus.io/docs/specs/om/open_metrics_spec/#protobuf-format) used
 > to specify a [OpenMetric protobuf format](https://github.com/prometheus/OpenMetrics/blob/3bb328ab04d26b25ac548d851619f90d15090e5d/proto/openmetrics_data_model.proto). OpenMetrics 2.0 does not include the protobuf representation. For available formats, including the official [Prometheus protobuf wire format](https://prometheus.io/docs/instrumenting/exposition_formats/#protobuf-format), see [exposition formats documentation](https://prometheus.io/docs/instrumenting/exposition_formats).
 
 ### Protocol Negotiation

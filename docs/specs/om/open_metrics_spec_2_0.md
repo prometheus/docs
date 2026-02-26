@@ -247,6 +247,8 @@ MetricFamilies of type StateSets MUST have an empty Unit string.
 
 Info metrics are used to expose textual information which SHOULD NOT change during process lifetime. Common examples are an application's version, revision control commit, and the version of a compiler.
 
+The MetricFamily name for Info metrics MUST end in `_info`.
+
 A MetricPoint of an Info Metric contains a LabelSet. An Info MetricPoint's LabelSet MUST NOT have a label name which is the same as the name of a label of the LabelSet of its Metric.
 
 Info MAY be used to encode ENUMs whose values do not change over time, such as the type of a network interface.
@@ -938,19 +940,19 @@ foo{entity="replica",foo="ccc"} 1.0
 
 ##### Info
 
-The Sample MetricName for the value of a MetricPoint for a MetricFamily of type Info MUST have the suffix `_info`. The Sample value MUST always be 1.
+The Sample value MUST always be 1.
 
 An example of a Metric with no labels, and one MetricPoint value with "name" and "version" labels:
 
 ```openmetrics-add-eof
-# TYPE foo info
+# TYPE foo_info info
 foo_info{name="pretty name",version="8.2.7"} 1
 ```
 
 An example of a Metric with label "entity" and one MetricPoint value with “name” and “version” labels:
 
 ```openmetrics-add-eof
-# TYPE foo info
+# TYPE foo_info info
 foo_info{entity="controller",name="pretty name",version="8.2.7"} 1.0
 foo_info{entity="replica",name="prettier name",version="8.1.9"} 1.0
 ```

@@ -142,7 +142,17 @@ Metrics are defined by a unique LabelSet within a MetricFamily. Metrics MUST con
 
 MetricPoints SHOULD NOT have explicit timestamps.
 
-If more than one MetricPoint is exposed for a Metric, then its MetricPoints MUST have monotonically increasing timestamps.
+If more than one MetricPoint is exposed for a Metric,
+then unless it is a special case exempted below,
+its MetricPoints MUST have monotonically increasing timestamps.
+
+Special case exemptions:
+
+* Two Histogram MetricPoints where one has Classic Buckets and the other has Native Buckets.
+* Two GaugeHistogram MetricPoints where one has Classic Buckets and the other has Native Buckets.
+
+Note: these exemptions allow exposing both Classic and Native Buckets for the
+same MetricPoint and letting the ingestor decide which one or both to process.
 
 #### MetricFamily
 

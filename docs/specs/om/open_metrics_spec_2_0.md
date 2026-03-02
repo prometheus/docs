@@ -603,9 +603,9 @@ acme_http_router_request_seconds{path="/api/v2",method="GET"} {count:34,sum:479.
 # TYPE go_goroutines gauge
 # HELP go_goroutines Number of goroutines that currently exist.
 go_goroutines 69
-# TYPE process_cpu_seconds counter
-# UNIT process_cpu_seconds seconds
-# HELP process_cpu_seconds Total user and system CPU time spent in seconds.
+# TYPE process_cpu_seconds_total counter
+# UNIT process_cpu_seconds_total seconds
+# HELP process_cpu_seconds_total Total user and system CPU time spent in seconds.
 process_cpu_seconds_total 4.20072246e+06
 # TYPE acme_http_request_seconds histogram
 # UNIT acme_http_request_seconds seconds

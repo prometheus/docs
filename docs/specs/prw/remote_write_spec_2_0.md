@@ -4,7 +4,7 @@ nav_title: "2.0"
 sort_rank: 2
 ---
 
-* Version: 2.0-rc.4
+* Version: 2.0-rc.5
 * Status: **Experimental**
 * Date: May 2024
 
@@ -64,7 +64,10 @@ The protobuf serialization MUST use either of the following Protobuf Messages:
 * The `prometheus.WriteRequest` introduced in [the Remote-Write 1.0 specification](./remote_write_spec.md#protocol). As of 2.0, this message is deprecated. It SHOULD be used only for compatibility reasons. Senders and Receivers MAY NOT support the `prometheus.WriteRequest`.
 * The `io.prometheus.write.v2.Request` introduced in this specification and defined [below](#protobuf-message). Senders and Receivers SHOULD use this message when possible. Senders and Receivers MUST support the `io.prometheus.write.v2.Request`.
 
-Protobuf Message MUST use binary Wire Format. Then, MUST be compressed with [Google’s Snappy](https://github.com/google/snappy). Snappy's [block format](https://github.com/google/snappy/blob/2c94e11145f0b7b184b831577c93e5a41c4c0346/format_description.txt) MUST be used -- [the framed format](https://github.com/google/snappy/blob/2c94e11145f0b7b184b831577c93e5a41c4c0346/framing_format.txt) MUST NOT be used.
+<!---
+Rationales for extra compressions: https://github.com/prometheus/prometheus/issues/13366
+-->
+Protobuf Message MUST use binary Wire Format. Then, it MUST be compressed. [Google’s Snappy](https://github.com/google/snappy) algorithm with [block format](https://github.com/google/snappy/blob/2c94e11145f0b7b184b831577c93e5a41c4c0346/format_description.txt) SHOULD be used. Alternatively, [RFC-1962 gzip](https://www.rfc-editor.org/rfc/rfc1952.html) algorithm MAY be used. 
 
 Senders MUST send a serialized and compressed Protobuf Message in the body of an HTTP POST request and send it to the Receiver via HTTP at the provided URL path. Receivers MAY specify any HTTP URL path to receive metrics.
 

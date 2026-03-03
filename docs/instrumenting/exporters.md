@@ -259,6 +259,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [PHP-FPM exporter](https://github.com/bakins/php-fpm-exporter)
    * [Pi-Hole exporter](https://github.com/eko/pihole-exporter)
    * [Podman exporter](https://github.com/containers/prometheus-podman-exporter)
+   * [Postfix exporter](https://github.com/sarab97/postfix_exporter)
    * [Prefect2 exporter](https://github.com/pathfinder177/prefect2-prometheus-exporter)
    * [Process exporter](https://github.com/ncabatoff/process-exporter)
    * [rTorrent exporter](https://github.com/mdlayher/rtorrent_exporter)

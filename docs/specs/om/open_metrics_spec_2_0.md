@@ -518,14 +518,19 @@ normal-char = %x00-09 / %x0B-21 / %x23-5B / %x5D-D7FF / %xE000-10FFFF
 start-timestamp = %d115.116 "@" timestamp
 
 ; Composite values
-composite-value = native-histogram / classic-histogram / classic-summary
+composite-value = histogram-value / summary-value
 
-native-histogram = nh-count "," nh-sum "," nh-schema "," nh-zero-threshold "," nh-zero-count [ "," nh-negative-spans "," nh-negative-buckets ] [ "," nh-positive-spans "," nh-positive-buckets ]
+; Histograms
+histogram-value = h-count "," h-sum "," histogram-buckets
 
 ; count:x
-nh-count = %d99.111.117.110.116 ":" number
+h-count = %d99.111.117.110.116 ":" number
 ; sum:f allows real numbers and +-Inf and NaN
-nh-sum = %d115.117.109 ":" number
+h-sum = %d115.117.109 ":" number
+
+histogram-buckets = classic-buckets / native-buckets [ "," classic-buckets ]
+native-buckets = nh-schema "," nh-zero-threshold "," nh-zero-count [ "," nh-negative-spans "," nh-negative-buckets ] [ "," nh-positive-spans "," nh-positive-buckets ]
+
 ; schema:i
 nh-schema = %d115.99.104.101.109.97 ":" integer
 ; zero_threshold:f
@@ -553,22 +558,17 @@ non-negative-integer = ["+"] 1*"0" / ["+"] positive-integer
 positive-integer = *"0" positive-digit *DIGIT
 positive-digit = "1" / "2" / "3" / "4" / "5" / "6" / "7" / "8" / "9"
 
-; count:12,sum:100.0,bucket:[0.1:3,05:12,+Inf:12]
-classic-histogram = ch-count "," ch-sum "," ch-bucket
-
-; count:x where x is a number
-ch-count = %d99.111.117.110.116 ":" number
-; sum:x where x is a number
-ch-sum = %d115.117.109 ":" number
 ; bucket:[...,+Inf:v]  The +Inf bucket is required.
-ch-bucket = %d98.117.99.107.101.116 ":" "[" [ ch-le-counts "," ] ch-pos-inf-bucket "]"
+classic-buckets = %d98.117.99.107.101.116 ":" "[" [ ch-le-counts "," ] ch-pos-inf-bucket "]"
 ch-le-counts = (ch-neg-inf-bucket / ch-le-bucket) *("," ch-le-bucket)
 ch-pos-inf-bucket = "+" %d73.110.102 ":" number
 ch-neg-inf-bucket = "-" %d73.110.102 ":" number
 ch-le-bucket = realnumber ":" number
 
+; Summary
+
 ; count:12.0,sum:100.0,quantile:[0.9:2.0,0.95:3.0,0.99:20.0]
-classic-summary = cs-count "," cs-sum "," cs-quantile
+summary-value = cs-count "," cs-sum "," cs-quantile
 
 ; count:x where x is a number
 cs-count = %d99.111.117.110.116 ":" number
@@ -610,8 +610,7 @@ process_cpu_seconds_total 4.20072246e+06
 # TYPE acme_http_request_seconds histogram
 # UNIT acme_http_request_seconds seconds
 # HELP acme_http_request_seconds Latency histogram of all of ACME's HTTP requests.
-acme_http_request_seconds{path="/api/v1",method="GET"} {count:2,sum:1.2e2,schema:0,zero_threshold:1e-4,zero_count:0,positive_spans:[1:2],positive_buckets:[1,1]} st@1605301325.0
-acme_http_request_seconds{path="/api/v1",method="GET"} {count:2,sum:1.2e2,bucket:[0.5:1,1:2,+Inf:2]} st@1605301325.0
+acme_http_request_seconds{path="/api/v1",method="GET"} {count:2,sum:1.2e2,schema:0,zero_threshold:1e-4,zero_count:0,positive_spans:[1:2],positive_buckets:[1,1],bucket:[0.5:1,1:2,+Inf:2]} st@1605301325.0
 # TYPE acme_http_request_seconds:rate5m gaugehistogram
 acme_http_request_seconds:rate5m{path="/api/v1",method="GET"} {count:0.01,sum:2.0,schema:0,zero_threshold:1e-4,zero_count:0.0,positive_spans:[1:2],positive_buckets:[0.005,0.005]} st@1605301325.0
 # TYPE "foodb.read.errors" counter
@@ -1040,7 +1039,12 @@ acme_http_request_seconds{path="/api/v1",method="GET"} {count:0,sum:0,schema:3,z
 
 ##### Histogram with both Classic and Native Buckets
 
-If a Histogram MetricPoint has both Classic and Native buckets, the Sample for the Native Buckets MUST come first.
+The MetricPoint's value MUST be a CompositeValue.
+
+The CompositeValue MUST include the Count and Sum as the fields `count`, `sum` in this order.
+
+After the `count` and `sum` the remaining fields of the Native Buckets MUST be included,
+then the remaining fields of the Classic Buckets (i.e. the `bucket` field) MUST be included.
 
 The order ensures that implementations can easily skip the Classic Buckets if the Native Buckets are preferred.
 
@@ -1048,22 +1052,36 @@ The order ensures that implementations can easily skip the Classic Buckets if th
 # TYPE acme_http_request_seconds histogram
 # UNIT acme_http_request_seconds seconds
 # HELP acme_http_request_seconds Latency histogram of all of ACME's HTTP requests.
-acme_http_request_seconds{path="/api/v1",method="GET"} {count:2,sum:1.2e2,schema:0,zero_threshold:1e-4,zero_count:0,positive_spans:[1:2],positive_buckets:[1,1]}
-acme_http_request_seconds{path="/api/v1",method="GET"} {count:2,sum:1.2e2,bucket:[0.5:1,1:2,+Inf:2]}
+acme_http_request_seconds{path="/api/v1",method="GET"} {count:2,sum:1.2e2,schema:0,zero_threshold:1e-4,zero_count:0,positive_spans:[1:2],positive_buckets:[1,1],bucket:[0.5:1,1:2,+Inf:2]}
 ```
 
 ###### Exemplars
 
 Exemplars without Labels MUST represent an empty LabelSet as {}.
 
-An example of Exemplars showcasing several valid cases:
-The Histogram Sample with Native Buckets has multiple Exemplars.
-The "0.01" bucket has no Exemplar. The 0.1 bucket has an Exemplar with no Labels. The 1 bucket has an Exemplar with one Label. The 10 bucket has an Exemplar with a Label and a timestamp. In practice all buckets SHOULD have the same style of Exemplars.
+In case of a Histogram with both Classic and Native Buckets, only the exemplars belonging to the Classic Buckets MUST be
+included, the exemplars related to the Native Buckets MUST be excluded.
+
+An example of a Histogram with Native Buckets that has multiple Exemplars:
 
 ```openmetrics-add-eof
 # TYPE foo histogram
 foo {count:17,sum:324789.3,schema:0,zero_threshold:1e-4,zero_count:0,positive_spans:[0:2],positive_buckets:[5,12]} st@1520430000.123 # {trace_id="shaZ8oxi"} 0.67 1520879607.789 # {trace_id="ookahn0M"} 1.2 1520879608.589
-foo {count:17,sum:324789.3,bucket:[0.01:0,0.1:8,1.0:11,10.0:17,+Inf:17]} st@1520430000.123 # {} 0.054 1520879607.7 # {trace_id="KOO5S4vxi0o"} 0.67 1520879602.890 # {trace_id="oHg5SJYRHA0"} 9.8 1520879607.789
+```
+
+An example of a Histogram with Classic Buckets where the "0.01" bucket has no Exemplar. The 0.1 bucket has an Exemplar with no Labels. The 1 bucket has an Exemplar with one Label. The 10 bucket has an Exemplar with a Label and a timestamp. In practice all buckets SHOULD have the same style of Exemplars.
+
+```openmetrics-add-eof
+# TYPE foo histogram
+foo {count:17,sum:324789.3,bucket:[0.01:0,0.1:8,1.0:11,10.0:17,+Inf:17]} st@1520430000.123 # {} 0.054 1520879607.7 # {trace_id="KOO5S4vxi0o"} 1.67 1520879602.890 # {trace_id="oHg5SJYRHA0"} 9.8 1520879607.789
+```
+
+An example of a Histogram with both Classic and Native Buckets, where the exemplars of only the Classic Buckets are
+included:
+
+```openmetrics-add-eof
+# TYPE foo histogram
+foo {count:17,sum:324789.3,schema:0,zero_threshold:1e-4,zero_count:0,positive_spans:[0:2],positive_buckets:[5,12],bucket:[0.01:0,0.1:8,1.0:11,10.0:17,+Inf:17]} st@1520430000.123 # {} 0.054 1520879607.7 # {trace_id="KOO5S4vxi0o"} 1.67 1520879602.890 # {trace_id="oHg5SJYRHA0"} 9.8 1520879607.789
 ```
 
 ##### GaugeHistogram with Classic Buckets
@@ -1092,9 +1110,7 @@ acme_http_request_seconds{path="/api/v1",method="GET"} {count:59,sum:1.2e2,schem
 
 ##### GaugeHistogram with both Classic and Native buckets
 
-If a GaugeHistogram MetricPoint has both Classic and Native buckets, the Sample for the Native Buckets MUST come first.
-
-The order ensures that implementations can easily skip the Classic Buckets if the Native Buckets are preferred.
+GaugeHistogram MetricPoints with both Classic and Native Buckets follow the same syntax as Histogram MetricPoints with both Classic and Native Buckets.
 
 ##### Unknown
 

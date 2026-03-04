@@ -197,7 +197,7 @@ The payload MUST have `application/vnd.google.protobuf;proto=io.prometheus.clien
 All string fields MUST be UTF-8 encoded.
 
 Prometheus 3.0 [prefers the text-based protocols by default](./content_negotiation.md#default-accept-header) unless:
-* Manual preference settings in via `scrape_protocols` setting in Prometheus configuration.
+* Manual preference settings via `scrape_protocols` setting in Prometheus configuration.
 * [Protobuf format first](./content_negotiation.md#protobuf-first-accept-header) when certain features are enabled e.g.:
   * `--enable-feature=created-timestamp-zero-ingestion` or `--enable-feature=st-storage`
   * Appropriate configuration option (`scrape_native_histograms: true`)

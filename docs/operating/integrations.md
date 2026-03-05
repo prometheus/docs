@@ -94,6 +94,7 @@ For notification mechanisms not natively supported by the Alertmanager, the
   * [Matrix](https://github.com/jaywink/matrix-alertmanager): sends Alertmanager notifications to Matrix rooms
   * [Matrix](https://github.com/hectorjsmith/matrix-hookshot): bridges webhooks to Matrix with rich formatting support
   * [Notion](https://github.com/cthtuf/alertmanager-to-notion): creates/updates record in a Notion database
+  * [Parny](https://parny.io/integrations/prometheus): AI-native on-call management, incident response, uptime monitoring, and real-time infrastructure visibility platform.
   * [Phabricator / Maniphest](https://github.com/knyar/phalerts)
   * [prom2teams](https://github.com/idealista/prom2teams): forwards notifications to Microsoft Teams
   * [Rootly](https://docs.rootly.com/integrations/alertmanager): on-call & incident management

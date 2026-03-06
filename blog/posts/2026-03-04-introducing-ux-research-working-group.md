@@ -13,13 +13,13 @@ Recognizing this, the Prometheus team established a Working Group focused on imp
 
 <!-- more -->
 
-## How we can help
+## How we can help Prometheus maintainers
 
-Working on something where the user needs are unclear? Maybe you're looking at two competing solutions and you'd like to understand the user tradeoffs alongside the technical ones.
+Building something where the user needs are unclear? Maybe you're looking at two competing solutions and you'd like to understand the user tradeoffs alongside the technical ones.
 
 That's where we can be of help.
 
-The UX Working Group will work with you to conduct user research or provide feedback on your plans for user outreach. That could include:
+The UX Working Group will partner with you to conduct user research or provide feedback on your plans for user outreach. That could include:
 
 - User research reports and summaries
 - User journeys, personas, wireframes, prototypes, and other UX artifacts
@@ -27,12 +27,20 @@ The UX Working Group will work with you to conduct user research or provide feed
 - Prioritized lists of user pain points
 - Suggestions for community discussions or decision-making topics
 
-## How to work with us
+To get started, tell us what you're trying to do, and we'll work with you to determine what type and scope of research is most appropriate.
 
-Drop us a message in Slack, join a meeting, or raise an issue in GitHub. Tell us what you're trying to do, and we'll work with you to determine what type and scope of research is most appropriate.
+## How we can help Prometheus end users
+
+We want to hear from you! Let us know if you're interested in participating in a research study and we'll contact you when we're working on one that's a good fit. Having an issue with the Prometheus user experience? We can help you open an issue and direct it to the appropriate community members. 
+
+## Interested in helping?
+
+New contributors to the working group are always welcome! Get in touch and let us know what you'd like to work on. 
 
 ## Where to find us
 
-- **Meetings:** We meet biweekly, currently Wednesdays at 14:00 UTC (subject to change depending on contributor availability).
+Drop us a message in Slack, join a meeting, or raise an issue in GitHub. 
+
 - **Slack:** [#prometheus-ux-wg](https://cloud-native.slack.com/archives/prometheus-ux-wg)
+- **Meetings:** We meet biweekly, currently on [Wednesdays at 14:00 UTC](https://calendar.google.com/calendar/u/0/embed?src=prometheus.io_bdf9qgm081nrd0fe32g3olsld0%40group.calendar.google.com) (subject to change depending on contributor availability).
 - **GitHub:** [prometheus-community/ux-research](https://github.com/prometheus-community/ux-research)

@@ -5,13 +5,13 @@ kind: article
 author_name: "Ayoub Mrini (@machine424)"
 ---
 
-<!-- more -->
-
 Do you find yourself constantly looking up the difference between `container_memory_usage_bytes`, `container_memory_working_set_bytes`, and `container_memory_rss`? It gets worse when you pick the wrong one to set a memory limit, interpret benchmark results, or debug an OOMKilled container.
 
 You're not alone. There is even a [9-year-old Kubernetes issue](https://github.com/kubernetes/kubernetes/issues/43916) that captures the frustration of many others.
 
 The explanation is simple: RAM is not used in just one way. One of the easiest things to miss is the page cache, and for some containers it can make up most of the memory usage, creating large gaps between those metrics.
+
+<!-- more -->
 
 The [use-uncached-io](https://prometheus.io/docs/prometheus/latest/feature_flags/#use-uncached-io) feature flag was built for exactly this. Prometheus is a database and it does a lot of disk writes, but not every write benefits from the page cache. Compaction writes are a good example, because once written, that data is unlikely to be read again soon.
 

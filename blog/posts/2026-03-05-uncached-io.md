@@ -31,7 +31,7 @@ The `directIOWriter` is currently limited to chunk writes, but that is already a
 [![benchmark2](/assets/blog/2026-03-05/benchmark2.png)](/assets/blog/2026-03-05/benchmark2.png)
 <center>Memory metrics breakdown, baseline vs. <code>use-uncached-io</code></center>
 
-The work is not done yet, and contributions are welcome. Here are a few areas that could help move the feature closer to GA:
+The work is not done yet, and contributions are welcome. Here are a few areas that could help move the feature closer to General Availability:
 
 ### Covering more write paths
 

@@ -197,7 +197,7 @@ Each MetricFamily name MUST be unique. The same label name and value SHOULD NOT 
 
 There is no specific ordering of MetricFamilies required within a MetricSet. An exposer MAY make an exposition easier to read for humans, for example sort alphabetically if the performance tradeoff makes sense.
 
-If present, an Info MetricFamily called "target" per the "Supporting target metadata in both push-based and pull-based systems" section below SHOULD be first.
+If present, an Info MetricFamily called "target_info" per the "Supporting target metadata in both push-based and pull-based systems" section below SHOULD be first.
 
 ### Metric Types
 
@@ -1285,11 +1285,11 @@ OpenMetrics is stateless and provides the same exposition to all ingestors, whic
 
 One approach would be for push-style ingestors to provide target metadata based on operator configuration out-of-band, for example as a HTTP header. While this would transport target metadata for push-style ingestors, and is not precluded by this standard, it has the disadvantage that even though pull-style ingestors should use their own target metadata, it is still often useful to have access to the metadata the exposer itself is aware of.
 
-The preferred solution is to provide this target metadata as part of the exposition, but in a way that does not impact on the exposition as a whole. Info MetricFamilies are designed for this. An exposer may include an Info MetricFamily called "target" with a single Metric with no labels with the metadata. An example in the text format might be:
+The preferred solution is to provide this target metadata as part of the exposition, but in a way that does not impact on the exposition as a whole. Info MetricFamilies are designed for this. An exposer may include an Info MetricFamily called "target_info" with a single Metric with no labels with the metadata. An example in the text format might be:
 
 ```
-# TYPE target info
-# HELP target Target metadata
+# TYPE target_info info
+# HELP target_info Target metadata
 target_info{env="prod",hostname="myhost",datacenter="sdc",region="europe",owner="frontend"} 1
 ```
 
@@ -1300,7 +1300,7 @@ Generally, the same Label should not appear on every Metric of an exposition, bu
 
 Exposers can expose exposer metadata as Info MetricFamilies.
 
-The above discussion is in the context of individual exposers. An exposition from a general purpose monitoring system may contain metrics from many individual targets, and thus may expose multiple target info Metrics. The metrics may already have had target metadata added to them as labels as part of ingestion. The metric names MUST NOT be varied based on target metadata. For example it would be incorrect for all metrics to end up being prefixed with staging_ even if they all originated from targets in a staging environment).
+The above discussion is in the context of individual exposers. An exposition from a general purpose monitoring system may contain metrics from many individual targets, and thus may expose multiple target_info Metrics. The metrics may already have had target metadata added to them as labels as part of ingestion. The metric names MUST NOT be varied based on target metadata. For example it would be incorrect for all metrics to end up being prefixed with staging_ even if they all originated from targets in a staging environment).
 
 ### Client Calculations and Derived Metrics
 

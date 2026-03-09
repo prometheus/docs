@@ -207,7 +207,7 @@ If present, an Info MetricFamily called "target_info" per the "Supporting target
 
 Gauges are current measurements, such as bytes of memory currently used or the number of items in a queue. For gauges the absolute value is what is of interest to a user.
 
-A MetricPoint in a Metric with the Type gauge MUST have a single value.
+A MetricPoint in a Metric with the Type gauge MUST have a Number value.
 
 Gauges MAY increase, decrease, or stay constant over time. Even if they only ever go in one direction, they might still be gauges and not counters. The size of a log file would usually only increase, a resource might decrease, and the limit of a queue size may be constant.
 
@@ -219,13 +219,13 @@ Counters measure discrete events. Common examples are the number of HTTP request
 
 The MetricFamily name for Counters SHOULD end in `_total`. Be aware that exposing metrics without `_total` being a suffix of the MetricFamily name directly to end-users may reduce the usability due to confusion about what the metric's Type is.
 
-A MetricPoint in a Metric with the Type Counter MUST have one value called Total. A Total is a non-NaN and MUST be monotonically non-decreasing over time, starting from 0.
+A MetricPoint in a Metric with the Type Counter MUST have a Number value. The value MUST be a non-NaN and MUST be monotonically non-decreasing over time, starting from 0.
 
 A MetricPoint in a Metric with the Type Counter SHOULD have a Timestamp value called Start Timestamp. This can help ingestors discern between new metrics and long-running ones it did not see before.
 
-A MetricPoint in a Metric's Counter's Total MAY reset to 0. If present, the corresponding Start Timestamp MUST also be set to the timestamp of the reset.
+A MetricPoint in a Metric with the type Counter MAY reset its value to 0. If present, the corresponding Start Timestamp MUST also be set to the timestamp of the reset.
 
-A MetricPoint in a Metric's Counter's Total MAY have exemplars.
+A MetricPoint in a Metric with the type Counter MAY have exemplars.
 
 #### StateSet
 
@@ -399,7 +399,7 @@ Quantiles MUST be between 0 and 1 inclusive. Quantile values MUST NOT be negativ
 
 Unknown SHOULD NOT be used. Unknown MAY be used when it is impossible to determine the types of individual metrics from 3rd party systems.
 
-A point in a metric with the Unknown Type MUST have a single value.
+A point in a metric with the Unknown Type MUST have a Number value.
 
 ## Text Format
 
@@ -902,7 +902,7 @@ foo 17.0 1520879607.789 st@1520879607.789
 
 Be aware that exposing metrics without `_total` being a suffix of the MetricFamily name directly to end-users may reduce the usability due to confusion about what the metric's type is.
 
-Exemplars MAY be attached to the MetricPoint's Total sample.
+The MetricPoint MAY have Exemplars.
 
 An example with a Metric with no labels, and a MetricPoint with a timestamp and a Start Timestamp and an exemplar:
 

@@ -406,9 +406,9 @@ Classic histogram version:
     histogram_quantile(0.95, sum by (le) (rate(http_request_duration_seconds_bucket[5m]))) // GOOD.
 
 Furthermore, should your SLO change and you now want to plot the 90th
-percentile, or you want to take into account the last 10 minutes
-instead of the last 5 minutes, you only have to adjust the expressions
-above and you do not need to reconfigure the clients.
+percentile, or you want to take into account the last 10 minutes instead of the
+last 5 minutes, you only have to adjust the expressions above and you do not
+need to reconfigure the instrumentation of the monitored programs.
 
 ### Errors of quantile estimation
 

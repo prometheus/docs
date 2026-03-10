@@ -3,11 +3,17 @@ title: Metric types
 sort_rank: 2
 ---
 
-The Prometheus client libraries offer four core metric types. These are
-currently only differentiated in the client libraries (to enable APIs tailored
-to the usage of the specific types) and in the wire protocol. The Prometheus
-server does not yet make use of the type information and flattens all data into
-untyped time series. This may change in the future.
+The Prometheus instrumentation libraries offer four core metric types. With the
+exception of native histograms, these are currently only differentiated in the
+instrumentation libraries (to enable APIs tailored to the usage of the specific
+types) and in the exposition protocols. The Prometheus server does not yet make
+use of the type information and flattens all types except native histograms
+into untyped time series of floating point values. Native histograms, however,
+are ingested as time series of special composite histogram samples. In the
+future, Prometheus might handle other metric types as [composite
+types](/blog/2026/02/14/modernizing-prometheus-composite-samples/), too. There
+is also ongoing work to persist the type information of the simple float
+samples.
 
 ## Counter
 
@@ -20,7 +26,7 @@ errors.
 Do not use a counter to expose a value that can decrease. For example, do not
 use a counter for the number of currently running processes; instead use a gauge.
 
-Client library usage documentation for counters:
+Instrumentation library usage documentation for counters:
 
    * [Go](http://godoc.org/github.com/prometheus/client_golang/prometheus#Counter)
    * [Java](https://prometheus.github.io/client_java/getting-started/metric-types/#counter)
@@ -38,7 +44,7 @@ Gauges are typically used for measured values like temperatures or current
 memory usage, but also "counts" that can go up and down, like the number of
 concurrent requests.
 
-Client library usage documentation for gauges:
+Instrumentation library usage documentation for gauges:
 
    * [Go](http://godoc.org/github.com/prometheus/client_golang/prometheus#Gauge)
    * [Java](https://prometheus.github.io/client_java/getting-started/metric-types/#gauge)
@@ -51,37 +57,78 @@ Client library usage documentation for gauges:
 
 A _histogram_ samples observations (usually things like request durations or
 response sizes) and counts them in configurable buckets. It also provides a sum
-of all observed values.
+of all observed values. As such, a histogram is essentially a bucketed counter.
+However, a histogram can also represent the current state of a distribution, in
+which case it is called a _gauge histogram_. In contrast to the usual
+counter-like histograms, gauge histograms are rarely directly exposed by
+instrumented programs and are thus not (yet) usable in instrumentation
+libraries, but they are represented in newer versions of the protobuf
+exposition format and in [OpenMetrics](https://openmetrics.io/). They are also
+created regularly by PromQL expressions. For example, the outcome of applying
+the `rate` function to a counter histogram is a gauge histogram, in the same
+way as the outcome of applying the `rate` function to a counter is a gauge.
 
-A histogram with a base metric name of `<basename>` exposes multiple time series
-during a scrape:
+Histograms exists in two fundamentally different versions: The more recent
+_native histograms_ and the older _classic histograms_.
 
-  * cumulative counters for the observation buckets, exposed as `<basename>_bucket{le="<upper inclusive bound>"}`
+A native histogram is exposed and ingested as composite samples, where each
+sample represents the count and sum of observations together with a dynamic set
+of buckets.
+
+A classic histogram, however, consists of multiple time series of simple float
+samples. A classic histogram with a base metric name of `<basename>` results in
+the following time series:
+
+  * cumulative counters for the observation buckets, exposed as
+    `<basename>_bucket{le="<upper inclusive bound>"}`
   * the **total sum** of all observed values, exposed as `<basename>_sum`
-  * the **count** of events that have been observed, exposed as `<basename>_count` (identical to `<basename>_bucket{le="+Inf"}` above)
+  * the **count** of events that have been observed, exposed as
+    `<basename>_count` (identical to `<basename>_bucket{le="+Inf"}` above)
 
-Use the
-[`histogram_quantile()` function](/docs/prometheus/latest/querying/functions/#histogram_quantile)
-to calculate quantiles from histograms or even aggregations of histograms. A
-histogram is also suitable to calculate an
-[Apdex score](http://en.wikipedia.org/wiki/Apdex). When operating on buckets,
-remember that the histogram is
-[cumulative](https://en.wikipedia.org/wiki/Histogram#Cumulative_histogram). See
-[histograms and summaries](/docs/practices/histograms) for details of histogram
-usage and differences to [summaries](#summary).
+Native histograms are generally much more efficient than classic histograms,
+allow much higher resolution, and do not require explicit configuration of
+bucket boundaries during instrumentation. Their bucketing schema ensures that
+they are always aggregatable with each other, even if the resolution might have
+changed, while classic histograms with different bucket boundaries are not
+generally aggregatable. If the instrumentation library you are using supports native
+histograms (currently this is the case for Go and Java), you should probably
+prefer native histograms over classic histograms.
 
-NOTE: Beginning with Prometheus v2.40, there is experimental support for native
-histograms. A native histogram requires only one time series, which includes a
-dynamic number of buckets in addition to the sum and count of
-observations. Native histograms allow much higher resolution at a fraction of
-the cost. Detailed documentation will follow once native histograms are closer
-to becoming a stable feature.
+If you are stuck with classic histograms for whatever reason, there is a way to
+get at least some of the benefits of native histograms: You can configure
+Prometheus to ingest classic histograms into a special form of native
+histograms, called Native Histograms with Custom Bucket boundaries (NHCB).
+NHCBs are stored as the same composite samples as usual native histograms with
+the same gain in efficiency. However, their buckets are still the same buckets
+statically configured during instrumentation, with their limited resolution and
+range and the same problems of aggregatability upon changing the bucket
+boundaries.
+
+Use the [`histogram_quantile()`
+function](/docs/prometheus/latest/querying/functions/#histogram_quantile) to
+calculate quantiles from histograms or even aggregations of histograms. It
+works for both classic and native histograms, using a slightly different
+syntax. Histograms are also suitable to calculate an [Apdex
+score](http://en.wikipedia.org/wiki/Apdex).
+
+You can operate directly on the buckets of a classic histogram, as they are
+represented as individual series (called `<basename>_bucket{le="<upper
+inclusive bound>"}` as described above). Remember, however, that these buckets
+are [cumulative](https://en.wikipedia.org/wiki/Histogram#Cumulative_histogram),
+i.e. every bucket counts all observations less than or equal to the upper
+boundary provided as a label. With native histograms, use the
+[`histogram_fraction()`
+function](/docs/prometheus/latest/querying/functions/#histogram_fraction) to
+calculate fractions of observations within given boundaries.
+
+See [histograms and summaries](/docs/practices/histograms) for details of
+histogram usage and differences to [summaries](#summary).
 
 NOTE: Beginning with Prometheus v3.0, the values of the `le` label of classic
 histograms are normalized during ingestion to follow the format of
 [OpenMetrics Canonical Numbers](https://github.com/prometheus/OpenMetrics/blob/main/specification/OpenMetrics.md#considerations-canonical-numbers).
 
-Client library usage documentation for histograms:
+Instrumentation library usage documentation for histograms:
 
    * [Go](http://godoc.org/github.com/prometheus/client_golang/prometheus#Histogram)
    * [Java](https://prometheus.github.io/client_java/getting-started/metric-types/#histogram)
@@ -111,7 +158,7 @@ to [histograms](#histogram).
 NOTE: Beginning with Prometheus v3.0, the values of the `quantile` label are normalized during
 ingestion to follow the format of [OpenMetrics Canonical Numbers](https://github.com/prometheus/OpenMetrics/blob/main/specification/OpenMetrics.md#considerations-canonical-numbers).
 
-Client library usage documentation for summaries:
+Instrumentation library usage documentation for summaries:
 
    * [Go](http://godoc.org/github.com/prometheus/client_golang/prometheus#Summary)
    * [Java](https://prometheus.github.io/client_java/getting-started/metric-types/#summary)

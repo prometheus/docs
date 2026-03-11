@@ -1037,9 +1037,9 @@ acme_http_request_seconds{path="/api/v1",method="GET"} {count:0,sum:0,schema:3,z
 
 The MetricPoint's value MUST be a CompositeValue.
 
-The CompositeValue MUST include the Count and Sum as the fields `count`, `sum` in this order.
+The CompositeValue MUST include the Count and Sum as the fields `count`, `sum`, in this order.
 
-After the `count` and `sum` the remaining fields of the Native Buckets MUST be included,
+After the `count` and `sum`, the remaining fields of the Native Buckets MUST be included,
 then the remaining fields of the Classic Buckets (i.e. the `bucket` field) MUST be included.
 
 The order ensures that implementations can easily skip the Classic Buckets if the Native Buckets are preferred.
@@ -1059,7 +1059,9 @@ If the exposer is keeping a separate set of exemplars for Classic and Native Buc
 the exposer MAY attach only one set for performance and backwards compatibility reasons, and
 that set SHOULD be the exemplars associated with Classic Buckets.
 
-If present, the MetricPoint's Start Timestamp MUST be inlined with the Metric point with a `st@` prefix. If the value's timestamp is present, the Start Timestamp MUST be added right after it. If exemplars are present, the Start Timestamp MUST be added before it.
+If present, the MetricPoint's Start Timestamp MUST be inlined with the Metric point with a `st@` prefix.
+If the value's timestamp is present, the Start Timestamp MUST be added right after it.
+If exemplars are present, the Start Timestamp MUST be added before it.
 
 Exemplars without Labels MUST represent an empty LabelSet as {}.
 
@@ -1072,7 +1074,7 @@ An example of a Histogram with Native Buckets and Start Timestamp that has multi
 foo {count:17,sum:324789.3,schema:0,zero_threshold:1e-4,zero_count:0,positive_spans:[0:2],positive_buckets:[5,12]} st@1520430000.123 # {trace_id="shaZ8oxi"} 0.67 1520879607.789 # {trace_id="ookahn0M"} 1.2 1520879608.589
 ```
 
-An example of a Histogram with Classic Buckets and Start Timestamp where no exemplar falls within the "0.01" bucket and the "+Inf" bucket. An exemplar without Labels falls within the "0.1" bucket. An exemplar with one Label falls within the "1" bucket and another in the "10" bucket.
+An example of a Histogram with Classic Buckets, and Start Timestamp where no exemplar falls within the "0.01" bucket and the "+Inf" bucket. An exemplar without Labels falls within the "0.1" bucket. An exemplar with one Label falls within the "1" bucket and another in the "10" bucket.
 
 ```openmetrics-add-eof
 # TYPE foo histogram

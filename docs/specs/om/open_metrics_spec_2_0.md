@@ -816,7 +816,7 @@ foo{entity="controller",env="prod",foo="ccc"} 0.0
 
 #### Gauge
 
-The Sample MetricName for the value of a MetricPoint for a MetricFamily of Type Gauge MUST NOT have a suffix.
+There are no recommended suffixes for the MetricFamily name for a MetricFamily of Type Gauge.
 
 An example MetricFamily with a Metric with no labels and a MetricPoint with no timestamp:
 
@@ -913,7 +913,7 @@ foo_total 17.0 1520879607.789 st@1520430000.123 # {trace_id="KOO5S4vxi0o"} 0.67 
 
 #### StateSet
 
-The Sample MetricName for the value of a MetricPoint for a MetricFamily of Type StateSet MUST NOT have a suffix.
+There are no recommended suffixes for the MetricFamily name for a MetricFamily of Type StateSet.
 
 StateSets MUST have one sample per State in the MetricPoint. Each State's sample MUST have a label with the MetricFamily name as the label name and the State name as the label value. The State sample's value MUST be 1 if the State is true and MUST be 0 if the State is false.
 
@@ -1098,7 +1098,7 @@ The order ensures that implementations can easily skip the Classic Buckets if th
 
 #### Unknown
 
-The sample metric name for the value of the MetricPoint for a MetricFamily of Type Unknown MUST NOT have a suffix.
+There are no recommended suffixes for the MetricFamily name for a MetricFamily of Type Unknown.
 
 An example with a Metric with no labels and a MetricPoint with no timestamp:
 

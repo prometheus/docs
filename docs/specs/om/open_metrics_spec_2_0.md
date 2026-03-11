@@ -283,6 +283,10 @@ If the Histogram Metric has MetricPoints with Classic Buckets, the Histogram's M
 
 The Histogram type is cumulative over time, but MAY be reset. When a Histogram is reset, the Sum, Count, Classic Buckets and Native Buckets MUST be reset to their zero state, and if the Start Timestamp is present then it MUST be set to the approximate reset time. Histogram resets can be useful for limiting the number of Native Buckets used by Histograms.
 
+A Histogram MetricPoint MAY have exemplars. The values of exemplars in a Histogram MetricPoint
+SHOULD be evenly distributed, such as by keeping one exemplar for each Classic Bucket if Classic
+Buckets are included.
+
 ##### Classic Buckets
 
 Every Classic Bucket MUST have a threshold. Classic Bucket thresholds within a MetricPoint MUST be unique. Classic Bucket thresholds MAY be negative.
@@ -296,8 +300,6 @@ Histogram MetricPoints with Classic Buckets MUST have one Classic Bucket with a 
 Exposed Classic Bucket thresholds SHOULD stay constant over time and between targets whose metrics are intended to be aggregated. A change of thresholds may prevent the affected histograms to be part of the same operation (e.g. an aggregation of different metrics or a rate calculation over time).
 
 If the NaN value is allowed, it MUST be counted in the +Inf bucket, and MUST NOT be counted in any other bucket. The rationale is that NaN does not belong to any bucket mathematically, however instrumentation libraries traditionally put it into the +Inf bucket.
-
-A Histogram MetricPoint MAY have exemplars. The values of exemplars in a Histogram MetricPoint SHOULD be evenly distributed, such as by keeping one exemplar for each Classic Bucket.
 
 ##### Native Buckets
 
@@ -341,10 +343,6 @@ If the Zero threshold is positive (threshold > 0), then any measured value that 
 If the NaN value is not allowed, then the Count value MUST be equal to the sum of the negative, positive and zero Native Buckets.
 
 If the NaN value is allowed, it MUST NOT be counted in any Native Bucket, and MUST be counted towards the Count. The difference between the Count and the sum of the negative, positive and zero Native Buckets MUST BE the number of NaN observations. The rationale is that NaN does not belong to any bucket mathematically.
-
-A Histogram MetricPoint with Native Buckets MAY contain exemplars.
-
-The values of exemplars in a Histogram MetricPoint with Native Buckets SHOULD be evenly distributed to avoid only representing the bucket with the highest value and therefore most common case.
 
 #### GaugeHistogram
 
@@ -1053,29 +1051,36 @@ The order ensures that implementations can easily skip the Classic Buckets if th
 acme_http_request_seconds{path="/api/v1",method="GET"} {count:2,sum:1.2e2,schema:0,zero_threshold:1e-4,zero_count:0,positive_spans:[1:2],positive_buckets:[1,1],bucket:[0.5:1,1:2,+Inf:2]}
 ```
 
-##### Exemplars
+##### Exemplars and Start Timestamp
+
+Exemplars MAY be attached to the Histogram MetricPoint.
+
+When present, all Exemplars of the Histogram MetricPoint SHOULD be attached.
+In practice this means that if the exposer is keeping a separate set of exemplars for Classic and Native Buckets, then
+the exposer MAY attach only one set for performance and backwards compatibility reasons and that set SHOULD be the
+exemplars associated with Classic Buckets.
+
+If present, the MetricPoint's Start Timestamp MUST be inlined with the Metric point with a `st@` prefix. If the value's timestamp is present, the Start Timestamp MUST be added right after it. If exemplars are present, the Start Timestamp MUST be added before it.
 
 Exemplars without Labels MUST represent an empty LabelSet as {}.
 
-In case of a Histogram with both Classic and Native Buckets, only the exemplars belonging to the Classic Buckets MUST be
-included, the exemplars related to the Native Buckets MUST be excluded.
+Exemplars of a MetricPoint SHOULD have the same Label names to have a consistent style.
 
-An example of a Histogram with Native Buckets that has multiple Exemplars:
+An example of a Histogram with Native Buckets and Start Timestamp that has multiple Exemplars:
 
 ```openmetrics-add-eof
 # TYPE foo histogram
 foo {count:17,sum:324789.3,schema:0,zero_threshold:1e-4,zero_count:0,positive_spans:[0:2],positive_buckets:[5,12]} st@1520430000.123 # {trace_id="shaZ8oxi"} 0.67 1520879607.789 # {trace_id="ookahn0M"} 1.2 1520879608.589
 ```
 
-An example of a Histogram with Classic Buckets where the "0.01" bucket has no Exemplar. The 0.1 bucket has an Exemplar with no Labels. The 1 bucket has an Exemplar with one Label. The 10 bucket has an Exemplar with a Label and a timestamp. In practice all buckets SHOULD have the same style of Exemplars.
+An example of a Histogram with Classic Buckets and Start Timestamp where no exemplar falls within the "0.01" bucket and the "+Inf" bucket. An exemplar without Labels falls within the "0.1" bucket. An exemplar with one Label falls within the "1" bucket and another in the "10" bucket.
 
 ```openmetrics-add-eof
 # TYPE foo histogram
 foo {count:17,sum:324789.3,bucket:[0.01:0,0.1:8,1.0:11,10.0:17,+Inf:17]} st@1520430000.123 # {} 0.054 1520879607.7 # {trace_id="KOO5S4vxi0o"} 1.67 1520879602.890 # {trace_id="oHg5SJYRHA0"} 9.8 1520879607.789
 ```
 
-An example of a Histogram with both Classic and Native Buckets, where the exemplars of only the Classic Buckets are
-included:
+An example of a Histogram with both Classic and Native Buckets and Start Timestamp.
 
 ```openmetrics-add-eof
 # TYPE foo histogram

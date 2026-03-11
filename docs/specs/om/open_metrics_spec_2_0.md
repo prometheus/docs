@@ -810,7 +810,7 @@ foo{entity="controller",env="prod",foo="bb"} 0.0
 foo{entity="controller",env="prod",foo="ccc"} 0.0
 ```
 
-```
+### Metric types
 
 #### Gauge
 

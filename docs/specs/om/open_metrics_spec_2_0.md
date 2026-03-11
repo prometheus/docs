@@ -1287,7 +1287,7 @@ One approach would be for push-style ingestors to provide target metadata based 
 
 The preferred solution is to provide this target metadata as part of the exposition, but in a way that does not impact on the exposition as a whole. Info MetricFamilies are designed for this. An exposer may include an Info MetricFamily called "target_info" with a single Metric with no labels with the metadata. An example in the text format might be:
 
-```
+```openmetrics-add-eof
 # TYPE target_info info
 # HELP target_info Target metadata
 target_info{env="prod",hostname="myhost",datacenter="sdc",region="europe",owner="frontend"} 1

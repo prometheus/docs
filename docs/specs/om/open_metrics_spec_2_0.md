@@ -1055,10 +1055,9 @@ acme_http_request_seconds{path="/api/v1",method="GET"} {count:2,sum:1.2e2,schema
 
 Exemplars MAY be attached to the Histogram MetricPoint.
 
-When present, all Exemplars of the Histogram MetricPoint SHOULD be attached.
-In practice this means that if the exposer is keeping a separate set of exemplars for Classic and Native Buckets, then
-the exposer MAY attach only one set for performance and backwards compatibility reasons and that set SHOULD be the
-exemplars associated with Classic Buckets.
+If the exposer is keeping a separate set of exemplars for Classic and Native Buckets, then
+the exposer MAY attach only one set for performance and backwards compatibility reasons, and
+that set SHOULD be the exemplars associated with Classic Buckets.
 
 If present, the MetricPoint's Start Timestamp MUST be inlined with the Metric point with a `st@` prefix. If the value's timestamp is present, the Start Timestamp MUST be added right after it. If exemplars are present, the Start Timestamp MUST be added before it.
 

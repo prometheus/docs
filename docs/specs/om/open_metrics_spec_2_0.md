@@ -32,7 +32,7 @@ author:
   email: richih@richih.org
 ---
 
-- Version: 2.0
+- Version: 2.0.0-rc0
 - Status: Draft
 - Date: TBD
 - Authors: Arthur Silva Sens, Bartłomiej Płotka, David Ashpole, György Krajcsovits, Owen Williams, Richard Hartmann
@@ -585,7 +585,7 @@ UTF-8 MUST be used. Byte order markers (BOMs) MUST NOT be used. As an important 
 The content type MUST be:
 
 ```
-application/openmetrics-text; version=1.0.0; charset=utf-8
+application/openmetrics-text; version=2.0.0-rc0; charset=utf-8
 ```
 
 Line endings MUST be signalled with line feed (\n) and MUST NOT contain carriage returns (\r). Expositions MUST end with EOF and SHOULD end with `EOF\n`.

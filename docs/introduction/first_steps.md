@@ -80,8 +80,7 @@ navigating to its own metrics endpoint: http://localhost:9090/metrics.
 
 Let us try looking at some data that Prometheus has collected about itself. To
 use Prometheus's built-in expression browser, navigate to
-http://localhost:9090/graph and choose the "Table" view within the "Graph"
-tab.
+http://localhost:9090/query and choose the "Table" tab.
 
 As you can gather from http://localhost:9090/metrics, one metric that
 Prometheus exports about itself is called
@@ -110,7 +109,7 @@ For more about the expression language, see the
 
 ## Using the graphing interface
 
-To graph expressions, navigate to http://localhost:9090/graph and use the "Graph" tab.
+To graph expressions, navigate to http://localhost:9090/query and use the "Graph" tab.
 
 For example, enter the following expression to graph the per-second HTTP request rate returning status code 200 happening in the self-scraped Prometheus:
 

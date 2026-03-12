@@ -32,7 +32,7 @@ author:
   email: richih@richih.org
 ---
 
-- Version: 2.0
+- Version: 2.0.0-rc0
 - Status: Draft
 - Date: TBD
 - Authors: Arthur Silva Sens, Bartłomiej Płotka, David Ashpole, György Krajcsovits, Owen Williams, Richard Hartmann
@@ -74,7 +74,25 @@ This section MUST be read together with the ABNF section. In case of disagreemen
 
 #### Values
 
-Metric values in OpenMetrics MUST be either floating points or integers. Note that ingestors of the format MAY only support float64. The non-real values NaN, +Inf and -Inf MUST be supported. NaN MUST NOT be considered a missing value, but it MAY be used to signal a division by zero.
+Metric values in OpenMetrics MUST be either Number or CompositeValue.
+
+##### Number
+
+Number value MUST be either floating point or integer. Note that ingestors of the format MAY only support float64. The non-real values NaN, +Inf and -Inf MUST be supported. NaN value MUST NOT be considered a missing value, but it MAY be used to signal a division by zero.
+
+##### CompositeValue
+
+CompositeValue MUST contain all information necessary to recreate a sample value for Metric within the MetricFamily.
+
+The following MetricFamily Types MUST use CompositeValue for Metric Values:
+
+* [Histogram](#histogram) MetricFamily Type.
+* [GaugeHistogram](#gaugehistogram) MetricFamily Type.
+* [Summary](#summary) MetricFamily Type.
+
+Other MetricFamily Types MUST use Numbers.
+
+See [MetricFamily Types](#metricfamily-types) for details.
 
 ##### Booleans
 
@@ -92,7 +110,9 @@ Strings MUST only consist of valid UTF-8 characters and MAY be zero length. NULL
 
 Labels are key-value pairs consisting of strings.
 
-Label names beginning with two underscores are RESERVED and MUST NOT be used unless specified by this standard. Label names SHOULD follow the restrictions in the ABNF section under the `label-name` section. Label names MAY be any quoted escaped UTF-8 string as described in the ABNF section. Be aware that exposing UTF-8 metrics is still experimental and may reduce usability.
+Label names beginning with two underscores are RESERVED and MUST NOT be used unless specified by this standard. Such Label names MAY be used in place of TYPE and UNIT metadata in cases where MetricFamilies' metadata might otherwise be conflicting, such as metric federation cases.
+
+Label names SHOULD follow the restrictions in the ABNF section under the `label-name` section. Label names MAY be any quoted escaped UTF-8 string as described in the ABNF section. Be aware that exposing UTF-8 metrics may reduce usability.
 
 Empty label values SHOULD be treated as if the label was not present.
 
@@ -102,17 +122,21 @@ A LabelSet MUST consist of Labels and MAY be empty. Label names MUST be unique w
 
 #### MetricPoint
 
-Each MetricPoint consists of a set of values, depending on the MetricFamily type.
+Each MetricPoint consists of a set of values, depending on the MetricFamily Type.
 
 #### Exemplars
 
 Exemplars are references to data outside of the MetricSet. A common use case are IDs of program traces.
 
-Exemplars MUST consist of a LabelSet and a value, and SHOULD have a timestamp. They MAY each be different from the MetricPoints' LabelSet and timestamp.
+Exemplars MUST consist of a LabelSet and a value, and MUST have a timestamp. They MAY each be different from the MetricPoints' LabelSet and timestamp.
 
-The combined length of the label names and values of an Exemplar's LabelSet MUST NOT exceed 128 UTF-8 character code points. Other characters in the text rendering of an exemplar such as `",=` are not included in this limit for implementation simplicity and for consistency between the text and proto formats.
+The Exemplar's timestamp SHOULD be close to the point in time when the referenced data was created, but doesn't have to be exact. For example if getting an exact timestamp is costly, it is acceptable to use some external source or synthetic clock.
 
-Ingestors MAY discard exemplars.
+When an exemplar references a [Trace Context](https://www.w3.org/TR/trace-context-2/), it SHOULD use the `trace_id` key for the [trace-id](https://www.w3.org/TR/trace-context-2/#traceparent-header) field, and the `span_id` key for the [`parent-id`](https://www.w3.org/TR/trace-context-2/#traceparent-header) field.
+
+While there's no [hard limit](#size-limits) specified, Exemplar's LabelSet SHOULD NOT be used to transport large data like tracing span details or other event logging.
+
+Ingestors MAY truncate the Exemplar's LabelSet or discard Exemplars.
 
 #### Metric
 
@@ -128,31 +152,34 @@ A MetricFamily MAY have zero or more Metrics. A MetricFamily MUST have a name, H
 
 ##### Name
 
-MetricFamily names are a string and MUST be unique within a MetricSet. Names SHOULD be in snake_case. Names SHOULD follow the restrictions in the ABNF section under `metricname`. Metric names MAY be any quoted and escaped UTF-8 string as described in the ABNF section. Be aware that exposing UTF-8 metrics is still experimental and may reduce usability, especially when suffixes are not included.
+MetricFamily name:
+
+* MUST be string.
+* MUST be unique within a MetricSet.
+* MUST be the same as every MetricPoint's MetricName in the family.
+
+> NOTE: [OpenMetrics 1.0](https://prometheus.io/docs/specs/om/open_metrics_spec/#suffixes) required mandatory suffixes
+> for MetricName and matching MetricFamily names without such suffixes. To improve parser reliability (i.e. matching 
+> [MetricFamily metadata](#metricfamily-metadata)) and future compatibility, this specification requires MetricFamily name to strictly match MetricNames
+> in the same family.
+
+Names SHOULD be in snake_case. Names SHOULD follow the restrictions in the ABNF section under `metricname`. MetricFamily names MAY be any quoted and escaped UTF-8 string as described in the ABNF section. Be aware that exposing UTF-8 metrics may reduce usability, especially when `_total` or unit suffixes are not included in the names.
 
 Colons in MetricFamily names are RESERVED to signal that the MetricFamily is the result of a calculation or aggregation of a general purpose monitoring system.
 
 MetricFamily names beginning with underscores are RESERVED and MUST NOT be used unless specified by this standard.
 
-###### Suffixes
+###### Reserved Suffixes
 
-The name of a MetricFamily MUST NOT result in a potential clash for sample metric names as per the ABNF with another MetricFamily in the Text Format within a MetricSet. An example would be a gauge called "foo_total" as a counter called "foo" could create a "foo_total" in the text format.
+MetricFamily name SHOULD NOT end with `_count`, `_sum`, `_gcount`, `_gsum`, `_bucket`. Specifically, a name SHOULD NOT create a MetricName collision when converted to [the Text OpenMetrics 1.0](https://prometheus.io/docs/specs/om/open_metrics_spec). Ingestors MAY reject such MetricFamily.
 
-Exposers SHOULD avoid names that could be confused with the suffixes that text format sample metric names use.
+A non-compliant example would be a gauge called `foo_bucket` and a histogram called `foo`. Exposers negotiating the older OpenMetrics or Text formats, or ingestors which support only the older data model could end up storing the `foo` histogram in the classic representation (`foo_bucket`, `foo_count`, `foo_sum`), which would clash with the gauge and cause a scrape rejection or dropped data.
 
-* Suffixes for the respective types are:
-* Counter: `_total`
-* Summary: `_count`, `_sum`, `` (empty)
-* Histogram: `_count`, `_sum`, `_bucket`
-* GaugeHistogram: `_gcount`, `_gsum`, `_bucket`
-* Info: `_info`
-* Gauge: `` (empty)
-* StateSet: `` (empty)
-* Unknown: `` (empty)
+> This rule exists because this specification is following a shift in Prometheus ecosystem towards [composite values](#compositevalues) instead of [the "classic" representation](https://prometheus.io/docs/specs/om/open_metrics_spec/#histogram-1). However, this transformation will take time. Reserving suffixes improves compatibility with older ingestors and the eventual migration process.
 
 ##### Type
 
-Type specifies the MetricFamily type. Valid values are "unknown", "gauge", "counter", "stateset", "info", "histogram", "gaugehistogram", and "summary".
+Type specifies the MetricFamily Type. Valid values are "unknown", "gauge", "counter", "stateset", "info", "histogram", "gaugehistogram", and "summary".
 
 ##### Unit
 
@@ -172,15 +199,15 @@ Each MetricFamily name MUST be unique. The same label name and value SHOULD NOT 
 
 There is no specific ordering of MetricFamilies required within a MetricSet. An exposer MAY make an exposition easier to read for humans, for example sort alphabetically if the performance tradeoff makes sense.
 
-If present, an Info MetricFamily called "target" per the "Supporting target metadata in both push-based and pull-based systems" section below SHOULD be first.
+If present, an Info MetricFamily called "target_info" per the "Supporting target metadata in both push-based and pull-based systems" section below SHOULD be first.
 
-### Metric Types
+### MetricFamily Types
 
 #### Gauge
 
 Gauges are current measurements, such as bytes of memory currently used or the number of items in a queue. For gauges the absolute value is what is of interest to a user.
 
-A MetricPoint in a Metric with the type gauge MUST have a single value.
+A MetricPoint in a Metric with the Type gauge MUST have a Number value.
 
 Gauges MAY increase, decrease, or stay constant over time. Even if they only ever go in one direction, they might still be gauges and not counters. The size of a log file would usually only increase, a resource might decrease, and the limit of a queue size may be constant.
 
@@ -190,13 +217,15 @@ A gauge MAY be used to encode an enum where the enum has many states and changes
 
 Counters measure discrete events. Common examples are the number of HTTP requests received, CPU seconds spent, or bytes sent. For counters how quickly they are increasing over time is what is of interest to a user.
 
-A MetricPoint in a Metric with the type Counter MUST have one value called Total. A Total is a non-NaN and MUST be monotonically non-decreasing over time, starting from 0.
+The MetricFamily name for Counters SHOULD end in `_total`. Be aware that exposing metrics without `_total` being a suffix of the MetricFamily name directly to end-users may reduce the usability due to confusion about what the metric's Type is.
 
-A MetricPoint in a Metric with the type Counter SHOULD have a Timestamp value called Start Timestamp. This can help ingestors discern between new metrics and long-running ones it did not see before.
+A MetricPoint in a Metric with the Type Counter MUST have a Number value. The value MUST be a non-NaN and MUST be monotonically non-decreasing over time, starting from 0.
 
-A MetricPoint in a Metric's Counter's Total MAY reset to 0. If present, the corresponding Start Timestamp MUST also be set to the timestamp of the reset.
+A MetricPoint in a Metric with the Type Counter SHOULD have a Timestamp value called Start Timestamp. This can help ingestors discern between new metrics and long-running ones it did not see before.
 
-A MetricPoint in a Metric's Counter's Total MAY have an exemplar.
+A MetricPoint in a Metric with the type Counter MAY reset its value to 0. If present, the corresponding Start Timestamp MUST also be set to the timestamp of the reset.
+
+A MetricPoint in a Metric with the type Counter MAY have exemplars.
 
 #### StateSet
 
@@ -214,61 +243,140 @@ This is suitable where the enum value changes over time, and the number of State
 # EDITOR’S NOTE: This might be better as Consideration
 -->
 
-MetricFamilies of type StateSets MUST have an empty Unit string.
+MetricFamilies of Type StateSets MUST have an empty Unit string.
 
 #### Info
 
 Info metrics are used to expose textual information which SHOULD NOT change during process lifetime. Common examples are an application's version, revision control commit, and the version of a compiler.
 
+The MetricFamily name for Info metrics MUST end in `_info`.
+
 A MetricPoint of an Info Metric contains a LabelSet. An Info MetricPoint's LabelSet MUST NOT have a label name which is the same as the name of a label of the LabelSet of its Metric.
 
 Info MAY be used to encode ENUMs whose values do not change over time, such as the type of a network interface.
 
-MetricFamilies of type Info MUST have an empty Unit string.
+MetricFamilies of Type Info MUST have an empty Unit string.
 
 #### Histogram
 
 Histograms measure distributions of discrete events. Common examples are the latency of HTTP requests, function runtimes, or I/O request sizes.
 
-A Histogram MetricPoint MUST contain at least one bucket, and SHOULD contain Sum, and Start Timestamp values. Every bucket MUST have a threshold and a value.
+A Histogram MetricPoint MUST contain Count and Sum values.
 
-Histogram MetricPoints MUST have one bucket with an +Inf threshold. Buckets MUST be cumulative. As an example for a metric representing request latency in seconds its values for buckets with thresholds 1, 2, 3, and +Inf MUST follow value_1 <= value_2 <= value_3 <= value_+Inf. If ten requests took 1 second each, the values of the 1, 2, 3, and +Inf buckets MUST equal 10.
+The Count value MUST be equal to the number of measurements taken by the Histogram. The Count is a counter semantically. The Count SHOULD be an integer. The Count MUST NOT be negative. The Count SHOULD NOT be +Inf, NaN.
 
-The +Inf bucket counts all requests. If present, the Sum value MUST equal the Sum of all the measured event values. Bucket thresholds within a MetricPoint MUST be unique.
+Float Count is allowed to make it possible to expose results of arithmetic operations on histograms, such as addition that may result in values beyond the range of integers.
 
-Semantically, buckets values are counters so MUST NOT be NaN or negative.
+The Sum value MUST be equal to the sum of all the measured event values. The Sum is only a counter semantically as long as there are no negative event values measured by the Histogram MetricPoint.
 
-The Sum is only a counter semantically as long as there are no negative event values measured by the Histogram MetricPoint. The Sum MUST NOT be NaN.
+A Histogram MUST measure values that are not NaN in either [Classic Buckets](#classic-buckets) or [Native Buckets](#native-buckets) or both. Measuring NaN is different for Classic and Native Buckets, see in their respective sections.
 
-Negative threshold buckets MAY be used. Bucket thresholds MUST NOT equal NaN. Count and bucket values MUST be integers.
+Every Bucket MUST have well-defined boundaries and a value. The bucket value is called the bucket count colloquially. Boundaries of a Bucket MUST NOT be NaN. Bucket values are counters semantically. Bucket values SHOULD be integers. Bucket values MUST NOT be negative. Bucket values SHOULD NOT be +Inf, NaN.
+
+Float bucket values are allowed to make it possible to expose results of arithmetic operations on histograms, such as addition that may result in values beyond the range of integers.
+
+A Histogram SHOULD NOT include NaN measurements as including NaN in the Sum will make the Sum equal to NaN and mask the sum of the real measurements for the lifetime of the time series. If a Histogram includes NaN measurements, then NaN measurements MUST be counted in the Count and the Sum MUST be NaN.
+
+If a Histogram includes +Inf or -Inf measurement, then +Inf or -Inf MUST be counted in Count and MUST be added to the Sum, potentially resulting in +Inf, -Inf or NaN in the Sum, the later for example in case of adding +Inf to -Inf. Note that in this case the Sum of finite measurements is masked until the next reset of the Histogram.
 
 A Histogram MetricPoint SHOULD have a Timestamp value called Start Timestamp. This can help ingestors discern between new metrics and long-running ones it did not see before.
 
-A Histogram's Metric's LabelSet MUST NOT have a "le" label name.
+If the Histogram Metric has MetricPoints with Classic Buckets, the Histogram's Metric's LabelSet MUST NOT have a "le" label name, because in case the MetricPoints are stored as classic histogram series with the `_bucket` suffix, then the "le" label in the Histogram will conflict with the "le" label generated from the bucket thresholds.
 
-Bucket values MAY have exemplars. Buckets are cumulative to allow monitoring systems to drop any non-+Inf bucket for performance/anti-denial-of-service reasons in a way that loses granularity but is still a valid Histogram.
+The Histogram Type is cumulative over time, but MAY be reset. When a Histogram is reset, the Sum, Count, Classic Buckets and Native Buckets MUST be reset to their zero state, and if the Start Timestamp is present then it MUST be set to the approximate reset time. Histogram resets can be useful for limiting the number of Native Buckets used by Histograms.
 
-<!---
-# EDITOR’S NOTE: The second sentence is a consideration, it can be moved if needed
--->
+##### Classic Buckets
 
-Each bucket covers the values less and or equal to it, and the value of the exemplar MUST be within this range. Exemplars SHOULD be put into the bucket with the highest value. A bucket MUST NOT have more than one exemplar.
+Every Classic Bucket MUST have a threshold. Classic Bucket thresholds within a MetricPoint MUST be unique. Classic Bucket thresholds MAY be negative.
+
+A Classic Bucket MUST count the number of measured values less than or equal to its threshold, including measured values that are also counted in lower buckets. This allow monitoring systems to drop any non-+Inf bucket for performance/anti-denial-of-service reasons in a way that loses granularity but is still a valid Histogram.
+
+As an example, for a metric representing request latency in seconds with Classic Buckets and thresholds 1, 2, 3, and +Inf, it follows that value_1 <= value_2 <= value_3 <= value_+Inf. If ten requests took 1 second each, the values of the 1, 2, 3, and +Inf buckets will be all equal to 10.
+
+Histogram MetricPoints with Classic Buckets MUST have one Classic Bucket with a +Inf threshold. The +Inf bucket counts all measurements. The Count value MUST be equal to the value of the +Inf bucket.
+
+Exposed Classic Bucket thresholds SHOULD stay constant over time and between targets whose metrics are intended to be aggregated. A change of thresholds may prevent the affected histograms to be part of the same operation (e.g. an aggregation of different metrics or a rate calculation over time).
+
+If the NaN value is allowed, it MUST be counted in the +Inf bucket, and MUST NOT be counted in any other bucket. The rationale is that NaN does not belong to any bucket mathematically, however instrumentation libraries traditionally put it into the +Inf bucket.
+
+A Histogram MetricPoint MAY have exemplars. The values of exemplars in a Histogram MetricPoint SHOULD be evenly distributed, such as by keeping one exemplar for each Classic Bucket.
+
+##### Native Buckets
+
+Histogram MetricPoints with Native Buckets MUST have a Schema value. The Schema MUST be an 8 bit signed integer between -4 and 8 (inclusive), these are called Standard (exponential) schemas.
+
+Schema values outside the -4 to 8 range are reserved for future use and MUST NOT be used. In particular:
+
+* Schema values between -9 to -5 and 9 to 52 are reserved for use as Standard (exponential) Schemas.
+* Schema value equal to -53 is reserved for use for Custom Buckets Schema.
+
+For any Standard Schema n, the Histogram MetricPoint MAY contain positive and/or negative Native Buckets and MUST contain a zero Native Bucket. Empty positive or negative Native Buckets SHOULD NOT be present.
+
+In case of Standard Schemas, the boundaries of a positive or negative Native Bucket with index i MUST be calculated as follows (using Python syntax):
+
+The upper inclusive limit of a positive Native Bucket: `(2**2**-n)**i`
+
+The lower exclusive limit of a positive Native Bucket: `(2**2**-n)**(i-1)`
+
+The lower inclusive limit of a negative Native Bucket: `-((2**2**-n)**i)`
+
+The upper exclusive limit of a negative Native Bucket: `-((2**2**-n)**(i-1))`
+
+i is an integer number that MAY be negative.
+
+There are exceptions to the rules above concerning the largest and smallest finite values representable as a float64 (called MaxFloat64 and MinFloat64 in the following) and the positive and negative infinity values (+Inf and -Inf):
+
+The positive Native Bucket that contains MaxFloat64 (according to the boundary formulas above) has an upper inclusive limit of MaxFloat64 (rather than the limit calculated by the formulas above, which would overflow float64).
+
+The next positive Native Bucket (index i+1 relative to the bucket from the previous item) has a lower exclusive limit of MaxFloat64 and an upper inclusive limit of +Inf. (It could be called a positive Native overflow Bucket.)
+
+The negative Native Bucket that contains MinFloat64 (according to the boundary formulas above) has a lower inclusive limit of MinFloat64 (rather than the limit calculated by the formulas above, which would underflow float64).
+
+The next negative Native Bucket (index i+1 relative to the bucket from the previous item) has an upper exclusive limit of MinFloat64 and an lower inclusive limit of -Inf. (It could be called a negative Native overflow Bucket.)
+
+Native Buckets beyond the +Inf and -Inf buckets described above MUST NOT be used.
+
+The boundaries of the zero Native Bucket are `[-threshold, threshold]` inclusively. The Zero threshold MUST be a non-negative float64 value (threshold >= 0.0).
+
+If the Zero threshold is positive (threshold > 0), then any measured value that falls into the zero Native Bucket MUST be counted towards the zero Native Bucket and MUST NOT be counted in any other native bucket. The Zero threshold SHOULD be equal to a lower limit of an arbitrary Native Bucket.
+
+If the NaN value is not allowed, then the Count value MUST be equal to the sum of the negative, positive and zero Native Buckets.
+
+If the NaN value is allowed, it MUST NOT be counted in any Native Bucket, and MUST be counted towards the Count. The difference between the Count and the sum of the negative, positive and zero Native Buckets MUST BE the number of NaN observations. The rationale is that NaN does not belong to any bucket mathematically.
+
+A Histogram MetricPoint with Native Buckets MAY contain exemplars.
+
+The values of exemplars in a Histogram MetricPoint with Native Buckets SHOULD be evenly distributed to avoid only representing the bucket with the highest value and therefore most common case.
 
 #### GaugeHistogram
 
 GaugeHistograms measure current distributions. Common examples are how long items have been waiting in a queue, or size of the requests in a queue.
 
-A GaugeHistogram MetricPoint MUST have one bucket with an +Inf threshold, and SHOULD contain a Gsum value. Every bucket MUST have a threshold and a value.
+A GaugeHistogram MetricPoint MUST contain Gcount, Gsum values.
 
-The buckets for a GaugeHistogram follow all the same rules as for a Histogram.
+The GCount value MUST be equal to the number of measurements currently in the GaugeHistogram. The GCount is a gauge semantically. The GCount SHOULD be and integer. The GCount SHOULD NOT be -Inf, +Inf, NAN, or negative.
 
-The bucket and Gsum of a GaugeHistogram are conceptually gauges, however bucket values MUST NOT be negative or NaN. If negative threshold buckets are present, then sum MAY be negative. Gsum MUST NOT be NaN. Bucket values MUST be integers.
+Float and negative GCount is allowed to make it possible to expose results of arithmetic operations on GaugeHistograms, such as the rate of change of a Histogram over time.
 
-A GaugeHistogram's Metric's LabelSet MUST NOT have a "le" label name.
+The Gsum value MUST be equal to the sum of all the measured values currently in the GaugeHistogram. The Gsum is a gauge semantically.
 
-Bucket values can have exemplars.
+A GaugeHistogram MUST measure values that are not NaN in either [Classic Buckets](#classic-buckets) or [Native Buckets](#native-buckets) or both. Measuring NaN is different for Classic and Native Buckets, see in their respective sections.
 
-Each bucket covers the values less and or equal to it, and the value of the exemplar MUST be within this range. Exemplars SHOULD be put into the bucket with the highest value. A bucket MUST NOT have more than one exemplar.
+If a GaugeHistogram stops measuring values in either Classic or Native Buckets and keeps measuring values in the other, it MUST clear and not expose the buckets it stopped measuring into. This avoids exposing different distribution from the two kind of buckets at the same time.
+
+Every Bucket MUST have well-defined boundaries and a value. Boundaries of a Bucket MUST NOT be NaN. Bucket values SHOULD be integers. Semantically, bucket values are gauges and SHOULD NOT be -Inf, +Inf, NaN, or negative.
+
+Float and negative bucket values are allowed to make it possible to expose results of arithmetic operations on GaugeHistograms, such as the rate of change of a Histogram over time.
+
+A GaugeHistogram SHOULD NOT include NaN measurements. If a GaugeHistogram includes NaN measurements, then NaN measurements MUST be counted in the Gcount and the Gsum MUST be NaN.
+
+If a GaugeHistogram includes +Inf or -Inf measurement, then +Inf or -Inf MUST be counted in Gcount and MUST be added to the Gsum, potentially resulting in +Inf, -Inf or NaN in the Gsum, the later for example in case of adding +Inf to -Inf.
+
+If the GaugeHistogram Metric has MetricPoints with Classic Buckets, the GaugeHistogram's Metric's LabelSet MUST NOT have a "le" label name, because in case the MetricPoints are stored as classic histogram series with the `_bucket` suffix, then the "le" label in the GaugeHistogram will conflict with the "le" label generated from the bucket thresholds.
+
+The Classic and Native buckets for a GaugeHistogram follow all the same rules as for a Histogram, with Gcount and Gsum playing the same role as Count and Sum.
+
+The exemplars for a GaugeHistogram follow all the same rules as for a Histogram.
 
 #### Summary
 
@@ -281,7 +389,7 @@ A Summary MetricPoint MAY consist of a Count, Sum, Start Timestamp, and a set of
 Semantically, Count and Sum values are counters so MUST NOT be NaN or negative.
 Count MUST be an integer.
 
-A MetricPoint in a Metric with the type Summary which contains Count or Sum values SHOULD have a Timestamp value called Start Timestamp. This can help ingestors discern between new metrics and long-running ones it did not see before. Start Timestamp MUST NOT relate to the collection period of quantile values.
+A MetricPoint in a Metric with the Type Summary which contains Count or Sum values SHOULD have a Timestamp value called Start Timestamp. This can help ingestors discern between new metrics and long-running ones it did not see before. Start Timestamp MUST NOT relate to the collection period of quantile values.
 
 Quantiles are a map from a quantile to a value. An example is a quantile 0.95 with value 0.2 in a metric called myapp_http_request_duration_seconds which means that the 95th percentile latency is 200ms over an unknown timeframe. If there are no events in the relevant timeframe, the value for a quantile MUST be NaN.
 A Quantile's Metric's LabelSet MUST NOT have "quantile" label name.
@@ -291,16 +399,16 @@ Quantiles MUST be between 0 and 1 inclusive. Quantile values MUST NOT be negativ
 
 Unknown SHOULD NOT be used. Unknown MAY be used when it is impossible to determine the types of individual metrics from 3rd party systems.
 
-A point in a metric with the unknown type MUST have a single value.
+A point in a metric with the Unknown Type MUST have a Number value.
 
-# Data transmission & wire formats
-
-The text wire format MUST be supported and is the default. The protobuf wire format MAY be supported and MUST ONLY be used after negotiation.
+## Text Format
 
 The OpenMetrics formats are Regular Chomsky Grammars, making writing quick and small parsers possible.
-The text format compresses well, and protobuf is already binary and efficiently encoded.
 
 Partial or invalid expositions MUST be considered erroneous in their entirety.
+
+> NOTE: Previous versions of [OpenMetrics](https://prometheus.io/docs/specs/om/open_metrics_spec/#protobuf-format) used
+> to specify a [OpenMetric protobuf format](https://github.com/prometheus/OpenMetrics/blob/3bb328ab04d26b25ac548d851619f90d15090e5d/proto/openmetrics_data_model.proto). OpenMetrics 2.0 does not include the protobuf representation. For available formats, including the official [Prometheus protobuf wire format](https://prometheus.io/docs/instrumenting/exposition_formats/#protobuf-format), see [exposition formats documentation](https://prometheus.io/docs/instrumenting/exposition_formats).
 
 ### Protocol Negotiation
 
@@ -310,9 +418,7 @@ Negotiation of what version of the OpenMetrics format to use is out-of-band. For
 
 Push-based negotiation is inherently more complex, as the exposer typically initiates the connection. Producers MUST use the oldest version of the standard (i.e. 1.0.0) unless requested otherwise by the ingestor.
 
-### Text format
-
-#### ABNF
+### ABNF
 
 ABNF as per RFC 5234
 
@@ -338,9 +444,11 @@ metric = *sample
 metric-type = counter / gauge / histogram / gaugehistogram / stateset
 metric-type =/ info / summary / unknown
 
-sample = metricname-and-labels SP number [SP timestamp] [SP start-timestamp] [exemplar] LF
+sample = metricname-and-labels SP value [SP timestamp] [SP start-timestamp] *exemplar LF
 
-exemplar = SP HASH SP labels-in-braces SP number [SP timestamp]
+value = number / "{" composite-value "}"
+
+exemplar = SP HASH SP labels-in-braces SP number SP timestamp
 
 metricname-and-labels = metricname [labels-in-braces] / name-and-labels-in-braces
 labels-in-braces = "{" [label *(COMMA label)] "}"
@@ -408,16 +516,78 @@ normal-char = %x00-09 / %x0B-21 / %x23-5B / %x5D-D7FF / %xE000-10FFFF
 
 ; Lowercase st @ timestamp
 start-timestamp = %d115.116 "@" timestamp
+
+; Composite values
+composite-value = native-histogram / classic-histogram / classic-summary
+
+native-histogram = nh-count "," nh-sum "," nh-schema "," nh-zero-threshold "," nh-zero-count [ "," nh-negative-spans "," nh-negative-buckets ] [ "," nh-positive-spans "," nh-positive-buckets ]
+
+; count:x
+nh-count = %d99.111.117.110.116 ":" number
+; sum:f allows real numbers and +-Inf and NaN
+nh-sum = %d115.117.109 ":" number
+; schema:i
+nh-schema = %d115.99.104.101.109.97 ":" integer
+; zero_threshold:f
+nh-zero-threshold = %d122.101.114.111 "_" %d116.104.114.101.115.104.111.108.100 ":" realnumber
+; zero_count:x
+nh-zero-count = %d122.101.114.111 "_" %d99.111.117.110.116 ":" number
+; negative_spans:[1:2,3:4] and negative_spans:[]
+nh-negative-spans = %d110.101.103.97.116.105.118.101 "_" %d115.112.97.110.115 ":" "[" [nh-spans] "]"
+nh-positive-spans = %d112.111.115.105.116.105.118.101 "_" %d115.112.97.110.115 ":" "[" [nh-spans] "]"
+; Spans can start from any index, even negative, however subsequent spans
+; can only advance the index, not decrease it.
+nh-spans = nh-start-span *("," nh-span)
+nh-start-span = integer ":" positive-integer
+nh-span = non-negative-integer ":" positive-integer
+
+; negative_buckets:[1,2,3] and positive_buckets:[1,2,3]
+nh-negative-buckets = %d110.101.103.97.116.105.118.101 "_" %d98.117.99.107.101.116.115 ":" "[" [nh-buckets] "]"
+nh-positive-buckets = %d112.111.115.105.116.105.118.101 "_" %d98.117.99.107.101.116.115 ":" "[" [nh-buckets] "]"
+
+nh-buckets = number *("," number)
+
+integer = [SIGN] 1*"0" / [SIGN] positive-integer
+non-negative-integer = ["+"] 1*"0" / ["+"] positive-integer
+; Leading 0s explicitly okay.
+positive-integer = *"0" positive-digit *DIGIT
+positive-digit = "1" / "2" / "3" / "4" / "5" / "6" / "7" / "8" / "9"
+
+; count:12,sum:100.0,bucket:[0.1:3,05:12,+Inf:12]
+classic-histogram = ch-count "," ch-sum "," ch-bucket
+
+; count:x where x is a number
+ch-count = %d99.111.117.110.116 ":" number
+; sum:x where x is a number
+ch-sum = %d115.117.109 ":" number
+; bucket:[...,+Inf:v]  The +Inf bucket is required.
+ch-bucket = %d98.117.99.107.101.116 ":" "[" [ ch-le-counts "," ] ch-pos-inf-bucket "]"
+ch-le-counts = (ch-neg-inf-bucket / ch-le-bucket) *("," ch-le-bucket)
+ch-pos-inf-bucket = "+" %d73.110.102 ":" number
+ch-neg-inf-bucket = "-" %d73.110.102 ":" number
+ch-le-bucket = realnumber ":" number
+
+; count:12.0,sum:100.0,quantile:[0.9:2.0,0.95:3.0,0.99:20.0]
+classic-summary = cs-count "," cs-sum "," cs-quantile
+
+; count:x where x is a number
+cs-count = %d99.111.117.110.116 ":" number
+; sum:x where x is a real number or +-Inf or NaN
+cs-sum = %d115.117.109 ":" number
+; quantile:[...]
+cs-quantile = %d113.117.97.110.116.105.108.101 ":" "[" [ cs-q-counts ] "]"
+cs-q-counts = cs-q-count *("," cs-q-count)
+cs-q-count = realnumber ":" number
 ```
 
-#### Overall Structure
+### Overall Structure
 
 UTF-8 MUST be used. Byte order markers (BOMs) MUST NOT be used. As an important reminder for implementers, byte 0 is valid UTF-8 while, for example, byte 255 is not.
 
 The content type MUST be:
 
 ```
-application/openmetrics-text; version=1.0.0; charset=utf-8
+application/openmetrics-text; version=2.0.0; charset=utf-8
 ```
 
 Line endings MUST be signalled with line feed (\n) and MUST NOT contain carriage returns (\r). Expositions MUST end with EOF and SHOULD end with `EOF\n`.
@@ -428,21 +598,59 @@ An example of a complete exposition:
 # TYPE acme_http_router_request_seconds summary
 # UNIT acme_http_router_request_seconds seconds
 # HELP acme_http_router_request_seconds Latency though all of ACME's HTTP request router.
-acme_http_router_request_seconds_sum{path="/api/v1",method="GET"} 9036.32 st@1605281325.0
-acme_http_router_request_seconds_count{path="/api/v1",method="GET"} 807283.0 st@1605281325.0
-acme_http_router_request_seconds_sum{path="/api/v2",method="POST"} 479.3 st@1605301325.0
-acme_http_router_request_seconds_count{path="/api/v2",method="POST"} 34.0 st@1605301325.0
+acme_http_router_request_seconds{path="/api/v1",method="GET"} {count:807283,sum:9036.32,quantile:[0.95:2,0.99:20]} st@1605281325.0
+acme_http_router_request_seconds{path="/api/v2",method="GET"} {count:34,sum:479.3,quantile:[0.95:2.5,0.99:2.9]} st@1605301325.0
 # TYPE go_goroutines gauge
 # HELP go_goroutines Number of goroutines that currently exist.
 go_goroutines 69
-# TYPE process_cpu_seconds counter
-# UNIT process_cpu_seconds seconds
-# HELP process_cpu_seconds Total user and system CPU time spent in seconds.
+# TYPE process_cpu_seconds_total counter
+# UNIT process_cpu_seconds_total seconds
+# HELP process_cpu_seconds_total Total user and system CPU time spent in seconds.
 process_cpu_seconds_total 4.20072246e+06
+# TYPE acme_http_request_seconds histogram
+# UNIT acme_http_request_seconds seconds
+# HELP acme_http_request_seconds Latency histogram of all of ACME's HTTP requests.
+acme_http_request_seconds{path="/api/v1",method="GET"} {count:2,sum:1.2e2,schema:0,zero_threshold:1e-4,zero_count:0,positive_spans:[1:2],positive_buckets:[1,1]} st@1605301325.0
+acme_http_request_seconds{path="/api/v1",method="GET"} {count:2,sum:1.2e2,bucket:[0.5:1,1:2,+Inf:2]} st@1605301325.0
+# TYPE acme_http_request_seconds:rate5m gaugehistogram
+acme_http_request_seconds:rate5m{path="/api/v1",method="GET"} {count:0.01,sum:2.0,schema:0,zero_threshold:1e-4,zero_count:0.0,positive_spans:[1:2],positive_buckets:[0.005,0.005]} st@1605301325.0
+# TYPE "foodb.read.errors" counter
+# HELP "foodb.read.errors" The number of errors in the read path for fooDb.
+{"foodb.read.errors","service.name"="my_service"} 3482
 # EOF
 ```
 
-##### Escaping
+#### UTF-8 Quoting
+
+Metric names not conforming to the ABNF definition of `metricname` MUST be
+enclosed in double quotes and the alternative UTF-8 syntax MUST be used. In
+these MetricPoints, the quoted metric name MUST be moved inside the brackets
+without a label name and equal sign, in accordance with the ABNF. The metric
+names MUST be enclosed in double quotes in TYPE, UNIT, and HELP lines. Quoting
+and the alternative metric syntax MAY be used for any metric name, regardless of
+whether the name requires quoting or not.
+
+Label names not conforming to the `label-name` ABNF definition MUST be enclosed
+in double quotes. Any label name MAY be enclosed in double quotes.
+
+Expressed as regular expressions, metric names that don't need to be enclosed
+in quotes must match: `^[a-zA-Z_:][a-zA-Z0-9_:]*$`. For label names, the string
+must match: `^[a-zA-Z_][a-zA-Z0-9_]*$`.
+
+Complete example:
+
+```openmetrics
+# TYPE "process.cpu.seconds" counter
+# UNIT "process.cpu.seconds" seconds
+# HELP "process.cpu.seconds" Total user and system CPU time spent in seconds.
+{"process.cpu.seconds","node.name"="my_node"} 4.20072246e+06
+# TYPE "quoting_example" gauge
+# HELP "quoting_example" Number of goroutines that currently exist.
+{"quoting_example","foo"="bar"} 4.5
+# EOF
+```
+
+#### Escaping
 
 Where the ABNF notes escaping, the following escaping MUST be applied
 Line feed, `\n` (0x0A) -> literally `\\n` (Bytecode 0x5c 0x6e)
@@ -455,46 +663,28 @@ As an example, `\\\\a` is equivalent and preferable to `\\a`.
 
 Escaping MUST also be applied to quoted UTF-8 strings.
 
-##### Numbers
+#### Numbers
 
 Integer numbers MUST NOT have a decimal point. Examples are `23`, `0042`, and `1341298465647914`.
 
 Floating point numbers MUST be represented either with a decimal point or using scientific notation. Examples are `8903.123421` and `1.89e-7`. Floating point numbers MUST fit within the range of a 64-bit floating point value as defined by IEEE 754, but MAY require so many bits in the mantissa that results in lost precision. This MAY be used to encode nanosecond resolution timestamps.
 
-Arbitrary integer and floating point rendering of numbers MUST NOT be used for "quantile" and "le" label values as in section "Canonical Numbers". They MAY be used anywhere else numbers are used.
+##### CompositeValues
 
-###### Considerations: Canonical Numbers
+CompositeValue is represented as structured data with fields. There MUST NOT be any whitespace around fields. See the ABNF for exact details about the format and possible values.
 
-Numbers in the "le" label values of histograms and "quantile" label values of summary metrics are special in that they're label values, and label values are intended to be opaque. As end users will likely directly interact with these string values, and as many monitoring systems lack the ability to deal with them as first-class numbers, it would be beneficial if a given number had the exact same text representation.
-
-Consistency is highly desirable, but real world implementations of languages and their runtimes make mandating this impractical. The most important common quantiles are 0.5, 0.95, 0.9, 0.99, 0.999 and bucket values representing values from a millisecond up to 10.0 seconds, because those cover cases like latency SLAs and Apdex for typical web services. Powers of ten are covered to try to ensure that the switch between fixed point and exponential rendering is consistent as this varies across runtimes. The target rendering is equivalent to the default Go rendering of float64 values (i.e. %g), with a .0 appended in case there is no decimal point or exponent to make clear that they are floats.
-
-Exposers MUST produce output for positive infinity as +Inf.
-
-Exposers SHOULD produce output for the values 0.0 up to 10.0 in 0.001 increments in line with the following examples:
-0.0 0.001 0.002 0.01 0.1 0.9 0.95 0.99 0.999 1.0 1.7 10.0
-
-Exposers SHOULD produce output for the values 1e-10 up to 1e+10 in powers of ten in line with the following examples:
-1e-10 1e-09 1e-05 0.0001 0.1 1.0 100000.0 1e+06 1e+10
-
-Parsers MUST NOT reject inputs which are outside of the canonical values merely because they are not consistent with the canonical values. For example 1.1e-4 must not be rejected, even though it is not the consistent rendering of 0.00011.
-
-Exposers SHOULD follow these patterns for non-canonical numbers, and the intention is by adjusting the rendering algorithm to be consistent for these values that the vast majority of other values will also have consistent rendering. Exposers using only a few particular le/quantile values could also hardcode. In languages such as C where a minimal floating point rendering algorithm such as Grisu3 is not readily available, exposers MAY use a different rendering.
-
-A warning to implementers in C and other languages that share its printf implementation: The standard precision of %f, %e and %g is only six significant digits. 17 significant digits are required for full precision, e.g. `printf("%.17g", d)`.
-
-##### Timestamps
+#### Timestamps
 
 Timestamps SHOULD NOT use exponential float rendering for timestamps if nanosecond precision is needed as rendering of a float64 does not have sufficient precision, e.g. `1604676851.123456789`.
 
-#### MetricFamily
+### MetricFamily
 
 There MUST NOT be an explicit separator between MetricFamilies. The next MetricFamily MUST be signalled with either metadata or a new sample metric name which cannot be part of the previous MetricFamily.
 
 
 MetricFamilies MUST NOT be interleaved.
 
-##### MetricFamily metadata
+#### MetricFamily metadata
 
 There are four pieces of metadata: The MetricFamily name, TYPE, UNIT and HELP.  An example of the metadata for a counter Metric called foo is:
 
@@ -502,7 +692,7 @@ There are four pieces of metadata: The MetricFamily name, TYPE, UNIT and HELP.  
 # TYPE foo counter
 ```
 
-If no TYPE is exposed, the MetricFamily MUST be of type Unknown.
+If no TYPE is exposed, the MetricFamily MUST be of Type Unknown.
 
 If a unit is specified it MUST be provided in a UNIT metadata line. In addition, an underscore and the unit SHOULD be the suffix of the MetricFamily name.
 
@@ -538,11 +728,13 @@ The value of a UNIT or HELP line MAY be empty. This MUST be treated as if no met
 # HELP foo_seconds Some text and \n some \" escaping
 ```
 
+See the UTF-8 Quoting section for circumstances where the metric name MUST be enclosed in double quotes.
+
 There MUST NOT be more than one of each type of metadata line for a MetricFamily. The ordering SHOULD be TYPE, UNIT, HELP.
 
 Aside from this metadata and the EOF line at the end of the message, you MUST NOT expose lines beginning with a #.
 
-##### Metric
+#### Metric
 
 Metrics MUST NOT be interleaved.
 
@@ -566,54 +758,65 @@ Label values MAY be any valid UTF-8 value, so escaping MUST be applied as per th
 bar_seconds_count{a="x",b="escaping\" example \n "} 0
 ```
 
-The rendering of values for a MetricPoint can include additional labels (e.g. the "le" label for a Histogram type), which MUST be rendered in the same way as a Metric's own LabelSet.
+Metric names and label names MAY also be any valid UTF-8 value, and under certain circumstances they MUST be quoted and escaped per the ABNF.
+See the UTF-8 Quoting section for specifics.
 
-#### MetricPoint
+```openmetrics-add-eof
+{"\"bar\".seconds.count","b\\"="escaping\" example \n "} 0
+```
+
+The rendering of values for a MetricPoint can include additional labels (e.g. the "le" label for a Histogram Type), which MUST be rendered in the same way as a Metric's own LabelSet.
+
+### MetricPoint
 
 MetricPoints MUST NOT be interleaved.
 
-A correct example where there were multiple MetricPoints and Samples within a MetricFamily would be:
+A correct example where there were multiple MetricPoints and Samples within a MetricFamily would be with StateSet:
 
 ```openmetrics-add-eof
-# TYPE foo_seconds summary
-# UNIT foo_seconds seconds
-foo_seconds_count{a="bb"} 0 123
-foo_seconds_sum{a="bb"} 0 123
-foo_seconds_count{a="bb"} 0 456
-foo_seconds_sum{a="bb"} 0 456
-foo_seconds_count{a="ccc"} 0 123
-foo_seconds_sum{a="ccc"} 0 123
-foo_seconds_count{a="ccc"} 0 456
-foo_seconds_sum{a="ccc"} 0 456
+# TYPE foo stateset
+foo{entity="controller",foo="a"} 1.0
+foo{entity="controller",foo="bb"} 0.0
+foo{entity="controller",foo="ccc"} 0.0
+foo{entity="replica",foo="a"} 1.0
+foo{entity="replica",foo="bb"} 0.0
+foo{entity="replica",foo="ccc"} 1.0
 ```
 
 An incorrect example where Metrics are interleaved:
 
-```
-# TYPE foo_seconds summary
-# UNIT foo_seconds seconds
-foo_seconds_count{a="bb"} 0 123
-foo_seconds_count{a="ccc"} 0 123
-foo_seconds_count{a="bb"} 0 456
-foo_seconds_count{a="ccc"} 0 456
+```openmetrics-add-eof
+# TYPE foo stateset
+foo{entity="controller",env="dev",foo="a"} 1.0
+foo{entity="controller",env="dev",foo="bb"} 0.0
+foo{entity="controller",env="dev",foo="ccc"} 0.0
+foo{entity="replica",env="dev",foo="a"} 1.0
+foo{entity="replica",env="dev",foo="bb"} 0.0
+foo{entity="replica",env="dev",foo="ccc"} 1.0
+foo{entity="controller",env="prod",foo="a"} 1.0
+foo{entity="controller",env="prod",foo="bb"} 0.0
+foo{entity="controller",env="prod",foo="ccc"} 0.0
 ```
 
 An incorrect example where MetricPoints are interleaved:
 
-```
+```openmetrics-add-eof
 # TYPE foo_seconds summary
 # UNIT foo_seconds seconds
-foo_seconds_count{a="bb"} 0 123
-foo_seconds_count{a="bb"} 0 456
-foo_seconds_sum{a="bb"} 0 123
-foo_seconds_sum{a="bb"} 0 456
+# TYPE foo stateset
+foo{entity="controller",env="dev",foo="a"} 1.0
+foo{entity="controller",env="dev",foo="bb"} 0.0
+foo{entity="controller",env="prod",foo="a"} 1.0
+foo{entity="controller",env="dev",foo="ccc"} 0.0
+foo{entity="controller",env="prod",foo="bb"} 0.0
+foo{entity="controller",env="prod",foo="ccc"} 0.0
 ```
 
-#### Metric types
+### Metric types
 
-##### Gauge
+#### Gauge
 
-The Sample MetricName for the value of a MetricPoint for a MetricFamily of type Gauge MUST NOT have a suffix.
+There are no recommended suffixes for the MetricFamily name for a MetricFamily of Type Gauge.
 
 An example MetricFamily with a Metric with no labels and a MetricPoint with no timestamp:
 
@@ -658,37 +861,35 @@ foo 17.0 123
 foo 18.0 456
 ```
 
-##### Counter
+#### Counter
 
-The MetricPoint's Total Value Sample MetricName SHOULD have the suffix `_total`. If present, the MetricPoint's Start Timestamp MUST be inlined with the Metric point with a `st@` prefix. If the value's timestamp is present, the Start Timestamp MUST be added right after it. If exemplar is present, the Start Timestamp MUST be added before it.
-
-Be aware that exposing metrics without `_total` being a suffix of the MetricFamily name directly to end-users may reduce the usability due to confusion about what the metric's type is.
+If present, the MetricPoint's Start Timestamp MUST be inlined with the Metric point with a `st@` prefix. If the value's timestamp is present, the Start Timestamp MUST be added right after it. If exemplar is present, the Start Timestamp MUST be added before it.
 
 An example with a Metric with no labels, and a MetricPoint with no timestamp and no Start Timestamp:
 
 ```openmetrics-add-eof
-# TYPE foo counter
+# TYPE foo_total counter
 foo_total 17.0
 ```
 
 An example with a Metric with no labels, and a MetricPoint with a timestamp and no Start Timestamp:
 
 ```openmetrics-add-eof
-# TYPE foo counter
+# TYPE foo_total counter
 foo_total 17.0 1520879607.789
 ```
 
 An example with a Metric with no labels, and a MetricPoint with no timestamp and a Start Timestamp:
 
 ```openmetrics-add-eof
-# TYPE foo counter
+# TYPE foo_total counter
 foo_total 17.0 st@1520430000.123
 ```
 
 An example with a Metric with no labels, and a MetricPoint with a timestamp and a Start Timestamp:
 
 ```openmetrics-add-eof
-# TYPE foo counter
+# TYPE foo_total counter
 foo_total 17.0 1520879607.789 st@1520430000.123
 ```
 
@@ -699,18 +900,20 @@ An example with a Metric with no labels, and a MetricPoint without the `_total` 
 foo 17.0 1520879607.789 st@1520879607.789
 ```
 
-Exemplars MAY be attached to the MetricPoint's Total sample.
+Be aware that exposing metrics without `_total` being a suffix of the MetricFamily name directly to end-users may reduce the usability due to confusion about what the metric's type is.
+
+The MetricPoint MAY have Exemplars.
 
 An example with a Metric with no labels, and a MetricPoint with a timestamp and a Start Timestamp and an exemplar:
 
 ```openmetrics-add-eof
-# TYPE foo counter
-foo_total 17.0 1520879607.789 st@1520430000.123 # {trace_id="KOO5S4vxi0o"} 0.67
+# TYPE foo_total counter
+foo_total 17.0 1520879607.789 st@1520430000.123 # {trace_id="KOO5S4vxi0o"} 0.67 1520879606.1
 ```
 
-##### StateSet
+#### StateSet
 
-The Sample MetricName for the value of a MetricPoint for a MetricFamily of type StateSet MUST NOT have a suffix.
+There are no recommended suffixes for the MetricFamily name for a MetricFamily of Type StateSet.
 
 StateSets MUST have one sample per State in the MetricPoint. Each State's sample MUST have a label with the MetricFamily name as the label name and the State name as the label value. The State sample's value MUST be 1 if the State is true and MUST be 0 if the State is false.
 
@@ -735,121 +938,167 @@ foo{entity="replica",foo="bb"} 0.0
 foo{entity="replica",foo="ccc"} 1.0
 ```
 
-##### Info
+#### Info
 
-The Sample MetricName for the value of a MetricPoint for a MetricFamily of type Info MUST have the suffix `_info`. The Sample value MUST always be 1.
+The Sample value MUST always be 1.
 
 An example of a Metric with no labels, and one MetricPoint value with "name" and "version" labels:
 
 ```openmetrics-add-eof
-# TYPE foo info
+# TYPE foo_info info
 foo_info{name="pretty name",version="8.2.7"} 1
 ```
 
 An example of a Metric with label "entity" and one MetricPoint value with “name” and “version” labels:
 
 ```openmetrics-add-eof
-# TYPE foo info
+# TYPE foo_info info
 foo_info{entity="controller",name="pretty name",version="8.2.7"} 1.0
 foo_info{entity="replica",name="prettier name",version="8.1.9"} 1.0
 ```
 
 Metric labels and MetricPoint value labels MAY be in any order.
 
-##### Summary
+#### Summary
 
-If present, the MetricPoint's Sum Value Sample MetricName MUST have the suffix `_sum`. If present, the MetricPoint's Count Value MetricName MUST have the suffix `_count`. If present, the MetricPoint's Quantile Values MUST specify the quantile measured using a label with a label name of "quantile" and with a label value of the quantile measured.
+The MetricPoint's value MUST be a CompositeValue.
 
-If present the MetricPoint's Start Timestamp MUST be inlined with the Metric point with a `st@` prefix. If the value's timestamp is present, the Start Timestamp MUST be added right after it. If exemplar is present, the Start Timestamp MUST be added before it. Start Timestamp MUST be appended to all Quantile Values, to the MetricPoint's Sum and MetricPoint's Count.
+The CompositeValue MUST include the Count, Sum and quantile values as the fields `count`, `sum`, `quantile`, in this order.
+
+If present the MetricPoint's Start Timestamp MUST be inlined with the Metric point with a `st@` prefix. If the value's timestamp is present, the Start Timestamp MUST be added right after it. If exemplars are present, the Start Timestamp MUST be added before it.
+
+The quantiles MUST be sorted in increasing order of the quantile.
 
 An example of a Metric with no labels and a MetricPoint with Sum, Count and Start Timestamp values:
 
 ```openmetrics-add-eof
 # TYPE foo summary
-foo_count 17.0 st@1520430000.123
-foo_sum 324789.3 st@1520430000.123
+foo {count:17,sum:324789.3,quantile:[]} st@1520430000.123
 ```
 
 An example of a Metric with no labels and a MetricPoint with two quantiles and Start Timestamp values:
 
 ```openmetrics-add-eof
 # TYPE foo summary
-foo{quantile="0.95"} 123.7 st@1520430000.123
-foo{quantile="0.99"} 150.0 st@1520430000.123
+foo {count:0,sum:0.0,quantile:[0.95:123.7,0.99:150]} st@1520430000.123
 ```
 
-Quantiles MAY be in any order.
+#### Histogram with Classic Buckets
 
-##### Histogram
+The MetricPoint's value MUST be a CompositeValue.
 
-The MetricPoint's Bucket Values Sample MetricNames MUST have the suffix `_bucket`. If present, the MetricPoint's Sum Value Sample MetricName MUST have the suffix `_sum`.
+The CompositeValue MUST include the Count, Sum and Classic Bucket values as the fields `count`, `sum`, `bucket`, in this order.
 
-If present the MetricPoint's Start Timestamp MUST be inlined with the Metric point with a `st@` prefix. If the value's timestamp is present, the Start Timestamp MUST be added right after it. If exemplar  is present, the Start Timestamp MUST be added before it. Start Timestamp MUST be appended to all Bucket Values, to the MetricPoint's Sum and MetricPoint's Count.
+If present the MetricPoint's Start Timestamp MUST be inlined with the Metric point with a `st@` prefix. If the value's timestamp is present, the Start Timestamp MUST be added right after it. If exemplars are present, the Start Timestamp MUST be added before it.
 
-If and only if a Sum Value is present in a MetricPoint, then the MetricPoint's +Inf Bucket value MUST also appear in a Sample with a MetricName with the suffix "_count".
+Classic Buckets MUST be sorted in number increasing order of their threshold.
 
-Buckets MUST be sorted in number increasing order of "le", and the value of the "le" label MUST follow the rules for Canonical Numbers.
+All Classic Buckets MUST be present, even ones with the value 0.
 
-An example of a Metric with no labels and a MetricPoint with Sum, Count, and Start Timestamp values, and with 12 buckets. A wide and atypical but valid variety of “le” values is shown on purpose:
+An example of a Metric with no labels and a MetricPoint with Sum, Count, and Start Timestamp values, and with 12 Classic Buckets. A wide and atypical but valid variety of bucket threshold values is shown on purpose:
 
 ```openmetrics-add-eof
 # TYPE foo histogram
-foo_bucket{le="0.0"} 0 st@1520430000.123
-foo_bucket{le="1e-05"} 0 st@1521430000.123
-foo_bucket{le="0.0001"} 5 st@1521430020.123
-foo_bucket{le="0.1"} 8 st@1520430321.123
-foo_bucket{le="1.0"} 10 st@1522430000.123
-foo_bucket{le="10.0"} 11 st@1520430123.123
-foo_bucket{le="100000.0"} 11 st@1521430010.123
-foo_bucket{le="1e+06"} 15 st@1520430301.123
-foo_bucket{le="1e+23"} 16 st@1521430001.123
-foo_bucket{le="1.1e+23"} 17 st@1522430220.123
-foo_bucket{le="+Inf"} 17 st@1520430000.123
-foo_count 17 st@1520430000.123
-foo_sum 324789.3 st@1520430000.123
+foo {count:17,sum:324789.3,bucket:[0.0:0,1e-05:0,0.0001:5,0.1:8,1.0:10,10.0:11,100000.0:11,1e+06:15,1e+23:16,1.1e+23:17,+Inf:17]} st@1520430000.123
 ```
 
-###### Exemplars
+#### Histogram with Native Buckets
+
+The MetricPoint's value MUST be a CompositeValue.
+
+The CompositeValue MUST include the Count, Sum, Schema, Zero Threshold, Zero Native Bucket value as the fields `count`, `sum`, `schema`, `zero_threshold`, `zero_count`, in this order.
+
+If there are no negative Native Buckets, then the fields `negative_spans` and `negative_buckets` SHOULD be omitted.
+If there are no positive Native Buckets, then the fields `positive_spans` and `positive_buckets` SHOULD be omitted.
+
+If there are negative (and/or positive) Native Buckets, then the fields `negative_spans`, `negative_buckets` (and/or `positive_spans`, `positive_buckets`) MUST be present in this order after the `zero_count` field.
+
+Native Bucket values MUST be ordered by their index, and their values MUST be placed in the `negative_buckets` (and/or `positive_buckets`) fields.
+
+Native Buckets that have a value of 0 SHOULD NOT be present.
+
+To map the `negative_buckets` (and/or `positive_buckets`) back to their indices, the `negative_spans` (and/or `positive_spans`) field MUST be constructed in the following way: Each span consists of a pair of numbers, an integer called offset and an non-negative integer called length. Only the first span in each list can have a negative offset. It defines the index of the first bucket in its corresponding `negative_buckets` (and/or `positive_buckets`). The length defines the number of consecutive buckets the bucket list starts with. The offsets of the following spans define the number of excluded (and thus unpopulated buckets). The lengths define the number of consecutive buckets in the list following the excluded buckets.
+
+An example of when to keep empty positive or negative Native Buckets is to reduce the number of spans needed to represent the case where the offset between two spans is just 1, meaning that with
+the inclusion of one empty bucket, the number of spans is reduced by one.
+
+The sum of all length values in each span list MUST be equal to the length of the corresponding bucket list.
+
+An example with all fields:
+
+```openmetrics-add-eof
+# TYPE acme_http_request_seconds histogram
+acme_http_request_seconds{path="/api/v1",method="GET"} {count:59,sum:1.2e2,schema:7,zero_threshold:1e-4,zero_count:0,negative_spans:[1:2],negative_buckets:[5,7],positive_spans:[-1:2,3:4],positive_buckets:[5,7,10,9,8,8]} st@1520430000.123
+```
+
+An example without any buckets in use:
+
+```openmetrics-add-eof
+# TYPE acme_http_request_seconds histogram
+acme_http_request_seconds{path="/api/v1",method="GET"} {count:0,sum:0,schema:3,zero_threshold:1e-4,zero_count:0} st@1520430000.123
+```
+
+#### Histogram with both Classic and Native Buckets
+
+If a Histogram MetricPoint has both Classic and Native buckets, the Sample for the Native Buckets MUST come first.
+
+The order ensures that implementations can easily skip the Classic Buckets if the Native Buckets are preferred.
+
+```openmetrics-add-eof
+# TYPE acme_http_request_seconds histogram
+# UNIT acme_http_request_seconds seconds
+# HELP acme_http_request_seconds Latency histogram of all of ACME's HTTP requests.
+acme_http_request_seconds{path="/api/v1",method="GET"} {count:2,sum:1.2e2,schema:0,zero_threshold:1e-4,zero_count:0,positive_spans:[1:2],positive_buckets:[1,1]}
+acme_http_request_seconds{path="/api/v1",method="GET"} {count:2,sum:1.2e2,bucket:[0.5:1,1:2,+Inf:2]}
+```
+
+##### Exemplars
 
 Exemplars without Labels MUST represent an empty LabelSet as {}.
 
 An example of Exemplars showcasing several valid cases:
+The Histogram Sample with Native Buckets has multiple Exemplars.
 The "0.01" bucket has no Exemplar. The 0.1 bucket has an Exemplar with no Labels. The 1 bucket has an Exemplar with one Label. The 10 bucket has an Exemplar with a Label and a timestamp. In practice all buckets SHOULD have the same style of Exemplars.
 
 ```openmetrics-add-eof
 # TYPE foo histogram
-foo_bucket{le="0.01"} 0 st@1520430000.123
-foo_bucket{le="0.1"} 8 st@1520430000.123 # {} 0.054
-foo_bucket{le="1"} 11 st@1520430000.123 # {trace_id="KOO5S4vxi0o"} 0.67
-foo_bucket{le="10"} 17 st@1520430000.123 # {trace_id="oHg5SJYRHA0"} 9.8 1520879607.789
-foo_bucket{le="+Inf"} 17 st@1520430000.123
-foo_count 17 st@1520430000.123
-foo_sum 324789.3 st@1520430000.123
+foo {count:17,sum:324789.3,schema:0,zero_threshold:1e-4,zero_count:0,positive_spans:[0:2],positive_buckets:[5,12]} st@1520430000.123 # {trace_id="shaZ8oxi"} 0.67 1520879607.789 # {trace_id="ookahn0M"} 1.2 1520879608.589
+foo {count:17,sum:324789.3,bucket:[0.01:0,0.1:8,1.0:11,10.0:17,+Inf:17]} st@1520430000.123 # {} 0.054 1520879607.7 # {trace_id="KOO5S4vxi0o"} 0.67 1520879602.890 # {trace_id="oHg5SJYRHA0"} 9.8 1520879607.789
 ```
 
-##### GaugeHistogram
+#### GaugeHistogram with Classic Buckets
 
-The MetricPoint's Bucket Values Sample MetricNames MUST have the suffix `_bucket`. If present, the MetricPoint's Sum Value Sample MetricName MUST have the suffix `_gsum`.
-If and only if a Sum Value is present in a MetricPoint, then the MetricPoint's +Inf Bucket value MUST also appear in a Sample with a MetricName with the suffix `_gcount`.
+The MetricPoint's value MUST be a CompositeValue.
 
-Buckets MUST be sorted in number increasing order of "le", and the value of the "le" label MUST follow the rules for Canonical Numbers.
+The CompositeValue MUST include the Gcount, Gsum and Classic Bucket values as the fields `count`, `sum`, `bucket`, in this order.
+
+Classic Buckets MUST be sorted in number increasing order of their threshold.
 
 An example of a Metric with no labels, and one MetricPoint value with no Exemplar with no Exemplars in the buckets:
 
 ```openmetrics-add-eof
 # TYPE foo gaugehistogram
-foo_bucket{le="0.01"} 20.0
-foo_bucket{le="0.1"} 25.0
-foo_bucket{le="1"} 34.0
-foo_bucket{le="10"} 34.0
-foo_bucket{le="+Inf"} 42.0
-foo_gcount 42.0
-foo_gsum 3289.3
+foo {count:42,sum:3289.3,bucket:[0.01:20,0.1:25,1:34,+Inf:42]}
 ```
 
-##### Unknown
+#### GaugeHistogram with Native Buckets
 
-The sample metric name for the value of the MetricPoint for a MetricFamily of type Unknown MUST NOT have a suffix.
+GaugeHistogram MetricPoints with Native Buckets follow the same syntax as Histogram MetricPoints with Native Buckets.
+
+```openmetrics-add-eof
+# TYPE acme_http_request_seconds gaugehistogram
+acme_http_request_seconds{path="/api/v1",method="GET"} {count:59,sum:1.2e2,schema:7,zero_threshold:1e-4,zero_count:0,negative_spans:[1:2],negative_buckets:[5,7],positive_spans:[-1:2,3:4],positive_buckets:[5,7,10,9,8,8]} st@1520430000.123
+```
+
+#### GaugeHistogram with both Classic and Native buckets
+
+If a GaugeHistogram MetricPoint has both Classic and Native buckets, the Sample for the Native Buckets MUST come first.
+
+The order ensures that implementations can easily skip the Classic Buckets if the Native Buckets are preferred.
+
+#### Unknown
+
+There are no recommended suffixes for the MetricFamily name for a MetricFamily of Type Unknown.
 
 An example with a Metric with no labels and a MetricPoint with no timestamp:
 
@@ -857,32 +1106,6 @@ An example with a Metric with no labels and a MetricPoint with no timestamp:
 # TYPE foo unknown
 foo 42.23
 ```
-
-### Protobuf format
-
-#### Overall Structure
-
-Protobuf messages MUST be encoded in binary and MUST have `application/openmetrics-protobuf; version=1.0.0` as their content type.
-
-All payloads MUST be a single binary encoded MetricSet message, as defined by the OpenMetrics protobuf schema.
-
-##### Version
-
-The protobuf format MUST follow the proto3 version of the protocol buffer language.
-
-##### Strings
-
-All string fields MUST be UTF-8 encoded.
-
-##### Timestamps
-
-Timestamp representations in the OpenMetrics protobuf schema MUST follow the published google.protobuf.Timestamp [timestamp] message. The timestamp message MUST be in Unix epoch seconds as an int64 and a non-negative fraction of a second at nanosecond resolution as an int32 that counts forward from the seconds timestamp component. It MUST be within 0 to 999,999,999 inclusive.
-
-#### Protobuf schema
-
-Protobuf schema is currently available [here](https://github.com/prometheus/OpenMetrics/blob/3bb328ab04d26b25ac548d851619f90d15090e5d/proto/openmetrics_data_model.proto).
-
-> NOTE: Prometheus and ecosystem does not support OpenMetrics protobuf schema, instead it uses similar `io.prometheus.client` [format](https://github.com/prometheus/client_model/blob/master/io/prometheus/client/metrics.proto). Discussions about the future of the protobuf schema in OpenMetrics 2.0 [are in progress](https://github.com/prometheus/OpenMetrics/issues/296).
 
 ## Design Considerations
 
@@ -948,7 +1171,7 @@ Parsers commonly optimize by caching previous results. Thus, changing the order 
 
 Metrics and samples SHOULD NOT appear and disappear from exposition to exposition, for example a counter is only useful if it has history. In principle, a given Metric should be present in exposition from when the process starts until the process terminates. It is often not possible to know in advance what Metrics a MetricFamily will have over the lifetime of a given process (e.g. a label value of a latency histogram is a HTTP path, which is provided by an end user at runtime), but once a counter-like Metric is exposed it should continue to be exposed until the process terminates. That a counter is not getting increments doesn't invalidate that it still has its current value. There are cases where it may make sense to stop exposing a given Metric; see the section on Missing Data.
 
-In general changing a MetricFamily's type, or adding or removing a label from its Metrics will be breaking to ingestors.
+In general changing a MetricFamily's Type, or adding or removing a label from its Metrics will be breaking to ingestors.
 
 A notable exception is that adding a label to the value of an Info MetricPoints is not breaking. This is so that you can add additional information to an existing Info MetricFamily where it makes sense to be, rather than being forced to create a brand new info metric with an additional label value. ingestor systems should ensure that they are resilient to such additions.
 
@@ -1064,11 +1287,11 @@ OpenMetrics is stateless and provides the same exposition to all ingestors, whic
 
 One approach would be for push-style ingestors to provide target metadata based on operator configuration out-of-band, for example as a HTTP header. While this would transport target metadata for push-style ingestors, and is not precluded by this standard, it has the disadvantage that even though pull-style ingestors should use their own target metadata, it is still often useful to have access to the metadata the exposer itself is aware of.
 
-The preferred solution is to provide this target metadata as part of the exposition, but in a way that does not impact on the exposition as a whole. Info MetricFamilies are designed for this. An exposer may include an Info MetricFamily called "target" with a single Metric with no labels with the metadata. An example in the text format might be:
+The preferred solution is to provide this target metadata as part of the exposition, but in a way that does not impact on the exposition as a whole. Info MetricFamilies are designed for this. An exposer may include an Info MetricFamily called "target_info" with a single Metric with no labels with the metadata. An example in the text format might be:
 
-```
-# TYPE target info
-# HELP target Target metadata
+```openmetrics-add-eof
+# TYPE target_info info
+# HELP target_info Target metadata
 target_info{env="prod",hostname="myhost",datacenter="sdc",region="europe",owner="frontend"} 1
 ```
 
@@ -1079,7 +1302,7 @@ Generally, the same Label should not appear on every Metric of an exposition, bu
 
 Exposers can expose exposer metadata as Info MetricFamilies.
 
-The above discussion is in the context of individual exposers. An exposition from a general purpose monitoring system may contain metrics from many individual targets, and thus may expose multiple target info Metrics. The metrics may already have had target metadata added to them as labels as part of ingestion. The metric names MUST NOT be varied based on target metadata. For example it would be incorrect for all metrics to end up being prefixed with staging_ even if they all originated from targets in a staging environment).
+The above discussion is in the context of individual exposers. An exposition from a general purpose monitoring system may contain metrics from many individual targets, and thus may expose multiple target_info Metrics. The metrics may already have had target metadata added to them as labels as part of ingestion. The metric names MUST NOT be varied based on target metadata. For example it would be incorrect for all metrics to end up being prefixed with staging_ even if they all originated from targets in a staging environment).
 
 ### Client Calculations and Derived Metrics
 
@@ -1201,8 +1424,6 @@ The number of unique time series is roughly equivalent to the number of non-comm
 
 If all targets of a particular type are exposing the same set of time series, then each additional targets' strings poses no incremental cost to most reasonably modern monitoring systems. If however each target has unique strings, there is such a cost. As an extreme example, a single 10k character metric name used by many targets is on its own very unlikely to be a problem in practice. To the contrary, a thousand targets each exposing a unique 36 character UUID is over three times as expensive as that single 10k character metric name in terms of strings to be stored assuming modern approaches. In addition, if these strings change over time older strings will still need to be stored for at least some time, incurring extra cost. Assuming the 10 million times series from the last paragraph, 100MB of unique strings per hour might indicate a use case for then the use case may be more like event logging, not metric time series.
 
-There is a hard 128 UTF-8 character limit on exemplar length, to prevent misuse of the feature for tracing span data and other event logging.
-
 ## Security
 
 Implementors MAY choose to offer authentication, authorization, and accounting; if they so choose, this SHOULD be handled outside of OpenMetrics.
@@ -1220,11 +1441,7 @@ The port assigned by IANA for clients exposing data is <9099 requested for histo
 
 If more than one metric endpoint needs to be reachable at a common IP address and port, operators might consider using a reverse proxy that communicates with exposers over localhost addresses. To ease multiplexing, endpoints SHOULD carry their own name in their path, i.e. `/node_exporter/metrics`. Expositions SHOULD NOT be combined into one exposition, for the reasons covered under "Supporting target metadata in both push-based and pull-based systems" and to allow for independent ingestion without a single point of failure.
 
-OpenMetrics would like to register two MIME types, `application/openmetrics-text` and `application/openmetrics-proto`.
-
-<!---
-# EDITOR’S NOTE: `application/openmetrics-text` is in active use since 2018, `application/openmetrics-proto` is not yet in active use.
--->
+OpenMetrics would like to register the MIME type `application/openmetrics-text`
 
 <!---
 # EDITOR’S NOTE: We would like to thank Sumeer Bhola, but kramdown 2.x does not support `Contributor:` any more so we will add this by hand once consensus has been achieved.

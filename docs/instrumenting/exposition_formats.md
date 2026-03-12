@@ -3,33 +3,36 @@ title: Exposition formats
 sort_rank: 6
 ---
 
-Metrics can be exposed to Prometheus using a simple [text-based](#text-based-format)
-exposition format. There are various [client libraries](/docs/instrumenting/clientlibs/)
-that implement this format for you. If your preferred language doesn't have a client
-library you can [create your own](/docs/instrumenting/writing_clientlibs/).
+As of Prometheus version 2.0, all processes that expose metrics to Prometheus must use
+a **text** format, by default. An alternative, **protobuf** format may be used behind [the HTTP negotiation](./content_negotiation.md).
 
-## Text-based format
+There are various [client libraries](./clientlibs.md) that implement those formats for you. If your preferred language doesn't have a client
+library you can [create your own](./writing_clientlibs.md).
 
-As of Prometheus version 2.0, all processes that expose metrics to Prometheus need to use
-a text-based format. In this section you can find some [basic information](#basic-info)
+This document outlines officially supported exposition formats.
+
+## Prometheus Text Format
+
+In this section you can find some [basic information](#basic-info)
 about this format as well as a more [detailed breakdown](#text-format-details) of the
 format.
 
 ### Basic info
 
-| Aspect | Description |
-|--------|-------------|
-| **Inception** | April 2014  |
-| **Supported in** |  Prometheus version `>=0.4.0` |
-| **Transmission** | HTTP |
-| **Encoding** | UTF-8, `\n` line endings |
-| **HTTP `Content-Type`** | `text/plain; version=0.0.4` (A missing `version` value will lead to a fall-back to the most recent text format version.) |
-| **Optional HTTP `Content-Encoding`** | `gzip` |
-| **Advantages** | <ul><li>Human-readable</li><li>Easy to assemble, especially for minimalistic cases (no nesting required)</li><li>Readable line by line (with the exception of type hints and docstrings)</li></ul> |
-| **Limitations** | <ul><li>Verbose</li><li>Types and docstrings not integral part of the syntax, meaning little-to-nonexistent metric contract validation</li><li>Parsing cost</li></ul>|
-| **Supported metric primitives** | <ul><li>Counter</li><li>Gauge</li><li>Histogram</li><li>Summary</li><li>Untyped</li></ul> |
+| Aspect                               | Description                                                                                                                                                                       |
+|--------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **Inception**                        | April 2014                                                                                                                                                                        |
+| **Supported in**                     | Prometheus version `>=0.4.0`                                                                                                                                                      |
+| **Transmission**                     | HTTP                                                                                                                                                                              |
+| **Encoding**                         | UTF-8, `\n` line endings                                                                                                                                                          |
+| **HTTP `Content-Type`**              | `text/plain` with parameters:<br><ul><li>`version=0.0.4` (A missing `version` value will lead to a fall-back to the most recent text format version.)                             |
+| **Optional HTTP `Content-Encoding`** | `gzip`                                                                                                                                                                            |
+| **Advantages**                       | <ul><li>Human-readable</li><li>Easy to assemble, especially for minimalistic cases (no nesting required)</li><li>Readable line by line (with the exception of metadata)</li></ul> |
+| **Limitations**                      | <ul><li>Verbose</li><li>Types and docstrings not integral part of the syntax, meaning little-to-nonexistent metric contract validation</li><li>Parsing cost</li></ul>             |
+| **Supported metric primitives**      | <ul><li>Counter</li><li>Gauge</li><li>Histogram</li><li>Summary</li><li>Untyped</li></ul>                                                                                         |
+| **Supported advanced features**      |                                                                                                                                                                                   |
 
-### Text format details
+### Details
 
 Prometheus' text-based format is line oriented. Lines are separated by a line
 feed character (`\n`). The last line must end with a line feed character.
@@ -54,24 +57,41 @@ line may exist for any given metric name.
 
 If the token is `TYPE`, exactly two more tokens are expected. The first is the
 metric name, and the second is either `counter`, `gauge`, `histogram`,
-`summary`, or `untyped`, defining the type for the metric of that name. Only
-one `TYPE` line may exist for a given metric name. The `TYPE` line for a
-metric name must appear before the first sample is reported for that metric
-name. If there is no `TYPE` line for a metric name, the type is set to
-`untyped`.
+`summary`, or `untyped`, defining the type for the metric of that name. Only one
+`TYPE` line may exist for a given metric name. The `TYPE` line for a metric name
+must appear before the first sample is reported for that metric name. If there
+is no `TYPE` line for a metric name, the type is set to `untyped`. Metric names
+not corresponding to the legacy Prometheus metric name character set must be
+quoted and escaped.
 
 The remaining lines describe samples (one per line) using the following syntax
 ([EBNF](https://en.wikipedia.org/wiki/Extended_Backus%E2%80%93Naur_form)):
 
 ```
-metric_name [
-  "{" label_name "=" `"` label_value `"` { "," label_name "=" `"` label_value `"` } [ "," ] "}"
-] value [ timestamp ]
+metric_name_or_labels value [ timestamp ]
+
+metric_name_or_labels = metric_name [ "{" labels "}" ] | "{" quoted_metric_name [ "," labels ] "}"
+
+metric_name = identifier
+
+quoted_metric_name = `"` escaped_string `"`
+
+labels = [ label_pairs ]
+
+label_pairs = label_pair { "," label_pair } [ "," ]
+
+label_pair = label_name "=" `"` escaped_string `"`
+
+label_name = identifier | `"` escaped_string `"`
 ```
 
 In the sample syntax:
 
-*  `metric_name` and `label_name` carry the usual Prometheus expression language restrictions.
+* `identifier` carries the usual Prometheus expression language restrictions.
+* `escaped_string` consists of any UTF-8 characters, but backslash, double-quote, and line feed must be escaped.
+* When `metric_name` is quoted with double quotes, it appears inside the braces instead of outside.
+* `label_name` may be optionally enclosed in double quotes.
+* Metric and label names not corresponding to the usual Prometheus expression language restrictions must use the quoted syntaxes.
 * `label_value` can be any sequence of UTF-8 characters, but the backslash (`\`), double-quote (`"`), and line feed (`\n`) characters have to be escaped as `\\`, `\"`, and `\n`, respectively.
 * `value` is a float represented as required by Go's [`ParseFloat()`](https://golang.org/pkg/strconv/#ParseFloat) function. In addition to standard numerical values, `NaN`, `+Inf`, and `-Inf` are valid values representing not a number, positive infinity, and negative infinity, respectively.
 * The `timestamp` is an `int64` (milliseconds since epoch, i.e. 1970-01-01 00:00:00 UTC, excluding leap seconds), represented as required by Go's [`ParseInt()`](https://golang.org/pkg/strconv/#ParseInt) function.
@@ -98,7 +118,7 @@ format. The following conventions apply:
 * A histogram _must_ have a bucket with `{le="+Inf"}`. Its value _must_ be identical to the value of `x_count`.
 * The buckets of a histogram and the quantiles of a summary must appear in increasing numerical order of their label values (for the `le` or the `quantile` label, respectively).
 
-### Text format example
+### Example
 
 Below is an example of a full-fledged Prometheus metric exposition, including
 comments, `HELP` and `TYPE` expressions, a histogram, a summary, character
@@ -112,6 +132,9 @@ http_requests_total{method="post",code="400"}    3 1395066363000
 
 # Escaping in label values:
 msdos_file_access_time_seconds{path="C:\\DIR\\FILE.TXT",error="Cannot find file:\n\"FILE.TXT\""} 1.458255915e9
+
+# UTF-8 metric and label names:
+{"my.dotted.metric", "error.message"="Not Found"}
 
 # Minimalistic line:
 metric_without_timestamp_and_labels 12.47
@@ -145,27 +168,100 @@ rpc_duration_seconds_count 2693
 
 ## OpenMetrics Text Format
 
-[OpenMetrics](https://github.com/OpenObservability/OpenMetrics) is the an effort to standardize metric wire formatting built off of Prometheus text format. It is possible to scrape targets
-and it is also available to use for federating metrics since at least v2.23.0.
+OpenMetrics is an effort to standardize metric wire formatting built off of Prometheus text format. It is possible to scrape targets, and it is also available to use for federating metrics since Prometheus v2.23.0.
+
+There are currently two versions of OpenMetrics:
+
+* [1.0](../specs/om/open_metrics_spec.md)
+* [2.0 (draft)](../specs/om/open_metrics_spec_2_0.md)
+
+### Basic info
+
+| Aspect                               | Description                                                                                                                                                                                                       |
+|--------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **Inception**                        | November 2020                                                                                                                                                                                                     |
+| **Supported in**                     | Prometheus version `>=2.5.0`                                                                                                                                                                                      |
+| **Transmission**                     | HTTP                                                                                                                                                                                                              |
+| **Encoding**                         | UTF-8, `\n` line endings, trailed with `# EOF`.                                                                                                                                                                   |                                                                                                     
+| **HTTP `Content-Type`**              | `application/openmetrics-text` with parameters:<br><ul><li>`version=1.0.0` (a missing `version` value will lead to a fall-back to the most recent text OpenMetrics version.)</li></ul>                            |
+| **Optional HTTP `Content-Encoding`** | `gzip`                                                                                                                                                                                                            |
+| **Advantages**                       | <ul><li>Human-readable</li><li>Easy to assemble, especially for minimalistic cases (no nesting required)</li><li>Readable line by line (with the exception of metadata)</li></ul>                                 |
+| **Limitations**                      | <ul><li>Verbose</li><li>Types and docstrings not integral part of the syntax, meaning little-to-nonexistent metric contract validation</li><li>Parsing cost</li></ul>                                             |
+| **Supported metric primitives**      | <ul><li>Counter</li><li>Gauge</li><li>Histogram</li><li>GaugeHistogram</li><li>Summary</li><li>Info</li><li>StateSet</li><li>Untyped</li></ul>                                                                    |
+| **Supported advanced features**      | <ul><li>Unit metadata</li><li>Exemplars (Counters, Histogram, GaugeHistogram)</li><li>Created/Start Timestamps (Counter, Histogram, GaugeHistogram, Summary)</li><li>UTF-8 metric names and label names</li></ul> |
 
 ### Exemplars (Experimental)
 
 Utilizing the OpenMetrics format allows for the exposition and querying of [Exemplars](https://github.com/prometheus/OpenMetrics/blob/v1.0.0/specification/OpenMetrics.md#exemplars).
-Exemplars provide a point in time snapshot related to a metric set for an otherwise summarized MetricFamily. Additionally they may have a Trace ID attached to them which when used to together
+Exemplars provide a point in time snapshot related to a metric set for an otherwise summarized MetricFamily. Additionally, they may have a Trace ID attached to them which when used to together
 with a tracing system can provide more detailed information related to the specific service.
 
 To enable this experimental feature you must have at least version v2.26.0 and add `--enable-feature=exemplar-storage` to your arguments.
 
-## Protobuf format
+## Prometheus Protobuf Format
 
-Earlier versions of Prometheus supported an exposition format based on [Protocol Buffers](https://developers.google.com/protocol-buffers/) (aka Protobuf) in addition to the current text-based format. With Prometheus 2.0, the Protobuf format was marked as deprecated and Prometheus stopped ingesting samples from said exposition format.
+Prometheus officially supports [protobuf exposition format](https://developers.google.com/protocol-buffers/) in addition to
+the text representation.
 
-However, new (experimental) features were added to Prometheus where the Protobuf format was considered the most viable option. Making Prometheus accept Protocol Buffers once again.
+The payload must be encoded as a set of [Protobuf messages representing MetricFamily](#schema). Messages must be encoded in binary and 
+prepended with their variadic unsigned-integer encoded size, which serves as a delimitation. The varint encoded size delimited
+encoding offers streaming capabilities, especially important for large scrape targets.
 
-When such features are enabled either by feature flag
-(`--enable-feature=created-timestamp-zero-ingestion`) or by setting the
-appropriate configuration option (`scrape_native_histograms: true`) then
-Protobuf will be favored over other exposition formats.
+All string fields must be UTF-8 encoded.
+
+Prometheus 3.0 [prefers the text-based protocols by default](./content_negotiation.md#default-accept-header) unless:
+* Manual preference settings via `scrape_protocols` setting in Prometheus configuration.
+* [Protobuf format first](./content_negotiation.md#protobuf-first-accept-header) when certain features are enabled e.g.:
+  * `--enable-feature=created-timestamp-zero-ingestion` or `--enable-feature=st-storage`
+  * Appropriate configuration option (`scrape_native_histograms: true`)
+
+> In Prometheus 2.0, the Protobuf format was marked as deprecated, but since then this decision was reverted. From Prometheus 3.0, the Prometheus Proto is actively used and maintained, supplementing text-based formats.
+
+### Basic info
+
+| Aspect                               | Description                                                                                                                                                                                                                                                                         |
+|--------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **Inception**                        | April 2014                                                                                                                                                                                                                                                                          |
+| **Supported in**                     | Prometheus version `>=0.4.0`                                                                                                                                                                                                                                                        |
+| **Transmission**                     | HTTP                                                                                                                                                                                                                                                                                |
+| **Encoding**                         | 32-Bit Varint-Encoded Record Length-Delimited Protocol Buffer Messages of `io.prometheus.client.MetricFamily`                                                                                                                                                                       |
+| **HTTP `Content-Type`**              | `application/vnd.google.protobuf` with parameters:<br><ul><li>`proto=io.prometheus.client.MetricFamily`</li><li>`encoding=delimited`</li></ul>                                                                                                                                      |                                                                                                                  
+| **Optional HTTP `Content-Encoding`** | `gzip`                                                                                                                                                                                                                                                                              |
+| **Advantages**                       | <ul><li>Cross-Platform</li><li>Size</li><li>Forward/Backward Compatibility</li><li>Strict Schema</li><li>Supports Concatenation and Streaming</li><li>Composite Values</li></ul>                                                                                                    |
+| **Limitations**                      | <ul><li>Not human readable</li></ul>                                                                                                                                                                                                                                                |
+| **Supported metric primitives**      | <ul><li>Counter</li><li>Gauge</li><li>Histogram</li><li>GaugeHistogram</li><li>Summary</li><li>Untyped</li></ul>                                                                                                                                                                    |
+| **Supported advanced features**      | <ul><li>Unit metadata</li><li>Exemplars (Counters, Histogram, GaugeHistogram)</li><li>Created/Start Timestamps (Counter, Histogram, GaugeHistogram, Summary)</li><li>Native (sparse and exponential) Histogram, GaugeHistogram</li><li>UTF-8 metric names and label names</li></ul> |
+
+### When to use Proto over Text?
+
+The text format is human-readable, compresses well and is efficient enough for programming use, but Prometheus community also
+maintains the protobuf formats, because:
+
+* It increases the quality and velocity of new features that can be safely tested in the backward/forward compatible way.
+* Protobuf helps with the exposer/ingestor implementations, given the code generation and flexibility features.
+* In (surprisingly rare) cases binary encoding can be more efficiently encoded/decoded.
+
+You can learn more in [the PromCon 2025 talk](https://www.youtube.com/watch?v=9EgWpkpfl-I&list=PLj6h78yzYM2P534LgwCVm3GQdxLcSt7We&index=3).
+
+### Versioning
+
+At the moment Prometheus protobuf is stable, but explicitly unversioned. Instead, it follows Prometheus versioning as a reference.
+
+### Schema
+
+Protobuf schema, identified as `io.prometheus.client` is maintained in Prometheus repository [here](https://github.com/prometheus/prometheus/blob/main/prompb/io/prometheus/client/metrics.proto). Schema is also available in [buf registry](https://buf.build/prometheus/prometheus/docs/main:io.prometheus.client).
+
+## HTTP Content-Type requirements
+
+Starting with Prometheus 3.0, scrape targets **must** return a valid `Content-Type` header for the metrics endpoint. If the `Content-Type` is missing, unparsable, or not a supported media type, **the scrape will fail**. See changes in [scrape protocols](https://prometheus.io/docs/prometheus/latest/migration/#scrape-protocols) in the migration guide for details.
+
+See each of the exposition format sections for the accurate HTTP content types.
+
+### ScrapeProtocols vs Content-Type
+
+Prometheus scrape config offers scrape protocol negotiation based on the content-type using the [`scrape_protocols`](https://prometheus.io/docs/prometheus/latest/configuration/configuration/#scrape_config) config. For the Prometheus user convenience the scrape protocols are referenced by a unique name that maps to the concrete content-type. See [Protocol Headers](./content_negotiation.md#protocol-headers) for details.
+
+However, the targets should expose metrics in the exposition format with the absolute, response content-type (e.g. `application/openmetrics-text;version=1.0.0`) and only one.
 
 ## Historical versions
 

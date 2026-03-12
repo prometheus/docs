@@ -3,7 +3,7 @@ title: Instrumenting HTTP server written in Go
 sort_rank: 3
 ---
 
-In this tutorial we will create a simple Go HTTP server and instrumentation it by adding a counter
+In this tutorial we will create a simple Go HTTP server and instrument it by adding a counter
 metric to keep count of the total number of requests processed by the server.
 
 Here we have a simple HTTP server with `/ping` endpoint which returns `pong` as response.
@@ -16,12 +16,12 @@ import (
    "net/http"
 )
 
-func ping(w http.ResponseWriter, req *http.Request){
+func ping(w http.ResponseWriter, req *http.Request) {
    fmt.Fprintf(w,"pong")
 }
 
 func main() {
-   http.HandleFunc("/ping",ping)
+   http.HandleFunc("/ping", ping)
 
    http.ListenAndServe(":8090", nil)
 }
@@ -39,92 +39,115 @@ Now open `http://localhost:8090/ping` in your browser and you must see `pong`.
 [![Server](/assets/docs/tutorial/server.png)](/assets/docs/tutorial/server.png)
 
 
-Now lets add a metric to the server which will instrument the number of requests made to the ping endpoint,the counter metric type is suitable for this as we know the request count doesn’t go down and only increases.
+Now let's add a metric to the server which will instrument the number of requests made to the ping endpoint. The counter metric type is suitable for this as we know the request count doesn’t go down and only increases.
 
 Create a Prometheus counter
 
 ```go
-var pingCounter = prometheus.NewCounter(
-   prometheus.CounterOpts{
-       Name: "ping_request_count",
-       Help: "No of request handled by Ping handler",
-   },
-)
-```
+type metrics struct {
+	pingCounter prometheus.Counter
+}
 
-Next lets update the ping Handler to increase the count of the counter using `pingCounter.Inc()`.
-
-```go
-func ping(w http.ResponseWriter, req *http.Request) {
-   pingCounter.Inc()
-   fmt.Fprintf(w, "pong")
+func newMetrics(reg prometheus.Registerer) *metrics {
+	m := &metrics{
+		pingCounter: promauto.With(reg).NewCounter(
+			prometheus.CounterOpts {
+				Name: "ping_request_count",
+				Help: "No of requests handled by Ping handler",
+			}),
+	}
+	return m
 }
 ```
 
-Then register the counter to the Default Register and expose the metrics.
+Next, let's update the ping Handler to increase the count of the counter using `metrics.pingCounter.Inc()`.
+
+```go
+func ping(m *metrics) func(w http.ResponseWriter, req *http.Request) {
+	return func(w http.ResponseWriter, req *http.Request) {
+		m.pingCounter.Inc()
+		fmt.Fprintf(w, "pong")
+	}
+}
+```
+
+Then register the metrics (in this case, only one counter) with a Prometheus registry and expose the metrics.
 
 ```go
 func main() {
-   prometheus.MustRegister(pingCounter)
-   http.HandleFunc("/ping", ping)
-   http.Handle("/metrics", promhttp.Handler())
-   http.ListenAndServe(":8090", nil)
+	reg := prometheus.NewRegistry()
+	m := newMetrics(reg)
+
+	http.HandleFunc("/ping", ping(m))
+	http.Handle("/metrics", promhttp.HandlerFor(reg, promhttp.HandlerOpts{}))
+	http.ListenAndServe(":8090", nil)
 }
 ```
 
-The `prometheus.MustRegister` function registers the pingCounter to the default Register.
-To expose the metrics the Go Prometheus client library provides the promhttp package.
-`promhttp.Handler()` provides a `http.Handler` which exposes the metrics registered in the Default Register.
+The `prometheus.MustRegister` function registers the pingCounter with the default registry.
+To expose the metrics, the Go Prometheus client library provides the promhttp package.
+`promhttp.Handler()` provides an `http.Handler` which exposes the metrics registered in the default registry.
 
-The sample code depends on the
+The sample code is now:
 
 ```go
 package main
 
 import (
-   "fmt"
-   "net/http"
+	"fmt"
+	"net/http"
 
-   "github.com/prometheus/client_golang/prometheus"
-   "github.com/prometheus/client_golang/prometheus/promhttp"
+	"github.com/prometheus/client_golang/prometheus"
+	"github.com/prometheus/client_golang/prometheus/promauto"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
 )
 
-var pingCounter = prometheus.NewCounter(
-   prometheus.CounterOpts{
-       Name: "ping_request_count",
-       Help: "No of request handled by Ping handler",
-   },
-)
+type metrics struct {
+	pingCounter prometheus.Counter
+}
 
-func ping(w http.ResponseWriter, req *http.Request) {
-   pingCounter.Inc()
-   fmt.Fprintf(w, "pong")
+func newMetrics(reg prometheus.Registerer) *metrics {
+	m := &metrics{
+		pingCounter: promauto.With(reg).NewCounter(
+			prometheus.CounterOpts{
+				Name: "ping_request_count",
+				Help: "No of request handled by Ping handler",
+			}),
+	}
+	return m
+}
+
+func ping(m *metrics) func(w http.ResponseWriter, req *http.Request) {
+	return func(w http.ResponseWriter, req *http.Request) {
+		m.pingCounter.Inc()
+		fmt.Fprintf(w, "pong")
+	}
 }
 
 func main() {
-   prometheus.MustRegister(pingCounter)
+	reg := prometheus.NewRegistry()
+	m := newMetrics(reg)
 
-   http.HandleFunc("/ping", ping)
-   http.Handle("/metrics", promhttp.Handler())
-   http.ListenAndServe(":8090", nil)
+	http.HandleFunc("/ping", ping(m))
+	http.Handle("/metrics", promhttp.HandlerFor(reg, promhttp.HandlerOpts{}))
+	http.ListenAndServe(":8090", nil)
 }
 ```
 
 Run the example
-
-```sh
+```bash
 go mod init prom_example
 go mod tidy
 go run server.go
 ```
 
-Now hit the localhost:8090/ping endpoint a couple of times and sending a request to localhost:8090 will provide the metrics.
+Now hit the localhost:8090/ping endpoint a couple of times and then send a request to localhost:8090/metrics to see the metrics.
 
 [![Ping Metric](/assets/docs/tutorial/ping_metric.png)](/assets/docs/tutorial/ping_metric.png)
 
-Here the `ping_request_count` shows that `/ping` endpoint was called 3 times.
+Here, the `ping_request_count` shows that the `/ping` endpoint was called 3 times.
 
-The Default Register comes with a collector for go runtime metrics and that is why we see other metrics like `go_threads`, `go_goroutines` etc.
+The default registry comes with a collector for Go runtime metrics, and that is why we see other metrics like `go_threads`, `go_goroutines`, etc.
 
 We have built our first metric exporter. Let’s update our Prometheus config to scrape the metrics from our server.
 

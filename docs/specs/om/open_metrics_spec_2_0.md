@@ -32,7 +32,7 @@ author:
   email: richih@richih.org
 ---
 
-- Version: 2.0
+- Version: 2.0.0-rc0
 - Status: Draft
 - Date: TBD
 - Authors: Arthur Silva Sens, Bartłomiej Płotka, David Ashpole, György Krajcsovits, Owen Williams, Richard Hartmann
@@ -84,15 +84,15 @@ Number value MUST be either floating point or integer. Note that ingestors of th
 
 CompositeValue MUST contain all information necessary to recreate a sample value for Metric within the MetricFamily.
 
-The following Metric Types MUST use CompositeValue for Metric Values:
+The following MetricFamily Types MUST use CompositeValue for Metric Values:
 
 * [Histogram](#histogram) MetricFamily Type.
 * [GaugeHistogram](#gaugehistogram) MetricFamily Type.
 * [Summary](#summary) MetricFamily Type.
 
-Other Metric Types MUST use Numbers.
+Other MetricFamily Types MUST use Numbers.
 
-See [Metric Types](#metric-types) for details.
+See [MetricFamily Types](#metricfamily-types) for details.
 
 ##### Booleans
 
@@ -122,7 +122,7 @@ A LabelSet MUST consist of Labels and MAY be empty. Label names MUST be unique w
 
 #### MetricPoint
 
-Each MetricPoint consists of a set of values, depending on the MetricFamily type.
+Each MetricPoint consists of a set of values, depending on the MetricFamily Type.
 
 #### Exemplars
 
@@ -131,6 +131,8 @@ Exemplars are references to data outside of the MetricSet. A common use case are
 Exemplars MUST consist of a LabelSet and a value, and MUST have a timestamp. The LabelSet SHOULD NOT contain any Label names included in the MetricPoint's LabelSet. The timestamp SHOULD NOT be after the MetricPoint's timestamp, if present, and SHOULD NOT be before the MetricPoint's start timestamp, if present.
 
 The Exemplar's timestamp SHOULD be close to the point in time when the referenced data was created, but doesn't have to be exact. For example if getting an exact timestamp is costly, it is acceptable to use some external source or synthetic clock.
+
+When an exemplar references a [Trace Context](https://www.w3.org/TR/trace-context-2/), it SHOULD use the `trace_id` key for the [trace-id](https://www.w3.org/TR/trace-context-2/#traceparent-header) field, and the `span_id` key for the [`parent-id`](https://www.w3.org/TR/trace-context-2/#traceparent-header) field.
 
 While there's no [hard limit](#size-limits) specified, Exemplar's LabelSet SHOULD NOT be used to transport large data like tracing span details or other event logging.
 
@@ -161,7 +163,7 @@ MetricFamily name:
 > [MetricFamily metadata](#metricfamily-metadata)) and future compatibility, this specification requires MetricFamily name to strictly match MetricNames
 > in the same family.
 
-Names SHOULD be in snake_case. Names SHOULD follow the restrictions in the ABNF section under `metricname`. Metric names MAY be any quoted and escaped UTF-8 string as described in the ABNF section. Be aware that exposing UTF-8 metrics may reduce usability, especially when `_total` or unit suffixes are not included in the names.
+Names SHOULD be in snake_case. Names SHOULD follow the restrictions in the ABNF section under `metricname`. MetricFamily names MAY be any quoted and escaped UTF-8 string as described in the ABNF section. Be aware that exposing UTF-8 metrics may reduce usability, especially when `_total` or unit suffixes are not included in the names.
 
 Colons in MetricFamily names are RESERVED to signal that the MetricFamily is the result of a calculation or aggregation of a general purpose monitoring system.
 
@@ -177,7 +179,7 @@ A non-compliant example would be a gauge called `foo_bucket` and a histogram cal
 
 ##### Type
 
-Type specifies the MetricFamily type. Valid values are "unknown", "gauge", "counter", "stateset", "info", "histogram", "gaugehistogram", and "summary".
+Type specifies the MetricFamily Type. Valid values are "unknown", "gauge", "counter", "stateset", "info", "histogram", "gaugehistogram", and "summary".
 
 ##### Unit
 
@@ -197,15 +199,15 @@ Each MetricFamily name MUST be unique. The same label name and value SHOULD NOT 
 
 There is no specific ordering of MetricFamilies required within a MetricSet. An exposer MAY make an exposition easier to read for humans, for example sort alphabetically if the performance tradeoff makes sense.
 
-If present, an Info MetricFamily called "target" per the "Supporting target metadata in both push-based and pull-based systems" section below SHOULD be first.
+If present, an Info MetricFamily called "target_info" per the "Supporting target metadata in both push-based and pull-based systems" section below SHOULD be first.
 
-### Metric Types
+### MetricFamily Types
 
 #### Gauge
 
 Gauges are current measurements, such as bytes of memory currently used or the number of items in a queue. For gauges the absolute value is what is of interest to a user.
 
-A MetricPoint in a Metric with the type gauge MUST have a single value.
+A MetricPoint in a Metric with the Type gauge MUST have a Number value.
 
 Gauges MAY increase, decrease, or stay constant over time. Even if they only ever go in one direction, they might still be gauges and not counters. The size of a log file would usually only increase, a resource might decrease, and the limit of a queue size may be constant.
 
@@ -215,15 +217,15 @@ A gauge MAY be used to encode an enum where the enum has many states and changes
 
 Counters measure discrete events. Common examples are the number of HTTP requests received, CPU seconds spent, or bytes sent. For counters how quickly they are increasing over time is what is of interest to a user.
 
-The MetricFamily name for Counters SHOULD end in `_total`. Be aware that exposing metrics without `_total` being a suffix of the MetricFamily name directly to end-users may reduce the usability due to confusion about what the metric's type is.
+The MetricFamily name for Counters SHOULD end in `_total`. Be aware that exposing metrics without `_total` being a suffix of the MetricFamily name directly to end-users may reduce the usability due to confusion about what the metric's Type is.
 
-A MetricPoint in a Metric with the type Counter MUST have one value called Total. A Total is a non-NaN and MUST be monotonically non-decreasing over time, starting from 0.
+A MetricPoint in a Metric with the Type Counter MUST have a Number value. The value MUST be a non-NaN and MUST be monotonically non-decreasing over time, starting from 0.
 
-A MetricPoint in a Metric with the type Counter SHOULD have a Timestamp value called Start Timestamp. This can help ingestors discern between new metrics and long-running ones it did not see before.
+A MetricPoint in a Metric with the Type Counter SHOULD have a Timestamp value called Start Timestamp. This can help ingestors discern between new metrics and long-running ones it did not see before.
 
-A MetricPoint in a Metric's Counter's Total MAY reset to 0. If present, the corresponding Start Timestamp MUST also be set to the timestamp of the reset.
+A MetricPoint in a Metric with the type Counter MAY reset its value to 0. If present, the corresponding Start Timestamp MUST also be set to the timestamp of the reset.
 
-A MetricPoint in a Metric's Counter's Total MAY have exemplars.
+A MetricPoint in a Metric with the type Counter MAY have exemplars.
 
 #### StateSet
 
@@ -241,7 +243,7 @@ This is suitable where the enum value changes over time, and the number of State
 # EDITOR’S NOTE: This might be better as Consideration
 -->
 
-MetricFamilies of type StateSets MUST have an empty Unit string.
+MetricFamilies of Type StateSets MUST have an empty Unit string.
 
 #### Info
 
@@ -253,7 +255,7 @@ A MetricPoint of an Info Metric contains a LabelSet. An Info MetricPoint's Label
 
 Info MAY be used to encode ENUMs whose values do not change over time, such as the type of a network interface.
 
-MetricFamilies of type Info MUST have an empty Unit string.
+MetricFamilies of Type Info MUST have an empty Unit string.
 
 #### Histogram
 
@@ -281,7 +283,7 @@ A Histogram MetricPoint SHOULD have a Timestamp value called Start Timestamp. Th
 
 If the Histogram Metric has MetricPoints with Classic Buckets, the Histogram's Metric's LabelSet MUST NOT have a "le" label name, because in case the MetricPoints are stored as classic histogram series with the `_bucket` suffix, then the "le" label in the Histogram will conflict with the "le" label generated from the bucket thresholds.
 
-The Histogram type is cumulative over time, but MAY be reset. When a Histogram is reset, the Sum, Count, Classic Buckets and Native Buckets MUST be reset to their zero state, and if the Start Timestamp is present then it MUST be set to the approximate reset time. Histogram resets can be useful for limiting the number of Native Buckets used by Histograms.
+The Histogram Type is cumulative over time, but MAY be reset. When a Histogram is reset, the Sum, Count, Classic Buckets and Native Buckets MUST be reset to their zero state, and if the Start Timestamp is present then it MUST be set to the approximate reset time. Histogram resets can be useful for limiting the number of Native Buckets used by Histograms.
 
 ##### Classic Buckets
 
@@ -387,7 +389,7 @@ A Summary MetricPoint MAY consist of a Count, Sum, Start Timestamp, and a set of
 Semantically, Count and Sum values are counters so MUST NOT be NaN or negative.
 Count MUST be an integer.
 
-A MetricPoint in a Metric with the type Summary which contains Count or Sum values SHOULD have a Timestamp value called Start Timestamp. This can help ingestors discern between new metrics and long-running ones it did not see before. Start Timestamp MUST NOT relate to the collection period of quantile values.
+A MetricPoint in a Metric with the Type Summary which contains Count or Sum values SHOULD have a Timestamp value called Start Timestamp. This can help ingestors discern between new metrics and long-running ones it did not see before. Start Timestamp MUST NOT relate to the collection period of quantile values.
 
 Quantiles are a map from a quantile to a value. An example is a quantile 0.95 with value 0.2 in a metric called myapp_http_request_duration_seconds which means that the 95th percentile latency is 200ms over an unknown timeframe. If there are no events in the relevant timeframe, the value for a quantile MUST be NaN.
 A Quantile's Metric's LabelSet MUST NOT have "quantile" label name.
@@ -397,7 +399,7 @@ Quantiles MUST be between 0 and 1 inclusive. Quantile values MUST NOT be negativ
 
 Unknown SHOULD NOT be used. Unknown MAY be used when it is impossible to determine the types of individual metrics from 3rd party systems.
 
-A point in a metric with the unknown type MUST have a single value.
+A point in a metric with the Unknown Type MUST have a Number value.
 
 ## Text Format
 
@@ -585,7 +587,7 @@ UTF-8 MUST be used. Byte order markers (BOMs) MUST NOT be used. As an important 
 The content type MUST be:
 
 ```
-application/openmetrics-text; version=1.0.0; charset=utf-8
+application/openmetrics-text; version=2.0.0; charset=utf-8
 ```
 
 Line endings MUST be signalled with line feed (\n) and MUST NOT contain carriage returns (\r). Expositions MUST end with EOF and SHOULD end with `EOF\n`.
@@ -690,7 +692,7 @@ There are four pieces of metadata: The MetricFamily name, TYPE, UNIT and HELP.  
 # TYPE foo counter
 ```
 
-If no TYPE is exposed, the MetricFamily MUST be of type Unknown.
+If no TYPE is exposed, the MetricFamily MUST be of Type Unknown.
 
 If a unit is specified it MUST be provided in a UNIT metadata line. In addition, an underscore and the unit SHOULD be the suffix of the MetricFamily name.
 
@@ -763,7 +765,7 @@ See the UTF-8 Quoting section for specifics.
 {"\"bar\".seconds.count","b\\"="escaping\" example \n "} 0
 ```
 
-The rendering of values for a MetricPoint can include additional labels (e.g. the "le" label for a Histogram type), which MUST be rendered in the same way as a Metric's own LabelSet.
+The rendering of values for a MetricPoint can include additional labels (e.g. the "le" label for a Histogram Type), which MUST be rendered in the same way as a Metric's own LabelSet.
 
 ### MetricPoint
 
@@ -814,7 +816,7 @@ foo{entity="controller",env="prod",foo="ccc"} 0.0
 
 #### Gauge
 
-The Sample MetricName for the value of a MetricPoint for a MetricFamily of type Gauge MUST NOT have a suffix.
+There are no recommended suffixes for the MetricFamily name for a MetricFamily of Type Gauge.
 
 An example MetricFamily with a Metric with no labels and a MetricPoint with no timestamp:
 
@@ -900,7 +902,7 @@ foo 17.0 1520879607.789 st@1520879607.789
 
 Be aware that exposing metrics without `_total` being a suffix of the MetricFamily name directly to end-users may reduce the usability due to confusion about what the metric's type is.
 
-Exemplars MAY be attached to the MetricPoint's Total sample.
+The MetricPoint MAY have Exemplars.
 
 An example with a Metric with no labels, and a MetricPoint with a timestamp and a Start Timestamp and an exemplar:
 
@@ -911,7 +913,7 @@ foo_total 17.0 1520879607.789 st@1520430000.123 # {trace_id="KOO5S4vxi0o"} 0.67 
 
 #### StateSet
 
-The Sample MetricName for the value of a MetricPoint for a MetricFamily of type StateSet MUST NOT have a suffix.
+There are no recommended suffixes for the MetricFamily name for a MetricFamily of Type StateSet.
 
 StateSets MUST have one sample per State in the MetricPoint. Each State's sample MUST have a label with the MetricFamily name as the label name and the State name as the label value. The State sample's value MUST be 1 if the State is true and MUST be 0 if the State is false.
 
@@ -1096,7 +1098,7 @@ The order ensures that implementations can easily skip the Classic Buckets if th
 
 #### Unknown
 
-The sample metric name for the value of the MetricPoint for a MetricFamily of type Unknown MUST NOT have a suffix.
+There are no recommended suffixes for the MetricFamily name for a MetricFamily of Type Unknown.
 
 An example with a Metric with no labels and a MetricPoint with no timestamp:
 
@@ -1169,7 +1171,7 @@ Parsers commonly optimize by caching previous results. Thus, changing the order 
 
 Metrics and samples SHOULD NOT appear and disappear from exposition to exposition, for example a counter is only useful if it has history. In principle, a given Metric should be present in exposition from when the process starts until the process terminates. It is often not possible to know in advance what Metrics a MetricFamily will have over the lifetime of a given process (e.g. a label value of a latency histogram is a HTTP path, which is provided by an end user at runtime), but once a counter-like Metric is exposed it should continue to be exposed until the process terminates. That a counter is not getting increments doesn't invalidate that it still has its current value. There are cases where it may make sense to stop exposing a given Metric; see the section on Missing Data.
 
-In general changing a MetricFamily's type, or adding or removing a label from its Metrics will be breaking to ingestors.
+In general changing a MetricFamily's Type, or adding or removing a label from its Metrics will be breaking to ingestors.
 
 A notable exception is that adding a label to the value of an Info MetricPoints is not breaking. This is so that you can add additional information to an existing Info MetricFamily where it makes sense to be, rather than being forced to create a brand new info metric with an additional label value. ingestor systems should ensure that they are resilient to such additions.
 
@@ -1285,11 +1287,11 @@ OpenMetrics is stateless and provides the same exposition to all ingestors, whic
 
 One approach would be for push-style ingestors to provide target metadata based on operator configuration out-of-band, for example as a HTTP header. While this would transport target metadata for push-style ingestors, and is not precluded by this standard, it has the disadvantage that even though pull-style ingestors should use their own target metadata, it is still often useful to have access to the metadata the exposer itself is aware of.
 
-The preferred solution is to provide this target metadata as part of the exposition, but in a way that does not impact on the exposition as a whole. Info MetricFamilies are designed for this. An exposer may include an Info MetricFamily called "target" with a single Metric with no labels with the metadata. An example in the text format might be:
+The preferred solution is to provide this target metadata as part of the exposition, but in a way that does not impact on the exposition as a whole. Info MetricFamilies are designed for this. An exposer may include an Info MetricFamily called "target_info" with a single Metric with no labels with the metadata. An example in the text format might be:
 
-```
-# TYPE target info
-# HELP target Target metadata
+```openmetrics-add-eof
+# TYPE target_info info
+# HELP target_info Target metadata
 target_info{env="prod",hostname="myhost",datacenter="sdc",region="europe",owner="frontend"} 1
 ```
 
@@ -1300,7 +1302,7 @@ Generally, the same Label should not appear on every Metric of an exposition, bu
 
 Exposers can expose exposer metadata as Info MetricFamilies.
 
-The above discussion is in the context of individual exposers. An exposition from a general purpose monitoring system may contain metrics from many individual targets, and thus may expose multiple target info Metrics. The metrics may already have had target metadata added to them as labels as part of ingestion. The metric names MUST NOT be varied based on target metadata. For example it would be incorrect for all metrics to end up being prefixed with staging_ even if they all originated from targets in a staging environment).
+The above discussion is in the context of individual exposers. An exposition from a general purpose monitoring system may contain metrics from many individual targets, and thus may expose multiple target_info Metrics. The metrics may already have had target metadata added to them as labels as part of ingestion. The metric names MUST NOT be varied based on target metadata. For example it would be incorrect for all metrics to end up being prefixed with staging_ even if they all originated from targets in a staging environment).
 
 ### Client Calculations and Derived Metrics
 

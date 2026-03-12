@@ -11,12 +11,12 @@ scrape. Combined with Prometheus's simple text-based exposition format, this
 makes it easy to instrument even shell scripts without a client library.
 
  * For more information on using the Pushgateway and use from a Unix shell, see the project's
-[README.md](https://github.com/prometheus/pushgateway/blob/master/README.md).
+[README.md](https://github.com/prometheus/pushgateway#readme).
 
  * For use from Java see the
 [Pushgateway documentation](https://prometheus.github.io/client_java/exporters/pushgateway/).
 
- * For use from Go see the [Push](https://godoc.org/github.com/prometheus/client_golang/prometheus/push#Pusher.Push) and [Add](https://godoc.org/github.com/prometheus/client_golang/prometheus/push#Pusher.Add) methods.
+ * For use from Go see the [Push](https://pkg.go.dev/github.com/prometheus/client_golang/prometheus/push#Pusher.Push) and [Add](https://pkg.go.dev/github.com/prometheus/client_golang/prometheus/push#Pusher.Add) methods.
 
  * For use from Python see [Exporting to a Pushgateway](https://prometheus.github.io/client_python/exporting/pushgateway/).
 

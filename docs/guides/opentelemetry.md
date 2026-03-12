@@ -37,7 +37,7 @@ export OTEL_TRACES_EXPORTER=none
 export OTEL_LOGS_EXPORTER=none
 ```
 
-The default push interval for OpenTelemetry metrics is 60 seconds. The following will set a 15 second push interval:
+The default push interval for OpenTelemetry metrics is 60 seconds. The following will set a 15-second push interval:
 
 ```shell
 export OTEL_METRIC_EXPORT_INTERVAL=15000
@@ -50,7 +50,7 @@ export OTEL_SERVICE_NAME="my-example-service"
 export OTEL_RESOURCE_ATTRIBUTES="service.instance.id=$(uuidgen)"
 ```
 
-The above assumes that `uuidgen` command is available on your system. Make sure that `service.instance.id` is unique for each instance, and that a new `service.instance.id` is generated whenever a resource attribute chances. The [recommended](https://github.com/open-telemetry/semantic-conventions/tree/main/docs/resource) way is to generate a new UUID on each startup of an instance.
+The above assumes that `uuidgen` command is available on your system. Make sure that `service.instance.id` is unique for each instance, and that a new `service.instance.id` is generated whenever a resource attribute changes. The [recommended](https://github.com/open-telemetry/semantic-conventions/tree/main/docs/resource) way is to generate a new UUID on each startup of an instance.
 
 ## Configuring Prometheus
 

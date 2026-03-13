@@ -1,35 +1,33 @@
 ---
-title: "OpenMetrics 2.0"
-nav_title: "2.0"
+title: OpenMetrics 2.0
 sort_rank: 3
-
+nav_title: "2.0"
 hide_in_nav: true
-
 author:
-- ins: A. Silva Sens
-  name: Arthur Silva Sens
-  organization: Grafana Labs
-  email: arthursens2005@gmail.com
-- ins: B. Płotka
-  name: Bartłomiej Płotka
-  organization: Google
-  email: bwplotka@gmail.com
-- ins: D. Ashpole
-  name: David Ashpole
-  organization: Google
-  email: dashpole@google.com
-- ins: G. Krajcsovits
-  name: György Krajcsovits
-  organization: Grafana Labs
-  email: krajo@prometheus.io
-- ins: O. Williams
-  name: Owen Williams
-  organization: Grafana Labs
-  email: owen.williams@grafana.com
-- ins: R. Hartmann
-  name: Richard Hartmann
-  organization: Grafana Labs
-  email: richih@richih.org
+    - email: arthursens2005@gmail.com
+      ins: A. Silva Sens
+      name: Arthur Silva Sens
+      organization: Grafana Labs
+    - email: bwplotka@gmail.com
+      ins: B. Płotka
+      name: Bartłomiej Płotka
+      organization: Google
+    - email: dashpole@google.com
+      ins: D. Ashpole
+      name: David Ashpole
+      organization: Google
+    - email: krajo@prometheus.io
+      ins: G. Krajcsovits
+      name: György Krajcsovits
+      organization: Grafana Labs
+    - email: owen.williams@grafana.com
+      ins: O. Williams
+      name: Owen Williams
+      organization: Grafana Labs
+    - email: richih@richih.org
+      ins: R. Hartmann
+      name: Richard Hartmann
+      organization: Grafana Labs
 ---
 
 - Version: 2.0.0-rc0
@@ -68,7 +66,7 @@ Common examples of metric time series would be network interface counters, devic
 
 ## Data Model
 
-This section MUST be read together with the ABNF section. In case of disagreements between the two, the  ABNF's restrictions MUST take precedence. This reduces repetition as the text wire format MUST be supported.
+This section MUST be read together with the ABNF section. In case of disagreements between the two, the ABNF's restrictions MUST take precedence. This reduces repetition as the text wire format MUST be supported.
 
 ### Data Types
 
@@ -159,7 +157,7 @@ MetricFamily name:
 * MUST be the same as every MetricPoint's MetricName in the family.
 
 > NOTE: [OpenMetrics 1.0](https://prometheus.io/docs/specs/om/open_metrics_spec/#suffixes) required mandatory suffixes
-> for MetricName and matching MetricFamily names without such suffixes. To improve parser reliability (i.e. matching 
+> for MetricName and matching MetricFamily names without such suffixes. To improve parser reliability (i.e. matching
 > [MetricFamily metadata](#metricfamily-metadata)) and future compatibility, this specification requires MetricFamily name to strictly match MetricNames
 > in the same family.
 
@@ -678,12 +676,11 @@ Timestamps SHOULD NOT use exponential float rendering for timestamps if nanoseco
 
 There MUST NOT be an explicit separator between MetricFamilies. The next MetricFamily MUST be signalled with either metadata or a new sample metric name which cannot be part of the previous MetricFamily.
 
-
 MetricFamilies MUST NOT be interleaved.
 
 #### MetricFamily metadata
 
-There are four pieces of metadata: The MetricFamily name, TYPE, UNIT and HELP.  An example of the metadata for a counter Metric called foo is:
+There are four pieces of metadata: The MetricFamily name, TYPE, UNIT and HELP. An example of the metadata for a counter Metric called foo is:
 
 ```openmetrics-add-eof
 # TYPE foo counter
@@ -836,7 +833,7 @@ An example of a MetricFamily with no Metrics:
 # TYPE foo gauge
 ```
 
-An example with a Metric with a  label and a MetricPoint with a timestamp:
+An example with a Metric with a label and a MetricPoint with a timestamp:
 
 ```openmetrics-add-eof
 # TYPE foo gauge
@@ -1248,15 +1245,12 @@ After namespacing by company or organisation, namespacing and naming should cont
 
 For a common very well known existing piece of software, the name of the software itself may be sufficiently distinguishing. For example bind_ is probably sufficient for the DNS software, even though isc_bind_ would be the more usual naming.
 
-
 Metric names prefixed by scrape_ are used by ingestors to attach information related to individual expositions, so should not be exposed by applications directly. Metrics that have already been consumed and passed through a general purpose monitoring system may include such metric names on subsequent expositions.
 If an exposer wishes to provide information about an individual exposition, a metric prefix such as myexposer_scrape_ may be used. A common example is a gauge myexposer_scrape_duration_seconds for how long that exposition took from the exposer's standpoint.
 
 Within the Prometheus ecosystem a set of per-process metrics has emerged that are consistent across all implementations, prefixed with process_. For example for open file ulimits the MetricFamiles process_open_fds and process_max_fds gauges provide both the current and maximum value. (These names are legacy, if such metrics were defined today they would be more likely called process_fds_open and process_fds_limit). In general it is very challengings to get names with identical semantics like this, which is why different instrumentation should use different names.
 
-
 Avoid redundancy in metric names. Avoid substrings like "metric", "timer", "stats", "counter", "total", "float64" and so on - by virtue of being a metric with a given type (and possibly unit) exposed via OpenMetrics information like this is already implied so should not be included explicitly. You should not include label names of a metric in the metric name for the same reasons, and in addition subsequent aggregation of the metric by a monitoring system could make such information incorrect.
-
 
 Avoid including implementation details from other layers of your monitoring system in the metric names contained in your instrumentation. For example a MetricFamily name should not contain the string "openmetrics" merely because it happens to be currently exposed via OpenMetrics somewhere, or "prometheus" merely because your current monitoring system is Prometheus.
 
@@ -1297,7 +1291,7 @@ OpenMetrics builds on the existing widely adopted Prometheus text exposition for
 
 Metadata can come from different sources. Over the years, two main sources have emerged. While they are often functionally the same, it helps in understanding to talk about their conceptual differences.
 
-"Target metadata" is metadata commonly external to an exposer.  Common examples would be data coming from service discovery, a CMDB, or similar, like information about a datacenter region, if a service is part of a particular deployment, or production or testing. This can be  achieved by either the exposer or the ingestor adding labels to all Metrics that capture this metadata. Doing this through the ingestor is preferred as it is more flexible and carries less overhead. On flexibility, the hardware maintenance team might care about which server rack a machine is located in, whereas the database team using that same machine might care that it contains replica number 2 of the production database. On overhead, hardcoding or configuring this information needs an additional distribution path.
+"Target metadata" is metadata commonly external to an exposer. Common examples would be data coming from service discovery, a CMDB, or similar, like information about a datacenter region, if a service is part of a particular deployment, or production or testing. This can be achieved by either the exposer or the ingestor adding labels to all Metrics that capture this metadata. Doing this through the ingestor is preferred as it is more flexible and carries less overhead. On flexibility, the hardware maintenance team might care about which server rack a machine is located in, whereas the database team using that same machine might care that it contains replica number 2 of the production database. On overhead, hardcoding or configuring this information needs an additional distribution path.
 
 "Exposer metadata" is coming from within an exposer. Common examples would be software version, compiler version, or Git commit SHA.
 
@@ -1328,7 +1322,7 @@ The above discussion is in the context of individual exposers. An exposition fro
 
 ### Client Calculations and Derived Metrics
 
-Exposers should leave any math or calculation up to ingestors. A notable exception is the  Summary quantile which is unfortunately required for backwards compatibility. Exposition should be of raw values which are useful over arbitrary time periods.
+Exposers should leave any math or calculation up to ingestors. A notable exception is the Summary quantile which is unfortunately required for backwards compatibility. Exposition should be of raw values which are useful over arbitrary time periods.
 
 As an example, you should not expose a gauge with the average rate of increase of a counter over the last 5 minutes. Letting the ingestor calculate the increase over the data points they have consumed across expositions has better mathematical properties and is more resilient to scrape failures.
 
@@ -1375,7 +1369,6 @@ As per the parent section, ingestors should be free to attach their own timestam
 my_counter_total 1 123
 ```
 
-
 In case the specific time of the last change of a counter matters, this would be the correct way:
 
 ```
@@ -1389,7 +1382,6 @@ my_counter_last_increment_timestamp_seconds 123
 ```
 
 By putting the timestamp of last change into its own Gauge as a value, ingestors are free to attach their own timestamp to both Metrics.
-
 
 Experience has shown that exposing absolute timestamps (epoch is considered absolute here) is more robust than time elapsed, seconds since, or similar. In either case, they would be gauges. For example:
 
@@ -1438,7 +1430,7 @@ Specific limits run the risk of preventing reasonable use cases, for example whi
 
 On the other hand, an exposition which is too large in some dimension could cause significant performance problems compared to the benefit of the metrics exposed. Thus some guidelines on the size of any single exposition would be useful.
 
-ingestors may choose to impose limits themselves, for in particular to prevent attacks or outages. Still, ingestors need to consider reasonable use cases and try not to  disproportionately impact them. If any single value/metric/exposition exceeds such limits then the whole exposition must be rejected.
+ingestors may choose to impose limits themselves, for in particular to prevent attacks or outages. Still, ingestors need to consider reasonable use cases and try not to disproportionately impact them. If any single value/metric/exposition exceeds such limits then the whole exposition must be rejected.
 
 In general there are three things which impact the performance of a general purpose monitoring system ingestion time series data: the number of unique time series, the number of samples over time in those series, and the number of unique strings such as metric names, label names, label values, and HELP. ingestors can control how often they ingest, so that aspect does not need further consideration.
 

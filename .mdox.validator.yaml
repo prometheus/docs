@@ -1,0 +1,6 @@
+version: 1
+
+# Don't check external URLs, they can time-out a lot (rate limits).
+validators:
+  - type: ignore
+    regex: http(s|)://.*

@@ -13,11 +13,11 @@ help: ## Displays help.
 fmt: ## Format docs.
 fmt: $(MDOX)
 	@echo "Formatting markdown files..."
-	@$(MDOX) fmt --soft-wraps --links.validate $(MD_FILES_TO_FORMAT)
+	@$(MDOX) fmt --links.validate $(MD_FILES_TO_FORMAT)
 
 .PHONY: check
 check: ## Checks if doc is formatter and links are correct (don't check external links).
 check: $(MDOX)
 	@echo "Checking markdown file formatting and basic links..."
-	@$(MDOX) fmt --soft-wraps --links.validate --links.validate.config-file=./.mdox.validator.yaml --check $(MD_FILES_TO_FORMAT) || (echo "🔥 Validation failed, files not formatted or links are broken. Try running 'make fmt' to fix formatting!" && exit 1)
+	@$(MDOX) fmt --links.validate --links.validate.config-file=./.mdox.validator.yaml --check $(MD_FILES_TO_FORMAT) || (echo "🔥 Validation failed, files not formatted or links are broken. Try running 'make fmt' to fix formatting!" && exit 1)
 	@echo "✅ Markdown files correctly formatted"

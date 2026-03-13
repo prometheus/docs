@@ -138,13 +138,13 @@ A Sample is a single data point within a Metric. It MUST have a Value, MAY have 
 
 Samples SHOULD NOT have explicit timestamps.
 
-If more than one Sample is exposed for a Metric, then its Samples MUST have monotonically increasing timestamps.
-
 #### Metric
 
 Metrics are defined by a unique LabelSet within a MetricFamily. Metrics MUST contain a list of one or more Samples. If more than one Sample is exposed for a Metric, then its Samples MUST have monotonically increasing Timestamps.
 
 Metrics with the same name for a given MetricFamily SHOULD have the same set of label names in their LabelSet.
+
+If more than one Sample is exposed for a Metric, then its Samples MUST have monotonically increasing timestamps.
 
 #### MetricFamily
 

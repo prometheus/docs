@@ -859,16 +859,22 @@ foo{entity="replica",foo="ccc"} 1.0
 
 StateSet MetricGroups MUST NOT be interleaved.
 
-A correct example where there are multiple MetricGroups within a MetricFamily, and multiple Metrics within each MetricGroup:
+A correct example where there are multiple MetricGroups within a MetricFamily, and multiple Metrics within each MetricGroup, and multiple Samples within each Metric:
 
 ```openmetrics-add-eof
 # TYPE foo stateset
-foo{entity="controller",foo="a"} 1.0
-foo{entity="controller",foo="bb"} 0.0
-foo{entity="controller",foo="ccc"} 0.0
-foo{entity="replica",foo="a"} 1.0
-foo{entity="replica",foo="bb"} 0.0
-foo{entity="replica",foo="ccc"} 1.0
+foo{entity="controller",foo="a"} 1.0 1000000000.000
+foo{entity="controller",foo="a"} 0.0 1000000001.000
+foo{entity="controller",foo="bb"} 0.0 1000000000.000
+foo{entity="controller",foo="bb"} 1.0 1000000001.000
+foo{entity="controller",foo="ccc"} 0.0 1000000000.000
+foo{entity="controller",foo="ccc"} 0.0 1000000001.000
+foo{entity="replica",foo="a"} 1.0 1000000000.000
+foo{entity="replica",foo="a"} 1.0 1000000001.000
+foo{entity="replica",foo="bb"} 0.0 1000000000.000
+foo{entity="replica",foo="bb"} 1.0 1000000001.000
+foo{entity="replica",foo="ccc"} 0.0 1000000000.000
+foo{entity="replica",foo="ccc"} 0.0 1000000001.000
 ```
 
 An incorrect example where MetricGroups are interleaved:

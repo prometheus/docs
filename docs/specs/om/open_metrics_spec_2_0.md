@@ -224,15 +224,15 @@ A Sample in a Metric with the type Counter MAY have exemplars.
 
 #### StateSet
 
-// TODO: UPDATE!!!!
-
 StateSets represent a series of related boolean values, also called a bitset. If ENUMs need to be encoded this MAY be done via StateSet.
 
-A point of a StateSet metric MAY contain multiple states and MUST contain one boolean per State. States have a name which are Strings.
+A StateSet is structured as a set of Metrics, one for each State, called a StateSet MetricGroup.
 
-A StateSet Metric's LabelSet MUST NOT have a label name which is the same as the name of its MetricFamily.
+> NOTE: In OpenMetrics 1.0, Metrics are composed of MetricPoints (e.g. A Histogram metric has a MetricPoint representing each Bucket with a special "le" label), which is no longer the case in OpenMetrics 2.0. An OpenMetrics 1.0 StateSet Metric is equivalent to an OpenMetrics 2.0 StateSet MetricGroup, and an OpenMetrics 1.0 StateSet MetricPoint is equivalent to an OpenMetrics 2.0 StateSet Metric.
 
-If encoded as a StateSet, ENUMs MUST have exactly one Boolean which is true within a MetricPoint.
+A StateSet MetricGroup contains one or more states and MUST contain one boolean per State. States have a name which is a String.
+
+If encoded as a StateSet, ENUMs MUST have exactly one Sample which is `1` (true) within a MetricGroup.
 
 This is suitable where the enum value changes over time, and the number of States isn't much more than a handful.
 
@@ -830,11 +830,11 @@ foo_total 17.0 1520879607.789 st@1520430000.123 # {trace_id="KOO5S4vxi0o"} 0.67 
 
 #### StateSet
 
-// TODO: Update to use Samples instead of MetricPoints
-
 There are no recommended suffixes for the MetricFamily name for a MetricFamily of Type StateSet.
 
-StateSets MUST have one sample per State in the MetricPoint. Each State's sample MUST have a label with the MetricFamily name as the label name and the State name as the label value. The State sample's value MUST be 1 if the State is true and MUST be 0 if the State is false.
+StateSet MetricGroups MUST NOT be interleaved.
+
+StateSets MUST have one Metric per State in the StateSet MetricGroup. Each State's Metric MUST have a label with the MetricFamily name as the label name and the State name as the label value. The Metric Sample's Value MUST be 1 if the State is true and MUST be 0 if the State is false.
 
 An example with the states "a", "bb", and "ccc" in which only the value bb is enabled and the metric name is foo:
 

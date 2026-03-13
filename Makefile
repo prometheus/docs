@@ -1,9 +1,9 @@
-include .bingo/Variables.mk
-
 # TODO(bwplotka): Add more files to format.
 MD_FILES_TO_FORMAT=docs/specs/om/open_metrics_spec_2_0.md
 
-mdox-check:
+MDOX="mdox"
+$(MDOX):
+	@go install github.com/bwplotka/mdox@v0.9.0
 
 .PHONY: help
 help: ## Displays help.

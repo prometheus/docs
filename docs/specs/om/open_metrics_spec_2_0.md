@@ -382,12 +382,12 @@ Summaries also measure distributions of discrete events and MAY be used when His
 
 They MAY also be used for backwards compatibility, because some existing instrumentation libraries expose precomputed quantiles and do not support Histograms. Precomputed quantiles SHOULD NOT be used, because quantiles are not aggregatable and the user often can not deduce what timeframe they cover.
 
-A Summary MetricPoint MAY consist of a Count, Sum, Start Timestamp, and a set of quantiles.
+A Summary MetricPoint MUST contain a Count, Sum and a set of quantiles.
 
 Semantically, Count and Sum values are counters so MUST NOT be NaN or negative.
 Count MUST be an integer.
 
-A MetricPoint in a Metric with the Type Summary which contains Count or Sum values SHOULD have a Timestamp value called Start Timestamp. This can help ingestors discern between new metrics and long-running ones it did not see before. Start Timestamp MUST NOT relate to the collection period of quantile values.
+A Summary SHOULD have a Timestamp value called Start Timestamp. This can help ingestors discern between new metrics and long-running ones it did not see before. Start Timestamp MUST NOT relate to the collection period of quantile values.
 
 Quantiles are a map from a quantile to a value. An example is a quantile 0.95 with value 0.2 in a metric called myapp_http_request_duration_seconds which means that the 95th percentile latency is 200ms over an unknown timeframe. If there are no events in the relevant timeframe, the value for a quantile MUST be NaN.
 A Quantile's Metric's LabelSet MUST NOT have "quantile" label name.

@@ -705,9 +705,9 @@ Aside from this metadata and the EOF line at the end of the message, you MUST NO
 
 #### Metric
 
-Metrics MUST NOT be interleaved.
+Metrics MUST NOT be interleaved. See the example in "Text format -> Metric types -> StateSet".
 
-See the example in "Text format -> Sample". Labels A Sample without labels or a timestamp and the value 0 MUST be rendered either like:
+A Sample without labels or a timestamp and the value 0 MUST be rendered either like:
 
 ```openmetrics-add-eof
 bar_seconds_count 0
@@ -834,8 +834,6 @@ foo_total 17.0 1520879607.789 st@1520430000.123 # {trace_id="KOO5S4vxi0o"} 0.67 
 
 There are no recommended suffixes for the MetricFamily name for a MetricFamily of Type StateSet.
 
-StateSet MetricGroups MUST NOT be interleaved.
-
 StateSets MUST have one Metric per state in the StateSet MetricGroup. Each state's Metric MUST have a label with the MetricFamily name as the label name and the state name as the label value. The Metric Sample's Value MUST be 1 if the state is true and MUST be 0 if the state is false.
 
 An example with the states "a", "bb", and "ccc" in which only the value bb is enabled and the metric name is foo:
@@ -857,6 +855,49 @@ foo{entity="controller",foo="ccc"} 0.0
 foo{entity="replica",foo="a"} 1.0
 foo{entity="replica",foo="bb"} 0.0
 foo{entity="replica",foo="ccc"} 1.0
+```
+
+StateSet MetricGroups MUST NOT be interleaved.
+
+A correct example where there are multiple MetricGroups within a MetricFamily, and multiple Metrics within each MetricGroup:
+
+```openmetrics-add-eof
+# TYPE foo stateset
+foo{entity="controller",foo="a"} 1.0
+foo{entity="controller",foo="bb"} 0.0
+foo{entity="controller",foo="ccc"} 0.0
+foo{entity="replica",foo="a"} 1.0
+foo{entity="replica",foo="bb"} 0.0
+foo{entity="replica",foo="ccc"} 1.0
+```
+
+An incorrect example where MetricGroups are interleaved:
+
+```openmetrics-add-eof
+# TYPE foo stateset
+foo{entity="controller",env="dev",foo="a"} 1.0
+foo{entity="controller",env="dev",foo="bb"} 0.0
+foo{entity="controller",env="dev",foo="ccc"} 0.0
+foo{entity="replica",env="dev",foo="a"} 1.0
+foo{entity="replica",env="dev",foo="bb"} 0.0
+foo{entity="replica",env="dev",foo="ccc"} 1.0
+foo{entity="controller",env="prod",foo="a"} 1.0
+foo{entity="controller",env="prod",foo="bb"} 0.0
+foo{entity="controller",env="prod",foo="ccc"} 0.0
+```
+
+An incorrect example where Metrics are interleaved:
+
+```openmetrics-add-eof
+# TYPE foo_seconds summary
+# UNIT foo_seconds seconds
+# TYPE foo stateset
+foo{entity="controller",env="dev",foo="a"} 1.0
+foo{entity="controller",env="dev",foo="bb"} 0.0
+foo{entity="controller",env="prod",foo="a"} 1.0
+foo{entity="controller",env="dev",foo="ccc"} 0.0
+foo{entity="controller",env="prod",foo="bb"} 0.0
+foo{entity="controller",env="prod",foo="ccc"} 0.0
 ```
 
 #### Info

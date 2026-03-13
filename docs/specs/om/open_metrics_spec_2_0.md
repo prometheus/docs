@@ -144,7 +144,7 @@ If more than one MetricPoint is exposed for a Metric, then its MetricPoints MUST
 
 #### MetricFamily
 
-A MetricFamily MAY have zero or more Metrics. A MetricFamily MUST have a name, HELP, TYPE, and UNIT metadata. Every Metric within a MetricFamily MUST have a unique LabelSet.
+A MetricFamily MAY have zero or more Metrics. Every Metric within a MetricFamily MUST have a unique LabelSet. A MetricFamily MUST have a name and SHOULD have Help, Type, and Unit metadata.
 
 ##### Name
 

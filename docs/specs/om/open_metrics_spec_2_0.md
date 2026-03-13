@@ -134,7 +134,7 @@ Ingestors MAY truncate the Exemplar's LabelSet or discard Exemplars.
 
 #### Sample
 
-A Sample is a single data point within a Metric. It consists of a Value, an optional timestamp, and may include Exemplars or a start timestamp depending on the MetricFamily Type.
+A Sample is a single data point within a Metric. It MUST have a Value, MAY have a Timestamp. It MAY include Exemplars and MAY have a start timestamp, depending on the MetricFamily Type.
 
 Samples SHOULD NOT have explicit timestamps.
 
@@ -142,7 +142,9 @@ If more than one Sample is exposed for a Metric, then its Samples MUST have mono
 
 #### Metric
 
-Metrics are defined by a unique LabelSet within a MetricFamily. Metrics MUST contain a list of one or more Samples. Metrics with the same name for a given MetricFamily SHOULD have the same set of label names in their LabelSet.
+Metrics are defined by a unique LabelSet within a MetricFamily. Metrics MUST contain a list of one or more Samples. If more than one Sample is exposed for a Metric, then its Samples MUST have monotonically increasing Timestamps.
+
+Metrics with the same name for a given MetricFamily SHOULD have the same set of label names in their LabelSet.
 
 #### MetricFamily
 
@@ -226,11 +228,11 @@ A Sample in a Metric with the type Counter MAY have exemplars.
 
 StateSets represent a series of related boolean values, also called a bitset. If ENUMs need to be encoded this MAY be done via StateSet.
 
-A StateSet is structured as a set of Metrics, one for each State, called a StateSet MetricGroup.
+A StateSet is structured as a set of Metrics, one for each state, called a StateSet MetricGroup.
 
-> NOTE: In OpenMetrics 1.0, Metrics are composed of MetricPoints (e.g. A Histogram metric has a MetricPoint representing each Bucket with a special "le" label), which is no longer the case in OpenMetrics 2.0. An OpenMetrics 1.0 StateSet Metric is equivalent to an OpenMetrics 2.0 StateSet MetricGroup, and an OpenMetrics 1.0 StateSet MetricPoint is equivalent to an OpenMetrics 2.0 StateSet Metric.
+> NOTE: In OpenMetrics 1.0, Metrics are composed of MetricPoints (e.g. a Histogram metric has a MetricPoint representing each Bucket with a special "le" label), which is no longer the case in OpenMetrics 2.0. An OpenMetrics 1.0 StateSet Metric is equivalent to an OpenMetrics 2.0 StateSet MetricGroup, and an OpenMetrics 1.0 StateSet MetricPoint is equivalent to an OpenMetrics 2.0 StateSet Metric.
 
-A StateSet MetricGroup contains one or more states and MUST contain one boolean per State. States have a name which is a String.
+A StateSet MetricGroup contains one or more states and MUST contain one boolean per state. States have a name which is a String.
 
 If encoded as a StateSet, ENUMs MUST have exactly one Sample which is `1` (true) within a MetricGroup.
 
@@ -252,7 +254,7 @@ MetricFamilies of Type Info MUST have an empty Unit string.
 
 Histograms measure distributions of discrete events. Common examples are the latency of HTTP requests, function runtimes, or I/O request sizes.
 
-A Histogram Sample's Composite Value MUST contain Count and Sum values.
+A Histogram Sample MUST contain Count and Sum.
 
 The Count value MUST be equal to the number of measurements taken by the Histogram. The Count is a counter semantically. The Count SHOULD be an integer. The Count MUST NOT be negative. The Count SHOULD NOT be +Inf, NaN.
 
@@ -834,7 +836,7 @@ There are no recommended suffixes for the MetricFamily name for a MetricFamily o
 
 StateSet MetricGroups MUST NOT be interleaved.
 
-StateSets MUST have one Metric per State in the StateSet MetricGroup. Each State's Metric MUST have a label with the MetricFamily name as the label name and the State name as the label value. The Metric Sample's Value MUST be 1 if the State is true and MUST be 0 if the State is false.
+StateSets MUST have one Metric per state in the StateSet MetricGroup. Each state's Metric MUST have a label with the MetricFamily name as the label name and the state name as the label value. The Metric Sample's Value MUST be 1 if the state is true and MUST be 0 if the state is false.
 
 An example with the states "a", "bb", and "ccc" in which only the value bb is enabled and the metric name is foo:
 
@@ -1110,7 +1112,7 @@ Metrics and samples SHOULD NOT appear and disappear from exposition to expositio
 
 In general changing a MetricFamily's Type, or adding or removing a label from its Metrics will be breaking to ingestors.
 
-A notable exception is that adding a label to the value of an Info Metric is not breaking. This is so that you can add additional information to an existing Info MetricFamily where it makes sense to be, rather than being forced to create a brand new info metric with an additional label value. ingestor systems should ensure that they are resilient to such additions.
+A notable exception is that adding a label to an Info Metric is not breaking. This is so that you can add additional information to an existing Info MetricFamily where it makes sense to be, rather than being forced to create a brand new info metric with an additional label value. Ingestor systems should ensure that they are resilient to such additions.
 
 Changing a MetricFamily's Help is not breaking. For values where it is possible, switching between floats and ints is not breaking. Adding a new state to a stateset is not breaking. Adding unit metadata where it doesn't change the metric name is not breaking.
 

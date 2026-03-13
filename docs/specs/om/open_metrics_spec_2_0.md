@@ -64,22 +64,32 @@ Time series are a record of changing information over time. Common examples of m
 
 ## Data Model
 
-This section MUST be read together with the ABNF section.
+This section MUST be read together with the ABNF section. In case of disagreements between the two, the ABNF's restrictions MUST take precedence.
+
+// TODO: High level diagram to put here.
 
 ### Data Types
 
-#### Values
+// TODO(dashpole): Fix on Data model redefinition was "Values".
+#### Sample Values
 
 Metric values in OpenMetrics MUST be either Number or CompositeValue.
 
 ##### Number
 
+// MAYBE: Clarify floating point exactly / link to where we do this instead of float64
+// MAYBE: "ut it MAY be used to signal a division by zero" -> add or any result of the math operations that would result it in.
 Number value MUST be either floating point or integer. Note that ingestors of the format MAY only support float64. The non-real values NaN, +Inf and -Inf MUST be supported. NaN value MUST NOT be considered a missing value, but it MAY be used to signal a division by zero.
+
+Booleans MUST be represented as a Number value where `1` is true and `0` is false.
 
 ##### CompositeValue
 
+// TODO(dashpole): Fix on Data model redefinition "Sample value"
+// * Sample = value + timestamp + st + exemplars
 CompositeValue MUST contain all information necessary to recreate a sample value for Metric within the MetricFamily.
 
+// TODO(dashpole): Fix on Data model redefinition "Metric Values" -> maybe "Sample Values"
 The following MetricFamily Types MUST use CompositeValue for Metric Values:
 
 * [Histogram](#histogram) MetricFamily Type.
@@ -88,14 +98,9 @@ The following MetricFamily Types MUST use CompositeValue for Metric Values:
 
 Other MetricFamily Types MUST use Numbers.
 
-See [MetricFamily Types](#metricfamily-types) for details.
-
-##### Booleans
-
-Boolean values MUST follow `1==true`, `0==false`.
-
 #### Timestamps
 
+// MAYBE: Mention its float?
 Timestamps MUST be Unix Epoch in seconds. Negative timestamps MAY be used.
 
 #### Strings

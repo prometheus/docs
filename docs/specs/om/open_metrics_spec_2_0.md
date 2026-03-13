@@ -113,6 +113,7 @@ Labels are key-value pairs consisting of strings.
 
 Label names beginning with two underscores are RESERVED and MUST NOT be used unless specified by this standard. Such Label names MAY be used in place of TYPE and UNIT metadata in cases where MetricFamilies' metadata might otherwise be conflicting, such as metric federation cases.
 
+// MAYBE: Link to where we explain "UTF-8 metrics may reduce usability"
 Label names SHOULD follow the restrictions in the ABNF section under the `label-name` section. Label names MAY be any quoted escaped UTF-8 string as described in the ABNF section. Be aware that exposing UTF-8 metrics may reduce usability.
 
 Empty label values SHOULD be treated as if the label was not present.
@@ -121,26 +122,30 @@ Empty label values SHOULD be treated as if the label was not present.
 
 A LabelSet MUST consist of Labels and MAY be empty. Label names MUST be unique within a LabelSet.
 
+// TODO(dashpole): Sample
 #### MetricPoint
 
+// TODO(dashpole): Updating... (removed)
 Each MetricPoint consists of a set of values, depending on the MetricFamily Type.
 
 #### Exemplars
 
 Exemplars are references to data outside of the MetricSet. A common use case are IDs of program traces.
 
-Exemplars MUST consist of a LabelSet and a value, and MUST have a timestamp. The LabelSet SHOULD NOT contain any Label names included in the MetricPoint's LabelSet. The timestamp SHOULD NOT be after the MetricPoint's timestamp, if present, and SHOULD NOT be before the MetricPoint's start timestamp, if present.
+Exemplars MUST consist of a LabelSet and a Number value, and MUST have a timestamp. The LabelSet SHOULD NOT contain any Label names included in the MetricPoint's LabelSet. The timestamp SHOULD be before or equal to the MetricPoint's timestamp, if present. The timestamp SHOULD be after or equal to the MetricPoint's start timestamp, if present.
 
-The Exemplar's timestamp SHOULD be close to the point in time when the referenced data was created, but doesn't have to be exact. For example if getting an exact timestamp is costly, it is acceptable to use some external source or synthetic clock.
+The Exemplar's timestamp SHOULD be close to the point when it was observed, but doesn't have to be exact. For example, if getting an exact timestamp is costly, it is acceptable to use some external source or an estimate.
 
 When an exemplar references a [Trace Context](https://www.w3.org/TR/trace-context-2/), it SHOULD use the `trace_id` key for the [trace-id](https://www.w3.org/TR/trace-context-2/#traceparent-header) field, and the `span_id` key for the [`parent-id`](https://www.w3.org/TR/trace-context-2/#traceparent-header) field.
 
 While there's no [hard limit](#size-limits) specified, Exemplar's LabelSet SHOULD NOT be used to transport large data like tracing span details or other event logging.
 
+// TODO: "If you truncate data try to preserve trace id and span id"
 Ingestors MAY truncate the Exemplar's LabelSet or discard Exemplars.
 
 #### Metric
 
+// TODO(dashpole) updating
 Metrics are defined by a unique LabelSet within a MetricFamily. Metrics MUST contain a list of one or more MetricPoints. Metrics with the same name for a given MetricFamily SHOULD have the same set of label names in their LabelSet.
 
 MetricPoints SHOULD NOT have explicit timestamps.

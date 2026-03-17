@@ -263,7 +263,7 @@ What each metric demonstrates:
 
 **Non-breaking**
 
-OM 2.0 allows metric and label names to contain UTF-8 characters beyond the traditional `[a-zA-Z0-9_:]` set. This exists primarily for OpenTelemetry bridge scenarios, where metrics use dotted naming conventions like `process.cpu.seconds`. Dotted names pair well with the relaxed `_total` suffix rule described in [Counter and Info Suffix Rules](#counter-and-info-suffix-rules), since dropping `_total` gives you cleaner dotted metric names.
+OM 2.0 allows metric and label names to contain UTF-8 characters beyond the traditional `[a-zA-Z0-9_:]` set. This exists primarily for OpenTelemetry bridge scenarios, where metrics use dotted naming conventions like `process.cpu.seconds`. Dotted names pair well with the relaxed `_total` suffix rule described in [Naming Changes](#naming-changes) (see [Counter and Info Suffix Rules](#counter-and-info-suffix-rules)), since dropping `_total` gives you cleaner dotted metric names.
 
 Be aware that not all Prometheus ecosystem tools support UTF-8 metric names yet.
 

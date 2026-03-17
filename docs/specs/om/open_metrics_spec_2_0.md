@@ -64,6 +64,7 @@ Time series are a record of changing information over time. Common examples of m
 
 ## Data Model
 
+// TODO: High level diagram to put here.
 This section MUST be read together with the ABNF section. In case of disagreements between the two, the ABNF's restrictions MUST take precedence.
 
 ### Data Types
@@ -74,14 +75,19 @@ Metric values in OpenMetrics MUST be either Number or CompositeValue.
 
 ##### Number
 
+// MAYBE: Clarify floating point exactly / link to where we do this instead of float64
+// MAYBE: "ut it MAY be used to signal a division by zero" -> add or any result of the math operations that would result it in.
 Number value MUST be either floating point or integer. Note that ingestors of the format MAY only support float64. The non-real values NaN, +Inf and -Inf MUST be supported. NaN value MUST NOT be considered a missing value, but it MAY be used to signal a division by zero.
 
 Booleans MUST be represented as a Number value where `1` is true and `0` is false.
 
 ##### CompositeValue
 
+// TODO(dashpole): Fix on Data model redefinition "Sample value"
+// * Sample = value + timestamp + st + exemplars
 CompositeValue MUST contain all information necessary to recreate a sample value for Metric within the MetricFamily.
 
+// TODO(dashpole): Fix on Data model redefinition "Metric Values" -> maybe "Sample Values"
 The following MetricFamily Types MUST use CompositeValue for Metric Values:
 
 * [Histogram](#histogram) MetricFamily Type.
@@ -92,6 +98,7 @@ Other MetricFamily Types MUST use Numbers.
 
 #### Timestamps
 
+// MAYBE: Mention its float?
 Timestamps MUST be Unix Epoch in seconds. Negative timestamps MAY be used.
 
 #### Strings
@@ -104,6 +111,7 @@ Labels are key-value pairs consisting of strings.
 
 Label names beginning with two underscores are RESERVED and MUST NOT be used unless specified by this standard. Such Label names MAY be used in place of TYPE and UNIT metadata in cases where MetricFamilies' metadata might otherwise be conflicting, such as metric federation cases.
 
+// MAYBE: Link to where we explain "UTF-8 metrics may reduce usability"
 Label names SHOULD follow the restrictions in the ABNF section under the `label-name` section. Label names MAY be any quoted escaped UTF-8 string as described in the ABNF section. Be aware that exposing UTF-8 metrics may reduce usability.
 
 Empty label values SHOULD be treated as if the label was not present.
@@ -124,6 +132,7 @@ When an exemplar references a [Trace Context](https://www.w3.org/TR/trace-contex
 
 While there's no [hard limit](#size-limits) specified, Exemplar's LabelSet SHOULD NOT be used to transport large data like tracing span details or other event logging.
 
+// TODO: "If you truncate data try to preserve trace id and span id"
 Ingestors MAY truncate the Exemplar's LabelSet or discard Exemplars.
 
 #### Sample
@@ -147,6 +156,7 @@ A MetricFamily MAY have zero or more Metrics. Every Metric within a MetricFamily
 MetricFamily name:
 
 * MUST be string.
+// TODO give example of unknown metadata? No meta exposed, two differently name metric families.
 * MUST be unique within a MetricSet.
 * MUST be the same as every Metric's Name in the family.
 
@@ -156,10 +166,12 @@ Names SHOULD be in snake_case. Names SHOULD follow the restrictions in the ABNF 
 
 Colons in MetricFamily names are RESERVED to signal that the MetricFamily is the result of a calculation or aggregation of a general purpose monitoring system.
 
+// CHECK: RESERVED in RFC?
 MetricFamily names beginning with underscores are RESERVED and MUST NOT be used unless specified by this standard.
 
 ###### Discouraged Suffixes
 
+// TODO: Double check scrape failure modes e.g. rejection MetricSet vs Sample/MetricFamily.
 MetricFamily name SHOULD NOT end with `_count`, `_sum`, `_gcount`, `_gsum`, `_bucket`. Specifically, a name SHOULD NOT create a MetricName collision when converted to [the OpenMetrics 1.0 Text](https://prometheus.io/docs/specs/om/open_metrics_spec). Ingestors MAY reject such MetricFamily.
 
 A non-compliant example would be a gauge called `foo_bucket` and a histogram called `foo`. Exposers negotiating the older OpenMetrics or Text formats, or ingestors which support only the older data model could end up storing the `foo` histogram in the classic representation (`foo_bucket`, `foo_count`, `foo_sum`), which would clash with the gauge and cause a scrape rejection or dropped data.
@@ -174,6 +186,8 @@ Type specifies the MetricFamily type. Valid values are "unknown", "gauge", "coun
 
 Unit specifies MetricFamily units. If non-empty, it SHOULD be a suffix of the MetricFamily name separated by an underscore. Further type specific suffixes come after the unit suffix. Exposing metrics without the unit being a suffix of the MetricFamily name directly to end-users may reduce the usability due to confusion about what the metric's unit is.
 
+// TODO: Add link to unit value semantics?
+
 ##### Help
 
 Help is a string and SHOULD be non-empty. It is used to give a brief description of the MetricFamily for human consumption and SHOULD be short enough to be used as a tooltip.
@@ -186,6 +200,7 @@ Each MetricFamily name MUST be unique. The same label name and value SHOULD NOT 
 
 There is no specific ordering of MetricFamilies required within a MetricSet. An exposer MAY make an exposition easier to read for humans, for example sort alphabetically if the performance tradeoff makes sense.
 
+// MAYBE: What about other info metrics?
 If present, an Info MetricFamily called "target_info" per the [Supporting target metadata in both push-based and pull-based systems](#supporting-target-metadata-in-both-push-based-and-pull-based-systems) section below SHOULD be first.
 
 ### MetricFamily Types
@@ -206,6 +221,7 @@ The MetricFamily name for Counters SHOULD end in `_total`. Exposing metrics with
 
 A Sample in a Metric with the Type Counter SHOULD have a Timestamp value called Start Timestamp. This can help ingestors discern between new metrics and long-running ones it did not see before.
 
+// DISCUSSION: If you reset you must set ST?
 A Sample in a Metric with the Type Counter MUST have a Number value which is non-NaN. The value MUST be monotonically non-decreasing over time, unless it is reset to 0, and start from 0. The value MAY reset its value to 0. If present, the corresponding Start Timestamp MUST also be set to the timestamp of the reset.
 
 A Sample in a Metric with the type Counter MAY have exemplars.
@@ -232,6 +248,7 @@ Info metrics are used to expose textual information which SHOULD NOT change duri
 
 The MetricFamily name for Info metrics MUST end in `_info`.
 
+// TODO: adjust as per https://github.com/prometheus/docs/pull/2894/changes#r2940458234
 Info MAY be used to encode ENUMs whose values do not change over time, such as the type of a network interface.
 
 MetricFamilies of Type Info MUST have an empty Unit string.

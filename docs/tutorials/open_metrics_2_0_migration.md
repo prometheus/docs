@@ -305,3 +305,72 @@ The following complete example shows TYPE, UNIT, and HELP metadata with a quoted
 ```
 
 See: [UTF-8 Quoting](../specs/om/open_metrics_spec_2_0.md#utf-8-quoting) in the OM 2.0 spec.
+
+## Start Timestamps
+
+**Breaking**
+
+An OM 2.0 sample line has the following field ordering:
+
+```
+metric_name value [timestamp] [st@start_timestamp] [# exemplar...]
+```
+
+OM 2.0 replaces separate `_created` samples with an inline Start Timestamp (`st@`) on the sample line itself, reducing exposition size and avoiding race conditions between the `_created` sample and the value sample. Counters, histograms, and summaries have creation semantics and support Start Timestamps; gauges do not.
+
+**Counter**
+
+OM 1.0:
+```
+# TYPE http_requests counter
+http_requests_total 1027
+http_requests_created 1000000000
+```
+
+OM 2.0:
+```
+# TYPE http_requests_total counter
+http_requests_total 1027 st@1000000000
+```
+
+The OM 1.0 example uses `http_requests` as the TYPE name (implicit suffix stripping), while OM 2.0 uses `http_requests_total` (MetricFamily must match MetricName, per [Naming Changes](#naming-changes)). The `http_requests_created` sample becomes the inline `st@` timestamp.
+
+**Histogram**
+
+OM 1.0:
+```
+# TYPE http_request_duration_seconds histogram
+http_request_duration_seconds_bucket{le="0.1"} 800
+http_request_duration_seconds_bucket{le="0.5"} 950
+http_request_duration_seconds_bucket{le="+Inf"} 1027
+http_request_duration_seconds_sum 172.5
+http_request_duration_seconds_count 1027
+http_request_duration_seconds_created 1000000000
+```
+
+OM 2.0 histograms use CompositeValue syntax (covered in detail in [CompositeValues](#compositevalues)). Here we focus on where `st@` appears:
+
+OM 2.0:
+```
+# TYPE http_request_duration_seconds histogram
+http_request_duration_seconds {count:1027,sum:172.5,bucket:[0.1:800,0.5:950,+Inf:1027]} st@1000000000
+```
+
+The `_created` sample disappears entirely. The `st@` timestamp appears after the value on the single CompositeValue line.
+
+**Start Timestamps in Practice**
+
+This combined example shows counters and a histogram together with labels, timestamps, Start Timestamps, and an exemplar demonstrating the full field ordering:
+
+```
+# TYPE http_requests_total counter
+http_requests_total{method="GET",code="200"} 1027 1710000000 st@1000000000 # {trace_id="abc123",span_id="def456"} 1.0 1709999999
+http_requests_total{method="POST",code="201"} 53 1710000000 st@1000000000
+# TYPE http_request_duration_seconds histogram
+http_request_duration_seconds{method="GET"} {count:1027,sum:172.5,bucket:[0.1:800,0.5:950,+Inf:1027]} 1710000000 st@1000000000
+# EOF
+```
+
+See also: [Exemplars](#exemplars)
+
+See: [Counter](../specs/om/open_metrics_spec_2_0.md#counter) and [Histogram with Classic Buckets](../specs/om/open_metrics_spec_2_0.md#histogram-with-classic-buckets) in the OM 2.0 spec.

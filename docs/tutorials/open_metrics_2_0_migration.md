@@ -1,0 +1,268 @@
+# OpenMetrics 2.0 Migration Guide for Exposer Authors
+
+This guide covers the changes from OpenMetrics 1.0 to OpenMetrics 2.0 that affect exposer implementations. Sections are organized by implementation order so you can adopt changes incrementally, starting with version negotiation and working through metric types, syntax, and metadata.
+
+> **Draft specification.** OpenMetrics 2.0 is currently version 2.0.0-rc0 and is not yet finalized. Details in this guide may change before the spec reaches 2.0.0. Track progress at the [OpenMetrics 2.0 work group issue](https://github.com/prometheus/OpenMetrics/issues/276).
+
+## How to use this guide
+
+Each section below follows a consistent pattern:
+
+- A **Breaking** or **Non-breaking** label indicating whether the change breaks 1.0 parsers.
+- A brief refresher of the 1.0 behavior.
+- The 2.0 change.
+- Before/after code blocks labeled "OM 1.0:" and "OM 2.0:" showing the difference.
+- A "See:" link to the relevant section in the [OM 2.0 spec](open_metrics_spec_2_0.md).
+
+## Version Negotiation and Content-Type
+
+**Breaking**
+
+In OM 1.0, exposers used the following Content-Type header to identify their format:
+
+OM 1.0:
+```
+application/openmetrics-text; version=1.0.0; charset=utf-8
+```
+
+OM 2.0:
+```
+application/openmetrics-text; version=2.0.0; charset=utf-8
+```
+
+### Negotiation defaults
+
+Exposers MUST default to the oldest version of the standard (1.0.0) when no specific version is requested. This applies to both pull and push models:
+
+- **Pull-based (HTTP):** Use standard HTTP content-type negotiation. If the scraper does not request version 2.0.0, respond with 1.0.0.
+- **Push-based:** Use version 1.0.0 unless the ingestor explicitly requests a newer version.
+
+This means your exposer should continue serving 1.0 format by default and only switch to 2.0 when the consumer asks for it.
+
+### Protobuf format removed
+
+OM 2.0 removes the `application/openmetrics-protobuf` format entirely. If your exposer currently supports the OpenMetrics protobuf representation, you will need to drop it when migrating to 2.0. For the Prometheus protobuf wire format and other available formats, see the [exposition formats documentation](https://prometheus.io/docs/instrumenting/exposition_formats). Protobuf removal is covered in more detail in the [Metadata Changes](#metadata-changes) section.
+
+See: [Protocol Negotiation](open_metrics_spec_2_0.md#protocol-negotiation) in the OM 2.0 spec.
+
+## Metadata Changes
+
+OM 2.0 relaxes several metadata requirements and renames a few conventions. This section covers all metadata-level changes that affect how MetricFamilies are described.
+
+### MetricFamily Metadata Relaxation
+
+**Non-breaking**
+
+In OM 1.0, every MetricFamily MUST have a name, HELP, TYPE, and UNIT metadata.
+
+In OM 2.0, only the name remains a MUST requirement. Help, Type, and Unit metadata are now SHOULD (recommended but not required). The name must exactly match every MetricPoint's MetricName in the family.
+
+OM 1.0:
+```
+# TYPE http_requests_total counter
+# UNIT http_requests_total seconds
+# HELP http_requests_total Total HTTP requests.
+http_requests_total 1027
+```
+
+OM 2.0:
+```
+# TYPE http_requests_total counter
+# UNIT http_requests_total seconds
+# HELP http_requests_total Total HTTP requests.
+http_requests_total 1027
+```
+
+The OM 2.0 example looks the same because this is a non-breaking change. Exposers already providing TYPE, UNIT, and HELP metadata can continue to do so unchanged. The difference is that new exposers are no longer required to include them. A minimal valid OM 2.0 MetricFamily only needs the name and at least one MetricPoint.
+
+See: [MetricFamily](open_metrics_spec_2_0.md#metricfamily) in the OM 2.0 spec.
+
+### Reserved Label Prefix
+
+**Non-breaking**
+
+In OM 1.0, label names beginning with a single underscore (`_`) are RESERVED and must not be used unless specified by the standard.
+
+In OM 2.0, the reserved prefix is now a double underscore (`__`). Single-underscore labels are available for user use.
+
+OM 1.0:
+```
+# _my_label is reserved; user labels must not start with _
+my_metric{app="web"} 1
+```
+
+OM 2.0:
+```
+# __reserved is reserved; _my_label is now allowed for users
+my_metric{_my_label="custom",app="web"} 1
+```
+
+OM 2.0 also allows `__type` and `__unit` labels as alternatives to TYPE and UNIT metadata in federation scenarios where MetricFamily metadata might otherwise conflict.
+
+See: [Label](open_metrics_spec_2_0.md#label) in the OM 2.0 spec.
+
+### Target Info Rename
+
+**Breaking**
+
+In OM 1.0, the target metadata Info MetricFamily is called "target".
+
+In OM 2.0, it is renamed to "target_info" to be consistent with the `_info` suffix requirement for Info type metrics.
+
+OM 1.0:
+```
+# TYPE target info
+# HELP target Target metadata
+target_info{env="prod"} 1
+```
+
+OM 2.0:
+```
+# TYPE target_info info
+# HELP target_info Target metadata
+target_info{env="prod"} 1
+```
+
+The sample line (`target_info{...}`) stays the same in both versions because OM 1.0 already appended `_info` to the sample name. The change is in the TYPE and HELP metadata lines, where the MetricFamily name changes from "target" to "target_info".
+
+See: [Supporting Target Metadata in both Push-based and Pull-based Systems](open_metrics_spec_2_0.md#supporting-target-metadata-in-both-push-based-and-pull-based-systems) in the OM 2.0 spec.
+
+### Protobuf Format Removal
+
+**Breaking**
+
+In OM 1.0, a protobuf wire format was specified alongside text, using the content type `application/openmetrics-protobuf; version=1.0.0`.
+
+In OM 2.0, the protobuf format is removed entirely. Only the text format remains (`application/openmetrics-text`).
+
+Exposers currently using the OpenMetrics protobuf format should switch to the text format when migrating to OM 2.0. Note that the Prometheus-specific protobuf wire format (`io.prometheus.client`) is a separate format that is unaffected by this change. For available wire formats, see the [exposition formats documentation](https://prometheus.io/docs/instrumenting/exposition_formats/#protobuf-format).
+
+See: [Text Format](open_metrics_spec_2_0.md#text-format) in the OM 2.0 spec (protobuf removal note).
+
+## Naming Changes
+
+OM 2.0 tightens the relationship between MetricFamily names and MetricPoint MetricNames, and changes the suffix rules for counters and info metrics. In OM 1.0, parsers implicitly stripped known suffixes to map sample names back to their MetricFamily. In OM 2.0, this implicit stripping is gone: the MetricFamily name must exactly match the MetricName on every MetricPoint.
+
+### MetricFamily Name Must Match MetricName
+
+**Breaking**
+
+In OM 1.0, a counter's TYPE line used a base name (e.g. `http_requests`) while its samples carried the `_total` suffix (e.g. `http_requests_total`). The parser knew to strip `_total` when matching samples back to their MetricFamily, so the MetricFamily name and sample MetricName could differ.
+
+In OM 2.0, the MetricFamily name MUST exactly match every MetricPoint's MetricName. There is no implicit suffix stripping. For counters, this means the TYPE line must include `_total` if the samples use it.
+
+OM 1.0:
+```
+# TYPE http_requests counter
+# HELP http_requests Total HTTP requests.
+http_requests_total 1027
+```
+
+OM 2.0:
+```
+# TYPE http_requests_total counter
+# HELP http_requests_total Total HTTP requests.
+http_requests_total 1027
+```
+
+Notice that the TYPE and HELP lines now use `http_requests_total` to match the sample name exactly. This is the most common change you will need to make: update TYPE and HELP metadata names to include the suffix that was previously only on samples.
+
+See: [MetricFamily](open_metrics_spec_2_0.md#metricfamily) in the OM 2.0 spec.
+
+### Counter and Info Suffix Rules
+
+**Counter _total**
+
+**Non-breaking**
+
+In OM 1.0, counter MetricFamily names MUST end in `_total`.
+
+In OM 2.0, counter MetricFamily names SHOULD end in `_total`. It is no longer mandatory.
+
+> **Tip:** Whether to keep or drop `_total` depends on your environment. Keeping `_total` preserves human readability and backward compatibility with older tools and dashboards that expect the suffix. Dropping `_total` gives you cleaner names, especially when using UTF-8 metric names, and smoother integration with the OpenTelemetry bridge. Both are valid choices under the spec.
+
+If you keep `_total` (which most existing exposers will), no change is needed beyond the MetricFamily name match described above:
+
+OM 1.0:
+```
+# TYPE http_requests counter
+http_requests_total 1027
+```
+
+OM 2.0:
+```
+# TYPE http_requests_total counter
+http_requests_total 1027
+```
+
+**Info _info**
+
+**Non-breaking**
+
+In OM 1.0, Info MetricFamily names did not have a suffix requirement at the MetricFamily level. The parser added `_info` to sample names automatically, so a MetricFamily named `build` produced samples named `build_info`.
+
+In OM 2.0, Info MetricFamily names MUST end in `_info`. This is consistent with the MetricFamily-must-match-MetricName rule: since samples already carried `_info`, the MetricFamily name must now include it too.
+
+OM 1.0:
+```
+# TYPE build info
+# HELP build Build information.
+build_info{version="1.4.2",branch="main"} 1
+```
+
+OM 2.0:
+```
+# TYPE build_info info
+# HELP build_info Build information.
+build_info{version="1.4.2",branch="main"} 1
+```
+
+This is the same pattern as the target_info rename covered in the [Metadata Changes](#metadata-changes) section, but applied as a general rule: all Info metrics, not just target, must have `_info` in their MetricFamily name.
+
+See: [Counter](open_metrics_spec_2_0.md#counter) and [Info](open_metrics_spec_2_0.md#info) in the OM 2.0 spec.
+
+### Reserved Suffixes
+
+**Non-breaking**
+
+MetricFamily names SHOULD NOT end with any of these reserved suffixes:
+
+- `_count`
+- `_sum`
+- `_bucket`
+- `_gcount`
+- `_gsum`
+
+These suffixes are reserved because older ingestors that convert histograms and summaries to classic representation expand them into samples with these suffixes. If you have a gauge called `foo_bucket` and a histogram called `foo`, older ingestors would expand the histogram into `foo_bucket`, `foo_count`, and `foo_sum` samples, creating a collision with your gauge.
+
+This is a SHOULD NOT (not MUST NOT), so existing metrics with these suffixes will still parse. However, renaming them avoids subtle collision bugs when your metrics are consumed by systems that expand compound types into classic representation.
+
+See: [MetricFamily](open_metrics_spec_2_0.md#metricfamily) in the OM 2.0 spec.
+
+### Naming Changes in Practice
+
+Here is a complete OM 2.0 exposition for an HTTP server, showing how the naming rules work together:
+
+```
+# TYPE http_requests_total counter
+# HELP http_requests_total Total HTTP requests received.
+http_requests_total{method="GET",code="200"} 1027
+http_requests_total{method="POST",code="201"} 53
+# TYPE http_request_duration_seconds histogram
+# HELP http_request_duration_seconds Duration of HTTP requests in seconds.
+http_request_duration_seconds_bucket{method="GET",le="0.1"} 800
+http_request_duration_seconds_bucket{method="GET",le="0.5"} 950
+http_request_duration_seconds_bucket{method="GET",le="+Inf"} 1027
+http_request_duration_seconds_sum{method="GET"} 172.5
+http_request_duration_seconds_count{method="GET"} 1027
+# TYPE build_info info
+# HELP build_info Build metadata.
+build_info{version="1.4.2",branch="main",goversion="go1.22"} 1
+# EOF
+```
+
+What each metric demonstrates:
+
+- **http_requests_total** (counter): TYPE line uses `http_requests_total`, matching the sample name exactly. The `_total` suffix is kept for readability and backward compatibility.
+- **http_request_duration_seconds** (histogram): MetricFamily name avoids reserved suffixes. The `_bucket`, `_sum`, and `_count` suffixes appear only on expanded samples, not on the MetricFamily name.
+- **build_info** (info): TYPE line uses `build_info`, matching the sample name. The `_info` suffix is present on the MetricFamily name as required.

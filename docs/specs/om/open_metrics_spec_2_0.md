@@ -68,6 +68,12 @@ Common examples of metric time series would be network interface counters, devic
 
 This section MUST be read together with the ABNF section. In case of disagreements between the two, the ABNF's restrictions MUST take precedence. This reduces repetition as the text wire format MUST be supported.
 
+<!---
+# Diagram source: https://docs.google.com/presentation/d/1ovDkQVm84zo5ktWZVm5XosLS2YMRgdSJCevVivAlLW0/edit?slide=id.g3cfc897512e_0_291#slide=id.g3cfc897512e_0_291
+-->
+
+![om2_datamodel.png](/assets/docs/om2_datamodel.png)
+
 ### Data Types
 
 #### Values

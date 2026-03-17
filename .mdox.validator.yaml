@@ -1,6 +1,13 @@
 version: 1
 
-# Don't check external URLs, they can time-out a lot (rate limits).
+explicitLocalValidators: true
 validators:
+  # Don't check external URLs for now, they can time-out a lot (rate limits), so they require extra cache setup.
   - type: ignore
     regex: http(s|)://.*
+  # In docs assets are referenced in links as /assets/..., but the true path is ./public/assets/...
+  - type: local
+    regex: "/assets/.*"
+    anchor: "/public"
+  - type: local
+    regex: ".*"

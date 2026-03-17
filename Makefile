@@ -3,7 +3,7 @@ MD_FILES_TO_FORMAT=docs/specs/om/open_metrics_spec_2_0.md
 
 MDOX="mdox"
 $(MDOX):
-	@go install github.com/bwplotka/mdox@v0.9.0
+	@go install github.com/bwplotka/mdox@d22b1d641c9b4b7a54c95d279231abe6e5e892fd
 
 .PHONY: help
 help: ## Displays help.
@@ -13,7 +13,7 @@ help: ## Displays help.
 fmt: ## Format docs.
 fmt: $(MDOX)
 	@echo "Formatting markdown files..."
-	@$(MDOX) fmt --links.validate $(MD_FILES_TO_FORMAT)
+	@$(MDOX) fmt --links.validate --links.validate.config-file=./.mdox.validator.yaml $(MD_FILES_TO_FORMAT)
 
 .PHONY: check
 check: ## Checks if doc is formatter and links are correct (don't check external links).

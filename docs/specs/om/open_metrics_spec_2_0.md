@@ -40,13 +40,13 @@ Created in 2012, Prometheus has been the default for cloud-native observability 
 
 In 2020, [OpenMetrics 1.0](open_metrics_spec.md) was released to clean up and tighten the specification with the additional purpose of bringing it into IETF. OpenMetrics 1.0 text exposition documented a working standard with wide and organic adoption among dozens of exporters, integrations, and ingestors.
 
-Around 2024, the OpenMetrics project was incorporated under the CNCF Prometheus project umbrella. Together with production learnings from deploying OpenMetrics 1.0 on wide scale and a backlog of new Prometheus innovations missing from the text formats, Prometheus community decided to pursue a second version of OpenMetrics standard.
+Around 2024, the OpenMetrics project was incorporated under the CNCF Prometheus project umbrella. Together with production learnings from deploying OpenMetrics 1.0 on wide scale and a backlog of new Prometheus innovations missing from the text formats, Prometheus community decided to pursue a second version of the OpenMetrics standard.
 
-The intention of OpenMetrics 2.0 is to use OpenMetrics 1.0 as a foundation and enhance it to achieve even greater reliability, usability and consistency with the modern Prometheus data model, without sacrificing the ease of use and readability. See TODO for changes, since the OpenMetrics 1.0.
+The intention of OpenMetrics 2.0 is to use OpenMetrics 1.0 as a foundation and enhance it to achieve even greater reliability, usability and consistency with the modern Prometheus data model, without sacrificing the ease of use and readability. OpenMetrics 2.0 also improves compatibility with OpenTelemetry data model and naming conventions.
 
-This document is meant to be used a standalone specification, although the majority of the content is reused from the [OpenMetrics 1.0](open_metrics_spec.md).
+This document is meant to be used as a standalone specification.
 
-> NOTE: This document is an early draft, major changes expected. Read [here](https://github.com/prometheus/OpenMetrics/issues/276) on how to join [the Prometheus OM 2.0 work group](https://docs.google.com/document/d/1FCD-38Xz1-9b3ExgHOeDTQUKUatzgj5KbCND9t-abZY/edit?tab=t.lvx6fags1fga#heading=h.uaaplxxbz60u).
+> NOTE: This is a release candidate (RC) version of the OpenMetrics 2.0 specification. This means that this specification is currently in an experimental state--no major changes are expected, but we reserve the right to break the compatibility if it's necessary, based on the early adopters' feedback. The potential feedback, questions and suggestions should be added as [an issue on the `prometheus/openmetrics` repository](https://github.com/prometheus/openmetrics).
 
 ## Overview
 
@@ -54,19 +54,19 @@ Metrics are a specific kind of telemetry data. They represent a snapshot of the 
 
 OpenMetrics is primarily a wire format, independent of any particular transport for that format. The format is expected to be consumed on a regular basis and to be meaningful over successive expositions.
 
-Implementers MUST expose metrics in the OpenMetrics text format in response to a simple HTTP GET request to a documented URL for a given process or device. This endpoint SHOULD be called "/metrics". Implementers MAY also expose OpenMetrics formatted metrics in other ways, such as by regularly pushing metric sets to an operator-configured endpoint over HTTP.
+Implementers SHOULD expose metrics in the OpenMetrics text format in response to an HTTP GET request to a documented URL for a given process or device. This endpoint SHOULD be called "/metrics". Implementers MAY also expose OpenMetrics formatted metrics in other ways, for example, by regularly pushing metric sets to an operator-configured endpoint over HTTP.
 
 ### Metrics and Time Series
 
 This standard expresses all system states as numerical values; counts, current values, distributions, enumerations, and boolean states being common examples. Contrary to metrics, singular events occur at a specific time. Metrics tend to aggregate data temporally and provide a sample of the system state. While this can lose information, the reduction in overhead is an engineering trade-off commonly chosen in many modern monitoring systems.
 
-Time series are a record of changing information over time. While time series can support arbitrary strings or binary data, only numeric data is in scope for this RFC.
-
-Common examples of metric time series would be network interface counters, device temperatures, BGP connection states, and alert states.
+Time series are a record of changing information over time. Common examples of metric time series would be network interface counters, device temperatures, BGP connection states, latency distributions, and alert states.
 
 ## Data Model
 
-This section MUST be read together with the ABNF section. In case of disagreements between the two, the ABNF's restrictions MUST take precedence. This reduces repetition as the text wire format MUST be supported.
+This section MUST be read together with the ABNF section. In case of disagreements between the two, the ABNF's restrictions MUST take precedence.
+
+// TODO: High level diagram to put here.
 
 ### Data Types
 
@@ -76,12 +76,19 @@ Metric values in OpenMetrics MUST be either Number or CompositeValue.
 
 ##### Number
 
+// MAYBE: Clarify floating point exactly / link to where we do this instead of float64
+// MAYBE: "ut it MAY be used to signal a division by zero" -> add or any result of the math operations that would result it in.
 Number value MUST be either floating point or integer. Note that ingestors of the format MAY only support float64. The non-real values NaN, +Inf and -Inf MUST be supported. NaN value MUST NOT be considered a missing value, but it MAY be used to signal a division by zero.
+
+Booleans MUST be represented as a Number value where `1` is true and `0` is false.
 
 ##### CompositeValue
 
+// TODO(dashpole): Fix on Data model redefinition "Sample value"
+// * Sample = value + timestamp + st + exemplars
 CompositeValue MUST contain all information necessary to recreate a sample value for Metric within the MetricFamily.
 
+// TODO(dashpole): Fix on Data model redefinition "Metric Values" -> maybe "Sample Values"
 The following MetricFamily Types MUST use CompositeValue for Metric Values:
 
 * [Histogram](#histogram) MetricFamily Type.
@@ -90,14 +97,9 @@ The following MetricFamily Types MUST use CompositeValue for Metric Values:
 
 Other MetricFamily Types MUST use Numbers.
 
-See [MetricFamily Types](#metricfamily-types) for details.
-
-##### Booleans
-
-Boolean values MUST follow `1==true`, `0==false`.
-
 #### Timestamps
 
+// MAYBE: Mention its float?
 Timestamps MUST be Unix Epoch in seconds. Negative timestamps MAY be used.
 
 #### Strings
@@ -110,6 +112,7 @@ Labels are key-value pairs consisting of strings.
 
 Label names beginning with two underscores are RESERVED and MUST NOT be used unless specified by this standard. Such Label names MAY be used in place of TYPE and UNIT metadata in cases where MetricFamilies' metadata might otherwise be conflicting, such as metric federation cases.
 
+// MAYBE: Link to where we explain "UTF-8 metrics may reduce usability"
 Label names SHOULD follow the restrictions in the ABNF section under the `label-name` section. Label names MAY be any quoted escaped UTF-8 string as described in the ABNF section. Be aware that exposing UTF-8 metrics may reduce usability.
 
 Empty label values SHOULD be treated as if the label was not present.
@@ -122,14 +125,15 @@ A LabelSet MUST consist of Labels and MAY be empty. Label names MUST be unique w
 
 Exemplars are references to data outside of the MetricSet. A common use case are IDs of program traces.
 
-Exemplars MUST consist of a LabelSet and a value, and MUST have a timestamp. The LabelSet SHOULD NOT contain any Label names included in the Metric's LabelSet. The timestamp SHOULD NOT be after the Sample's timestamp, if present, and SHOULD NOT be before the Sample's start timestamp, if present.
+Exemplars MUST consist of a LabelSet and a Number value, and MUST have a timestamp. The LabelSet SHOULD NOT contain any Label names included in the Metric's LabelSet. The timestamp SHOULD be before or equal to the Sample's timestamp, if present. The timestamp SHOULD be after or equal to the Sample's start timestamp, if present.
 
-The Exemplar's timestamp SHOULD be close to the point in time when the referenced data was created, but doesn't have to be exact. For example if getting an exact timestamp is costly, it is acceptable to use some external source or synthetic clock.
+The Exemplar's timestamp SHOULD be close to the point when it was observed, but doesn't have to be exact. For example, if getting an exact timestamp is costly, it is acceptable to use some external source or an estimate.
 
 When an exemplar references a [Trace Context](https://www.w3.org/TR/trace-context-2/), it SHOULD use the `trace_id` key for the [trace-id](https://www.w3.org/TR/trace-context-2/#traceparent-header) field, and the `span_id` key for the [`parent-id`](https://www.w3.org/TR/trace-context-2/#traceparent-header) field.
 
 While there's no [hard limit](#size-limits) specified, Exemplar's LabelSet SHOULD NOT be used to transport large data like tracing span details or other event logging.
 
+// TODO: "If you truncate data try to preserve trace id and span id"
 Ingestors MAY truncate the Exemplar's LabelSet or discard Exemplars.
 
 #### Sample

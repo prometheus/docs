@@ -58,7 +58,7 @@ Implementers MUST expose metrics in the OpenMetrics text format in response to a
 
 ### Metrics and Time Series
 
-This standard expresses all system states as numerical values; counts, current values, enumerations, and boolean states being common examples. Contrary to metrics, singular events occur at a specific time. Metrics tend to aggregate data temporally. While this can lose information, the reduction in overhead is an engineering trade-off commonly chosen in many modern monitoring systems.
+This standard expresses all system states as numerical values; counts, current values, distributions, enumerations, and boolean states being common examples. Contrary to metrics, singular events occur at a specific time. Metrics tend to aggregate data temporally and provide a sample of the system state. While this can lose information, the reduction in overhead is an engineering trade-off commonly chosen in many modern monitoring systems.
 
 Time series are a record of changing information over time. While time series can support arbitrary strings or binary data, only numeric data is in scope for this RFC.
 
@@ -70,7 +70,7 @@ This section MUST be read together with the ABNF section. In case of disagreemen
 
 ### Data Types
 
-#### Values
+#### Sample Values
 
 Metric values in OpenMetrics MUST be either Number or CompositeValue.
 
@@ -144,7 +144,6 @@ Metrics are defined by a unique LabelSet within a MetricFamily. Metrics MUST con
 
 Metrics with the same name for a given MetricFamily SHOULD have the same set of label names in their LabelSet.
 
-If more than one Sample is exposed for a Metric, then its Samples MUST have monotonically increasing timestamps.
 
 #### MetricFamily
 

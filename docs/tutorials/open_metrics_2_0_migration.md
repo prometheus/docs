@@ -12,7 +12,7 @@ Each section below follows a consistent pattern:
 - A brief refresher of the 1.0 behavior.
 - The 2.0 change.
 - Before/after code blocks labeled "OM 1.0:" and "OM 2.0:" showing the difference.
-- A "See:" link to the relevant section in the [OM 2.0 spec](open_metrics_spec_2_0.md).
+- A "See:" link to the relevant section in the [OM 2.0 spec](../specs/om/open_metrics_spec_2_0.md).
 
 ## Version Negotiation and Content-Type
 
@@ -41,15 +41,17 @@ This means your exposer should continue serving 1.0 format by default and only s
 
 ### Protobuf format removed
 
-OM 2.0 removes the `application/openmetrics-protobuf` format entirely. If your exposer currently supports the OpenMetrics protobuf representation, you will need to drop it when migrating to 2.0. For the Prometheus protobuf wire format and other available formats, see the [exposition formats documentation](https://prometheus.io/docs/instrumenting/exposition_formats). Protobuf removal is covered in more detail in the [Metadata Changes](#metadata-changes) section.
+OM 2.0 removes the `application/openmetrics-protobuf` format entirely. You may continue to support the protobuf format for 1.0, but 2.0 does not contain a new or updated protobuf format. For the Prometheus protobuf wire format and other available formats, see the [exposition formats documentation](https://prometheus.io/docs/instrumenting/exposition_formats). Protobuf removal is covered in more detail in the [Metadata Changes](#metadata-changes) section.
 
-See: [Protocol Negotiation](open_metrics_spec_2_0.md#protocol-negotiation) in the OM 2.0 spec.
+See: [Protocol Negotiation](../specs/om/open_metrics_spec_2_0.md#protocol-negotiation) in the OM 2.0 spec.
 
 ## Metadata Changes
 
 OM 2.0 relaxes several metadata requirements and renames a few conventions. This section covers all metadata-level changes that affect how MetricFamilies are described.
 
 ### MetricFamily Metadata Relaxation
+
+XXXX Go into more detail about how the metric name === the metricfamily name now.
 
 **Non-breaking**
 
@@ -75,7 +77,7 @@ http_requests_total 1027
 
 The OM 2.0 example looks the same because this is a non-breaking change. Exposers already providing TYPE, UNIT, and HELP metadata can continue to do so unchanged. The difference is that new exposers are no longer required to include them. A minimal valid OM 2.0 MetricFamily only needs the name and at least one MetricPoint.
 
-See: [MetricFamily](open_metrics_spec_2_0.md#metricfamily) in the OM 2.0 spec.
+See: [MetricFamily](../specs/om/open_metrics_spec_2_0.md#metricfamily) in the OM 2.0 spec.
 
 ### Reserved Label Prefix
 
@@ -99,11 +101,13 @@ my_metric{_my_label="custom",app="web"} 1
 
 OM 2.0 also allows `__type` and `__unit` labels as alternatives to TYPE and UNIT metadata in federation scenarios where MetricFamily metadata might otherwise conflict.
 
-See: [Label](open_metrics_spec_2_0.md#label) in the OM 2.0 spec.
+See: [Label](../specs/om/open_metrics_spec_2_0.md#label) in the OM 2.0 spec.
 
 ### Target Info Rename
 
 **Breaking**
+
+XXXX this is again around metricfamily === metric
 
 In OM 1.0, the target metadata Info MetricFamily is called "target".
 
@@ -125,19 +129,7 @@ target_info{env="prod"} 1
 
 The sample line (`target_info{...}`) stays the same in both versions because OM 1.0 already appended `_info` to the sample name. The change is in the TYPE and HELP metadata lines, where the MetricFamily name changes from "target" to "target_info".
 
-See: [Supporting Target Metadata in both Push-based and Pull-based Systems](open_metrics_spec_2_0.md#supporting-target-metadata-in-both-push-based-and-pull-based-systems) in the OM 2.0 spec.
-
-### Protobuf Format Removal
-
-**Breaking**
-
-In OM 1.0, a protobuf wire format was specified alongside text, using the content type `application/openmetrics-protobuf; version=1.0.0`.
-
-In OM 2.0, the protobuf format is removed entirely. Only the text format remains (`application/openmetrics-text`).
-
-Exposers currently using the OpenMetrics protobuf format should switch to the text format when migrating to OM 2.0. Note that the Prometheus-specific protobuf wire format (`io.prometheus.client`) is a separate format that is unaffected by this change. For available wire formats, see the [exposition formats documentation](https://prometheus.io/docs/instrumenting/exposition_formats/#protobuf-format).
-
-See: [Text Format](open_metrics_spec_2_0.md#text-format) in the OM 2.0 spec (protobuf removal note).
+See: [Supporting Target Metadata in both Push-based and Pull-based Systems](../specs/om/open_metrics_spec_2_0.md#supporting-target-metadata-in-both-push-based-and-pull-based-systems) in the OM 2.0 spec.
 
 ## Naming Changes
 
@@ -167,7 +159,7 @@ http_requests_total 1027
 
 Notice that the TYPE and HELP lines now use `http_requests_total` to match the sample name exactly. This is the most common change you will need to make: update TYPE and HELP metadata names to include the suffix that was previously only on samples.
 
-See: [MetricFamily](open_metrics_spec_2_0.md#metricfamily) in the OM 2.0 spec.
+See: [MetricFamily](../specs/om/open_metrics_spec_2_0.md#metricfamily) in the OM 2.0 spec.
 
 ### Counter and Info Suffix Rules
 
@@ -219,7 +211,7 @@ build_info{version="1.4.2",branch="main"} 1
 
 This is the same pattern as the target_info rename covered in the [Metadata Changes](#metadata-changes) section, but applied as a general rule: all Info metrics, not just target, must have `_info` in their MetricFamily name.
 
-See: [Counter](open_metrics_spec_2_0.md#counter) and [Info](open_metrics_spec_2_0.md#info) in the OM 2.0 spec.
+See: [Counter](../specs/om/open_metrics_spec_2_0.md#counter) and [Info](../specs/om/open_metrics_spec_2_0.md#info) in the OM 2.0 spec.
 
 ### Reserved Suffixes
 
@@ -237,7 +229,7 @@ These suffixes are reserved because older ingestors that convert histograms and 
 
 This is a SHOULD NOT (not MUST NOT), so existing metrics with these suffixes will still parse. However, renaming them avoids subtle collision bugs when your metrics are consumed by systems that expand compound types into classic representation.
 
-See: [MetricFamily](open_metrics_spec_2_0.md#metricfamily) in the OM 2.0 spec.
+See: [MetricFamily](../specs/om/open_metrics_spec_2_0.md#metricfamily) in the OM 2.0 spec.
 
 ### Naming Changes in Practice
 
@@ -266,3 +258,50 @@ What each metric demonstrates:
 - **http_requests_total** (counter): TYPE line uses `http_requests_total`, matching the sample name exactly. The `_total` suffix is kept for readability and backward compatibility.
 - **http_request_duration_seconds** (histogram): MetricFamily name avoids reserved suffixes. The `_bucket`, `_sum`, and `_count` suffixes appear only on expanded samples, not on the MetricFamily name.
 - **build_info** (info): TYPE line uses `build_info`, matching the sample name. The `_info` suffix is present on the MetricFamily name as required.
+
+## UTF-8 Names
+
+**Non-breaking**
+
+OM 2.0 allows metric and label names to contain UTF-8 characters beyond the traditional `[a-zA-Z0-9_:]` set. This exists primarily for OpenTelemetry bridge scenarios, where metrics use dotted naming conventions like `process.cpu.seconds`. Dotted names pair well with the relaxed `_total` suffix rule described in [Counter and Info Suffix Rules](#counter-and-info-suffix-rules), since dropping `_total` gives you cleaner dotted metric names.
+
+Be aware that not all Prometheus ecosystem tools support UTF-8 metric names yet.
+
+### Metric Name Quoting
+
+Metric names that do not match `^[a-zA-Z_:][a-zA-Z0-9_:]*$` MUST be enclosed in double quotes. Any metric name MAY be enclosed in double quotes, but quoting is only required when the name contains characters outside the traditional set.
+
+Within quoted strings, use `\\` for a literal backslash, `\"` for a literal double quote, and `\n` for a newline.
+
+```
+# TYPE "process.cpu.seconds" counter
+# HELP "process.cpu.seconds" Total user and system CPU time spent in seconds.
+{"process.cpu.seconds"} 4.20072246e+06
+```
+
+See: [UTF-8 Quoting](../specs/om/open_metrics_spec_2_0.md#utf-8-quoting) in the OM 2.0 spec.
+
+### Label Name Quoting
+
+Label names that do not match `^[a-zA-Z_][a-zA-Z0-9_]*$` MUST be enclosed in double quotes. Any label name MAY be enclosed in double quotes, but quoting is only required when the name contains characters outside the traditional set.
+
+```
+{"process.cpu.seconds","node.name"="my_node"} 4.20072246e+06
+```
+
+See: [UTF-8 Quoting](../specs/om/open_metrics_spec_2_0.md#utf-8-quoting) in the OM 2.0 spec.
+
+### Alternative Brace Syntax
+
+When a metric name requires quoting, the quoted name moves inside the braces as the first element. This is required for quoted metric names: the metric name MUST appear inside the braces, not outside. In the ABNF grammar, this is the `name-and-labels-in-braces` production.
+
+The following complete example shows TYPE, UNIT, and HELP metadata with a quoted metric name, followed by a sample line using the brace syntax with both a quoted metric name and a quoted label name:
+
+```
+# TYPE "process.cpu.seconds" counter
+# UNIT "process.cpu.seconds" seconds
+# HELP "process.cpu.seconds" Total user and system CPU time spent in seconds.
+{"process.cpu.seconds","node.name"="my_node"} 4.20072246e+06
+```
+
+See: [UTF-8 Quoting](../specs/om/open_metrics_spec_2_0.md#utf-8-quoting) in the OM 2.0 spec.

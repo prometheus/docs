@@ -144,7 +144,6 @@ Metrics are defined by a unique LabelSet within a MetricFamily. Metrics MUST con
 
 Metrics with the same name for a given MetricFamily SHOULD have the same set of label names in their LabelSet.
 
-
 #### MetricFamily
 
 A MetricFamily MAY have zero or more Metrics. Every Metric within a MetricFamily MUST have a unique LabelSet. A MetricFamily MUST have a name and SHOULD have Help, Type, and Unit metadata.
@@ -704,7 +703,7 @@ Aside from this metadata and the EOF line at the end of the message, you MUST NO
 
 #### Metric
 
-Metrics MUST NOT be interleaved. See the example in "Text format -> Metric types -> StateSet".
+Metrics MUST NOT be interleaved. See the StateSet example below.
 
 A Sample without labels or a timestamp and the value 0 MUST be rendered either like:
 

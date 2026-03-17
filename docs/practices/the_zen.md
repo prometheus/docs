@@ -26,7 +26,7 @@ You should still measure internal metrics like database availability and CPU sat
 
 ## Labels are the new hierarchies
 
-**Labels are the new hierarchies**, yet more powerful and flexible. Labels are what make Prometheus strong. Using labels, one can group and aggregate measurements afterwards. Slice and dice using Labels. Remember [Instrument first, ask questions later](#instrument-first-ask-questions-later), provide as much context as possible.
+**Labels are the new hierarchies**, yet more powerful and flexible. Labels are what make Prometheus strong. Using labels, one can group and aggregate measurements afterwards. Slice and dice using labels. Remember [Instrument first, ask questions later](#instrument-first-ask-questions-later), provide as much context as possible.
 However, you have to *use labels with care*. See explanations below.
 
 ## Avoid missing metrics

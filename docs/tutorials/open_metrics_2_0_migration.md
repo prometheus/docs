@@ -557,3 +557,41 @@ http_request_duration_seconds{method="POST"} {count:34,sum:68.5,schema:3,zero_th
 ```
 
 The GET line uses native-only fields. The POST line includes both native and classic bucket fields for consumers that do not yet support native buckets. The next section covers exemplar syntax that can be attached to these lines (see [Exemplars](#exemplars)).
+
+## Exemplars
+
+**Breaking**
+
+OM 2.0 changes several exemplar rules. Mandatory timestamps, multiple exemplars per sample, and relaxed size limits all affect how exposers attach trace context to metrics.
+
+### Mandatory Timestamps
+
+In OM 1.0, exemplar timestamps were optional (MAY). In OM 2.0, every exemplar MUST include a timestamp. This alone is a breaking change for OM 1.0 parsers that do not expect a timestamp after the exemplar value.
+
+```
+http_requests_total 1027 1710000000 # {trace_id="abc123",span_id="def456"} 1.0 1709999999
+```
+
+The exemplar (everything after `#`) has labels, a value (`1.0`), and a mandatory timestamp (`1709999999`).
+
+### Multiple Exemplars
+
+In OM 1.0, each sample could have at most one exemplar. OM 2.0 allows multiple exemplars on a single sample. Each exemplar starts with `#` followed by its own label set, value, and timestamp.
+
+```
+http_requests_total 1027 1710000000 # {trace_id="abc123",span_id="def456"} 1.0 1709999999 # {trace_id="xyz789",span_id="uvw012"} 1.0 1709999800
+```
+
+### W3C Trace Context Keys
+
+OM 2.0 recommends using `trace_id` and `span_id` as exemplar label keys, following W3C Trace Context conventions. The examples above already demonstrate this. Using consistent key names lets consumers correlate metrics with distributed traces without per-exporter configuration.
+
+### Size Limit Relaxation
+
+In OM 1.0, exemplar label sets had a hard 128-character limit. OM 2.0 removes this hard cap and replaces it with soft guidance: exposers SHOULD NOT emit excessively large exemplar label sets. This accommodates longer trace identifiers (such as W3C 32-character hex trace IDs) without requiring truncation.
+
+### Histogram Exemplar Placement
+
+In OM 1.0, histogram exemplars appeared on individual `_bucket` lines. In OM 2.0 with CompositeValue syntax, exemplars attach to the single sample line after the CompositeValue. Exemplars without labels MUST use an empty LabelSet `{}`. When attaching multiple exemplars to a MetricPoint, use consistent label names across all exemplars on that sample.
+
+See: [Exemplars](../specs/om/open_metrics_spec_2_0.md#exemplars) in the OM 2.0 spec.

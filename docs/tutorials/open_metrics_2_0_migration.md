@@ -374,3 +374,121 @@ http_request_duration_seconds{method="GET"} {count:1027,sum:172.5,bucket:[0.1:80
 See also: [Exemplars](#exemplars)
 
 See: [Counter](../specs/om/open_metrics_spec_2_0.md#counter) and [Histogram with Classic Buckets](../specs/om/open_metrics_spec_2_0.md#histogram-with-classic-buckets) in the OM 2.0 spec.
+
+## CompositeValues
+
+**Breaking**
+
+In OM 1.0, complex metric types (histograms, summaries, gaugehistograms) were represented as multiple expanded sample lines — one line per bucket, one for count, one for sum. In OM 2.0, these become a single sample line whose value is a CompositeValue: a structured `{key:value,...}` block containing all the fields at once.
+
+All three types — `histogram`, `summary`, and `gaugehistogram` — MUST use CompositeValue syntax in OM 2.0. OM 1.0 parsers cannot read the `{...}` block format, making this a breaking change.
+
+### Counter Value Simplification
+
+**Non-breaking** (text format only)
+
+In OM 2.0, the Counter data model defines the value as a plain Number. The separate "Total" concept that existed in the OM 1.0 protobuf data model is removed. For exposers using the text format, Counter samples already were numbers — no change to what you emit.
+
+OM 1.0:
+```
+# TYPE http_requests_total counter
+http_requests_total 1027
+```
+
+OM 2.0:
+```
+# TYPE http_requests_total counter
+http_requests_total 1027
+```
+
+The output looks the same. The change is in the data model: OM 1.0 had a `Counter.total` sub-field; OM 2.0 specifies the value directly as a Number.
+
+See: [Counter](../specs/om/open_metrics_spec_2_0.md#counter) in the OM 2.0 spec.
+
+### Summary
+
+**Rule:** In OM 2.0, a Summary MetricPoint MUST contain Count, Sum, and a set of quantiles. In OM 1.0 these were all MAY. Exposers that previously omitted count or sum must now include them.
+
+OM 1.0:
+```
+# TYPE http_request_duration_seconds_summary summary
+http_request_duration_seconds_summary{quantile="0.5"} 0.013
+http_request_duration_seconds_summary{quantile="0.9"} 0.025
+http_request_duration_seconds_summary{quantile="0.99"} 0.10
+http_request_duration_seconds_summary_sum 172.5
+http_request_duration_seconds_summary_count 1027
+```
+
+OM 2.0:
+```
+# TYPE http_request_duration_seconds_summary summary
+http_request_duration_seconds_summary {count:1027,sum:172.5,quantile:[0.5:0.013,0.9:0.025,0.99:0.10]}
+```
+
+All five sample lines collapse to one. The quantile map moves inside the CompositeValue block. Count and sum are now mandatory fields. If there are no observations, use `quantile:[]` (empty quantile list) — this is valid and satisfies the MUST requirement.
+
+See: [Summary](../specs/om/open_metrics_spec_2_0.md#summary) in the OM 2.0 spec.
+
+### Histogram
+
+OM 1.0:
+```
+# TYPE http_request_duration_seconds histogram
+http_request_duration_seconds_bucket{le="0.1"} 800
+http_request_duration_seconds_bucket{le="0.5"} 950
+http_request_duration_seconds_bucket{le="+Inf"} 1027
+http_request_duration_seconds_sum 172.5
+http_request_duration_seconds_count 1027
+```
+
+OM 2.0:
+```
+# TYPE http_request_duration_seconds histogram
+http_request_duration_seconds {count:1027,sum:172.5,bucket:[0.1:800,0.5:950,+Inf:1027]}
+```
+
+Every `_bucket`, `_sum`, and `_count` sample line merges into a single CompositeValue. The bucket list uses `threshold:count` pairs, with the +Inf bucket included. Fields must appear in this order: `count`, `sum`, `bucket`. The `_sum` and `_count` suffixes disappear entirely.
+
+See: [Histogram with Classic Buckets](../specs/om/open_metrics_spec_2_0.md#histogram-with-classic-buckets) in the OM 2.0 spec.
+
+### GaugeHistogram
+
+A GaugeHistogram measures current distributions (not reset-based). Common examples: queue depth, in-flight request size. Unlike a histogram, values are gauge-semantics — they can go up or down without a reset. The OM 1.0 expanded format used `_gcount`/`_gsum` suffixes (and was rarely supported); OM 2.0 uses CompositeValue with `count` and `sum` field names.
+
+OM 1.0:
+```
+# TYPE queue_depth_bytes gaugehistogram
+queue_depth_bytes_bucket{le="1024"} 5
+queue_depth_bytes_bucket{le="65536"} 18
+queue_depth_bytes_bucket{le="+Inf"} 23
+queue_depth_bytes_gcount 23
+queue_depth_bytes_gsum 1048576
+```
+
+OM 2.0:
+```
+# TYPE queue_depth_bytes gaugehistogram
+queue_depth_bytes {count:23,sum:1048576,bucket:[1024:5,65536:18,+Inf:23]}
+```
+
+The CompositeValue format is identical to a classic histogram. The `TYPE` line distinguishes them. Fields must appear in this order: `count`, `sum`, `bucket`. GaugeHistograms do not have Start Timestamps (no creation semantics).
+
+See: [GaugeHistogram with Classic Buckets](../specs/om/open_metrics_spec_2_0.md#gaugehistogram-with-classic-buckets) in the OM 2.0 spec.
+
+### CompositeValues in Practice
+
+A complete exposition showing all types together:
+
+```
+# TYPE http_requests_total counter
+http_requests_total{method="GET",code="200"} 1027 1710000000 st@1000000000
+# TYPE http_request_duration_seconds_summary summary
+http_request_duration_seconds_summary{path="/api/v1"} {count:1027,sum:172.5,quantile:[0.5:0.013,0.9:0.025,0.99:0.10]} 1710000000 st@1000000000
+# TYPE http_request_duration_seconds histogram
+http_request_duration_seconds{path="/api/v1"} {count:1027,sum:172.5,bucket:[0.1:800,0.5:950,+Inf:1027]} 1710000000 st@1000000000
+# TYPE queue_depth_bytes gaugehistogram
+queue_depth_bytes{queue="work"} {count:23,sum:1048576,bucket:[1024:5,65536:18,+Inf:23]} 1710000000
+# EOF
+```
+
+Note: The counter line uses a plain Number value, not a CompositeValue. The summary and histogram use CompositeValue blocks. The gaugehistogram has no Start Timestamp (no creation semantics).

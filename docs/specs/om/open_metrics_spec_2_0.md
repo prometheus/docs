@@ -40,13 +40,13 @@ Created in 2012, Prometheus has been the default for cloud-native observability 
 
 In 2020, [OpenMetrics 1.0](open_metrics_spec.md) was released to clean up and tighten the specification with the additional purpose of bringing it into IETF. OpenMetrics 1.0 text exposition documented a working standard with wide and organic adoption among dozens of exporters, integrations, and ingestors.
 
-Around 2024, the OpenMetrics project was incorporated under the CNCF Prometheus project umbrella. Together with production learnings from deploying OpenMetrics 1.0 on wide scale and a backlog of new Prometheus innovations missing from the text formats, Prometheus community decided to pursue a second version of OpenMetrics standard.
+Around 2024, the OpenMetrics project was incorporated under the CNCF Prometheus project umbrella. Together with production learnings from deploying OpenMetrics 1.0 on wide scale and a backlog of new Prometheus innovations missing from the text formats, Prometheus community decided to pursue a second version of the OpenMetrics standard.
 
-The intention of OpenMetrics 2.0 is to use OpenMetrics 1.0 as a foundation and enhance it to achieve even greater reliability, usability and consistency with the modern Prometheus data model, without sacrificing the ease of use and readability. See TODO for changes, since the OpenMetrics 1.0.
+The intention of OpenMetrics 2.0 is to use OpenMetrics 1.0 as a foundation and enhance it to achieve even greater reliability, usability and consistency with the modern Prometheus data model, without sacrificing the ease of use and readability. OpenMetrics 2.0 also improves compatibility with OpenTelemetry data model and naming conventions.
 
-This document is meant to be used a standalone specification, although the majority of the content is reused from the [OpenMetrics 1.0](open_metrics_spec.md).
+This document is meant to be used as a standalone specification.
 
-> NOTE: This document is an early draft, major changes expected. Read [here](https://github.com/prometheus/OpenMetrics/issues/276) on how to join [the Prometheus OM 2.0 work group](https://docs.google.com/document/d/1FCD-38Xz1-9b3ExgHOeDTQUKUatzgj5KbCND9t-abZY/edit?tab=t.lvx6fags1fga#heading=h.uaaplxxbz60u).
+> NOTE: This is a release candidate (RC) version of the OpenMetrics 2.0 specification. This means that this specification is currently in an experimental state--no major changes are expected, but we reserve the right to break the compatibility if it's necessary, based on the early adopters' feedback. The potential feedback, questions and suggestions should be added as [an issue on the `prometheus/openmetrics` repository](https://github.com/prometheus/openmetrics).
 
 ## Overview
 
@@ -54,19 +54,17 @@ Metrics are a specific kind of telemetry data. They represent a snapshot of the 
 
 OpenMetrics is primarily a wire format, independent of any particular transport for that format. The format is expected to be consumed on a regular basis and to be meaningful over successive expositions.
 
-Implementers MUST expose metrics in the OpenMetrics text format in response to a simple HTTP GET request to a documented URL for a given process or device. This endpoint SHOULD be called "/metrics". Implementers MAY also expose OpenMetrics formatted metrics in other ways, such as by regularly pushing metric sets to an operator-configured endpoint over HTTP.
+Implementers SHOULD expose metrics in the OpenMetrics text format in response to an HTTP GET request to a documented URL for a given process or device. This endpoint SHOULD be called "/metrics". Implementers MAY also expose OpenMetrics formatted metrics in other ways, for example, by regularly pushing metric sets to an operator-configured endpoint over HTTP.
 
 ### Metrics and Time Series
 
 This standard expresses all system states as numerical values; counts, current values, distributions, enumerations, and boolean states being common examples. Contrary to metrics, singular events occur at a specific time. Metrics tend to aggregate data temporally and provide a sample of the system state. While this can lose information, the reduction in overhead is an engineering trade-off commonly chosen in many modern monitoring systems.
 
-Time series are a record of changing information over time. While time series can support arbitrary strings or binary data, only numeric data is in scope for this RFC.
-
-Common examples of metric time series would be network interface counters, device temperatures, BGP connection states, and alert states.
+Time series are a record of changing information over time. Common examples of metric time series would be network interface counters, device temperatures, BGP connection states, latency distributions, and alert states.
 
 ## Data Model
 
-This section MUST be read together with the ABNF section. In case of disagreements between the two, the ABNF's restrictions MUST take precedence. This reduces repetition as the text wire format MUST be supported.
+This section MUST be read together with the ABNF section. In case of disagreements between the two, the ABNF's restrictions MUST take precedence.
 
 ### Data Types
 
@@ -77,6 +75,8 @@ Metric values in OpenMetrics MUST be either Number or CompositeValue.
 ##### Number
 
 Number value MUST be either floating point or integer. Note that ingestors of the format MAY only support float64. The non-real values NaN, +Inf and -Inf MUST be supported. NaN value MUST NOT be considered a missing value, but it MAY be used to signal a division by zero.
+
+Booleans MUST be represented as a Number value where `1` is true and `0` is false.
 
 ##### CompositeValue
 
@@ -89,12 +89,6 @@ The following MetricFamily Types MUST use CompositeValue for Metric Values:
 * [Summary](#summary) MetricFamily Type.
 
 Other MetricFamily Types MUST use Numbers.
-
-See [MetricFamily Types](#metricfamily-types) for details.
-
-##### Booleans
-
-Boolean values MUST follow `1==true`, `0==false`.
 
 #### Timestamps
 
@@ -122,9 +116,9 @@ A LabelSet MUST consist of Labels and MAY be empty. Label names MUST be unique w
 
 Exemplars are references to data outside of the MetricSet. A common use case are IDs of program traces.
 
-Exemplars MUST consist of a LabelSet and a value, and MUST have a timestamp. The LabelSet SHOULD NOT contain any Label names included in the Metric's LabelSet. The timestamp SHOULD NOT be after the Sample's timestamp, if present, and SHOULD NOT be before the Sample's start timestamp, if present.
+Exemplars MUST consist of a LabelSet and a Number value, and MUST have a timestamp. The LabelSet SHOULD NOT contain any Label names included in the Metric's LabelSet. The timestamp SHOULD be before or equal to the Sample's timestamp, if present. The timestamp SHOULD be after or equal to the Sample's start timestamp, if present.
 
-The Exemplar's timestamp SHOULD be close to the point in time when the referenced data was created, but doesn't have to be exact. For example if getting an exact timestamp is costly, it is acceptable to use some external source or synthetic clock.
+The Exemplar's timestamp SHOULD be close to the point when it was observed, but doesn't have to be exact. For example, if getting an exact timestamp is costly, it is acceptable to use some external source or an estimate.
 
 When an exemplar references a [Trace Context](https://www.w3.org/TR/trace-context-2/), it SHOULD use the `trace_id` key for the [trace-id](https://www.w3.org/TR/trace-context-2/#traceparent-header) field, and the `span_id` key for the [`parent-id`](https://www.w3.org/TR/trace-context-2/#traceparent-header) field.
 
@@ -156,7 +150,7 @@ MetricFamily name:
 * MUST be unique within a MetricSet.
 * MUST be the same as every Metric's Name in the family.
 
-> NOTE: [OpenMetrics 1.0](https://prometheus.io/docs/specs/om/open_metrics_spec/#suffixes) required mandatory suffixes for MetricName and matching MetricFamily names without such suffixes. To improve parser reliability (i.e. matching [MetricFamily metadata](#metricfamily-metadata)) and future compatibility, this specification requires MetricFamily name to strictly match MetricNames in the same family.
+> NOTE: [OpenMetrics 1.0](https://prometheus.io/docs/specs/om/open_metrics_spec/#suffixes) required mandatory suffixes for MetricName and a matching MetricFamily name without such suffixes. To improve parser reliability (i.e. matching [MetricFamily metadata](#metricfamily-metadata)) and future compatibility, this specification requires Metric name to strictly match its MetricFamily name.
 
 Names SHOULD be in snake_case. Names SHOULD follow the restrictions in the ABNF section under `metricname`. MetricFamily names MAY be any quoted and escaped UTF-8 string as described in the ABNF section. Be aware that exposing UTF-8 metrics may reduce usability, especially when `_total` or unit suffixes are not included in the names.
 
@@ -164,23 +158,21 @@ Colons in MetricFamily names are RESERVED to signal that the MetricFamily is the
 
 MetricFamily names beginning with underscores are RESERVED and MUST NOT be used unless specified by this standard.
 
-###### Reserved Suffixes
+###### Discouraged Suffixes
 
-MetricFamily name SHOULD NOT end with `_count`, `_sum`, `_gcount`, `_gsum`, `_bucket`. Specifically, a name SHOULD NOT create a MetricName collision when converted to [the Text OpenMetrics 1.0](https://prometheus.io/docs/specs/om/open_metrics_spec). Ingestors MAY reject such MetricFamily.
+MetricFamily name SHOULD NOT end with `_count`, `_sum`, `_gcount`, `_gsum`, `_bucket`. Specifically, a name SHOULD NOT create a MetricName collision when converted to [the OpenMetrics 1.0 Text](https://prometheus.io/docs/specs/om/open_metrics_spec). Ingestors MAY reject such MetricFamily.
 
 A non-compliant example would be a gauge called `foo_bucket` and a histogram called `foo`. Exposers negotiating the older OpenMetrics or Text formats, or ingestors which support only the older data model could end up storing the `foo` histogram in the classic representation (`foo_bucket`, `foo_count`, `foo_sum`), which would clash with the gauge and cause a scrape rejection or dropped data.
 
-> This rule exists because this specification is following a shift in Prometheus ecosystem towards [composite values](#compositevalues) instead of [the "classic" representation](https://prometheus.io/docs/specs/om/open_metrics_spec/#histogram-1). However, this transformation will take time. Reserving suffixes improves compatibility with older ingestors and the eventual migration process.
+> This rule exists because this specification is following a shift in Prometheus ecosystem towards [composite values](#compositevalues) instead of [the "classic" representation](https://prometheus.io/docs/specs/om/open_metrics_spec/#histogram-1). However, this transformation will take time. Avoiding such suffixes improves compatibility with older ingestors and the eventual migration process.
 
 ##### Type
 
-Type specifies the MetricFamily Type. Valid values are "unknown", "gauge", "counter", "stateset", "info", "histogram", "gaugehistogram", and "summary".
+Type specifies the MetricFamily type. Valid values are "unknown", "gauge", "counter", "stateset", "info", "histogram", "gaugehistogram", and "summary".
 
 ##### Unit
 
-Unit specifies MetricFamily units. If non-empty, it SHOULD be a suffix of the MetricFamily name separated by an underscore. Be aware that further generation rules might make it an infix in the text format.
-
-Be aware that exposing metrics without the unit being a suffix of the MetricFamily name directly to end-users may reduce the usability due to confusion about what the metric's unit is.
+Unit specifies MetricFamily units. If non-empty, it SHOULD be a suffix of the MetricFamily name separated by an underscore. Further type specific suffixes come after the unit suffix. Exposing metrics without the unit being a suffix of the MetricFamily name directly to end-users may reduce the usability due to confusion about what the metric's unit is.
 
 ##### Help
 
@@ -194,7 +186,7 @@ Each MetricFamily name MUST be unique. The same label name and value SHOULD NOT 
 
 There is no specific ordering of MetricFamilies required within a MetricSet. An exposer MAY make an exposition easier to read for humans, for example sort alphabetically if the performance tradeoff makes sense.
 
-If present, an Info MetricFamily called "target_info" per the "Supporting target metadata in both push-based and pull-based systems" section below SHOULD be first.
+If present, an Info MetricFamily called "target_info" per the [Supporting target metadata in both push-based and pull-based systems](#supporting-target-metadata-in-both-push-based-and-pull-based-systems) section below SHOULD be first.
 
 ### MetricFamily Types
 
@@ -206,19 +198,15 @@ A Sample in a Metric with the Type gauge MUST have a Number value.
 
 Gauges MAY increase, decrease, or stay constant over time. Even if they only ever go in one direction, they might still be gauges and not counters. The size of a log file would usually only increase, a resource might decrease, and the limit of a queue size may be constant.
 
-A gauge MAY be used to encode an enum where the enum has many states and changes over time, it is the most efficient but least user friendly.
-
 #### Counter
 
 Counters measure discrete events. Common examples are the number of HTTP requests received, CPU seconds spent, or bytes sent. For counters how quickly they are increasing over time is what is of interest to a user.
 
-The MetricFamily name for Counters SHOULD end in `_total`. Be aware that exposing metrics without `_total` being a suffix of the MetricFamily name directly to end-users may reduce the usability due to confusion about what the metric's Type is.
-
-A Sample in a Metric with the Type Counter MUST have a Number value. The value MUST be a non-NaN and MUST be monotonically non-decreasing over time, starting from 0.
+The MetricFamily name for Counters SHOULD end in `_total`. Exposing metrics without a `_total` suffix may reduce the usability due to confusion about what the metric's Type is.
 
 A Sample in a Metric with the Type Counter SHOULD have a Timestamp value called Start Timestamp. This can help ingestors discern between new metrics and long-running ones it did not see before.
 
-A Sample in a Metric with the type Counter MAY reset its value to 0. If present, the corresponding Start Timestamp MUST also be set to the timestamp of the reset.
+A Sample in a Metric with the Type Counter MUST have a Number value which is non-NaN. The value MUST be monotonically non-decreasing over time, unless it is reset to 0, and start from 0. The value MAY reset its value to 0. If present, the corresponding Start Timestamp MUST also be set to the timestamp of the reset.
 
 A Sample in a Metric with the type Counter MAY have exemplars.
 

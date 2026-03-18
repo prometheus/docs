@@ -431,6 +431,11 @@ sample = value [SP timestamp] [SP start-timestamp] *exemplar LF
 
 value = number / "{" composite-value "}"
 
+timestamp = realnumber
+
+; Lowercase st @ timestamp
+start-timestamp = %d115.116 "@" timestamp
+
 exemplar = SP HASH SP labels-in-braces SP number SP timestamp
 
 metricname-and-labels = metricname [labels-in-braces] / name-and-labels-in-braces
@@ -439,19 +444,25 @@ name-and-labels-in-braces = "{" metricname-utf8 *(COMMA label) "}"
 
 label = label-key EQ DQUOTE escaped-string DQUOTE
 
+; Number value
 number = realnumber
 ; Case insensitive
 number =/ [SIGN] ("inf" / "infinity")
 number =/ "nan"
 
-timestamp = realnumber
-
-; Not 100% sure this captures all float corner cases.
+; Real floats
+; Not 100% sure this captures all float corner cases
 ; Leading 0s explicitly okay
 realnumber = [SIGN] 1*DIGIT
 realnumber =/ [SIGN] 1*DIGIT ["." *DIGIT] [ "e" [SIGN] 1*DIGIT ]
 realnumber =/ [SIGN] *DIGIT "." 1*DIGIT [ "e" [SIGN] 1*DIGIT ]
 
+; Integers
+; Leading 0s explicitly okay
+integer = [SIGN] 1*"0" / [SIGN] positive-integer
+non-negative-integer = ["+"] 1*"0" / ["+"] positive-integer
+positive-integer = *"0" positive-digit *DIGIT
+positive-digit = "1" / "2" / "3" / "4" / "5" / "6" / "7" / "8" / "9"
 
 ; RFC 5234 is case insensitive.
 ; Uppercase
@@ -497,9 +508,6 @@ escaped-char =/ BS normal-char
 ; Any unicode character, except newline, double quote, and backslash
 normal-char = %x00-09 / %x0B-21 / %x23-5B / %x5D-D7FF / %xE000-10FFFF
 
-; Lowercase st @ timestamp
-start-timestamp = %d115.116 "@" timestamp
-
 ; Composite values
 composite-value = histogram-value / summary-value
 
@@ -512,6 +520,15 @@ h-count = %d99.111.117.110.116 ":" number
 h-sum = %d115.117.109 ":" number
 
 histogram-buckets = classic-buckets / native-buckets [ "," classic-buckets ]
+
+; bucket:[...,+Inf:v] The +Inf bucket is required.
+classic-buckets = %d98.117.99.107.101.116 ":" "[" [ ch-le-counts "," ] ch-pos-inf-bucket "]"
+ch-le-counts = (ch-neg-inf-bucket / ch-le-bucket) *("," ch-le-bucket)
+ch-pos-inf-bucket = "+" %d73.110.102 ":" number
+ch-neg-inf-bucket = "-" %d73.110.102 ":" number
+ch-le-bucket = realnumber ":" number
+
+; schema:3,zero_threshold:1e-128,zero_count:2,negative_spans:[1:1],negative_buckets:[2],positive_spanes:[-3:1,2:2],positive_buckets:[3,1,0]
 native-buckets = nh-schema "," nh-zero-threshold "," nh-zero-count [ "," nh-negative-spans "," nh-negative-buckets ] [ "," nh-positive-spans "," nh-positive-buckets ]
 
 ; schema:i
@@ -520,11 +537,11 @@ nh-schema = %d115.99.104.101.109.97 ":" integer
 nh-zero-threshold = %d122.101.114.111 "_" %d116.104.114.101.115.104.111.108.100 ":" realnumber
 ; zero_count:x
 nh-zero-count = %d122.101.114.111 "_" %d99.111.117.110.116 ":" number
-; negative_spans:[1:2,3:4] and negative_spans:[]
+; negative_spans:[1:2,3:4] and positive_spans:[-3:1,2:2]
 nh-negative-spans = %d110.101.103.97.116.105.118.101 "_" %d115.112.97.110.115 ":" "[" [nh-spans] "]"
 nh-positive-spans = %d112.111.115.105.116.105.118.101 "_" %d115.112.97.110.115 ":" "[" [nh-spans] "]"
-; Spans can start from any index, even negative, however subsequent spans
-; can only advance the index, not decrease it.
+; Spans hold offset and length. The offset can start from any index, even
+; negative, however subsequent spans can only advance the index, not decrease it.
 nh-spans = nh-start-span *("," nh-span)
 nh-start-span = integer ":" positive-integer
 nh-span = non-negative-integer ":" positive-integer
@@ -534,19 +551,6 @@ nh-negative-buckets = %d110.101.103.97.116.105.118.101 "_" %d98.117.99.107.101.1
 nh-positive-buckets = %d112.111.115.105.116.105.118.101 "_" %d98.117.99.107.101.116.115 ":" "[" [nh-buckets] "]"
 
 nh-buckets = number *("," number)
-
-integer = [SIGN] 1*"0" / [SIGN] positive-integer
-non-negative-integer = ["+"] 1*"0" / ["+"] positive-integer
-; Leading 0s explicitly okay.
-positive-integer = *"0" positive-digit *DIGIT
-positive-digit = "1" / "2" / "3" / "4" / "5" / "6" / "7" / "8" / "9"
-
-; bucket:[...,+Inf:v]  The +Inf bucket is required.
-classic-buckets = %d98.117.99.107.101.116 ":" "[" [ ch-le-counts "," ] ch-pos-inf-bucket "]"
-ch-le-counts = (ch-neg-inf-bucket / ch-le-bucket) *("," ch-le-bucket)
-ch-pos-inf-bucket = "+" %d73.110.102 ":" number
-ch-neg-inf-bucket = "-" %d73.110.102 ":" number
-ch-le-bucket = realnumber ":" number
 
 ; Summary
 

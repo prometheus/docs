@@ -492,3 +492,38 @@ queue_depth_bytes{queue="work"} {count:23,sum:1048576,bucket:[1024:5,65536:18,+I
 ```
 
 Note: The counter line uses a plain Number value, not a CompositeValue. The summary and histogram use CompositeValue blocks. The gaugehistogram has no Start Timestamp (no creation semantics).
+
+## Native Histograms
+
+**Non-breaking**
+
+Native histograms are new in OM 2.0. Instead of fixed bucket boundaries chosen at instrumentation time, native histograms use an exponential bucket schema that provides automatic resolution across all value ranges without any bucket configuration. The `schema` field controls bucket width granularity: higher values produce narrower (finer) buckets.
+
+This section builds on the CompositeValue syntax covered in [CompositeValues](#compositevalues). Native histogram fields follow the same `{key:value,...}` format.
+
+### Native-Only Histogram
+
+A native-only histogram CompositeValue contains these fields, in order:
+
+- `count` -- total number of observations (number).
+- `sum` -- sum of all observed values (number).
+- `schema` -- integer (-4 to 8) controlling exponential bucket width. Higher values mean finer granularity.
+- `zero_threshold` -- non-negative float defining the zero bucket boundary [-threshold, +threshold].
+- `zero_count` -- number of observations in the zero bucket.
+- `positive_spans` -- list of `offset:length` pairs mapping bucket indices (see below).
+- `positive_buckets` -- list of observation counts, one per bucket.
+
+Spans are `offset:length` pairs that describe which exponential buckets are populated. The first span's offset is the starting bucket index (can be negative). Its length is the number of consecutive populated buckets starting from that index. Each subsequent span's offset is the number of empty buckets to skip before the next group. The sum of all span lengths equals the total number of values in the bucket list. See [Native Buckets](../specs/om/open_metrics_spec_2_0.md#native-buckets) in the spec for the bucket boundary formula.
+
+Negative spans and buckets (`negative_spans`, `negative_buckets`) use the same syntax for negative observations.
+
+If no buckets are populated, the span and bucket fields can be omitted entirely.
+
+```
+# TYPE http_request_duration_seconds histogram
+http_request_duration_seconds {count:59,sum:120.0,schema:3,zero_threshold:1e-4,zero_count:2,positive_spans:[0:3,2:2],positive_buckets:[10,15,12,8,12]} 1710000000 st@1000000000
+```
+
+The example has two spans: the first starts at bucket index 0 with 3 consecutive buckets, then skips 2 empty buckets, then 2 more consecutive buckets. The total bucket count is 3 + 2 = 5, matching the five values in `positive_buckets`.
+
+See: [Histogram with Native Buckets](../specs/om/open_metrics_spec_2_0.md#histogram-with-native-buckets) in the OM 2.0 spec.

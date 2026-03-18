@@ -341,7 +341,7 @@ GaugeHistograms measure current distributions. Common examples are how long item
 
 A GaugeHistogram Sample MUST contain Gcount, Gsum values.
 
-The GCount value MUST be equal to the number of measurements currently in the GaugeHistogram. The GCount is a gauge semantically. The GCount SHOULD be and integer. The GCount SHOULD NOT be -Inf, +Inf, NAN, or negative.
+The GCount value MUST be equal to the number of measurements currently in the GaugeHistogram. The GCount is a gauge semantically. The GCount SHOULD be an integer. The GCount SHOULD NOT be -Inf, +Inf, NAN, or negative.
 
 Float and negative GCount is allowed to make it possible to expose results of arithmetic operations on GaugeHistograms, such as the rate of change of a Histogram over time.
 
@@ -422,12 +422,12 @@ metric-descriptor = HASH SP type SP (metricname / metricname-utf8) SP metric-typ
 metric-descriptor =/ HASH SP help SP (metricname / metricname-utf8) SP escaped-string LF
 metric-descriptor =/ HASH SP unit SP (metricname / metricname-utf8) SP *metricname-char LF
 
-metric = *sample
-
 metric-type = counter / gauge / histogram / gaugehistogram / stateset
 metric-type =/ info / summary / unknown
 
-sample = metricname-and-labels SP value [SP timestamp] [SP start-timestamp] *exemplar LF
+metric = metricname-and-labels SP sample
+
+sample = value [SP timestamp] [SP start-timestamp] *exemplar LF
 
 value = number / "{" composite-value "}"
 

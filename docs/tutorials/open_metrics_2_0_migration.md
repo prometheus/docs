@@ -527,3 +527,33 @@ http_request_duration_seconds {count:59,sum:120.0,schema:3,zero_threshold:1e-4,z
 The example has two spans: the first starts at bucket index 0 with 3 consecutive buckets, then skips 2 empty buckets, then 2 more consecutive buckets. The total bucket count is 3 + 2 = 5, matching the five values in `positive_buckets`.
 
 See: [Histogram with Native Buckets](../specs/om/open_metrics_spec_2_0.md#histogram-with-native-buckets) in the OM 2.0 spec.
+
+### Combined Classic and Native
+
+Some consumers do not support native buckets yet. A combined CompositeValue includes both representations in a single line, providing backward compatibility. The field order is: `count`, `sum`, then all native fields (`schema` through `positive_buckets`), then the classic `bucket` field. This ordering lets parsers that prefer native buckets stop reading before the classic bucket list.
+
+```
+# TYPE http_request_duration_seconds histogram
+http_request_duration_seconds {count:59,sum:120.0,schema:3,zero_threshold:1e-4,zero_count:2,positive_spans:[0:3,2:2],positive_buckets:[10,15,12,8,12],bucket:[0.01:5,0.1:25,1.0:47,10.0:57,+Inf:59]} st@1000000000
+```
+
+See: [Histogram with both Classic and Native Buckets](../specs/om/open_metrics_spec_2_0.md#histogram-with-both-classic-and-native-buckets) in the OM 2.0 spec.
+
+### GaugeHistogram with Native Buckets
+
+GaugeHistogram MetricPoints with native buckets follow the same syntax as histogram. The TYPE line distinguishes them. No separate example is needed.
+
+See: [GaugeHistogram with Native Buckets](../specs/om/open_metrics_spec_2_0.md#gaugehistogram-with-native-buckets) in the OM 2.0 spec.
+
+### Native Histograms in Practice
+
+A realistic exposition showing native-only and combined classic+native histograms together:
+
+```
+# TYPE http_request_duration_seconds histogram
+http_request_duration_seconds{method="GET"} {count:59,sum:120.0,schema:3,zero_threshold:1e-4,zero_count:2,positive_spans:[0:3,2:2],positive_buckets:[10,15,12,8,12]} 1710000000 st@1000000000
+http_request_duration_seconds{method="POST"} {count:34,sum:68.5,schema:3,zero_threshold:1e-4,zero_count:1,positive_spans:[0:2,3:1],positive_buckets:[8,12,13],bucket:[0.01:3,0.1:14,1.0:28,10.0:33,+Inf:34]} 1710000000 st@1000000000
+# EOF
+```
+
+The GET line uses native-only fields. The POST line includes both native and classic bucket fields for consumers that do not yet support native buckets. The next section covers exemplar syntax that can be attached to these lines (see [Exemplars](#exemplars)).

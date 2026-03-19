@@ -25,12 +25,12 @@ Each section below follows a consistent pattern:
 | [Negotiation defaults](#negotiation-defaults)                                  | Oldest version                           | Same (default to 1.0)                              | No        |
 | [**Naming**](#naming-changes)                                                  |                                          |                                                    |           |
 | [MetricFamily must match MetricName](#metricfamily-name-must-match-metricname) | Implicit suffix stripping                | Exact match required                               | Yes       |
-| [Counter _total / Info _info suffixes](#counter-and-info-suffix-rules)         | `_total` MUST; `_info` implicit          | `_total` SHOULD; `_info` MUST on name              | Mixed     |
+| [Counter _total / Info _info suffixes](#counter-and-info-suffix-rules)         | `_total` MUST; `_info` implicit          | `_total` SHOULD; `_info` MUST on name              | No        |
 | [Reserved suffixes](#reserved-suffixes)                                        | Not specified                            | `_count`/`_sum`/`_bucket` etc. SHOULD NOT          | No        |
 | [**Metadata**](#metadata-changes)                                              |                                          |                                                    |           |
 | [MetricFamily metadata relaxation](#metricfamily-metadata-relaxation)          | HELP/TYPE/UNIT MUST                      | HELP/TYPE/UNIT SHOULD                              | No        |
 | [Reserved label prefix](#reserved-label-prefix)                                | `_` reserved                             | `__` reserved                                      | No        |
-| [target_info rename](#target-info-rename)                                      | TYPE `target`                            | TYPE `target_info`                                 | Yes       |
+| [target_info rename](#target-info-rename)                                      | TYPE `target`                            | TYPE `target_info`                                 | No        |
 | [**UTF-8 Names**](#utf-8-names)                                                |                                          |                                                    |           |
 | [Metric and label name quoting](#metric-name-quoting)                          | `[a-zA-Z0-9_:]` only                     | UTF-8 allowed; quoted when needed                  | Yes       |
 | [**Start Timestamps**](#start-timestamps)                                      |                                          |                                                    |           |
@@ -238,7 +238,7 @@ See: [Label](../specs/om/open_metrics_spec_2_0.md#label) in the OM 2.0 spec.
 
 ### Target Info Rename
 
-**Breaking**
+**Non-breaking**
 
 In OM 1.0, the target metadata Info MetricFamily is called "target".
 
@@ -311,13 +311,13 @@ See: [UTF-8 Quoting](../specs/om/open_metrics_spec_2_0.md#utf-8-quoting) in the 
 
 **Breaking**
 
-An OM 2.0 sample line has the following field ordering:
+OM 2.0 replaces separate `_created` samples with an inline Start Timestamp (`st@`) on the sample line itself, reducing exposition size and avoiding race conditions between the `_created` sample and the value sample. Counters, histograms, and summaries have creation semantics and support Start Timestamps; gauges do not.
+
+So an OM 2.0 sample line has the following field ordering:
 
 ```
 metric_name value [timestamp] [st@start_timestamp] [# exemplar...]
 ```
-
-OM 2.0 replaces separate `_created` samples with an inline Start Timestamp (`st@`) on the sample line itself, reducing exposition size and avoiding race conditions between the `_created` sample and the value sample. Counters, histograms, and summaries have creation semantics and support Start Timestamps; gauges do not.
 
 **Counter**
 

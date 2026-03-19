@@ -1,6 +1,6 @@
 # OpenMetrics 2.0 Migration Guide for Exposer Authors
 
-This guide covers the changes from OpenMetrics 1.0 to OpenMetrics 2.0 that affect exposer implementations. Sections are organized by implementation order so you can adopt changes incrementally, starting with version negotiation and working through metric types, syntax, and metadata.
+This guide covers the changes from OpenMetrics 1.0 to OpenMetrics 2.0 that affect exposer implementations. Sections are organized by implementation order so you can implement changes incrementally, starting with version negotiation and working through metric types, syntax, and metadata.
 
 > **Draft specification.** OpenMetrics 2.0 is currently version 2.0.0-rc0 and is not yet finalized. Details in this guide may change before the spec reaches 2.0.0. Track progress at the [OpenMetrics 2.0 work group issue](https://github.com/prometheus/OpenMetrics/issues/276).
 
@@ -8,15 +8,17 @@ This guide covers the changes most relevant to exposer authors. For the complete
 
 ## How to use this guide
 
-Each section below follows a consistent pattern:
+Each section below guides implementers through the change:
 
-- A **Breaking** or **Non-breaking** label indicating whether the change breaks 1.0 parsers.
-- A brief refresher of the 1.0 behavior.
-- The 2.0 change.
+- A **Breaking** or **Non-breaking** label indicating whether the change in syntax would cause a failure to parse in 1.0 parsers.
+- A brief refresher of the 1.0 behavior and the 2.0 change.
 - Before/after code blocks labeled "OM 1.0:" and "OM 2.0:" showing the difference.
-- A "See:" link to the relevant section in the [OM 2.0 spec](../specs/om/open_metrics_spec_2_0.md).
+
+There is also a reference to the relevant section of the specification if more detail is required.
 
 ## Quick Reference
+
+OpenMetrics 2.0 contains many changes. Some of those changes are a loosening of previously-strict requirements, like the way metric names are constructed or character limits. Most of these changes are in service of allowing OpenTelemetry metric data to be encoded in OpenMetrics without violating the specification. Other changes introduce new syntaxes, mostly focused on allowing metric data to be encoded into a single line rather than requiring multiple lines to describe one cohesive piece of information.  Lastly, some changes add new features and data types, like Native Histograms.
 
 | Change                                                                         | 1.0                                      | 2.0                                                | Breaking? |
 | ------------------------------------------------------------------------------ | ---------------------------------------- | -------------------------------------------------- | --------- |
@@ -70,7 +72,7 @@ This means your exposer should continue serving 1.0 format by default and only s
 
 ### Protobuf format removed
 
-OM 2.0 removes the `application/openmetrics-protobuf` format entirely. You may continue to support the protobuf format for 1.0, but 2.0 does not contain a new or updated protobuf format. For the Prometheus protobuf wire format and other available formats, see the [exposition formats documentation](https://prometheus.io/docs/instrumenting/exposition_formats).
+OM 2.0 no longer specifies an official protobuf format. You may continue to support the protobuf format for 1.0, but 2.0 does not contain a new or updated protobuf format. For the Prometheus protobuf wire format and other available formats, see the [exposition formats documentation](https://prometheus.io/docs/instrumenting/exposition_formats).
 
 See: [Protocol Negotiation](../specs/om/open_metrics_spec_2_0.md#protocol-negotiation) in the OM 2.0 spec.
 
@@ -193,7 +195,7 @@ build_info{version="1.4.2",branch="main",goversion="go1.22"} 1
 What each metric demonstrates:
 
 - **http_requests_total** (counter): TYPE line uses `http_requests_total`, matching the sample name exactly. The `_total` suffix is kept for readability and backward compatibility.
-- **http_request_duration_seconds** (histogram): MetricFamily name avoids reserved suffixes. The histogram uses CompositeValue syntax with all bucket data on a single line.
+- **http_request_duration_seconds** (histogram): MetricFamily name avoids reserved suffixes. The histogram uses CompositeValue syntax with all bucket data on a single line (described later).
 - **build_info** (info): TYPE line uses `build_info`, matching the sample name. The `_info` suffix is present on the MetricFamily name as required.
 
 ## Metadata Changes

@@ -1,4 +1,7 @@
-# OpenMetrics 2.0 Migration Guide for Exposer Authors
+---
+title: OpenMetrics 2.0 Migration Guide for Exposer Authors
+sort_rank: 6
+---
 
 This guide covers the changes from OpenMetrics 1.0 to OpenMetrics 2.0 that affect exposer implementations. Sections are organized by implementation order so you can implement changes incrementally, starting with version negotiation and working through metric types, syntax, and metadata.
 

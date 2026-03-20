@@ -244,15 +244,7 @@ Be aware that not all Prometheus ecosystem tools support UTF-8 metric names yet.
 
 Metric names that do not match `^[a-zA-Z_:][a-zA-Z0-9_:]*$` MUST be enclosed in double quotes. Any metric name MAY be enclosed in double quotes, but quoting is only required when the name contains characters outside the traditional set.
 
-Within quoted strings, the following escapes apply:
-
-- `\\` for a literal backslash
-- `\"` for a literal double quote
-- `\n` for a newline
-
-**New in OM 2.0:** The ABNF now also permits a backslash before any normal character (`BS normal-char`). This means sequences like `\a` are valid syntax and will parse. However, a double backslash SHOULD be used to represent a literal backslash, and a single backslash SHOULD NOT be used for undefined escape sequences. For example, `\\a` is equivalent and preferable to `\a`.
-
-See: [Escaping](../specs/om/open_metrics_spec_2_0.md#escaping) in the OM 2.0 spec.
+Within quoted strings, use `\\` for a literal backslash, `\"` for a literal double quote, and `\n` for a newline.
 
 ```
 # TYPE "process.cpu.seconds" counter

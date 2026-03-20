@@ -553,7 +553,7 @@ cs-q-count = realnumber ":" number
 
 ### Overall Structure
 
-UTF-8 MUST be used. Byte order markers (BOMs) MUST NOT be used. As an important reminder for implementers, byte 0 is valid UTF-8 while, for example, byte 255 is not.
+UTF-8 MUST be used. Byte order markers (BOMs) MUST NOT be used. Note that NULL (byte 0x00) is a valid UTF-8 byte, while byte 0xFF, for example, is not.
 
 The content type MUST be:
 
@@ -561,7 +561,7 @@ The content type MUST be:
 application/openmetrics-text; version=2.0.0; charset=utf-8
 ```
 
-Line endings MUST be signalled with line feed (\n) and MUST NOT contain carriage returns (\r). Expositions MUST end with EOF and SHOULD end with `EOF\n`.
+Line endings MUST be signalled with line feed (\n) and MUST NOT contain carriage returns (\r). Expositions MUST end with `EOF` and SHOULD end with `EOF\n`.
 
 An example of a complete exposition:
 
@@ -592,11 +592,11 @@ acme_http_request_seconds:rate5m{path="/api/v1",method="GET"} {count:0.01,sum:2.
 
 #### UTF-8 Quoting
 
-Metric names not conforming to the ABNF definition of `metricname` MUST be enclosed in double quotes and the alternative UTF-8 syntax MUST be used. In these Metrics, the quoted metric name MUST be moved inside the brackets without a label name and equal sign, in accordance with the ABNF. The metric names MUST be enclosed in double quotes in TYPE, UNIT, and HELP lines. Quoting and the alternative metric syntax MAY be used for any metric name, regardless of whether the name requires quoting or not.
+Metric names not conforming to the ABNF definition of `metricname` MUST be enclosed in double quotes and the alternative UTF-8 syntax MUST be used. In these Metrics, the quoted metric name MUST be moved inside the brackets as the first item without a label name and equal sign, in accordance with the ABNF. The metric names MUST be enclosed in double quotes in TYPE, UNIT, and HELP lines. Quoting and the alternative metric syntax MAY be used for any metric name, regardless of whether the name requires quoting or not.
 
 Label names not conforming to the `label-name` ABNF definition MUST be enclosed in double quotes. Any label name MAY be enclosed in double quotes.
 
-Expressed as regular expressions, metric names that don't need to be enclosed in quotes must match: `^[a-zA-Z_:][a-zA-Z0-9_:]*$`. For label names, the string must match: `^[a-zA-Z_][a-zA-Z0-9_]*$`.
+Expressed as regular expressions, metric names that don't need to be enclosed in quotes match: `^[a-zA-Z_:][a-zA-Z0-9_:]*$`. For label names, the string matches: `^[a-zA-Z_][a-zA-Z0-9_]*$`.
 
 Complete example:
 

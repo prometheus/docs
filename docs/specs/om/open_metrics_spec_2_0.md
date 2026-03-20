@@ -635,7 +635,7 @@ Timestamps SHOULD NOT use exponential float rendering for timestamps if nanoseco
 
 ### MetricFamily
 
-There MUST NOT be an explicit separator between MetricFamilies. The next MetricFamily MUST be signalled with either metadata or a new Metric name which cannot be part of the previous MetricFamily.
+There MUST NOT be an explicit separator between MetricFamilies. The next MetricFamily MUST be signalled with either metadata or a new Metric name for a new MetricFamily.
 
 MetricFamilies MUST NOT be interleaved.
 

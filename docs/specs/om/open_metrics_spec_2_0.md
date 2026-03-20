@@ -807,7 +807,8 @@ An example with a Metric with no labels, and a Sample with a timestamp and a Sta
 foo_total 17.0 1520879607.789 st@1520430000.123
 ```
 
-An example with a Metric with no labels, and without the `_total` suffix and a Sample with a timestamp and a start timestamp:
+An example with a Metric with no labels, and without the `_total` suffix and a Sample with a 
+Timestamp and a Start Timestamp:
 
 ```openmetrics-add-eof
 # TYPE foo counter
@@ -1055,7 +1056,7 @@ foo {count:17,sum:324789.3,schema:0,zero_threshold:1e-4,zero_count:0,positive_sp
 
 GaugeHistogram Samples with Classic Buckets follow the same syntax as Histogram Samples with Classic Buckets, except that the Count and Sum are exposed as the fields `gcount` and `gsum` and GaugeHistograms do not have Start Timestamp.
 
-An example of a Metric with no labels, and one Sample value with no timestamp, no Start Timestamp, and no Exemplars:
+An example of a Metric with no labels, and one Sample value with no Timestamp, and no Exemplars:
 
 ```openmetrics-add-eof
 # TYPE foo gaugehistogram
@@ -1066,7 +1067,7 @@ foo {gcount:42,gsum:3289.3,bucket:[0.01:20,0.1:25,1:34,+Inf:42]}
 
 GaugeHistogram Samples with Native Buckets follow the same syntax as Histogram Samples with Native Buckets, except that the Count and Sum are exposed as the fields `gcount` and `gsum` and GaugeHistograms do not have Start Timestamp.
 
-An example of a Metric with no labels, and one Sample value with no timestamp, no Start Timestamp, and no Exemplars:
+An example of a Metric with no labels, and one Sample value with no Timestamp, and no Exemplars:
 
 ```openmetrics-add-eof
 # TYPE acme_http_request_seconds gaugehistogram
@@ -1083,14 +1084,14 @@ The Sample's value MUST be a Number or a CompositeValue.
 
 There are no recommended suffixes for the MetricFamily name for a MetricFamily of Type Unknown.
 
-An example with a Metric with no labels and a Sample with no timestamp:
+An example with a Metric with no labels and a Sample with no Timestamp:
 
 ```openmetrics-add-eof
 # TYPE foo unknown
 foo 42.23
 ```
 
-An example with a Metric without MetricFamily metadata and a Sample with no timestamp:
+An example with a Metric without MetricFamily metadata and a Sample with no Timestamp:
 
 ```openmetrics-add-eof
 foo 42.23

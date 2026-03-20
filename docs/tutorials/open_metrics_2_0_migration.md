@@ -33,15 +33,14 @@ OpenMetrics 2.0 contains many changes. Some of those changes are a loosening of 
 | [Counter _total / Info _info suffixes](#counter-and-info-suffix-rules)         | `_total` MUST; `_info` implicit          | `_total` SHOULD; `_info` MUST on name              | No        |
 | [Reserved suffixes](#reserved-suffixes)                                        | Not specified                            | `_count`/`_sum`/`_bucket` etc. SHOULD NOT          | No        |
 | [**Metadata**](#metadata-changes)                                              |                                          |                                                    |           |
-| [MetricFamily metadata relaxation](#metricfamily-metadata-relaxation)          | HELP/TYPE/UNIT MUST                      | HELP/TYPE/UNIT SHOULD                              | No        |
 | [Reserved label prefix](#reserved-label-prefix)                                | `_` reserved                             | `__` reserved                                      | No        |
-| [target_info rename](#target-info-rename)                                      | TYPE `target`                            | TYPE `target_info`                                 | No        |
 | [**UTF-8 Names**](#utf-8-names)                                                |                                          |                                                    |           |
 | [Metric and label name quoting](#metric-name-quoting)                          | `[a-zA-Z0-9_:]` only                     | UTF-8 allowed; quoted when needed                  | Yes       |
 | [**Start Timestamps**](#start-timestamps)                                      |                                          |                                                    |           |
 | [st@ replaces _created](#start-timestamps)                                     | Separate `_created` sample               | Inline `st@` on sample line                        | Yes       |
 | [**CompositeValues**](#compositevalues)                                        |                                          |                                                    |           |
 | [Summary / Histogram / GaugeHistogram](#compositevalues)                       | Expanded `_bucket`/`_count`/`_sum` lines | Single `{key:value}` CompositeValue                | Yes       |
+| [Sum and Count required](#sum-and-count-required)                              | `_count`/`_sum` optional                 | Count and Sum required in CompositeValue           | Yes       |
 | [**Native Histograms**](#native-histograms)                                    |                                          |                                                    |           |
 | [Native-only and combined histograms](#native-only-histogram)                  | N/A                                      | Exponential buckets via `schema`/`spans`/`buckets` | Yes       |
 | [**Exemplars**](#exemplars)                                                    |                                          |                                                    |           |
@@ -205,18 +204,6 @@ What each metric demonstrates:
 
 OM 2.0 relaxes several metadata requirements and renames a few conventions. This section covers all metadata-level changes that affect how MetricFamilies are described.
 
-### MetricFamily Metadata Relaxation
-
-**Non-breaking**
-
-In OM 1.0, every MetricFamily MUST have a name, HELP, TYPE, and UNIT metadata.
-
-In OM 2.0, only the name remains a MUST requirement. Help, Type, and Unit metadata are now SHOULD (recommended but not required). The name must exactly match every MetricPoint's MetricName in the family.
-
-> **Tip:** The change in rules to SHOULD is primarily intended to enable compatibility with type and unit metadata passed as labels instead of as separate metadata.
-
-See: [MetricFamily](../specs/om/open_metrics_spec_2_0.md#metricfamily) in the OM 2.0 spec.
-
 ### Reserved Label Prefix
 
 **Non-breaking**
@@ -240,30 +227,6 @@ my_metric{_my_label="custom",app="web"} 1
 OM 2.0 also allows `__type` and `__unit` labels as alternatives to TYPE and UNIT metadata in federation scenarios where MetricFamily metadata might otherwise conflict.
 
 See: [Label](../specs/om/open_metrics_spec_2_0.md#label) in the OM 2.0 spec.
-
-### Target Info Rename
-
-**Non-breaking**
-
-In OM 1.0, the target metadata Info MetricFamily is called "target".
-
-In OM 2.0, it is renamed to "target_info" to be consistent with the `_info` suffix requirement for Info type metrics.
-
-OM 1.0:
-```
-# TYPE target info
-# HELP target Target metadata
-target_info{env="prod"} 1
-```
-
-OM 2.0:
-```
-# TYPE target_info info
-# HELP target_info Target metadata
-target_info{env="prod"} 1
-```
-
-See: [Supporting Target Metadata in both Push-based and Pull-based Systems](../specs/om/open_metrics_spec_2_0.md#supporting-target-metadata-in-both-push-based-and-pull-based-systems) in the OM 2.0 spec.
 
 ## UTF-8 Names
 
@@ -511,6 +474,47 @@ queue_depth_bytes{queue="work"} {count:23,sum:1048576,bucket:[1024:5,65536:18,+I
 ```
 
 Note: The counter line uses a plain Number value, not a CompositeValue. The summary and histogram use CompositeValue blocks. The gaugehistogram has no Start Timestamp (no creation semantics).
+
+### Sum and Count Required
+
+**Breaking**
+
+The Sum and Count are now required in OM 2.0 for histograms and gaugehistograms. In OM 1.0 these were optional.
+
+**Histogram**
+
+OM 1.0:
+```
+# TYPE http_request_duration_seconds histogram
+http_request_duration_seconds_bucket{le="0.1"} 800
+http_request_duration_seconds_bucket{le="0.5"} 950
+http_request_duration_seconds_bucket{le="+Inf"} 1027
+http_request_duration_seconds_created 1000000000
+```
+
+OM 2.0:
+```
+# TYPE http_request_duration_seconds histogram
+http_request_duration_seconds {count:1027,sum:172.5,bucket:[0.1:800,0.5:950,+Inf:1027]} st@1000000000
+```
+
+**GaugeHistogram**
+
+OM 1.0:
+```
+# TYPE queue_depth_bytes gaugehistogram
+queue_depth_bytes_bucket{le="1024"} 5
+queue_depth_bytes_bucket{le="65536"} 18
+queue_depth_bytes_bucket{le="+Inf"} 23
+```
+
+OM 2.0:
+```
+# TYPE queue_depth_bytes gaugehistogram
+queue_depth_bytes {count:23,sum:1048576,bucket:[1024:5,65536:18,+Inf:23]}
+```
+
+See: [Histogram](../specs/om/open_metrics_spec_2_0.md#histogram) and [GaugeHistogram](../specs/om/open_metrics_spec_2_0.md#gaugehistogram) in the OM 2.0 spec.
 
 ## Native Histograms
 

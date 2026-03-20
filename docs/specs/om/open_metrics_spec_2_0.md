@@ -371,7 +371,7 @@ Quantiles are a map from a quantile to a value. An example is a quantile 0.95 wi
 
 Unknown SHOULD NOT be used. Unknown MAY be used when it is impossible to determine the types of individual metrics from 3rd party systems.
 
-A Sample in a metric with the Unknown Type MUST have a Number value.
+A Sample in a metric with the Unknown Type MUST have a Number or CompositeValue value.
 
 ## Text Format
 
@@ -489,15 +489,20 @@ normal-char = %x00-09 / %x0B-21 / %x23-5B / %x5D-D7FF / %xE000-10FFFF
 start-timestamp = %d115.116 "@" timestamp
 
 ; Composite values
-composite-value = histogram-value / summary-value
+composite-value = histogram-value / gauge-histogram-value / summary-value
 
 ; Histograms
 histogram-value = h-count "," h-sum "," histogram-buckets
+gauge-histogram-value = gh-count "," gh-sum "," histogram-buckets
 
 ; count:x
 h-count = %d99.111.117.110.116 ":" number
+; gcount:x
+gh-count = %d103 h-count
 ; sum:f allows real numbers and +-Inf and NaN
 h-sum = %d115.117.109 ":" number
+; gsum:x
+gh-sum = %d103 h-sum
 
 histogram-buckets = classic-buckets / native-buckets [ "," classic-buckets ]
 native-buckets = nh-schema "," nh-zero-threshold "," nh-zero-count [ "," nh-negative-spans "," nh-negative-buckets ] [ "," nh-positive-spans "," nh-positive-buckets ]
@@ -583,7 +588,7 @@ process_cpu_seconds_total 4.20072246e+06
 # HELP acme_http_request_seconds Latency histogram of all of ACME's HTTP requests.
 acme_http_request_seconds{path="/api/v1",method="GET"} {count:2,sum:1.2e2,schema:0,zero_threshold:1e-4,zero_count:0,positive_spans:[1:2],positive_buckets:[1,1],bucket:[0.5:1,1:2,+Inf:2]} st@1605301325.0
 # TYPE acme_http_request_seconds:rate5m gaugehistogram
-acme_http_request_seconds:rate5m{path="/api/v1",method="GET"} {count:0.01,sum:2.0,schema:0,zero_threshold:1e-4,zero_count:0.0,positive_spans:[1:2],positive_buckets:[0.005,0.005]} st@1605301325.0
+acme_http_request_seconds:rate5m{path="/api/v1",method="GET"} {gcount:0.01,gsum:2.0,schema:0,zero_threshold:1e-4,zero_count:0.0,positive_spans:[1:2],positive_buckets:[0.005,0.005]}
 # TYPE "foodb.read.errors" counter
 # HELP "foodb.read.errors" The number of errors in the read path for fooDb.
 {"foodb.read.errors","service.name"="my_service"} 3482
@@ -1048,33 +1053,33 @@ foo {count:17,sum:324789.3,schema:0,zero_threshold:1e-4,zero_count:0,positive_sp
 
 #### GaugeHistogram with Classic Buckets
 
-GaugeHistogram Samples with Classic Buckets follow the same syntax as Histogram Samples with Classic Buckets.
+GaugeHistogram Samples with Classic Buckets follow the same syntax as Histogram Samples with Classic Buckets, except that the Count and Sum are exposed as the fields `gcount` and `gsum` and GaugeHistograms do not have Start Timestamp.
 
 An example of a Metric with no labels, and one Sample value with no timestamp, no Start Timestamp, and no Exemplars:
 
 ```openmetrics-add-eof
 # TYPE foo gaugehistogram
-foo {count:42,sum:3289.3,bucket:[0.01:20,0.1:25,1:34,+Inf:42]}
+foo {gcount:42,gsum:3289.3,bucket:[0.01:20,0.1:25,1:34,+Inf:42]}
 ```
 
 #### GaugeHistogram with Native Buckets
 
-GaugeHistogram Samples with Native Buckets follow the same syntax as Histogram Samples with Native Buckets.
+GaugeHistogram Samples with Native Buckets follow the same syntax as Histogram Samples with Native Buckets, except that the Count and Sum are exposed as the fields `gcount` and `gsum` and GaugeHistograms do not have Start Timestamp.
 
 An example of a Metric with no labels, and one Sample value with no timestamp, no Start Timestamp, and no Exemplars:
 
 ```openmetrics-add-eof
 # TYPE acme_http_request_seconds gaugehistogram
-acme_http_request_seconds{path="/api/v1",method="GET"} {count:59,sum:1.2e2,schema:7,zero_threshold:1e-4,zero_count:0,negative_spans:[1:2],negative_buckets:[5,7],positive_spans:[-1:2,3:4],positive_buckets:[5,7,10,9,8,8]}
+acme_http_request_seconds{path="/api/v1",method="GET"} {gcount:59,gsum:1.2e2,schema:7,zero_threshold:1e-4,zero_count:0,negative_spans:[1:2],negative_buckets:[5,7],positive_spans:[-1:2,3:4],positive_buckets:[5,7,10,9,8,8]}
 ```
 
 #### GaugeHistogram with both Classic and Native buckets
 
-GaugeHistogram Samples with both Classic and Native Buckets follow the same syntax as Histogram Samples with both Classic and Native Buckets.
+GaugeHistogram Samples with both Classic and Native Buckets follow the same syntax as Histogram Samples with both Classic and Native Buckets, except that the Count and Sum are exposed as the fields `gcount` and `gsum` and GaugeHistograms do not have Start Timestamp.
 
 #### Unknown
 
-The Sample's value MUST be a Number.
+The Sample's value MUST be a Number or a CompositeValue.
 
 There are no recommended suffixes for the MetricFamily name for a MetricFamily of Type Unknown.
 

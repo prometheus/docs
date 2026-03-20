@@ -13,7 +13,7 @@ This guide covers the changes most relevant to exposer authors. For the complete
 
 Each section below guides implementers through the change:
 
-- A **Breaking** or **Non-breaking** label indicating whether the change in syntax would cause a failure to parse in 1.0 parsers.
+- A **Breaking** or **Non-breaking** label indicating whether the change in syntax would cause a line that was valid in OM 1.0 to be invalid in OM 2.0.
 - A brief refresher of the 1.0 behavior and the 2.0 change.
 - Before/after code blocks labeled "OM 1.0:" and "OM 2.0:" showing the difference.
 
@@ -633,10 +633,10 @@ See: [Exemplars](../specs/om/open_metrics_spec_2_0.md#exemplars) in the OM 2.0 s
 
 OM 2.0 introduces the "MetricGroup" concept for StateSet. A StateSet is now structured as a set of Metrics called a StateSet MetricGroup. This reflects a broader terminology change in the spec:
 
-| Concept | OM 1.0 Term | OM 2.0 Term |
-| ------- | ----------- | ----------- |
-| A set of related state samples | Metric | MetricGroup |
-| An individual state sample | MetricPoint | Metric |
+| Concept                        | OM 1.0 Term | OM 2.0 Term |
+| ------------------------------ | ----------- | ----------- |
+| A set of related state samples | Metric      | MetricGroup |
+| An individual state sample     | MetricPoint | Metric      |
 
 For exposer authors, the wire format for StateSet is unchanged. A StateSet still produces one sample per state with a boolean value (1 or 0), using the MetricFamily name as the label name and the state name as the label value:
 

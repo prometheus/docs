@@ -622,9 +622,12 @@ Complete example:
 
 #### Escaping
 
-Where the ABNF notes escaping, the following escaping MUST be applied Line feed, `\n` (0x0A) -> literally `\\n` (Bytecode 0x5c 0x6e) Double quotes -> `\\"` (Bytecode 0x5c 0x22) Backslash -> `\\\\` (Bytecode 0x5c 0x5c)
+Where the ABNF notes escaping, the following escaping MUST be applied:
+* Line feed, `\n` (0x0A) -> literally `\n` (Bytecode 0x5c 0x6e)
+* Double quotes -> `\"` (Bytecode 0x5c 0x22)
+* Backslash -> `\\` (Bytecode 0x5c 0x5c)
 
-A double backslash SHOULD be used to represent a backslash character. A single backslash SHOULD NOT be used for undefined escape sequences. As an example, `\\\\a` is equivalent and preferable to `\\a`.
+A double backslash SHOULD be used to represent a backslash character. A single backslash SHOULD NOT be used for undefined escape sequences. As an example, `\\a` is equivalent and preferable to `\a`.
 
 Escaping MUST also be applied to quoted UTF-8 strings.
 

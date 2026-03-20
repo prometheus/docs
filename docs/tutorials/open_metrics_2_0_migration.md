@@ -26,23 +26,24 @@ OpenMetrics 2.0 contains many changes. Some of those changes are a loosening of 
 | Change                                                                           | 1.0                                      | 2.0                                                | Breaking? |
 | -------------------------------------------------------------------------------- | ---------------------------------------- | -------------------------------------------------- | --------- |
 | [**Negotiation**](#version-negotiation-and-content-type)                         |                                          |                                                    |           |
-| [Content-Type version header](#version-negotiation-and-content-type)             | `version=1.0.0`                          | `version=2.0.0`                                    | Yes       |
+| [Content-Type version header](#version-negotiation-and-content-type)             | `version=1.0.0`                          | `version=2.0.0`                                    | Yes*      |
 | [Negotiation defaults](#negotiation-defaults)                                    | Oldest version                           | Same (default to 1.0)                              | No        |
 | [**Naming**](#naming-changes)                                                    |                                          |                                                    |           |
 | [MetricFamily must match Metric Name](#metricfamily-name-must-match-metric-name) | Implicit suffix stripping                | Exact match required                               | Yes       |
-| [Counter _total / Info _info suffixes](#counter-and-info-suffix-rules)           | `_total` MUST; `_info` implicit          | `_total` SHOULD; `_info` MUST on name              | No        |
+| [Counter _total suffix](#counter-and-info-suffix-rules)                          | `_total` MUST                            | `_total` SHOULD                                    | No        |
+| [Info _info suffix](#counter-and-info-suffix-rules)                              | `_info` implicit on samples              | `_info` MUST on MetricFamily name                  | Yes       |
 | [Reserved suffixes](#reserved-suffixes)                                          | Not specified                            | `_count`/`_sum`/`_bucket` etc. SHOULD NOT          | No        |
 | [**Metadata**](#metadata-changes)                                                |                                          |                                                    |           |
 | [Reserved label prefix](#reserved-label-prefix)                                  | `_` reserved                             | `__` reserved                                      | No        |
 | [**UTF-8 Names**](#utf-8-names)                                                  |                                          |                                                    |           |
-| [Metric and label name quoting](#metric-name-quoting)                            | `[a-zA-Z0-9_:]` only                     | UTF-8 allowed; quoted when needed                  | Yes       |
+| [Metric and label name quoting](#metric-name-quoting)                            | `[a-zA-Z0-9_:]` only                     | UTF-8 allowed; quoted when needed                  | No        |
 | [**Start Timestamps**](#start-timestamps)                                        |                                          |                                                    |           |
 | [st@ replaces _created](#start-timestamps)                                       | Separate `_created` sample               | Inline `st@` on sample line                        | Yes       |
 | [**CompositeValues**](#compositevalues)                                          |                                          |                                                    |           |
 | [Summary / Histogram / GaugeHistogram](#compositevalues)                         | Expanded `_bucket`/`_count`/`_sum` lines | Single `{key:value}` CompositeValue                | Yes       |
 | [Sum and Count required](#sum-and-count-required)                                | `_count`/`_sum` optional                 | Count and Sum required in CompositeValue           | Yes       |
 | [**Native Histograms**](#native-histograms)                                      |                                          |                                                    |           |
-| [Native-only and combined histograms](#native-only-histogram)                    | N/A                                      | Exponential buckets via `schema`/`spans`/`buckets` | Yes       |
+| [Native-only and combined histograms](#native-only-histogram)                    | N/A                                      | Exponential buckets via `schema`/`spans`/`buckets` | No        |
 | [**Exemplars**](#exemplars)                                                      |                                          |                                                    |           |
 | [Mandatory timestamps / multiple exemplars](#mandatory-timestamps)               | Optional timestamp; max 1                | Mandatory timestamp; multiple allowed              | Yes       |
 | [Size limit / W3C keys / histogram placement](#size-limit-relaxation)            | 128-char limit; bucket-level             | Soft limit; W3C keys; sample-level                 | Mixed     |
@@ -50,6 +51,8 @@ OpenMetrics 2.0 contains many changes. Some of those changes are a loosening of 
 | [MetricGroup terminology](#stateset)                                             | Metric / MetricPoint                     | MetricGroup / Metric                               | No        |
 | [**Unknown Type**](#unknown-type)                                                |                                          |                                                    |           |
 | [CompositeValue allowed](#unknown-type)                                          | Number only                              | Number or CompositeValue                           | No        |
+
+\*Applies to the HTTP Content-Type header, not to exposition lines.
 
 ## Version Negotiation and Content-Type
 

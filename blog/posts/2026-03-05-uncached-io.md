@@ -9,7 +9,7 @@ Do you find yourself constantly looking up the difference between `container_mem
 
 You're not alone. There is even a [9-year-old Kubernetes issue](https://github.com/kubernetes/kubernetes/issues/43916) that captures the frustration of users.
 
-The explanation is simple: RAM is not used in just one way. One of the easiest things to miss is the [page cache](https://en.wikipedia.org/wiki/Page_cache), and for some containers it can make up most of the reported memory usage, even though that memory is largely reclaimable, creating large gaps between those metrics.
+The explanation is simple: RAM is not used in just one way. One of the easiest things to miss is the [page cache](https://en.wikipedia.org/wiki/Page_cache) semantics. For some containers, memory taken by page caching can make up most of the reported usage, even though that memory is largely reclaimable, creating surprising differences between those metrics.
 
 <!-- more -->
 

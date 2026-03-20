@@ -64,6 +64,7 @@ Time series are a record of changing information over time. Common examples of m
 
 ## Data Model
 
+// TODO: High level diagram to put here.
 This section MUST be read together with the ABNF section. In case of disagreements between the two, the ABNF's restrictions MUST take precedence.
 
 ### Data Types
@@ -74,14 +75,19 @@ Metric values in OpenMetrics MUST be either Number or CompositeValue.
 
 ##### Number
 
+// MAYBE: Clarify floating point exactly / link to where we do this instead of float64
+// MAYBE: "ut it MAY be used to signal a division by zero" -> add or any result of the math operations that would result it in.
 Number value MUST be either floating point or integer. Note that ingestors of the format MAY only support float64. The non-real values NaN, +Inf and -Inf MUST be supported. NaN value MUST NOT be considered a missing value, but it MAY be used to signal a division by zero.
 
 Booleans MUST be represented as a Number value where `1` is true and `0` is false.
 
 ##### CompositeValue
 
+// TODO(dashpole): Fix on Data model redefinition "Sample value"
+// * Sample = value + timestamp + st + exemplars
 CompositeValue MUST contain all information necessary to recreate a sample value for Metric within the MetricFamily.
 
+// TODO(dashpole): Fix on Data model redefinition "Metric Values" -> maybe "Sample Values"
 The following MetricFamily Types MUST use CompositeValue for Metric Values:
 
 * [Histogram](#histogram) MetricFamily Type.
@@ -92,6 +98,7 @@ Other MetricFamily Types MUST use Numbers.
 
 #### Timestamps
 
+// MAYBE: Mention its float?
 Timestamps MUST be Unix Epoch in seconds. Negative timestamps MAY be used.
 
 #### Strings
@@ -102,8 +109,10 @@ Strings MUST only consist of valid UTF-8 characters and MAY be zero length. NULL
 
 Labels are key-value pairs consisting of strings.
 
+// TODO: I think one underscore as old is better? Sounds like there wasn't particular reason for "two"
 Label names beginning with two underscores are RESERVED and MUST NOT be used unless specified by this standard. Such Label names MAY be used in place of TYPE and UNIT metadata in cases where MetricFamilies' metadata might otherwise be conflicting, such as metric federation cases.
 
+// MAYBE: Link to where we explain "UTF-8 metrics may reduce usability"
 Label names SHOULD follow the restrictions in the ABNF section under the `label-name` section. Label names MAY be any quoted escaped UTF-8 string as described in the ABNF section. Be aware that exposing UTF-8 metrics may reduce usability.
 
 Empty label values SHOULD be treated as if the label was not present.
@@ -124,6 +133,7 @@ When an exemplar references a [Trace Context](https://www.w3.org/TR/trace-contex
 
 While there's no [hard limit](#size-limits) specified, Exemplar's LabelSet SHOULD NOT be used to transport large data like tracing span details or other event logging.
 
+// TODO: "If you truncate data try to preserve trace id and span id"
 Ingestors MAY truncate the Exemplar's LabelSet or discard Exemplars.
 
 #### Sample
@@ -147,6 +157,7 @@ A MetricFamily MAY have zero or more Metrics. Every Metric within a MetricFamily
 MetricFamily name:
 
 * MUST be string.
+// TODO give example of unknown metadata? No meta exposed, two differently name metric families.
 * MUST be unique within a MetricSet.
 * MUST be the same as every Metric's Name in the family.
 
@@ -156,10 +167,12 @@ Names SHOULD be in snake_case. Names SHOULD follow the restrictions in the ABNF 
 
 Colons in MetricFamily names are RESERVED to signal that the MetricFamily is the result of a calculation or aggregation of a general purpose monitoring system.
 
+// CHECK: RESERVED in RFC?
 MetricFamily names beginning with underscores are RESERVED and MUST NOT be used unless specified by this standard.
 
 ###### Discouraged Suffixes
 
+// TODO: Double check scrape failure modes e.g. rejection MetricSet vs Sample/MetricFamily.
 MetricFamily name SHOULD NOT end with `_count`, `_sum`, `_gcount`, `_gsum`, `_bucket`. Specifically, a name SHOULD NOT create a MetricName collision when converted to [the OpenMetrics 1.0 Text](https://prometheus.io/docs/specs/om/open_metrics_spec). Ingestors MAY reject such MetricFamily.
 
 A non-compliant example would be a gauge called `foo_bucket` and a histogram called `foo`. Exposers negotiating the older OpenMetrics or Text formats, or ingestors which support only the older data model could end up storing the `foo` histogram in the classic representation (`foo_bucket`, `foo_count`, `foo_sum`), which would clash with the gauge and cause a scrape rejection or dropped data.
@@ -174,6 +187,8 @@ Type specifies the MetricFamily type. Valid values are "unknown", "gauge", "coun
 
 Unit specifies MetricFamily units. If non-empty, it SHOULD be a suffix of the MetricFamily name separated by an underscore. Further type specific suffixes come after the unit suffix. Exposing metrics without the unit being a suffix of the MetricFamily name directly to end-users may reduce the usability due to confusion about what the metric's unit is.
 
+// TODO: Add link to unit value semantics?
+
 ##### Help
 
 Help is a string and SHOULD be non-empty. It is used to give a brief description of the MetricFamily for human consumption and SHOULD be short enough to be used as a tooltip.
@@ -186,6 +201,7 @@ Each MetricFamily name MUST be unique. The same label name and value SHOULD NOT 
 
 There is no specific ordering of MetricFamilies required within a MetricSet. An exposer MAY make an exposition easier to read for humans, for example sort alphabetically if the performance tradeoff makes sense.
 
+// MAYBE: What about other info metrics?
 If present, an Info MetricFamily called "target_info" per the [Supporting target metadata in both push-based and pull-based systems](#supporting-target-metadata-in-both-push-based-and-pull-based-systems) section below SHOULD be first.
 
 ### MetricFamily Types
@@ -206,6 +222,7 @@ The MetricFamily name for Counters SHOULD end in `_total`. Exposing metrics with
 
 A Sample in a Metric with the Type Counter SHOULD have a Timestamp value called Start Timestamp. This can help ingestors discern between new metrics and long-running ones it did not see before.
 
+// DISCUSSION: If you reset you must set ST?
 A Sample in a Metric with the Type Counter MUST have a Number value which is non-NaN. The value MUST be monotonically non-decreasing over time, unless it is reset to 0, and start from 0. The value MAY reset its value to 0. If present, the corresponding Start Timestamp MUST also be set to the timestamp of the reset.
 
 A Sample in a Metric with the type Counter MAY have exemplars.
@@ -218,9 +235,9 @@ A StateSet is structured as a set of Metrics, one for each state, called a State
 
 > NOTE: In OpenMetrics 1.0, Metrics are composed of MetricPoints (e.g. a Histogram metric has a MetricPoint representing each Bucket with a special "le" label), which is no longer the case in OpenMetrics 2.0. An OpenMetrics 1.0 StateSet Metric is equivalent to an OpenMetrics 2.0 StateSet MetricGroup, and an OpenMetrics 1.0 StateSet MetricPoint is equivalent to an OpenMetrics 2.0 StateSet Metric.
 
-A StateSet MetricGroup contains one or more states and MUST contain one boolean per state. States have a name which is a String.
+A StateSet MetricGroup contains one or more states and MUST contain one Metric with a boolean value per state. States have a name which is a String.
 
-If encoded as a StateSet, ENUMs MUST have exactly one Sample which is `1` (true) within a MetricGroup.
+If encoded as a StateSet, ENUMs MUST have exactly one Sample which is `1` (true) within a MetricGroup, for a single Timestamp.
 
 This is suitable where the enum value changes over time, and the number of States isn't much more than a handful.
 
@@ -230,9 +247,10 @@ MetricFamilies of Type StateSets MUST have an empty Unit string.
 
 Info metrics are used to expose textual information which SHOULD NOT change during process lifetime. Common examples are an application's version, revision control commit, and the version of a compiler.
 
+// CONSISTENCY: Last pass of Name/name (definition) 
 The MetricFamily name for Info metrics MUST end in `_info`.
 
-Info MAY be used to encode ENUMs whose values do not change over time, such as the type of a network interface.
+// Likely to kill or example: Info MAY be used to encode ENUMs whose values do not change over time, such as the type of a network interface.
 
 MetricFamilies of Type Info MUST have an empty Unit string.
 
@@ -246,19 +264,21 @@ The Count value MUST be equal to the number of measurements taken by the Histogr
 
 Float Count is allowed to make it possible to expose results of arithmetic operations on histograms, such as addition that may result in values beyond the range of integers.
 
-The Sum value MUST be equal to the sum of all the measured event values. The Sum is only a counter semantically as long as there are no negative event values measured by the Histogram Sample.
+The Sum value MUST be equal to the sum of all the measured event values. The Sum is only a counter semantically as long as there are no negative event values measured by the Histogram.
 
 A Histogram MUST measure values that are not NaN in either [Classic Buckets](#classic-buckets) or [Native Buckets](#native-buckets) or both. Measuring NaN is different for Classic and Native Buckets, see in their respective sections.
 
+// MAYBE: DRY? common pattern with count
 Every Bucket MUST have well-defined boundaries and a value. The bucket value is called the bucket count colloquially. Boundaries of a Bucket MUST NOT be NaN. Bucket values are counters semantically. Bucket values SHOULD be integers. Bucket values MUST NOT be negative. Bucket values SHOULD NOT be +Inf, NaN.
 
 Float bucket values are allowed to make it possible to expose results of arithmetic operations on histograms, such as addition that may result in values beyond the range of integers.
 
 A Histogram SHOULD NOT include NaN measurements as including NaN in the Sum will make the Sum equal to NaN and mask the sum of the real measurements for the lifetime of the time series. If a Histogram includes NaN measurements, then NaN measurements MUST be counted in the Count and the Sum MUST be NaN.
 
-If a Histogram includes +Inf or -Inf measurement, then +Inf or -Inf MUST be counted in Count and MUST be added to the Sum, potentially resulting in +Inf, -Inf or NaN in the Sum, the later for example in case of adding +Inf to -Inf. Note that in this case the Sum of finite measurements is masked until the next reset of the Histogram.
+If a Histogram includes +Inf or -Inf measurement, then +Inf or -Inf MUST be counted in Count and MUST be added to the Sum, potentially resulting in +Inf, -Inf or NaN in the Sum, the latter for example in case of adding +Inf to -Inf. Note that in this case the Sum of finite measurements is masked until the next reset of the Histogram.
 
-A Histogram Sample SHOULD have a Timestamp value called Start Timestamp. This can help ingestors discern between new metrics and long-running ones it did not see before.
+// TODO: Define Explicit Timestamp and Start Timestamp semantics (section).
+A Histogram Sample SHOULD have a Start Timestamp. This can help ingestors discern between new metrics and long-running ones it did not see before.
 
 If the Histogram Metric has Samples with Classic Buckets, the Histogram's Metric's LabelSet MUST NOT have a "le" label name, because in case the Samples are stored as classic histogram series with the `_bucket` suffix, then the "le" label in the Histogram will conflict with the "le" label generated from the bucket thresholds.
 
@@ -270,9 +290,10 @@ A Histogram Sample MAY have exemplars. The values of exemplars in a Histogram Sa
 
 Every Classic Bucket MUST have a threshold. Classic Bucket thresholds within a Sample MUST be unique. Classic Bucket thresholds MAY be negative.
 
-A Classic Bucket MUST count the number of measured values less than or equal to its threshold, including measured values that are also counted in lower buckets. This allow monitoring systems to drop any non-+Inf bucket for performance/anti-denial-of-service reasons in a way that loses granularity but is still a valid Histogram.
+// CONSISTENCY +-Inf?
+A Classic Bucket MUST count the number of measured values less than or equal to its threshold, including measured values that are also counted in lower buckets. This allows monitoring systems to drop any non-+Inf bucket for performance or anti-denial-of-service reasons in a way that loses granularity but is still a valid Histogram.
 
-As an example, for a metric representing request latency in seconds with Classic Buckets and thresholds 1, 2, 3, and +Inf, it follows that value_1 <= value_2 <= value_3 <= value_+Inf. If ten requests took 1 second each, the values of the 1, 2, 3, and +Inf buckets will be all equal to 10.
+As an example, for a metric representing request latency in seconds with Classic Buckets and thresholds 1, 2, 3, and +Inf, it follows that value_1 <= value_2 <= value_3 <= value_+Inf. If ten requests took one second each, the values of the 1, 2, 3, and +Inf buckets will be all equal to 10.
 
 Histogram Samples with Classic Buckets MUST have one Classic Bucket with a +Inf threshold. The +Inf bucket counts all measurements. The Count value MUST be equal to the value of the +Inf bucket.
 
@@ -282,16 +303,13 @@ If the NaN value is allowed, it MUST be counted in the +Inf bucket, and MUST NOT
 
 ##### Native Buckets
 
-Histogram Samples with Native Buckets MUST have a Schema value. The Schema MUST be an 8 bit signed integer between -4 and 8 (inclusive), these are called Standard (exponential) schemas.
+Histogram Samples with Native Buckets MUST have a Schema value. The Schema MUST be an 8-bit signed integer between -4 and 8 (inclusive), these are called Standard (exponential) schemas.
 
-Schema values outside the -4 to 8 range are reserved for future use and MUST NOT be used. In particular:
+Schema values outside the -4 to 8 range are reserved for future use and MUST NOT be used.
 
-* Schema values between -9 to -5 and 9 to 52 are reserved for use as Standard (exponential) Schemas.
-* Schema value equal to -53 is reserved for use for Custom Buckets Schema.
+For any Standard Schema `n`, the Histogram Sample MAY contain positive and/or negative Native Buckets and MUST contain a zero Native Bucket. Empty positive or negative Native Buckets SHOULD NOT be present.
 
-For any Standard Schema n, the Histogram Sample MAY contain positive and/or negative Native Buckets and MUST contain a zero Native Bucket. Empty positive or negative Native Buckets SHOULD NOT be present.
-
-In case of Standard Schemas, the boundaries of a positive or negative Native Bucket with index i MUST be calculated as follows (using Python syntax):
+In case of Standard Schemas, the boundaries of a positive or negative Native Bucket with index `i` MUST be calculated as follows (using Python syntax):
 
 The upper inclusive limit of a positive Native Bucket: `(2**2**-n)**i`
 
@@ -301,17 +319,18 @@ The lower inclusive limit of a negative Native Bucket: `-((2**2**-n)**i)`
 
 The upper exclusive limit of a negative Native Bucket: `-((2**2**-n)**(i-1))`
 
-i is an integer number that MAY be negative.
+`i` is an integer number that MAY be negative.
 
-There are exceptions to the rules above concerning the largest and smallest finite values representable as a float64 (called MaxFloat64 and MinFloat64 in the following) and the positive and negative infinity values (+Inf and -Inf):
+There are exceptions to the rules above concerning the largest and smallest finite values representable as a float64 (called MaxFloat64 and MinFloat64) and the positive and negative infinity values (+Inf and -Inf):
 
 The positive Native Bucket that contains MaxFloat64 (according to the boundary formulas above) has an upper inclusive limit of MaxFloat64 (rather than the limit calculated by the formulas above, which would overflow float64).
 
-The next positive Native Bucket (index i+1 relative to the bucket from the previous item) has a lower exclusive limit of MaxFloat64 and an upper inclusive limit of +Inf. (It could be called a positive Native overflow Bucket.)
+The next positive Native Bucket (index `i+1` relative to the bucket from the previous item) has a lower exclusive limit of MaxFloat64 and an upper inclusive limit of +Inf. (It could be called a positive Native overflow Bucket.)
 
 The negative Native Bucket that contains MinFloat64 (according to the boundary formulas above) has a lower inclusive limit of MinFloat64 (rather than the limit calculated by the formulas above, which would underflow float64).
 
-The next negative Native Bucket (index i+1 relative to the bucket from the previous item) has an upper exclusive limit of MinFloat64 and an lower inclusive limit of -Inf. (It could be called a negative Native overflow Bucket.)
+// MAYBE: kind of undeflow?
+The next negative Native Bucket (index `i+1` relative to the bucket from the previous item) has an upper exclusive limit of MinFloat64 and a lower inclusive limit of -Inf. (It could be called a negative Native overflow Bucket.)
 
 Native Buckets beyond the +Inf and -Inf buckets described above MUST NOT be used.
 
@@ -325,6 +344,7 @@ If the NaN value is allowed, it MUST NOT be counted in any Native Bucket, and MU
 
 #### GaugeHistogram
 
+// NOTE: To re-read
 GaugeHistograms measure current distributions. Common examples are how long items have been waiting in a queue, or size of the requests in a queue.
 
 A GaugeHistogram Sample MUST contain Gcount, Gsum values.
@@ -345,7 +365,7 @@ Float and negative bucket values are allowed to make it possible to expose resul
 
 A GaugeHistogram SHOULD NOT include NaN measurements. If a GaugeHistogram includes NaN measurements, then NaN measurements MUST be counted in the Gcount and the Gsum MUST be NaN.
 
-If a GaugeHistogram includes +Inf or -Inf measurement, then +Inf or -Inf MUST be counted in Gcount and MUST be added to the Gsum, potentially resulting in +Inf, -Inf or NaN in the Gsum, the later for example in case of adding +Inf to -Inf.
+If a GaugeHistogram includes +Inf or -Inf measurement, then +Inf or -Inf MUST be counted in Gcount and MUST be added to the Gsum, potentially resulting in +Inf, -Inf or NaN in the Gsum, the latter for example in case of adding +Inf to -Inf.
 
 If the GaugeHistogram Metric has Samples with Classic Buckets, the GaugeHistogram's Metric's LabelSet MUST NOT have a "le" label name, because in case the Samples are stored as classic histogram series with the `_bucket` suffix, then the "le" label in the GaugeHistogram will conflict with the "le" label generated from the bucket thresholds.
 
@@ -355,17 +375,21 @@ The exemplars for a GaugeHistogram follow all the same rules as for a Histogram.
 
 #### Summary
 
-Summaries also measure distributions of discrete events and MAY be used when Histograms are too expensive and/or an average event size is sufficient.
+Summaries also measure distributions of discrete events and MAY be used when Histograms are too expensive and a small number of precomputed quantiles is sufficient.
 
-They MAY also be used for backwards compatibility, because some existing instrumentation libraries expose precomputed quantiles and do not support Histograms. Precomputed quantiles SHOULD NOT be used, because quantiles are not aggregatable and the user often can not deduce what timeframe they cover.
+// DISCUSSION: Main reason is hard to migrate 
+Summaries SHOULD NOT be used, because quantiles are not aggregatable and the user often can not deduce what timeframe they cover. They MAY be used for backwards compatibility, because some existing instrumentation libraries expose precomputed quantiles and do not support Histograms. 
 
 A Summary Sample MUST contain a Count, Sum and a set of quantiles.
 
 Semantically, Count and Sum values are counters so MUST NOT be NaN or negative. Count MUST be an integer.
 
-A Summary SHOULD have a Timestamp value called Start Timestamp. This can help ingestors discern between new metrics and long-running ones it did not see before. Start Timestamp MUST NOT relate to the collection period of quantile values.
+// TODO: ST section/fix
+A Summary SHOULD have a Timestamp value called Start Timestamp. This can help ingestors discern between new metrics and long-running ones it did not see before.
 
-Quantiles are a map from a quantile to a value. An example is a quantile 0.95 with value 0.2 in a metric called myapp_http_request_duration_seconds which means that the 95th percentile latency is 200ms over an unknown timeframe. If there are no events in the relevant timeframe, the value for a quantile MUST be NaN. A Quantile's Metric's LabelSet MUST NOT have "quantile" label name. Quantiles MUST be between 0 and 1 inclusive. Quantile values MUST NOT be negative. Quantile values SHOULD represent the recent values. Commonly this would be over the last 5-10 minutes.
+Start Timestamp MUST NOT be based on the collection period of quantile values.
+
+Quantiles are a map from a quantile to a value. An example is a quantile 0.95 with value 0.2 in a metric called `myapp_http_request_duration_seconds` which means that the 95th percentile latency is 200ms over an unknown timeframe. If there are no events in the relevant timeframe, the value for a quantile MUST be NaN. A Quantile's Metric's LabelSet MUST NOT have "quantile" label name. Quantiles MUST be between 0 and 1 inclusive. Quantile values MUST NOT be negative. Quantile values SHOULD represent the recent values. Commonly this would be over the last 5-10 minutes.
 
 #### Unknown
 
@@ -377,25 +401,27 @@ A Sample in a metric with the Unknown Type MUST have a Number or CompositeValue 
 
 The OpenMetrics formats are Regular Chomsky Grammars, making writing quick and small parsers possible.
 
+// MAYBE: Be clear on failure modes.
 Partial or invalid expositions MUST be considered erroneous in their entirety.
 
 > NOTE: Previous versions of [OpenMetrics](https://prometheus.io/docs/specs/om/open_metrics_spec/#protobuf-format) used to specify a [OpenMetric protobuf format](https://github.com/prometheus/OpenMetrics/blob/3bb328ab04d26b25ac548d851619f90d15090e5d/proto/openmetrics_data_model.proto). OpenMetrics 2.0 does not include the protobuf representation. For available formats, including the official [Prometheus protobuf wire format](https://prometheus.io/docs/instrumenting/exposition_formats/#protobuf-format), see [exposition formats documentation](https://prometheus.io/docs/instrumenting/exposition_formats).
 
 ### Protocol Negotiation
 
-All ingestor implementations MUST be able to ingest data secured with TLS 1.2 or later. All exposers SHOULD be able to emit data secured with TLS 1.2 or later. ingestor implementations SHOULD be able to ingest data from HTTP without TLS. All implementations SHOULD use TLS to transmit data.
+// MAYBE: Require encryption? 1.2 is safe? 
+All ingestor implementations MUST be able to ingest data secured with TLS 1.2 or later. All exposers SHOULD be able to emit data secured with TLS 1.2 or later. Ingestor implementations SHOULD be able to ingest data from HTTP without TLS. All implementations SHOULD use TLS to transmit data.
 
+// TODO: Fix the sentence 
 Negotiation of what version of the OpenMetrics format to use is out-of-band. For example for pull-based exposition over HTTP standard HTTP content type negotiation is used, and MUST default to the oldest version of the standard (i.e. 1.0.0) if no newer version is requested.
 
+// MAYBE: Exposer? Also fallback to text format?
 Push-based negotiation is inherently more complex, as the exposer typically initiates the connection. Producers MUST use the oldest version of the standard (i.e. 1.0.0) unless requested otherwise by the ingestor.
 
 ### ABNF
 
 ABNF as per RFC 5234
 
-<!---
-# EDITOR’S NOTE: Should we update to RFC 7405, in particular the case insensitive bits?
--->
+// MAYBE: Should we update to RFC 7405, in particular the case insensitive bits?
 
 "exposition" is the top level token of the ABNF.
 
@@ -687,6 +713,7 @@ It is also valid to have:
 
 If the unit is known it SHOULD be provided.
 
+// WHAT: value of the line???
 The value of a UNIT or HELP line MAY be empty. This MUST be treated as if no metadata line for the MetricFamily existed.
 
 Full example:
@@ -1119,6 +1146,7 @@ It is intended to transport snapshots of state at the time of data transmission 
 
 How ingestors discover which exposers exist, and vice-versa, is out of scope for and thus not defined in this standard.
 
+// MINOR: on top of https://github.com/prometheus/docs/pull/2905/changes#r2963439248 (UTF8 and MetricName == MF name)
 ### Extensions and Improvements
 
 This second version of OpenMetrics is based upon the well-established de facto standard [Prometheus exposition formats](https://prometheus.io/docs/instrumenting/exposition_formats/) such as the Prometheus text format 0.0.4, Prometheus Protobuf format, and OpenMetrics 1.0.

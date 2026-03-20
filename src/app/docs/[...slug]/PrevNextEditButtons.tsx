@@ -1,7 +1,26 @@
 import { Group, Box, Button, Text, Stack } from "@mantine/core";
 import Link from "next/link";
-import { IconArrowRight, IconArrowLeft, IconPencil } from "@tabler/icons-react";
+import {
+  IconArrowRight,
+  IconArrowLeft,
+  IconPencil,
+  IconBug,
+} from "@tabler/icons-react";
 import { DocMetadata } from "@/docs-collection-types";
+
+function buildIssueUrl(currentPage: DocMetadata): string {
+  const repoBase =
+    currentPage.type === "local-doc"
+      ? "https://github.com/prometheus/docs"
+      : `https://github.com/${currentPage.owner}/${currentPage.repo}`;
+
+  const title = encodeURIComponent(`docs: Issue with "${currentPage.title}"`);
+  const body = encodeURIComponent(
+    `**Page:** https://prometheus.io/docs/${currentPage.slug}/\n\n**Describe the issue:**\n\n`
+  );
+
+  return `${repoBase}/issues/new?title=${title}&body=${body}`;
+}
 
 export default function PrevNextEditButtons({
   currentPage,
@@ -47,35 +66,53 @@ export default function PrevNextEditButtons({
           </Button>
         )}
       </Box>
-      <Button
-        flex="0 1 40%"
-        maw="40%"
-        component="a"
-        href={
-          currentPage.type === "local-doc"
-            ? `https://github.com/prometheus/docs/blob/main/docs/${currentPage.slug}.md`
-            : `https://github.com/${currentPage.owner}/${
-                currentPage.repo
-              }/blob/main/docs/${currentPage.slug
-                .split("/")
-                .slice(currentPage.slugPrefix.split("/").length + 1)
-                .join("/")}.md`
-        }
-        target="_blank"
-        variant="subtle"
-        color="var(--mantine-color-text)"
-        h={80}
-        leftSection={<IconPencil size={18} stroke={1.5} />}
-        fw="normal"
-        visibleFrom="xs"
-      >
-        <Text inherit hiddenFrom="md">
-          Edit
-        </Text>
-        <Text inherit visibleFrom="md">
-          Edit this page
-        </Text>
-      </Button>
+      <Group gap="xs" wrap="nowrap">
+        <Button
+          component="a"
+          href={
+            currentPage.type === "local-doc"
+              ? `https://github.com/prometheus/docs/blob/main/docs/${currentPage.slug}.md`
+              : `https://github.com/${currentPage.owner}/${
+                  currentPage.repo
+                }/blob/main/docs/${currentPage.slug
+                  .split("/")
+                  .slice(currentPage.slugPrefix.split("/").length + 1)
+                  .join("/")}.md`
+          }
+          target="_blank"
+          variant="subtle"
+          color="var(--mantine-color-text)"
+          h={80}
+          leftSection={<IconPencil size={18} stroke={1.5} />}
+          fw="normal"
+          visibleFrom="xs"
+        >
+          <Text inherit hiddenFrom="md">
+            Edit
+          </Text>
+          <Text inherit visibleFrom="md">
+            Edit this page
+          </Text>
+        </Button>
+        <Button
+          component="a"
+          href={buildIssueUrl(currentPage)}
+          target="_blank"
+          variant="subtle"
+          color="var(--mantine-color-text)"
+          h={80}
+          leftSection={<IconBug size={18} stroke={1.5} />}
+          fw="normal"
+          visibleFrom="xs"
+        >
+          <Text inherit hiddenFrom="md">
+            Issue
+          </Text>
+          <Text inherit visibleFrom="md">
+            Report an issue
+          </Text>
+        </Button>
+      </Group>
       <Box flex="0 1 40%" maw="40%" ta="right">
         {currentPage.next && (
           <Button

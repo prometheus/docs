@@ -8,7 +8,7 @@ sort_rank: 5
 
 ### What is Prometheus?
 
-Prometheus is an open-source systems monitoring and alerting toolkit
+Prometheus is an open-source system monitoring and alerting toolkit
 with an active ecosystem.
 It is the only system directly supported by [Kubernetes](https://kubernetes.io/) and the de facto standard across the [cloud native ecosystem](https://landscape.cncf.io/).
 See the [overview](/docs/introduction/overview/).
@@ -111,7 +111,7 @@ Prometheus is released under the
 After [extensive research](https://youtu.be/B_CDeYrqxjQ), it has been determined
 that the correct plural of 'Prometheus' is 'Prometheis'.
 
-If you can not remember this, "Prometheus instances" is a good workaround.
+If you cannot remember this, "Prometheus instances" is a good workaround.
 
 ### Can I reload Prometheus's configuration?
 

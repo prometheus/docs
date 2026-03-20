@@ -3,8 +3,6 @@ title: The Zen of Prometheus
 sort_rank: 9
 ---
 
-# The Zen of Prometheus
-
 **The Zen of Prometheus** is beginner friendly set of core values and guidelines for instrumenting your applications and writing idiomatic alerts using Prometheus.
 This is a document that's intended to maintained by the Prometheus community. Feel free to [contribute](https://github.com/prometheus/docs).
 

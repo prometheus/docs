@@ -23,29 +23,33 @@ There is also a reference to the relevant section of the specification if more d
 
 OpenMetrics 2.0 contains many changes. Some of those changes are a loosening of previously-strict requirements, like the way metric names are constructed or character limits. Most of these changes are in service of allowing OpenTelemetry metric data to be encoded in OpenMetrics without violating the specification. Other changes introduce new syntaxes, mostly focused on allowing metric data to be encoded into a single line rather than requiring multiple lines to describe one cohesive piece of information.  Lastly, some changes add new features and data types, like Native Histograms.
 
-| Change                                                                         | 1.0                                      | 2.0                                                | Breaking? |
-| ------------------------------------------------------------------------------ | ---------------------------------------- | -------------------------------------------------- | --------- |
-| [**Negotiation**](#version-negotiation-and-content-type)                       |                                          |                                                    |           |
-| [Content-Type version header](#version-negotiation-and-content-type)           | `version=1.0.0`                          | `version=2.0.0`                                    | Yes       |
-| [Negotiation defaults](#negotiation-defaults)                                  | Oldest version                           | Same (default to 1.0)                              | No        |
-| [**Naming**](#naming-changes)                                                  |                                          |                                                    |           |
-| [MetricFamily must match MetricName](#metricfamily-name-must-match-metricname) | Implicit suffix stripping                | Exact match required                               | Yes       |
-| [Counter _total / Info _info suffixes](#counter-and-info-suffix-rules)         | `_total` MUST; `_info` implicit          | `_total` SHOULD; `_info` MUST on name              | No        |
-| [Reserved suffixes](#reserved-suffixes)                                        | Not specified                            | `_count`/`_sum`/`_bucket` etc. SHOULD NOT          | No        |
-| [**Metadata**](#metadata-changes)                                              |                                          |                                                    |           |
-| [Reserved label prefix](#reserved-label-prefix)                                | `_` reserved                             | `__` reserved                                      | No        |
-| [**UTF-8 Names**](#utf-8-names)                                                |                                          |                                                    |           |
-| [Metric and label name quoting](#metric-name-quoting)                          | `[a-zA-Z0-9_:]` only                     | UTF-8 allowed; quoted when needed                  | Yes       |
-| [**Start Timestamps**](#start-timestamps)                                      |                                          |                                                    |           |
-| [st@ replaces _created](#start-timestamps)                                     | Separate `_created` sample               | Inline `st@` on sample line                        | Yes       |
-| [**CompositeValues**](#compositevalues)                                        |                                          |                                                    |           |
-| [Summary / Histogram / GaugeHistogram](#compositevalues)                       | Expanded `_bucket`/`_count`/`_sum` lines | Single `{key:value}` CompositeValue                | Yes       |
-| [Sum and Count required](#sum-and-count-required)                              | `_count`/`_sum` optional                 | Count and Sum required in CompositeValue           | Yes       |
-| [**Native Histograms**](#native-histograms)                                    |                                          |                                                    |           |
-| [Native-only and combined histograms](#native-only-histogram)                  | N/A                                      | Exponential buckets via `schema`/`spans`/`buckets` | Yes       |
-| [**Exemplars**](#exemplars)                                                    |                                          |                                                    |           |
-| [Mandatory timestamps / multiple exemplars](#mandatory-timestamps)             | Optional timestamp; max 1                | Mandatory timestamp; multiple allowed              | Yes       |
-| [Size limit / W3C keys / histogram placement](#size-limit-relaxation)          | 128-char limit; bucket-level             | Soft limit; W3C keys; sample-level                 | Mixed     |
+| Change                                                                           | 1.0                                      | 2.0                                                | Breaking? |
+| -------------------------------------------------------------------------------- | ---------------------------------------- | -------------------------------------------------- | --------- |
+| [**Negotiation**](#version-negotiation-and-content-type)                         |                                          |                                                    |           |
+| [Content-Type version header](#version-negotiation-and-content-type)             | `version=1.0.0`                          | `version=2.0.0`                                    | Yes       |
+| [Negotiation defaults](#negotiation-defaults)                                    | Oldest version                           | Same (default to 1.0)                              | No        |
+| [**Naming**](#naming-changes)                                                    |                                          |                                                    |           |
+| [MetricFamily must match Metric Name](#metricfamily-name-must-match-metric-name) | Implicit suffix stripping                | Exact match required                               | Yes       |
+| [Counter _total / Info _info suffixes](#counter-and-info-suffix-rules)           | `_total` MUST; `_info` implicit          | `_total` SHOULD; `_info` MUST on name              | No        |
+| [Reserved suffixes](#reserved-suffixes)                                          | Not specified                            | `_count`/`_sum`/`_bucket` etc. SHOULD NOT          | No        |
+| [**Metadata**](#metadata-changes)                                                |                                          |                                                    |           |
+| [Reserved label prefix](#reserved-label-prefix)                                  | `_` reserved                             | `__` reserved                                      | No        |
+| [**UTF-8 Names**](#utf-8-names)                                                  |                                          |                                                    |           |
+| [Metric and label name quoting](#metric-name-quoting)                            | `[a-zA-Z0-9_:]` only                     | UTF-8 allowed; quoted when needed                  | Yes       |
+| [**Start Timestamps**](#start-timestamps)                                        |                                          |                                                    |           |
+| [st@ replaces _created](#start-timestamps)                                       | Separate `_created` sample               | Inline `st@` on sample line                        | Yes       |
+| [**CompositeValues**](#compositevalues)                                          |                                          |                                                    |           |
+| [Summary / Histogram / GaugeHistogram](#compositevalues)                         | Expanded `_bucket`/`_count`/`_sum` lines | Single `{key:value}` CompositeValue                | Yes       |
+| [Sum and Count required](#sum-and-count-required)                                | `_count`/`_sum` optional                 | Count and Sum required in CompositeValue           | Yes       |
+| [**Native Histograms**](#native-histograms)                                      |                                          |                                                    |           |
+| [Native-only and combined histograms](#native-only-histogram)                    | N/A                                      | Exponential buckets via `schema`/`spans`/`buckets` | Yes       |
+| [**Exemplars**](#exemplars)                                                      |                                          |                                                    |           |
+| [Mandatory timestamps / multiple exemplars](#mandatory-timestamps)               | Optional timestamp; max 1                | Mandatory timestamp; multiple allowed              | Yes       |
+| [Size limit / W3C keys / histogram placement](#size-limit-relaxation)            | 128-char limit; bucket-level             | Soft limit; W3C keys; sample-level                 | Mixed     |
+| [**StateSet**](#stateset)                                                        |                                          |                                                    |           |
+| [MetricGroup terminology](#stateset)                                             | Metric / MetricPoint                     | MetricGroup / Metric                               | No        |
+| [**Unknown Type**](#unknown-type)                                                |                                          |                                                    |           |
+| [CompositeValue allowed](#unknown-type)                                          | Number only                              | Number or CompositeValue                           | No        |
 
 ## Version Negotiation and Content-Type
 
@@ -80,15 +84,15 @@ See: [Protocol Negotiation](../specs/om/open_metrics_spec_2_0.md#protocol-negoti
 
 ## Naming Changes
 
-OM 2.0 tightens the relationship between MetricFamily names and MetricPoint MetricNames, and changes the suffix rules for counters and info metrics. In OM 1.0, parsers implicitly stripped known suffixes to map sample names back to their MetricFamily. In OM 2.0, this implicit stripping is gone: the MetricFamily name must exactly match the MetricName on every MetricPoint.
+OM 2.0 tightens the relationship between MetricFamily names and Metric Names, and changes the suffix rules for counters and info metrics. In OM 1.0, parsers implicitly stripped known suffixes to map sample names back to their MetricFamily. In OM 2.0, this implicit stripping is gone: the MetricFamily name must exactly match every Metric's Name.
 
-### MetricFamily Name Must Match MetricName
+### MetricFamily Name Must Match Metric Name
 
 **Breaking**
 
-In OM 1.0, a counter's TYPE line used a base name (e.g. `http_requests`) while its samples carried the `_total` suffix (e.g. `http_requests_total`). The parser knew to strip `_total` when matching samples back to their MetricFamily, so the MetricFamily name and sample MetricName could differ.
+In OM 1.0, a counter's TYPE line used a base name (e.g. `http_requests`) while its samples carried the `_total` suffix (e.g. `http_requests_total`). The parser knew to strip `_total` when matching samples back to their MetricFamily, so the MetricFamily name and sample Metric Name could differ.
 
-In OM 2.0, the MetricFamily name MUST exactly match every MetricPoint's MetricName. There is no implicit suffix stripping. For counters, this means the TYPE line must include `_total` if the samples use it.
+In OM 2.0, the MetricFamily name MUST exactly match every Metric's Name. There is no implicit suffix stripping. For counters, this means the TYPE line must include `_total` if the samples use it.
 
 OM 1.0:
 ```
@@ -138,7 +142,7 @@ http_requests 1027
 
 In OM 1.0, Info MetricFamily names did not have a suffix requirement at the MetricFamily level. The parser added `_info` to sample names automatically, so a MetricFamily named `build` produced samples named `build_info`.
 
-In OM 2.0, Info MetricFamily names MUST end in `_info`. This is consistent with the MetricFamily-must-match-MetricName rule: since samples already carried `_info`, the MetricFamily name must now include it too.
+In OM 2.0, Info MetricFamily names MUST end in `_info`. This is consistent with the MetricFamily-must-match-Metric-Name rule: since samples already carried `_info`, the MetricFamily name must now include it too.
 
 OM 1.0:
 ```
@@ -240,7 +244,15 @@ Be aware that not all Prometheus ecosystem tools support UTF-8 metric names yet.
 
 Metric names that do not match `^[a-zA-Z_:][a-zA-Z0-9_:]*$` MUST be enclosed in double quotes. Any metric name MAY be enclosed in double quotes, but quoting is only required when the name contains characters outside the traditional set.
 
-Within quoted strings, use `\\` for a literal backslash, `\"` for a literal double quote, and `\n` for a newline.
+Within quoted strings, the following escapes apply:
+
+- `\\` for a literal backslash
+- `\"` for a literal double quote
+- `\n` for a newline
+
+**New in OM 2.0:** The ABNF now also permits a backslash before any normal character (`BS normal-char`). This means sequences like `\a` are valid syntax and will parse. However, a double backslash SHOULD be used to represent a literal backslash, and a single backslash SHOULD NOT be used for undefined escape sequences. For example, `\\a` is equivalent and preferable to `\a`.
+
+See: [Escaping](../specs/om/open_metrics_spec_2_0.md#escaping) in the OM 2.0 spec.
 
 ```
 # TYPE "process.cpu.seconds" counter
@@ -302,7 +314,7 @@ OM 2.0:
 http_requests_total 1027 st@1000000000
 ```
 
-The OM 1.0 example uses `http_requests` as the TYPE name (implicit suffix stripping), while OM 2.0 uses `http_requests_total` (MetricFamily must match MetricName, per [Naming Changes](#naming-changes)). The `http_requests_created` sample becomes the inline `st@` timestamp.
+The OM 1.0 example uses `http_requests` as the TYPE name (implicit suffix stripping), while OM 2.0 uses `http_requests_total` (MetricFamily must match Metric Name, per [Naming Changes](#naming-changes)). The `http_requests_created` sample becomes the inline `st@` timestamp.
 
 **Histogram**
 
@@ -358,8 +370,10 @@ A CompositeValue is enclosed in curly braces and contains comma-separated `key:v
 
 | Key                | Value type          | Used by                             | Description                                                 |
 | ------------------ | ------------------- | ----------------------------------- | ----------------------------------------------------------- |
-| `count`            | number              | histogram, gaugehistogram, summary  | Observation count (or gauge count for gaugehistogram).      |
-| `sum`              | number              | histogram, gaugehistogram, summary  | Sum of observed values.                                     |
+| `count`            | number              | histogram, summary                  | Observation count.                                          |
+| `sum`              | number              | histogram, summary                  | Sum of observed values.                                     |
+| `gcount`           | number              | gaugehistogram                      | Gauge observation count.                                    |
+| `gsum`             | number              | gaugehistogram                      | Gauge sum of observed values.                               |
 | `quantile`         | `[q:v,...]`         | summary                             | Quantile/value pairs, sorted by quantile.                   |
 | `bucket`           | `[le:v,...,+Inf:v]` | histogram, gaugehistogram (classic) | Classic bucket upper-bound/count pairs. `+Inf` is required. |
 | `schema`           | integer             | histogram, gaugehistogram (native)  | Native histogram resolution schema.                         |
@@ -373,9 +387,11 @@ A CompositeValue is enclosed in curly braces and contains comma-separated `key:v
 Not every key appears in every CompositeValue. Which keys are required depends on the metric type:
 
 - **Summary:** `count`, `sum`, `quantile`
-- **Classic histogram / gaugehistogram:** `count`, `sum`, `bucket`
+- **Classic histogram:** `count`, `sum`, `bucket`
+- **Classic gaugehistogram:** `gcount`, `gsum`, `bucket`
 - **Native histogram:** `count`, `sum`, `schema`, `zero_threshold`, `zero_count`, and optionally `negative_spans`/`negative_buckets` and/or `positive_spans`/`positive_buckets`
-- **Combined (classic + native):** `count`, `sum`, native fields, then `bucket`
+- **Native gaugehistogram:** `gcount`, `gsum`, `schema`, `zero_threshold`, `zero_count`, and optionally `negative_spans`/`negative_buckets` and/or `positive_spans`/`positive_buckets`
+- **Combined (classic + native):** `count`/`gcount`, `sum`/`gsum`, native fields, then `bucket`
 
 An abstract example showing every key (a combined classic + native histogram):
 
@@ -389,7 +405,7 @@ See: [CompositeValues](../specs/om/open_metrics_spec_2_0.md#compositevalues) in 
 
 ### Summary
 
-**Rule:** In OM 2.0, a Summary MetricPoint MUST contain Count, Sum, and a set of quantiles. In OM 1.0 these were all MAY. Exposers that previously omitted count or sum must now include them.
+**Rule:** In OM 2.0, a Summary Sample MUST contain Count, Sum, and a set of quantiles. In OM 1.0 these were all MAY. Exposers that previously omitted count or sum must now include them.
 
 OM 1.0:
 ```
@@ -435,7 +451,7 @@ See: [Histogram with Classic Buckets](../specs/om/open_metrics_spec_2_0.md#histo
 
 ### GaugeHistogram
 
-A GaugeHistogram measures current distributions (not reset-based). Common examples: queue depth, in-flight request size. Unlike a histogram, values are gauge-semantics — they can go up or down without a reset. The OM 1.0 expanded format used `_gcount`/`_gsum` suffixes; OM 2.0 uses CompositeValue with `count` and `sum` field names.
+A GaugeHistogram measures current distributions (not reset-based). Common examples: queue depth, in-flight request size. Unlike a histogram, values are gauge-semantics — they can go up or down without a reset. The OM 1.0 expanded format used `_gcount`/`_gsum` suffixes; OM 2.0 uses CompositeValue with `gcount` and `gsum` field names (preserving the gauge-semantic prefix).
 
 OM 1.0:
 ```
@@ -450,10 +466,10 @@ queue_depth_bytes_gsum 1048576
 OM 2.0:
 ```
 # TYPE queue_depth_bytes gaugehistogram
-queue_depth_bytes {count:23,sum:1048576,bucket:[1024:5,65536:18,+Inf:23]}
+queue_depth_bytes {gcount:23,gsum:1048576,bucket:[1024:5,65536:18,+Inf:23]}
 ```
 
-The CompositeValue format is identical to a classic histogram. The `TYPE` line distinguishes them. Fields must appear in this order: `count`, `sum`, `bucket`. GaugeHistograms do not have Start Timestamps (no creation semantics).
+The CompositeValue format is similar to a classic histogram, but uses `gcount` and `gsum` instead of `count` and `sum`. The `TYPE` line also distinguishes them. Fields must appear in this order: `gcount`, `gsum`, `bucket`. GaugeHistograms do not have Start Timestamps (no creation semantics).
 
 See: [GaugeHistogram with Classic Buckets](../specs/om/open_metrics_spec_2_0.md#gaugehistogram-with-classic-buckets) in the OM 2.0 spec.
 
@@ -469,7 +485,7 @@ http_request_duration_seconds_summary{path="/api/v1"} {count:1027,sum:172.5,quan
 # TYPE http_request_duration_seconds histogram
 http_request_duration_seconds{path="/api/v1"} {count:1027,sum:172.5,bucket:[0.1:800,0.5:950,+Inf:1027]} 1710000000 st@1000000000
 # TYPE queue_depth_bytes gaugehistogram
-queue_depth_bytes{queue="work"} {count:23,sum:1048576,bucket:[1024:5,65536:18,+Inf:23]} 1710000000
+queue_depth_bytes{queue="work"} {gcount:23,gsum:1048576,bucket:[1024:5,65536:18,+Inf:23]} 1710000000
 # EOF
 ```
 
@@ -511,7 +527,7 @@ queue_depth_bytes_bucket{le="+Inf"} 23
 OM 2.0:
 ```
 # TYPE queue_depth_bytes gaugehistogram
-queue_depth_bytes {count:23,sum:1048576,bucket:[1024:5,65536:18,+Inf:23]}
+queue_depth_bytes {gcount:23,gsum:1048576,bucket:[1024:5,65536:18,+Inf:23]}
 ```
 
 See: [Histogram](../specs/om/open_metrics_spec_2_0.md#histogram) and [GaugeHistogram](../specs/om/open_metrics_spec_2_0.md#gaugehistogram) in the OM 2.0 spec.
@@ -564,7 +580,7 @@ See: [Histogram with both Classic and Native Buckets](../specs/om/open_metrics_s
 
 ### GaugeHistogram with Native Buckets
 
-GaugeHistogram MetricPoints with native buckets follow the same syntax as histogram. The TYPE line distinguishes them.
+GaugeHistogram Samples with native buckets follow the same syntax as histogram, except using `gcount` and `gsum` instead of `count` and `sum`. The TYPE line also distinguishes them.
 
 See: [GaugeHistogram with Native Buckets](../specs/om/open_metrics_spec_2_0.md#gaugehistogram-with-native-buckets) in the OM 2.0 spec.
 
@@ -615,7 +631,40 @@ In OM 1.0, exemplar label sets had a hard 128-character limit. OM 2.0 removes th
 
 ### Histogram Exemplar Placement
 
-In OM 1.0, histogram exemplars appeared on individual `_bucket` lines. In OM 2.0 with CompositeValue syntax, exemplars attach to the single sample line after the CompositeValue. Exemplars without labels MUST use an empty LabelSet `{}`. When attaching multiple exemplars to a MetricPoint, use consistent label names across all exemplars on that sample.
+In OM 1.0, histogram exemplars appeared on individual `_bucket` lines. In OM 2.0 with CompositeValue syntax, exemplars attach to the single sample line after the CompositeValue. Exemplars without labels MUST use an empty LabelSet `{}`. When attaching multiple exemplars to a Sample, use consistent label names across all exemplars on that Sample.
 
 See: [Exemplars](../specs/om/open_metrics_spec_2_0.md#exemplars) in the OM 2.0 spec.
+
+## StateSet
+
+**Non-breaking**
+
+OM 2.0 introduces the "MetricGroup" concept for StateSet. A StateSet is now structured as a set of Metrics called a StateSet MetricGroup. This reflects a broader terminology change in the spec:
+
+| Concept | OM 1.0 Term | OM 2.0 Term |
+| ------- | ----------- | ----------- |
+| A set of related state samples | Metric | MetricGroup |
+| An individual state sample | MetricPoint | Metric |
+
+For exposer authors, the wire format for StateSet is unchanged. A StateSet still produces one sample per state with a boolean value (1 or 0), using the MetricFamily name as the label name and the state name as the label value:
+
+```
+# TYPE feature_flags stateset
+feature_flags{feature_flags="dark_mode"} 1
+feature_flags{feature_flags="beta_api"} 0
+```
+
+The MetricGroup concept is mainly relevant for understanding the spec and for library/SDK authors who model the data internally. If you are only emitting text exposition, no changes are needed.
+
+See: [StateSet](../specs/om/open_metrics_spec_2_0.md#stateset) in the OM 2.0 spec.
+
+## Unknown Type
+
+**Non-breaking**
+
+In OM 1.0, a Sample in a Metric with the Unknown type could only have a Number value. In OM 2.0, a Sample in a Metric with the Unknown type may also have a CompositeValue.
+
+Since the Unknown type SHOULD NOT be used in general (it exists for third-party metrics where the type is indeterminate), this is a minor change. It primarily affects ingestors and libraries that need to handle arbitrary Unknown-typed data.
+
+See: [Unknown](../specs/om/open_metrics_spec_2_0.md#unknown) in the OM 2.0 spec.
 

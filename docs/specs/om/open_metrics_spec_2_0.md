@@ -640,55 +640,57 @@ Timestamps SHOULD NOT use exponential float rendering for timestamps if nanoseco
 
 ### MetricFamily
 
-There MUST NOT be an explicit separator between MetricFamilies. The next MetricFamily MUST be signalled with either metadata or a new sample metric name which cannot be part of the previous MetricFamily.
+There MUST NOT be an explicit separator between MetricFamilies. The next MetricFamily MUST be signalled with either metadata or a new Metric name for a new MetricFamily.
 
 MetricFamilies MUST NOT be interleaved.
 
 #### MetricFamily metadata
 
-There are four pieces of metadata: The MetricFamily name, TYPE, UNIT and HELP. An example of the metadata for a counter Metric called foo is:
+There are four pieces of metadata: The MetricFamily name, TYPE, UNIT and HELP. An example of the metadata for a counter Metric called `foo_total` is:
 
 ```openmetrics-add-eof
-# TYPE foo counter
+# TYPE foo_total counter
 ```
 
-If no TYPE is exposed, the MetricFamily MUST be of Type Unknown.
+If no TYPE is exposed, the MetricFamily MUST be interpreted as Type Unknown.
 
-If a unit is specified it MUST be provided in a UNIT metadata line. In addition, an underscore and the unit SHOULD be the suffix of the MetricFamily name.
+If a unit is specified it MUST be provided in a UNIT metadata line. In addition, an underscore and the unit SHOULD be the suffix (or infix before `_total` for Counters) of the MetricFamily name.
 
-Be aware that exposing metrics without the unit being a suffix of the MetricFamily name directly to end-users may reduce the usability due to confusion about what the metric's unit is.
+Be aware that exposing metrics without the unit being a suffix (or infix) of the MetricFamily name directly to end-users may reduce the usability due to confusion about what the metric's unit is.
 
 A valid example for a foo_seconds metric with a unit of "seconds":
 
 ```openmetrics-add-eof
-# TYPE foo_seconds counter
-# UNIT foo_seconds seconds
+# TYPE foo_seconds_total counter
+# UNIT foo_seconds_total seconds
 ```
 
-A valid, but discouraged example, where the unit is not a suffix on the name:
+A valid, but discouraged example, where the unit is not a suffix nor infix on the name:
 
 ```openmetrics-add-eof
-# TYPE foo counter
-# UNIT foo seconds
+# TYPE foo_total counter
+# UNIT foo_total seconds
 ```
 
 It is also valid to have:
 
 ```openmetrics-add-eof
-# TYPE foo_seconds counter
+# TYPE foo_seconds_total counter
 ```
 
 If the unit is known it SHOULD be provided.
 
 The value of a UNIT or HELP line MAY be empty. This MUST be treated as if no metadata line for the MetricFamily existed.
 
+Full example:
+
 ```openmetrics-add-eof
-# TYPE foo_seconds counter
-# UNIT foo_seconds seconds
-# HELP foo_seconds Some text and \n some \" escaping
+# TYPE foo_seconds_total counter
+# UNIT foo_seconds_total seconds
+# HELP foo_seconds_total Some text and \n some \" escaping
 ```
 
-See the UTF-8 Quoting section for circumstances where the metric name MUST be enclosed in double quotes.
+See the [UTF-8 Quoting](#utf-8-quoting) section for circumstances where the metric name MUST be enclosed in double quotes.
 
 There MUST NOT be more than one of each type of metadata line for a MetricFamily. The ordering SHOULD be TYPE, UNIT, HELP.
 

@@ -813,8 +813,7 @@ An example with a Metric with no labels, and a Sample with a timestamp and a Sta
 foo_total 17.0 1520879607.789 st@1520430000.123
 ```
 
-An example with a Metric with no labels, and without the `_total` suffix and a Sample with a 
-Timestamp and a Start Timestamp:
+An example with a Metric with no labels, and without the `_total` suffix and a Sample with a Timestamp and a Start Timestamp:
 
 ```openmetrics-add-eof
 # TYPE foo counter

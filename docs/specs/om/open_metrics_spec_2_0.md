@@ -1097,7 +1097,7 @@ How ingestors discover which exposers exist, and vice-versa, is out of scope for
 
 This second version of OpenMetrics is based upon the well-established de facto standard [Prometheus exposition formats](https://prometheus.io/docs/instrumenting/exposition_formats/) such as the Prometheus text format 0.0.4, Prometheus Protobuf format, and OpenMetrics 1.0.
 
-This version introduces major changes to the first version to improve reliability, performance and compatibility with the Prometheus Protobuf format and the OpenTelemetry data model and naming conventions. At the same time, the format retains the ability to expose telemetry in a simple way and to be human-readable. This format is close enough to the previous version, the Prometheus query language, and the data model so as to ease the transition.
+This version introduces major changes to the first version to improve reliability, performance, compatibility with the Prometheus Protobuf format and the OpenTelemetry data model and naming conventions. At the same time, the format retains the ability to expose telemetry in a simple way and to be human-readable. This format is close enough to the previous version, the Prometheus query language, and the data model so as to ease the transition.
 
 It also ensures that there is a basic standard which is easy to implement. This can be built upon in future versions of the standard. The intention is that future minor versions of the standard will always require support for this 2.0 version, both syntactically and semantically.
 

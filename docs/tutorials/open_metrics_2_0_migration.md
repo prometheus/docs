@@ -13,7 +13,7 @@ This guide covers the changes most relevant to exposer authors. For the complete
 
 Each section below guides implementers through the change:
 
-- A **Breaking** or **Non-breaking** label indicating whether the change in syntax would cause a line that was valid in OM 1.0 to be invalid in OM 2.0.
+- A **Breaking** or **Non-breaking** label. A change is **Breaking** if a line that was valid in OM 1.0 is now invalid in OM 2.0. A **Non-breaking** change adds new syntax or relaxes restrictions without invalidating any existing valid line.
 - A brief refresher of the 1.0 behavior and the 2.0 change.
 - Before/after code blocks labeled "OM 1.0:" and "OM 2.0:" showing the difference.
 
@@ -53,7 +53,7 @@ OpenMetrics 2.0 contains many changes. Some of those changes are a loosening of 
 
 ## Version Negotiation and Content-Type
 
-**Breaking**
+**Breaking** (applies to the HTTP Content-Type header, not to exposition lines)
 
 In OM 1.0, exposers used the following Content-Type header to identify their format:
 
@@ -138,7 +138,7 @@ http_requests 1027
 
 **Info _info**
 
-**Non-breaking**
+**Breaking**
 
 In OM 1.0, Info MetricFamily names did not have a suffix requirement at the MetricFamily level. The parser added `_info` to sample names automatically, so a MetricFamily named `build` produced samples named `build_info`.
 
@@ -234,7 +234,7 @@ See: [Label](../specs/om/open_metrics_spec_2_0.md#label) in the OM 2.0 spec.
 
 ## UTF-8 Names
 
-**Breaking**
+**Non-breaking**
 
 OM 2.0 allows metric and label names to contain UTF-8 characters beyond the traditional `[a-zA-Z0-9_:]` set. This exists primarily for OpenTelemetry bridge scenarios, where metrics use dotted naming conventions like `process.cpu.seconds`. Dotted names pair well with the relaxed `_total` suffix rule described in [Naming Changes](#naming-changes) (see [Counter and Info Suffix Rules](#counter-and-info-suffix-rules)), since dropping `_total` gives you cleaner dotted metric names.
 
@@ -526,7 +526,7 @@ See: [Histogram](../specs/om/open_metrics_spec_2_0.md#histogram) and [GaugeHisto
 
 ## Native Histograms
 
-**Breaking**
+**Non-breaking**
 
 Native histograms are new in OM 2.0. Instead of fixed bucket boundaries chosen at instrumentation time, native histograms use an exponential bucket schema that provides automatic resolution across all value ranges without any bucket configuration. The `schema` field controls bucket width granularity: higher values produce narrower (finer) buckets.
 

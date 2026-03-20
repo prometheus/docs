@@ -31,7 +31,6 @@ OpenMetrics 2.0 contains many changes. Some of those changes are a loosening of 
 | [**Naming**](#naming-changes)                                                    |                                          |                                                    |           |
 | [MetricFamily must match Metric Name](#metricfamily-name-must-match-metric-name) | Implicit suffix stripping                | Exact match required                               | Yes       |
 | [Counter _total suffix](#counter-and-info-suffix-rules)                          | `_total` MUST                            | `_total` SHOULD                                    | No        |
-| [Info _info suffix](#counter-and-info-suffix-rules)                              | `_info` implicit on samples              | `_info` MUST on MetricFamily name                  | Yes       |
 | [Reserved suffixes](#reserved-suffixes)                                          | Not specified                            | `_count`/`_sum`/`_bucket` etc. SHOULD NOT          | No        |
 | [**Metadata**](#metadata-changes)                                                |                                          |                                                    |           |
 | [Reserved label prefix](#reserved-label-prefix)                                  | `_` reserved                             | `__` reserved                                      | No        |
@@ -113,7 +112,7 @@ Notice that the TYPE and HELP lines now use `http_requests_total` to match the s
 
 See: [MetricFamily](../specs/om/open_metrics_spec_2_0.md#metricfamily) in the OM 2.0 spec.
 
-### Counter and Info Suffix Rules
+### Counter Suffix Rules
 
 **Counter _total**
 
@@ -136,32 +135,6 @@ Valid OM 2.0:
 # TYPE http_requests counter
 http_requests 1027
 ```
-
-**Info _info**
-
-**Breaking**: MetricFamily Names without suffixes are invalid.
-
-In OM 1.0, Info MetricFamily names did not have a suffix requirement at the MetricFamily level. The parser added `_info` to sample names automatically, so a MetricFamily named `build` produced samples named `build_info`.
-
-In OM 2.0, Info MetricFamily names MUST end in `_info`. This is consistent with the MetricFamily-must-match-Metric-Name rule: since samples already carried `_info`, the MetricFamily name must now include it too.
-
-OM 1.0:
-```
-# TYPE build info
-# HELP build Build information.
-build_info{version="1.4.2",branch="main"} 1
-```
-
-OM 2.0:
-```
-# TYPE build_info info
-# HELP build_info Build information.
-build_info{version="1.4.2",branch="main"} 1
-```
-
-This is the same pattern as the target_info rename covered in the [Metadata Changes](#metadata-changes) section, but applied as a general rule: all Info metrics, not just target, must have `_info` in their MetricFamily name.
-
-See: [Counter](../specs/om/open_metrics_spec_2_0.md#counter) and [Info](../specs/om/open_metrics_spec_2_0.md#info) in the OM 2.0 spec.
 
 ### Reserved Suffixes
 

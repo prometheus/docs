@@ -329,7 +329,7 @@ GaugeHistograms measure current distributions. Common examples are how long item
 
 A GaugeHistogram Sample MUST contain Gcount, Gsum values.
 
-The GCount value MUST be equal to the number of measurements currently in the GaugeHistogram. The GCount is a gauge semantically. The GCount SHOULD be and integer. The GCount SHOULD NOT be -Inf, +Inf, NAN, or negative.
+The GCount value MUST be equal to the number of measurements currently in the GaugeHistogram. The GCount is a gauge semantically. The GCount SHOULD be an integer. The GCount SHOULD NOT be -Inf, +Inf, NAN, or negative.
 
 Float and negative GCount is allowed to make it possible to expose results of arithmetic operations on GaugeHistograms, such as the rate of change of a Histogram over time.
 
@@ -410,12 +410,12 @@ metric-descriptor = HASH SP type SP (metricname / metricname-utf8) SP metric-typ
 metric-descriptor =/ HASH SP help SP (metricname / metricname-utf8) SP escaped-string LF
 metric-descriptor =/ HASH SP unit SP (metricname / metricname-utf8) SP *metricname-char LF
 
-metric = *sample
-
 metric-type = counter / gauge / histogram / gaugehistogram / stateset
 metric-type =/ info / summary / unknown
 
-sample = metricname-and-labels SP value [SP timestamp] [SP start-timestamp] *exemplar LF
+metric = metricname-and-labels SP sample
+
+sample = value [SP timestamp] [SP start-timestamp] *exemplar LF
 
 value = number / "{" composite-value "}"
 
@@ -553,7 +553,7 @@ cs-q-count = realnumber ":" number
 
 ### Overall Structure
 
-UTF-8 MUST be used. Byte order markers (BOMs) MUST NOT be used. As an important reminder for implementers, byte 0 is valid UTF-8 while, for example, byte 255 is not.
+UTF-8 MUST be used. Byte order markers (BOMs) MUST NOT be used. Note that NULL (byte 0x00) is a valid UTF-8 byte, while byte 0xFF, for example, is not.
 
 The content type MUST be:
 
@@ -561,7 +561,7 @@ The content type MUST be:
 application/openmetrics-text; version=2.0.0; charset=utf-8
 ```
 
-Line endings MUST be signalled with line feed (\n) and MUST NOT contain carriage returns (\r). Expositions MUST end with EOF and SHOULD end with `EOF\n`.
+Line endings MUST be signalled with line feed (\n) and MUST NOT contain carriage returns (\r). Expositions MUST end with `EOF` and SHOULD end with `EOF\n`.
 
 An example of a complete exposition:
 
@@ -592,11 +592,11 @@ acme_http_request_seconds:rate5m{path="/api/v1",method="GET"} {count:0.01,sum:2.
 
 #### UTF-8 Quoting
 
-Metric names not conforming to the ABNF definition of `metricname` MUST be enclosed in double quotes and the alternative UTF-8 syntax MUST be used. In these Metrics, the quoted metric name MUST be moved inside the brackets without a label name and equal sign, in accordance with the ABNF. The metric names MUST be enclosed in double quotes in TYPE, UNIT, and HELP lines. Quoting and the alternative metric syntax MAY be used for any metric name, regardless of whether the name requires quoting or not.
+Metric names not conforming to the ABNF definition of `metricname` MUST be enclosed in double quotes and the alternative UTF-8 syntax MUST be used. In these Metrics, the quoted metric name MUST be moved inside the brackets as the first item without a label name and equal sign, in accordance with the ABNF. The metric names MUST be enclosed in double quotes in TYPE, UNIT, and HELP lines. Quoting and the alternative metric syntax MAY be used for any metric name, regardless of whether the name requires quoting or not.
 
 Label names not conforming to the `label-name` ABNF definition MUST be enclosed in double quotes. Any label name MAY be enclosed in double quotes.
 
-Expressed as regular expressions, metric names that don't need to be enclosed in quotes must match: `^[a-zA-Z_:][a-zA-Z0-9_:]*$`. For label names, the string must match: `^[a-zA-Z_][a-zA-Z0-9_]*$`.
+Expressed as regular expressions, metric names that don't need to be enclosed in quotes match: `^[a-zA-Z_:][a-zA-Z0-9_:]*$`. For label names, the string matches: `^[a-zA-Z_][a-zA-Z0-9_]*$`.
 
 Complete example:
 

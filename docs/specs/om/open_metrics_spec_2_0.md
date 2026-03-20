@@ -388,7 +388,7 @@ Quantiles are a map from a quantile to a value. An example is a quantile 0.95 wi
 
 Unknown SHOULD NOT be used. Unknown MAY be used when it is impossible to determine the types of individual metrics from 3rd party systems.
 
-A Sample in a metric with the Unknown Type MUST have a Number value.
+A Sample in a metric with the Unknown Type MUST have a Number or CompositeValue value.
 
 ## Text Format
 
@@ -514,15 +514,20 @@ escaped-char =/ BS normal-char
 normal-char = %x00-09 / %x0B-21 / %x23-5B / %x5D-D7FF / %xE000-10FFFF
 
 ; Composite values
-composite-value = histogram-value / summary-value
+composite-value = histogram-value / gauge-histogram-value / summary-value
 
 ; Histograms
 histogram-value = h-count "," h-sum "," histogram-buckets
+gauge-histogram-value = gh-count "," gh-sum "," histogram-buckets
 
 ; count:x
 h-count = %d99.111.117.110.116 ":" number
+; gcount:x
+gh-count = %d103 h-count
 ; sum:f allows real numbers and +-Inf and NaN
 h-sum = %d115.117.109 ":" number
+; gsum:x
+gh-sum = %d103 h-sum
 
 histogram-buckets = classic-buckets / native-buckets [ "," classic-buckets ]
 
@@ -604,7 +609,7 @@ process_cpu_seconds_total 4.20072246e+06
 # HELP acme_http_request_seconds Latency histogram of all of ACME's HTTP requests.
 acme_http_request_seconds{path="/api/v1",method="GET"} {count:2,sum:1.2e2,schema:0,zero_threshold:1e-4,zero_count:0,positive_spans:[1:2],positive_buckets:[1,1],bucket:[0.5:1,1:2,+Inf:2]} st@1605301325.0
 # TYPE acme_http_request_seconds:rate5m gaugehistogram
-acme_http_request_seconds:rate5m{path="/api/v1",method="GET"} {count:0.01,sum:2.0,schema:0,zero_threshold:1e-4,zero_count:0.0,positive_spans:[1:2],positive_buckets:[0.005,0.005]} st@1605301325.0
+acme_http_request_seconds:rate5m{path="/api/v1",method="GET"} {gcount:0.01,gsum:2.0,schema:0,zero_threshold:1e-4,zero_count:0.0,positive_spans:[1:2],positive_buckets:[0.005,0.005]}
 # TYPE "foodb.read.errors" counter
 # HELP "foodb.read.errors" The number of errors in the read path for fooDb.
 {"foodb.read.errors","service.name"="my_service"} 3482
@@ -734,7 +739,7 @@ Label values MAY be any valid UTF-8 value, so escaping MUST be applied as per th
 bar_seconds_count{a="x",b="escaping\" example \n "} 0
 ```
 
-Metric names and label names MAY also be any valid UTF-8 value, and under certain circumstances they MUST be quoted and escaped per the ABNF. See the UTF-8 Quoting section for specifics.
+Metric names and label names MAY also be any valid UTF-8 value, and under certain circumstances they MUST be quoted and escaped per the ABNF. See the [UTF-8 Quoting](#utf-8-quoting) section for specifics.
 
 ```openmetrics-add-eof
 {"\"bar\".seconds.count","b\\"="escaping\" example \n "} 0
@@ -743,6 +748,8 @@ Metric names and label names MAY also be any valid UTF-8 value, and under certai
 ### Metric types
 
 #### Gauge
+
+The Sample's value MUST be a Number.
 
 There are no recommended suffixes for the MetricFamily name for a MetricFamily of Type Gauge.
 
@@ -791,6 +798,8 @@ foo 18.0 456
 
 #### Counter
 
+The Sample's value MUST be a Number.
+
 If present, the Sample's Start Timestamp MUST be inlined with the Sample with a `st@` prefix. If the value's timestamp is present, the Start Timestamp MUST be added right after it. If exemplar is present, the Start Timestamp MUST be added before it.
 
 An example with a Metric with no labels, and a Sample with no timestamp and no Start Timestamp:
@@ -821,7 +830,7 @@ An example with a Metric with no labels, and a Sample with a timestamp and a Sta
 foo_total 17.0 1520879607.789 st@1520430000.123
 ```
 
-An example with a Metric with no labels, and a Sample without the `_total` suffix and with a timestamp and a start timestamp:
+An example with a Metric with no labels, and without the `_total` suffix and a Sample with a Timestamp and a Start Timestamp:
 
 ```openmetrics-add-eof
 # TYPE foo counter
@@ -946,14 +955,14 @@ If present the Sample's Start Timestamp MUST be inlined with the Sample with a `
 
 The quantiles MUST be sorted in increasing order of the quantile.
 
-An example of a Metric with no labels and a Sample with Sum, Count and Start Timestamp values:
+An example of a Metric with no labels and a Sample with Sum, Count and Start Timestamp:
 
 ```openmetrics-add-eof
 # TYPE foo summary
 foo {count:17,sum:324789.3,quantile:[]} st@1520430000.123
 ```
 
-An example of a Metric with no labels and a Sample with two quantiles and Start Timestamp values:
+An example of a Metric with no labels and a Sample with two quantiles and Start Timestamp:
 
 ```openmetrics-add-eof
 # TYPE foo summary
@@ -990,6 +999,8 @@ If there are no negative Native Buckets, then the fields `negative_spans` and `n
 If there are negative (and/or positive) Native Buckets, then the fields `negative_spans`, `negative_buckets` (and/or `positive_spans`, `positive_buckets`) MUST be present in this order after the `zero_count` field.
 
 Native Bucket values MUST be ordered by their index, and their values MUST be placed in the `negative_buckets` (and/or `positive_buckets`) fields.
+
+> NOTE: Bucket values are absolute counts, as opposed to some implementations that store bucket values as deltas relative to the preceding bucket.
 
 Native Buckets that have a value of 0 SHOULD NOT be present.
 
@@ -1065,40 +1076,46 @@ foo {count:17,sum:324789.3,schema:0,zero_threshold:1e-4,zero_count:0,positive_sp
 
 #### GaugeHistogram with Classic Buckets
 
-The Sample's value MUST be a CompositeValue.
+GaugeHistogram Samples with Classic Buckets follow the same syntax as Histogram Samples with Classic Buckets, except that the Count and Sum are exposed as the fields `gcount` and `gsum` and GaugeHistograms do not have Start Timestamp.
 
-The CompositeValue MUST include the Gcount, Gsum and Classic Bucket values as the fields `count`, `sum`, `bucket`, in this order.
-
-Classic Buckets MUST be sorted in number increasing order of their threshold.
-
-An example of a Metric with no labels, and one Sample value with no Exemplar with no Exemplars in the buckets:
+An example of a Metric with no labels, and one Sample value with no Timestamp, and no Exemplars:
 
 ```openmetrics-add-eof
 # TYPE foo gaugehistogram
-foo {count:42,sum:3289.3,bucket:[0.01:20,0.1:25,1:34,+Inf:42]}
+foo {gcount:42,gsum:3289.3,bucket:[0.01:20,0.1:25,1:34,+Inf:42]}
 ```
 
 #### GaugeHistogram with Native Buckets
 
-GaugeHistogram Samples with Native Buckets follow the same syntax as Histogram Samples with Native Buckets.
+GaugeHistogram Samples with Native Buckets follow the same syntax as Histogram Samples with Native Buckets, except that the Count and Sum are exposed as the fields `gcount` and `gsum` and GaugeHistograms do not have Start Timestamp.
+
+An example of a Metric with no labels, and one Sample value with no Timestamp, and no Exemplars:
 
 ```openmetrics-add-eof
 # TYPE acme_http_request_seconds gaugehistogram
-acme_http_request_seconds{path="/api/v1",method="GET"} {count:59,sum:1.2e2,schema:7,zero_threshold:1e-4,zero_count:0,negative_spans:[1:2],negative_buckets:[5,7],positive_spans:[-1:2,3:4],positive_buckets:[5,7,10,9,8,8]} st@1520430000.123
+acme_http_request_seconds{path="/api/v1",method="GET"} {gcount:59,gsum:1.2e2,schema:7,zero_threshold:1e-4,zero_count:0,negative_spans:[1:2],negative_buckets:[5,7],positive_spans:[-1:2,3:4],positive_buckets:[5,7,10,9,8,8]}
 ```
 
 #### GaugeHistogram with both Classic and Native buckets
 
-GaugeHistogram Samples with both Classic and Native Buckets follow the same syntax as Histogram Samples with both Classic and Native Buckets.
+GaugeHistogram Samples with both Classic and Native Buckets follow the same syntax as Histogram Samples with both Classic and Native Buckets, except that the Count and Sum are exposed as the fields `gcount` and `gsum` and GaugeHistograms do not have Start Timestamp.
 
 #### Unknown
 
+The Sample's value MUST be a Number or a CompositeValue.
+
 There are no recommended suffixes for the MetricFamily name for a MetricFamily of Type Unknown.
 
-An example with a Metric with no labels and a Sample with no timestamp:
+An example with a Metric with no labels and a Sample with no Timestamp:
 
 ```openmetrics-add-eof
 # TYPE foo unknown
+foo 42.23
+```
+
+An example with a Metric without MetricFamily metadata and a Sample with no Timestamp:
+
+```openmetrics-add-eof
 foo 42.23
 ```
 

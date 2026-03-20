@@ -26,7 +26,7 @@ OpenMetrics 2.0 contains many changes. Some of those changes are a loosening of 
 | Change                                                                           | 1.0                                      | 2.0                                                | Breaking? |
 | -------------------------------------------------------------------------------- | ---------------------------------------- | -------------------------------------------------- | --------- |
 | [**Negotiation**](#version-negotiation-and-content-type)                         |                                          |                                                    |           |
-| [Content-Type version header](#version-negotiation-and-content-type)             | `version=1.0.0`                          | `version=2.0.0`                                    | Yes*      |
+| [Content-Type version header](#version-negotiation-and-content-type)             | `version=1.0.0`                          | `version=2.0.0`                                    | No        |
 | [Negotiation defaults](#negotiation-defaults)                                    | Oldest version                           | Same (default to 1.0)                              | No        |
 | [**Naming**](#naming-changes)                                                    |                                          |                                                    |           |
 | [MetricFamily must match Metric Name](#metricfamily-name-must-match-metric-name) | Implicit suffix stripping                | Exact match required                               | Yes       |
@@ -45,18 +45,16 @@ OpenMetrics 2.0 contains many changes. Some of those changes are a loosening of 
 | [**Native Histograms**](#native-histograms)                                      |                                          |                                                    |           |
 | [Native-only and combined histograms](#native-only-histogram)                    | N/A                                      | Exponential buckets via `schema`/`spans`/`buckets` | No        |
 | [**Exemplars**](#exemplars)                                                      |                                          |                                                    |           |
-| [Mandatory timestamps / multiple exemplars](#mandatory-timestamps)               | Optional timestamp; max 1                | Mandatory timestamp; multiple allowed              | Yes       |
+| [Mandatory timestamps / multiple exemplars](#mandatory-timestamps)               | Optional timestamp; max 1                | Mandatory timestamp; multiple allowed              | Mixed     |
 | [Size limit / W3C keys / histogram placement](#size-limit-relaxation)            | 128-char limit; bucket-level             | Soft limit; W3C keys; sample-level                 | Mixed     |
 | [**StateSet**](#stateset)                                                        |                                          |                                                    |           |
 | [MetricGroup terminology](#stateset)                                             | Metric / MetricPoint                     | MetricGroup / Metric                               | No        |
 | [**Unknown Type**](#unknown-type)                                                |                                          |                                                    |           |
 | [CompositeValue allowed](#unknown-type)                                          | Number only                              | Number or CompositeValue                           | No        |
 
-\*Applies to the HTTP Content-Type header, not to exposition lines.
-
 ## Version Negotiation and Content-Type
 
-**Breaking** (applies to the HTTP Content-Type header, not to exposition lines)
+**Non-breaking**: OM 1.0 Content-Type is still valid.
 
 In OM 1.0, exposers used the following Content-Type header to identify their format:
 
@@ -91,7 +89,7 @@ OM 2.0 tightens the relationship between MetricFamily names and Metric Names, an
 
 ### MetricFamily Name Must Match Metric Name
 
-**Breaking**
+**Breaking**: MetricFamily Names without suffixes are invalid.
 
 In OM 1.0, a counter's TYPE line used a base name (e.g. `http_requests`) while its samples carried the `_total` suffix (e.g. `http_requests_total`). The parser knew to strip `_total` when matching samples back to their MetricFamily, so the MetricFamily name and sample Metric Name could differ.
 
@@ -119,7 +117,7 @@ See: [MetricFamily](../specs/om/open_metrics_spec_2_0.md#metricfamily) in the OM
 
 **Counter _total**
 
-**Non-breaking**
+**Non-breaking**: Counters with _total are still valid.
 
 In OM 1.0, counter Metric names MUST end in `_total`.
 
@@ -141,7 +139,7 @@ http_requests 1027
 
 **Info _info**
 
-**Breaking**
+**Breaking**: MetricFamily Names without suffixes are invalid.
 
 In OM 1.0, Info MetricFamily names did not have a suffix requirement at the MetricFamily level. The parser added `_info` to sample names automatically, so a MetricFamily named `build` produced samples named `build_info`.
 
@@ -167,7 +165,7 @@ See: [Counter](../specs/om/open_metrics_spec_2_0.md#counter) and [Info](../specs
 
 ### Reserved Suffixes
 
-**Non-breaking**
+**Non-breaking**: OM 1.0 did not allow these suffixes at all.
 
 MetricFamily names SHOULD NOT end with any of these reserved suffixes:
 
@@ -215,6 +213,8 @@ OM 2.0 relaxes several metadata requirements and renames a few conventions. This
 
 **Non-breaking**
 
+NOTE: This rule may be removed because it seems to be a mistake in the spec to change the definition from one to two underscores.
+
 In OM 1.0, label names beginning with a single underscore (`_`) are RESERVED and must not be used unless specified by the standard.
 
 In OM 2.0, the reserved prefix is now a double underscore (`__`). Single-underscore labels are available for user use.
@@ -237,7 +237,7 @@ See: [Label](../specs/om/open_metrics_spec_2_0.md#label) in the OM 2.0 spec.
 
 ## UTF-8 Names
 
-**Non-breaking**
+**Non-breaking**: OM 1.0 syntax for traditional names is still valid.
 
 OM 2.0 allows metric and label names to contain UTF-8 characters beyond the traditional `[a-zA-Z0-9_:]` set. This exists primarily for OpenTelemetry bridge scenarios, where metrics use dotted naming conventions like `process.cpu.seconds`. Dotted names pair well with the relaxed `_total` suffix rule described in [Naming Changes](#naming-changes) (see [Counter and Info Suffix Rules](#counter-and-info-suffix-rules)), since dropping `_total` gives you cleaner dotted metric names.
 
@@ -284,7 +284,7 @@ See: [UTF-8 Quoting](../specs/om/open_metrics_spec_2_0.md#utf-8-quoting) in the 
 
 ## Start Timestamps
 
-**Breaking**
+**Breaking**: _created samples no longer allowed.
 
 OM 2.0 replaces separate `_created` samples with an inline Start Timestamp (`st@`) on the sample line itself, reducing exposition size and avoiding race conditions between the `_created` sample and the value sample. Counters, histograms, and summaries have creation semantics and support Start Timestamps; gauges do not.
 
@@ -353,7 +353,7 @@ See: [Counter](../specs/om/open_metrics_spec_2_0.md#counter) and [Histogram with
 
 ## CompositeValues
 
-**Breaking**
+**Breaking**: Traditional multiline complex types are no longer allowed.
 
 In OM 1.0, complex metric types (histograms, summaries, gaugehistograms) were represented as multiple expanded sample lines — one line per bucket, one for count, one for sum. In OM 2.0, these become a single sample line whose value is a CompositeValue: a structured `{key:value,...}` block containing all the fields at once.
 
@@ -488,7 +488,7 @@ Note: The counter line uses a plain Number value, not a CompositeValue. The summ
 
 ### Sum and Count Required
 
-**Breaking**
+**Breaking**: OM 2.0 does not allow eliding of sum and count.
 
 The Sum and Count are now required in OM 2.0 for histograms and gaugehistograms. In OM 1.0 these were optional.
 
@@ -529,7 +529,7 @@ See: [Histogram](../specs/om/open_metrics_spec_2_0.md#histogram) and [GaugeHisto
 
 ## Native Histograms
 
-**Non-breaking**
+**Non-breaking**: Native Histograms were not supported at all in OM 1.0.
 
 Native histograms are new in OM 2.0. Instead of fixed bucket boundaries chosen at instrumentation time, native histograms use an exponential bucket schema that provides automatic resolution across all value ranges without any bucket configuration. The `schema` field controls bucket width granularity: higher values produce narrower (finer) buckets.
 
@@ -594,11 +594,11 @@ The GET line uses native-only fields. The POST line includes both native and cla
 
 ## Exemplars
 
-**Breaking**
-
 OM 2.0 changes several exemplar rules. Mandatory timestamps, multiple exemplars per sample, and relaxed size limits all affect how exposers attach trace context to metrics.
 
 ### Mandatory Timestamps
+
+**Breaking**: Exemplar timestamps are no longer optional.
 
 In OM 1.0, exemplar timestamps were optional (MAY). In OM 2.0, every exemplar MUST include a timestamp. This alone is a breaking change for OM 1.0 parsers that do not expect a timestamp after the exemplar value.
 
@@ -609,6 +609,8 @@ http_requests_total 1027 1710000000 # {trace_id="abc123",span_id="def456"} 1.0 1
 The exemplar (everything after `#`) has labels, a value (`1.0`), and a mandatory timestamp (`1709999999`).
 
 ### Multiple Exemplars
+
+**Non-breaking**: Single Exemplar still allowed.
 
 In OM 1.0, each sample could have at most one exemplar. OM 2.0 allows multiple exemplars on a single sample. Each exemplar starts with `#` followed by its own label set, value, and timestamp.
 

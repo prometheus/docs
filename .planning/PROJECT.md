@@ -8,37 +8,42 @@ An update to the OpenMetrics 2.0 migration guide (`docs/tutorials/open_metrics_2
 
 The migration guide must be accurate relative to the current OM 2.0 spec. Exposer authors reading it should not encounter advice that contradicts the specification.
 
+## Current State
+
+All milestones complete. Migration guide is fully synced with OM 2.0 spec and has consistent Breaking/Non-breaking labels.
+
 ## Requirements
 
 ### Validated
 
-- ✓ Terminology updated: MetricPoint → Sample/Metric, MetricName → Metric Name -- initial edits
-- ✓ GaugeHistogram CompositeValue fields corrected: count/sum → gcount/gsum -- initial edits
+- ✓ Terminology updated: MetricPoint → Sample/Metric, MetricName → Metric Name -- v1.0
+- ✓ GaugeHistogram CompositeValue fields corrected: count/sum → gcount/gsum -- v1.0
+- ✓ Escaping relaxation, StateSet section, Unknown type note added -- v1.0
+- ✓ Full diff review confirmed no other spec inconsistencies -- v1.0
+- ✓ Breaking/Non-breaking labels reclassified using precise definition -- v1.1
+- ✓ Quick reference table Breaking? column synced with section labels -- v1.1
 
 ### Active
 
-- [ ] Add escaping rules relaxation (ABNF now allows single backslash before any char, double backslash SHOULD)
-- [ ] Add StateSet section covering MetricGroup terminology change
-- [ ] Add brief note on Unknown type now allowing CompositeValue
-- [ ] Full diff review to catch any remaining inconsistencies between guide and spec
+(None)
 
 ### Out of Scope
 
 - Fixes to the OM 2.0 spec itself -- only the migration guide is in scope
 - Fixes to the OM 1.0 spec
-- New tutorial content beyond what the spec changes require
+- New tutorial content beyond what the label changes require
 
 ## Context
 
-The prometheus-docs repo contains both the OM specs and the migration guide. The OM 2.0 spec received several upstream commits that changed terminology and details:
-- `38984ad1` changed MetricPoint to Sample
-- `0ae66d19` relaxed escaping rules
-- `33fb2eb1` added extensions and improvements section
-- `974c4ed0` fixes in text format
-- `c9ed9a0e` metadata text format updates
-- `cb6e9bfe` pre rc.0 changes from WG
+The prometheus-docs repo contains both the OM specs and the migration guide. v1.0 milestone brought the guide in sync with the current spec. This milestone refines the Breaking/Non-breaking labels using a precise definition agreed upon during spec review.
 
-The migration guide was written against an earlier draft and needs to catch up.
+**New definition:** A change is "Breaking" if and only if a line that was valid in OM 1.0 is now invalid in OM 2.0.
+
+**Reclassification summary:**
+- Stays Breaking: MetricFamily match, st@ replaces _created, CompositeValues, Sum/Count required, Exemplar mandatory timestamps
+- Non-breaking → Breaking: Info _info suffix (TYPE line must now include _info)
+- Breaking → Non-breaking: UTF-8 names (additive), Native Histograms (new feature)
+- Edge case: Content-Type version header (HTTP header, not exposition line)
 
 ## Constraints
 
@@ -50,9 +55,10 @@ The migration guide was written against an earlier draft and needs to catch up.
 
 | Decision | Rationale | Outcome |
 |----------|-----------|---------|
-| StateSet gets full section | New MetricGroup concept is significant enough for exposer authors | -- Pending |
-| Unknown gets brief note only | Niche type, low impact for most exposer authors | -- Pending |
-| Escaping gets its own subsection | ABNF change is actionable for exposer authors doing UTF-8 quoting | -- Pending |
+| StateSet gets full section | New MetricGroup concept is significant enough for exposer authors | ✓ Good |
+| Unknown gets brief note only | Niche type, low impact for most exposer authors | ✓ Good |
+| Escaping gets its own subsection | ABNF change is actionable for exposer authors doing UTF-8 quoting | ✓ Good |
+| Breaking = valid OM 1.0 line now invalid in OM 2.0 | Precise, testable definition agreed during spec review | ✓ Good |
 
 ---
-*Last updated: 2026-03-20 after initialization*
+*Last updated: 2026-03-20 after v1.1 milestone*

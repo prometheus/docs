@@ -27,6 +27,15 @@ For service discovery mechanisms not natively supported by Prometheus,
  * [Packet](https://github.com/packethost/prometheus-packet-sd)
  * [Scaleway](https://github.com/scaleway/prometheus-scw-sd)
 
+## HTTP Service Discovery
+
+The [HTTP service discovery](/docs/configuration/configuration/#http_sd_config) allows fetching targets from an HTTP endpoint.
+
+* [fastly-exporter](https://github.com/fastly/fastly-exporter#service-discovery): Supports discovering Fastly services.
+* [ns1_exporter](https://github.com/tjhop/ns1_exporter#http-service-discovery): Supports discovering NS1 zones.
+* [NetBox via plugin](https://github.com/FlxPeters/netbox-plugin-prometheus-sd): A plugin to expose NetBox objects as Prometheus targets.
+* [NetBox via export templates](https://www.observability.blog/post/netbox_http_service_discovery/): A guide on using NetBox export templates for HTTP service discovery.
+
 ## Remote Endpoints and Storage
 
 The [remote write](/docs/operating/configuration/#remote_write) and [remote read](/docs/operating/configuration/#remote_read)
@@ -94,6 +103,7 @@ For notification mechanisms not natively supported by the Alertmanager, the
   * [Matrix](https://github.com/jaywink/matrix-alertmanager): sends Alertmanager notifications to Matrix rooms
   * [Matrix](https://github.com/hectorjsmith/matrix-hookshot): bridges webhooks to Matrix with rich formatting support
   * [Notion](https://github.com/cthtuf/alertmanager-to-notion): creates/updates record in a Notion database
+  * [Parny](https://parny.io/integrations/prometheus): AI-native on-call management, incident response, uptime monitoring, and real-time infrastructure visibility platform.
   * [Phabricator / Maniphest](https://github.com/knyar/phalerts)
   * [prom2teams](https://github.com/idealista/prom2teams): forwards notifications to Microsoft Teams
   * [Rootly](https://docs.rootly.com/integrations/alertmanager): on-call & incident management

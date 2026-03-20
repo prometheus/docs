@@ -118,6 +118,11 @@ const commercialSupportProviders: ProviderCardProps[] = [
     url: "https://platformengineers.io/",
   },
   {
+    name: "Procedure",
+    logo: "/assets/commercial-support-logos/procedure.png",
+    url: "https://procedure.tech/services/prometheus-monitoring",
+  },
+  {
     name: "PromLabs",
     logo: "/assets/commercial-support-logos/promlabs.svg",
     url: "https://promlabs.com/",

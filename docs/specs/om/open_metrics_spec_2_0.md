@@ -66,6 +66,12 @@ Time series are a record of changing information over time. Common examples of m
 
 This section MUST be read together with the ABNF section. In case of disagreements between the two, the ABNF's restrictions MUST take precedence.
 
+<!---
+# Diagram source: https://docs.google.com/presentation/d/1ovDkQVm84zo5ktWZVm5XosLS2YMRgdSJCevVivAlLW0/edit?slide=id.g3cfc897512e_0_291#slide=id.g3cfc897512e_0_291
+-->
+
+![om2_datamodel.png](/assets/docs/om2_datamodel.png)
+
 ### Data Types
 
 #### Sample Values

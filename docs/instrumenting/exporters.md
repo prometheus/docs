@@ -281,6 +281,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [WireGuard exporter](https://github.com/MindFlavor/prometheus_wireguard_exporter)
    * [Xen exporter](https://github.com/lovoo/xenstats_exporter)
    * [ZLMediaKit exporter](https://github.com/guohuachan/ZLMediaKit_exporter)
+   * [nomad-state-metrics](https://github.com/bhope/nomad-state-metrics)
 
 
 When implementing a new Prometheus exporter, please follow the

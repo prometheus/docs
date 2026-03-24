@@ -1,5 +1,6 @@
 :root {
   --header-height: 72px;
+  --nav-height: 72px;
   --header-to-content-margin: var(--mantine-spacing-xl);
 
   @mixin light-root {

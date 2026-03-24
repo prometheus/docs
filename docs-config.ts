@@ -3,6 +3,13 @@ import { DocsConfig } from "./src/docs-config-types";
 export default {
   siteUrl: "https://prometheus.io",
 
+  announcement: {
+    text: "Take the [Prometheus User Survey (Edition 03.2026)](https://forms.gle/uuEsawKm7u9wCT4T8) and help the community prioritize future development!",
+    mobileText: "[Prometheus User Survey (Edition 03.2026)](https://forms.gle/uuEsawKm7u9wCT4T8)",
+    startDate: "2026-03-24",
+    endDate: "2026-04-30",
+  },
+
   // Docs to load from repo-local files.
   localMarkdownSources: [
     {

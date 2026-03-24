@@ -21,6 +21,10 @@ import "@mantine/code-highlight/styles.layer.css";
 import "@mantine/spotlight/styles.layer.css";
 import "./globals.css";
 import { Header } from "@/components/Header";
+import {
+  ANNOUNCEMENT_HEIGHT_PX,
+  isAnnouncementActive,
+} from "@/components/announcement-utils";
 import { theme } from "@/theme";
 import docsConfig from "../../docs-config";
 
@@ -41,16 +45,29 @@ export const metadata = {
   metadataBase: new URL(docsConfig.siteUrl),
 };
 
+const BASE_HEADER_HEIGHT_PX = 72;
+
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const activeAnnouncement =
+    docsConfig.announcement &&
+    isAnnouncementActive(docsConfig.announcement)
+      ? docsConfig.announcement
+      : undefined;
+
+  const headerHeightPx = activeAnnouncement
+    ? BASE_HEADER_HEIGHT_PX + ANNOUNCEMENT_HEIGHT_PX
+    : BASE_HEADER_HEIGHT_PX;
+
   return (
     <html
       lang="en"
       {...mantineHtmlProps}
       className={`${interFont.variable} ${latoFont.variable}`}
+      style={{ "--header-height": `${headerHeightPx}px` } as React.CSSProperties}
     >
       <head>
         <ColorSchemeScript defaultColorScheme="auto" />
@@ -58,7 +75,7 @@ export default function RootLayout({
       <body>
         <MantineProvider theme={theme} defaultColorScheme="auto">
           <AppShell header={{ height: "var(--header-height)" }}>
-            <Header />
+            <Header announcement={activeAnnouncement} />
 
             <AppShellMain>
               <Container size="xl" mt="xl" px={{ base: "md", xs: "xl" }}>

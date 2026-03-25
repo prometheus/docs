@@ -218,9 +218,9 @@ A StateSet is structured as a set of Metrics, one for each state, called a State
 
 > NOTE: In OpenMetrics 1.0, Metrics are composed of MetricPoints (e.g. a Histogram metric has a MetricPoint representing each Bucket with a special "le" label), which is no longer the case in OpenMetrics 2.0. An OpenMetrics 1.0 StateSet Metric is equivalent to an OpenMetrics 2.0 StateSet MetricGroup, and an OpenMetrics 1.0 StateSet MetricPoint is equivalent to an OpenMetrics 2.0 StateSet Metric.
 
-A StateSet MetricGroup contains one or more states and MUST contain one boolean per state. States have a name which is a String.
+A StateSet MetricGroup contains one or more states and MUST contain one Metric with a boolean value per state. States have a name which is a String.
 
-If encoded as a StateSet, ENUMs MUST have exactly one Sample which is `1` (true) within a MetricGroup.
+If encoded as a StateSet, ENUMs MUST have exactly one Sample which is `1` (true) within a MetricGroup, for a single Timestamp.
 
 This is suitable where the enum value changes over time, and the number of States isn't much more than a handful.
 
@@ -231,8 +231,6 @@ MetricFamilies of Type StateSets MUST have an empty Unit string.
 Info metrics are used to expose textual information which SHOULD NOT change during process lifetime. Common examples are an application's version, revision control commit, and the version of a compiler.
 
 The MetricFamily name for Info metrics MUST end in `_info`.
-
-Info MAY be used to encode ENUMs whose values do not change over time, such as the type of a network interface.
 
 MetricFamilies of Type Info MUST have an empty Unit string.
 
@@ -246,7 +244,7 @@ The Count value MUST be equal to the number of measurements taken by the Histogr
 
 Float Count is allowed to make it possible to expose results of arithmetic operations on histograms, such as addition that may result in values beyond the range of integers.
 
-The Sum value MUST be equal to the sum of all the measured event values. The Sum is only a counter semantically as long as there are no negative event values measured by the Histogram Sample.
+The Sum value MUST be equal to the sum of all the measured event values. The Sum is only a counter semantically as long as there are no negative event values measured by the Histogram.
 
 A Histogram MUST measure values that are not NaN in either [Classic Buckets](#classic-buckets) or [Native Buckets](#native-buckets) or both. Measuring NaN is different for Classic and Native Buckets, see in their respective sections.
 
@@ -256,9 +254,9 @@ Float bucket values are allowed to make it possible to expose results of arithme
 
 A Histogram SHOULD NOT include NaN measurements as including NaN in the Sum will make the Sum equal to NaN and mask the sum of the real measurements for the lifetime of the time series. If a Histogram includes NaN measurements, then NaN measurements MUST be counted in the Count and the Sum MUST be NaN.
 
-If a Histogram includes +Inf or -Inf measurement, then +Inf or -Inf MUST be counted in Count and MUST be added to the Sum, potentially resulting in +Inf, -Inf or NaN in the Sum, the later for example in case of adding +Inf to -Inf. Note that in this case the Sum of finite measurements is masked until the next reset of the Histogram.
+If a Histogram includes +Inf or -Inf measurement, then +Inf or -Inf MUST be counted in Count and MUST be added to the Sum, potentially resulting in +Inf, -Inf or NaN in the Sum, the latter for example in case of adding +Inf to -Inf. Note that in this case the Sum of finite measurements is masked until the next reset of the Histogram.
 
-A Histogram Sample SHOULD have a Timestamp value called Start Timestamp. This can help ingestors discern between new metrics and long-running ones it did not see before.
+A Histogram Sample SHOULD have a Start Timestamp. This can help ingestors discern between new metrics and long-running ones it did not see before.
 
 If the Histogram Metric has Samples with Classic Buckets, the Histogram's Metric's LabelSet MUST NOT have a "le" label name, because in case the Samples are stored as classic histogram series with the `_bucket` suffix, then the "le" label in the Histogram will conflict with the "le" label generated from the bucket thresholds.
 
@@ -270,9 +268,9 @@ A Histogram Sample MAY have exemplars. The values of exemplars in a Histogram Sa
 
 Every Classic Bucket MUST have a threshold. Classic Bucket thresholds within a Sample MUST be unique. Classic Bucket thresholds MAY be negative.
 
-A Classic Bucket MUST count the number of measured values less than or equal to its threshold, including measured values that are also counted in lower buckets. This allow monitoring systems to drop any non-+Inf bucket for performance/anti-denial-of-service reasons in a way that loses granularity but is still a valid Histogram.
+A Classic Bucket MUST count the number of measured values less than or equal to its threshold, including measured values that are also counted in lower buckets. This allows monitoring systems to drop any non-+Inf bucket for performance or anti-denial-of-service reasons in a way that loses granularity but is still a valid Histogram.
 
-As an example, for a metric representing request latency in seconds with Classic Buckets and thresholds 1, 2, 3, and +Inf, it follows that value_1 <= value_2 <= value_3 <= value_+Inf. If ten requests took 1 second each, the values of the 1, 2, 3, and +Inf buckets will be all equal to 10.
+As an example, for a metric representing request latency in seconds with Classic Buckets and thresholds 1, 2, 3, and +Inf, it follows that value_1 <= value_2 <= value_3 <= value_+Inf. If ten requests took one second each, the values of the 1, 2, 3, and +Inf buckets will be all equal to 10.
 
 Histogram Samples with Classic Buckets MUST have one Classic Bucket with a +Inf threshold. The +Inf bucket counts all measurements. The Count value MUST be equal to the value of the +Inf bucket.
 
@@ -282,16 +280,13 @@ If the NaN value is allowed, it MUST be counted in the +Inf bucket, and MUST NOT
 
 ##### Native Buckets
 
-Histogram Samples with Native Buckets MUST have a Schema value. The Schema MUST be an 8 bit signed integer between -4 and 8 (inclusive), these are called Standard (exponential) schemas.
+Histogram Samples with Native Buckets MUST have a Schema value. The Schema MUST be an 8-bit signed integer between -4 and 8 (inclusive), these are called Standard (exponential) schemas.
 
-Schema values outside the -4 to 8 range are reserved for future use and MUST NOT be used. In particular:
+Schema values outside the -4 to 8 range are reserved for future use and MUST NOT be used.
 
-* Schema values between -9 to -5 and 9 to 52 are reserved for use as Standard (exponential) Schemas.
-* Schema value equal to -53 is reserved for use for Custom Buckets Schema.
+For any Standard Schema `n`, the Histogram Sample MAY contain positive and/or negative Native Buckets and MUST contain a zero Native Bucket. Empty positive or negative Native Buckets SHOULD NOT be present.
 
-For any Standard Schema n, the Histogram Sample MAY contain positive and/or negative Native Buckets and MUST contain a zero Native Bucket. Empty positive or negative Native Buckets SHOULD NOT be present.
-
-In case of Standard Schemas, the boundaries of a positive or negative Native Bucket with index i MUST be calculated as follows (using Python syntax):
+In case of Standard Schemas, the boundaries of a positive or negative Native Bucket with index `i` MUST be calculated as follows (using Python syntax):
 
 The upper inclusive limit of a positive Native Bucket: `(2**2**-n)**i`
 
@@ -301,17 +296,17 @@ The lower inclusive limit of a negative Native Bucket: `-((2**2**-n)**i)`
 
 The upper exclusive limit of a negative Native Bucket: `-((2**2**-n)**(i-1))`
 
-i is an integer number that MAY be negative.
+`i` is an integer number that MAY be negative.
 
-There are exceptions to the rules above concerning the largest and smallest finite values representable as a float64 (called MaxFloat64 and MinFloat64 in the following) and the positive and negative infinity values (+Inf and -Inf):
+There are exceptions to the rules above concerning the largest and smallest finite values representable as a float64 (called MaxFloat64 and MinFloat64) and the positive and negative infinity values (+Inf and -Inf):
 
 The positive Native Bucket that contains MaxFloat64 (according to the boundary formulas above) has an upper inclusive limit of MaxFloat64 (rather than the limit calculated by the formulas above, which would overflow float64).
 
-The next positive Native Bucket (index i+1 relative to the bucket from the previous item) has a lower exclusive limit of MaxFloat64 and an upper inclusive limit of +Inf. (It could be called a positive Native overflow Bucket.)
+The next positive Native Bucket (index `i+1` relative to the bucket from the previous item) has a lower exclusive limit of MaxFloat64 and an upper inclusive limit of +Inf. (It could be called a positive Native overflow Bucket.)
 
 The negative Native Bucket that contains MinFloat64 (according to the boundary formulas above) has a lower inclusive limit of MinFloat64 (rather than the limit calculated by the formulas above, which would underflow float64).
 
-The next negative Native Bucket (index i+1 relative to the bucket from the previous item) has an upper exclusive limit of MinFloat64 and an lower inclusive limit of -Inf. (It could be called a negative Native overflow Bucket.)
+The next negative Native Bucket (index `i+1` relative to the bucket from the previous item) has an upper exclusive limit of MinFloat64 and a lower inclusive limit of -Inf. (It could be called a negative Native overflow Bucket.)
 
 Native Buckets beyond the +Inf and -Inf buckets described above MUST NOT be used.
 
@@ -345,7 +340,7 @@ Float and negative bucket values are allowed to make it possible to expose resul
 
 A GaugeHistogram SHOULD NOT include NaN measurements. If a GaugeHistogram includes NaN measurements, then NaN measurements MUST be counted in the Gcount and the Gsum MUST be NaN.
 
-If a GaugeHistogram includes +Inf or -Inf measurement, then +Inf or -Inf MUST be counted in Gcount and MUST be added to the Gsum, potentially resulting in +Inf, -Inf or NaN in the Gsum, the later for example in case of adding +Inf to -Inf.
+If a GaugeHistogram includes +Inf or -Inf measurement, then +Inf or -Inf MUST be counted in Gcount and MUST be added to the Gsum, potentially resulting in +Inf, -Inf or NaN in the Gsum, the latter for example in case of adding +Inf to -Inf.
 
 If the GaugeHistogram Metric has Samples with Classic Buckets, the GaugeHistogram's Metric's LabelSet MUST NOT have a "le" label name, because in case the Samples are stored as classic histogram series with the `_bucket` suffix, then the "le" label in the GaugeHistogram will conflict with the "le" label generated from the bucket thresholds.
 
@@ -355,17 +350,19 @@ The exemplars for a GaugeHistogram follow all the same rules as for a Histogram.
 
 #### Summary
 
-Summaries also measure distributions of discrete events and MAY be used when Histograms are too expensive and/or an average event size is sufficient.
+Summaries also measure distributions of discrete events and MAY be used when Histograms are too expensive and a small number of precomputed quantiles is sufficient.
 
-They MAY also be used for backwards compatibility, because some existing instrumentation libraries expose precomputed quantiles and do not support Histograms. Precomputed quantiles SHOULD NOT be used, because quantiles are not aggregatable and the user often can not deduce what timeframe they cover.
+Summaries SHOULD NOT be used, because quantiles are not aggregatable and the user often can not deduce what timeframe they cover. They MAY be used for backwards compatibility, because some existing instrumentation libraries expose precomputed quantiles and do not support Histograms.
 
 A Summary Sample MUST contain a Count, Sum and a set of quantiles.
 
 Semantically, Count and Sum values are counters so MUST NOT be NaN or negative. Count MUST be an integer.
 
-A Summary SHOULD have a Timestamp value called Start Timestamp. This can help ingestors discern between new metrics and long-running ones it did not see before. Start Timestamp MUST NOT relate to the collection period of quantile values.
+A Summary SHOULD have a Timestamp value called Start Timestamp. This can help ingestors discern between new metrics and long-running ones it did not see before.
 
-Quantiles are a map from a quantile to a value. An example is a quantile 0.95 with value 0.2 in a metric called myapp_http_request_duration_seconds which means that the 95th percentile latency is 200ms over an unknown timeframe. If there are no events in the relevant timeframe, the value for a quantile MUST be NaN. A Quantile's Metric's LabelSet MUST NOT have "quantile" label name. Quantiles MUST be between 0 and 1 inclusive. Quantile values MUST NOT be negative. Quantile values SHOULD represent the recent values. Commonly this would be over the last 5-10 minutes.
+Start Timestamp MUST NOT be based on the collection period of quantile values.
+
+Quantiles are a map from a quantile to a value. An example is a quantile 0.95 with value 0.2 in a metric called `myapp_http_request_duration_seconds` which means that the 95th percentile latency is 200ms over an unknown timeframe. If there are no events in the relevant timeframe, the value for a quantile MUST be NaN. A Quantile's Metric's LabelSet MUST NOT have "quantile" label name. Quantiles MUST be between 0 and 1 inclusive. Quantile values MUST NOT be negative. Quantile values SHOULD represent the recent values. Commonly this would be over the last 5-10 minutes.
 
 #### Unknown
 
@@ -383,7 +380,7 @@ Partial or invalid expositions MUST be considered erroneous in their entirety.
 
 ### Protocol Negotiation
 
-All ingestor implementations MUST be able to ingest data secured with TLS 1.2 or later. All exposers SHOULD be able to emit data secured with TLS 1.2 or later. ingestor implementations SHOULD be able to ingest data from HTTP without TLS. All implementations SHOULD use TLS to transmit data.
+All ingestor implementations MUST be able to ingest data secured with TLS 1.2 or later. All exposers SHOULD be able to emit data secured with TLS 1.2 or later. Ingestor implementations SHOULD be able to ingest data from HTTP without TLS. All implementations SHOULD use TLS to transmit data.
 
 Negotiation of what version of the OpenMetrics format to use is out-of-band. For example for pull-based exposition over HTTP standard HTTP content type negotiation is used, and MUST default to the oldest version of the standard (i.e. 1.0.0) if no newer version is requested.
 
@@ -392,10 +389,6 @@ Push-based negotiation is inherently more complex, as the exposer typically init
 ### ABNF
 
 ABNF as per RFC 5234
-
-<!---
-# EDITOR’S NOTE: Should we update to RFC 7405, in particular the case insensitive bits?
--->
 
 "exposition" is the top level token of the ABNF.
 

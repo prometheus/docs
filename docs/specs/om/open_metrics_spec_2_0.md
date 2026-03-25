@@ -449,7 +449,7 @@ ABNF as per RFC 5234, as updated by RFC 7405
 "exposition" is the top level token of the ABNF.
 
 ```abnf
-exposition = metricset HASH SP eof [ LF ]
+exposition = metricset HASH SP %s"EOF" [ LF ]
 
 metricset = *metricfamily
 
@@ -498,7 +498,6 @@ positive-integer = *"0" positive-digit *DIGIT
 positive-digit = "1" / "2" / "3" / "4" / "5" / "6" / "7" / "8" / "9"
 
 ; Uppercase keywords
-eof = %s"EOF"
 type = %s"TYPE"
 help = %s"HELP"
 unit = %s"UNIT"

@@ -148,7 +148,7 @@ Other MetricFamily Types MUST use Numbers.
 
 #### Timestamps
 
-Timestamps MUST be Unix Epoch in seconds. Negative timestamps MAY be used.
+Timestamps MUST be Unix Epoch in seconds. Timestamps SHOULD be floating point to represent sub-second precision, for example milliseconds or microseconds. Negative timestamps MAY be used.
 
 #### Strings
 

@@ -70,14 +70,17 @@ This section MUST be read together with the ABNF section. In case of disagreemen
 classDiagram
     class MetricSet
     class MetricFamily
-    class Gauge
-    class Counter
-    class StateSet
-    class Info
-    class Histogram
-    class GaugeHistogram
-    class Summary
-    class Unknown
+    class MetricFamilyType {
+        <<enumeration>>
+        gauge
+        counter
+        stateset
+        info
+        histogram
+        gaugehistogram
+        summary
+        unknown
+    }
     class Metric
     class LabelSet
     class Label
@@ -91,14 +94,7 @@ classDiagram
     class SummaryValue
 
     MetricSet "1" --> "0..*" MetricFamily
-    MetricFamily <|-- Gauge
-    MetricFamily <|-- Counter
-    MetricFamily <|-- StateSet
-    MetricFamily <|-- Info
-    MetricFamily <|-- Histogram
-    MetricFamily <|-- GaugeHistogram
-    MetricFamily <|-- Summary
-    MetricFamily <|-- Unknown
+    MetricFamily "1" --> "1" MetricFamilyType : type
     MetricFamily "1" --> "0..*" Metric
     Metric "1" --> "1" LabelSet
     Metric "1" --> "1..*" Sample

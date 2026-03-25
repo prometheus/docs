@@ -66,6 +66,56 @@ Time series are a record of changing information over time. Common examples of m
 
 This section MUST be read together with the ABNF section. In case of disagreements between the two, the ABNF's restrictions MUST take precedence.
 
+```mermaid
+classDiagram
+    class MetricSet
+    class MetricFamily
+    class Gauge
+    class Counter
+    class StateSet
+    class Info
+    class Histogram
+    class GaugeHistogram
+    class Summary
+    class Unknown
+    class Metric
+    class LabelSet
+    class Label
+    class Sample
+    class Timestamp
+    class Exemplar
+    class Number
+    class CompositeValue
+    class HistogramValue
+    class GaugeHistogramValue
+    class SummaryValue
+
+    MetricSet "1" --> "0..*" MetricFamily
+    MetricFamily <|-- Gauge
+    MetricFamily <|-- Counter
+    MetricFamily <|-- StateSet
+    MetricFamily <|-- Info
+    MetricFamily <|-- Histogram
+    MetricFamily <|-- GaugeHistogram
+    MetricFamily <|-- Summary
+    MetricFamily <|-- Unknown
+    MetricFamily "1" --> "0..*" Metric
+    Metric "1" --> "1" LabelSet
+    Metric "1" --> "1..*" Sample
+    LabelSet "1" --> "0..*" Label
+    Sample --> "0..1" Timestamp : timestamp
+    Sample --> "0..1" Timestamp : start timestamp
+    Sample --> "0..*" Exemplar
+    Sample --> "1" Number : value
+    Sample --> "1" CompositeValue : value
+    CompositeValue <|-- HistogramValue
+    CompositeValue <|-- GaugeHistogramValue
+    CompositeValue <|-- SummaryValue
+    Exemplar --> "1" LabelSet
+    Exemplar --> "1" Number : value
+    Exemplar --> "1" Timestamp
+```
+
 ### Data Types
 
 #### Sample Values

@@ -444,7 +444,9 @@ Push-based negotiation is inherently more complex, as the exposer typically init
 
 ### ABNF
 
-ABNF as per RFC 5234, as updated by RFC 7405
+ABNF as per RFC 7405.
+
+RFC 7405 is built on RFC 5234, but adds explicit case-sensitivity notation for string literals. The literal `%s"text"` means `text` is case-sensitive, and `%i"text"` means case-insensitive.
 
 "exposition" is the top level token of the ABNF.
 

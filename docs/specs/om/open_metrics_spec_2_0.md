@@ -444,23 +444,25 @@ Push-based negotiation is inherently more complex, as the exposer typically init
 
 ### ABNF
 
-ABNF as per RFC 5234
+ABNF as per RFC 7405.
+
+RFC 7405 is built on RFC 5234, but adds explicit case-sensitivity notation for string literals. The literal `%s"text"` means `text` is case-sensitive, and `%i"text"` means case-insensitive.
 
 "exposition" is the top level token of the ABNF.
 
 ```abnf
-exposition = metricset HASH SP eof [ LF ]
+exposition = metricset HASH SP %s"EOF" [ LF ]
 
 metricset = *metricfamily
 
 metricfamily = *metric-descriptor *sample
 
-metric-descriptor = HASH SP type SP (metricname / metricname-utf8) SP metric-type LF
-metric-descriptor =/ HASH SP help SP (metricname / metricname-utf8) SP escaped-string LF
-metric-descriptor =/ HASH SP unit SP (metricname / metricname-utf8) SP *metricname-char LF
+metric-descriptor = HASH SP %s"TYPE" SP (metricname / metricname-utf8) SP metric-type LF
+metric-descriptor =/ HASH SP %s"HELP" SP (metricname / metricname-utf8) SP escaped-string LF
+metric-descriptor =/ HASH SP %s"UNIT" SP (metricname / metricname-utf8) SP *metricname-char LF
 
-metric-type = counter / gauge / histogram / gaugehistogram / stateset
-metric-type =/ info / summary / unknown
+metric-type = %s"counter" / %s"gauge" / %s"histogram" / %s"gaugehistogram" / %s"stateset"
+metric-type =/ %s"info" / %s"summary" / %s"unknown"
 
 sample = metricname-and-labels SP value [SP timestamp] [SP start-timestamp] *exemplar LF
 
@@ -469,7 +471,7 @@ value = number / "{" composite-value "}"
 timestamp = realnumber
 
 ; Lowercase st @ timestamp
-start-timestamp = %d115.116 "@" timestamp
+start-timestamp = %s"st" "@" timestamp
 
 exemplar = SP HASH SP labels-in-braces SP number SP timestamp
 
@@ -477,13 +479,13 @@ metricname-and-labels = metricname [labels-in-braces] / name-and-labels-in-brace
 labels-in-braces = "{" [label *(COMMA label)] "}"
 name-and-labels-in-braces = "{" metricname-utf8 *(COMMA label) "}"
 
-label = label-key EQ DQUOTE escaped-string DQUOTE
+label = label-key "=" DQUOTE escaped-string DQUOTE
 
 ; Number value
 number = realnumber
 ; Case insensitive
-number =/ [SIGN] ("inf" / "infinity")
-number =/ "nan"
+number =/ [SIGN] (%i"inf" / %i"infinity")
+number =/ %i"nan"
 
 ; Real floats
 ; Leading 0s explicitly okay
@@ -497,24 +499,7 @@ non-negative-integer = ["+"] 1*"0" / ["+"] positive-integer
 positive-integer = *"0" positive-digit *DIGIT
 positive-digit = "1" / "2" / "3" / "4" / "5" / "6" / "7" / "8" / "9"
 
-; RFC 5234 is case insensitive.
-; Uppercase
-eof = %d69.79.70
-type = %d84.89.80.69
-help = %d72.69.76.80
-unit = %d85.78.73.84
-; Lowercase
-counter = %d99.111.117.110.116.101.114
-gauge = %d103.97.117.103.101
-histogram = %d104.105.115.116.111.103.114.97.109
-gaugehistogram = gauge histogram
-stateset = %d115.116.97.116.101.115.101.116
-info = %d105.110.102.111
-summary = %d115.117.109.109.97.114.121
-unknown = %d117.110.107.110.111.119.110
-
 BS = "\"
-EQ = "="
 COMMA = ","
 HASH = "#"
 SIGN = "-" / "+"
@@ -546,38 +531,34 @@ composite-value = histogram-value / gauge-histogram-value / summary-value
 
 ; Histograms
 histogram-value = h-count "," h-sum "," histogram-buckets
-gauge-histogram-value = gh-count "," gh-sum "," histogram-buckets
+gauge-histogram-value = %s"g" h-count "," %s"g" h-sum "," histogram-buckets
 
 ; count:x
-h-count = %d99.111.117.110.116 ":" number
-; gcount:x
-gh-count = %d103 h-count
+h-count = %s"count" ":" number
 ; sum:f allows real numbers and +-Inf and NaN
-h-sum = %d115.117.109 ":" number
-; gsum:x
-gh-sum = %d103 h-sum
+h-sum = %s"sum" ":" number
 
 histogram-buckets = classic-buckets / native-buckets [ "," classic-buckets ]
 
 ; bucket:[...,+Inf:v] The +Inf bucket is required.
-classic-buckets = %d98.117.99.107.101.116 ":" "[" [ ch-le-counts "," ] ch-pos-inf-bucket "]"
+classic-buckets = %s"bucket" ":" "[" [ ch-le-counts "," ] ch-pos-inf-bucket "]"
 ch-le-counts = (ch-neg-inf-bucket / ch-le-bucket) *("," ch-le-bucket)
-ch-pos-inf-bucket = "+" %d73.110.102 ":" number
-ch-neg-inf-bucket = "-" %d73.110.102 ":" number
+ch-pos-inf-bucket = "+" %s"Inf" ":" number
+ch-neg-inf-bucket = "-" %s"Inf" ":" number
 ch-le-bucket = realnumber ":" number
 
 ; schema:3,zero_threshold:1e-128,zero_count:2,negative_spans:[1:1],negative_buckets:[2],positive_spanes:[-3:1,2:2],positive_buckets:[3,1,0]
 native-buckets = nh-schema "," nh-zero-threshold "," nh-zero-count [ "," nh-negative-spans "," nh-negative-buckets ] [ "," nh-positive-spans "," nh-positive-buckets ]
 
 ; schema:i
-nh-schema = %d115.99.104.101.109.97 ":" integer
+nh-schema = %s"schema" ":" integer
 ; zero_threshold:f
-nh-zero-threshold = %d122.101.114.111 "_" %d116.104.114.101.115.104.111.108.100 ":" realnumber
+nh-zero-threshold = %s"zero_threshold" ":" realnumber
 ; zero_count:x
-nh-zero-count = %d122.101.114.111 "_" %d99.111.117.110.116 ":" number
+nh-zero-count = %s"zero_count" ":" number
 ; negative_spans:[1:2,3:4] and positive_spans:[-3:1,2:2]
-nh-negative-spans = %d110.101.103.97.116.105.118.101 "_" %d115.112.97.110.115 ":" "[" [nh-spans] "]"
-nh-positive-spans = %d112.111.115.105.116.105.118.101 "_" %d115.112.97.110.115 ":" "[" [nh-spans] "]"
+nh-negative-spans = %s"negative_spans" ":" "[" [nh-spans] "]"
+nh-positive-spans = %s"positive_spans" ":" "[" [nh-spans] "]"
 ; Spans hold offset and length. The offset can start from any index, even
 ; negative, however subsequent spans can only advance the index, not decrease it.
 nh-spans = nh-start-span *("," nh-span)
@@ -585,8 +566,8 @@ nh-start-span = integer ":" non-negative-integer
 nh-span = non-negative-integer ":" non-negative-integer
 
 ; negative_buckets:[1,2,3] and positive_buckets:[1,2,3]
-nh-negative-buckets = %d110.101.103.97.116.105.118.101 "_" %d98.117.99.107.101.116.115 ":" "[" [nh-buckets] "]"
-nh-positive-buckets = %d112.111.115.105.116.105.118.101 "_" %d98.117.99.107.101.116.115 ":" "[" [nh-buckets] "]"
+nh-negative-buckets = %s"negative_buckets" ":" "[" [nh-buckets] "]"
+nh-positive-buckets = %s"positive_buckets" ":" "[" [nh-buckets] "]"
 
 nh-buckets = number *("," number)
 
@@ -596,11 +577,11 @@ nh-buckets = number *("," number)
 summary-value = cs-count "," cs-sum "," cs-quantile
 
 ; count:x where x is a number
-cs-count = %d99.111.117.110.116 ":" number
+cs-count = %s"count" ":" number
 ; sum:x where x is a real number or +-Inf or NaN
-cs-sum = %d115.117.109 ":" number
+cs-sum = %s"sum" ":" number
 ; quantile:[...]
-cs-quantile = %d113.117.97.110.116.105.108.101 ":" "[" [ cs-q-counts ] "]"
+cs-quantile = %s"quantile" ":" "[" [ cs-q-counts ] "]"
 cs-q-counts = cs-q-count *("," cs-q-count)
 cs-q-count = realnumber ":" number
 ```

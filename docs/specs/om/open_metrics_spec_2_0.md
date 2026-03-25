@@ -87,6 +87,9 @@ classDiagram
     class Sample
     class Timestamp
     class Exemplar
+    class SampleValue {
+        <<abstract>>
+    }
     class Number
     class CompositeValue
     class HistogramValue
@@ -99,11 +102,12 @@ classDiagram
     Metric "1" --> "1" LabelSet
     Metric "1" --> "1..*" Sample
     LabelSet "1" --> "0..*" Label
-    Sample --> "1" Number : value
-    Sample --> "1" CompositeValue : value
+    Sample --> "1" SampleValue : value
     Sample --> "0..1" Timestamp : timestamp
     Sample --> "0..1" Timestamp : start timestamp
     Sample --> "0..*" Exemplar
+    SampleValue <|-- Number
+    SampleValue <|-- CompositeValue
     CompositeValue <|-- HistogramValue
     CompositeValue <|-- GaugeHistogramValue
     CompositeValue <|-- SummaryValue

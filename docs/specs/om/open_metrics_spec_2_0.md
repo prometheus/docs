@@ -455,12 +455,12 @@ metricset = *metricfamily
 
 metricfamily = *metric-descriptor *sample
 
-metric-descriptor = HASH SP type SP (metricname / metricname-utf8) SP metric-type LF
-metric-descriptor =/ HASH SP help SP (metricname / metricname-utf8) SP escaped-string LF
-metric-descriptor =/ HASH SP unit SP (metricname / metricname-utf8) SP *metricname-char LF
+metric-descriptor = HASH SP %s"TYPE" SP (metricname / metricname-utf8) SP metric-type LF
+metric-descriptor =/ HASH SP %s"HELP" SP (metricname / metricname-utf8) SP escaped-string LF
+metric-descriptor =/ HASH SP %s"UNIT" SP (metricname / metricname-utf8) SP *metricname-char LF
 
-metric-type = counter / gauge / histogram / gaugehistogram / stateset
-metric-type =/ info / summary / unknown
+metric-type = %s"counter" / gauge / histogram / gauge histogram / %s"stateset"
+metric-type =/ %s"info" / %s"summary" / %s"unknown"
 
 sample = metricname-and-labels SP value [SP timestamp] [SP start-timestamp] *exemplar LF
 
@@ -477,7 +477,7 @@ metricname-and-labels = metricname [labels-in-braces] / name-and-labels-in-brace
 labels-in-braces = "{" [label *(COMMA label)] "}"
 name-and-labels-in-braces = "{" metricname-utf8 *(COMMA label) "}"
 
-label = label-key EQ DQUOTE escaped-string DQUOTE
+label = label-key "=" DQUOTE escaped-string DQUOTE
 
 ; Number value
 number = realnumber
@@ -497,22 +497,11 @@ non-negative-integer = ["+"] 1*"0" / ["+"] positive-integer
 positive-integer = *"0" positive-digit *DIGIT
 positive-digit = "1" / "2" / "3" / "4" / "5" / "6" / "7" / "8" / "9"
 
-; Uppercase keywords
-type = %s"TYPE"
-help = %s"HELP"
-unit = %s"UNIT"
-; Lowercase keywords
-counter = %s"counter"
+; Lowercase keywords (reused in metric-type)
 gauge = %s"gauge"
 histogram = %s"histogram"
-gaugehistogram = gauge histogram
-stateset = %s"stateset"
-info = %s"info"
-summary = %s"summary"
-unknown = %s"unknown"
 
 BS = "\"
-EQ = "="
 COMMA = ","
 HASH = "#"
 SIGN = "-" / "+"
@@ -544,16 +533,12 @@ composite-value = histogram-value / gauge-histogram-value / summary-value
 
 ; Histograms
 histogram-value = h-count "," h-sum "," histogram-buckets
-gauge-histogram-value = gh-count "," gh-sum "," histogram-buckets
+gauge-histogram-value = %s"g" h-count "," %s"g" h-sum "," histogram-buckets
 
 ; count:x
 h-count = %s"count" ":" number
-; gcount:x
-gh-count = %s"g" h-count
 ; sum:f allows real numbers and +-Inf and NaN
 h-sum = %s"sum" ":" number
-; gsum:x
-gh-sum = %s"g" h-sum
 
 histogram-buckets = classic-buckets / native-buckets [ "," classic-buckets ]
 

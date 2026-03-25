@@ -122,7 +122,7 @@ A LabelSet MUST consist of Labels and MAY be empty. Label names MUST be unique w
 
 Exemplars are references to data outside of the MetricSet. A common use case are IDs of program traces.
 
-Exemplars MUST consist of a LabelSet and a Number value, and MUST have a timestamp. The LabelSet SHOULD NOT contain any Label names included in the Metric's LabelSet. The timestamp SHOULD be before or equal to the Sample's timestamp, if present. The timestamp SHOULD be after or equal to the Sample's start timestamp, if present.
+Exemplars MUST consist of a LabelSet and a Number value, and MUST have a timestamp. The LabelSet SHOULD NOT contain any Label names included in the Metric's LabelSet. The timestamp SHOULD be before or equal to the Sample's timestamp, if present. The timestamp SHOULD be after or equal to the Sample's start timestamp, if present. Exemplars of a Sample SHOULD have the same Label names to have a consistent style.
 
 The Exemplar's timestamp SHOULD be close to the point when it was observed, but doesn't have to be exact. For example, if getting an exact timestamp is costly, it is acceptable to use some external source or an estimate.
 
@@ -130,7 +130,7 @@ When an exemplar references a [Trace Context](https://www.w3.org/TR/trace-contex
 
 While there's no [hard limit](#size-limits) specified, Exemplar's LabelSet SHOULD NOT be used to transport large data like tracing span details or other event logging.
 
-Ingestors MAY truncate the Exemplar's LabelSet or discard Exemplars.
+Ingestors MAY truncate the Exemplar's LabelSet or discard Exemplars. When truncating the Exemplar's LabelSet the `trace_id` and `span_id` SHOULD be preserved even after truncation.
 
 #### Sample
 
@@ -651,6 +651,10 @@ CompositeValue is represented as structured data with fields. There MUST NOT be 
 
 Timestamps SHOULD NOT use exponential float rendering for timestamps if nanosecond precision is needed as rendering of a float64 does not have sufficient precision, e.g. `1604676851.123456789`.
 
+#### Exemplars
+
+Exemplars without Labels MUST represent an empty LabelSet as {}.
+
 ### MetricFamily
 
 There MUST NOT be an explicit separator between MetricFamilies. The next MetricFamily MUST be signalled with either metadata or a new Metric name for a new MetricFamily.
@@ -1040,10 +1044,6 @@ Exemplars MAY be attached to the Histogram Sample.
 If the exposer is keeping a separate set of exemplars for Classic and Native Buckets, then the exposer MAY attach only one set for performance and backwards compatibility reasons, and that set SHOULD be the exemplars associated with Classic Buckets.
 
 If present, the Sample's Start Timestamp MUST be inlined with the Sample with a `st@` prefix. If the value's timestamp is present, the Start Timestamp MUST be added right after it. If exemplars are present, the Start Timestamp MUST be added before it.
-
-Exemplars without Labels MUST represent an empty LabelSet as {}.
-
-Exemplars of a Sample SHOULD have the same Label names to have a consistent style.
 
 An example of a Histogram with Native Buckets and Start Timestamp that has multiple Exemplars:
 

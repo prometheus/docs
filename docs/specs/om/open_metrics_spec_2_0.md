@@ -99,11 +99,11 @@ classDiagram
     Metric "1" --> "1" LabelSet
     Metric "1" --> "1..*" Sample
     LabelSet "1" --> "0..*" Label
+    Sample --> "1" Number : value
+    Sample --> "1" CompositeValue : value
     Sample --> "0..1" Timestamp : timestamp
     Sample --> "0..1" Timestamp : start timestamp
     Sample --> "0..*" Exemplar
-    Sample --> "1" Number : value
-    Sample --> "1" CompositeValue : value
     CompositeValue <|-- HistogramValue
     CompositeValue <|-- GaugeHistogramValue
     CompositeValue <|-- SummaryValue

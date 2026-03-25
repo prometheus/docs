@@ -459,7 +459,7 @@ metric-descriptor = HASH SP %s"TYPE" SP (metricname / metricname-utf8) SP metric
 metric-descriptor =/ HASH SP %s"HELP" SP (metricname / metricname-utf8) SP escaped-string LF
 metric-descriptor =/ HASH SP %s"UNIT" SP (metricname / metricname-utf8) SP *metricname-char LF
 
-metric-type = %s"counter" / gauge / histogram / gauge histogram / %s"stateset"
+metric-type = %s"counter" / %s"gauge" / %s"histogram" / %s"gaugehistogram" / %s"stateset"
 metric-type =/ %s"info" / %s"summary" / %s"unknown"
 
 sample = metricname-and-labels SP value [SP timestamp] [SP start-timestamp] *exemplar LF
@@ -496,10 +496,6 @@ integer = [SIGN] 1*"0" / [SIGN] positive-integer
 non-negative-integer = ["+"] 1*"0" / ["+"] positive-integer
 positive-integer = *"0" positive-digit *DIGIT
 positive-digit = "1" / "2" / "3" / "4" / "5" / "6" / "7" / "8" / "9"
-
-; Lowercase keywords (reused in metric-type)
-gauge = %s"gauge"
-histogram = %s"histogram"
 
 BS = "\"
 COMMA = ","

@@ -453,7 +453,7 @@ exposition = metricset HASH SP eof [ LF ]
 
 metricset = *metricfamily
 
-metricfamily = *metric-descriptor *metric
+metricfamily = *metric-descriptor *sample
 
 metric-descriptor = HASH SP type SP (metricname / metricname-utf8) SP metric-type LF
 metric-descriptor =/ HASH SP help SP (metricname / metricname-utf8) SP escaped-string LF
@@ -462,9 +462,7 @@ metric-descriptor =/ HASH SP unit SP (metricname / metricname-utf8) SP *metricna
 metric-type = counter / gauge / histogram / gaugehistogram / stateset
 metric-type =/ info / summary / unknown
 
-metric = metricname-and-labels SP sample
-
-sample = value [SP timestamp] [SP start-timestamp] *exemplar LF
+sample = metricname-and-labels SP value [SP timestamp] [SP start-timestamp] *exemplar LF
 
 value = number / "{" composite-value "}"
 
@@ -488,10 +486,8 @@ number =/ [SIGN] ("inf" / "infinity")
 number =/ "nan"
 
 ; Real floats
-; Not 100% sure this captures all float corner cases
 ; Leading 0s explicitly okay
-realnumber = [SIGN] 1*DIGIT
-realnumber =/ [SIGN] 1*DIGIT ["." *DIGIT] [ "e" [SIGN] 1*DIGIT ]
+realnumber = [SIGN] 1*DIGIT ["." *DIGIT] [ "e" [SIGN] 1*DIGIT ]
 realnumber =/ [SIGN] *DIGIT "." 1*DIGIT [ "e" [SIGN] 1*DIGIT ]
 
 ; Integers
@@ -585,8 +581,8 @@ nh-positive-spans = %d112.111.115.105.116.105.118.101 "_" %d115.112.97.110.115 "
 ; Spans hold offset and length. The offset can start from any index, even
 ; negative, however subsequent spans can only advance the index, not decrease it.
 nh-spans = nh-start-span *("," nh-span)
-nh-start-span = integer ":" positive-integer
-nh-span = non-negative-integer ":" positive-integer
+nh-start-span = integer ":" non-negative-integer
+nh-span = non-negative-integer ":" non-negative-integer
 
 ; negative_buckets:[1,2,3] and positive_buckets:[1,2,3]
 nh-negative-buckets = %d110.101.103.97.116.105.118.101 "_" %d98.117.99.107.101.116.115 ":" "[" [nh-buckets] "]"

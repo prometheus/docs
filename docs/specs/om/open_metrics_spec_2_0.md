@@ -62,6 +62,12 @@ This standard expresses all system states as numerical values; counts, current v
 
 Time series are a record of changing information over time. Common examples of metric time series would be network interface counters, device temperatures, BGP connection states, latency distributions, and alert states.
 
+## Normative Language
+
+The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in [RFC 2119](https://www.rfc-editor.org/rfc/rfc2119) and [RFC 8174](https://www.rfc-editor.org/rfc/rfc8174) when, and only when, they appear in all capitals, as shown here.
+
+The word "RESERVED" is used in this document to designate values, names, or fields that are set aside for future use or for use by this standard itself. Values, names, or fields described as RESERVED MUST NOT be used unless explicitly permitted by this standard or a future version thereof.
+
 ## Data Model
 
 This section MUST be read together with the ABNF section. In case of disagreements between the two, the ABNF's restrictions MUST take precedence.

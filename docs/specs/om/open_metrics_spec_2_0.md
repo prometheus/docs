@@ -380,9 +380,9 @@ GaugeHistograms measure current distributions. Common examples are how long item
 
 A GaugeHistogram Sample MUST contain Gcount, Gsum values.
 
-The GCount value MUST be equal to the number of measurements currently in the GaugeHistogram. The GCount is a gauge semantically. The GCount SHOULD be an integer. The GCount SHOULD NOT be -Inf, +Inf, NAN, or negative.
+The Gcount value MUST be equal to the number of measurements currently in the GaugeHistogram. The Gcount is a gauge semantically. The Gcount SHOULD be an integer. The Gcount SHOULD NOT be -Inf, +Inf, NAN, or negative.
 
-Float and negative GCount is allowed to make it possible to expose results of arithmetic operations on GaugeHistograms, such as the rate of change of a Histogram over time.
+Float and negative Gcount is allowed to make it possible to expose results of arithmetic operations on GaugeHistograms, such as the rate of change of a Histogram over time.
 
 The Gsum value MUST be equal to the sum of all the measured values currently in the GaugeHistogram. The Gsum is a gauge semantically.
 

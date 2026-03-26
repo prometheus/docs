@@ -418,7 +418,7 @@ A Summary Sample MUST contain a Count, Sum and a set of quantiles.
 
 Semantically, Count and Sum values are counters so MUST NOT be NaN or negative. Count MUST be an integer.
 
-A Summary SHOULD have a Timestamp value called Start Timestamp. This can help ingestors discern between new metrics and long-running ones it did not see before.
+A Summary SHOULD have a Start Timestamp.
 
 Start Timestamp MUST NOT be based on the collection period of quantile values.
 

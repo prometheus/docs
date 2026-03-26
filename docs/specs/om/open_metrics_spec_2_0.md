@@ -436,7 +436,7 @@ Partial or invalid expositions MUST be considered erroneous in their entirety.
 
 ### Protocol Negotiation
 
-All ingestor implementations MUST be able to ingest data secured with TLS 1.2 or later. All exposers SHOULD be able to emit data secured with TLS 1.2 or later. Ingestor implementations SHOULD be able to ingest data from HTTP without TLS. All implementations SHOULD use TLS to transmit data.
+All ingestor implementations MUST be able to ingest data secured with TLS 1.2 or later, and SHOULD support TLS 1.3 or later. All exposers SHOULD be able to emit data secured with TLS 1.2 or later, and SHOULD support TLS 1.3 or later. Ingestor implementations SHOULD be able to ingest data from HTTP without TLS. All implementations SHOULD use TLS to transmit data.
 
 Negotiation of what version of the OpenMetrics format to use is out-of-band. For example for pull-based exposition over HTTP standard HTTP content type negotiation is used, and MUST default to the oldest version of the standard (i.e. 1.0.0) if no newer version is requested.
 
@@ -1440,7 +1440,7 @@ If all targets of a particular type are exposing the same set of time series, th
 
 Implementors MAY choose to offer authentication, authorization, and accounting; if they so choose, this SHOULD be handled outside of OpenMetrics.
 
-All exposer implementations SHOULD be able to secure their HTTP traffic with TLS 1.2 or later. If an exposer implementation does not support encryption, operators SHOULD use reverse proxies, firewalling, and/or ACLs where feasible.
+All exposer implementations SHOULD be able to secure their HTTP traffic with TLS 1.2 or later, and SHOULD support TLS 1.3 or later. If an exposer implementation does not support encryption, operators SHOULD use reverse proxies, firewalling, and/or ACLs where feasible.
 
 Metric exposition should be independent of production services exposed to end users; as such, having a /metrics endpoint on ports like TCP/80, TCP/443, TCP/8080, and TCP/8443 is generally discouraged for publicly exposed services using OpenMetrics.
 

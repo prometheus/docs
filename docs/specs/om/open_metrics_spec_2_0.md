@@ -228,7 +228,7 @@ Type specifies the MetricFamily type. Valid values are "unknown", "gauge", "coun
 
 ##### Unit
 
-Unit specifies MetricFamily units. If non-empty, it SHOULD be a suffix of the MetricFamily name separated by an underscore. Further type specific suffixes come after the unit suffix. Exposing metrics without the unit being a suffix of the MetricFamily name directly to end-users may reduce the usability due to confusion about what the metric's unit is.
+Unit specifies MetricFamily units. If non-empty, it SHOULD be a suffix of the MetricFamily name separated by an underscore. Further type specific suffixes come after the unit suffix. Exposing metrics without the unit being a suffix of the MetricFamily name directly to end-users may reduce the usability due to confusion about what the metric's unit is. For recommended unit values see [Units and Base Units](#units-and-base-units).
 
 ##### Help
 

@@ -717,7 +717,7 @@ It is also valid to have:
 
 If the unit is known it SHOULD be provided.
 
-The value of a UNIT or HELP line MAY be empty. This MUST be treated as if no metadata line for the MetricFamily existed.
+A UNIT or HELP metadata line MAY have an empty value string before the newline. This MUST be treated as if the metadata line were not present.
 
 Full example:
 

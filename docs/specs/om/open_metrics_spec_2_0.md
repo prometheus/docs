@@ -697,7 +697,7 @@ If a unit is specified it MUST be provided in a UNIT metadata line. In addition,
 
 Be aware that exposing metrics without the unit being a suffix (or infix) of the MetricFamily name directly to end-users may reduce the usability due to confusion about what the metric's unit is.
 
-A valid example for a foo_seconds metric with a unit of "seconds":
+A valid example for a `foo_seconds_total` metric with a unit of "seconds":
 
 ```openmetrics-add-eof
 # TYPE foo_seconds_total counter
@@ -734,6 +734,19 @@ See the [UTF-8 Quoting](#utf-8-quoting) section for circumstances where the metr
 There MUST NOT be more than one of each type of metadata line for a MetricFamily. The ordering SHOULD be TYPE, UNIT, HELP.
 
 Aside from this metadata and the EOF line at the end of the message, you MUST NOT expose lines beginning with a #.
+
+##### Unknown metadata
+
+Ingestors MUST support Metric Families without metadata lines.
+
+A valid, but discouraged example, for `foo_seconds_total` counter and a set of unrelated, unknown type metrics without metadata lines:
+
+```openmetrics-add-eof
+# TYPE foo_seconds_total counter
+foo_seconds_total
+foo_milliseconds_total
+foo_count
+```
 
 #### Metric
 

@@ -188,7 +188,7 @@ Ingestors MAY truncate the Exemplar's LabelSet or discard Exemplars. When trunca
 
 A Sample is a single data point within a Metric. It MUST have a Value, MAY have a Timestamp. It MAY include Exemplars and MAY have a Start Timestamp, depending on the MetricFamily Type.
 
-Samples SHOULD NOT have Timestamps. If present, a Sample's Timestamp specifies when the value was observed.
+Samples SHOULD NOT have Timestamps. See [Exposing Timestamps](#exposing-timestamps) for why this is not recommended. If present, a Sample's Timestamp specifies when the value was observed.
 
 If present, a Sample's Start Timestamp SHOULD specify when the measurement period started. This can help ingestors discern between new metrics and long-running ones it did not see before and detect counter resets even when the counter value has not decreased between ingestions. A zero Start Timestamp MUST be treated as equivalent to the Start Timestamp not being present.
 

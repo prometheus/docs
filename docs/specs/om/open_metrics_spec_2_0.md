@@ -683,9 +683,9 @@ There MUST NOT be an explicit separator between MetricFamilies. The next MetricF
 
 MetricFamilies MUST NOT be interleaved.
 
-MetricFamily Name MUST have exactly the same characters as the Metric name for this MetricFamily.
+The same MetricFamily's Name and Metric's Name SHOULD have the same quoting.
 
-An invalid example would be:
+An example that would violate this:
 
 ```openmetrics-add-eof
 # TYPE "read_errors" counter
@@ -693,8 +693,6 @@ An invalid example would be:
 {"read_errors","service.name"="my_service"} 3482
 read_errors{"service.name"="my_service2"} 123
 ```
-
-In the above example, `read_errors` MUST either use escaped or non-escaped form but not both.
 
 #### MetricFamily metadata
 

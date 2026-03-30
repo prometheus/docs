@@ -150,7 +150,11 @@ Other MetricFamily Types MUST use Numbers.
 
 Timestamps MUST be Unix Epoch in seconds. Timestamps SHOULD be floating point to represent sub-second precision, for example milliseconds or microseconds. Negative timestamps MAY be used.
 
-There are two kinds of Timestamps: explicit Timestamp and Start Timestamp, both described in the [Sample](#sample) section. In this standard, explicit Timestamp is simply called Timestamp, while Start Timestamp is always fully written out.
+There are few places in this standard that use Timestamps:
+
+* Exemplar's Timestamp
+* Sample's Timestamp
+* Sample's Start Timestamp
 
 #### Strings
 
@@ -190,7 +194,7 @@ A Sample is a single data point within a Metric. It MUST have a Value, MAY have 
 
 Samples SHOULD NOT have Timestamps. See [Exposing Timestamps](#exposing-timestamps) for why this is not recommended. If present, a Sample's Timestamp specifies when the value was observed.
 
-If present, a Sample's Start Timestamp SHOULD specify when the measurement period started. This can help ingestors discern between new metrics and long-running ones it did not see before and detect counter resets even when the counter value has not decreased between ingestions. A zero Start Timestamp MUST be treated as equivalent to the Start Timestamp not being present.
+If present, a Sample's Start Timestamp SHOULD specify when the measurement period started. This can help ingestors discern between new metrics and long-running ones it did not see before and detect counter resets even when the counter value has not decreased between ingestions.
 
 #### Metric
 

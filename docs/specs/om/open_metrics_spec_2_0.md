@@ -70,7 +70,6 @@ The word "RESERVED" is used in this document to designate values, names, or fiel
 
 ## Data Model
 
-// TODO: High level diagram to put here.
 This section MUST be read together with the ABNF section. In case of disagreements between the two, the ABNF's restrictions MUST take precedence.
 
 ```mermaid
@@ -139,11 +138,8 @@ Booleans MUST be represented as a Number value where `1` is true and `0` is fals
 
 ##### CompositeValue
 
-// TODO(dashpole): Fix on Data model redefinition "Sample value"
-// * Sample = value + timestamp + st + exemplars
 CompositeValue MUST contain all information necessary to recreate a sample value for Metric within the MetricFamily.
 
-// TODO(dashpole): Fix on Data model redefinition "Metric Values" -> maybe "Sample Values"
 The following MetricFamily Types MUST use CompositeValue for Metric Values:
 
 * [Histogram](#histogram) MetricFamily Type.
@@ -166,7 +162,9 @@ Labels are key-value pairs consisting of strings.
 
 Label names beginning with one or more underscores are RESERVED and MUST NOT be used unless specified by this standard. Such Label names MAY be used in place of TYPE and UNIT metadata in cases where MetricFamilies' metadata might otherwise be conflicting, such as metric federation cases.
 
-// MAYBE: Link to where we explain "UTF-8 metrics may reduce usability"
+<!---
+// MAYBE(post-rc.0): Link to where we explain "UTF-8 metrics may reduce usability"
+-->
 Label names SHOULD follow the restrictions in the ABNF section under the `label-name` section. Label names MAY be any quoted escaped UTF-8 string as described in the ABNF section. Be aware that exposing UTF-8 metrics may reduce usability.
 
 Empty label values SHOULD be treated as if the label was not present.
@@ -210,7 +208,10 @@ A MetricFamily MAY have zero or more Metrics. Every Metric within a MetricFamily
 MetricFamily name:
 
 * MUST be string.
-// TODO give example of unknown metadata? No meta exposed, two differently name metric families.
+ 
+<!---
+// TODO(??) give example of unknown metadata? No meta exposed, two differently name metric families.
+-->
 * MUST be unique within a MetricSet.
 * MUST be the same as every Metric's Name in the family.
 
@@ -224,7 +225,9 @@ MetricFamily names beginning with one or more underscores are RESERVED and MUST 
 
 ###### Discouraged Suffixes
 
+<!---
 // TODO: Double check scrape failure modes e.g. rejection MetricSet vs Sample/MetricFamily.
+-->
 MetricFamily name SHOULD NOT end with `_count`, `_sum`, `_gcount`, `_gsum`, `_bucket`. Specifically, a name SHOULD NOT create a MetricName collision when converted to [the OpenMetrics 1.0 Text](https://prometheus.io/docs/specs/om/open_metrics_spec). Ingestors MAY reject such MetricFamily.
 
 A non-compliant example would be a gauge called `foo_bucket` and a histogram called `foo`. Exposers negotiating the older OpenMetrics or Text formats, or ingestors which support only the older data model could end up storing the `foo` histogram in the classic representation (`foo_bucket`, `foo_count`, `foo_sum`), which would clash with the gauge and cause a scrape rejection or dropped data.
@@ -239,8 +242,6 @@ Type specifies the MetricFamily type. Valid values are "unknown", "gauge", "coun
 
 Unit specifies MetricFamily units. If non-empty, it SHOULD be a suffix of the MetricFamily name separated by an underscore. Further type specific suffixes come after the unit suffix. Exposing metrics without the unit being a suffix of the MetricFamily name directly to end-users may reduce the usability due to confusion about what the metric's unit is. For recommended unit values see [Units and Base Units](#units-and-base-units).
 
-// TODO: Add link to unit value semantics?
-
 ##### Help
 
 Help is a string and SHOULD be non-empty. It is used to give a brief description of the MetricFamily for human consumption and SHOULD be short enough to be used as a tooltip.
@@ -253,7 +254,9 @@ Each MetricFamily name MUST be unique. The same label name and value SHOULD NOT 
 
 There is no specific ordering of MetricFamilies required within a MetricSet. An exposer MAY make an exposition easier to read for humans, for example sort alphabetically if the performance tradeoff makes sense.
 
-// MAYBE: What about other info metrics?
+<!---
+// MAYBE(post-rc.0): What about other info metrics?
+-->
 If present, an Info MetricFamily called "target_info" per the [Supporting target metadata in both push-based and pull-based systems](#supporting-target-metadata-in-both-push-based-and-pull-based-systems) section below SHOULD be first.
 
 ### MetricFamily Types
@@ -274,7 +277,6 @@ The MetricFamily name for Counters SHOULD end in `_total`. Exposing metrics with
 
 A Sample in a Metric with the Type Counter SHOULD have a Timestamp value called Start Timestamp. This can help ingestors discern between new metrics and long-running ones it did not see before.
 
-// DISCUSSION: If you reset you must set ST?
 A Sample in a Metric with the Type Counter MUST have a Number value which is non-NaN. The value MUST be monotonically non-decreasing over time, unless it is reset to 0, and start from 0. The value MAY reset its value to 0. If present, the corresponding Start Timestamp MUST also be set to the timestamp of the reset.
 
 A Sample in a Metric with the type Counter MAY have exemplars.
@@ -318,7 +320,9 @@ The Sum value MUST be equal to the sum of all the measured event values. The Sum
 
 A Histogram MUST measure values that are not NaN in either [Classic Buckets](#classic-buckets) or [Native Buckets](#native-buckets) or both. Measuring NaN is different for Classic and Native Buckets, see in their respective sections.
 
-// MAYBE: DRY? common pattern with count
+<!---
+// MAYBE(post-rc.0): DRY? common pattern with count.
+-->
 Every Bucket MUST have well-defined boundaries and a value. The bucket value is called the bucket count colloquially. Boundaries of a Bucket MUST NOT be NaN. Bucket values are counters semantically. Bucket values SHOULD be integers. Bucket values MUST NOT be negative. Bucket values SHOULD NOT be +Inf, NaN.
 
 Float bucket values are allowed to make it possible to expose results of arithmetic operations on histograms, such as addition that may result in values beyond the range of integers.
@@ -391,7 +395,6 @@ If the NaN value is allowed, it MUST NOT be counted in any Native Bucket, and MU
 
 #### GaugeHistogram
 
-// NOTE: To re-read
 GaugeHistograms measure current distributions. Common examples are how long items have been waiting in a queue, or size of the requests in a queue.
 
 A GaugeHistogram Sample MUST contain Gcount, Gsum values.
@@ -446,7 +449,9 @@ A Sample in a metric with the Unknown Type MUST have a Number or CompositeValue 
 
 The OpenMetrics formats are Regular Chomsky Grammars, making writing quick and small parsers possible.
 
+<!---
 // MAYBE: Be clear on failure modes.
+-->
 Partial or invalid expositions MUST be considered erroneous in their entirety.
 
 > NOTE: Previous versions of [OpenMetrics](https://prometheus.io/docs/specs/om/open_metrics_spec/#protobuf-format) used to specify a [OpenMetric protobuf format](https://github.com/prometheus/OpenMetrics/blob/3bb328ab04d26b25ac548d851619f90d15090e5d/proto/openmetrics_data_model.proto). OpenMetrics 2.0 does not include the protobuf representation. For available formats, including the official [Prometheus protobuf wire format](https://prometheus.io/docs/instrumenting/exposition_formats/#protobuf-format), see [exposition formats documentation](https://prometheus.io/docs/instrumenting/exposition_formats).
@@ -736,7 +741,6 @@ It is also valid to have:
 
 If the unit is known it SHOULD be provided.
 
-// WHAT: value of the line???
 The value of a UNIT or HELP line MAY be empty. This MUST be treated as if no metadata line for the MetricFamily existed.
 
 Full example:
@@ -1165,7 +1169,6 @@ It is intended to transport snapshots of state at the time of data transmission 
 
 How ingestors discover which exposers exist, and vice-versa, is out of scope for and thus not defined in this standard.
 
-// MINOR: on top of https://github.com/prometheus/docs/pull/2905/changes#r2963439248 (UTF8 and MetricName == MF name)
 ### Extensions and Improvements
 
 This second version of OpenMetrics is based upon the well-established de facto standard [Prometheus exposition formats](https://prometheus.io/docs/instrumenting/exposition_formats/) such as the Prometheus text format 0.0.4, Prometheus Protobuf format, and OpenMetrics 1.0.

@@ -130,7 +130,9 @@ Metric values in OpenMetrics MUST be either Number or CompositeValue.
 
 ##### Number
 
-Number value MUST be either floating point or integer. Note that ingestors of the format MAY only support float64. The non-real values NaN, +Inf and -Inf MUST be supported. NaN value MUST NOT be considered a missing value, but it MAY be used to signal a division by zero.
+Number value MUST be either floating point or integer.
+
+Note that ingestors of the format MAY only support float64, for example Go's `float64` which is an IEEE 754-2008 double-precision (binary64) floating-point number with approximately 15–17 significant decimal digits of precision. The non-real values NaN, +Inf and -Inf MUST be supported. NaN value MUST NOT be considered a missing value, but it MAY be used to signal a division by zero or any other mathematical operation that yields an undefined or indeterminate result.
 
 Booleans MUST be represented as a Number value where `1` is true and `0` is false.
 
@@ -228,7 +230,7 @@ Type specifies the MetricFamily type. Valid values are "unknown", "gauge", "coun
 
 ##### Unit
 
-Unit specifies MetricFamily units. If non-empty, it SHOULD be a suffix of the MetricFamily name separated by an underscore. Further type specific suffixes come after the unit suffix. Exposing metrics without the unit being a suffix of the MetricFamily name directly to end-users may reduce the usability due to confusion about what the metric's unit is.
+Unit specifies MetricFamily units. If non-empty, it SHOULD be a suffix of the MetricFamily name separated by an underscore. Further type specific suffixes come after the unit suffix. Exposing metrics without the unit being a suffix of the MetricFamily name directly to end-users may reduce the usability due to confusion about what the metric's unit is. For recommended unit values see [Units and Base Units](#units-and-base-units).
 
 ##### Help
 
@@ -380,9 +382,9 @@ GaugeHistograms measure current distributions. Common examples are how long item
 
 A GaugeHistogram Sample MUST contain Gcount, Gsum values.
 
-The GCount value MUST be equal to the number of measurements currently in the GaugeHistogram. The GCount is a gauge semantically. The GCount SHOULD be an integer. The GCount SHOULD NOT be -Inf, +Inf, NAN, or negative.
+The Gcount value MUST be equal to the number of measurements currently in the GaugeHistogram. The Gcount is a gauge semantically. The Gcount SHOULD be an integer. The Gcount SHOULD NOT be -Inf, +Inf, NAN, or negative.
 
-Float and negative GCount is allowed to make it possible to expose results of arithmetic operations on GaugeHistograms, such as the rate of change of a Histogram over time.
+Float and negative Gcount is allowed to make it possible to expose results of arithmetic operations on GaugeHistograms, such as the rate of change of a Histogram over time.
 
 The Gsum value MUST be equal to the sum of all the measured values currently in the GaugeHistogram. The Gsum is a gauge semantically.
 

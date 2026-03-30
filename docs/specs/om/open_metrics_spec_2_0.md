@@ -62,10 +62,66 @@ This standard expresses all system states as numerical values; counts, current v
 
 Time series are a record of changing information over time. Common examples of metric time series would be network interface counters, device temperatures, BGP connection states, latency distributions, and alert states.
 
+## Normative Language
+
+The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in [RFC 2119](https://www.rfc-editor.org/rfc/rfc2119) and [RFC 8174](https://www.rfc-editor.org/rfc/rfc8174) when, and only when, they appear in all capitals, as shown here.
+
+The word "RESERVED" is used in this document to designate values, names, or fields that are set aside for future use or for use by this standard itself. Values, names, or fields described as "RESERVED" MUST NOT be used unless explicitly permitted by this standard or a future version thereof.
+
 ## Data Model
 
 // TODO: High level diagram to put here.
 This section MUST be read together with the ABNF section. In case of disagreements between the two, the ABNF's restrictions MUST take precedence.
+
+```mermaid
+classDiagram
+    class MetricSet
+    class MetricFamily
+    class MetricFamilyType {
+        <<enumeration>>
+        gauge
+        counter
+        stateset
+        info
+        histogram
+        gaugehistogram
+        summary
+        unknown
+    }
+    class Metric
+    class LabelSet
+    class Label
+    class Sample
+    class Timestamp
+    class Exemplar
+    class SampleValue {
+        <<abstract>>
+    }
+    class Number
+    class CompositeValue
+    class HistogramValue
+    class GaugeHistogramValue
+    class SummaryValue
+
+    MetricSet "1" --> "0..*" MetricFamily
+    MetricFamily "1" --> "1" MetricFamilyType : type
+    MetricFamily "1" --> "0..*" Metric
+    Metric "1" --> "1" LabelSet
+    Metric "1" --> "1..*" Sample
+    LabelSet "1" --> "0..*" Label
+    Sample --> "1" SampleValue : value
+    Sample --> "0..1" Timestamp : timestamp
+    Sample --> "0..1" Timestamp : start timestamp
+    Sample --> "0..*" Exemplar
+    SampleValue <|-- Number
+    SampleValue <|-- CompositeValue
+    CompositeValue <|-- HistogramValue
+    CompositeValue <|-- GaugeHistogramValue
+    CompositeValue <|-- SummaryValue
+    Exemplar --> "1" LabelSet
+    Exemplar --> "1" Number : value
+    Exemplar --> "1" Timestamp
+```
 
 ### Data Types
 
@@ -75,9 +131,9 @@ Metric values in OpenMetrics MUST be either Number or CompositeValue.
 
 ##### Number
 
-// MAYBE: Clarify floating point exactly / link to where we do this instead of float64
-// MAYBE: "ut it MAY be used to signal a division by zero" -> add or any result of the math operations that would result it in.
-Number value MUST be either floating point or integer. Note that ingestors of the format MAY only support float64. The non-real values NaN, +Inf and -Inf MUST be supported. NaN value MUST NOT be considered a missing value, but it MAY be used to signal a division by zero.
+Number value MUST be either floating point or integer.
+
+Note that ingestors of the format MAY only support float64, for example Go's `float64` which is an IEEE 754-2008 double-precision (binary64) floating-point number with approximately 15–17 significant decimal digits of precision. The non-real values NaN, +Inf and -Inf MUST be supported. NaN value MUST NOT be considered a missing value, but it MAY be used to signal a division by zero or any other mathematical operation that yields an undefined or indeterminate result.
 
 Booleans MUST be represented as a Number value where `1` is true and `0` is false.
 
@@ -98,8 +154,7 @@ Other MetricFamily Types MUST use Numbers.
 
 #### Timestamps
 
-// MAYBE: Mention its float?
-Timestamps MUST be Unix Epoch in seconds. Negative timestamps MAY be used.
+Timestamps MUST be Unix Epoch in seconds. Timestamps SHOULD be floating point to represent sub-second precision, for example milliseconds or microseconds. Negative timestamps MAY be used.
 
 #### Strings
 
@@ -109,8 +164,7 @@ Strings MUST only consist of valid UTF-8 characters and MAY be zero length. NULL
 
 Labels are key-value pairs consisting of strings.
 
-// TODO: I think one underscore as old is better? Sounds like there wasn't particular reason for "two"
-Label names beginning with two underscores are RESERVED and MUST NOT be used unless specified by this standard. Such Label names MAY be used in place of TYPE and UNIT metadata in cases where MetricFamilies' metadata might otherwise be conflicting, such as metric federation cases.
+Label names beginning with one or more underscores are RESERVED and MUST NOT be used unless specified by this standard. Such Label names MAY be used in place of TYPE and UNIT metadata in cases where MetricFamilies' metadata might otherwise be conflicting, such as metric federation cases.
 
 // MAYBE: Link to where we explain "UTF-8 metrics may reduce usability"
 Label names SHOULD follow the restrictions in the ABNF section under the `label-name` section. Label names MAY be any quoted escaped UTF-8 string as described in the ABNF section. Be aware that exposing UTF-8 metrics may reduce usability.
@@ -125,7 +179,7 @@ A LabelSet MUST consist of Labels and MAY be empty. Label names MUST be unique w
 
 Exemplars are references to data outside of the MetricSet. A common use case are IDs of program traces.
 
-Exemplars MUST consist of a LabelSet and a Number value, and MUST have a timestamp. The LabelSet SHOULD NOT contain any Label names included in the Metric's LabelSet. The timestamp SHOULD be before or equal to the Sample's timestamp, if present. The timestamp SHOULD be after or equal to the Sample's start timestamp, if present.
+Exemplars MUST consist of a LabelSet and a Number value, and MUST have a timestamp. The LabelSet SHOULD NOT contain any Label names included in the Metric's LabelSet. The timestamp SHOULD be before or equal to the Sample's timestamp, if present. The timestamp SHOULD be after or equal to the Sample's start timestamp, if present. Exemplars of a Sample SHOULD have the same Label names to have a consistent style.
 
 The Exemplar's timestamp SHOULD be close to the point when it was observed, but doesn't have to be exact. For example, if getting an exact timestamp is costly, it is acceptable to use some external source or an estimate.
 
@@ -133,8 +187,7 @@ When an exemplar references a [Trace Context](https://www.w3.org/TR/trace-contex
 
 While there's no [hard limit](#size-limits) specified, Exemplar's LabelSet SHOULD NOT be used to transport large data like tracing span details or other event logging.
 
-// TODO: "If you truncate data try to preserve trace id and span id"
-Ingestors MAY truncate the Exemplar's LabelSet or discard Exemplars.
+Ingestors MAY truncate the Exemplar's LabelSet or discard Exemplars. When truncating the Exemplar's LabelSet the `trace_id` and `span_id` SHOULD be preserved even after truncation.
 
 #### Sample
 
@@ -167,8 +220,7 @@ Names SHOULD be in snake_case. Names SHOULD follow the restrictions in the ABNF 
 
 Colons in MetricFamily names are RESERVED to signal that the MetricFamily is the result of a calculation or aggregation of a general purpose monitoring system.
 
-// CHECK: RESERVED in RFC?
-MetricFamily names beginning with underscores are RESERVED and MUST NOT be used unless specified by this standard.
+MetricFamily names beginning with one or more underscores are RESERVED and MUST NOT be used unless specified by this standard.
 
 ###### Discouraged Suffixes
 
@@ -185,7 +237,7 @@ Type specifies the MetricFamily type. Valid values are "unknown", "gauge", "coun
 
 ##### Unit
 
-Unit specifies MetricFamily units. If non-empty, it SHOULD be a suffix of the MetricFamily name separated by an underscore. Further type specific suffixes come after the unit suffix. Exposing metrics without the unit being a suffix of the MetricFamily name directly to end-users may reduce the usability due to confusion about what the metric's unit is.
+Unit specifies MetricFamily units. If non-empty, it SHOULD be a suffix of the MetricFamily name separated by an underscore. Further type specific suffixes come after the unit suffix. Exposing metrics without the unit being a suffix of the MetricFamily name directly to end-users may reduce the usability due to confusion about what the metric's unit is. For recommended unit values see [Units and Base Units](#units-and-base-units).
 
 // TODO: Add link to unit value semantics?
 
@@ -250,8 +302,6 @@ Info metrics are used to expose textual information which SHOULD NOT change duri
 // CONSISTENCY: Last pass of Name/name (definition) 
 The MetricFamily name for Info metrics MUST end in `_info`.
 
-// Likely to kill or example: Info MAY be used to encode ENUMs whose values do not change over time, such as the type of a network interface.
-
 MetricFamilies of Type Info MUST have an empty Unit string.
 
 #### Histogram
@@ -277,7 +327,6 @@ A Histogram SHOULD NOT include NaN measurements as including NaN in the Sum will
 
 If a Histogram includes +Inf or -Inf measurement, then +Inf or -Inf MUST be counted in Count and MUST be added to the Sum, potentially resulting in +Inf, -Inf or NaN in the Sum, the latter for example in case of adding +Inf to -Inf. Note that in this case the Sum of finite measurements is masked until the next reset of the Histogram.
 
-// TODO: Define Explicit Timestamp and Start Timestamp semantics (section).
 A Histogram Sample SHOULD have a Start Timestamp. This can help ingestors discern between new metrics and long-running ones it did not see before.
 
 If the Histogram Metric has Samples with Classic Buckets, the Histogram's Metric's LabelSet MUST NOT have a "le" label name, because in case the Samples are stored as classic histogram series with the `_bucket` suffix, then the "le" label in the Histogram will conflict with the "le" label generated from the bucket thresholds.
@@ -290,8 +339,7 @@ A Histogram Sample MAY have exemplars. The values of exemplars in a Histogram Sa
 
 Every Classic Bucket MUST have a threshold. Classic Bucket thresholds within a Sample MUST be unique. Classic Bucket thresholds MAY be negative.
 
-// CONSISTENCY +-Inf?
-A Classic Bucket MUST count the number of measured values less than or equal to its threshold, including measured values that are also counted in lower buckets. This allows monitoring systems to drop any non-+Inf bucket for performance or anti-denial-of-service reasons in a way that loses granularity but is still a valid Histogram.
+A Classic Bucket MUST count the number of measured values less than or equal to its threshold, including measured values that are also counted in lower buckets. This allows monitoring systems to drop any bucket other than the +Inf bucket for performance or anti-denial-of-service reasons in a way that loses granularity but is still a valid Histogram.
 
 As an example, for a metric representing request latency in seconds with Classic Buckets and thresholds 1, 2, 3, and +Inf, it follows that value_1 <= value_2 <= value_3 <= value_+Inf. If ten requests took one second each, the values of the 1, 2, 3, and +Inf buckets will be all equal to 10.
 
@@ -329,7 +377,6 @@ The next positive Native Bucket (index `i+1` relative to the bucket from the pre
 
 The negative Native Bucket that contains MinFloat64 (according to the boundary formulas above) has a lower inclusive limit of MinFloat64 (rather than the limit calculated by the formulas above, which would underflow float64).
 
-// MAYBE: kind of undeflow?
 The next negative Native Bucket (index `i+1` relative to the bucket from the previous item) has an upper exclusive limit of MinFloat64 and a lower inclusive limit of -Inf. (It could be called a negative Native overflow Bucket.)
 
 Native Buckets beyond the +Inf and -Inf buckets described above MUST NOT be used.
@@ -349,9 +396,9 @@ GaugeHistograms measure current distributions. Common examples are how long item
 
 A GaugeHistogram Sample MUST contain Gcount, Gsum values.
 
-The GCount value MUST be equal to the number of measurements currently in the GaugeHistogram. The GCount is a gauge semantically. The GCount SHOULD be an integer. The GCount SHOULD NOT be -Inf, +Inf, NAN, or negative.
+The Gcount value MUST be equal to the number of measurements currently in the GaugeHistogram. The Gcount is a gauge semantically. The Gcount SHOULD be an integer. The Gcount SHOULD NOT be -Inf, +Inf, NAN, or negative.
 
-Float and negative GCount is allowed to make it possible to expose results of arithmetic operations on GaugeHistograms, such as the rate of change of a Histogram over time.
+Float and negative Gcount is allowed to make it possible to expose results of arithmetic operations on GaugeHistograms, such as the rate of change of a Histogram over time.
 
 The Gsum value MUST be equal to the sum of all the measured values currently in the GaugeHistogram. The Gsum is a gauge semantically.
 
@@ -377,14 +424,12 @@ The exemplars for a GaugeHistogram follow all the same rules as for a Histogram.
 
 Summaries also measure distributions of discrete events and MAY be used when Histograms are too expensive and a small number of precomputed quantiles is sufficient.
 
-// DISCUSSION: Main reason is hard to migrate 
-Summaries SHOULD NOT be used, because quantiles are not aggregatable and the user often can not deduce what timeframe they cover. They MAY be used for backwards compatibility, because some existing instrumentation libraries expose precomputed quantiles and do not support Histograms. 
+Summaries SHOULD NOT be used, because quantiles are not aggregatable and the user often can not deduce what timeframe they cover. They MAY be used for backwards compatibility, because some existing instrumentation libraries expose precomputed quantiles and do not support Histograms.
 
 A Summary Sample MUST contain a Count, Sum and a set of quantiles.
 
 Semantically, Count and Sum values are counters so MUST NOT be NaN or negative. Count MUST be an integer.
 
-// TODO: ST section/fix
 A Summary SHOULD have a Timestamp value called Start Timestamp. This can help ingestors discern between new metrics and long-running ones it did not see before.
 
 Start Timestamp MUST NOT be based on the collection period of quantile values.
@@ -408,7 +453,6 @@ Partial or invalid expositions MUST be considered erroneous in their entirety.
 
 ### Protocol Negotiation
 
-// MAYBE: Require encryption? 1.2 is safe? 
 All ingestor implementations MUST be able to ingest data secured with TLS 1.2 or later. All exposers SHOULD be able to emit data secured with TLS 1.2 or later. Ingestor implementations SHOULD be able to ingest data from HTTP without TLS. All implementations SHOULD use TLS to transmit data.
 
 // TODO: Fix the sentence 
@@ -419,36 +463,34 @@ Push-based negotiation is inherently more complex, as the exposer typically init
 
 ### ABNF
 
-ABNF as per RFC 5234
+ABNF as per RFC 7405.
 
-// MAYBE: Should we update to RFC 7405, in particular the case insensitive bits?
+RFC 7405 is built on RFC 5234, but adds explicit case-sensitivity notation for string literals. The literal `%s"text"` means `text` is case-sensitive, and `%i"text"` means case-insensitive.
 
 "exposition" is the top level token of the ABNF.
 
 ```abnf
-exposition = metricset HASH SP eof [ LF ]
+exposition = metricset HASH SP %s"EOF" [ LF ]
 
 metricset = *metricfamily
 
-metricfamily = *metric-descriptor *metric
+metricfamily = *metric-descriptor *sample
 
-metric-descriptor = HASH SP type SP (metricname / metricname-utf8) SP metric-type LF
-metric-descriptor =/ HASH SP help SP (metricname / metricname-utf8) SP escaped-string LF
-metric-descriptor =/ HASH SP unit SP (metricname / metricname-utf8) SP *metricname-char LF
+metric-descriptor = HASH SP %s"TYPE" SP (metricname / metricname-utf8) SP metric-type LF
+metric-descriptor =/ HASH SP %s"HELP" SP (metricname / metricname-utf8) SP escaped-string LF
+metric-descriptor =/ HASH SP %s"UNIT" SP (metricname / metricname-utf8) SP *metricname-char LF
 
-metric-type = counter / gauge / histogram / gaugehistogram / stateset
-metric-type =/ info / summary / unknown
+metric-type = %s"counter" / %s"gauge" / %s"histogram" / %s"gaugehistogram" / %s"stateset"
+metric-type =/ %s"info" / %s"summary" / %s"unknown"
 
-metric = metricname-and-labels SP sample
-
-sample = value [SP timestamp] [SP start-timestamp] *exemplar LF
+sample = metricname-and-labels SP value [SP timestamp] [SP start-timestamp] *exemplar LF
 
 value = number / "{" composite-value "}"
 
 timestamp = realnumber
 
 ; Lowercase st @ timestamp
-start-timestamp = %d115.116 "@" timestamp
+start-timestamp = %s"st" "@" timestamp
 
 exemplar = SP HASH SP labels-in-braces SP number SP timestamp
 
@@ -456,19 +498,17 @@ metricname-and-labels = metricname [labels-in-braces] / name-and-labels-in-brace
 labels-in-braces = "{" [label *(COMMA label)] "}"
 name-and-labels-in-braces = "{" metricname-utf8 *(COMMA label) "}"
 
-label = label-key EQ DQUOTE escaped-string DQUOTE
+label = label-key "=" DQUOTE escaped-string DQUOTE
 
 ; Number value
 number = realnumber
 ; Case insensitive
-number =/ [SIGN] ("inf" / "infinity")
-number =/ "nan"
+number =/ [SIGN] (%i"inf" / %i"infinity")
+number =/ %i"nan"
 
 ; Real floats
-; Not 100% sure this captures all float corner cases
 ; Leading 0s explicitly okay
-realnumber = [SIGN] 1*DIGIT
-realnumber =/ [SIGN] 1*DIGIT ["." *DIGIT] [ "e" [SIGN] 1*DIGIT ]
+realnumber = [SIGN] 1*DIGIT ["." *DIGIT] [ "e" [SIGN] 1*DIGIT ]
 realnumber =/ [SIGN] *DIGIT "." 1*DIGIT [ "e" [SIGN] 1*DIGIT ]
 
 ; Integers
@@ -478,24 +518,7 @@ non-negative-integer = ["+"] 1*"0" / ["+"] positive-integer
 positive-integer = *"0" positive-digit *DIGIT
 positive-digit = "1" / "2" / "3" / "4" / "5" / "6" / "7" / "8" / "9"
 
-; RFC 5234 is case insensitive.
-; Uppercase
-eof = %d69.79.70
-type = %d84.89.80.69
-help = %d72.69.76.80
-unit = %d85.78.73.84
-; Lowercase
-counter = %d99.111.117.110.116.101.114
-gauge = %d103.97.117.103.101
-histogram = %d104.105.115.116.111.103.114.97.109
-gaugehistogram = gauge histogram
-stateset = %d115.116.97.116.101.115.101.116
-info = %d105.110.102.111
-summary = %d115.117.109.109.97.114.121
-unknown = %d117.110.107.110.111.119.110
-
 BS = "\"
-EQ = "="
 COMMA = ","
 HASH = "#"
 SIGN = "-" / "+"
@@ -527,47 +550,43 @@ composite-value = histogram-value / gauge-histogram-value / summary-value
 
 ; Histograms
 histogram-value = h-count "," h-sum "," histogram-buckets
-gauge-histogram-value = gh-count "," gh-sum "," histogram-buckets
+gauge-histogram-value = %s"g" h-count "," %s"g" h-sum "," histogram-buckets
 
 ; count:x
-h-count = %d99.111.117.110.116 ":" number
-; gcount:x
-gh-count = %d103 h-count
+h-count = %s"count" ":" number
 ; sum:f allows real numbers and +-Inf and NaN
-h-sum = %d115.117.109 ":" number
-; gsum:x
-gh-sum = %d103 h-sum
+h-sum = %s"sum" ":" number
 
 histogram-buckets = classic-buckets / native-buckets [ "," classic-buckets ]
 
 ; bucket:[...,+Inf:v] The +Inf bucket is required.
-classic-buckets = %d98.117.99.107.101.116 ":" "[" [ ch-le-counts "," ] ch-pos-inf-bucket "]"
+classic-buckets = %s"bucket" ":" "[" [ ch-le-counts "," ] ch-pos-inf-bucket "]"
 ch-le-counts = (ch-neg-inf-bucket / ch-le-bucket) *("," ch-le-bucket)
-ch-pos-inf-bucket = "+" %d73.110.102 ":" number
-ch-neg-inf-bucket = "-" %d73.110.102 ":" number
+ch-pos-inf-bucket = "+" %s"Inf" ":" number
+ch-neg-inf-bucket = "-" %s"Inf" ":" number
 ch-le-bucket = realnumber ":" number
 
 ; schema:3,zero_threshold:1e-128,zero_count:2,negative_spans:[1:1],negative_buckets:[2],positive_spanes:[-3:1,2:2],positive_buckets:[3,1,0]
 native-buckets = nh-schema "," nh-zero-threshold "," nh-zero-count [ "," nh-negative-spans "," nh-negative-buckets ] [ "," nh-positive-spans "," nh-positive-buckets ]
 
 ; schema:i
-nh-schema = %d115.99.104.101.109.97 ":" integer
+nh-schema = %s"schema" ":" integer
 ; zero_threshold:f
-nh-zero-threshold = %d122.101.114.111 "_" %d116.104.114.101.115.104.111.108.100 ":" realnumber
+nh-zero-threshold = %s"zero_threshold" ":" realnumber
 ; zero_count:x
-nh-zero-count = %d122.101.114.111 "_" %d99.111.117.110.116 ":" number
+nh-zero-count = %s"zero_count" ":" number
 ; negative_spans:[1:2,3:4] and positive_spans:[-3:1,2:2]
-nh-negative-spans = %d110.101.103.97.116.105.118.101 "_" %d115.112.97.110.115 ":" "[" [nh-spans] "]"
-nh-positive-spans = %d112.111.115.105.116.105.118.101 "_" %d115.112.97.110.115 ":" "[" [nh-spans] "]"
+nh-negative-spans = %s"negative_spans" ":" "[" [nh-spans] "]"
+nh-positive-spans = %s"positive_spans" ":" "[" [nh-spans] "]"
 ; Spans hold offset and length. The offset can start from any index, even
 ; negative, however subsequent spans can only advance the index, not decrease it.
 nh-spans = nh-start-span *("," nh-span)
-nh-start-span = integer ":" positive-integer
-nh-span = non-negative-integer ":" positive-integer
+nh-start-span = integer ":" non-negative-integer
+nh-span = non-negative-integer ":" non-negative-integer
 
 ; negative_buckets:[1,2,3] and positive_buckets:[1,2,3]
-nh-negative-buckets = %d110.101.103.97.116.105.118.101 "_" %d98.117.99.107.101.116.115 ":" "[" [nh-buckets] "]"
-nh-positive-buckets = %d112.111.115.105.116.105.118.101 "_" %d98.117.99.107.101.116.115 ":" "[" [nh-buckets] "]"
+nh-negative-buckets = %s"negative_buckets" ":" "[" [nh-buckets] "]"
+nh-positive-buckets = %s"positive_buckets" ":" "[" [nh-buckets] "]"
 
 nh-buckets = number *("," number)
 
@@ -577,11 +596,11 @@ nh-buckets = number *("," number)
 summary-value = cs-count "," cs-sum "," cs-quantile
 
 ; count:x where x is a number
-cs-count = %d99.111.117.110.116 ":" number
+cs-count = %s"count" ":" number
 ; sum:x where x is a real number or +-Inf or NaN
-cs-sum = %d115.117.109 ":" number
+cs-sum = %s"sum" ":" number
 ; quantile:[...]
-cs-quantile = %d113.117.97.110.116.105.108.101 ":" "[" [ cs-q-counts ] "]"
+cs-quantile = %s"quantile" ":" "[" [ cs-q-counts ] "]"
 cs-q-counts = cs-q-count *("," cs-q-count)
 cs-q-count = realnumber ":" number
 ```
@@ -648,9 +667,12 @@ Complete example:
 
 #### Escaping
 
-Where the ABNF notes escaping, the following escaping MUST be applied Line feed, `\n` (0x0A) -> literally `\\n` (Bytecode 0x5c 0x6e) Double quotes -> `\\"` (Bytecode 0x5c 0x22) Backslash -> `\\\\` (Bytecode 0x5c 0x5c)
+Where the ABNF notes escaping, the following escaping MUST be applied:
+* Line feed, `\n` (0x0A) -> literally `\n` (Bytecode 0x5c 0x6e)
+* Double quotes -> `\"` (Bytecode 0x5c 0x22)
+* Backslash -> `\\` (Bytecode 0x5c 0x5c)
 
-A double backslash SHOULD be used to represent a backslash character. A single backslash SHOULD NOT be used for undefined escape sequences. As an example, `\\\\a` is equivalent and preferable to `\\a`.
+A double backslash SHOULD be used to represent a backslash character. A single backslash SHOULD NOT be used for undefined escape sequences. As an example, `\\a` is equivalent and preferable to `\a`.
 
 Escaping MUST also be applied to quoted UTF-8 strings.
 
@@ -667,6 +689,10 @@ CompositeValue is represented as structured data with fields. There MUST NOT be 
 #### Timestamps
 
 Timestamps SHOULD NOT use exponential float rendering for timestamps if nanosecond precision is needed as rendering of a float64 does not have sufficient precision, e.g. `1604676851.123456789`.
+
+#### Exemplars
+
+Exemplars without Labels MUST represent an empty LabelSet as {}.
 
 ### MetricFamily
 
@@ -1059,10 +1085,6 @@ If the exposer is keeping a separate set of exemplars for Classic and Native Buc
 
 If present, the Sample's Start Timestamp MUST be inlined with the Sample with a `st@` prefix. If the value's timestamp is present, the Start Timestamp MUST be added right after it. If exemplars are present, the Start Timestamp MUST be added before it.
 
-Exemplars without Labels MUST represent an empty LabelSet as {}.
-
-Exemplars of a Sample SHOULD have the same Label names to have a consistent style.
-
 An example of a Histogram with Native Buckets and Start Timestamp that has multiple Exemplars:
 
 ```openmetrics-add-eof
@@ -1146,17 +1168,17 @@ How ingestors discover which exposers exist, and vice-versa, is out of scope for
 // MINOR: on top of https://github.com/prometheus/docs/pull/2905/changes#r2963439248 (UTF8 and MetricName == MF name)
 ### Extensions and Improvements
 
-This first version of OpenMetrics is based upon well established and de facto standard Prometheus text format 0.0.4, deliberately without adding major syntactic or semantic extensions, or optimisations on top of it. For example no attempt has been made to make the text representation of Histogram buckets more compact, relying on compression in the underlying stack to deal with their repetitive nature.
+This second version of OpenMetrics is based upon the well-established de facto standard [Prometheus exposition formats](https://prometheus.io/docs/instrumenting/exposition_formats/) such as the Prometheus text format 0.0.4, Prometheus Protobuf format, and OpenMetrics 1.0.
 
-This is a deliberate choice, so that the standard can take advantage of the adoption and momentum of the existing user base. This ensures a relatively easy transition from the Prometheus text format 0.0.4.
+This version introduces major changes to the first version to improve reliability, performance, compatibility with the Prometheus Protobuf format and the OpenTelemetry data model and naming conventions. At the same time, the format retains the ability to expose telemetry in a simple way and to be human-readable. This format is close enough to the previous version, the Prometheus query language, and the data model so as to ease the transition.
 
-It also ensures that there is a basic standard which is easy to implement. This can be built upon in future versions of the standard. The intention is that future versions of the standard will always require support for this 1.0 version, both syntactically and semantically.
+It also ensures that there is a basic standard which is easy to implement. This can be built upon in future versions of the standard. The intention is that future minor versions of the standard will always require support for this 2.0 version, both syntactically and semantically.
 
-We want to allow monitoring systems to get usable information from an OpenMetrics exposition without undue burden. If one were to strip away all metadata and structure and just look at an OpenMetrics exposition as an unordered set of samples that should be usable on its own. As such, there are also no opaque binary types, such as sketches or t-digests which could not be expressed as a mix of gauges and counters as they would require custom parsing and handling.
+We want to allow monitoring systems to get usable information from an OpenMetrics exposition without undue burden. If one were to strip away all metadata and structure and just look at an OpenMetrics exposition as an unordered set of samples, it should be usable on its own.
 
-This principle is applied consistently throughout the standard. For example it is encouraged that a MetricFamily's unit is duplicated in the name so that the unit is available for systems that don't understand the unit metadata.
+This principle is applied consistently throughout the standard. For example, it is encouraged that a MetricFamily's unit is duplicated in the name so that the unit is available for systems that don't understand the unit metadata. However, as opposed to the previous version, duplicating the unit name and adding the `_total` suffix for counters is not enforced anymore to foster compatibility with OpenTelemetry.
 
-The "le" label is a normal label value, rather than getting its own special syntax, so that ingestors don't have to add special histogram handling code to ingest them. As a further example, there are no composite data types. For example, there is no geolocation type for latitude/longitude as this can be done with separate gauge metrics.
+Each line exposed via this format is self-contained in the sense that the information derived from it is complete and can be put into storage in a meaningful way. This is achieved by the introduction of composite types and moving the Start Timestamp (formerly Created value) in-line. These are major changes from the first version, made necessary by the introduction of native histograms in Prometheus and the performance of parsing the `_created` lines in the previous version.
 
 ### Units and Base Units
 

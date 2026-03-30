@@ -9,7 +9,7 @@
 }
 
 .inner {
-  height: var(--header-height);
+  height: var(--nav-height);
   display: flex;
   justify-content: space-between;
   align-items: center;

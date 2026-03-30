@@ -124,6 +124,10 @@ Valid output formats for the third argument to `prom_query_drilldown`:
 
 Custom formats can be defined. See
 [prom.lib](https://github.com/prometheus/prometheus/blob/release-2.55/console_libraries/prom.lib) for examples.
+ 
+> **Note:** Console templates are deprecated as of Prometheus 3.0 and the console_libraries directory
+> has been removed from the main branch. The link above points to the last version (2.55) where
+> console libraries were available.
 
 ## Graph Library
 

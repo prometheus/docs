@@ -1157,7 +1157,20 @@ We want to allow monitoring systems to get usable information from an OpenMetric
 
 This principle is applied consistently throughout the standard. For example, it is encouraged that a MetricFamily's unit is duplicated in the name so that the unit is available for systems that don't understand the unit metadata. However, as opposed to the previous version, duplicating the unit name and adding the `_total` suffix for counters is not enforced anymore to foster compatibility with OpenTelemetry.
 
+Another change from the previous version is that the Metric name is now required to strictly match its MetricFamily name. In OpenMetrics 1.0, the MetricFamily name was the Metric name without type-specific suffixes such as `_total` or `_bucket`. This change improves parser reliability by making the association between a Metric and its MetricFamily unambiguous.
+
 Each line exposed via this format is self-contained in the sense that the information derived from it is complete and can be put into storage in a meaningful way. This is achieved by the introduction of composite types and moving the Start Timestamp (formerly Created value) in-line. These are major changes from the first version, made necessary by the introduction of native histograms in Prometheus and the performance of parsing the `_created` lines in the previous version.
+
+A summary of notable changes from OpenMetrics 1.0:
+
+- Start Timestamp moved inline with `st@` notation, replacing separate `_created` samples.
+- Metric name must exactly match its MetricFamily name; implicit suffix stripping is removed.
+- `_total` suffix for Counters and unit suffixes changed from MUST to SHOULD.
+- Histogram, GaugeHistogram, and Summary values consolidated into a single CompositeValue line; Count and Sum are now required.
+- Native Histograms with exponential bucket schemas introduced.
+- UTF-8 metric and label names allowed with quoting.
+- Exemplar timestamps are now mandatory; multiple exemplars per sample are allowed.
+- Protobuf format specification removed.
 
 ### Units and Base Units
 

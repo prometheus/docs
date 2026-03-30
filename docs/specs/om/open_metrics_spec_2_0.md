@@ -74,8 +74,12 @@ This section MUST be read together with the ABNF section. In case of disagreemen
 
 ```mermaid
 classDiagram
-    class MetricSet
-    class MetricFamily
+    class MetricSet {}
+    class MetricFamily {
+        +String Name
+        +String Help
+        +String Unit
+    }
     class MetricFamilyType {
         <<enumeration>>
         gauge
@@ -87,39 +91,51 @@ classDiagram
         summary
         unknown
     }
+    class MetricGroup{
+        <<stateset>> 
+    }
     class Metric
     class LabelSet
-    class Label
+    class Label{
+        +String Name
+        +String Value
+    }
     class Sample
-    class Timestamp
+    class Timestamp{
+        +Float UnixEpochSeconds
+    }
     class Exemplar
-    class SampleValue {
+    class SampleValue{
         <<abstract>>
     }
-    class Number
+    class Number{
+        +Float|Integer
+    }
     class CompositeValue
     class HistogramValue
     class GaugeHistogramValue
     class SummaryValue
 
     MetricSet "1" --> "0..*" MetricFamily
-    MetricFamily "1" --> "1" MetricFamilyType : type
-    MetricFamily "1" --> "0..*" Metric
-    Metric "1" --> "1" LabelSet
-    Metric "1" --> "1..*" Sample
-    LabelSet "1" --> "0..*" Label
-    Sample --> "1" SampleValue : value
-    Sample --> "0..1" Timestamp : timestamp
-    Sample --> "0..1" Timestamp : start timestamp
-    Sample --> "0..*" Exemplar
+    MetricFamily "1" --> "1" MetricFamilyType: Type
+    MetricFamily "1" --> "0..*" Metric: Metrics
+    MetricFamily "1" --> "0..*" MetricGroup: Metric Groups
+    MetricGroup "1" --> "1..*" Metric: Metrics
+    Metric "1" --> "1" LabelSet: Labels
+    Metric "1" --> "1..*" Sample: Samples
+    LabelSet "1" --> "0..*" Label: Labels
+    Sample --> "1" SampleValue : Value
+    Sample --> "0..1" Timestamp : Timestamp
+    Sample --> "0..1" Timestamp : StartTimestamp
+    Sample --> "0..*" Exemplar : Exemplars
     SampleValue <|-- Number
     SampleValue <|-- CompositeValue
     CompositeValue <|-- HistogramValue
     CompositeValue <|-- GaugeHistogramValue
     CompositeValue <|-- SummaryValue
-    Exemplar --> "1" LabelSet
-    Exemplar --> "1" Number : value
-    Exemplar --> "1" Timestamp
+    Exemplar --> "1" LabelSet : Labels
+    Exemplar --> "1" Number : Value
+    Exemplar --> "1" Timestamp : Timestamp
 ```
 
 ### Data Types

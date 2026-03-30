@@ -54,7 +54,7 @@ const trainingProviders: ProviderCardProps[] = [
   },
   {
     name: "Astrona",
-    logo: "/assets/commercial-support-logos/astrona.io-logo.jpg",
+    logo: "/assets/commercial-support-logos/astrona.io-logo.png",
     url: "https://astrona.io/exams/pca",
   },
 ];

@@ -1149,7 +1149,9 @@ How ingestors discover which exposers exist, and vice-versa, is out of scope for
 
 ### Failure Modes
 
-This specification advocates for transactional processing: any encoding, decoding or validation errors must reject whole MetricSet ingestion. No scrape is better than inaccurate scrape and partial metric view breaking the transactionality e.g. scraping portion of the StateSet MetricGroup or scraping only one Counter out of two that are used aggregated in a single an alert's expression.
+This specification advocates for transactional processing: any encoding, decoding, or validation errors must reject the whole MetricSet ingestion. A failed scrape is better than an inaccurate scrape or a partial metric view that breaks transactionality (e.g., scraping a portion of a StateSet MetricGroup, or scraping only one Counter out of two that are aggregated in a single alert expression).
+
+There's one exception to this rule: failures specific to exemplars should not cause the entire exposition to fail. If an exemplar is malformed or invalid, it should be dropped or ignored, allowing the valid metric data to be ingested.
 
 ### Extensions and Improvements
 

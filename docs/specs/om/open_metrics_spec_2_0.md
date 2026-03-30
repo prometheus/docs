@@ -1,8 +1,7 @@
 ---
-title: OpenMetrics 2.0
+title: OpenMetrics 2.0 [EXPERIMENTAL]
 sort_rank: 3
 nav_title: "2.0"
-hide_in_nav: true
 author:
     - email: arthursens2005@gmail.com
       ins: A. Silva Sens

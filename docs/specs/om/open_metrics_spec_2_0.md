@@ -691,6 +691,17 @@ There MUST NOT be an explicit separator between MetricFamilies. The next MetricF
 
 MetricFamilies MUST NOT be interleaved.
 
+The same MetricFamily's Name and Metric's Name SHOULD have the same quoting.
+
+An example that would violate this:
+
+```openmetrics-add-eof
+# TYPE "read_errors" counter
+# HELP read_errors The number of errors in the read path for fooDb.
+{"read_errors","service.name"="my_service"} 3482
+read_errors{"service.name"="my_service2"} 123
+```
+
 #### MetricFamily metadata
 
 There are four pieces of metadata: The MetricFamily name, TYPE, UNIT and HELP. An example of the metadata for a counter Metric called `foo_total` is:

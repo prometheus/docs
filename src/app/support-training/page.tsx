@@ -52,6 +52,11 @@ const trainingProviders: ProviderCardProps[] = [
     logo: "/assets/commercial-support-logos/kodekloud-logo.svg",
     url: "https://kodekloud.com/courses/prometheus-certified-associate-pca/",
   },
+  {
+    name: "Astrona",
+    logo: "/assets/commercial-support-logos/astrona.io-logo.jpg",
+    url: "https://astrona.io/exams/pca",
+  },
 ];
 
 const commercialSupportProviders: ProviderCardProps[] = [

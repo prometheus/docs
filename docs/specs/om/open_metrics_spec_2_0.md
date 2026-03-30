@@ -152,6 +152,12 @@ Other MetricFamily Types MUST use Numbers.
 
 Timestamps MUST be Unix Epoch in seconds. Timestamps SHOULD be floating point to represent sub-second precision, for example milliseconds or microseconds. Negative timestamps MAY be used.
 
+There are few places in this standard that use Timestamps:
+
+* Exemplar's Timestamp
+* Sample's Timestamp
+* Sample's Start Timestamp
+
 #### Strings
 
 Strings MUST only consist of valid UTF-8 characters and MAY be zero length. NULL (ASCII 0x0) MUST be supported.
@@ -186,9 +192,11 @@ Ingestors MAY truncate the Exemplar's LabelSet or discard Exemplars. When trunca
 
 #### Sample
 
-A Sample is a single data point within a Metric. It MUST have a Value, MAY have a Timestamp. It MAY include Exemplars and MAY have a start timestamp, depending on the MetricFamily Type.
+A Sample is a single data point within a Metric. It MUST have a Value, MAY have a Timestamp. It MAY include Exemplars and MAY have a Start Timestamp, depending on the MetricFamily Type.
 
-Samples SHOULD NOT have explicit timestamps.
+Samples SHOULD NOT have Timestamps. See [Exposing Timestamps](#exposing-timestamps) for why this is not recommended. If present, a Sample's Timestamp specifies when the value was observed.
+
+If present, a Sample's Start Timestamp SHOULD specify when the measurement period started. This can help ingestors discern between new metrics and long-running ones it did not see before and detect counter resets even when the counter value has not decreased between ingestions.
 
 #### Metric
 
@@ -262,9 +270,9 @@ Counters measure discrete events. Common examples are the number of HTTP request
 
 The MetricFamily name for Counters SHOULD end in `_total`. Exposing metrics without a `_total` suffix may reduce the usability due to confusion about what the metric's Type is.
 
-A Sample in a Metric with the Type Counter SHOULD have a Timestamp value called Start Timestamp. This can help ingestors discern between new metrics and long-running ones it did not see before.
+A Sample in a Metric with the Type Counter SHOULD have a Start Timestamp.
 
-A Sample in a Metric with the Type Counter MUST have a Number value which is non-NaN. The value MUST be monotonically non-decreasing over time, unless it is reset to 0, and start from 0. The value MAY reset its value to 0. If present, the corresponding Start Timestamp MUST also be set to the timestamp of the reset.
+A Sample in a Metric with the Type Counter MUST have a Number value which is non-NaN. The value MUST be monotonically non-decreasing over time, unless it is reset to 0, and start from 0. The value MAY reset its value to 0. If present, the corresponding Start Timestamp MUST also be set to the approximate reset time.
 
 A Sample in a Metric with the type Counter MAY have exemplars.
 
@@ -314,7 +322,7 @@ A Histogram SHOULD NOT include NaN measurements as including NaN in the Sum will
 
 If a Histogram includes +Inf or -Inf measurement, then +Inf or -Inf MUST be counted in Count and MUST be added to the Sum, potentially resulting in +Inf, -Inf or NaN in the Sum, the latter for example in case of adding +Inf to -Inf. Note that in this case the Sum of finite measurements is masked until the next reset of the Histogram.
 
-A Histogram Sample SHOULD have a Start Timestamp. This can help ingestors discern between new metrics and long-running ones it did not see before.
+A Histogram Sample SHOULD have a Start Timestamp.
 
 If the Histogram Metric has Samples with Classic Buckets, the Histogram's Metric's LabelSet MUST NOT have a "le" label name, because in case the Samples are stored as classic histogram series with the `_bucket` suffix, then the "le" label in the Histogram will conflict with the "le" label generated from the bucket thresholds.
 
@@ -416,7 +424,7 @@ A Summary Sample MUST contain a Count, Sum and a set of quantiles.
 
 Semantically, Count and Sum values are counters so MUST NOT be NaN or negative. Count MUST be an integer.
 
-A Summary SHOULD have a Timestamp value called Start Timestamp. This can help ingestors discern between new metrics and long-running ones it did not see before.
+A Summary SHOULD have a Start Timestamp.
 
 Start Timestamp MUST NOT be based on the collection period of quantile values.
 

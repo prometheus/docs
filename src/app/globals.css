@@ -54,6 +54,21 @@ pre > code > span {
 }
 
 .markdown-content {
+  .mermaid-diagram {
+    overflow-x: auto;
+    padding: 0.75rem;
+    margin: 1rem 0;
+    border-radius: 0.5rem;
+    border: 1px solid light-dark(
+      var(--mantine-color-gray-3),
+      var(--mantine-color-dark-4)
+    );
+
+    svg {
+      height: auto;
+    }
+  }
+
   img:not(.no-markdown-image-styles),
   video {
     max-width: 90%;

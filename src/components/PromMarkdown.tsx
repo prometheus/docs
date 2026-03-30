@@ -1,4 +1,6 @@
 import rehypeConfigLinker from "@/rehypeConfigLinker";
+import rehypeMermaid from "@/rehypeMermaid";
+import Mermaid from "@/components/Mermaid";
 import {
   em,
   Anchor,
@@ -82,6 +84,8 @@ export default async function PromMarkdown({
               // Don't link top-level page headings (h1).
               test: (el) => el.tagName !== "h1",
             }),
+          // Convert mermaid code blocks into placeholders for client-side rendering.
+          rehypeMermaid,
           // Highlight code blocks with Shiki.
           [
             rehypeShiki,
@@ -205,6 +209,18 @@ export default async function PromMarkdown({
             const { src, node: _node, ...rest } = props;
             // eslint-disable-next-line jsx-a11y/alt-text
             return <img {...rest} src={normalizeImgSrc(src)} />;
+          },
+          div: (props) => {
+            const { children, node: _node, ...rest } = props;
+
+            if (rest["data-mermaid-chart"] === "true") {
+              const chart = Children.toArray(children)
+                .filter((child): child is string => typeof child === "string")
+                .join("");
+              return <Mermaid chart={chart} />;
+            }
+
+            return <div {...rest}>{children}</div>;
           },
           pre: (props) => {
             const { children, node, ...rest } = props;

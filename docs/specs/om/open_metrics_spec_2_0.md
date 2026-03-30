@@ -743,9 +743,9 @@ A valid, but discouraged example, for `foo_seconds_total` counter and a set of u
 
 ```openmetrics-add-eof
 # TYPE foo_seconds_total counter
-foo_seconds_total
-foo_milliseconds_total
-foo_count
+foo_seconds_total 1
+foo_milliseconds_total 2
+foo_count 3
 ```
 
 #### Metric

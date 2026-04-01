@@ -226,7 +226,7 @@ MetricFamily names beginning with one or more underscores are RESERVED and MUST 
 
 ###### Discouraged Suffixes
 
-MetricFamily name SHOULD NOT end with `_count`, `_sum`, `_gcount`, `_gsum`, `_bucket`. Specifically, a name SHOULD NOT create a MetricName collision when converted to [the OpenMetrics 1.0 Text](https://prometheus.io/docs/specs/om/open_metrics_spec). Ingestors MAY reject such MetricFamily.
+MetricFamily name SHOULD NOT end with `_count`, `_sum`, `_gcount`, `_gsum`, `_bucket`. Specifically, a name SHOULD NOT create a MetricName collision when converted to [the OpenMetrics 1.0 Text](https://prometheus.io/docs/specs/om/open_metrics_spec). Ingestors MAY [reject the MetricSet](#failure-modes) with such MetricFamily.
 
 A non-compliant example would be a gauge called `foo_bucket` and a histogram called `foo`. Exposers negotiating the older OpenMetrics or Text formats, or ingestors which support only the older data model could end up storing the `foo` histogram in the classic representation (`foo_bucket`, `foo_count`, `foo_sum`), which would clash with the gauge and cause a scrape rejection or dropped data.
 
@@ -440,7 +440,7 @@ A Sample in a metric with the Unknown Type MUST have a Number or CompositeValue 
 
 The OpenMetrics formats are Regular Chomsky Grammars, making writing quick and small parsers possible.
 
-Partial or invalid expositions MUST be considered erroneous in their entirety.
+Partial or invalid expositions MUST be considered [erroneous in their entirety](#failure-modes).
 
 > NOTE: Previous versions of [OpenMetrics](https://prometheus.io/docs/specs/om/open_metrics_spec/#protobuf-format) used to specify a [OpenMetric protobuf format](https://github.com/prometheus/OpenMetrics/blob/3bb328ab04d26b25ac548d851619f90d15090e5d/proto/openmetrics_data_model.proto). OpenMetrics 2.0 does not include the protobuf representation. For available formats, including the official [Prometheus protobuf wire format](https://prometheus.io/docs/instrumenting/exposition_formats/#protobuf-format), see [exposition formats documentation](https://prometheus.io/docs/instrumenting/exposition_formats).
 
@@ -1179,6 +1179,12 @@ It is intended to transport snapshots of state at the time of data transmission 
 
 How ingestors discover which exposers exist, and vice-versa, is out of scope for and thus not defined in this standard.
 
+### Failure Modes
+
+This specification advocates for transactional processing: any encoding, decoding, or validation errors must reject the whole MetricSet ingestion. A failed scrape is better than an inaccurate scrape or a partial metric view that breaks transactionality (e.g., scraping a portion of a StateSet MetricGroup, or scraping only one Counter out of two that are aggregated in a single alert expression).
+
+There's one exception to this rule: failures specific to exemplars should not cause the entire exposition to fail. If an exemplar is malformed or invalid, it should be dropped or ignored, allowing the valid metric data to be ingested.
+
 ### Extensions and Improvements
 
 This second version of OpenMetrics is based upon the well-established de facto standard [Prometheus exposition formats](https://prometheus.io/docs/instrumenting/exposition_formats/) such as the Prometheus text format 0.0.4, Prometheus Protobuf format, and OpenMetrics 1.0.
@@ -1475,7 +1481,7 @@ Specific limits run the risk of preventing reasonable use cases, for example whi
 
 On the other hand, an exposition which is too large in some dimension could cause significant performance problems compared to the benefit of the metrics exposed. Thus some guidelines on the size of any single exposition would be useful.
 
-ingestors may choose to impose limits themselves, for in particular to prevent attacks or outages. Still, ingestors need to consider reasonable use cases and try not to disproportionately impact them. If any single value/metric/exposition exceeds such limits then the whole exposition must be rejected.
+Ingestors may choose to impose limits themselves, for in particular to prevent attacks or outages. Still, ingestors need to consider reasonable use cases and try not to disproportionately impact them. If any single value/metric/exposition exceeds such limits then the whole exposition must be [rejected](#failure-modes).
 
 In general there are three things which impact the performance of a general purpose monitoring system ingestion time series data: the number of unique time series, the number of samples over time in those series, and the number of unique strings such as metric names, label names, label values, and HELP. ingestors can control how often they ingest, so that aspect does not need further consideration.
 

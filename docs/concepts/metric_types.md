@@ -70,12 +70,14 @@ remember that the histogram is
 [histograms and summaries](/docs/practices/histograms) for details of histogram
 usage and differences to [summaries](#summary).
 
-NOTE: Beginning with Prometheus v2.40, there is experimental support for native
-histograms. A native histogram requires only one time series, which includes a
+NOTE: Beginning with Prometheus v2.40, native histograms are supported as a stable
+feature. A native histogram requires only one time series, which includes a
 dynamic number of buckets in addition to the sum and count of
 observations. Native histograms allow much higher resolution at a fraction of
-the cost. Detailed documentation will follow once native histograms are closer
-to becoming a stable feature.
+the cost compared to classic histograms. They automatically adjust bucket boundaries
+based on the observed values, eliminating the need to pre-configure bucket ranges.
+For instrumentation details and best practices, see the
+[native histograms documentation](/docs/practices/histograms#native-histograms).
 
 NOTE: Beginning with Prometheus v3.0, the values of the `le` label of classic
 histograms are normalized during ingestion to follow the format of

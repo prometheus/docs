@@ -72,56 +72,6 @@ The word "RESERVED" is used in this document to designate values, names, or fiel
 
 This section MUST be read together with the ABNF section. In case of disagreements between the two, the ABNF's restrictions MUST take precedence.
 
-```mermaid
-classDiagram
-    class MetricSet
-    class MetricFamily
-    class MetricFamilyType {
-        <<enumeration>>
-        gauge
-        counter
-        stateset
-        info
-        histogram
-        gaugehistogram
-        summary
-        unknown
-    }
-    class Metric
-    class LabelSet
-    class Label
-    class Sample
-    class Timestamp
-    class Exemplar
-    class SampleValue {
-        <<abstract>>
-    }
-    class Number
-    class CompositeValue
-    class HistogramValue
-    class GaugeHistogramValue
-    class SummaryValue
-
-    MetricSet "1" --> "0..*" MetricFamily
-    MetricFamily "1" --> "1" MetricFamilyType : type
-    MetricFamily "1" --> "0..*" Metric
-    Metric "1" --> "1" LabelSet
-    Metric "1" --> "1..*" Sample
-    LabelSet "1" --> "0..*" Label
-    Sample --> "1" SampleValue : value
-    Sample --> "0..1" Timestamp : timestamp
-    Sample --> "0..1" Timestamp : start timestamp
-    Sample --> "0..*" Exemplar
-    SampleValue <|-- Number
-    SampleValue <|-- CompositeValue
-    CompositeValue <|-- HistogramValue
-    CompositeValue <|-- GaugeHistogramValue
-    CompositeValue <|-- SummaryValue
-    Exemplar --> "1" LabelSet
-    Exemplar --> "1" Number : value
-    Exemplar --> "1" Timestamp
-```
-
 ### Data Types
 
 #### Sample Values

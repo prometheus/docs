@@ -5,7 +5,7 @@ sort_rank: 1
 
 This guide covers the changes from OpenMetrics (OM) 1.0 to OpenMetrics 2.0 that affect client library (i.e. exposers) implementations. Sections are organized so you can implement changes incrementally, starting with version negotiation and working through metric types, syntax, and metadata. This guide may contain errors, and in any case where this document disagrees with the spec document, **the spec document is the authoritative source of truth**.
 
-> WARNING: OpenMetrics 2.0 is currently experimental (release candidate versions), so some details might change. Track progress at the [OpenMetrics 2.0 work group issue](https://github.com/prometheus/OpenMetrics/issues/276).
+> NOTE: OpenMetrics 2.0 is currently experimental (release candidate versions), so some details might change. Track progress at the [OpenMetrics 2.0 work group issue](https://github.com/prometheus/OpenMetrics/issues/276).
 
 This guide covers the changes most relevant to client library / exposer authors. For the complete specification including ABNF grammar, conformance requirements, and ingester rules, see the full [OpenMetrics 2.0 specification](../specs/om/open_metrics_spec_2_0.md). If you find errors or have questions, file an issue on the [OpenMetrics repository](https://github.com/prometheus/OpenMetrics).
 

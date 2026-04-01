@@ -1,8 +1,7 @@
 ---
-title: OpenMetrics 2.0
+title: OpenMetrics 2.0 [EXPERIMENTAL]
 sort_rank: 3
 nav_title: "2.0"
-hide_in_nav: true
 author:
     - email: arthursens2005@gmail.com
       ins: A. Silva Sens
@@ -31,8 +30,8 @@ author:
 ---
 
 - Version: 2.0.0-rc0
-- Status: Draft
-- Date: TBD
+- Status: Experimental
+- Date: March 2026
 - Authors: Arthur Silva Sens, Bartłomiej Płotka, David Ashpole, György Krajcsovits, Owen Williams, Richard Hartmann
 - Emeritus: Ben Kochie, Brian Brazil, Rob Skillington
 

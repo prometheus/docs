@@ -32,7 +32,7 @@ export OTEL_EXPORTER_OTLP_METRICS_ENDPOINT=http://localhost:9090/api/v1/otlp
 
 Note:
 
-* The [OpenTelemtry specification](https://github.com/open-telemetry/opentelemetry-specification/blob/v1.50.0/specification/protocol/exporter.md#endpoint-urls-for-otlphttp) states that the  OTEL_EXPORTER_OTLP_METRICS_ENDPOINT env var must be used as a base URL. The signal ```/v1/metrics``` is automatically appended
+* The [OpenTelemtry specification](https://github.com/open-telemetry/opentelemetry-specification/blob/v1.50.0/specification/protocol/exporter.md#endpoint-urls-for-otlphttp) states that the  OTEL_EXPORTER_OTLP_METRICS_ENDPOINT env var must be used as a base URL. The signal `/v1/metrics` is automatically appended
 * See also: [opentelemetry-python #2443](https://github.com/open-telemetry/opentelemetry-python/issues/2443)
 
 

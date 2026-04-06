@@ -57,7 +57,7 @@ const SearchResult = ({
           id={`${result.id}-${subIdx}`}
           onClick={() => {
             router.push(
-              subResult.url.replace(/(\/[^?#]+)\.html(?=[?#]|$)/, "$1")
+              subResult.url.replace(/(\/[^?#]+)\.html(?=[?#]|$)/, "$1"),
             );
           }}
         >
@@ -83,7 +83,9 @@ const SearchResult = ({
               opacity={0.7}
               flex={2}
             >
-              {decode(subResult.excerpt.replace(/<\/?mark>/g, ""))}
+              {/* We use plain_excerpt instead of excerpt since we do the highlighting ourselves,
+                  see also https://github.com/Pagefind/pagefind/issues/815 */}
+              {decode(subResult.plain_excerpt)}
             </Highlight>
           </Group>
         </Spotlight.Action>
@@ -95,7 +97,7 @@ const SearchResult = ({
 type PagefindSubResult = {
   title: string;
   url: string;
-  excerpt: string;
+  plain_excerpt: string;
   anchor?: {
     element: string;
     id: string;
@@ -107,7 +109,7 @@ type PagefindSubResult = {
 type PagefindResultData = {
   url: string;
   content: string;
-  excerpt: string;
+  plain_excerpt: string;
   meta: {
     title: string;
     breadcrumbs?: string;
@@ -151,7 +153,7 @@ export default function SpotlightSearch() {
                     Promise.resolve({
                       url: "",
                       content: "",
-                      excerpt: "",
+                      plain_excerpt: "",
                       meta: {
                         title: `Error importing pagefind.js`,
                       },
@@ -159,7 +161,7 @@ export default function SpotlightSearch() {
                         {
                           title: "Error",
                           url: "",
-                          excerpt: `NOTE: Search only works with a static build, not in dev mode. Error: ${e}`,
+                          plain_excerpt: `NOTE: Search only works with a static build, not in dev mode. Error: ${e}`,
                         },
                       ],
                     }),

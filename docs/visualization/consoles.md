@@ -123,7 +123,7 @@ Valid output formats for the third argument to `prom_query_drilldown`:
 * `printf.3g`: Display 3 significant digits.
 
 Custom formats can be defined. See
-[prom.lib](https://github.com/prometheus/prometheus/blob/release-2.55/console_libraries/prom.lib) for examples.
+[prom.lib](https://github.com/prometheus/prometheus/blob/release-2.55/console_libraries/prom.lib) in the Prometheus 2.x branch for examples.
 
 ## Graph Library
 

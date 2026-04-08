@@ -1,6 +1,6 @@
 ---
 title: Introducing the UX Research Working Group
-created_at: 2026-03-04
+created_at: 2026-04-08
 kind: article
 author_name: Amy Super
 ---

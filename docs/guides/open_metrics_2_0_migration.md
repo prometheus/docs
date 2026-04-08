@@ -69,7 +69,7 @@ This means your exposer should continue serving 1.0 format by default and only s
 
 ### Protobuf format removed
 
-OM 2.0 no longer specifies an official protobuf format. You may continue to support the protobuf format for 1.0 (we d, but 2.0 does not contain a new or updated protobuf format.
+OM 2.0 no longer specifies an official protobuf format. You may continue to support the protobuf format for 1.0, but 2.0 does not contain a new or updated protobuf format.
 
 The Prometheus protobuf wire format is still important and maintain, see the [exposition formats documentation](https://prometheus.io/docs/instrumenting/exposition_formats).
 

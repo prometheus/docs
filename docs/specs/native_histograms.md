@@ -665,7 +665,7 @@ message Histogram {
   // Buckets for the classic histogram.
   repeated Bucket bucket = 3 [(gogoproto.nullable) = false]; // Ordered in increasing order of upper_bound, +Inf bucket is optional.
 
-  google.protobuf.Timestamp created_timestamp = 15;
+  google.protobuf.Timestamp start_timestamp = 15;
 
   // Everything below here is for native histograms (also known as sparse histograms).
 
@@ -741,7 +741,7 @@ Note the following:
   `Histogram` proto message, i.e. the existing `Histogram` message got extended
   with fields for native histograms.
 - The fields for the sum and the count of observations and the
-  `created_timestamp` are shared between classic and native histograms and keep
+  `start_timestamp` are shared between classic and native histograms and keep
   working in the same way for both.
 - The format originally did not support classic float histograms. While
   extending the format for native histograms, support for classic float
@@ -946,8 +946,8 @@ If step 2 or 3 have changed the histogram, a reset will be performed once
 `NativeHistogramMinResetDuration` has passed since the last reset, not only to
 remove the buckets but also to return to the initial values for the zero
 threshold and the bucket resolution. Note that this is treated like a reset for
-other reasons in all aspects, including updating the so-called [created
-timestamp](#created-timestamp-handling).
+other reasons in all aspects, including updating the [start
+timestamp](#start-timestamp-handling).
 
 It is tempting to set a very low `NativeHistogramBucketFactor` (e.g. 1.005)
 together with a reasonable `NativeHistogramMaxBucketNumber` (e.g. 160). In this
@@ -1404,7 +1404,7 @@ between chunk size and compression ratio.
 
 Generally, Prometheus considers a counter to have reset whenever its value
 drops from one sample to the next (but see also the [next section about the
-created timestamp](#created-timestamp-handling)). The situation is more complex
+start timestamp](#start-timestamp-handling)). The situation is more complex
 when detecting a counter reset between two histogram samples.
 
 First of all, gauge histograms and counter histograms are explicitly different
@@ -1594,23 +1594,22 @@ by other means. However, due to the complications caused by insertion and
 removal of chunks, out-of-order samples, and overlapping blocks (as explained
 above), this information MAY get lost if a second round of counter reset
 detection is required. (TODO: Currently, this information is reliably lost, see
-TODO above.) A better way to safely mark a counter reset is via created
+TODO above.) A better way to safely mark a counter reset is via start
 timestamps (see next section).
 
-### Created timestamp handling
+### Start timestamp handling
 
-OpenMetrics introduced so-called created timestamps for counters, summaries,
+OpenMetrics introduced the so-called created timestamps for counters, summaries,
 and classic counter histograms. (The term is probably short for “created-at
-timstamp”. The more appropriate term might have been “creation timestamp” or
-“reset timestamp”, but the term “created timestamp” is firmly established by
-now.)
+timestamp”. The more appropriate term might have been “creation timestamp” or
+“reset timestamp”.) The term has since been renamed to "start timestamp".
 
-The created timestamp provides the most recent time the metric was created or
+The start timestamp provides the most recent time the metric was created or
 reset. A [design
 doc](https://github.com/prometheus/proposals/blob/main/proposals/2023-06-13_created-timestamp.md)
-describes how Prometheus handles created timestamps.
+describes how Prometheus handles start timestamps.
 
-Created timestamps are also useful for native histograms. In the same way a
+Start timestamps are also useful for native histograms. In the same way a
 synthetic zero sample is inserted for float counters, a zero value of a
 histogram sample is inserted for counter histograms. A zero value of a
 histogram has no populated buckets, and the sum of observations, the count of

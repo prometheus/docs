@@ -10,38 +10,40 @@ levels.
 If you are new, you might want to check out [how to pick something to
 work on](#how-to-pick-something-to-work-on) first.
 
-If you are an experienced contributor Looking to contribute a change, check the 
+If you are an experienced contributor looking to contribute a change, check the 
 [high level process](#how-to-get-a-pr-merged).
 
 If you have concrete plans for something more involved already, please refer to the [proposal
 process](#proposal-process).
 
-This document is guide for the prometheus/prometheus repository. Much of this 
+This document is guide for the `prometheus/prometheus` repository. Much of this 
 applies to other repos in the Prometheus community, but these projects might 
 have their own guides and rules. For repository-specific information, check out 
 the README.md and CONTRIBUTING.md files of each repository.
 
 ## How to get a PR merged
 
-If you’re working on your first contribution please read this whole document, this section is aimed at experienced Open Source contributors.
+If you’re working on your first contribution, please read this whole document. This section is aimed at experienced open source contributors.
 
-- Test changes locally and consider adding tests for your change.
+- Test changes locally with `make test` and add tests for your change if possible.
+- To avoid lint failures in CI it's useful to run `make common-format` and 
+  `make lint` and fix issues.
 - Commit with `git commit -s` to sign the DCO.
-- Generally, open a PRs against the repositories default branch, i.e. most often 
+- Generally, open a PRs against the repository's default branch, i.e. most often 
   `main` or sometimes `master`. Reviewers will help with exceptions.
-- Reviewers should be assigned automatically, we aim to respond timely but other 
+- Reviewers should be assigned automatically. We aim to respond in a timely manner, but other 
   priorities can create delays.
 - Check the results of failing CI jobs, all are expected to succeed.
 - Reviewers might request changes. Addressing these quickly will improve the 
   turn-around time of the PR.
 
-For more details around our git refer to
-[the Github Guidelines](#github-guidelines).
+For more details around our GitHub process, refer to
+[the GitHub Guidelines](#github-guidelines).
 
 ## Communication channels
 
 The usual [community channels for users](/community) are meant to discuss usage
-of Prometheus including using Prometheus code for non-Prometheus development
+of Prometheus, including using Prometheus code for non-Prometheus development
 (e.g. instrumenting code with a Prometheus instrumentation library).
 Development of Prometheus components themselves happens via other channels as
 described in this section.
@@ -49,7 +51,7 @@ described in this section.
 ### GitHub
 
 Contributions are reviewed in GitHub pull requests. See the [GitHub
-guidelines](github-guidelines) below for details. GitHub issues are often a
+guidelines](#github-guidelines) below for details. GitHub issues are often a
 good way to discuss specific bugs and feature requests. For informal or
 overarching discussions, the other channels below might be more appropriate.
 
@@ -63,7 +65,8 @@ channel names like `#prometheus-...-dev`, e.g. `#prometheus-protobuf-dev`.
 Note that Slack is a silo. The content is not indexed by external search
 engines, there is no easy way to export and archive the content, and even
 read-only access requires a login. Therefore, consider everything in Slack as
-ephemeral and inaccessible for the general public. Important information, like
+ephemeral and inaccessible for the general public. Slack content is also not
+retained forever. Important information, like
 the result of a discussion, should also be published via other channels (e.g.
 on [GitHub](github) or the [mailing list](#developer-mailing-list)) to make it
 accessible and durable. Avoid linking to Slack messages from other media
@@ -100,18 +103,17 @@ you are already a user or even expert on or something you want to become an
 expert on.
 
 The Prometheus community tries to help with identifying good issues to work on 
-in two way:
+in two ways:
 
 1. Look for the label `good-first-issue`. This label identifies work that we 
    think would be a good starting point for any new contributors.
 2. If you are looking for more complex issues to solve look for the 
-   `triage/accepted` label. This label indicates that an issues has been 
+   `triage/accepted` label. This label indicates that an issue has been 
    triaged, all needed information has been gathered and work can begin.
    The labels `triage/needs-triage` and `triage/needs-information` mean that 
    either no one has had time to look at the issue yet or more information is 
-   need. Do not work on issues labeled `triage/needs-triage` or 
-   `triage/needs-information` .See <label proposal> for more details on how we 
-   use labels.
+   needed. Do not work on issues labeled `triage/needs-triage` or 
+   `triage/needs-information`.
 
 ## Proposal process
 
@@ -121,7 +123,7 @@ please read the accepted [proposal proposal](https://github.com/prometheus/propo
 
 ## GitHub guidelines
 
-Commit message should describe the change made in the commit.
+Commit messages should describe the change made in the commit.
 We don't have strong opinions on how large or small commits should be, use your 
 best judgment to make a logical series of changes. Good commits make reviews 
 easier and thus can be merged faster. For example it's a good pattern to have a 
@@ -136,25 +138,26 @@ of Prometheus and open a pull request against the default branch. The default
 branch is usually `main` but can be `master` in some repositories.
 Some situations require a PR against a release branch, e.g. `release-3.5`. The 
 most common situations are fixes for a release candidate for a new release or a 
-fix for a LTS version of Prometheus. If in doubt, ask via one of the channels 
+fix for an LTS version of Prometheus. If in doubt, ask via one of the channels 
 mentioned in this document.
 
 The needed reviewers will be added automatically. Anyone else that should or 
 wants to review a change can be mentioned by their user name in a comment, but 
 please avoid pinging random community members.
 
-We have checks that run on every PR. To merge all checks should succeed. Any 
+We have checks that run on every PR. To merge, all checks should succeed. Any 
 failing checks should be investigated and addressed by the PR author.
 
-Reviewers might request changes, which requires the author to either add commits 
-or rewrite the existing commits. Prometheus defaults to merging PR commits (not 
-rebase or squash), so adding a list of `fixup` commits is not a good idea unless 
-they get rebased or squashed by the PR author. Rebase and squash rewrite gits 
-commit history and authors should be aware of the implications (for example see 
-https://git-scm.com/book/en/v2/Git-Branching-Rebasing). Rebasing a branch for a 
-pull request is generally fine. Only once others have changes based on commits 
-that are not part of the `main` branch yet, commit authors should refrain from 
-rewriting those commits.
+Reviewers might request changes. It is common practice for PRs to evolve with 
+additional fixup commits during review. Reviewers may squash these into a 
+coherent set of commits when merging, but should ensure the final commit 
+messages are meaningful and not auto-generated. Alternatively, reviewers may 
+ask the author to group commits into something reasonable before merging. 
+Rebasing a branch for a pull request is generally fine. Only once others have 
+changes based on commits that are not part of the `main` branch yet, commit 
+authors should refrain from rewriting those commits. If a PR becomes too large 
+or mixes unrelated concerns (e.g. refactoring and logic changes), consider 
+splitting it into separate PRs to make review easier.
 
 ## AI generated contributions
 
@@ -166,7 +169,8 @@ is based upon previous work, it is covered under an appropriate open source
 license and the author has the right under that license to submit that work with 
 modifications. See https://www.linuxfoundation.org/legal/generative-ai for more 
 details.
-Please consider the DCO and carefully review AI generate code before submitting 
+The human author must fully understand the code they are submitting. Please 
+consider the DCO and carefully review AI-generated code before submitting 
 it. We encourage explicitly disclosing AI tool usage, for example by adding an 
 `Assisted-by: <name of AI tool used>` to the respective commits.
 
@@ -183,26 +187,29 @@ Prometheus contributions stick to the following:
 - We have plenty of linters, use `make format`, `make lint` and `make style` to 
   correctly format your code.
 - Use proper English grammar and punctuation. Don’t needlessly abbreviate.
-  BAD: // batchQueue full, try again later
-  GOOD: // The batchQueue is full, so we need to try again later.
-- In markdown, limit line length to 80 characters, instead of one line per 
-  paragraph. It makes commenting in reviews so much easier.
+  - BAD: `// batchQueue full, try again later`
+  - GOOD: `// The batchQueue is full, so we need to try again later.`
+- In Markdown, limit line length to 80 characters, instead of one line per 
+  paragraph, unless the line ends in a URL. It makes commenting in reviews so 
+  much easier.
 
 
 ### Go style guide
 
 Go is the main programming language used in Prometheus and its ecosystem. Go 
-based project tend to follow a very similar style, Prometheus is no exception.  
+based projects tend to follow a very similar style, Prometheus is no exception.  
 https://go.dev/wiki/CodeReviewComments is a great resource for specifics. We 
-have a few rules that are worth mentioning here:
+have a few rules on top of that worth mentioning here:
 
 - Often we put named imports into a separate block. The blocks should be grouped 
   into stdlib / other repos / same repo.
 - Doc comments on exported types are not enforced by the linter (because of too 
   many false positives), but we do care. Use them where they make sense.
-- For long function signatures that require line breaks put closing parentheses 
-  on separate line. For example:
-```
+- Break long function signatures into multiple lines in the following way:
+  End the first line with the opening parenthesis, then put the function
+  parameters on any number of lines as you see fit, followed by a separate
+  line beginning with the closing parenthesis. For example:
+```go
 func (s *shards) sendSamples(
 	ctx context.Context, samples []prompb.TimeSeries,
 	sampleCount, exemplarCount, histogramCount int,
@@ -210,12 +217,17 @@ func (s *shards) sendSamples(
 ) error {
 ```
 **NOT**
-```
-func (s *shards) sendSamples(
-	ctx context.Context, samples []prompb.TimeSeries,
+```go
+func (s *shards) sendSamples(ctx context.Context, samples []prompb.TimeSeries,
 	sampleCount, exemplarCount, histogramCount int,
 	pBuf *proto.Buffer, buf compression.EncodeBuffer, compr compression.Type) error {
 ```
+**OR**
+```go
+func (s *shards) sendSamples(
+    ctx context.Context, samples []prompb.TimeSeries,
+	sampleCount, exemplarCount, histogramCount int,
+	pBuf *proto.Buffer, buf compression.EncodeBuffer, compr compression.Type) error {
 
 ## Developer summit details
 
@@ -280,7 +292,7 @@ attend the summit. We suggest the following tasks:
 
 #### During the summit
 
-During the summit, the Facilitator is here to make sure the meeting runs
+During the summit, the Facilitator is there to make sure that the meeting runs
 smoothly, and that consensus is reached when needed. We suggest the
 following tasks:
 

@@ -70,12 +70,12 @@ export const Header = ({
     onClick?: () => void;
   }) => (
     <Button
-      type="button"
+      component={Link}
+      href="/ask-ai"
       variant="subtle"
       color="gray"
       size="compact-sm"
       className={classes.askAiButton}
-      data-kapa-trigger="ask-ai"
       leftSection={
         <IconSparkles
           style={{ width: rem(16), height: rem(16) }}

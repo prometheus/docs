@@ -8,11 +8,12 @@ import {
   Container,
   TextInput,
   ActionIcon,
+  Button,
   AppShell,
   Popover,
 } from "@mantine/core";
 import Image from "next/image";
-import { IconSearch } from "@tabler/icons-react";
+import { IconSearch, IconSparkles } from "@tabler/icons-react";
 import prometheusLogo from "../assets/prometheus-logo.svg";
 import classes from "./Header.module.css";
 import githubLogo from "../assets/github-logo.svg";
@@ -39,8 +40,10 @@ const links = [
 
 export const Header = ({
   announcement,
+  showAskAi = false,
 }: {
   announcement?: AnnouncementType;
+  showAskAi?: boolean;
 }) => {
   const path = usePathname();
   const [burgerOpened, { toggle: toggleBurger, close: closeBurger }] =
@@ -60,6 +63,33 @@ export const Header = ({
       {link.label}
     </Link>
   ));
+
+  const renderAskAiButton = ({
+    hiddenFrom,
+    onClick,
+  }: {
+    hiddenFrom?: "sm" | "md" | "lg";
+    onClick?: () => void;
+  }) => (
+    <Button
+      type="button"
+      variant="subtle"
+      color="gray"
+      size="compact-sm"
+      className={classes.askAiButton}
+      data-kapa-trigger="ask-ai"
+      leftSection={
+        <IconSparkles
+          style={{ width: rem(16), height: rem(16) }}
+          stroke={1.8}
+        />
+      }
+      hiddenFrom={hiddenFrom}
+      onClick={onClick}
+    >
+      Ask AI
+    </Button>
+  );
 
   const actionIcons = (
     <>
@@ -137,6 +167,7 @@ export const Header = ({
             <Group align="center">
               <Group gap={5} visibleFrom="sm" align="center">
                 {items}
+                {showAskAi && renderAskAiButton({})}
               </Group>
 
               <Group visibleFrom="md" gap="xs">
@@ -190,6 +221,14 @@ export const Header = ({
                 </Popover.Target>
                 <Popover.Dropdown>
                   {items}
+                  {showAskAi && (
+                    <Group m="xs" gap="xs">
+                      {renderAskAiButton({
+                        hiddenFrom: "sm",
+                        onClick: closeBurger,
+                      })}
+                    </Group>
+                  )}
                   <Group m="xs" gap="xs">
                     {actionIcons}
                   </Group>

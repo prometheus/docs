@@ -21,6 +21,8 @@ import "@mantine/code-highlight/styles.layer.css";
 import "@mantine/spotlight/styles.layer.css";
 import "./globals.css";
 import { Header } from "@/components/Header";
+import KapaWidget from "@/components/KapaWidget";
+import { isKapaConfigured } from "@/components/kapa-config";
 import {
   ANNOUNCEMENT_HEIGHT_PX,
   isAnnouncementActive,
@@ -61,6 +63,7 @@ export default function RootLayout({
   const headerHeightPx = activeAnnouncement
     ? BASE_HEADER_HEIGHT_PX + ANNOUNCEMENT_HEIGHT_PX
     : BASE_HEADER_HEIGHT_PX;
+  const kapaConfigured = isKapaConfigured();
 
   return (
     <html
@@ -74,8 +77,12 @@ export default function RootLayout({
       </head>
       <body>
         <MantineProvider theme={theme} defaultColorScheme="auto">
+          <KapaWidget variant="modal" />
           <AppShell header={{ height: "var(--header-height)" }}>
-            <Header announcement={activeAnnouncement} />
+            <Header
+              announcement={activeAnnouncement}
+              showAskAi={kapaConfigured}
+            />
 
             <AppShellMain>
               <Container size="xl" mt="xl" px={{ base: "md", xs: "xl" }}>

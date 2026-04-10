@@ -39,3 +39,7 @@
     );
   }
 }
+
+.askAiButton {
+  font-weight: 500;
+}

@@ -1,5 +1,5 @@
 import Script from "next/script";
-import { getKapaConfig } from "./kapa-config";
+import docsConfig from "../../docs-config";
 
 export type KapaWidgetVariant = "drawer" | "modal" | "page";
 
@@ -7,15 +7,16 @@ type KapaWidgetProps = {
   variant: KapaWidgetVariant;
 };
 
+const WEBSITE_ID = "80cbacc9-0b84-48aa-bfb8-0002270176bf";
+const PROJECT_NAME = "Prometheus";
+const PROJECT_COLOR = "#D86444";
 const ASK_AI_TRIGGER_SELECTOR = "[data-kapa-trigger='ask-ai']";
+const PROJECT_LOGO_URL = new URL(
+  "/assets/prometheus-logo.svg",
+  docsConfig.siteUrl,
+).toString();
 
 export default function KapaWidget({ variant }: KapaWidgetProps) {
-  const config = getKapaConfig();
-
-  if (!config) {
-    return null;
-  }
-
   const triggerProps =
     variant === "page"
       ? {}
@@ -40,10 +41,10 @@ export default function KapaWidget({ variant }: KapaWidgetProps) {
       id="kapa-widget"
       strategy="afterInteractive"
       src="https://widget.kapa.ai/kapa-widget.bundle.js"
-      data-website-id={config.websiteId}
-      data-project-name={config.projectName}
-      data-project-color={config.projectColor}
-      data-project-logo={config.projectLogoUrl}
+      data-website-id={WEBSITE_ID}
+      data-project-name={PROJECT_NAME}
+      data-project-color={PROJECT_COLOR}
+      data-project-logo={PROJECT_LOGO_URL}
       data-button-hide="true"
       {...triggerProps}
       {...variantProps}

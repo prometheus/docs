@@ -40,10 +40,8 @@ const links = [
 
 export const Header = ({
   announcement,
-  showAskAi = false,
 }: {
   announcement?: AnnouncementType;
-  showAskAi?: boolean;
 }) => {
   const path = usePathname();
   const [burgerOpened, { toggle: toggleBurger, close: closeBurger }] =
@@ -167,7 +165,7 @@ export const Header = ({
             <Group align="center">
               <Group gap={5} visibleFrom="sm" align="center">
                 {items}
-                {showAskAi && renderAskAiButton({})}
+                {renderAskAiButton({})}
               </Group>
 
               <Group visibleFrom="md" gap="xs">
@@ -221,14 +219,12 @@ export const Header = ({
                 </Popover.Target>
                 <Popover.Dropdown>
                   {items}
-                  {showAskAi && (
-                    <Group m="xs" gap="xs">
-                      {renderAskAiButton({
-                        hiddenFrom: "sm",
-                        onClick: closeBurger,
-                      })}
-                    </Group>
-                  )}
+                  <Group m="xs" gap="xs">
+                    {renderAskAiButton({
+                      hiddenFrom: "sm",
+                      onClick: closeBurger,
+                    })}
+                  </Group>
                   <Group m="xs" gap="xs">
                     {actionIcons}
                   </Group>

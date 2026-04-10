@@ -75,7 +75,7 @@ export default function RootLayout({
       </head>
       <body>
         <MantineProvider theme={theme} defaultColorScheme="auto">
-          <KapaWidget variant="modal" />
+          <KapaWidget variant="drawer" />
           <AppShell header={{ height: "var(--header-height)" }}>
             <Header announcement={activeAnnouncement} />
 

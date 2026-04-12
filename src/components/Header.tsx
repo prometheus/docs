@@ -141,7 +141,7 @@ export const Header = ({
 
               <Group visibleFrom="md" gap="xs">
                 <TextInput
-                  placeholder="Search"
+                  placeholder="Search / Ask AI"
                   w={220}
                   mx="lg"
                   leftSection={

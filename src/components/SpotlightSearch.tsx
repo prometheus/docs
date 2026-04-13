@@ -13,6 +13,7 @@ import {
 } from "@mantine/core";
 import React, { useState, useEffect, useRef } from "react";
 import { decode } from "html-entities";
+import docsConfig from "../../docs-config";
 
 // Extend Window interface to include pagefind and Kapa
 declare global {
@@ -217,17 +218,19 @@ export default function SpotlightSearch() {
           leftSection={<IconSearch stroke={1.5} />}
           style={{ flex: 1 }}
         />
-        <Button
-          variant="light"
-          size="compact-md"
-          onClick={handleAskAI}
-          leftSection={<IconSparkles size={16} stroke={1.8} />}
-          mr="xs"
-          fw={500}
-          style={{ flexShrink: 0 }}
-        >
-          Ask AI
-        </Button>
+        {docsConfig.kapa && (
+          <Button
+            variant="light"
+            size="compact-md"
+            onClick={handleAskAI}
+            leftSection={<IconSparkles size={16} stroke={1.8} />}
+            mr="xs"
+            fw={500}
+            style={{ flexShrink: 0 }}
+          >
+            Ask AI
+          </Button>
+        )}
       </Group>
       <Spotlight.ActionsList>
         {results.length > 0 ? (

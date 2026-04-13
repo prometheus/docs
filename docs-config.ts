@@ -11,12 +11,15 @@ export default {
     endDate: "2026-04-07",
   },
 
-  kapa: {
-    websiteId: "80cbacc9-0b84-48aa-bfb8-0002270176bf",
-    projectName: "Prometheus",
-    projectColor: "#D86444",
-    projectLogoPath: "/assets/prometheus-logo.svg",
-  },
+  // Disable Kapa until we manage to enable the domain (prometheus.io) in the Kapa dashboard.
+  //
+  // kapa: {
+  //   websiteId: "80cbacc9-0b84-48aa-bfb8-0002270176bf",
+  //   projectName: "Prometheus",
+  //   projectColor: "#D86444",
+  //   projectLogoPath: "/assets/prometheus-logo.svg",
+  // },
+  kapa: undefined,
 
   // Docs to load from repo-local files.
   localMarkdownSources: [

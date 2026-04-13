@@ -5,9 +5,17 @@ export default {
 
   announcement: {
     text: "Take the [Prometheus User Survey (Edition 03.2026)](https://forms.gle/uuEsawKm7u9wCT4T8) and help the community prioritize future development!",
-    mobileText: "[Prometheus User Survey (Edition 03.2026)](https://forms.gle/uuEsawKm7u9wCT4T8)",
+    mobileText:
+      "[Prometheus User Survey (Edition 03.2026)](https://forms.gle/uuEsawKm7u9wCT4T8)",
     startDate: "2026-03-24",
     endDate: "2026-04-07",
+  },
+
+  kapa: {
+    websiteId: "80cbacc9-0b84-48aa-bfb8-0002270176bf",
+    projectName: "Prometheus",
+    projectColor: "#D86444",
+    projectLogoPath: "/assets/prometheus-logo.svg",
   },
 
   // Docs to load from repo-local files.

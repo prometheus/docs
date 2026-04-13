@@ -21,6 +21,7 @@ import "@mantine/code-highlight/styles.layer.css";
 import "@mantine/spotlight/styles.layer.css";
 import "./globals.css";
 import { Header } from "@/components/Header";
+import KapaWidget from "@/components/KapaWidget";
 import {
   ANNOUNCEMENT_HEIGHT_PX,
   isAnnouncementActive,
@@ -53,8 +54,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   const activeAnnouncement =
-    docsConfig.announcement &&
-    isAnnouncementActive(docsConfig.announcement)
+    docsConfig.announcement && isAnnouncementActive(docsConfig.announcement)
       ? docsConfig.announcement
       : undefined;
 
@@ -67,13 +67,16 @@ export default function RootLayout({
       lang="en"
       {...mantineHtmlProps}
       className={`${interFont.variable} ${latoFont.variable}`}
-      style={{ "--header-height": `${headerHeightPx}px` } as React.CSSProperties}
+      style={
+        { "--header-height": `${headerHeightPx}px` } as React.CSSProperties
+      }
     >
       <head>
         <ColorSchemeScript defaultColorScheme="auto" />
       </head>
       <body>
         <MantineProvider theme={theme} defaultColorScheme="auto">
+          <KapaWidget />
           <AppShell header={{ height: "var(--header-height)" }}>
             <Header announcement={activeAnnouncement} />
 

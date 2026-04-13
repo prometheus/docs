@@ -10,9 +10,17 @@ export type Announcement = {
   endDate?: string;
 };
 
+export type KapaConfig = {
+  websiteId: string;
+  projectName: string;
+  projectColor: string;
+  projectLogoPath: string;
+};
+
 export type DocsConfig = {
   siteUrl: string;
   announcement?: Announcement;
+  kapa?: KapaConfig;
   localMarkdownSources: LocalMarkdownSource[];
   githubMarkdownSources: GithubMarkdownSource[];
   ltsVersions: LTSConfig;

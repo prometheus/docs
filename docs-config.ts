@@ -12,7 +12,7 @@ export default {
   },
 
   kapa: {
-    websiteId: "80cbacc9-0b84-48aa-bfb8-0002270176bf",
+    websiteId: "3a0017cf-dd4b-4884-96fb-1bbe1b621d1e",
     projectName: "Prometheus",
     projectColor: "#D86444",
     projectLogoPath: "/assets/prometheus-logo.svg",

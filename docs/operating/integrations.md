@@ -29,7 +29,7 @@ For service discovery mechanisms not natively supported by Prometheus,
 
 ## HTTP Service Discovery
 
-The [HTTP service discovery](/docs/configuration/configuration/#http_sd_config) allows fetching targets from an HTTP endpoint.
+The [HTTP service discovery](/docs/operating/configuration/#http_sd_config) allows fetching targets from an HTTP endpoint.
 
 * [fastly-exporter](https://github.com/fastly/fastly-exporter#service-discovery): Supports discovering Fastly services.
 * [ns1_exporter](https://github.com/tjhop/ns1_exporter#http-service-discovery): Supports discovering NS1 zones.

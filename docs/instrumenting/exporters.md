@@ -138,6 +138,9 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [Varnish exporter](https://github.com/jonnenauha/prometheus_varnish_exporter)
    * [WebDriver exporter](https://github.com/mattbostock/webdriver_exporter)
 
+### IoT
+   * [FairCom Edge exporter](https://github.com/FairCom-Official/faircom_exporter)
+
 ### APIs
    * [AWS ECS exporter](https://github.com/slok/ecs-exporter)
    * [AWS Health exporter](https://github.com/Jimdo/aws-health-exporter)

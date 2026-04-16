@@ -79,7 +79,7 @@ $ prometheus --web.config.file=web.yml
 
 ## Testing
 
-You can use cURL to interact with your setup. Try this request:
+You can use cURL to interact with your configuration. Try this request:
 
 ```bash
 curl --head http://localhost:9090/graph

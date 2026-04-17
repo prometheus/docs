@@ -9,7 +9,7 @@
     "fetch-downloads-info": "tsx scripts/fetch-downloads-info.ts",
     "clean": "rm -rf generated out .next",
     "build": "next build",
-    "postbuild": "pagefind --site out",
+    "postbuild": "pagefind --site out && tsx scripts/copy-md.ts",
     "build-all": "npm run clean && npm run fetch-repo-docs && npm run fetch-downloads-info && npm run build",
     "start": "next start",
     "lint": "next lint"

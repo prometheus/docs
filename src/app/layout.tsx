@@ -97,7 +97,14 @@ export default function RootLayout({
                 <Group>
                   <Text c="dimmed" fz="sm">
                     &copy; Prometheus Authors 2014-{new Date().getFullYear()} |
-                    Documentation Distributed under CC-BY-4.0
+                    All components are available under the{" "}
+                    <Anchor href="http://www.apache.org/licenses/LICENSE-2.0">
+                      Apache 2 License
+                    </Anchor>{" "}
+                    on{" "}
+                    <Anchor href="https://github.com/prometheus">
+                      GitHub
+                    </Anchor>.
                   </Text>
                   <Text c="dimmed" fz="sm">
                     &copy; {new Date().getFullYear()} The Linux Foundation. All

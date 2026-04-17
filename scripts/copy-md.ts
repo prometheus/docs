@@ -71,14 +71,30 @@ for (const [slug, doc] of Object.entries(collection)) {
     canonical_url: `${BASE_URL}/docs/${slug}/`,
   };
 
+  let outdatedNotice = "";
+
   if (doc.type === "repo-doc") {
     frontmatter.version = doc.version;
     frontmatter.source_url = `https://github.com/${doc.owner}/${doc.repo}/blob/${doc.version}/docs/${path.basename(doc.filePath)}`;
+
+    if (doc.version !== doc.latestVersion) {
+      // Replace the version segment in the slug to build the latest URL.
+      const latestSlug = slug.replace(
+        `${doc.slugPrefix}/${doc.version}/`,
+        `${doc.slugPrefix}/${doc.latestVersion}/`
+      );
+      const latestUrl = `${BASE_URL}/docs/${latestSlug}/`;
+      frontmatter.outdated = true;
+      frontmatter.latest_version_url = latestUrl;
+      outdatedNotice =
+        `> **Note:** This page documents version ${doc.version}, which is outdated. ` +
+        `See the [latest stable version](${latestUrl}).\n\n`;
+    }
   }
 
   const rewritten = rewriteLinks(content, doc.filePath);
   const footer = `\n---\n\nSource: ${frontmatter.canonical_url}\n`;
-  const output = matter.stringify(rewritten, frontmatter) + footer;
+  const output = matter.stringify(outdatedNotice + rewritten, frontmatter) + footer;
 
   const dest = path.join("out/_md/docs", slug + ".md");
   await fs.mkdir(path.dirname(dest), { recursive: true });

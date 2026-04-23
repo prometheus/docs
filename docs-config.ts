@@ -4,8 +4,8 @@ export default {
   siteUrl: "https://prometheus.io",
 
   announcement: {
-    text: "Do you use Prometheus and OpenTelemetry to monitor infrastructure? Please answer our 5m [survey](https://docs.google.com/forms/d/e/1FAIpQLSfDfT0Y7Y9ZzlXM9GFnei0B8rCaa4ctVD4nhpzzJY7cfzrOrw/viewform)!",
-    mobileText: "Prometheus+OTel infrastructure monitoring [survey](https://docs.google.com/forms/d/e/1FAIpQLSfDfT0Y7Y9ZzlXM9GFnei0B8rCaa4ctVD4nhpzzJY7cfzrOrw/viewform)!",
+    text: "Do you use Prometheus and OpenTelemetry to monitor infrastructure and applications? Please answer our 3-minutes [survey](https://docs.google.com/forms/d/e/1FAIpQLSfDfT0Y7Y9ZzlXM9GFnei0B8rCaa4ctVD4nhpzzJY7cfzrOrw/viewform)!",
+    mobileText: "Prometheus+OTel infrastructure and applications monitoring [survey](https://docs.google.com/forms/d/e/1FAIpQLSfDfT0Y7Y9ZzlXM9GFnei0B8rCaa4ctVD4nhpzzJY7cfzrOrw/viewform)!",
     startDate: "2026-04-23",
     endDate: "2026-05-23",
   },

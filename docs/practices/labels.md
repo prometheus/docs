@@ -15,23 +15,22 @@ Prometheus labels can come from both the target and from
 
 By default Prometheus configures two primary discovery target labels.
 
-* `job`
-   * The `job` label is one of the few ubiquitious labels, set at scrape time, and is
-     used to identify metrics scraped from the same target/exporter.
-   * If not specified in PromQL expressions, they will match unrelated metrics with the same name. This is especially true in a multi system or multi tenant installation
+- `job`
+  - The `job` label is one of the few ubiquitious labels, set at scrape time, and is
+    used to identify metrics scraped from the same target/exporter.
+  - If not specified in PromQL expressions, they will match unrelated metrics with the same name. This is especially true in a multi system or multi tenant installation
 
 WARNING: When using `without`, be careful not to strip out the `job` label accidentally.
 
-* `instance`
-   * The `instance` label will include the `ip:port` what was scraped, providing a
-     crucial breadcrumb for debugging scrape time issues
+- `instance`
+  - The `instance` label will include the `ip:port` what was scraped
 
 ### General Labelling Advice
 
 Use labels to differentiate the characteristics of the thing that is being measured:
 
- * `api_http_requests_total` - differentiate request types: `operation="create|update|delete"`
- * `api_request_duration_seconds` - differentiate request stages: `stage="extract|transform|load"`
+- `api_http_requests_total` - differentiate request types: `operation="create|update|delete"`
+- `api_request_duration_seconds` - differentiate request stages: `stage="extract|transform|load"`
 
 Do not put the label names in the metric name, as this introduces redundancy
 and will cause confusion if the respective labels are aggregated away.

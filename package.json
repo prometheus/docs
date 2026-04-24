@@ -53,7 +53,7 @@
     "eslint": "^9",
     "eslint-config-next": "15.3.1",
     "pagefind": "^1.5.0",
-    "postcss": "^8.5.3",
+    "postcss": "^8.5.10",
     "postcss-preset-mantine": "^1.17.0",
     "postcss-simple-vars": "^7.0.1",
     "tsx": "^4.19.4",

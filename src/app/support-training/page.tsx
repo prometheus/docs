@@ -52,6 +52,11 @@ const trainingProviders: ProviderCardProps[] = [
     logo: "/assets/commercial-support-logos/kodekloud-logo.svg",
     url: "https://kodekloud.com/courses/prometheus-certified-associate-pca/",
   },
+  {
+    name: "Astrona",
+    logo: "/assets/commercial-support-logos/astrona.io-logo.png",
+    url: "https://astrona.io/exams/pca",
+  },
 ];
 
 const commercialSupportProviders: ProviderCardProps[] = [
@@ -116,6 +121,11 @@ const commercialSupportProviders: ProviderCardProps[] = [
     name: "PlatformEngineers.io",
     logo: "/assets/commercial-support-logos/platformengineers.png",
     url: "https://platformengineers.io/",
+  },
+  {
+    name: "Procedure",
+    logo: "/assets/commercial-support-logos/procedure.png",
+    url: "https://procedure.tech/services/prometheus-monitoring",
   },
   {
     name: "PromLabs",

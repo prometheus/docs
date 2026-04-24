@@ -31,7 +31,7 @@ Unofficial third-party client libraries:
 * [Julia](https://github.com/fredrikekre/Prometheus.jl)
 * [Lua](https://github.com/knyar/nginx-lua-prometheus) for Nginx
 * [Lua](https://github.com/tarantool/metrics) for Tarantool
-* [.NET / C#](https://github.com/prometheus-net/prometheus-net)
+* [.NET / C#](https://learn.microsoft.com/en-us/dotnet/core/diagnostics/metrics-collection)
 * [Node.js](https://github.com/siimon/prom-client)
 * [OCaml](https://github.com/mirage/prometheus)
 * [Perl](https://metacpan.org/pod/Net::Prometheus)

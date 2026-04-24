@@ -18,13 +18,23 @@ these categories.
 ## File Service Discovery
 
 For service discovery mechanisms not natively supported by Prometheus,
-[file-based service discovery](/docs/operating/configuration/#%3Cfile_sd_config%3E) provides an interface for integrating.
+[file-based service discovery](/docs/operating/configuration/#file_sd_config) provides an interface for integrating.
 
+ * [ElastiCache](https://github.com/maxbrunet/prometheus-elasticache-sd)
  * [Kuma](https://github.com/kumahq/kuma/tree/master/app/kuma-prometheus-sd)
  * [Lightsail](https://github.com/n888/prometheus-lightsail-sd)
  * [Netbox](https://github.com/FlxPeters/netbox-prometheus-sd)
  * [Packet](https://github.com/packethost/prometheus-packet-sd)
  * [Scaleway](https://github.com/scaleway/prometheus-scw-sd)
+
+## HTTP Service Discovery
+
+The [HTTP service discovery](/docs/operating/configuration/#http_sd_config) allows fetching targets from an HTTP endpoint.
+
+* [fastly-exporter](https://github.com/fastly/fastly-exporter#service-discovery): Supports discovering Fastly services.
+* [ns1_exporter](https://github.com/tjhop/ns1_exporter#http-service-discovery): Supports discovering NS1 zones.
+* [NetBox via plugin](https://github.com/FlxPeters/netbox-plugin-prometheus-sd): A plugin to expose NetBox objects as Prometheus targets.
+* [NetBox via export templates](https://www.observability.blog/post/netbox_http_service_discovery/): A guide on using NetBox export templates for HTTP service discovery.
 
 ## Remote Endpoints and Storage
 
@@ -84,6 +94,7 @@ For notification mechanisms not natively supported by the Alertmanager, the
   * [GitLab](https://docs.gitlab.com/ee/operations/metrics/alerts.html#external-prometheus-instances)
   * [Gotify](https://github.com/DRuggeri/alertmanager_gotify_bridge)
   * [GELF](https://github.com/b-com-software-basis/alertmanager2gelf)
+  * [Grafana OnCall](https://grafana.com/docs/grafana-cloud/alerting-and-irm/irm/configure/integrations/integration-reference/oncall/alertmanager)
   * [HeyOnCall](https://heyoncall.com/guides/prometheus-integration)
   * [Icinga2](https://github.com/vshn/signalilo)
   * [iLert](https://docs.ilert.com/integrations/prometheus)
@@ -92,9 +103,12 @@ For notification mechanisms not natively supported by the Alertmanager, the
   * [Matrix](https://github.com/jaywink/matrix-alertmanager): sends Alertmanager notifications to Matrix rooms
   * [Matrix](https://github.com/hectorjsmith/matrix-hookshot): bridges webhooks to Matrix with rich formatting support
   * [Notion](https://github.com/cthtuf/alertmanager-to-notion): creates/updates record in a Notion database
+  * [Parny](https://parny.io/integrations/prometheus): AI-native on-call management, incident response, uptime monitoring, and real-time infrastructure visibility platform.
   * [Phabricator / Maniphest](https://github.com/knyar/phalerts)
   * [prom2teams](https://github.com/idealista/prom2teams): forwards notifications to Microsoft Teams
+  * [Rootly](https://docs.rootly.com/integrations/alertmanager): on-call & incident management
   * [Ansible Tower](https://github.com/pja237/prom2tower): call Ansible Tower (AWX) API on alerts (launch jobs etc.)
+  * [Robusta](https://docs.robusta.dev/master/configuration/alert-manager.html)
   * [Signal](https://github.com/dgl/alertmanager-webhook-signald)
   * [SIGNL4](https://www.signl4.com/blog/portfolio_item/prometheus-alertmanager-mobile-alert-notification-duty-schedule-escalation)
   * [Simplepush](https://codeberg.org/stealth/alertpush)
@@ -107,6 +121,7 @@ For notification mechanisms not natively supported by the Alertmanager, the
   * [XMPP Bot](https://github.com/jelmer/prometheus-xmpp-alerts)
   * [Zenduty](https://docs.zenduty.com/docs/prometheus/)
   * [Zoom](https://github.com/Code2Life/nodess-apps/tree/master/src/zoom-alert-2.0)
+  * [Zulip](https://zulip.com/integrations/alertmanager)
 
 ## Management
 

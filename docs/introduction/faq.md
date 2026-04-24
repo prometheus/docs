@@ -8,7 +8,7 @@ sort_rank: 5
 
 ### What is Prometheus?
 
-Prometheus is an open-source systems monitoring and alerting toolkit
+Prometheus is an open-source system monitoring and alerting toolkit
 with an active ecosystem.
 It is the only system directly supported by [Kubernetes](https://kubernetes.io/) and the de facto standard across the [cloud native ecosystem](https://landscape.cncf.io/).
 See the [overview](/docs/introduction/overview/).
@@ -33,9 +33,12 @@ There are always trade-offs to make when running services, and Prometheus values
 ### Can Prometheus be made highly available?
 
 Yes, run identical Prometheus servers on two or more separate machines.
+
+Systems like [Thanos](https://thanos.io) can deduplicate the data. Many of the [external systems](/docs/operating/integrations/#remote-endpoints-and-storage) that support [remote write](/docs/prometheus/latest/configuration/configuration/#remote_write) can also deduplicate the data.
+
 Identical alerts will be deduplicated by the [Alertmanager](https://github.com/prometheus/alertmanager).
 
-Alertmanager supports [high availability](https://github.com/prometheus/alertmanager#high-availability) by interconnecting multiple Alertmanager instances to build an Alertmanager cluster. Instances of a cluster communicate using a gossip protocol managed via [HashiCorp's Memberlist](https://github.com/hashicorp/memberlist) library.
+Alertmanager supports [high availability](https://github.com/prometheus/alertmanager#high-availability) by interconnecting multiple Alertmanager instances to build an Alertmanager cluster.
 
 ### I was told Prometheus “doesn't scale”.
 
@@ -108,7 +111,7 @@ Prometheus is released under the
 After [extensive research](https://youtu.be/B_CDeYrqxjQ), it has been determined
 that the correct plural of 'Prometheus' is 'Prometheis'.
 
-If you can not remember this, "Prometheus instances" is a good workaround.
+If you cannot remember this, "Prometheus instances" is a good workaround.
 
 ### Can I reload Prometheus's configuration?
 

@@ -21,6 +21,11 @@ import "@mantine/code-highlight/styles.layer.css";
 import "@mantine/spotlight/styles.layer.css";
 import "./globals.css";
 import { Header } from "@/components/Header";
+import KapaWidget from "@/components/KapaWidget";
+import {
+  ANNOUNCEMENT_HEIGHT_PX,
+  isAnnouncementActive,
+} from "@/components/announcement-utils";
 import { theme } from "@/theme";
 import docsConfig from "../../docs-config";
 
@@ -41,24 +46,39 @@ export const metadata = {
   metadataBase: new URL(docsConfig.siteUrl),
 };
 
+const BASE_HEADER_HEIGHT_PX = 72;
+
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const activeAnnouncement =
+    docsConfig.announcement && isAnnouncementActive(docsConfig.announcement)
+      ? docsConfig.announcement
+      : undefined;
+
+  const headerHeightPx = activeAnnouncement
+    ? BASE_HEADER_HEIGHT_PX + ANNOUNCEMENT_HEIGHT_PX
+    : BASE_HEADER_HEIGHT_PX;
+
   return (
     <html
       lang="en"
       {...mantineHtmlProps}
       className={`${interFont.variable} ${latoFont.variable}`}
+      style={
+        { "--header-height": `${headerHeightPx}px` } as React.CSSProperties
+      }
     >
       <head>
-        <ColorSchemeScript />
+        <ColorSchemeScript defaultColorScheme="auto" />
       </head>
       <body>
-        <MantineProvider theme={theme}>
+        <MantineProvider theme={theme} defaultColorScheme="auto">
+          <KapaWidget />
           <AppShell header={{ height: "var(--header-height)" }}>
-            <Header />
+            <Header announcement={activeAnnouncement} />
 
             <AppShellMain>
               <Container size="xl" mt="xl" px={{ base: "md", xs: "xl" }}>
@@ -77,7 +97,14 @@ export default function RootLayout({
                 <Group>
                   <Text c="dimmed" fz="sm">
                     &copy; Prometheus Authors 2014-{new Date().getFullYear()} |
-                    Documentation Distributed under CC-BY-4.0
+                    All components are available under the{" "}
+                    <Anchor href="http://www.apache.org/licenses/LICENSE-2.0">
+                      Apache 2 License
+                    </Anchor>{" "}
+                    on{" "}
+                    <Anchor href="https://github.com/prometheus">
+                      GitHub
+                    </Anchor>.
                   </Text>
                   <Text c="dimmed" fz="sm">
                     &copy; {new Date().getFullYear()} The Linux Foundation. All

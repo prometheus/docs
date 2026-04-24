@@ -1,17 +1,25 @@
 "use client";
 
-import { Spotlight } from "@mantine/spotlight";
-import { IconSearch } from "@tabler/icons-react";
+import { Spotlight, spotlight } from "@mantine/spotlight";
+import { IconSearch, IconSparkles } from "@tabler/icons-react";
 import { useRouter } from "next/navigation";
-import { Divider, Group, Highlight, Loader, Space } from "@mantine/core";
-import React, { useState, useEffect } from "react";
+import {
+  Button,
+  Divider,
+  Group,
+  Highlight,
+  Loader,
+  Space,
+} from "@mantine/core";
+import React, { useState, useEffect, useRef } from "react";
 import { decode } from "html-entities";
 
-// Extend Window interface to include pagefind
+// Extend Window interface to include pagefind and Kapa
 declare global {
   interface Window {
     /* eslint-disable @typescript-eslint/no-explicit-any */
     pagefind: any;
+    Kapa: any;
   }
 }
 
@@ -57,7 +65,7 @@ const SearchResult = ({
           id={`${result.id}-${subIdx}`}
           onClick={() => {
             router.push(
-              subResult.url.replace(/(\/[^?#]+)\.html(?=[?#]|$)/, "$1")
+              subResult.url.replace(/(\/[^?#]+)\.html(?=[?#]|$)/, "$1"),
             );
           }}
         >
@@ -83,7 +91,9 @@ const SearchResult = ({
               opacity={0.7}
               flex={2}
             >
-              {decode(subResult.excerpt.replace(/<\/?mark>/g, ""))}
+              {/* We use plain_excerpt instead of excerpt since we do the highlighting ourselves,
+                  see also https://github.com/Pagefind/pagefind/issues/815 */}
+              {decode(subResult.plain_excerpt)}
             </Highlight>
           </Group>
         </Spotlight.Action>
@@ -95,7 +105,7 @@ const SearchResult = ({
 type PagefindSubResult = {
   title: string;
   url: string;
-  excerpt: string;
+  plain_excerpt: string;
   anchor?: {
     element: string;
     id: string;
@@ -107,7 +117,7 @@ type PagefindSubResult = {
 type PagefindResultData = {
   url: string;
   content: string;
-  excerpt: string;
+  plain_excerpt: string;
   meta: {
     title: string;
     breadcrumbs?: string;
@@ -125,6 +135,7 @@ type PagefindResult = {
 export default function SpotlightSearch() {
   const [activeQuery, setActiveQuery] = useState("");
   const [results, setResults] = useState<PagefindResult[]>([]);
+  const queryRef = useRef("");
 
   useEffect(() => {
     async function loadPagefind() {
@@ -151,7 +162,7 @@ export default function SpotlightSearch() {
                     Promise.resolve({
                       url: "",
                       content: "",
-                      excerpt: "",
+                      plain_excerpt: "",
                       meta: {
                         title: `Error importing pagefind.js`,
                       },
@@ -159,7 +170,7 @@ export default function SpotlightSearch() {
                         {
                           title: "Error",
                           url: "",
-                          excerpt: `NOTE: Search only works with a static build, not in dev mode. Error: ${e}`,
+                          plain_excerpt: `NOTE: Search only works with a static build, not in dev mode. Error: ${e}`,
                         },
                       ],
                     }),
@@ -173,12 +184,24 @@ export default function SpotlightSearch() {
     loadPagefind();
   }, []);
 
+  const handleAskAI = () => {
+    const query = queryRef.current.trim();
+    spotlight.close();
+    // Small delay to let the Spotlight close animation finish before opening Kapa.
+    setTimeout(() => {
+      if (window.Kapa) {
+        window.Kapa.open({ mode: "ai", query, submit: query.length > 0 });
+      }
+    }, 100);
+  };
+
   return (
     <Spotlight.Root
       size="xl"
       maxHeight="90vh"
       scrollable
       onQueryChange={async (query) => {
+        queryRef.current = query;
         const search = await window.pagefind.debouncedSearch(query);
         if (search === null) {
           // A more recent search call has been made, nothing to do.
@@ -188,10 +211,24 @@ export default function SpotlightSearch() {
         setActiveQuery(query);
       }}
     >
-      <Spotlight.Search
-        placeholder="Search..."
-        leftSection={<IconSearch stroke={1.5} />}
-      />
+      <Group gap={0} align="center" wrap="nowrap">
+        <Spotlight.Search
+          placeholder="Search..."
+          leftSection={<IconSearch stroke={1.5} />}
+          style={{ flex: 1 }}
+        />
+        <Button
+          variant="light"
+          size="compact-md"
+          onClick={handleAskAI}
+          leftSection={<IconSparkles size={16} stroke={1.8} />}
+          mr="xs"
+          fw={500}
+          style={{ flexShrink: 0 }}
+        >
+          Ask AI
+        </Button>
+      </Group>
       <Spotlight.ActionsList>
         {results.length > 0 ? (
           results.map((result, idx) => (

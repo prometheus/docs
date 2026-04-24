@@ -22,6 +22,8 @@ import { usePathname } from "next/navigation";
 import { spotlight } from "@mantine/spotlight";
 import SpotlightSearch from "./SpotlightSearch";
 import { useDisclosure } from "@mantine/hooks";
+import Announcement from "./Announcement";
+import { Announcement as AnnouncementType } from "@/docs-config-types";
 
 const links = [
   {
@@ -35,7 +37,11 @@ const links = [
   { link: "/blog", label: "Blog" },
 ];
 
-export const Header = () => {
+export const Header = ({
+  announcement,
+}: {
+  announcement?: AnnouncementType;
+}) => {
   const path = usePathname();
   const [burgerOpened, { toggle: toggleBurger, close: closeBurger }] =
     useDisclosure(false);
@@ -110,6 +116,7 @@ export const Header = () => {
             : undefined
         }
       >
+        {announcement && <Announcement announcement={announcement} />}
         <Container size="xl" px={{ base: "md", xs: "xl" }}>
           <div className={classes.inner}>
             {/* Logo + Text */}
@@ -134,7 +141,7 @@ export const Header = () => {
 
               <Group visibleFrom="md" gap="xs">
                 <TextInput
-                  placeholder="Search"
+                  placeholder="Search / Ask AI"
                   w={220}
                   mx="lg"
                   leftSection={

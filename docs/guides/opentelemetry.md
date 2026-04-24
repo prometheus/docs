@@ -27,8 +27,14 @@ OpenTelemetry SDKs and instrumentation libraries can be usually configured via [
 
 ```shell
 export OTEL_EXPORTER_OTLP_PROTOCOL=http/protobuf
-export OTEL_EXPORTER_OTLP_METRICS_ENDPOINT=http://localhost:9090/api/v1/otlp/v1/metrics
+export OTEL_EXPORTER_OTLP_METRICS_ENDPOINT=http://localhost:9090/api/v1/otlp
 ```
+
+Note:
+
+* The [OpenTelemtry specification](https://github.com/open-telemetry/opentelemetry-specification/blob/v1.50.0/specification/protocol/exporter.md#endpoint-urls-for-otlphttp) states that the  OTEL_EXPORTER_OTLP_METRICS_ENDPOINT env var must be used as a base URL. The signal `/v1/metrics` is automatically appended
+* See also: [opentelemetry-python #2443](https://github.com/open-telemetry/opentelemetry-python/issues/2443)
+
 
 Turn off traces and logs:
 
@@ -37,7 +43,7 @@ export OTEL_TRACES_EXPORTER=none
 export OTEL_LOGS_EXPORTER=none
 ```
 
-The default push interval for OpenTelemetry metrics is 60 seconds. The following will set a 15 second push interval:
+The default push interval for OpenTelemetry metrics is 60 seconds. The following will set a 15-second push interval:
 
 ```shell
 export OTEL_METRIC_EXPORT_INTERVAL=15000
@@ -50,7 +56,7 @@ export OTEL_SERVICE_NAME="my-example-service"
 export OTEL_RESOURCE_ATTRIBUTES="service.instance.id=$(uuidgen)"
 ```
 
-The above assumes that `uuidgen` command is available on your system. Make sure that `service.instance.id` is unique for each instance, and that a new `service.instance.id` is generated whenever a resource attribute chances. The [recommended](https://github.com/open-telemetry/semantic-conventions/tree/main/docs/resource) way is to generate a new UUID on each startup of an instance.
+The above assumes that `uuidgen` command is available on your system. Make sure that `service.instance.id` is unique for each instance, and that a new `service.instance.id` is generated whenever a resource attribute changes. The [recommended](https://github.com/open-telemetry/semantic-conventions/tree/main/docs/resource) way is to generate a new UUID on each startup of an instance.
 
 ## Configuring Prometheus
 

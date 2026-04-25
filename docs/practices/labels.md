@@ -1,5 +1,5 @@
 ---
-title: Label Best Practices
+title: Labels
 sort_rank: 2
 ---
 

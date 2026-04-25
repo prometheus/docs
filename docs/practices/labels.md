@@ -1,6 +1,6 @@
 ---
 title: Label Best Practices
-sort_rank: 1
+sort_rank: 2
 ---
 
 The label conventions presented in this document are not required

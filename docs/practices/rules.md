@@ -19,7 +19,8 @@ This page documents proper naming conventions and aggregation for recording rule
 Keeping the metric name unchanged makes it easy to know what a metric is and
 easy to find in the codebase.
 
-IMPORTANT: `job` label acts as a primary key. It is **strongly** recommended that you use it to scope your PromQL expressions to the system you are monitoring.
+IMPORTANT: `job` label is used to scope a PromQL to a specific service/exporter. It is **strongly** recommended that you
+always set it, in order to scope your PromQL expressions to the system you are monitoring.
 
 To keep the operations clean, `_sum` is omitted if there are other operations,
 as `sum()`. Associative operations can be merged (for example `min_min` is the

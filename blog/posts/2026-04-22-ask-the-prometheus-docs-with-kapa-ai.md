@@ -44,3 +44,6 @@ If Kapa gives you a useful answer, great. If it does not, that also helps us imp
 Ask something simple. Ask something specific. Ask something you think should already be obvious from the docs.
 
 From now on, asking questions is also a great way of helping the Prometheus community!
+
+> NOTE: Conversations using the Kapa integration are recorded and anonym-ised.
+> For more information, please read https://docs.kapa.ai/analytics/overview

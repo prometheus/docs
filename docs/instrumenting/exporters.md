@@ -78,6 +78,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [Netgear Router exporter](https://github.com/DRuggeri/netgear_exporter)
    * [Network UPS Tools (NUT) exporter](https://github.com/DRuggeri/nut_exporter)
    * [Node/system metrics exporter](https://github.com/prometheus/node_exporter) (**official**)
+   * [Node/system metrics exporter](https://github.com/twekkel/node_exporter-lite) (Light version)
    * [NVIDIA DCGM (GPU) exporter](https://github.com/NVIDIA/dcgm-exporter)
    * [ProSAFE exporter](https://github.com/dalance/prosafe_exporter)
    * [Redfish exporter](https://github.com/comcast/fishymetrics)

@@ -2,16 +2,11 @@ import {
   Group,
   Box,
   ScrollArea,
-  Button,
-  Popover,
-  ScrollAreaAutosize,
-  PopoverDropdown,
-  PopoverTarget,
 } from "@mantine/core";
 import TOC from "@/components/TOC";
 import LeftNav from "./LeftNav";
-import { IconMenu2 } from "@tabler/icons-react";
 import { AnchorScroller } from "@/components/AnchorScroller";
+import DocsMobileNav from "./DocsMobileNav";
 
 export default function DocsLayout({
   children,
@@ -21,29 +16,7 @@ export default function DocsLayout({
   return (
     <>
       {/* The mobile main nav */}
-      <Popover position="bottom" withArrow shadow="md">
-        <PopoverTarget>
-          <Button
-            hiddenFrom="sm"
-            variant="outline"
-            mb="lg"
-            leftSection={<IconMenu2 stroke={1.5} />}
-            color="light-dark(var(--mantine-color-gray-7), var(--mantine-color-gray-4))"
-            fw="normal"
-            bd="1px solid var(--mantine-color-gray-5)"
-          >
-            Show nav
-          </Button>
-        </PopoverTarget>
-        <PopoverDropdown mah="calc(100vh - var(--header-height) - var(--header-to-content-margin))">
-          <ScrollAreaAutosize
-            mah="calc(80vh - var(--header-height))"
-            type="never"
-          >
-            <LeftNav />
-          </ScrollAreaAutosize>
-        </PopoverDropdown>
-      </Popover>
+      <DocsMobileNav />
       <Group wrap="nowrap" align="flex-start" gap={50}>
         {/* The left-hand side main docs nav */}
         <Box

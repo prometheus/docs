@@ -4,11 +4,10 @@ export default {
   siteUrl: "https://prometheus.io",
 
   announcement: {
-    text: "Take the [Prometheus User Survey (Edition 03.2026)](https://forms.gle/uuEsawKm7u9wCT4T8) and help the community prioritize future development!",
-    mobileText:
-      "[Prometheus User Survey (Edition 03.2026)](https://forms.gle/uuEsawKm7u9wCT4T8)",
-    startDate: "2026-03-24",
-    endDate: "2026-04-07",
+    text: "Do you use Prometheus and OpenTelemetry to monitor infrastructure and applications? Please answer our 3-minutes [survey](https://docs.google.com/forms/d/e/1FAIpQLSfDfT0Y7Y9ZzlXM9GFnei0B8rCaa4ctVD4nhpzzJY7cfzrOrw/viewform)!",
+    mobileText: "Prometheus+OTel infrastructure and applications monitoring [survey](https://docs.google.com/forms/d/e/1FAIpQLSfDfT0Y7Y9ZzlXM9GFnei0B8rCaa4ctVD4nhpzzJY7cfzrOrw/viewform)!",
+    startDate: "2026-04-23",
+    endDate: "2026-05-23",
   },
 
   kapa: {

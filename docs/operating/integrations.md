@@ -99,6 +99,7 @@ For notification mechanisms not natively supported by the Alertmanager, the
   * [Icinga2](https://github.com/vshn/signalilo)
   * [iLert](https://docs.ilert.com/integrations/prometheus)
   * [IRC Bot](https://github.com/multimfi/bot)
+  * [ITOC360](https://docs.itoc360.com/integrations/inbound-integrations/observability-and-apm/prometheus-integration): on-call & incident management.
   * [JIRAlert](https://github.com/free/jiralert)
   * [Matrix](https://github.com/jaywink/matrix-alertmanager): sends Alertmanager notifications to Matrix rooms
   * [Matrix](https://github.com/hectorjsmith/matrix-hookshot): bridges webhooks to Matrix with rich formatting support

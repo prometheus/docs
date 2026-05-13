@@ -189,6 +189,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [Heka dashboard exporter](https://github.com/docker-infra/heka_exporter)
    * [Heka exporter](https://github.com/imgix/heka_exporter)
    * [Huawei Cloudeye exporter](https://github.com/huaweicloud/cloudeye-exporter)
+   * [Icinga2 exporter](https://github.com/NETWAYS/icinga2-exporter)
    * [InfluxDB exporter](https://github.com/prometheus/influxdb_exporter) (**official**)
    * [ITM exporter](https://github.com/rafal-szypulka/itm_exporter)
    * [Java GC exporter](https://github.com/loyispa/jgc_exporter)

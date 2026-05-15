@@ -1,9 +1,9 @@
 ---
-title: Metric and label naming
+title: Metric naming
 sort_rank: 1
 ---
 
-The metric and label conventions presented in this document are not required
+The metric conventions presented in this document are not required
 for using Prometheus, but can serve as both a style-guide and a collection of
 best practices. Individual organizations may want to approach some of these
 practices, e.g. naming conventions, differently.
@@ -79,22 +79,6 @@ during monitoring/SRE incident practices to look on PromQL expressions in plain 
 the underlying metric type and unit you work with.
 * **Metric collisions**: With growing adoption and metric changes over time, there are cases where lack
 of unit and type information in the metric name will cause certain series to collide (e.g. `process_cpu` for seconds and milliseconds).
-
-## Labels
-
-Use labels to differentiate the characteristics of the thing that is being measured:
-
- * `api_http_requests_total` - differentiate request types: `operation="create|update|delete"`
- * `api_request_duration_seconds` - differentiate request stages: `stage="extract|transform|load"`
-
-Do not put the label names in the metric name, as this introduces redundancy
-and will cause confusion if the respective labels are aggregated away.
-
-CAUTION: Remember that every unique combination of key-value label
-pairs represents a new time series, which can dramatically increase the amount
-of data stored. Do not use labels to store dimensions with high cardinality
-(many different label values), such as user IDs, email addresses, or other
-unbounded sets of values.
 
 ## Base Units
 

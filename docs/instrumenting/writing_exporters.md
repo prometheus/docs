@@ -502,6 +502,38 @@ process stats. The former is a tad easier for users to deal with, as
 [`up` works in the usual way](/docs/concepts/jobs_instances/#automatically-generated-labels-and-time-series), although you can’t distinguish between the
 exporter being down and the application being down.
 
+#### Partial collection failures
+
+Many exporters gather metrics from more than one backend (for example SSH
+and HTTP, or several API endpoints). A total scrape failure is rare: one
+source may fail while others still return useful series.
+
+For a **complete** failure where no metrics can be exported, return HTTP
+5xx so Prometheus records `up == 0` and operators can alert in the usual
+way.
+
+When **some** metrics are still valid:
+
+- Export every metric you successfully collected on this scrape.
+- **Do not** omit a time series and rely on `staleness` alone to signal
+  failure; that makes partial outages hard to distinguish from “metric no
+  longer exists”.
+- Prefer **per-source health gauges** over a single `myexporter_up` when
+  subsystems are independent, for example
+  `myexporter_collector_up{collector="ssh"}` and
+  `myexporter_collector_up{collector="rest"}`. Use the `collector` (or
+  similar) label so users can join or aggregate without knowing your
+  internal wiring.
+- If a metric is meaningless without its source, either skip it for that
+  scrape or expose it with a documented “invalid” sentinel only when your
+  users already expect that pattern (many systems use `NaN` for “unknown”
+  gauge values; counters should not be abused this way).
+- Avoid adding `<metric_name>_up` beside every metric; that does not scale
+  and duplicates `up` semantics at the wrong granularity.
+
+Document which collectors or labels map to which backends so on-call can
+interpret `myexporter_collector_up` without reading the exporter source.
+
 ### Landing page
 
 It’s nicer for users if visiting `http://yourexporter/` has a simple

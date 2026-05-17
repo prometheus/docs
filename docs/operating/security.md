@@ -202,7 +202,9 @@ As administrative and mutating endpoints are intended to be accessed via simple
 tools such as cURL, there is no built in
 [CSRF](https://en.wikipedia.org/wiki/Cross-site_request_forgery) protection as
 that would break such use cases. Accordingly when using a reverse proxy, you
-may wish to block such paths to prevent CSRF.
+may wish to block such paths to prevent CSRF. See
+[Reverse proxy](/docs/operating/reverse_proxy/) for nginx settings (including
+the live notifications SSE endpoint).
 
 For non-mutating endpoints, you may wish to set [CORS
 headers](https://fetch.spec.whatwg.org/#http-cors-protocol) such as

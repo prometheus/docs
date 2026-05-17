@@ -53,7 +53,11 @@ One can scrape multiple useful metrics to understand what is happening in the ap
 
 ## Show me how it is done
 
-Let’s get our hands dirty and setup Prometheus. Prometheus is written using [Go](https://golang.org/) and all you need is the binary compiled for your operating system. Download the binary corresponding to your operating system from [here](https://prometheus.io/download/) and add the binary to your path.
+Let’s get our hands dirty and set up Prometheus. Prometheus is written using [Go](https://golang.org/) and all you need is the binary compiled for your operating system. Download the binary corresponding to your operating system from [here](https://prometheus.io/download/) and add the binary to your path.
+
+### Running with Docker
+
+Official Prometheus container images run as the `nobody` user by default. If you bind-mount host paths for configuration or TSDB storage, make sure those directories are readable and writable by UID/GID 65534 (`nobody`), or run the container with a user that matches your host permissions. Running the container as root does not change this default user inside the image.
 
 Prometheus exposes its own metrics which can be consumed by itself or another Prometheus server.
 

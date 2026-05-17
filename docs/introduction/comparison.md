@@ -56,17 +56,19 @@ RRD-style database that expects samples to arrive at regular intervals. Every
 time series is stored in a separate file, and new samples overwrite old ones
 after a certain amount of time.
 
-Prometheus also creates one local file per time series, but allows storing
+Prometheus stores time series data in TSDB blocks on local disk (with compaction),
+rather than one file per time series as in Prometheus 1.x. It allows storing
 samples at arbitrary intervals as scrapes or rule evaluations occur. Since new
-samples are simply appended, old data may be kept arbitrarily long. Prometheus
-also works well for many short-lived, frequently changing sets of time series.
+samples are simply appended within a block, old data may be kept arbitrarily long.
+Prometheus also works well for many short-lived, frequently changing sets of time series.
 
 ### Summary
 
 Prometheus offers a richer data model and query language, in addition to being
-easier to run and integrate into your environment. If you want a clustered
-solution that can hold historical data long term, Graphite may be a better
-choice.
+easier to run and integrate into your environment. Prometheus can retain data for
+a configurable retention period on a single server; for a multi-node clustered
+solution optimized for very large-scale long-term historical storage, Graphite
+may be a better choice.
 
 
 ## Prometheus vs. InfluxDB

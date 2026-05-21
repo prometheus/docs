@@ -377,7 +377,7 @@ For integer histograms, the elements of the lists are signed 64-bit integers
 (short: int64), and each element represents the bucket population as a delta to
 the previous bucket in the list. The first bucket in each list contains an
 absolute population (which can also be seen as a delta relative to zero). The
-deltas MUST NOT evalute to a negative absolute bucket population.
+deltas MUST NOT evaluate to a negative absolute bucket population.
 
 To map buckets in the lists to the indices as defined in the previous section,
 there are two lists of so-called _spans_, one for the positive buckets and one
@@ -990,7 +990,7 @@ in 100 labeled histograms, the total cost will go up by a factor of 100. In
 case of a native histogram, the cost for the single histogram might already be
 lower if the classic histogram featured a high resolution. After partitioning,
 the total number of populated buckets in the labeled native histograms will be
-signifcantly smaller than 100 times the number of buckets in the original
+significantly smaller than 100 times the number of buckets in the original
 native histogram.)
 
 ### NHCB
@@ -1173,7 +1173,7 @@ While NHCBs support [automatic reconciliation between different bucket
 layouts](#compatibility-between-histograms), their mergeability is still
 fundamentally limited. The reconciliation only retains exact matches of bucket
 boundaries between the involved NHCBs. This yields useful results, if most
-bucket boundaries match. However, abitrary changes in the bucket layout can
+bucket boundaries match. However, arbitrary changes in the bucket layout can
 easily create a situation where none of the boundaries match, resulting in a
 histogram with only one bucket (the overflow bucket).
 

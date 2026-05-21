@@ -154,6 +154,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [Docker Cloud exporter](https://github.com/infinityworks/docker-cloud-exporter)
    * [Docker Hub exporter](https://github.com/infinityworks/docker-hub-exporter)
    * [Fastly exporter](https://github.com/peterbourgon/fastly-exporter)
+   * [Garmin Connect exporter](https://github.com/barnes-c/garmin_exporter)
    * [GitHub exporter](https://github.com/githubexporter/github-exporter)
    * [Gmail exporter](https://github.com/jamesread/prometheus-gmail-exporter/)
    * [GraphQL exporter](https://github.com/ricardbejarano/graphql_exporter)

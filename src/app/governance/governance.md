@@ -57,7 +57,6 @@ The current team members are:
 * Bartłomiej Płotka ([Google](https://www.google.com/))
 * Ben Kochie ([Reddit](https://www.redditinc.com/))
 * Ben Reedy ([Indue Ltd](https://www.indue.com.au))
-* Björn Rabenstein ([Grafana Labs](https://grafana.com/))
 * Bryan Boreham ([Grafana Labs](https://grafana.com/))
 * Callum Styan (independent)
 * Carrie Edwards ([Grafana Labs](https://grafana.com/))
@@ -103,6 +102,7 @@ The current team members are:
 
 Previous members:
 
+* Björn Rabenstein
 * Brian Brazil
 * Calle Pettersson
 * Conor Broderick

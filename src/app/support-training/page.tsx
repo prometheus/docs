@@ -162,10 +162,15 @@ const commercialSupportProviders: ProviderCardProps[] = [
     logo: "/assets/commercial-support-logos/xamira_networks.png",
     url: "https://www.xamira.de/en/technologies/monitoring/",
   },
-   {
+  {
     name: "Ksolves",
     logo: "/assets/commercial-support-logos/ksolvesLogo.svg",
     url: "https://www.ksolves.com/support-services/prometheus-enterprise-support/",
+  },
+  {
+    name: "DepKeep",
+    logo: "/assets/commercial-support-logos/depkeep.png",
+    url: "https://depkeep.com/",
   },
 ];
 

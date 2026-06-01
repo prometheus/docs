@@ -48,3 +48,6 @@ pairs represents a new time series, which can dramatically increase the amount
 of data stored. Do not use labels to store dimensions with high cardinality
 (many different label values), such as user IDs, email addresses, or other
 unbounded sets of values.
+
+
+Always specify a `without` clause with the labels you are aggregating away.

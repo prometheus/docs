@@ -32,7 +32,7 @@ doing division, separate the metrics using `_per_` and call the operation
 
 ## Labels
 
-NOTE: Omitting a label in a PromQL expression is the functional equivalent of specifying `label=*`
+NOTE: Omitting a label in a PromQL expression is the functional equivalent of specifying `label=~".*"`.
 
 * In both recorded rules and alerting expressions, always specify a `job` label to prevent expression mismatches from occuring.
   This is especially important in multi-tenant systems where the same metric names may be exported by different jobs or the

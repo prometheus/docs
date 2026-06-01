@@ -16,13 +16,22 @@ Prometheus labels can come from both the target itself and from
 By default Prometheus configures two primary discovery target labels.
 
 - `job`
-  - The `job` is a default target label set by the scrape configs and is used to identify metrics scraped by the same scrape config.
-  - If not specified in PromQL expressions, they will match unrelated metrics with the same name. This is especially true in a multi system or multi tenant installation
-
-WARNING: When using `without`, be careful not to strip out the `job` label accidentally.
+  - The `job` label is a default target label set by the scrape configs and is used
+    to identify metrics scraped by the same scrape config.
+  - Stripping the `job` label is a valid action in certain, explicit aggregation use
+    cases (e.g metrics across multiple `job` values, etc)
+  - If not specified in PromQL expressions, they will match unrelated metrics
+    with the same name. This is especially true in a multi system or multi tenant
+    installation.
 
 - `instance`
-  - The `instance` label will include the `ip:port` what was scraped, identifying the target instance.
+  - The `instance` label will include the `ip:port` what was scraped, identifying
+    the target instance.
+
+WARNING: Stripping the `instance` label will not impact PromQL expressions from being evaluated, but it will make it challenging to debug metric scrape issues.
+
+ 
+WARNING: When using `without`, be careful not to strip out the `job` or `instance` labels unintentionally.
 
 ### General Labelling Advice
 

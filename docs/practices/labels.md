@@ -10,8 +10,8 @@ practices, e.g. naming conventions, differently.
 
 ## Labels
 
-Prometheus labels can come from both the target and from
-[relabeling in discovery](https://prometheus.io/docs/prometheus/latest/configuration/configuration/#scrape_config) as well as from the target itself.
+Prometheus labels can come from both the target itself and from
+[relabeling in discovery](https://prometheus.io/docs/prometheus/latest/configuration/configuration/#scrape_config).
 
 By default Prometheus configures two primary discovery target labels.
 

@@ -16,7 +16,7 @@ Prometheus labels can come from both the target itself and from
 By default Prometheus configures two primary discovery target labels.
 
 - `job`
-  - The `job`  is a default target label set by the scrape configs and is used to identify metrics scraped from the same target/exporter.
+  - The `job` is a default target label set by the scrape configs and is used to identify metrics scraped by the same scrape config.
   - If not specified in PromQL expressions, they will match unrelated metrics with the same name. This is especially true in a multi system or multi tenant installation
 
 WARNING: When using `without`, be careful not to strip out the `job` label accidentally.

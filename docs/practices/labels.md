@@ -22,7 +22,7 @@ By default Prometheus configures two primary discovery target labels.
 WARNING: When using `without`, be careful not to strip out the `job` label accidentally.
 
 - `instance`
-  - The `instance` label will include the `ip:port` what was scraped
+  - The `instance` label will include the `ip:port` what was scraped, identifying the target instance.
 
 ### General Labelling Advice
 

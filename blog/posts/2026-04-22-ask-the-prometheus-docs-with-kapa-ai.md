@@ -46,4 +46,4 @@ Ask something simple. Ask something specific. Ask something you think should alr
 From now on, asking questions is also a great way of helping the Prometheus community!
 
 > NOTE: Conversations using the Kapa integration are recorded and anonym-ised.
-> For more information, please read https://docs.kapa.ai/analytics/overview
+> For more information, please read https://www.kapa.ai/security

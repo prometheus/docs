@@ -82,12 +82,16 @@ In some cases, these might be done by different people, but often one reviewer c
 
 If you’d like to write for the blog, the process is simple:  
 
-1. Open a **“Blog Post Proposal” issue** in the `prometheus/docs` repo to share your idea.  
-2. Wait for feedback from maintainers or editors to confirm it’s a good fit.  
-3. Draft your post in Markdown and submit it as a pull request.  
-4. Go through the review process, where we’ll help refine the draft together.  
-5. Once it’s approved, we’ll merge and publish it on the blog. 🎉
-6. Share your post on your socials and feel free to tag us so we can boost it too. 
+1. Open a **“Blog Post Proposal” issue** in the `prometheus/docs` repo to share your idea.
+2. In your issue, include the following details:
+    - Title of your proposed post
+    - Short description and outline of what the post will cover
+    - Sponsor — a [maintainer](https://github.com/prometheus/prometheus/blob/main/MAINTAINERS.md) with expertise in your topic area who will review your post PR for technical accuracy. 
+3. Wait for feedback from maintainers or editors to confirm it’s a good fit.  
+4. Draft your post in Markdown and submit it as a pull request.  
+5. Go through the review process, where we’ll help refine the draft together.  
+6. Once it’s approved, we’ll merge and publish it on the blog. 🎉
+7. Share your post on your socials and feel free to tag us so we can boost it too. 
 
 
 ## Why contribute?

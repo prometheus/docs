@@ -70,6 +70,33 @@ Success! The Node Exporter is now exposing metrics that Prometheus can scrape, i
 curl http://localhost:9100/metrics | grep "node_"
 ```
 
+**Note**: Node Exporter will stop working once you exit the terminal. To make it run 24/7 even after reboot, you'll need to create a service. Basic `systemd` service is saved at `/etc/systemd/system/node-exporter.service` and may look like the following:
+
+```ini
+[Unit]
+Description=Node Exporter Agent
+[Service]
+#user with execute privileges
+User=your-user
+ExecStart=/path/to/the/node_exporter
+Restart=always
+[Install]
+WantedBy=multi-user.target
+```
+
+Now reaload the daemon, enable the service at boot and start it:
+
+```bash
+systemctl daemon-reload
+systemctl enable --now node-exporter.service
+```
+
+You should see the metrics at `localhost:9100`, otherwise check the status with:
+
+```bash
+systemctl status node-exporter.service
+```
+
 ## Configuring your Prometheus instances
 
 Your locally running Prometheus instance needs to be properly configured in order to access Node Exporter metrics. The following [`prometheus.yml`](/docs/prometheus/latest/configuration/configuration/) example configuration file will tell the Prometheus instance to scrape, and how frequently, from the Node Exporter via `localhost:9100`:

@@ -15,6 +15,7 @@ export default {
     projectName: "Prometheus",
     projectColor: "#D86444",
     projectLogoPath: "/assets/prometheus-logo.svg",
+    mcpServerUrl: "https://prometheus.mcp.kapa.ai",
   },
 
   // Docs to load from repo-local files.

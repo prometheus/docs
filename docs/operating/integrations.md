@@ -62,6 +62,7 @@ data volumes.
   * [Instana](https://www.instana.com/docs/ecosystem/prometheus/#remote-write): write
   * [IRONdb](https://github.com/circonus-labs/irondb-prometheus-adapter): read and write
   * [Kafka](https://github.com/Telefonica/prometheus-kafka-adapter): write
+  * [Last9](https://last9.io/docs/integrations/observability/prometheus/): write
   * [M3DB](https://m3db.io/docs/integrations/prometheus/): read and write
   * [Mezmo](https://docs.mezmo.com/telemetry-pipelines/prometheus-remote-write-pipeline-source): write
   * [New Relic](https://docs.newrelic.com/docs/set-or-remove-your-prometheus-remote-write-integration): write

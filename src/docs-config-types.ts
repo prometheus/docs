@@ -15,6 +15,7 @@ export type KapaConfig = {
   projectName: string;
   projectColor: string;
   projectLogoPath: string;
+  mcpServerUrl?: string;
 };
 
 export type DocsConfig = {

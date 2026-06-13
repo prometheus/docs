@@ -126,6 +126,8 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [ScaleIO exporter](https://github.com/syepes/sio2prom)
    * [Tivoli Storage Manager/IBM Spectrum Protect exporter](https://github.com/treydock/tsm_exporter)
    * [IBM Storage Scale metrics exporter](https://github.com/IBM/ibm-spectrum-scale-bridge-for-grafana)
+   * [Veeam Backup & Replication exporter](https://github.com/negatic/veeambackup-exporter)
+
 
 ### HTTP
    * [Apache exporter](https://github.com/Lusitaniae/apache_exporter)

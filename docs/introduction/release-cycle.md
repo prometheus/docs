@@ -23,29 +23,13 @@ having a Prometheus server maintained by the community.
 
 ## List of LTS releases
 
-<table class="table table-bordered downloads">
-    <thead>
-        <tr>
-            <th>Release</th>
-            <th>Date</th>
-            <th>End of support</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr class="danger">
-            <td>Prometheus 2.37</td><td>2022-07-14</td><td>2023-07-31</td>
-        </tr>
-        <tr class="danger">
-            <td>Prometheus 2.45</td><td>2023-06-23</td><td>2024-07-31</td>
-        </tr>
-        <tr class="danger">
-            <td>Prometheus 2.53</td><td>2024-06-16</td><td>2025-07-31</td>
-        </tr>
-        <tr class="success">
-            <td>Prometheus 3.5</td><td>2025-07-14</td><td>2026-07-31</td>
-        </tr>
-    </tbody>
-</table>
+| Release             | Date           | End of support | Status        |
+| ------------------- | -------------- | -------------- | ------------- |
+| Prometheus 2.37     | 2022-07-14     | 2023-07-31     | End of life   |
+| Prometheus 2.45     | 2023-06-23     | 2024-07-31     | End of life   |
+| Prometheus 2.53     | 2024-06-16     | 2025-07-31     | End of life   |
+| **Prometheus 3.5**  | **2025-07-14** | **2026-07-31** | **Supported** |
+| Prometheus 3.13     | 2026-06        | 2027-07-31     | Upcoming      |
 
 ## Limitations of LTS support
 

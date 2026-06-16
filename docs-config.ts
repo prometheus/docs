@@ -15,6 +15,7 @@ export default {
     projectName: "Prometheus",
     projectColor: "#D86444",
     projectLogoPath: "/assets/prometheus-logo.svg",
+    mcpServerUrl: "https://prometheus.mcp.kapa.ai",
   },
 
   // Docs to load from repo-local files.
@@ -45,7 +46,7 @@ export default {
 
   // Long-term support versions configuration.
   ltsVersions: {
-    prometheus: ["3.5"],
+    prometheus: ["3.5", "3.13"],
   },
 
   // Repositories for the downloads page. The order in this file is the

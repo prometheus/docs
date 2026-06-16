@@ -19,7 +19,7 @@ export default function KapaWidget() {
     return null;
   }
 
-  const { websiteId, projectName, projectColor, projectLogoPath } =
+  const { websiteId, projectName, projectColor, projectLogoPath, mcpServerUrl } =
     docsConfig.kapa;
   const projectLogoUrl = new URL(
     projectLogoPath,
@@ -37,6 +37,8 @@ export default function KapaWidget() {
       data-project-logo={projectLogoUrl}
       data-button-hide="true"
       data-color-scheme-selector="[data-theme='dark']"
+      data-mcp-enabled={mcpServerUrl ? "true" : undefined}
+      data-mcp-server-url={mcpServerUrl}
     />
   );
 }

@@ -41,8 +41,8 @@ body:
       label: Technical Sponsor
       description: >
         A maintainer or community expert in your topic area who has agreed to 
-        review your post for technical accuracy. You must confirm their availability 
-        before opening this issue. Tag their GitHub handle here.
+        review your post for technical accuracy. **You must confirm their availability 
+        before opening this issue**. Tag their GitHub handle here.
       placeholder: "@github-handle"
     validations:
       required: true

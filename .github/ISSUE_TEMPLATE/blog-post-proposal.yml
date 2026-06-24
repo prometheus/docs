@@ -1,0 +1,64 @@
+name: Blog Post Proposal
+description: Propose a new post for the Prometheus blog
+title: "[Blog Proposal]: "
+labels: ["blog"]
+body:
+  - type: input
+    id: title
+    attributes:
+      label: Post Title
+      description: Working title of your blog post
+      placeholder: e.g. "How I use Prometheus to monitor X"
+    validations:
+      required: true
+
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      description: A short description of what the post will cover
+      placeholder: |
+        Summary: ...
+    validations:
+      required: true
+
+  - type: dropdown
+    id: type
+    attributes:
+      label: Type of Post
+      options:
+        - Tutorial
+        - Use Case
+        - Announcement
+        - Community story
+        - Other
+    validations:
+      required: true
+
+  - type: input
+    id: sponsor
+    attributes:
+      label: Technical Sponsor
+      description: >
+        A maintainer or community expert in your topic area who has agreed to 
+        review your post for technical accuracy. **You must confirm their availability 
+        before opening this issue**. Tag their GitHub handle here.
+      placeholder: "@github-handle"
+    validations:
+      required: true
+
+  - type: input
+    id: author
+    attributes:
+      label: Author(s)
+      placeholder: "@github-handle"
+    validations:
+      required: true
+
+  - type: textarea
+    id: notes
+    attributes:
+      label: Additional Notes
+      description: Anything else the reviewers should know — related issues, PRs, or context
+    validations:
+      required: false

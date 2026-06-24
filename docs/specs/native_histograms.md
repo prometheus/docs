@@ -808,13 +808,15 @@ creation of metrics exposition including native histograms using the language
 specific bindings created by the protobuf compiler. However, for direct code
 instrumentation, an instrumentation library is needed.
 
-Currently (2024-11-03), there are two official Prometheus instrumentation
+Currently (2026-06-15), there are three official Prometheus instrumentation
 libraries supporting native histograms:
 
 - Go: [source](https://github.com/prometheus/client_golang) –
   [documentation](https://pkg.go.dev/github.com/prometheus/client_golang/prometheus)
 - Java: [source](https://github.com/prometheus/client_java) –
   [documentation](https://prometheus.github.io/client_java/)
+- Rust: [source](https://github.com/prometheus/client_rust) –
+  [documentation](https://docs.rs/prometheus-client/)
 
 Adding native histogram support to other instrumentation libraries is
 relatively easy if the library already supports protobuf exposition. For purely

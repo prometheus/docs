@@ -27,10 +27,13 @@ Unofficial third-party client libraries:
 * [Delphi](https://github.com/marcobreveglieri/prometheus-client-delphi)
 * [Elixir](https://github.com/deadtrickster/prometheus.ex)
 * [Erlang](https://github.com/deadtrickster/prometheus.erl)
-* [Haskell](https://github.com/fimad/prometheus-haskell)
+* Haskell
+    * [prometheus-client](https://hackage.haskell.org/package/prometheus-client)
+    * [prometheus](https://hackage.haskell.org/package/prometheus)
 * [Julia](https://github.com/fredrikekre/Prometheus.jl)
-* [Lua](https://github.com/knyar/nginx-lua-prometheus) for Nginx
-* [Lua](https://github.com/tarantool/metrics) for Tarantool
+* Lua
+    * [For Nginx](https://github.com/knyar/nginx-lua-prometheus)
+    * [For Tarantool](https://github.com/tarantool/metrics)
 * [.NET / C#](https://learn.microsoft.com/en-us/dotnet/core/diagnostics/metrics-collection)
 * [Node.js](https://github.com/siimon/prom-client)
 * [OCaml](https://github.com/mirage/prometheus)

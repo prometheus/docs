@@ -169,7 +169,7 @@ Valid options for the `yAxisFormatter` and `yHoverFormatter`:
 
 * `PromConsole.NumberFormatter.humanize`: Format using [metric prefixes](http://en.wikipedia.org/wiki/Metric_prefix).
 * `PromConsole.NumberFormatter.humanizeNoSmallPrefix`: For absolute values
-  greater than 1, format using using [metric prefixes](http://en.wikipedia.org/wiki/Metric_prefix).
+  greater than 1, format using [metric prefixes](http://en.wikipedia.org/wiki/Metric_prefix).
   For absolute values less than 1, format with 3 significant digits. This is
   useful to avoid units such as milliqueries per second that can be produced by
   `PromConsole.NumberFormatter.humanize`.

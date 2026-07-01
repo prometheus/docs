@@ -1479,7 +1479,7 @@ simpler set of buckets for the new chunk.
 This in turn implies that there will never be a counter reset after the first
 sample in a chunk. Therefore, the only counter reset information that has to be
 persisted is that of the 1st histogram in a chunk. This happens in the
-so-called _histogram flags_, a single byte stored directly after the the number
+so-called _histogram flags_, a single byte stored directly after the number
 of samples in the chunk. This byte is currently only used for the counter reset
 information, but it may be used for other flags in the future. The counter
 reset information uses the first two bits. The four possible bit patterns are

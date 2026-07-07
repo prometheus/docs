@@ -246,9 +246,23 @@ However, if too many or too expensive queries/metrics are provided components
 will fall over. It is more likely that a component will be accidentally taken
 out by a trusted user than by malicious action.
 
-It is the responsibility of the user to ensure they provide components with
-sufficient resources including CPU, RAM, disk space, IOPS, file descriptors,
-and bandwidth.
+**We do not consider pure denial of service issues to be security vulnerabilities
+requiring private disclosure.** If you find that a Prometheus component can be
+crashed or made unavailable by sending it requests, that is generally expected
+behavior given the security model above. Please do not report these as security
+bugs via the private disclosure process.
+
+That said, there are cases where a fix is still worthwhile and a public issue or
+pull request is welcome. A good example is a logic bug where an attacker-controlled
+length field is trusted without validation and then used to allocate memory — this
+is a meaningful improvement to resource safety even if it does not rise to the
+level of a private security report. On the other hand, the absence of arbitrary
+sanity limits in some part of the code base is generally not worth a report on
+its own.
+
+Beyond the scenario of a malicious attack, it is the responsibility of the user to
+ensure they provide components with sufficient resources including CPU, RAM, disk
+space, IOPS, file descriptors, and bandwidth.
 
 It is recommended to monitor all components for failure, and to have them
 automatically restart on failure.

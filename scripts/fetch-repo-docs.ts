@@ -2,7 +2,10 @@ import { execSync } from "child_process";
 import * as fs from "fs";
 import * as path from "path";
 import docsConfig from "../docs-config";
-import { GithubMarkdownSource } from "../src/docs-config-types";
+import {
+  GithubMarkdownSource,
+  GithubSinglePageSource,
+} from "../src/docs-config-types";
 import {
   DocsCollection,
   AllRepoVersions,
@@ -324,6 +327,45 @@ for (const sourceConfig of docsConfig.localMarkdownSources) {
     // Don't need to care about assets for local docs here, local doc authors
     // should store them in public/ and link to them there.
   }
+}
+
+// Fetch single-page sources from GitHub repos (not versioned).
+const fetchSinglePageSource = async ({
+  owner,
+  repo,
+  branch,
+  filePath,
+  outputPath,
+}: GithubSinglePageSource) => {
+  console.log(
+    `Fetching single page ${filePath} from ${owner}/${repo}@${branch}...`
+  );
+
+  const { data } = await octokit.rest.repos.getContent({
+    owner,
+    repo,
+    path: filePath,
+    ref: branch,
+  });
+
+  if (Array.isArray(data) || data.type !== "file" || !("content" in data)) {
+    throw new Error(
+      `Expected a single file at ${filePath} in ${owner}/${repo}, got ${Array.isArray(data) ? "directory" : data.type}`
+    );
+  }
+
+  const content = Buffer.from(data.content, "base64").toString("utf-8");
+  const outFile = path.join(OUTDIR, outputPath);
+  const outDir = path.dirname(outFile);
+  if (!fs.existsSync(outDir)) {
+    fs.mkdirSync(outDir, { recursive: true });
+  }
+  fs.writeFileSync(outFile, content);
+  console.log(`Wrote ${outFile}`);
+};
+
+for (const sourceConfig of docsConfig.githubSinglePageSources ?? []) {
+  await fetchSinglePageSource(sourceConfig);
 }
 
 // Write out the docs collection metadata object to a JSON file.

@@ -44,6 +44,17 @@ export default {
     },
   ],
 
+  // Single pages to fetch from external repos (not versioned).
+  githubSinglePageSources: [
+    {
+      owner: "prometheus",
+      repo: "governance",
+      branch: "main",
+      filePath: "GOVERNANCE.md",
+      outputPath: "governance/GOVERNANCE.md",
+    },
+  ],
+
   // Long-term support versions configuration.
   ltsVersions: {
     prometheus: ["3.5", "3.13"],

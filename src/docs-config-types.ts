@@ -24,6 +24,7 @@ export type DocsConfig = {
   kapa?: KapaConfig;
   localMarkdownSources: LocalMarkdownSource[];
   githubMarkdownSources: GithubMarkdownSource[];
+  githubSinglePageSources?: GithubSinglePageSource[];
   ltsVersions: LTSConfig;
   downloads: DownloadConfig;
 };
@@ -42,6 +43,18 @@ export type GithubMarkdownSource = {
 export type LocalMarkdownSource = {
   docsDir: string;
   slugPrefix: string;
+};
+
+export type GithubSinglePageSource = {
+  owner: string;
+  repo: string;
+  // The branch to fetch from (e.g. "main").
+  branch: string;
+  // The path to the file in the repo (e.g. "GOVERNANCE.md").
+  filePath: string;
+  // The local output path relative to the generated directory
+  // where the fetched file will be stored.
+  outputPath: string;
 };
 
 export type LTSConfig = {

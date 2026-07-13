@@ -99,7 +99,7 @@ Prometheus was initially started privately by
 [Julius Volz](http://juliusv.com). The majority of its
 initial development was sponsored by [SoundCloud](https://soundcloud.com).
 
-It's now maintained and extended by a wide range of [companies](https://prometheus.devstats.cncf.io/d/5/companies-table?orgId=1) and [individuals](https://prometheus.io/governance).
+It's now maintained and extended by a wide range of [companies](https://prometheus.devstats.cncf.io/d/5/companies-table?orgId=1) and [individuals](https://prometheus.io/governance/).
 
 ### What license is Prometheus released under?
 

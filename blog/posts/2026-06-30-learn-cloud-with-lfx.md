@@ -52,6 +52,7 @@ This kind of guidance is all I could ever wish for. I was challenged to think in
 By the end of the mentorship, the most important shift was not tool-specific knowledge. It was how systems are perceived. Looking back, that change was far more valuable than learning any single technology because it fundamentally changed how I approach engineering problems. It made the experience far more impactful than I had expected when I first joined the program. I also gained a more realistic understanding of observability itself as pipelines that must be designed to survive failure.
 
 ## Outcomes
+
 Beyond learning, the mentorship produced tangible outcomes.
 
 The improvements I made to the OpenTelemetry documentation were merged. I also completed documentation on [Prometheus and OpenTelemetry interoperability using the Prometheus metrics format](https://github.com/open-telemetry/opentelemetry.io/issues/9650), and developed a [blueprint proposal](https://github.com/open-telemetry/sig-end-user/issues/339) for deploying observability systems in non-Kubernetes environments.

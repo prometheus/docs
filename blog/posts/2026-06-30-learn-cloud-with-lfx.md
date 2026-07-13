@@ -59,7 +59,7 @@ The improvements I made to the OpenTelemetry documentation were merged. I also c
 
 Another outcome is that I now understand how open source communities organize themselves. If I wanted to join a Prometheus Working Group or an OpenTelemetry SIG, I know how to get involved and contribute effectively.
 
-Perhaps the most valuable outcome is the network I’m beginning to build. Through this mentorship, I’ve started forming relationships with experienced engineers, and I’ve come to realize that building genuine connections is one of the best ways to grow in this industry
+Perhaps the most valuable outcome is the network I’m beginning to build. Through this mentorship, I’ve started forming relationships with experienced engineers, and I’ve come to realize that building genuine connections is one of the best ways to grow in this industry.
 
 ## Why programs like LFX matter
 
@@ -75,6 +75,6 @@ This combination is difficult to replicate through self-learning alone. Most imp
 
 The LFX Mentorship gave me more than exposure to cloud-native tools. It changed how I think about building, debugging, and operating distributed systems. Contributing to open source, learning from experienced maintainers and mentors, and working through real production-style challenges made it one of the most valuable learning experiences in my career.
 
-If you're looking to grow beyond tutorials and learn in a real engineering environment, I highly recommend applying for a mentorship like this one.
+If you're looking to grow beyond tutorials and learn in a real engineering environment, I highly recommend applying for the [LFX Mentorship Program](https://docs.linuxfoundation.org/lfx/mentorship/mentee-guide/introduction). You can also check out the [other mentorship programs supported by CNCF](https://github.com/cncf/mentoring/tree/main/programs).
 
 If you're working in cloud-native systems or exploring similar challenges, I'm always happy to connect on LinkedIn: [[link]](https://linkedin.com/in/uzochukwu-winnie).

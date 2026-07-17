@@ -274,6 +274,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [Scraparr](https://github.com/thecfu/scraparr)
    * [Script exporter](https://github.com/adhocteam/script_exporter)
    * [Shield exporter](https://github.com/cloudfoundry-community/shield_exporter)
+   * [Slurm exporter](https://github.com/sckyzo/slurm_exporter)
    * [Smokeping prober](https://github.com/SuperQ/smokeping_prober)
    * [SMTP/Maildir MDA blackbox prober](https://github.com/cherti/mailexporter)
    * [SoftEther exporter](https://github.com/dalance/softether_exporter)

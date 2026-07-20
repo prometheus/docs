@@ -116,6 +116,7 @@ For notification mechanisms not natively supported by the Alertmanager, the
   * [SIGNL4](https://www.signl4.com/blog/portfolio_item/prometheus-alertmanager-mobile-alert-notification-duty-schedule-escalation)
   * [Simplepush](https://codeberg.org/stealth/alertpush)
   * [SMS](https://github.com/messagebird/sachet): supports [multiple providers](https://github.com/messagebird/sachet/blob/master/examples/config.yaml)
+  * [SMSEagle](https://github.com/smseagle/alertmanager-sms-calls): support SMS & voice calls (with text-to-speach offline conversion)
   * [SNMP traps](https://github.com/maxwo/snmp_notifier)
   * [Squadcast](https://support.squadcast.com/docs/prometheus)
   * [STOMP](https://github.com/thewillyhuman/alertmanager-stomp-forwarder)

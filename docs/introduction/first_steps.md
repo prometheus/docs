@@ -83,11 +83,9 @@ Let us try looking at some data that Prometheus has collected about itself. To
 use Prometheus's built-in expression browser, navigate to
 http://localhost:9090/query and choose the "Table" tab.
 
-To see what metrics are available to query, you can use the **Metrics Explorer**. Click the globe icon next to the "Execute" button, which reveals a list of all metrics currently being scraped. Alternatively, you can start typing in the expression bar to trigger autocomplete suggestions. 
-
-A great metric to start with is `up`, which shows the current health status of all configured scrapers (a value of `1` means healthy). To see how many data points your scrapers are actively processing, you can query `scrape_samples_scraped`.
-
-For this tutorial, we will use a metric that Prometheus exports about itself called `promhttp_metric_handler_requests_total` (the total number of `/metrics` requests the Prometheus server has served). Go ahead and enter this into the expression console:
+As you can gather from http://localhost:9090/metrics, one metric that
+Prometheus exports about itself is called
+`promhttp_metric_handler_requests_total` (the total number of `/metrics` requests the Prometheus server has served). Go ahead and enter this into the expression console:
 
 ```
 promhttp_metric_handler_requests_total
@@ -121,14 +119,6 @@ rate(promhttp_metric_handler_requests_total{code="200"}[1m])
 ```
 
 You can experiment with the graph range parameters and other settings.
-
-## Saving queries (Recording Rules)
-
-If you find yourself typing the same long queries repeatedly, Prometheus allows you to save them as **Recording Rules**. 
-
-Instead of re-evaluating a complex query every time you refresh a dashboard, a recording rule evaluates the query in the background on a schedule and saves the result as a brand new, pre-computed metric. This is essential for both performance and convenience as your monitoring infrastructure grows.
-
-To learn how to configure your first saved query, read the [Recording rules documentation](/docs/prometheus/latest/configuration/recording_rules/).
 
 ## Monitoring other targets
 

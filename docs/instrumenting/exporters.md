@@ -227,6 +227,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [Cachet exporter](https://github.com/ContaAzul/cachet_exporter)
    * [ccache exporter](https://github.com/virtualtam/ccache_exporter)
    * [c-lightning exporter](https://github.com/lightningd/plugins/tree/master/prometheus)
+   * [Dagster exporter](https://github.com/HirofumiTsuda/dagster-prometheus-exporter)
    * [DHCPD leases exporter](https://github.com/DRuggeri/dhcpd_leases_exporter)
    * [Dovecot exporter](https://github.com/kumina/dovecot_exporter)
    * [Dnsmasq exporter](https://github.com/google/dnsmasq_exporter)

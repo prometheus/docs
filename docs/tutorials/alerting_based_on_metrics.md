@@ -82,3 +82,27 @@ Open [http://localhost:9090/rules](http://localhost:9090/rules) in your browser 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/xaMXVrle98M" frameborder="0" allowfullscreen></iframe>
 
 Similarly Alertmanager can be configured with other receivers to notify when an alert is firing.
+
+## Inhibiting alerts from an entire cluster
+
+When a whole cluster (or instance) becomes unreachable, you usually don't want a separate notification for every alert that fires as a consequence. Alertmanager's [inhibition](/docs/alerting/latest/alertmanager/#inhibition) feature lets a single "cluster is down" alert mute all the dependent alerts coming from that same cluster, so you receive one meaningful notification instead of a flood.
+
+Inhibition is configured with `inhibit_rules` in `alertmanager.yml`. The following rule mutes every alert that shares the same `cluster` label value as a firing `ClusterUnreachable` alert:
+
+> alertmanager.yml
+
+```yaml
+inhibit_rules:
+  - source_matchers:
+      - 'alertname = "ClusterUnreachable"'
+    target_matchers:
+      - 'alertname != "ClusterUnreachable"'
+    equal:
+      - 'cluster'
+```
+
+- `source_matchers` selects the alert that suppresses others when it is firing (here, `ClusterUnreachable`).
+- `target_matchers` selects the alerts to mute. `ClusterUnreachable` is excluded so the source alert itself is still delivered.
+- `equal` lists the labels whose values must match between the source and target alerts for the inhibition to apply. Alerts are muted only when they share the **same** `cluster` value, so an outage in one cluster never hides alerts from another.
+
+For this to work, both the `ClusterUnreachable` alert and the alerts you want to mute must carry a `cluster` label, for example set on your alerting rules or added through `external_labels`. An alert is also never inhibited by itself, so `ClusterUnreachable` is always delivered.

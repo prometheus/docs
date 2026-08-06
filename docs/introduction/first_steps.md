@@ -73,8 +73,9 @@ To start Prometheus with our newly created configuration file, change to the dir
 
 Prometheus should start up. You should also be able to browse to a status page about itself at http://localhost:9090. Give it about 30 seconds to collect data about itself from its own HTTP metrics endpoint.
 
-You can also verify that Prometheus is serving metrics about itself by
-navigating to its own metrics endpoint: http://localhost:9090/metrics.
+You can verify that Prometheus is serving metrics about itself by navigating to its own metrics endpoint: http://localhost:9090/metrics. 
+
+To confirm that Prometheus is actively scraping this data, navigate to **Status > Targets** in the top menu of the Prometheus UI. You should see the `prometheus` endpoint listed with a state of `UP`. This is the easiest way to verify that data is successfully flowing from your targets into Prometheus.
 
 ## Using the expression browser
 

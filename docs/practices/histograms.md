@@ -14,7 +14,7 @@ use native histograms and prefer them over both classic histograms and
 summaries.
 
 Where things start to become tricky is if you find yourself in a situation
-where you cannot simply use native histograms. Most commenly, you might have to
+where you cannot simply use native histograms. Most commonly, you might have to
 work with existing metrics that include classic histograms or summaries, or
 maybe the instrumentation library you are using does not support native
 histograms yet. Furthermore, there are a few specific use cases where you might

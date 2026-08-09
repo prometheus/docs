@@ -135,6 +135,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [Nginx VTS exporter](https://github.com/sysulq/nginx-vts-exporter)
    * [Passenger exporter](https://github.com/stuartnelson3/passenger_exporter)
    * [Squid exporter](https://github.com/boynux/squid-exporter)
+   * [Synthetic Exporter](https://github.com/aizik-fridman/synthetic-exporter)
    * [Tinyproxy exporter](https://github.com/gmm42/tinyproxy_exporter)
    * [Varnish exporter](https://github.com/jonnenauha/prometheus_varnish_exporter)
    * [WebDriver exporter](https://github.com/mattbostock/webdriver_exporter)

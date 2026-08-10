@@ -4,8 +4,8 @@ export default {
   siteUrl: "https://prometheus.io",
 
   announcement: {
-    text: "Join [PromCon EU 2026](https://promcon.io/2026-munich/), the Prometheus users conference, on October 7–8, 2026 in Munich. The [Call for Speakers](https://sessionize.com/promcon-eu-2026/) is open until July 19, 2026.",
-    mobileText: "[PromCon EU 2026](https://promcon.io/2026-munich/) — Oct 7–8, Munich. [CFP](https://sessionize.com/promcon-eu-2026/) open until July 19.",
+    text: "Join [PromCon EU 2026](https://promcon.io/2026-munich/), the Prometheus users conference, on October 7–8, 2026 in Munich.",
+    mobileText: "[PromCon EU 2026](https://promcon.io/2026-munich/) — Oct 7–8, Munich.",
     startDate: "2026-07-17",
     endDate: "2026-10-08",
   },

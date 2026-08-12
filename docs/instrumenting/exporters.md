@@ -302,6 +302,7 @@ Some third-party software exposes metrics in the Prometheus format, so no
 separate exporters are needed:
 
    * [Ansible Automation Platform Automation Controller (AWX)](https://docs.ansible.com/automation-controller/latest/html/administration/metrics.html)
+   * [Apache APISIX](https://apisix.apache.org/docs/apisix/plugins/prometheus/)
    * [App Connect Enterprise](https://github.com/ot4i/ace-docker)
    * [Ballerina](https://ballerina.io/)
    * [BFE](https://github.com/baidu/bfe)

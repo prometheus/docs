@@ -113,10 +113,15 @@ const fetchRepoDocs = async ({
   const allReleaseTags: string[] = [];
 
   for await (const { data: releases } of iterator) {
-    allReleaseTags.push(...releases.map((r) => r.tag_name));
+    // Skip ancient releases. Some have non-semver compatible strings and the
+    // version comparison below breaks. Also note the lack of `v` in the tag.
+    const validReleases = (repo === "prometheus")
+      ? releases.filter((r) => !r.tag_name.startsWith("0."))
+      : releases;
+
+    allReleaseTags.push(...validReleases.map((r) => r.tag_name));
     // For the Prometheus repo for efficieny-reasons, stop once we have found at least
     // one release starting with "v1.".
-    // Note: releases are sorted by date, so this works ok.
     // TODO: Do we even still want to show the latest v1 release?
     if (
       owner === "prometheus" &&

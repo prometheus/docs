@@ -2,3 +2,9 @@
 from = "https://www.prometheus.io/*"
 to = "https://prometheus.io/:splat"
 force = true
+
+# first_steps merged into tutorials/getting_started (prometheus/docs#3066)
+[[redirects]]
+from = "/docs/introduction/first_steps"
+to = "/docs/tutorials/getting_started"
+force = true

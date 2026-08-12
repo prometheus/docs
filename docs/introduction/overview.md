@@ -11,7 +11,7 @@ monitoring and alerting toolkit originally built at
 companies and organizations have adopted Prometheus, and the project has a very
 active developer and user [community](/community). It is now a standalone open source project
 and maintained independently of any company. To emphasize this, and to clarify
-the project's governance structure, Prometheus joined the
+the project's [governance](/governance) structure, Prometheus joined the
 [Cloud Native Computing Foundation](https://cncf.io/) in 2016
 as the second hosted project, after [Kubernetes](http://kubernetes.io/).
 

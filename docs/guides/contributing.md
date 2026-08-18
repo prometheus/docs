@@ -162,19 +162,24 @@ splitting it into separate PRs to make review easier.
 ## AI generated contributions
 
 The Prometheus authors don't discourage the use of AI tools to generate code.
-However we require a [DCO](https://developercertificate.org/) on each commit, by 
-which the author certifies that the contribution was created in whole or in part 
-by the author and that they have the right to submit it. Or if the contribution 
-is based upon previous work, it is covered under an appropriate open source 
-license and the author has the right under that license to submit that work with 
-modifications. See https://www.linuxfoundation.org/legal/generative-ai for more 
+However, we require a [DCO](https://developercertificate.org/) on each commit, by
+which the author certifies that the contribution was created in whole or in part
+by the author and that they have the right to submit it. Or if the contribution
+is based upon previous work, it is covered under an appropriate open source
+license and the author has the right under that license to submit that work with
+modifications. See https://www.linuxfoundation.org/legal/generative-ai for more
 details.
-The human author must fully understand the code they are submitting. Please 
-consider the DCO and carefully review AI-generated code before submitting 
-it. We encourage explicitly disclosing AI tool usage, for example by adding an 
-`Assisted-by: <name of AI tool used>` to the respective commits.
 
-For discussions around issues and PRs we strongly prefer a dialog with humans.
+Do not leave the first review of AI generated changes to the reviewers. The human
+author must fully review the changes (code review, testing, etc.) before submitting your PR. 
+Reviewers may ask questions about your AI-assisted code, and if you cannot explain why a
+change was made, the PR will be closed.
+
+Large AI generated PRs and AI generated commit messages are not allowed.
+
+When responding to review comments, you must do so without relying on AI tools.
+Reviewers want to engage directly with you, not with generated responses. If you
+do not engage directly with reviewers, the PR will be closed.
 
 ## Coding style
 

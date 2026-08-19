@@ -41,6 +41,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
       if (doc.type === "local-doc") {
         return true;
       }
+      if (doc.type === "unversioned-repo-doc") {
+        return true;
+      }
       if (doc.version === doc.latestVersion) {
         return true;
       }

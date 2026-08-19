@@ -20,6 +20,48 @@ const OUTDIR = "./generated";
 const docsCollection: DocsCollection = {};
 const allRepoVersions: AllRepoVersions = {};
 
+const normalizeMarkdownFilePath = (filePath: string) =>
+  filePath === "README.md"
+    ? "index.md"
+    : filePath.replace(/\/README\.md$/, "/index.md");
+
+const markdownSlugPath = (filePath: string) =>
+  normalizeMarkdownFilePath(filePath).replace(/(^|\/)index\.md$/, "").replace(/\.md$/, "");
+
+const preferredPreviewOrder = [
+  "index",
+  "getting-started",
+  "connecting",
+  "database-permissions",
+  "configuration",
+  "secrets",
+  "docker",
+  "aws-rds",
+];
+
+const inferTitle = (markdown: string, filePath: string) => {
+  const heading = markdown
+    .split(/\r?\n/)
+    .find((line) => line.startsWith("# "))
+    ?.replace(/^#\s+/, "")
+    .trim();
+
+  if (heading) {
+    return heading;
+  }
+
+  return path
+    .basename(filePath, ".md")
+    .replace(/[-_]/g, " ")
+    .replace(/\b\w/g, (char) => char.toUpperCase());
+};
+
+const inferSortRank = (filePath: string, index: number) => {
+  const slugPath = markdownSlugPath(filePath) || "index";
+  const sortRank = preferredPreviewOrder.indexOf(slugPath);
+  return sortRank === -1 ? 1000 + index : sortRank + 1;
+};
+
 // Find all files (.md and others) recursively in a directory.
 const findFiles = (dir: string): string[] => {
   let results: string[] = [];
@@ -44,27 +86,28 @@ const syncRepo = (owner: string, repo: string, repoDir: string) => {
       `git clone --bare --filter=blob:none https://github.com/${owner}/${repo}.git ${repoDir}`
     );
     execSync(`git -C ${repoDir} config core.sparseCheckout true`);
-  } else {
-    execSync(`git -C ${repoDir} fetch --prune --quiet`);
   }
+  execSync(
+    `git -C ${repoDir} fetch origin '+refs/heads/*:refs/remotes/origin/*' '+refs/tags/*:refs/tags/*' --prune --quiet`
+  );
 };
 
 const checkoutVersionDocs = (
   owner: string,
   repo: string,
   repoDir: string,
-  version: string,
+  checkoutName: string,
+  gitRef: string,
   workingTreeBase: string,
   repoDocsDir: string
 ) => {
   const workingTree = path.resolve(
-    `${workingTreeBase}/${owner}/${repo}/${version}`
+    `${workingTreeBase}/${owner}/${repo}/${checkoutName}`
   );
-  const checkoutConfig = `${repoDir}/worktrees/${version}/info/sparse-checkout`;
-  const branch = `release-${version}`;
+  const checkoutConfig = `${repoDir}/worktrees/${checkoutName}/info/sparse-checkout`;
 
   console.log(
-    `Checking out ${branch} of ${owner}/${repo} from ${repoDir} into ${workingTree}...`
+    `Checking out ${gitRef} of ${owner}/${repo} from ${repoDir} into ${workingTree}...`
   );
 
   if (!fs.existsSync(checkoutConfig) || !fs.existsSync(workingTree)) {
@@ -75,7 +118,7 @@ const checkoutVersionDocs = (
       execSync(`rm -rf ${workingTree}`);
     }
     execSync(
-      `cd ${repoDir} && git worktree prune && git worktree add --no-checkout ${workingTree} ${branch}`
+      `cd ${repoDir} && git worktree prune && git worktree add --no-checkout ${workingTree} ${gitRef}`
     );
     if (!fs.existsSync(path.dirname(checkoutConfig))) {
       fs.mkdirSync(path.dirname(checkoutConfig), { recursive: true });
@@ -89,13 +132,107 @@ const checkoutVersionDocs = (
   execSync(`git -C ${workingTree} clean --force`);
 };
 
-const fetchRepoDocs = async ({
+type IntegrateRepoDocsOptions = {
+  owner: string;
+  repo: string;
+  docsDir: string;
+  repoDocsDir: string;
+  assetsRoot: string;
+  allowMissingFrontmatter?: boolean;
+  includeFile: (filePath: string) => boolean;
+  addMarkdownDoc: (args: {
+    file: string;
+    filePath: string;
+    slugPath: string;
+    title: string;
+    navTitle?: string;
+    sortRank: number;
+    hideInNav?: boolean;
+  }) => void;
+};
+
+const integrateRepoDocs = ({
+  owner,
+  repo,
+  docsDir,
+  repoDocsDir,
+  assetsRoot,
+  allowMissingFrontmatter,
+  includeFile,
+  addMarkdownDoc,
+}: IntegrateRepoDocsOptions) => {
+  const files = findFiles(docsDir).sort((a, b) => {
+    const aPath = path.relative(docsDir, a);
+    const bPath = path.relative(docsDir, b);
+    return markdownSlugPath(aPath).localeCompare(markdownSlugPath(bPath));
+  });
+
+  for (const [index, file] of files.entries()) {
+    const filePath = path.relative(docsDir, file);
+    const normalizedFilePath = normalizeMarkdownFilePath(filePath);
+
+    if (!includeFile(normalizedFilePath)) {
+      continue;
+    }
+
+    if (file.endsWith(".md")) {
+      console.log("Found Markdown file:", filePath);
+
+      const markdown = fs.readFileSync(file, "utf-8");
+      const {
+        content,
+        data: {
+          title,
+          nav_title: navTitle,
+          sort_rank: sortRank,
+          hide_in_nav: hideInNav,
+        },
+      } = matter(markdown);
+
+      if (!title && !allowMissingFrontmatter) {
+        throw new Error(`Missing title in ${file}`);
+      }
+      if (sortRank == null && !allowMissingFrontmatter) {
+        // Docs in https://github.com/prometheus/prometheus/tree/main/docs/command-line
+        // are currently missing sort_rank 😤
+        if (!filePath.includes("command-line")) {
+          throw new Error(`Missing sort_rank in ${file}`);
+        }
+      }
+
+      const finalTitle = title ?? inferTitle(content, filePath);
+      const finalSortRank = sortRank ?? inferSortRank(filePath, index);
+
+      addMarkdownDoc({
+        file,
+        filePath: path.posix.join(
+          repoDocsDir,
+          filePath.split(path.sep).join(path.posix.sep)
+        ),
+        slugPath: markdownSlugPath(filePath),
+        title: finalTitle,
+        navTitle,
+        sortRank: finalSortRank,
+        hideInNav,
+      });
+    } else {
+      console.log("Found non-Markdown asset file:", filePath);
+      const destDir = `${OUTDIR}/${assetsRoot}/${path.dirname(filePath)}`;
+      if (!fs.existsSync(destDir)) {
+        fs.mkdirSync(destDir, { recursive: true });
+      }
+      fs.copyFileSync(file, `${destDir}/${path.basename(filePath)}`);
+    }
+  }
+};
+
+const fetchVersionedRepoDocs = async ({
   owner,
   repo,
   repoDocsDir,
   minNumVersions,
   slugPrefix,
-}: GithubMarkdownSource) => {
+}: Extract<GithubMarkdownSource, { versioning: "release-branches" }>) => {
   console.log(`Fetching releases and repo docs for ${owner}/${repo}...`);
 
   // Clone a bare repo with sparse checkout so we can get the docs at specific
@@ -184,6 +321,7 @@ const fetchRepoDocs = async ({
       repo,
       repoCheckoutDir,
       version,
+      `origin/release-${version}`,
       `${OUTDIR}/repo-docs`,
       repoDocsDir
     );
@@ -192,47 +330,33 @@ const fetchRepoDocs = async ({
     // Store metadata about Markdown page files, copy non-Markdown
     // assets to the docs assets directory.
     const assetsRoot = `/repo-docs-assets/${owner}/${repo}/${version}`;
-    for (const file of findFiles(docsDir)) {
-      const filePath = path.relative(docsDir, file);
-
-      if (
-        owner === "prometheus" &&
-        ["prometheus", "alertmanager"].includes(repo) &&
-        filePath === "index.md"
-      ) {
-        // Skip the index.md file in the external repo, as it is not a real or conformant page.
-        console.log("Skipping Prometheus index.md file:", filePath);
-        continue;
-      }
-
-      if (file.endsWith(".md")) {
-        console.log("Found Markdown file:", filePath);
-
-        const {
-          data: {
-            title,
-            nav_title: navTitle,
-            sort_rank: sortRank,
-            hide_in_nav: hideInNav,
-          },
-        } = matter(fs.readFileSync(file, "utf-8"));
-
-        if (!title) {
-          throw new Error(`Missing title in ${file}`);
+    integrateRepoDocs({
+      owner,
+      repo,
+      docsDir,
+      repoDocsDir,
+      assetsRoot,
+      includeFile: (filePath) => {
+        if (
+          owner === "prometheus" &&
+          ["prometheus", "alertmanager"].includes(repo) &&
+          filePath === "index.md"
+        ) {
+          // Skip the index.md file in the external repo, as it is not a real or conformant page.
+          console.log("Skipping Prometheus index.md file:", filePath);
+          return false;
         }
-        if (!sortRank) {
-          // Docs in https://github.com/prometheus/prometheus/tree/main/docs/command-line
-          // are currently missing sort_rank 😤
-          if (!filePath.includes("command-line")) {
-            throw new Error(`Missing sort_rank in ${file}`);
-          }
-        }
-
-        const slug = path.join(
-          slugPrefix,
-          version,
-          filePath.replace(/(\/index)*\.md$/, "")
-        );
+        return true;
+      },
+      addMarkdownDoc: ({
+        file,
+        slugPath,
+        title,
+        navTitle,
+        sortRank,
+        hideInNav,
+      }) => {
+        const slug = path.join(slugPrefix, version, slugPath);
         const newDoc: DocMetadata = {
           type: "repo-doc",
           slug,
@@ -254,24 +378,183 @@ const fetchRepoDocs = async ({
         docsCollection[slug] = newDoc;
 
         if (version === latestVersion) {
-          const latestSlug = path.join(
-            slugPrefix,
-            "latest",
-            filePath.replace(/(\/index)*\.md$/, "")
-          );
+          const latestSlug = path.join(slugPrefix, "latest", slugPath);
           // Also add the latest version to the collection with
           // "latest" as the version in the slug.
           docsCollection[latestSlug] = { ...newDoc, slug: latestSlug };
         }
-      } else {
-        console.log("Found non-Markdown asset file:", filePath);
-        const destDir = `${OUTDIR}/${assetsRoot}/${path.dirname(filePath)}`;
-        if (!fs.existsSync(destDir)) {
-          fs.mkdirSync(destDir, { recursive: true });
-        }
-        fs.copyFileSync(file, `${destDir}/${path.basename(filePath)}`);
-      }
+      },
+    });
+  }
+};
+
+const getLatestReleaseTag = async (owner: string, repo: string) => {
+  const iterator = octokit.paginate.iterator(octokit.rest.repos.listReleases, {
+    owner,
+    repo,
+    per_page: 100,
+  });
+
+  for await (const { data: releases } of iterator) {
+    const latestRelease = releases.find(
+      (release) => !release.draft && !release.prerelease
+    );
+    if (latestRelease) {
+      return latestRelease.tag_name;
     }
+  }
+
+  throw new Error(`No stable release found for ${owner}/${repo}.`);
+};
+
+const fetchLatestReleaseTagRepoDocs = async ({
+  owner,
+  repo,
+  repoDocsDir,
+  slugPrefix,
+}: Extract<GithubMarkdownSource, { versioning: "latest-release-tag" }>) => {
+  console.log(`Fetching latest release docs for ${owner}/${repo}...`);
+
+  const repoCheckoutDir = `${OUTDIR}/repos/${owner}/${repo}.git`;
+  syncRepo(owner, repo, repoCheckoutDir);
+
+  const gitRef = await getLatestReleaseTag(owner, repo);
+  checkoutVersionDocs(
+    owner,
+    repo,
+    repoCheckoutDir,
+    gitRef,
+    gitRef,
+    `${OUTDIR}/repo-docs`,
+    repoDocsDir
+  );
+
+  const docsDir = `${OUTDIR}/repo-docs/${owner}/${repo}/${gitRef}/${repoDocsDir}`;
+  const assetsRoot = `/repo-docs-assets/${owner}/${repo}/${gitRef}`;
+
+  if (!fs.existsSync(docsDir)) {
+    console.warn(
+      `Skipping ${owner}/${repo}@${gitRef}: ${repoDocsDir} directory does not exist.`
+    );
+    return;
+  }
+
+  integrateRepoDocs({
+    owner,
+    repo,
+    docsDir,
+    repoDocsDir,
+    assetsRoot,
+    includeFile: () => true,
+    addMarkdownDoc: ({
+      file,
+      filePath,
+      slugPath,
+      title,
+      navTitle,
+      sortRank,
+      hideInNav,
+    }) => {
+      const slug = path.join(slugPrefix, slugPath);
+
+      docsCollection[slug] = {
+        type: "unversioned-repo-doc",
+        slug,
+        filePath: file,
+        owner,
+        repo,
+        gitRef,
+        slugPrefix,
+        repoFilePath: filePath,
+        assetsRoot,
+        title,
+        navTitle,
+        sortRank,
+        hideInNav,
+        children: [],
+      };
+    },
+  });
+};
+
+const fetchGitRefRepoDocs = async ({
+  owner,
+  repo,
+  repoDocsDir,
+  slugPrefix,
+  ref,
+  allowMissingFrontmatter,
+}: Extract<GithubMarkdownSource, { versioning: "git-ref" }>) => {
+  console.log(`Fetching docs for ${owner}/${repo}@${ref}...`);
+
+  const repoCheckoutDir = `${OUTDIR}/repos/${owner}/${repo}.git`;
+  syncRepo(owner, repo, repoCheckoutDir);
+  execSync(`git -C ${repoCheckoutDir} fetch origin ${ref} --quiet`);
+
+  const checkoutName = ref.replace(/[^a-zA-Z0-9._-]/g, "-");
+  checkoutVersionDocs(
+    owner,
+    repo,
+    repoCheckoutDir,
+    checkoutName,
+    ref,
+    `${OUTDIR}/repo-docs`,
+    repoDocsDir
+  );
+
+  const docsDir = `${OUTDIR}/repo-docs/${owner}/${repo}/${checkoutName}/${repoDocsDir}`;
+  const assetsRoot = `/repo-docs-assets/${owner}/${repo}/${checkoutName}`;
+
+  integrateRepoDocs({
+    owner,
+    repo,
+    docsDir,
+    repoDocsDir,
+    assetsRoot,
+    allowMissingFrontmatter,
+    includeFile: () => true,
+    addMarkdownDoc: ({
+      file,
+      filePath,
+      slugPath,
+      title,
+      navTitle,
+      sortRank,
+      hideInNav,
+    }) => {
+      const slug = path.join(slugPrefix, slugPath);
+
+      docsCollection[slug] = {
+        type: "unversioned-repo-doc",
+        slug,
+        filePath: file,
+        owner,
+        repo,
+        gitRef: ref,
+        slugPrefix,
+        repoFilePath: filePath,
+        assetsRoot,
+        title,
+        navTitle,
+        sortRank,
+        hideInNav,
+        children: [],
+      };
+    },
+  });
+};
+
+const fetchRepoDocs = async (source: GithubMarkdownSource) => {
+  switch (source.versioning) {
+    case "release-branches":
+      await fetchVersionedRepoDocs(source);
+      break;
+    case "latest-release-tag":
+      await fetchLatestReleaseTagRepoDocs(source);
+      break;
+    case "git-ref":
+      await fetchGitRefRepoDocs(source);
+      break;
   }
 };
 

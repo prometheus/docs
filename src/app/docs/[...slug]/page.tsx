@@ -63,6 +63,13 @@ function pagefindBreadcrumbsTitle(currentPage: DocMetadata) {
   return titles.join(" > ");
 }
 
+function markdownBasePath(currentPage: DocMetadata) {
+  return currentPage.filePath.endsWith("README.md") ||
+    currentPage.filePath.endsWith("index.md")
+    ? `/docs/${currentPage.slug}/`
+    : `/docs/${currentPage.slug}`;
+}
+
 export default async function DocsPage({
   params,
 }: {
@@ -79,7 +86,7 @@ export default async function DocsPage({
   const markdown = await fs.readFile(docMeta.filePath, "utf-8");
 
   const pagefindShouldIndex =
-    docMeta.type === "local-doc" ||
+    docMeta.type !== "repo-doc" ||
     (docMeta.version === docMeta.latestVersion &&
       !docMeta.slug.startsWith(docMeta.versionRoot));
 
@@ -120,9 +127,14 @@ export default async function DocsPage({
             } else if (href.startsWith("/") && docMeta.type === "repo-doc") {
               // Turn "/<path>" into e.g. "https://github.com/prometheus/prometheus/blob/release-3.3/<path>"
               return `https://github.com/${docMeta.owner}/${docMeta.repo}/blob/release-${docMeta.version}${href}`;
+            } else if (
+              href.startsWith("/") &&
+              docMeta.type === "unversioned-repo-doc"
+            ) {
+              return `https://github.com/${docMeta.owner}/${docMeta.repo}/blob/${docMeta.gitRef}${href}`;
             } else if (href.includes(".md") && !isAbsoluteUrl(href)) {
               // Turn relative links like "d.md" in "docs/a/b/c.md" into full paths like "/docs/a/b/d/".
-              return resolveRelativeUrl(`/docs/${docMeta.slug}`, href);
+              return resolveRelativeUrl(markdownBasePath(docMeta), href);
             }
             return href;
           }}
@@ -132,7 +144,7 @@ export default async function DocsPage({
               src &&
               typeof src === "string" &&
               !isAbsoluteUrl(src) &&
-              docMeta.type === "repo-doc"
+              docMeta.type !== "local-doc"
             ) {
               return `${docMeta.assetsRoot}/${src}`;
             }

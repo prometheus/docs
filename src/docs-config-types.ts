@@ -36,9 +36,16 @@ export type GithubMarkdownSource = {
   repoDocsDir: string;
   // The URL slug prefix to prepend for docs from this repo.
   slugPrefix: string;
-  // The minimum number of versions to show for this repo.
-  minNumVersions: number;
-};
+} & (
+  | {
+      versioning: "release-branches";
+      // The minimum number of versions to show for this repo.
+      minNumVersions: number;
+    }
+  | {
+      versioning: "latest-release-tag";
+    }
+);
 
 export type LocalMarkdownSource = {
   docsDir: string;

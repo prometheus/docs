@@ -33,6 +33,7 @@ export default {
       repo: "prometheus",
       repoDocsDir: "docs",
       slugPrefix: "prometheus",
+      versioning: "release-branches",
       minNumVersions: 10,
     },
     {
@@ -40,7 +41,15 @@ export default {
       repo: "alertmanager",
       repoDocsDir: "docs",
       slugPrefix: "alerting",
+      versioning: "release-branches",
       minNumVersions: 8,
+    },
+    {
+      owner: "prometheus-community",
+      repo: "postgres_exporter",
+      repoDocsDir: "docs",
+      slugPrefix: "exporters/postgres",
+      versioning: "latest-release-tag",
     },
   ],
 

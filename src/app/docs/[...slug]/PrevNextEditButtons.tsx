@@ -22,6 +22,23 @@ function buildIssueUrl(currentPage: DocMetadata): string {
   return `${repoBase}/issues/new?title=${title}&body=${body}`;
 }
 
+function buildEditUrl(currentPage: DocMetadata): string {
+  if (currentPage.type === "local-doc") {
+    return `https://github.com/prometheus/docs/blob/main/docs/${currentPage.slug}.md`;
+  }
+
+  if (currentPage.type === "unversioned-repo-doc") {
+    return `https://github.com/${currentPage.owner}/${currentPage.repo}/blob/HEAD/${currentPage.repoFilePath}`;
+  }
+
+  return `https://github.com/${currentPage.owner}/${
+    currentPage.repo
+  }/blob/main/docs/${currentPage.slug
+    .split("/")
+    .slice(currentPage.slugPrefix.split("/").length + 1)
+    .join("/")}.md`;
+}
+
 export default function PrevNextEditButtons({
   currentPage,
 }: {
@@ -69,16 +86,7 @@ export default function PrevNextEditButtons({
       <Group gap="xs" wrap="nowrap">
         <Button
           component="a"
-          href={
-            currentPage.type === "local-doc"
-              ? `https://github.com/prometheus/docs/blob/main/docs/${currentPage.slug}.md`
-              : `https://github.com/${currentPage.owner}/${
-                  currentPage.repo
-                }/blob/main/docs/${currentPage.slug
-                  .split("/")
-                  .slice(currentPage.slugPrefix.split("/").length + 1)
-                  .join("/")}.md`
-          }
+          href={buildEditUrl(currentPage)}
           target="_blank"
           variant="subtle"
           color="var(--mantine-color-text)"

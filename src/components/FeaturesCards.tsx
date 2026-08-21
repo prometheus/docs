@@ -53,7 +53,7 @@ const features = [
     description:
       "Prometheus comes with hundreds of official and community-contributed integrations that allow you to easily extract metrics from existing systems.",
     icon: IconAffiliate,
-    link: "/docs/instrumenting/exporters/",
+    link: "/docs/exporters/exporters-and-integrations/",
   },
 ];
 

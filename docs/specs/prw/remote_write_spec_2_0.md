@@ -437,7 +437,7 @@ Typically, Senders can detect when a time series will no longer be appended usin
 
 #### Metadata
 
-Metadata SHOULD follow the official Prometheus guidelines for [Type](https://prometheus.io/docs/instrumenting/writing_exporters/#types) and [Help](https://prometheus.io/docs/instrumenting/writing_exporters/#help-strings).
+Metadata SHOULD follow the official Prometheus guidelines for [Type](https://prometheus.io/docs/exporters/writing-exporters/#types) and [Help](https://prometheus.io/docs/exporters/writing-exporters/#help-strings).
 
 Metadata MAY follow the official OpenMetrics guidelines for [Unit](https://github.com/prometheus/OpenMetrics/blob/v1.0.0/specification/OpenMetrics.md#unit).
 

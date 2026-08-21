@@ -49,9 +49,7 @@ export default {
       repo: "postgres_exporter",
       repoDocsDir: "docs",
       slugPrefix: "exporters/postgres",
-      versioning: "git-ref",
-      ref: "3d2ee4adba4ec98106b6ec45e59b12f5b49ef3a4",
-      allowMissingFrontmatter: true,
+      versioning: "latest-release-tag",
     },
   ],
 

@@ -45,11 +45,6 @@ export type GithubMarkdownSource = {
   | {
       versioning: "latest-release-tag";
     }
-  | {
-      versioning: "git-ref";
-      ref: string;
-      allowMissingFrontmatter?: boolean;
-    }
 );
 
 export type LocalMarkdownSource = {

@@ -4,7 +4,7 @@ sort_rank: 5
 ---
 
 In addition to [client libraries](/docs/instrumenting/clientlibs/) and
-[exporters and related libraries](/docs/instrumenting/exporters/), there are
+[exporters and related libraries](/docs/exporters/exporters-and-integrations/), there are
 numerous other generic integration points in Prometheus. This page lists some
 of the integrations with these.
 

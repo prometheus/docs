@@ -27,7 +27,7 @@ In [Prometheus v2.47.0](https://github.com/prometheus/prometheus/releases/tag/v2
 
 ### Support UTF-8 metric and label names
 
-[OpenTelemetry semantic conventions](https://github.com/open-telemetry/semantic-conventions/blob/main/docs/http/http-metrics.md) push for `“.”` to be the namespacing character. For example, `http.server.request.duration`. However, Prometheus currently requires a [more limited character set](https://prometheus.io/docs/instrumenting/writing_exporters/#naming), which means we convert the metric to `http_server_request_duration` when ingesting it into Prometheus.
+[OpenTelemetry semantic conventions](https://github.com/open-telemetry/semantic-conventions/blob/main/docs/http/http-metrics.md) push for `“.”` to be the namespacing character. For example, `http.server.request.duration`. However, Prometheus currently requires a [more limited character set](https://prometheus.io/docs/exporters/writing-exporters/#naming), which means we convert the metric to `http_server_request_duration` when ingesting it into Prometheus.
 
 This causes unnecessary dissonance and we’re working on removing this limitation by adding UTF-8 support for all labels and metric names. The progress is tracked [here](https://github.com/prometheus/prometheus/issues/13095).
 

@@ -4,7 +4,7 @@ nav_title: "2.0"
 sort_rank: 2
 ---
 
-* Version: 2.0-rc.4
+* Version: 2.0-rc.5
 * Status: **Experimental**
 * Date: May 2024
 

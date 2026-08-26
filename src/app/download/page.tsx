@@ -1,8 +1,8 @@
 import TOC from "@/components/TOC";
 import { getPageMetadata } from "@/page-metadata";
 import { Anchor, Box, Group, Title } from "@mantine/core";
+import { LinkAnchor } from "@/components/NextLinks";
 import { Metadata } from "next";
-import Link from "next/link";
 import React from "react";
 import DownloadsSelector from "./DownloadsSelector";
 
@@ -37,13 +37,12 @@ export default function DownloadPage() {
           <p>
             There is also a constantly growing number of independently
             maintained exporters listed at{" "}
-            <Anchor
+            <LinkAnchor
               c="var(--secondary-link-color)"
-              component={Link}
               href="/docs/instrumenting/exporters/"
             >
               Exporters and integrations
-            </Anchor>
+            </LinkAnchor>
             .
           </p>
 

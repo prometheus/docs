@@ -1,5 +1,4 @@
 import { Group, Box, Button, Text, Stack } from "@mantine/core";
-import Link from "next/link";
 import {
   IconArrowRight,
   IconArrowLeft,
@@ -7,6 +6,7 @@ import {
   IconBug,
 } from "@tabler/icons-react";
 import { DocMetadata } from "@/docs-collection-types";
+import { LinkButton } from "@/components/NextLinks";
 
 function buildIssueUrl(currentPage: DocMetadata): string {
   const repoBase =
@@ -38,9 +38,8 @@ export default function PrevNextEditButtons({
     >
       <Box flex="0 1 40%" maw="40%">
         {currentPage.prev && (
-          <Button
+          <LinkButton
             w="100%"
-            component={Link}
             href={`/docs/${currentPage.prev.slug}/`}
             variant="outline"
             color="var(--mantine-color-text)"
@@ -63,7 +62,7 @@ export default function PrevNextEditButtons({
                 {currentPage.prev.navTitle ?? currentPage.prev.title}
               </Text>
             </Stack>
-          </Button>
+          </LinkButton>
         )}
       </Box>
       <Group gap="xs" wrap="nowrap">
@@ -115,9 +114,8 @@ export default function PrevNextEditButtons({
       </Group>
       <Box flex="0 1 40%" maw="40%" ta="right">
         {currentPage.next && (
-          <Button
+          <LinkButton
             w="100%"
-            component={Link}
             href={`/docs/${currentPage.next.slug}/`}
             variant="outline"
             color="var(--mantine-color-text)"
@@ -140,7 +138,7 @@ export default function PrevNextEditButtons({
                 {currentPage.next.navTitle ?? currentPage.next.title}
               </Text>
             </Stack>
-          </Button>
+          </LinkButton>
         )}
       </Box>
     </Group>

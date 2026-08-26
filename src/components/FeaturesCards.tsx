@@ -1,4 +1,4 @@
-import { Text, Card, SimpleGrid, Container, rem } from "@mantine/core";
+import { Text, SimpleGrid, Container, rem } from "@mantine/core";
 import {
   IconGauge,
   IconChartGridDots,
@@ -8,7 +8,7 @@ import {
   IconAffiliate,
 } from "@tabler/icons-react";
 import classes from "./FeaturesCards.module.css";
-import Link from "next/link";
+import { LinkCard } from "./NextLinks";
 
 const features = [
   {
@@ -63,9 +63,8 @@ export function FeaturesCards() {
     <Container size="lg" px={0}>
       <SimpleGrid cols={{ base: 1, xs: 2, sm: 3 }} spacing="xl">
         {features.map((feature) => (
-          <Card
+          <LinkCard
             key={feature.title}
-            component={Link}
             href={feature.link}
             shadow="md"
             radius="md"
@@ -83,7 +82,7 @@ export function FeaturesCards() {
             <Text fz="sm" c="dimmed" mt="sm">
               {feature.description}
             </Text>
-          </Card>
+          </LinkCard>
         ))}
       </SimpleGrid>
     </Container>

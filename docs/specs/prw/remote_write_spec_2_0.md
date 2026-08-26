@@ -362,7 +362,7 @@ For every `TimeSeries` message:
 <!---
 Rationales: https://github.com/prometheus/proposals/blob/alexg/remote-write-20-proposal/proposals/2024-04-09_remote-write-20.md#partial-writes#samples-vs-native-histogram-samples
 -->
-* At least one element in `samples` or in `histograms` MUST be provided. A `TimeSeries` MUST NOT include both `samples` and `histograms`. For series which (rarely) would mix float and histogram samples, a separate `TimeSeries` message MUST be used.
+* At least one element in `samples`, in `histograms`, or in `exemplars` MUST be provided. A `TimeSeries` MUST NOT include both `samples` and `histograms`. For series which (rarely) would mix float and histogram samples, a separate `TimeSeries` message MUST be used. A `TimeSeries` carrying exemplars but neither samples nor histograms represents series-level exemplars for the series identified by `labels_refs`.
 
 <!---
 Rationales: https://github.com/prometheus/proposals/blob/alexg/remote-write-20-proposal/proposals/2024-04-09_remote-write-20.md#always-on-metadata
@@ -452,6 +452,8 @@ Rationales: https://github.com/prometheus/proposals/blob/alexg/remote-write-20-p
 -->
 * MAY contain labels e.g. referencing trace or request ID. If the exemplar references a trace it SHOULD use the `trace_id` label name, as a best practice.
 * MUST contain a timestamp. While exemplar timestamps are optional in Prometheus/Open Metrics exposition formats, the assumption is that a timestamp is assigned at scrape time in the same way a timestamp is assigned to the scrape sample. Receivers require exemplar timestamps to reliably handle (e.g. deduplicate) incoming exemplars.
+* MAY be sent in a `TimeSeries` that carries neither samples nor histograms. In that form the exemplars are associated with the series identified by `labels_refs`, rather than with a particular sample or histogram.
+* SHOULD be sent in the same request as the samples or histograms of the series they belong to, including when they are sent in a `TimeSeries` of their own.
 
 ## Out of Scope
 

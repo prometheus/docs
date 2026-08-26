@@ -36,6 +36,8 @@ export type GithubMarkdownSource = {
   repoDocsDir: string;
   // The URL slug prefix to prepend for docs from this repo.
   slugPrefix: string;
+  // Optional navigation label for the root page imported from this repo.
+  navTitle?: string;
 } & (
   | {
       versioning: "release-branches";
@@ -44,6 +46,11 @@ export type GithubMarkdownSource = {
     }
   | {
       versioning: "latest-release-tag";
+    }
+  | {
+      versioning: "git-ref";
+      ref: string;
+      allowMissingFrontmatter?: boolean;
     }
 );
 

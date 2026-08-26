@@ -58,7 +58,7 @@ Python, and Ruby.
 
 All repositories in the Prometheus GitHub organization that have reached
 version 1.0.0 broadly follow
-[semantic versioning](http://semver.org/). Breaking changes are indicated by
+[semantic versioning](https://semver.org/). Breaking changes are indicated by
 increments of the major version. Exceptions are possible for experimental
 components, which are clearly marked as such in announcements.
 
@@ -95,8 +95,8 @@ If you want to extract Prometheus metrics from application logs, Grafana Loki is
 ### Who wrote Prometheus?
 
 Prometheus was initially started privately by
-[Matt T. Proud](http://www.matttproud.com) and
-[Julius Volz](http://juliusv.com). The majority of its
+[Matt T. Proud](https://www.matttproud.com) and
+[Julius Volz](https://juliusv.com). The majority of its
 initial development was sponsored by [SoundCloud](https://soundcloud.com).
 
 It's now maintained and extended by a wide range of [companies](https://prometheus.devstats.cncf.io/d/5/companies-table?orgId=1) and [individuals](https://prometheus.io/governance/).
@@ -193,7 +193,7 @@ latency-critical code.
 
 We restrained ourselves to 64-bit floats to simplify the design. The
 [IEEE 754 double-precision binary floating-point
-format](http://en.wikipedia.org/wiki/Double-precision_floating-point_format)
+format](https://en.wikipedia.org/wiki/Double-precision_floating-point_format)
 supports integer precision for values up to 2<sup>53</sup>. Supporting
 native 64 bit integers would (only) help if you need integer precision
 above 2<sup>53</sup> but below 2<sup>63</sup>. In principle, support

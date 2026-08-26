@@ -257,22 +257,23 @@ message TimeSeries {
   // or start timestamp.
   repeated uint32 labels_refs = 1;
 
-  // Timeseries messages can either specify samples or (native) histogram samples
-  // (histogram field), but not both. For a typical sender (real-time metric
-  // streaming), in healthy cases, there will be only one sample or histogram.
+  // TimeSeries messages must specify at least one float sample, native histogram sample
+  // or exemplar. Samples and histograms must not be specified at the same time.
+  // Exemplars may be specified without samples or histograms. For a typical sender
+  // (real-time metric streaming), in healthy cases, there will be only one sample or histogram.
   //
   // Samples and histograms are sorted by timestamp (older first).
   repeated Sample samples = 2;
   repeated Histogram histograms = 3;
 
-  // exemplars represents an optional set of exemplars attached to this series' samples.
+  // exemplars represents an optional set of exemplars for this series.
   repeated Exemplar exemplars = 4;
 
   // metadata represents the metadata associated with the given series' samples.
   Metadata metadata = 5;
 }
 
-// Exemplar is an additional information attached to some series' samples.
+// Exemplar contains additional information associated with a series.
 // It is typically used to attach an example trace or request ID associated with
 // the metric changes.
 message Exemplar {

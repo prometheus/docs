@@ -32,6 +32,9 @@ https://openmetrics.io/* https://prometheus.io/docs/specs/om/open_metrics_spec 3
 # Redirect for HTTP SD docs, which briefly lived in the wrong category / repo.
 /docs/instrumenting/http_sd/ /docs/prometheus/latest/http_sd/
 
+# Moved exporter catalog into the Exporters section.
+/docs/instrumenting/exporters/ /docs/exporters/exporters-and-integrations/ 302!
+
 # Redirect for "disabled_features", which is now called "feature_flags".
 /docs/prometheus/latest/disabled_features/ /docs/prometheus/latest/feature_flags/
 

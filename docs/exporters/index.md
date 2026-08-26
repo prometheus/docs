@@ -10,10 +10,9 @@ maintained in each exporter's own repository and pulled into this website from
 the latest stable release.
 
 The broader catalog of available exporters and integrations is listed in
-[Exporters and integrations](/docs/instrumenting/exporters/).
+[Exporters and integrations](/docs/exporters/exporters-and-integrations/).
 
 ## Documented exporters
 
-* [PostgreSQL exporter](/docs/exporters/postgres/) (coming from
+* [PostgreSQL exporter](/docs/exporters/official-exporters/postgres/) (coming from
   [prometheus-community/postgres_exporter](https://github.com/prometheus-community/postgres_exporter))
-

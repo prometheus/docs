@@ -48,7 +48,7 @@ export default {
       owner: "prometheus-community",
       repo: "postgres_exporter",
       repoDocsDir: "docs",
-      slugPrefix: "exporters/postgres",
+      slugPrefix: "exporters/official-exporters/postgres",
       versioning: "latest-release-tag",
     },
   ],

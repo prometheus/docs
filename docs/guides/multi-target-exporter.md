@@ -12,7 +12,7 @@ This guide will introduce you to the multi-target exporter pattern. To achieve t
 
 ## The multi-target exporter pattern?
 
-By multi-target [exporter](/docs/instrumenting/exporters/) pattern we refer to a specific design, in which:
+By multi-target [exporter](/docs/exporters/exporters-and-integrations/) pattern we refer to a specific design, in which:
 
 * the exporter will get the target’s metrics via a network protocol.
 * the exporter does not have to run on the machine the metrics are taken from.

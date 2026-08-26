@@ -529,5 +529,5 @@ port allocations.
 
 Once you’re ready to announce your exporter to the world, email the
 mailing list and send a PR to add it to [the list of available
-exporters](/docs/instrumenting/exporters/) by editing [this GitHub
-repository file](https://github.com/prometheus/docs/blob/main/docs/instrumenting/exporters.md).
+exporters](/docs/exporters/exporters-and-integrations/) by editing [this GitHub
+repository file](https://github.com/prometheus/docs/blob/main/docs/exporters/exporters-and-integrations.md).

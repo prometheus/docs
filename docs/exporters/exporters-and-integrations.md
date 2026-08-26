@@ -1,6 +1,6 @@
 ---
 title: Exporters and integrations
-sort_rank: 4
+sort_rank: 1
 ---
 
 There are a number of libraries and servers which help in exporting existing
@@ -50,7 +50,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [OpenTSDB Exporter](https://github.com/cloudflare/opentsdb_exporter)
    * [Oracle DB Exporter](https://github.com/iamseth/oracledb_exporter)
    * [PgBouncer exporter](https://github.com/prometheus-community/pgbouncer_exporter)
-   * [PostgreSQL exporter](/docs/exporters/postgres/) ([source](https://github.com/prometheus-community/postgres_exporter))
+   * [PostgreSQL exporter](/docs/exporters/official-exporters/postgres/) ([source](https://github.com/prometheus-community/postgres_exporter))
    * [Presto exporter](https://github.com/yahoojapan/presto_exporter)
    * [ProxySQL exporter](https://github.com/percona/proxysql_exporter)
    * [RavenDB exporter](https://github.com/marcinbudny/ravendb_exporter)

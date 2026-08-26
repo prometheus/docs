@@ -137,7 +137,7 @@ Receivers that written all data successfully MUST return a [success 2xx HTTP sta
 
 Receivers that operate asynchronously (e.g. ingest payloads into a message queue or pipeline for deferred processing without synchronous parsing) MAY return [202 HTTP Accepted](https://www.rfc-editor.org/rfc/rfc9110.html#name-202-accepted) status code. This indicates that the request has been accepted for processing, but processing has not been completed.
 
-Receivers MUST NOT return a 2xx HTTP status code, if any of the pieces of sent data known to the Receiver (e.g. Samples, Histograms, Exemplars) were NOT written successfully (both [partial write](#partial-write) or full write rejection). In such a case, the Receiver MUST provide a human-readable error message in the response body. The Receiver's error SHOULD contain information about the amount of the samples being rejected and for what reasons. Senders MUST NOT try and interpret the error message and SHOULD log it as is.
+Receivers MUST NOT return a 2xx HTTP status code, if any of the pieces of sent data known to the Receiver (e.g. Samples, Histograms, Exemplars) were NOT synchronously written successfully (both [partial write](#partial-write) or full write rejection). In such a case, the Receiver MUST provide a human-readable error message in the response body. The Receiver's error SHOULD contain information about the amount of the samples being rejected and for what reasons. Senders MUST NOT try and interpret the error message and SHOULD log it as is.
 
 The following subsections specify Sender and Receiver semantics around headers and different write error cases.
 

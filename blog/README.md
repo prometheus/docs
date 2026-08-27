@@ -70,24 +70,31 @@ setting up your first metrics endpoint and understanding what Prometheus collect
 First, let's get Prometheus installed on your system...
 ```
 
+
+## How to contribute
+
+If you’d like to write for the blog, the process is simple:  
+
+0. Find a sponsor (a [maintainer](https://github.com/prometheus/prometheus/blob/main/MAINTAINERS.md) with expertise 
+in your topic area), discuss your post idea with them, and see if they can sponsor your post.
+  > [!IMPORTANT]
+  > **For Sponsors:**
+  > By agreeing to sponsor a post, you are committing to reviewing the post PR for technical accuracy and
+  > merging it once you are satisfied it meets the required standard.
+1. Create an issue in the `prometheus/docs` repo using the [Blog Post Proposal template](https://github.com/prometheus/docs/issues/new?template=blog-post-proposal.yml).
+2. Wait for feedback from maintainers or editors to confirm it’s a good fit.
+3. Draft your post in Markdown and submit it as a pull request.
+4. Go through the review process, where we’ll help refine the draft together.
+5. Once it’s approved, we’ll merge and publish it on the blog. 🎉
+6. Share your post on your socials and feel free to tag us so we can boost it too.
+
+
 ## Review process
 
 Every post should be reviewed before it goes live.
 Whoever reviews the pull request will check for both technical accuracy and editorial quality. 
 This ensures that the content is both correct and accessible. 
 In some cases, these might be done by different people, but often one reviewer can cover both.
-
-
-## How to contribute
-
-If you’d like to write for the blog, the process is simple:  
-
-1. Open a **“Blog Post Proposal” issue** in the `prometheus/docs` repo to share your idea.  
-2. Wait for feedback from maintainers or editors to confirm it’s a good fit.  
-3. Draft your post in Markdown and submit it as a pull request.  
-4. Go through the review process, where we’ll help refine the draft together.  
-5. Once it’s approved, we’ll merge and publish it on the blog. 🎉
-6. Share your post on your socials and feel free to tag us so we can boost it too. 
 
 
 ## Why contribute?

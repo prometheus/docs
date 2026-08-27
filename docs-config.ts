@@ -4,10 +4,10 @@ export default {
   siteUrl: "https://prometheus.io",
 
   announcement: {
-    text: "Do you use Prometheus and OpenTelemetry to monitor infrastructure and applications? Please answer our 3-minutes [survey](https://docs.google.com/forms/d/e/1FAIpQLSfDfT0Y7Y9ZzlXM9GFnei0B8rCaa4ctVD4nhpzzJY7cfzrOrw/viewform)!",
-    mobileText: "Prometheus+OTel infrastructure and applications monitoring [survey](https://docs.google.com/forms/d/e/1FAIpQLSfDfT0Y7Y9ZzlXM9GFnei0B8rCaa4ctVD4nhpzzJY7cfzrOrw/viewform)!",
-    startDate: "2026-04-23",
-    endDate: "2026-05-23",
+    text: "Join [PromCon EU 2026](https://promcon.io/2026-munich/), the Prometheus users conference, on October 7–8, 2026 in Munich.",
+    mobileText: "[PromCon EU 2026](https://promcon.io/2026-munich/) — Oct 7–8, Munich.",
+    startDate: "2026-07-17",
+    endDate: "2026-10-08",
   },
 
   kapa: {
@@ -41,6 +41,17 @@ export default {
       repoDocsDir: "docs",
       slugPrefix: "alerting",
       minNumVersions: 8,
+    },
+  ],
+
+  // Single pages to fetch from external repos (not versioned).
+  githubSinglePageSources: [
+    {
+      owner: "prometheus",
+      repo: "governance",
+      branch: "main",
+      filePath: "GOVERNANCE.md",
+      outputPath: "governance/GOVERNANCE.md",
     },
   ],
 

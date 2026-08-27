@@ -62,9 +62,11 @@ data volumes.
   * [Instana](https://www.instana.com/docs/ecosystem/prometheus/#remote-write): write
   * [IRONdb](https://github.com/circonus-labs/irondb-prometheus-adapter): read and write
   * [Kafka](https://github.com/Telefonica/prometheus-kafka-adapter): write
+  * [Last9](https://last9.io/docs/integrations/observability/prometheus/): write
   * [M3DB](https://m3db.io/docs/integrations/prometheus/): read and write
   * [Mezmo](https://docs.mezmo.com/telemetry-pipelines/prometheus-remote-write-pipeline-source): write
   * [New Relic](https://docs.newrelic.com/docs/set-or-remove-your-prometheus-remote-write-integration): write
+  * [OpenObserve](https://openobserve.ai/docs/ingestion/metrics/prometheus/): write
   * [OpenTSDB](https://github.com/prometheus/prometheus/tree/main/documentation/examples/remote_storage/remote_storage_adapter): write
   * [QuasarDB](https://doc.quasardb.net/master/user-guide/integration/prometheus.html): read and write
   * [SignalFx](https://github.com/signalfx/metricproxy#prometheus): write
@@ -115,6 +117,7 @@ For notification mechanisms not natively supported by the Alertmanager, the
   * [SIGNL4](https://www.signl4.com/blog/portfolio_item/prometheus-alertmanager-mobile-alert-notification-duty-schedule-escalation)
   * [Simplepush](https://codeberg.org/stealth/alertpush)
   * [SMS](https://github.com/messagebird/sachet): supports [multiple providers](https://github.com/messagebird/sachet/blob/master/examples/config.yaml)
+  * [SMSEagle](https://github.com/smseagle/alertmanager-sms-calls): support SMS & voice calls (with text-to-speach offline conversion)
   * [SNMP traps](https://github.com/maxwo/snmp_notifier)
   * [Squadcast](https://support.squadcast.com/docs/prometheus)
   * [STOMP](https://github.com/thewillyhuman/alertmanager-stomp-forwarder)

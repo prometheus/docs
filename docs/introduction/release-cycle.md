@@ -29,7 +29,8 @@ having a Prometheus server maintained by the community.
 | Prometheus 2.45     | 2023-06-23     | 2024-07-31     | End of life   |
 | Prometheus 2.53     | 2024-06-16     | 2025-07-31     | End of life   |
 | **Prometheus 3.5**  | **2025-07-14** | **2026-07-31** | **Supported** |
-| Prometheus 3.13     | 2026-06        | 2027-07-31     | Upcoming      |
+| **Prometheus 3.13** | **2026-07-01** | **2027-07-31** | **Supported** |
+| TBD                 | 2027-06        | 2028-07-31     | Upcoming      |
 
 ## Limitations of LTS support
 

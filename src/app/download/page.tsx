@@ -46,6 +46,18 @@ export default function DownloadPage() {
             </Anchor>
             .
           </p>
+
+          <p>
+            A machine-readable list of releases is available at{" "}
+            <Anchor
+              c="var(--secondary-link-color)"
+              href="/download.json"
+              target="_blank"
+            >
+              download.json
+            </Anchor>
+            .
+          </p>
         </Box>
         <TOC
           scrollSpyOptions={{

@@ -4,6 +4,11 @@ import * as fs from "fs";
 import * as path from "path";
 import docsConfig from "../docs-config";
 import { Downloads, Release, Binary } from "@/downloads-metadata-types";
+import {
+  DownloadJSON,
+  DownloadRelease,
+  DownloadFile,
+} from "@/download-json-types";
 import { compareFullVersion, filterUnique, majorMinor } from "./utils";
 
 const OUTDIR = "./generated";
@@ -21,6 +26,8 @@ const downloads: Downloads = {
   architectures: [],
   releases: [],
 };
+
+const downloadJSON: DownloadJSON = {};
 
 const getBinaries = (r: OctokitRelease) => {
   const binaries = r.assets
@@ -155,6 +162,33 @@ for (const repoName of docsConfig.downloads.repos) {
     ),
   });
 
+  // Build the machine-readable download.json entries for this repo.
+  // shownReleases is sorted newest first, so the first non-prerelease is the
+  // latest stable release.
+  const latestStableID = shownReleases.find((r) => !r.prerelease)?.id;
+
+  downloadJSON[repoName] = shownReleases.map(
+    (r): DownloadRelease => ({
+      version: r.tag_name,
+      stable: !r.prerelease,
+      latest: r.id === latestStableID,
+      lts:
+        docsConfig.ltsVersions[repoName]?.includes(majorMinor(r.tag_name)) ??
+        false,
+      files: getBinaries(r).map(
+        (b): DownloadFile => ({
+          url: b.url,
+          os: b.os,
+          arch: b.arch,
+          version: r.tag_name,
+          sha256: b.checksum,
+          size: b.sizeBytes,
+          kind: "archive",
+        })
+      ),
+    })
+  );
+
   console.groupEnd();
 }
 
@@ -180,4 +214,10 @@ console.log(`Writing downloads metadata to ${OUTDIR}/downloads-metadata.json`);
 fs.writeFileSync(
   path.join(OUTDIR, "downloads-metadata.json"),
   JSON.stringify(downloads, null, 2)
+);
+
+console.log(`Writing download.json to ${OUTDIR}/download.json`);
+fs.writeFileSync(
+  path.join(OUTDIR, "download.json"),
+  JSON.stringify(downloadJSON, null, 2)
 );

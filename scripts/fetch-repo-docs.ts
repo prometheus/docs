@@ -2,7 +2,10 @@ import { execSync } from "child_process";
 import * as fs from "fs";
 import * as path from "path";
 import docsConfig from "../docs-config";
-import { GithubMarkdownSource } from "../src/docs-config-types";
+import {
+  GithubMarkdownSource,
+  GithubSinglePageSource,
+} from "../src/docs-config-types";
 import {
   DocsCollection,
   AllRepoVersions,
@@ -110,10 +113,15 @@ const fetchRepoDocs = async ({
   const allReleaseTags: string[] = [];
 
   for await (const { data: releases } of iterator) {
-    allReleaseTags.push(...releases.map((r) => r.tag_name));
+    // Skip ancient releases. Some have non-semver compatible strings and the
+    // version comparison below breaks. Also note the lack of `v` in the tag.
+    const validReleases = (repo === "prometheus")
+      ? releases.filter((r) => !r.tag_name.startsWith("0."))
+      : releases;
+
+    allReleaseTags.push(...validReleases.map((r) => r.tag_name));
     // For the Prometheus repo for efficieny-reasons, stop once we have found at least
     // one release starting with "v1.".
-    // Note: releases are sorted by date, so this works ok.
     // TODO: Do we even still want to show the latest v1 release?
     if (
       owner === "prometheus" &&
@@ -324,6 +332,45 @@ for (const sourceConfig of docsConfig.localMarkdownSources) {
     // Don't need to care about assets for local docs here, local doc authors
     // should store them in public/ and link to them there.
   }
+}
+
+// Fetch single-page sources from GitHub repos (not versioned).
+const fetchSinglePageSource = async ({
+  owner,
+  repo,
+  branch,
+  filePath,
+  outputPath,
+}: GithubSinglePageSource) => {
+  console.log(
+    `Fetching single page ${filePath} from ${owner}/${repo}@${branch}...`
+  );
+
+  const { data } = await octokit.rest.repos.getContent({
+    owner,
+    repo,
+    path: filePath,
+    ref: branch,
+  });
+
+  if (Array.isArray(data) || data.type !== "file" || !("content" in data)) {
+    throw new Error(
+      `Expected a single file at ${filePath} in ${owner}/${repo}, got ${Array.isArray(data) ? "directory" : data.type}`
+    );
+  }
+
+  const content = Buffer.from(data.content, "base64").toString("utf-8");
+  const outFile = path.join(OUTDIR, outputPath);
+  const outDir = path.dirname(outFile);
+  if (!fs.existsSync(outDir)) {
+    fs.mkdirSync(outDir, { recursive: true });
+  }
+  fs.writeFileSync(outFile, content);
+  console.log(`Wrote ${outFile}`);
+};
+
+for (const sourceConfig of docsConfig.githubSinglePageSources ?? []) {
+  await fetchSinglePageSource(sourceConfig);
 }
 
 // Write out the docs collection metadata object to a JSON file.

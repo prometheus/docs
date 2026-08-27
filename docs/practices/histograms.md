@@ -14,7 +14,7 @@ use native histograms and prefer them over both classic histograms and
 summaries.
 
 Where things start to become tricky is if you find yourself in a situation
-where you cannot simply use native histograms. Most commenly, you might have to
+where you cannot simply use native histograms. Most commonly, you might have to
 work with existing metrics that include classic histograms or summaries, or
 maybe the instrumentation library you are using does not support native
 histograms yet. Furthermore, there are a few specific use cases where you might
@@ -270,7 +270,7 @@ to return an estimated fraction. This estimation is more accurate with higher
 bucket resolutions. If you already know in advance that, for example, you have
 an SLO to serve 95% of requests within 300ms, you could use the fixed bucket
 boundaries of a classic histogram to allow an accurate calculation. However, if
-your SLO changes later, changing the fixed bucket layout accordingy will be
+your SLO changes later, changing the fixed bucket layout accordingly will be
 quite tedious. (You have to change the instrumentation of your code. And you
 will run into the issues reconciling different bucket layouts as described
 above.) If you pick native histograms with the dynamic exponential buckets, you
@@ -318,7 +318,7 @@ target and the tolerated duration:
       histogram_fraction(0.3, 1.2, sum by (job) (rate(http_request_duration_seconds[5m]))) / 2
 
 In the “pure classic” case, you _must_ have buckets present at the exact
-boundaries (giving you an accurace calculation in return). The corresponding
+boundaries (giving you an accurate calculation in return). The corresponding
 PromQL expression looks quite different because the classic buckets are
 cumulative:
 
@@ -468,7 +468,7 @@ algorithm will yield very accurate results for narrow distributions as in our
 example). Unfortunately, you cannot use a summary if you need to aggregate the
 observations from a number of instances.
 
-Luckily, due to your appropriate choice of bucket boundaries for the clasic
+Luckily, due to your appropriate choice of bucket boundaries for the classic
 histogram, in this contrived example of very sharp spikes in the distribution
 of observed values, the classic histogram was able to identify correctly if you
 were within or outside of your SLO (although it was bad in telling you how far

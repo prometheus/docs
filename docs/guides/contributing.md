@@ -228,6 +228,7 @@ func (s *shards) sendSamples(
     ctx context.Context, samples []prompb.TimeSeries,
 	sampleCount, exemplarCount, histogramCount int,
 	pBuf *proto.Buffer, buf compression.EncodeBuffer, compr compression.Type) error {
+```
 
 ## Developer summit details
 

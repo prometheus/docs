@@ -19,7 +19,7 @@ requiring another upgrade.
 Prometheus LTS version will only receive fixes for selected issues with high
 severity, i.e. a CVSS rating of 7.0 or higher. Additional changes for bug fixes
 or documentation fixes might be added. The build toolchain will also be kept
-up-to-date. This is a best effort commitment by the community, contributions are
+up-to-date. This is **a best effort commitment by the community**, contributions are
 welcome.
 Support periods of two subsequent LTS version should overlap by at least one
 month.

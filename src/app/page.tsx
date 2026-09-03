@@ -1,5 +1,5 @@
-import NextImage from "next/image";
-import { Badge, Blockquote, Box, Image } from "@mantine/core";
+import { Badge, Blockquote, Box } from "@mantine/core";
+import { NextMantineImage } from "@/components/NextLinks";
 import classes from "@/components/FeaturesCards.module.css";
 import { FeaturesCards } from "@/components/FeaturesCards";
 import { Hero } from "@/components/Hero";
@@ -52,8 +52,7 @@ export default function Home() {
       {/* <Space h="xl" mb={50} /> */}
       <Title order={2} className={classes.title} mt="sm">
         <Group justify="center">
-          <Image
-            component={NextImage}
+          <NextMantineImage
             src={githubLogo}
             style={{ height: 40, width: 40 }}
             className="invertInDarkMode"
@@ -88,9 +87,8 @@ export default function Home() {
         </Text>
         <Box mt="md">
           <a href="https://cncf.io/" target="_blank">
-            <Image
+            <NextMantineImage
               darkHidden
-              component={NextImage}
               src={cncfLogoLightMode}
               alt="CNCF logo"
               style={{
@@ -98,9 +96,8 @@ export default function Home() {
               }}
             />
 
-            <Image
+            <NextMantineImage
               lightHidden
-              component={NextImage}
               src={cncfLogoDarkMode}
               alt="CNCF logo"
               style={{

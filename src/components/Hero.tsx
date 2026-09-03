@@ -1,9 +1,9 @@
-import { Title, Text, Button, Container, Group } from "@mantine/core";
+import { Title, Text, Container, Group } from "@mantine/core";
 import { Dots } from "./Dots";
 import classes from "./Hero.module.css";
 import { IconDownload } from "@tabler/icons-react";
-import Link from "next/link";
 import React from "react";
+import { LinkButton } from "./NextLinks";
 
 // Based on the design at https://ui.mantine.dev/category/hero/#hero-text.
 export function Hero() {
@@ -35,16 +35,14 @@ export function Hero() {
             { size: "xl", visibleFrom: "md", mt: "xs" },
           ].map((props) => (
             <React.Fragment key={props.size}>
-              <Button
-                component={Link}
+              <LinkButton
                 href="/docs/prometheus/latest/getting_started/"
                 w={{ base: "100%", xs: "fit-content" }}
                 {...props}
               >
                 Get started
-              </Button>
-              <Button
-                component={Link}
+              </LinkButton>
+              <LinkButton
                 href="/download/"
                 variant="default"
                 color="gray"
@@ -53,7 +51,7 @@ export function Hero() {
                 {...props}
               >
                 Download
-              </Button>
+              </LinkButton>
             </React.Fragment>
           ))}
         </Group>

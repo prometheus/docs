@@ -1,6 +1,13 @@
 version: 1
+explicitLocalValidators: true
 
 # Don't check external URLs, they can time-out a lot (rate limits).
+# Don't check repo-local absolute URLs, they resolve to site routes rather than
+# files on the local filesystem. Keep validating other local (relative) links.
 validators:
   - type: ignore
     regex: http(s|)://.*
+  - type: ignore
+    regex: ^/.*
+  - type: local
+    regex: ^.*$

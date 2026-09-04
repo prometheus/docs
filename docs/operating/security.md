@@ -171,19 +171,21 @@ Prometheus, and most exporters, support TLS. Including authentication of clients
 via TLS client certificates. Details on configuring Prometheus are [`here`](https://prometheus.io/docs/guides/tls-encryption/).
 
 The Go projects share the same TLS library, based on the
-Go [crypto/tls](https://golang.org/pkg/crypto/tls) library.
+Go [crypto/tls](https://pkg.go.dev/crypto/tls) library.
 We default to TLS 1.2 as minimum version. Our policy regarding this is based on
 [Qualys SSL Labs](https://www.ssllabs.com/) recommendations, where we strive to
 achieve a grade 'A' with a default configuration and correctly provided
 certificates, while sticking as closely as possible to the upstream Go defaults.
 Achieving that grade provides a balance between perfect security and usability.
 
-TLS will be added to Java exporters in the future.
+Java components such as the
+[JMX exporter](https://github.com/prometheus/jmx_exporter) also support TLS
+(including mutual TLS) on their HTTP endpoints.
 
 If you have special TLS needs, like a different cipher suite or older TLS
 version, you can tune the minimum TLS version and the ciphers, as long as the
-cipher is not [marked as insecure](https://golang.org/pkg/crypto/tls/#InsecureCipherSuites)
-in the [crypto/tls](https://golang.org/pkg/crypto/tls) library. If that still
+cipher is not [marked as insecure](https://pkg.go.dev/crypto/tls#InsecureCipherSuites)
+in the [crypto/tls](https://pkg.go.dev/crypto/tls) library. If that still
 does not suit you, the current TLS settings enable you to build a secure tunnel
 between the servers and reverse proxies with more special requirements.
 
@@ -211,8 +213,10 @@ may wish to block such paths to prevent CSRF.
 
 For non-mutating endpoints, you may wish to set [CORS
 headers](https://fetch.spec.whatwg.org/#http-cors-protocol) such as
-`Access-Control-Allow-Origin` in your reverse proxy to prevent
-[XSS](https://en.wikipedia.org/wiki/Cross-site_scripting).
+`Access-Control-Allow-Origin` in your reverse proxy if a browser
+application on another origin should be allowed to read those
+responses. CORS relaxes the Same-Origin Policy; it is not a defence
+against [XSS](https://en.wikipedia.org/wiki/Cross-site_scripting).
 
 If you are composing PromQL queries that include input from untrusted users
 (e.g. URL parameters to console templates, or something you built yourself) who

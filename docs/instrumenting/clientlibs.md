@@ -13,6 +13,7 @@ HTTP endpoint on your application’s instance:
 
 * [Go](https://github.com/prometheus/client_golang)
 * [Java or Scala](https://github.com/prometheus/client_java)
+* [Node.js](https://github.com/prometheus/client_js)
 * [Python](https://github.com/prometheus/client_python)
 * [Ruby](https://github.com/prometheus/client_ruby)
 * [Rust](https://github.com/prometheus/client_rust)
@@ -33,7 +34,6 @@ Unofficial third-party client libraries:
 * [Lua](https://github.com/knyar/nginx-lua-prometheus) for Nginx
 * [Lua](https://github.com/tarantool/metrics) for Tarantool
 * [.NET / C#](https://learn.microsoft.com/en-us/dotnet/core/diagnostics/metrics-collection)
-* [Node.js](https://github.com/siimon/prom-client)
 * [OCaml](https://github.com/mirage/prometheus)
 * [Perl](https://metacpan.org/pod/Net::Prometheus)
 * [PHP](https://github.com/promphp/prometheus_client_php)

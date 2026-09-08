@@ -31,6 +31,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
 
    * [Aerospike exporter](https://github.com/aerospike/aerospike-prometheus-exporter)
    * [AWS RDS exporter](https://github.com/qonto/prometheus-rds-exporter)
+   * [BetterDB Monitor (Valkey/Redis/Dragonfly)](https://github.com/BetterDB-inc/monitor)
    * [ClickHouse exporter](https://github.com/f1yegor/clickhouse_exporter)
    * [Consul exporter](https://github.com/prometheus/consul_exporter) (**official**)
    * [Couchbase exporter](https://github.com/couchbase/couchbase-exporter)

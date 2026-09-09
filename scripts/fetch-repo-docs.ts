@@ -28,40 +28,6 @@ const normalizeMarkdownFilePath = (filePath: string) =>
 const markdownSlugPath = (filePath: string) =>
   normalizeMarkdownFilePath(filePath).replace(/(^|\/)index\.md$/, "").replace(/\.md$/, "");
 
-const preferredPreviewOrder = [
-  "index",
-  "getting-started",
-  "connecting",
-  "database-permissions",
-  "configuration",
-  "secrets",
-  "docker",
-  "aws-rds",
-];
-
-const inferTitle = (markdown: string, filePath: string) => {
-  const heading = markdown
-    .split(/\r?\n/)
-    .find((line) => line.startsWith("# "))
-    ?.replace(/^#\s+/, "")
-    .trim();
-
-  if (heading) {
-    return heading;
-  }
-
-  return path
-    .basename(filePath, ".md")
-    .replace(/[-_]/g, " ")
-    .replace(/\b\w/g, (char) => char.toUpperCase());
-};
-
-const inferSortRank = (filePath: string, index: number) => {
-  const slugPath = markdownSlugPath(filePath) || "index";
-  const sortRank = preferredPreviewOrder.indexOf(slugPath);
-  return sortRank === -1 ? 1000 + index : sortRank + 1;
-};
-
 // Find all files (.md and others) recursively in a directory.
 const findFiles = (dir: string): string[] => {
   let results: string[] = [];
@@ -138,7 +104,6 @@ type IntegrateRepoDocsOptions = {
   docsDir: string;
   repoDocsDir: string;
   assetsRoot: string;
-  allowMissingFrontmatter?: boolean;
   includeFile: (filePath: string) => boolean;
   addMarkdownDoc: (args: {
     file: string;
@@ -157,7 +122,6 @@ const integrateRepoDocs = ({
   docsDir,
   repoDocsDir,
   assetsRoot,
-  allowMissingFrontmatter,
   includeFile,
   addMarkdownDoc,
 }: IntegrateRepoDocsOptions) => {
@@ -167,7 +131,7 @@ const integrateRepoDocs = ({
     return markdownSlugPath(aPath).localeCompare(markdownSlugPath(bPath));
   });
 
-  for (const [index, file] of files.entries()) {
+  for (const file of files) {
     const filePath = path.relative(docsDir, file);
     const normalizedFilePath = normalizeMarkdownFilePath(filePath);
 
@@ -178,30 +142,25 @@ const integrateRepoDocs = ({
     if (file.endsWith(".md")) {
       console.log("Found Markdown file:", filePath);
 
-      const markdown = fs.readFileSync(file, "utf-8");
       const {
-        content,
         data: {
           title,
           nav_title: navTitle,
           sort_rank: sortRank,
           hide_in_nav: hideInNav,
         },
-      } = matter(markdown);
+      } = matter(fs.readFileSync(file, "utf-8"));
 
-      if (!title && !allowMissingFrontmatter) {
+      if (!title) {
         throw new Error(`Missing title in ${file}`);
       }
-      if (sortRank == null && !allowMissingFrontmatter) {
+      if (sortRank == null) {
         // Docs in https://github.com/prometheus/prometheus/tree/main/docs/command-line
         // are currently missing sort_rank 😤
         if (!filePath.includes("command-line")) {
           throw new Error(`Missing sort_rank in ${file}`);
         }
       }
-
-      const finalTitle = title ?? inferTitle(content, filePath);
-      const finalSortRank = sortRank ?? inferSortRank(filePath, index);
 
       addMarkdownDoc({
         file,
@@ -210,9 +169,9 @@ const integrateRepoDocs = ({
           filePath.split(path.sep).join(path.posix.sep)
         ),
         slugPath: markdownSlugPath(filePath),
-        title: finalTitle,
+        title,
         navTitle,
-        sortRank: finalSortRank,
+        sortRank: sortRank ?? 0,
         hideInNav,
       });
     } else {
@@ -484,7 +443,6 @@ const fetchGitRefRepoDocs = async ({
   repoDocsDir,
   slugPrefix,
   ref,
-  allowMissingFrontmatter,
   navTitle: rootNavTitle,
 }: Extract<GithubMarkdownSource, { versioning: "git-ref" }>) => {
   console.log(`Fetching docs for ${owner}/${repo}@${ref}...`);
@@ -513,7 +471,6 @@ const fetchGitRefRepoDocs = async ({
     docsDir,
     repoDocsDir,
     assetsRoot,
-    allowMissingFrontmatter,
     includeFile: () => true,
     addMarkdownDoc: ({
       file,

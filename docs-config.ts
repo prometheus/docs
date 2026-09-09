@@ -51,8 +51,7 @@ export default {
       slugPrefix: "exporters/official-exporters/postgres",
       navTitle: "Postgres",
       versioning: "git-ref",
-      ref: "3d2ee4adba4ec98106b6ec45e59b12f5b49ef3a4",
-      allowMissingFrontmatter: true,
+      ref: "a488faeecc902f7a4ef74a23518639004e4048b2",
     },
   ],
 

@@ -50,7 +50,6 @@ export type GithubMarkdownSource = {
   | {
       versioning: "git-ref";
       ref: string;
-      allowMissingFrontmatter?: boolean;
     }
 );
 

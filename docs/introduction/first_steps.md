@@ -6,6 +6,8 @@ sort_rank: 3
 
 Welcome to Prometheus! Prometheus is a monitoring platform that collects metrics from monitored targets by scraping metrics HTTP endpoints on these targets. This guide will show you how to install, configure and monitor our first resource with Prometheus. You'll download, install and run Prometheus. You'll also download and install an exporter, tools that expose time series data on hosts and services. Our first exporter will be Prometheus itself, which provides a wide variety of host-level metrics about memory usage, garbage collection, and more.
 
+If you are new to monitoring, or want to learn more about Prometheus' architecture and components before getting hands-on, see the [Overview](/docs/introduction/overview).
+
 ## Downloading Prometheus
 
 [Download the latest release](/download) of Prometheus for your platform, then
@@ -121,8 +123,36 @@ You can experiment with the graph range parameters and other settings.
 
 ## Monitoring other targets
 
-Collecting metrics from Prometheus alone isn't a great representation of Prometheus' capabilities. To get a better sense of what Prometheus can do, we recommend exploring documentation about other exporters. The [Monitoring Linux or macOS host metrics using a node exporter](/docs/guides/node-exporter) guide is a good place to start.
+Collecting metrics from Prometheus alone isn't a great representation of Prometheus' capabilities. To get a better sense of what Prometheus can do, let's add a second target: the [node exporter](https://github.com/prometheus/node_exporter), which exposes a wide variety of Linux or macOS host metrics like CPU, memory, and disk usage.
+
+[Download the latest release](/download#node_exporter) of the node exporter for your platform, then extract and run it:
+
+```language-bash
+tar xvfz node_exporter-*.tar.gz
+cd node_exporter-*
+./node_exporter
+```
+
+The node exporter serves metrics on port 9100 by default. To have Prometheus scrape it, add a second job to the `scrape_configs` section of `prometheus.yml`:
+
+```language-yaml
+scrape_configs:
+  - job_name: prometheus
+    static_configs:
+      - targets: ['localhost:9090']
+  - job_name: node_exporter
+    static_configs:
+      - targets: ['localhost:9100']
+```
+
+Restart Prometheus to pick up the new configuration. After about 30 seconds, the node exporter's metrics are available in the expression browser, for example:
+
+```
+node_memory_MemAvailable_bytes
+```
+
+To explore other exporters and what they monitor, see the [exporters and integrations documentation](/docs/instrumenting/exporters/). The [Monitoring Linux or macOS host metrics using a node exporter](/docs/guides/node-exporter) guide goes into more depth about monitoring hosts with the node exporter.
 
 ## Summary
 
-In this guide, you installed Prometheus, configured a Prometheus instance to monitor resources, and learned some basics of working with time series data in Prometheus' expression browser. To continue learning about Prometheus, check out the [Overview](/docs/introduction/overview) for some ideas about what to explore next.
+In this guide, you installed Prometheus, configured it to monitor itself and a node exporter, and learned some basics of working with time series data in Prometheus' expression browser. To continue learning about Prometheus, check out the [Overview](/docs/introduction/overview) for some ideas about what to explore next.

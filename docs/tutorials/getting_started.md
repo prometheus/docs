@@ -43,7 +43,7 @@ The user can control the frequency at which metrics are scraped by Prometheus.
 
 (Note: This table is just a representation for understanding purposes. Prometheus doesn’t store the values in this exact format)
 
-Prometheus also has an API which allows to query metrics which have been stored by scraping. This API is used to query the metrics, create dashboards/charts on it etc. PromQL is used to query these metrics.
+Prometheus also has an API which allows you to query metrics which have been stored by scraping. This API is used to query the metrics, create dashboards/charts on it etc. PromQL is used to query these metrics.
 
 A simple Line chart created on the Request Count metric will look like this
 

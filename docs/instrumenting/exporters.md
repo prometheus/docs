@@ -283,6 +283,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [Tailscale exporter](https://github.com/adinhodovic/tailscale-exporter)
    * [Teamspeak3 exporter](https://github.com/hikhvar/ts3exporter)
    * [Transmission exporter](https://github.com/metalmatze/transmission-exporter)
+   * [Ubuntu Pro Updates exporter](https://github.com/basecamp/ubuntu_pro_updates_exporter)
    * [Unbound exporter](https://github.com/kumina/unbound_exporter)
    * [WireGuard exporter](https://github.com/MindFlavor/prometheus_wireguard_exporter)
    * [Xen exporter](https://github.com/lovoo/xenstats_exporter)

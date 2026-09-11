@@ -123,6 +123,18 @@ You can experiment with the graph range parameters and other settings.
 
 Collecting metrics from Prometheus alone isn't a great representation of Prometheus' capabilities. To get a better sense of what Prometheus can do, we recommend exploring documentation about other exporters. The [Monitoring Linux or macOS host metrics using a node exporter](/docs/guides/node-exporter) guide is a good place to start.
 
+## What to explore next
+
+Once the local server is scraping and you can run a few queries, these paths are useful next steps:
+
+- **More targets:** install exporters for the systems you care about (hosts, databases, HTTP endpoints). Start with the [node exporter guide](/docs/guides/node-exporter) and the [list of exporters](/docs/instrumenting/exporters).
+- **Service discovery:** replace static `targets` lists with discovery (Kubernetes, cloud, file-based, and more). See [configuration](/docs/operating/configuration) and the [file-based SD guide](/docs/guides/file-sd).
+- **Alerting:** define recording and alerting rules, then send notifications with [Alertmanager](/docs/alerting/).
+- **Visualization:** point Grafana (or another dashboard) at Prometheus as a data source (`http://localhost:9090`).
+- **Applications and OpenTelemetry:** instrument with a [client library](/docs/instrumenting/clientlibs), or see [OpenTelemetry](/docs/guides/opentelemetry) if you are coming from OTLP—Prometheus still scrapes metrics HTTP endpoints the same way as in this guide.
+
+The [Overview](/docs/introduction/overview) page maps how these pieces fit together.
+
 ## Summary
 
-In this guide, you installed Prometheus, configured a Prometheus instance to monitor resources, and learned some basics of working with time series data in Prometheus' expression browser. To continue learning about Prometheus, check out the [Overview](/docs/introduction/overview) for some ideas about what to explore next.
+In this guide, you installed Prometheus, configured a Prometheus instance to monitor resources, and learned some basics of working with time series data in Prometheus' expression browser. Use the links above (and the [Overview](/docs/introduction/overview)) to pick the next area to dig into.

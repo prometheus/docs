@@ -15,6 +15,9 @@ components, and the `/pprof` endpoint of server components implemented in Go.
 Furthermore, it is easily possible to overload and ultimately DoS servers with
 requests to these endpoints.
 
+If you terminate TLS or add authentication at a reverse proxy, see
+[Running Prometheus behind a reverse proxy](/docs/guides/reverse-proxy/).
+
 Prometheus is a sophisticated system with many components and many integrations
 with other systems. It can be deployed in a variety of trusted and untrusted
 environments.

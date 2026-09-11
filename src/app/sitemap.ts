@@ -1,7 +1,7 @@
 import fs from "fs";
 import path from "path";
 import { MetadataRoute } from "next";
-import { docsCollection } from "@/docs-collection";
+import { allRepoVersions, docsCollection } from "@/docs-collection";
 import { getAllPostFileNames, postFileNameToPath } from "@/blog-helpers";
 import docsConfig from "../../docs-config";
 
@@ -44,7 +44,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
       if (doc.version === doc.latestVersion) {
         return true;
       }
-      return docsConfig.ltsVersions[doc.repo]?.includes(doc.version) ?? false;
+      return (
+        allRepoVersions[doc.owner]?.[doc.repo]?.ltsVersions.includes(doc.version) ?? false
+      );
     })
     .map((doc) => ({ url: `${base}/docs/${doc.slug}/` }));
 

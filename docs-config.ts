@@ -55,9 +55,16 @@ export default {
     },
   ],
 
-  // Long-term support versions configuration.
+  // All long-term support versions and their inclusive end-of-support dates.
   ltsVersions: {
-    prometheus: ["3.13"],
+    prometheus: [
+      { version: "2.37", releaseDate: "2022-07-14", endDate: "2023-07-31" },
+      { version: "2.45", releaseDate: "2023-06-23", endDate: "2024-07-31" },
+      { version: "2.53", releaseDate: "2024-06-16", endDate: "2025-07-31" },
+      { version: "3.5", releaseDate: "2025-07-14", endDate: "2026-07-31" },
+      { version: "3.13", releaseDate: "2026-07-01", endDate: "2027-07-31" },
+      { version: "TBD", releaseDate: "2027-06", endDate: "2028-07-31" },
+    ],
   },
 
   // Repositories for the downloads page. The order in this file is the

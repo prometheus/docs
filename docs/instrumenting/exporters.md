@@ -62,6 +62,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
 
 ### Hardware related
    * [apcupsd exporter](https://github.com/mdlayher/apcupsd_exporter)
+   * [Aurora Node Auditor (Linux/edge host and Raspberry Pi vitals)](https://github.com/auroraxo/aurora-node-auditor)
    * [BIG-IP exporter](https://github.com/ExpressenAB/bigip_exporter)
    * [Bosch Sensortec BMP/BME exporter](https://github.com/David-Igou/bsbmp-exporter)
    * [Collins exporter](https://github.com/soundcloud/collins_exporter)

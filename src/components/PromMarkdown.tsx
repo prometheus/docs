@@ -19,8 +19,8 @@ import {
   IconInfoCircle,
   IconExternalLink,
 } from "@tabler/icons-react";
-import Link from "next/link";
 import { Children, HTMLAttributes, PropsWithChildren } from "react";
+import { LinkAnchor } from "./NextLinks";
 import { MarkdownAsync } from "react-markdown";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import rehypeRaw from "rehype-raw";
@@ -118,15 +118,14 @@ export default async function PromMarkdown({
 
             if (!isExternalLink) {
               return (
-                <Anchor
+                <LinkAnchor
                   inherit
                   c="var(--secondary-link-color)"
-                  component={Link}
                   {...rest}
                   href={href || ""}
                 >
                   {children}
-                </Anchor>
+                </LinkAnchor>
               );
             }
 

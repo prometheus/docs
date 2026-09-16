@@ -57,23 +57,30 @@ function buildRecursiveNav(
   return docsTree.map((doc) => {
     if (doc.children.length > 0) {
       // Node is a "directory".
-      const fc = doc.children[0];
-      const repoVersions =
-        fc && fc.type === "repo-doc"
-          ? allRepoVersions[fc.owner][fc.repo]
-          : null;
-
       const currentPage = docsCollection[currentPageSlug];
       if (!currentPage) {
         throw new Error(`Current page not found: ${currentPageSlug}`);
       }
 
+      const versionedChild =
+        doc.children.find(
+          (child) =>
+            child.type === "repo-doc" &&
+            currentPage.type === "repo-doc" &&
+            child.owner === currentPage.owner &&
+            child.repo === currentPage.repo
+        ) ?? doc.children.find((child) => child.type === "repo-doc");
+      const repoVersions =
+        versionedChild?.type === "repo-doc"
+          ? allRepoVersions[versionedChild.owner][versionedChild.repo]
+          : null;
+
       const currentPageVersion =
         currentPage.type === "repo-doc" &&
-        fc.type === "repo-doc" &&
-        currentPage.owner === fc.owner &&
-        currentPage.repo === fc.repo
-          ? currentPage.version
+        versionedChild?.type === "repo-doc" &&
+        currentPage.owner === versionedChild.owner &&
+        currentPage.repo === versionedChild.repo
+          ? currentPage.routeVersion
           : null;
 
       const shownChildren = doc.children.filter((child) => {
@@ -86,33 +93,16 @@ function buildRecursiveNav(
           return true;
         }
 
-        // Always show latest version docs if we're not looking at a different version of the same repo.
-        if (
-          !currentPageVersion &&
-          child.version === repoVersions?.latestVersion
-        ) {
-          if (child.slug.startsWith(child.versionRoot)) {
-            // Don't show "3.4", even if it is the latest.
-            return false;
-          } else {
-            // Show "latest".
-            return true;
-          }
-        }
+        const childPageVersion =
+          currentPage.type === "repo-doc" &&
+          currentPage.owner === child.owner &&
+          currentPage.repo === child.repo
+            ? currentPage.routeVersion
+            : null;
 
-        // If we're looking at a specific version and it's not the latest version,
-        // show all children with that same version.
-        if (child.version === currentPageVersion) {
-          if (currentPageVersion !== repoVersions?.latestVersion) {
-            return true;
-          } else {
-            if (child.slug.startsWith(child.versionRoot)) {
-              return false;
-            } else {
-              return true;
-            }
-          }
-        }
+        // Mixed local/repository sections show latest repository pages unless
+        // the current page belongs to a numbered version of that repository.
+        return child.routeVersion === (childPageVersion ?? "latest");
       });
 
       const navIcon = doc.type === "local-doc" && doc.navIcon;
@@ -154,7 +144,11 @@ function buildRecursiveNav(
                 size="sm"
                 leftSection={<IconTag size={16} />}
                 title="Select version"
-                value={currentPageVersion || repoVersions.latestVersion}
+                value={
+                  currentPageVersion === "latest"
+                    ? repoVersions.latestVersion
+                    : currentPageVersion || repoVersions.latestVersion
+                }
                 data={repoVersions.versions.map((version) => ({
                   value: version,
                   label:
@@ -167,7 +161,10 @@ function buildRecursiveNav(
                 onChange={(version) => {
                   const newPageNode = doc.children.filter(
                     (child) =>
-                      child.type === "repo-doc" && child.version === version
+                      child.type === "repo-doc" &&
+                      (version === repoVersions.latestVersion
+                        ? child.routeVersion === "latest"
+                        : child.routeVersion === version)
                   )[0];
                   if (newPageNode) {
                     router.push(`/docs/${newPageNode.slug}/`);

@@ -14,11 +14,23 @@ import {
 import matter from "gray-matter";
 import { octokit } from "./githubClient";
 import { compareFullVersion, filterUnique, majorMinor } from "./utils";
+import {
+  githubDocRoutes,
+  localDocRoutes,
+  materializeRoute,
+} from "../docs-routes";
 
 const OUTDIR = "./generated";
 
 const docsCollection: DocsCollection = {};
 const allRepoVersions: AllRepoVersions = {};
+
+const addDoc = (slug: string, doc: DocMetadata) => {
+  if (docsCollection[slug]) {
+    throw new Error(`Duplicate documentation route: ${slug}`);
+  }
+  docsCollection[slug] = doc;
+};
 
 // Find all files (.md and others) recursively in a directory.
 const findFiles = (dir: string): string[] => {
@@ -138,6 +150,7 @@ const fetchRepoDocs = async ({
   // Get all <major>.<minor> versions, regardless of the patch version.
   const allVersions = allReleaseTags
     .filter((tag) => tag.startsWith("v")) // Ignore prehistoric release tags like "0.1.0"
+    .filter((tag) => !tag.includes("-")) // Release branches are only created for stable versions.
     .map((tag) => majorMinor(tag))
     .filter(filterUnique); // Remove dupes (e.g. "3.4.0" and "3.4.1" both become "3.4")
 
@@ -208,6 +221,14 @@ const fetchRepoDocs = async ({
       if (file.endsWith(".md")) {
         console.log("Found Markdown file:", filePath);
 
+        const route = githubDocRoutes[repo]?.[filePath];
+        if (!route) {
+          throw new Error(`No documentation route configured for ${repo}:${filePath}`);
+        }
+        if (route.redirectTo) {
+          continue;
+        }
+
         const {
           data: {
             title,
@@ -228,40 +249,37 @@ const fetchRepoDocs = async ({
           }
         }
 
-        const slug = path.join(
-          slugPrefix,
-          version,
-          filePath.replace(/(\/index)*\.md$/, "")
-        );
+        const slug = materializeRoute(route, version)!;
         const newDoc: DocMetadata = {
           type: "repo-doc",
           slug,
           filePath: file,
+          sourcePath: filePath,
           owner,
           repo,
           version,
+          routeVersion: version,
           slugPrefix,
           latestVersion,
-          versionRoot: path.join(slugPrefix, version),
           assetsRoot,
           title,
-          navTitle,
-          sortRank: sortRank ?? 0,
+          navTitle: route.navTitle ?? navTitle,
+          sortRank: route.sortRank ?? sortRank ?? 0,
           hideInNav,
           children: [],
         };
 
-        docsCollection[slug] = newDoc;
+        addDoc(slug, newDoc);
 
         if (version === latestVersion) {
-          const latestSlug = path.join(
-            slugPrefix,
-            "latest",
-            filePath.replace(/(\/index)*\.md$/, "")
-          );
+          const latestSlug = materializeRoute(route, "latest")!;
           // Also add the latest version to the collection with
           // "latest" as the version in the slug.
-          docsCollection[latestSlug] = { ...newDoc, slug: latestSlug };
+          addDoc(latestSlug, {
+            ...newDoc,
+            slug: latestSlug,
+            routeVersion: "latest",
+          });
         }
       } else {
         console.log("Found non-Markdown asset file:", filePath);
@@ -290,6 +308,13 @@ for (const sourceConfig of docsConfig.localMarkdownSources) {
     }
 
     const filePath = path.relative(docsDir, file);
+    const route = localDocRoutes[filePath];
+    if (!route) {
+      throw new Error(`No documentation route configured for local:${filePath}`);
+    }
+    if (route.redirectTo) {
+      continue;
+    }
     const {
       data: {
         title,
@@ -312,21 +337,19 @@ for (const sourceConfig of docsConfig.localMarkdownSources) {
 
     if (file.endsWith(".md")) {
       console.log("Found Markdown file:", filePath);
-      const slug = path.join(
-        slugPrefix,
-        filePath.replace(/(\/index)*\.md$/, "")
-      );
-      docsCollection[slug] = {
+      const slug = materializeRoute(route)!;
+      addDoc(slug, {
         type: "local-doc",
         slug,
         filePath: file,
+        sourcePath: path.posix.join(docsDir, filePath),
         title,
-        navTitle,
-        sortRank: sortRank ?? 0,
+        navTitle: route.navTitle ?? navTitle,
+        sortRank: route.sortRank ?? sortRank ?? 0,
         navIcon,
         hideInNav,
         children: [],
-      };
+      });
     }
 
     // Don't need to care about assets for local docs here, local doc authors

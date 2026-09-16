@@ -1,63 +1,168 @@
-# Redirects for old site structure.
-/docs/introduction/getting_started/         /docs/prometheus/latest/getting_started/
-/docs/introduction/install/                 /docs/prometheus/latest/installation/
-/docs/operating/configuration/              /docs/prometheus/latest/configuration/configuration/
-/docs/operating/federation/                 /docs/prometheus/latest/federation/
-/docs/operating/storage/                    /docs/prometheus/latest/storage/
-/docs/querying/api/                         /docs/prometheus/latest/querying/api/
-/docs/querying/basics/                      /docs/prometheus/latest/querying/basics/
-/docs/querying/examples/                    /docs/prometheus/latest/querying/examples/
-/docs/querying/functions/                   /docs/prometheus/latest/querying/functions/
-/docs/querying/operators/                   /docs/prometheus/latest/querying/operators/
-/docs/querying/rules/                       /docs/prometheus/latest/configuration/recording_rules/
-/docs/visualization/template_examples/      /docs/prometheus/latest/configuration/template_examples/
-/docs/visualization/template_reference/     /docs/prometheus/latest/configuration/template_reference/
-/docs/alerting/overview/                    /docs/alerting/latest/overview/
-/docs/alerting/alertmanager/                /docs/alerting/latest/alertmanager/
-/docs/alerting/configuration/               /docs/alerting/latest/configuration/
-/docs/alerting/clients/                     /docs/alerting/latest/clients/
-/docs/alerting/notifications/               /docs/alerting/latest/notifications/
-/docs/alerting/notification_examples/       /docs/alerting/latest/notification_examples/
-/docs/alerting/management_api/              /docs/alerting/latest/management_api/
+# Documentation structure migration. Specific routes must precede section fallbacks.
 
-# Moved PRW spec from Concepts to a new section.
-/docs/concepts/remote_write_spec  /docs/specs/prw/remote_write_spec
-# Moved PRW into separate dir.
-/docs/specs/remote_write_spec /docs/specs/prw/remote_write_spec
-/docs/specs/remote_write_spec_2_0 /docs/specs/prw/remote_write_spec_2_0
+# Get Started and About the Project.
+/docs/introduction/                         /docs/get-started/                              301!
+/docs/introduction/overview/                /docs/get-started/what-is-prometheus/           301!
+/docs/introduction/first_steps/             /docs/get-started/quickstart/                    301!
+/docs/introduction/getting_started/         /docs/get-started/quickstart/                    301!
+/docs/introduction/comparison/              /docs/get-started/comparison/                    301!
+/docs/introduction/faq/                     /docs/get-started/faq/                           301!
+/docs/introduction/glossary/                /docs/get-started/glossary/                      301!
+/docs/introduction/roadmap/                 /docs/about-the-project/roadmap/                 301!
+/docs/introduction/design-doc/              /docs/about-the-project/design-documents/        301!
+/docs/introduction/release-cycle/           /docs/about-the-project/long-term-support/       301!
+/docs/introduction/media/                   /docs/about-the-project/media/                    301!
+/docs/introduction/install/                 /docs/running-prometheus/latest/installation/    301!
 
-# Redirect our custom openmetrics domain to the latest openmetrics spec.
-https://openmetrics.io/* https://prometheus.io/docs/specs/om/open_metrics_spec 301!
+# Concepts.
+/docs/concepts/data_model/                  /docs/concepts/data-model/                       301!
+/docs/concepts/metric_types/                /docs/concepts/metric-types/                     301!
+/docs/concepts/jobs_instances/              /docs/concepts/jobs-and-instances/               301!
+/docs/concepts/remote_write_spec            /docs/specifications/remote-write/1.0/           301!
 
-# Redirect for HTTP SD docs, which briefly lived in the wrong category / repo.
-/docs/instrumenting/http_sd/ /docs/prometheus/latest/http_sd/
+# Prometheus server documentation. :version preserves both numbered versions and latest.
+/docs/prometheus/2.0/migration/                                /docs/running-prometheus/                                                   301!
+/docs/prometheus/:version/getting_started/                         /docs/get-started/quickstart/                                           301!
+/docs/prometheus/:version/installation/                            /docs/running-prometheus/:version/installation/                         301!
+/docs/prometheus/:version/configuration/configuration/             /docs/running-prometheus/:version/configuration/reference/              301!
+/docs/prometheus/:version/configuration/recording_rules/           /docs/running-prometheus/:version/configuration/recording-rules/        301!
+/docs/prometheus/:version/configuration/alerting_rules/            /docs/running-prometheus/:version/configuration/alerting-rules/         301!
+/docs/prometheus/:version/configuration/template_examples/         /docs/running-prometheus/:version/configuration/template-examples/      301!
+/docs/prometheus/:version/configuration/template_reference/        /docs/running-prometheus/:version/configuration/template-reference/     301!
+/docs/prometheus/:version/configuration/unit_testing_rules/        /docs/running-prometheus/:version/configuration/unit-testing-rules/     301!
+/docs/prometheus/:version/configuration/promtool/                  /docs/running-prometheus/:version/configuration/promtool-http/          301!
+/docs/prometheus/:version/configuration/https/                     /docs/running-prometheus/:version/configuration/https-authentication/   301!
+/docs/prometheus/:version/configuration/                           /docs/running-prometheus/:version/configuration/                        301!
+/docs/prometheus/:version/prometheus_agent/                        /docs/running-prometheus/:version/agent-mode/                           301!
+/docs/prometheus/:version/storage/                                 /docs/running-prometheus/:version/storage/                              301!
+/docs/prometheus/:version/federation/                              /docs/running-prometheus/:version/federation/                           301!
+/docs/prometheus/:version/migration/                               /docs/running-prometheus/:version/migration/                            301!
+/docs/prometheus/:version/feature_flags/                           /docs/running-prometheus/:version/feature-flags/                        301!
+/docs/prometheus/:version/disabled_features/                       /docs/running-prometheus/:version/feature-flags/                        301!
+/docs/prometheus/:version/command-line/prometheus/                 /docs/running-prometheus/:version/command-line/prometheus/              301!
+/docs/prometheus/:version/command-line/promtool/                   /docs/running-prometheus/:version/command-line/promtool/                301!
+/docs/prometheus/:version/command-line/                            /docs/running-prometheus/:version/command-line/                         301!
+/docs/prometheus/:version/stability/                               /docs/running-prometheus/:version/api-stability/                        301!
+/docs/prometheus/:version/querying/basics/                         /docs/querying/:version/basics/                                         301!
+/docs/prometheus/:version/querying/operators/                      /docs/querying/:version/operators/                                      301!
+/docs/prometheus/:version/querying/functions/                      /docs/querying/:version/functions/                                      301!
+/docs/prometheus/:version/querying/examples/                       /docs/querying/:version/examples/                                       301!
+/docs/prometheus/:version/querying/api/                            /docs/querying/:version/http-api/                                       301!
+/docs/prometheus/:version/querying/remote_read_api/                /docs/querying/:version/remote-read-api/                                301!
+/docs/prometheus/:version/querying/                                /docs/querying/                                                         301!
+/docs/prometheus/:version/http_sd/                                 /docs/operate-in-production/:version/http-service-discovery/           301!
+/docs/prometheus/:version/management_api/                          /docs/operate-in-production/:version/management-api/                    301!
+/docs/prometheus/:version/*                                        /docs/running-prometheus/                                               301!
+/docs/prometheus/                                                  /docs/running-prometheus/                                               301!
 
-# Redirect for "disabled_features", which is now called "feature_flags".
-/docs/prometheus/latest/disabled_features/ /docs/prometheus/latest/feature_flags/
+# Older pre-versioned Prometheus routes.
+/docs/operating/configuration/              /docs/running-prometheus/latest/configuration/reference/              301!
+/docs/operating/federation/                 /docs/running-prometheus/latest/federation/                           301!
+/docs/operating/storage/                    /docs/running-prometheus/latest/storage/                              301!
+/docs/querying/api/                         /docs/querying/latest/http-api/                                       301!
+/docs/querying/basics/                      /docs/querying/latest/basics/                                         301!
+/docs/querying/examples/                    /docs/querying/latest/examples/                                       301!
+/docs/querying/functions/                   /docs/querying/latest/functions/                                      301!
+/docs/querying/operators/                   /docs/querying/latest/operators/                                      301!
+/docs/querying/rules/                       /docs/running-prometheus/latest/configuration/recording-rules/        301!
+/docs/visualization/template_examples/      /docs/running-prometheus/latest/configuration/template-examples/      301!
+/docs/visualization/template_reference/     /docs/running-prometheus/latest/configuration/template-reference/     301!
+/docs/instrumenting/http_sd/                /docs/operate-in-production/latest/http-service-discovery/           301!
 
-# Redirects for sections.
-# TODO(ts): Auto-generate from menu.
-/docs/                      /docs/introduction/overview/                302!
-/docs/introduction/         /docs/introduction/overview/                302!
-/docs/concepts/             /docs/concepts/data_model/                  302!
-/docs/specs/                /docs/specs/prw/remote_write_spec_2.0       302!
-/docs/specs/om              /docs/specs/om/open_metrics_spec            302!
-/docs/specs/prw             /docs/specs/prw/remote_write_spec_2_0       302!
-/docs/prometheus/           /docs/prometheus/latest/getting_started/    302!
-/docs/alerting/             /docs/alerting/latest/overview/             302!
-/docs/visualization/        /docs/visualization/browser/                302!
-/docs/instrumenting/        /docs/instrumenting/clientlibs/             302!
-/docs/operating/            /docs/operating/security/                   302!
-/docs/alerting/             /docs/alerting/latest/overview/             302!
-/docs/practices/            /docs/practices/naming/                     302!
-/docs/guides/               /docs/guides/basic-auth/                    302!
+# Instrument Your Code.
+/docs/instrumenting/                        /docs/instrument-your-code/                                  301!
+/docs/instrumenting/clientlibs/             /docs/instrument-your-code/client-libraries/                 301!
+/docs/instrumenting/writing_clientlibs/     /docs/instrument-your-code/writing-client-libraries/         301!
+/docs/instrumenting/pushing/                /docs/instrument-your-code/pushing-metrics/                   301!
+/docs/instrumenting/exporters/              /docs/instrument-your-code/exporters-and-integrations/       301!
+/docs/instrumenting/writing_exporters/      /docs/instrument-your-code/writing-exporters/                301!
+/docs/instrumenting/exposition_formats/     /docs/instrument-your-code/exposition-formats/               301!
+/docs/instrumenting/escaping_schemes/       /docs/instrument-your-code/utf-8-escaping-schemes/           301!
+/docs/instrumenting/content_negotiation/    /docs/instrument-your-code/content-negotiation/              301!
+/docs/guides/multi-target-exporter/         /docs/instrument-your-code/multi-target-exporter/            301!
+/docs/guides/utf8/                          /docs/instrument-your-code/adopt-utf-8/                       301!
+/docs/guides/open_metrics_2_0_migration/    /docs/instrument-your-code/openmetrics-2-migration/           301!
 
-# Redirects for index.hml pages.
+# Visualization.
+/docs/visualization/browser/                /docs/visualization/expression-browser/                      301!
+/docs/visualization/consoles/               /docs/visualization/console-templates/                       301!
+
+# Operate in Production.
+/docs/operating/                            /docs/operate-in-production/                                 301!
+/docs/operating/security/                   /docs/operate-in-production/security/                        301!
+/docs/operating/integrations/               /docs/operate-in-production/integrations/                    301!
+/docs/guides/basic-auth/                    /docs/operate-in-production/basic-authentication/            301!
+/docs/guides/tls-encryption/                /docs/operate-in-production/tls-encryption/                  301!
+/docs/practices/remote_write/               /docs/operate-in-production/remote-write-tuning/             301!
+/docs/guides/query-log/                     /docs/operate-in-production/query-logging/                   301!
+/docs/guides/dockerswarm/                   /docs/operate-in-production/docker-swarm-service-discovery/  301!
+/docs/guides/file-sd/                       /docs/operate-in-production/file-based-service-discovery/    301!
+
+# Alertmanager.
+/docs/alerting/overview/                        /docs/alertmanager/latest/overview/                            301!
+/docs/alerting/alertmanager/                    /docs/alertmanager/latest/alertmanager/                        301!
+/docs/alerting/configuration/                   /docs/alertmanager/latest/configuration/                       301!
+/docs/alerting/clients/                         /docs/alertmanager/latest/notification-integrations/           301!
+/docs/alerting/notifications/                   /docs/alertmanager/latest/notification-template-reference/     301!
+/docs/alerting/notification_examples/          /docs/alertmanager/latest/notification-template-examples/      301!
+/docs/alerting/management_api/                  /docs/alertmanager/latest/management-api/                      301!
+/docs/alerting/:version/overview/               /docs/alertmanager/:version/overview/                         301!
+/docs/alerting/:version/alertmanager/           /docs/alertmanager/:version/alertmanager/                     301!
+/docs/alerting/:version/configuration/          /docs/alertmanager/:version/configuration/                    301!
+/docs/alerting/:version/integrations/           /docs/alertmanager/:version/notification-integrations/        301!
+/docs/alerting/:version/clients/                /docs/alertmanager/:version/notification-integrations/        301!
+/docs/alerting/:version/notifications/          /docs/alertmanager/:version/notification-template-reference/  301!
+/docs/alerting/:version/notification_examples/ /docs/alertmanager/:version/notification-template-examples/   301!
+/docs/alerting/:version/alerts_api/             /docs/alertmanager/:version/alerts-api/                       301!
+/docs/alerting/:version/management_api/         /docs/alertmanager/:version/management-api/                   301!
+/docs/alerting/:version/high_availability/      /docs/alertmanager/:version/high-availability/                301!
+/docs/alerting/:version/https/                  /docs/alertmanager/:version/https-authentication/             301!
+/docs/alerting/:version/*                       /docs/alertmanager/                                           301!
+/docs/alerting/                                 /docs/alertmanager/                                           301!
+
+# Best Practices.
+/docs/practices/                         /docs/best-practices/                          301!
+/docs/practices/naming/                  /docs/best-practices/metric-and-label-naming/  301!
+/docs/practices/consoles/                /docs/best-practices/consoles-and-dashboards/  301!
+/docs/practices/instrumentation/         /docs/best-practices/instrumentation/          301!
+/docs/practices/histograms/              /docs/best-practices/histograms-and-summaries/ 301!
+/docs/practices/alerting/                /docs/best-practices/alerting/                 301!
+/docs/practices/rules/                   /docs/best-practices/recording-rules/          301!
+/docs/practices/pushing/                 /docs/best-practices/when-to-use-the-pushgateway/ 301!
+/docs/practices/the_zen/                 /docs/best-practices/zen/                      301!
+
+# Guides and consolidated tutorials.
+/docs/guides/opentelemetry/                     /docs/guides/opentelemetry-backend/             301!
+/docs/tutorials/                                /docs/guides/                                   301!
+/docs/tutorials/getting_started/                /docs/get-started/quickstart/                    301!
+/docs/tutorials/understanding_metric_types/     /docs/guides/understand-metric-types/           301!
+/docs/tutorials/instrumenting_http_server_in_go/ /docs/guides/go-application/                   301!
+/docs/tutorials/visualizing_metrics_using_grafana/ /docs/guides/visualize-metrics-with-grafana/ 301!
+/docs/tutorials/alerting_based_on_metrics/      /docs/guides/alert-based-on-metrics/            301!
+/docs/guides/contributing/                      /docs/about-the-project/contributing/            301!
+
+# Specifications.
+/docs/specs/                                      /docs/specifications/                  301!
+/docs/specs/native_histograms/                    /docs/specifications/native-histograms/ 301!
+/docs/specs/om/                                   /docs/specifications/openmetrics/       301!
+/docs/specs/om                                    /docs/specifications/openmetrics/       301!
+/docs/specs/om/open_metrics_spec/                 /docs/specifications/openmetrics/1.0/   301!
+/docs/specs/om/open_metrics_spec_2_0/             /docs/specifications/openmetrics/2.0/   301!
+/docs/specs/prw/                                  /docs/specifications/remote-write/      301!
+/docs/specs/prw                                   /docs/specifications/remote-write/      301!
+/docs/specs/prw/remote_write_spec/                /docs/specifications/remote-write/1.0/  301!
+/docs/specs/prw/remote_write_spec_2_0/            /docs/specifications/remote-write/2.0/  301!
+/docs/specs/remote_write_spec                     /docs/specifications/remote-write/1.0/  301!
+/docs/specs/remote_write_spec_2_0                 /docs/specifications/remote-write/2.0/  301!
+
+# Documentation root and HTML-style legacy URLs.
+/docs/                      /docs/get-started/  302!
 /:foo/index.html                        /:foo/                          302!
 /:foo/:bar/index.html                   /:foo/:bar/                     302!
 /:foo/:bar/:baz/index.html              /:foo/:bar/:baz/                302!
 /:foo/:bar/:baz/:qux/index.html         /:foo/:bar/:baz/:qux/           302!
 /:foo/:bar/:baz/:qux/:quux/index.html   /:foo/:bar/:baz/:qux/:quux/     302!
 
-# Blog post duplicated
+# External and non-documentation redirects.
+https://openmetrics.io/* https://prometheus.io/docs/specifications/openmetrics/1.0/ 301!
 /blog/2021/05/14/prometheus-conformance-results/ /blog/2021/10/14/prometheus-conformance-results/ 302!

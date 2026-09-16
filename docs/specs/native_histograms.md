@@ -2586,7 +2586,7 @@ sources of issues to consider:
    histograms will only contain data points in the later part of the range).
 3. A classic histogram might be tailored to have bucket boundaries precisely at
    the points of interest. Native histograms with a standard schema can have a
-   high resolution, but do not allow to set bucket boundaries at arbitrary
+   high resolution, but do not allow setting bucket boundaries at arbitrary
    values. In those cases, the user experience with native histograms might
    actually be worse.
 

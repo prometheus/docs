@@ -37,7 +37,7 @@ export function Hero() {
             <React.Fragment key={props.size}>
               <Button
                 component={Link}
-                href="/docs/prometheus/latest/getting_started/"
+                href="/docs/get-started/quickstart/"
                 w={{ base: "100%", xs: "fit-content" }}
                 {...props}
               >

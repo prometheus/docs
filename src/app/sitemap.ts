@@ -38,10 +38,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   const docsEntries: MetadataRoute.Sitemap = Object.values(docsCollection)
     .filter((doc) => {
+      if (doc.hideInNav) {
+        return false;
+      }
       if (doc.type === "local-doc") {
         return true;
       }
-      if (doc.version === doc.latestVersion) {
+      if (doc.routeVersion === "latest") {
         return true;
       }
       return docsConfig.ltsVersions[doc.repo]?.includes(doc.version) ?? false;

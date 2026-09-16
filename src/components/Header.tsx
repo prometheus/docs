@@ -27,7 +27,7 @@ import { Announcement as AnnouncementType } from "@/docs-config-types";
 
 const links = [
   {
-    link: "/docs/introduction/overview",
+    link: "/docs/get-started/what-is-prometheus/",
     label: "Docs",
     activeBasePath: "/docs",
   },

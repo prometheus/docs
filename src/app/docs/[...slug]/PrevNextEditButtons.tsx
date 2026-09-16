@@ -71,13 +71,8 @@ export default function PrevNextEditButtons({
           component="a"
           href={
             currentPage.type === "local-doc"
-              ? `https://github.com/prometheus/docs/blob/main/docs/${currentPage.slug}.md`
-              : `https://github.com/${currentPage.owner}/${
-                  currentPage.repo
-                }/blob/main/docs/${currentPage.slug
-                  .split("/")
-                  .slice(currentPage.slugPrefix.split("/").length + 1)
-                  .join("/")}.md`
+              ? `https://github.com/prometheus/docs/blob/main/${currentPage.sourcePath}`
+              : `https://github.com/${currentPage.owner}/${currentPage.repo}/blob/main/docs/${currentPage.sourcePath}`
           }
           target="_blank"
           variant="subtle"

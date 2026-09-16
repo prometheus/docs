@@ -16,21 +16,21 @@ const features = [
     description:
       "Prometheus models time series in a flexible dimensional data model. Time series are identified by a metric name and a set of key-value pairs.",
     icon: IconChartGridDots,
-    link: "/docs/concepts/data_model/",
+    link: "/docs/concepts/data-model/",
   },
   {
     title: "Powerful queries",
     description:
       "The PromQL query language allows you to query, correlate, and transform your time series data in powerful ways for visualizations, alerts, and more.",
     icon: IconDatabaseSearch,
-    link: "/docs/prometheus/latest/querying/basics/",
+    link: "/docs/querying/latest/basics/",
   },
   {
     title: "Precise alerting",
     description:
       "Alerting rules are based on PromQL and make full use of the dimensional data model. A separate Alertmanager component handles notifications and silencing.",
     icon: IconBell,
-    link: "/docs/alerting/latest/overview/",
+    link: "/docs/alertmanager/latest/overview/",
   },
   {
     title: "Simple operation",
@@ -39,21 +39,21 @@ const features = [
     icon: IconRun,
     // TODO: Find a better link - the complex configuration page is
     // not a good a good advertisement for simplicity.
-    link: "/docs/prometheus/latest/configuration/configuration/",
+    link: "/docs/running-prometheus/latest/configuration/reference/",
   },
   {
     title: "Instrumentation libraries",
     description:
       "Prometheus provides a large number of official and community-contributed metrics instrumentation libraries that cover most major languages.",
     icon: IconGauge,
-    link: "/docs/instrumenting/clientlibs/",
+    link: "/docs/instrument-your-code/client-libraries/",
   },
   {
     title: "Ubiquitous integrations",
     description:
       "Prometheus comes with hundreds of official and community-contributed integrations that allow you to easily extract metrics from existing systems.",
     icon: IconAffiliate,
-    link: "/docs/instrumenting/exporters/",
+    link: "/docs/instrument-your-code/exporters-and-integrations/",
   },
 ];
 

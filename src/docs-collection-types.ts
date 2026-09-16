@@ -12,13 +12,14 @@ export type RepoDocMetadata = {
   version: string;
   slugPrefix: string;
   latestVersion: string;
-  versionRoot: string;
+  routeVersion: string;
   assetsRoot: string;
 };
 
 export type DocMetadata = (LocalDocMetadata | RepoDocMetadata) & {
   slug: string;
   filePath: string;
+  sourcePath: string;
   title: string;
   navIcon?: string;
   navTitle?: string;

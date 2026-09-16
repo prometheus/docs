@@ -4,7 +4,7 @@ nav_title: First steps
 sort_rank: 3
 ---
 
-Welcome to Prometheus! Prometheus is a monitoring platform that collects metrics from monitored targets by scraping metrics HTTP endpoints on these targets. This guide will show you how to install, configure and monitor our first resource with Prometheus. You'll download, install and run Prometheus. You'll also download and install an exporter, tools that expose time series data on hosts and services. Our first exporter will be Prometheus itself, which provides a wide variety of host-level metrics about memory usage, garbage collection, and more.
+Welcome to Prometheus! Prometheus is a monitoring platform that collects metrics from monitored targets by scraping metrics HTTP endpoints on these targets. This quickstart shows how to install and run Prometheus, have it scrape its own metrics, and query the results. For a longer walkthrough of server features, see the [version-specific Getting started guide](/docs/running-prometheus/latest/getting-started/).
 
 ## Downloading Prometheus
 

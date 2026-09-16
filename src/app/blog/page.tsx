@@ -2,10 +2,10 @@ import { getAllPosts } from "@/blog-helpers";
 import PromMarkdown from "@/components/PromMarkdown";
 import TOC from "@/components/TOC";
 import { getPageMetadata } from "@/page-metadata";
-import { Anchor, Title, Text, Card, Stack, Button, Group } from "@mantine/core";
+import { Title, Text, Card, Stack, Group } from "@mantine/core";
+import { LinkAnchor, LinkButton } from "@/components/NextLinks";
 import dayjs from "dayjs";
 import { Metadata } from "next";
-import Link from "next/link";
 
 export const metadata: Metadata = getPageMetadata({
   pageTitle: "Blog",
@@ -35,26 +35,25 @@ export default function BlogPage() {
             // on the Card breaks the scroll-margin-top of the Title / h1, and
             // the title ends up under the sticky header.
             <Card key={path} withBorder style={{ overflow: "unset" }}>
-              <Anchor component={Link} c="inherit" href={path}>
+              <LinkAnchor c="inherit" href={path}>
                 <Title order={1} mt={0} mb="xs" id={headingSlug(params)}>
                   {frontmatter.title}
                 </Title>
-              </Anchor>
+              </LinkAnchor>
               <Text size="sm" c="dimmed" mb="xs">
                 {dayjs(frontmatter.created_at).format("MMMM D, YYYY")} by{" "}
                 {frontmatter.author_name}
               </Text>
               <PromMarkdown>{excerpt}</PromMarkdown>
 
-              <Button
-                component={Link}
+              <LinkButton
                 href={path}
                 variant="light"
                 mt="md"
                 w={{ base: "100%", xs: "fit-content" }}
               >
                 Read more...
-              </Button>
+              </LinkButton>
             </Card>
           ))}
       </Stack>

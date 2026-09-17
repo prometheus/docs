@@ -103,17 +103,18 @@ const populatePrevNextReferences = (docRoots: DocMetadata[]) => {
     // we need to skip over anything that is not the "latest" version of the repo docs.
     if (a.type !== "repo-doc" && b.type === "repo-doc") {
       return !(
-        b.version === b.latestVersion && !b.slug.startsWith(b.versionRoot)
+        b.routeVersion === "latest"
       );
     }
+    if (a.type !== "repo-doc" || b.type !== "repo-doc") {
+      return false;
+    }
+    if (a.owner !== b.owner || a.repo !== b.repo) {
+      return b.routeVersion !== "latest";
+    }
     return (
-      a.type === "repo-doc" &&
-      b.type === "repo-doc" &&
-      a.owner === b.owner &&
-      a.repo === b.repo &&
-      (a.version !== b.version ||
-        // a is latest, but b starts with the version root
-        (a.version === a.latestVersion && b.slug.startsWith(b.versionRoot)))
+      a.version !== b.version ||
+      (a.routeVersion === "latest") !== (b.routeVersion === "latest")
     );
   };
 

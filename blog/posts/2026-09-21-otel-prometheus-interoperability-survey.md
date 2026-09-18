@@ -93,7 +93,7 @@ _**Note**: "Other" combines respondents who do no transformation at all (15%, n=
 
 **What would you like us to improve to make OpenTelemetry and Prometheus work better together?**
 
-We received 19 open-ended responses with suggestions on what to improve. Three themes emerged from this data — unifying Prometheus and OTel's data models (attributes/labels), better handling of resource attributes and metadata, and naming and formatting friction — alongside a few individual asks. Prometheus maintainers György "Krajo" Krajcsovits and Arthur Sens went through the responses and addressed each point below:
+We received 19 open-ended responses with suggestions on what to improve. Three themes emerged from this data: unification of Prometheus and OTel's data models (attributes/labels), better handling of resource attributes and metadata, and naming and formatting friction. There were also a few individual asks. Prometheus maintainers [György "Krajo" Krajcsovits](https://github.com/krajorama) and [Arthur Sens](https://github.com/ArthurSens) went through the responses and addressed each point below:
 
 - Unifying Prometheus and OTel's data models (attributes/labels)
   - This is a valid ask that we recognize. We will raise it for a discussion at the Prometheus Dev summit in October.

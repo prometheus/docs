@@ -58,7 +58,14 @@ export type GithubSinglePageSource = {
 };
 
 export type LTSConfig = {
-  [repo: string]: string[];
+  [repo: string]: {
+    // Major.minor version, or TBD for an unassigned upcoming release.
+    version: string;
+    // Release date (YYYY-MM-DD), or planned month (YYYY-MM) for upcoming releases.
+    releaseDate: string;
+    // Inclusive end-of-support date in YYYY-MM-DD format (UTC).
+    endDate: string;
+  }[];
 };
 
 export type DownloadConfig = {

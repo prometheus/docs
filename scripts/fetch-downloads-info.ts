@@ -2,6 +2,7 @@ import { octokit } from "./githubClient";
 import { GetResponseDataTypeFromEndpointMethod } from "@octokit/types";
 import * as fs from "fs";
 import * as path from "path";
+import { valid } from "semver";
 import docsConfig from "../docs-config";
 import { Downloads, Release, Binary } from "@/downloads-metadata-types";
 import {
@@ -9,7 +10,12 @@ import {
   DownloadRelease,
   DownloadFile,
 } from "@/download-json-types";
-import { compareFullVersion, filterUnique, majorMinor } from "./utils";
+import {
+  compareFullVersion,
+  filterUnique,
+  getActiveLTSVersions,
+  majorMinor,
+} from "./utils";
 
 const OUTDIR = "./generated";
 
@@ -72,16 +78,24 @@ for (const repoName of docsConfig.downloads.repos) {
     repo: repoName,
   });
 
-  // Fetch releases information for the repo.
+  // Fetch all release pages so older supported LTS versions are included.
   console.log(`Fetching releases info for ${repoName}`);
   const releases = (
-    await octokit.rest.repos.listReleases({
+    await octokit.paginate(octokit.rest.repos.listReleases, {
       owner: docsConfig.downloads.owner,
       repo: repoName,
+      per_page: 100,
     })
-  ).data;
+  ).filter((r) => !r.draft && valid(r.tag_name));
 
   releases.sort((a, b) => compareFullVersion(a.tag_name, b.tag_name)).reverse();
+  const ltsVersions = getActiveLTSVersions(
+    docsConfig.ltsVersions,
+    repoName,
+    releases
+      .filter((r) => !r.prerelease && !r.tag_name.includes("-"))
+      .map((r) => majorMinor(r.tag_name))
+  );
 
   // Select the relevant stable, pre-release, and LTS versions to show.
   const preReleases: string[] = [];
@@ -103,7 +117,7 @@ for (const repoName of docsConfig.downloads.repos) {
         preReleases.push(version);
       }
     } else if (
-      docsConfig.ltsVersions[repoName]?.includes(version) &&
+      ltsVersions.includes(version) &&
       !stableReleases.includes(version)
     ) {
       shownReleases.push(r);
@@ -153,9 +167,7 @@ for (const repoName of docsConfig.downloads.repos) {
         name: r.name || "",
         url: r.html_url,
         prerelease: r.prerelease,
-        ltsRelease: docsConfig.ltsVersions[repoName]?.includes(
-          majorMinor(r.tag_name)
-        ),
+        ltsRelease: !r.prerelease && ltsVersions.includes(majorMinor(r.tag_name)),
         majorMinor: majorMinor(r.tag_name),
         binaries: getBinaries(r),
       })
@@ -172,9 +184,7 @@ for (const repoName of docsConfig.downloads.repos) {
       version: r.tag_name,
       stable: !r.prerelease,
       latest: r.id === latestStableID,
-      lts:
-        docsConfig.ltsVersions[repoName]?.includes(majorMinor(r.tag_name)) ??
-        false,
+      lts: !r.prerelease && ltsVersions.includes(majorMinor(r.tag_name)),
       files: getBinaries(r).map(
         (b): DownloadFile => ({
           url: b.url,

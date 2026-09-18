@@ -82,6 +82,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [NVIDIA DCGM (GPU) exporter](https://github.com/NVIDIA/dcgm-exporter)
    * [ProSAFE exporter](https://github.com/dalance/prosafe_exporter)
    * [Redfish exporter](https://github.com/comcast/fishymetrics)
+   * [Sagemcom DOCSIS cable-modem exporter](https://github.com/colinedwardwood/sagemcom-docsis-exporter)
    * [SmartRAID exporter](https://gitlab.com/calestyo/prometheus-smartraid-exporter)
    * [Waveplus Radon Sensor Exporter](https://github.com/jeremybz/waveplus_exporter)
    * [Weathergoose Climate Monitor Exporter](https://github.com/branttaylor/watchdog-prometheus-exporter)

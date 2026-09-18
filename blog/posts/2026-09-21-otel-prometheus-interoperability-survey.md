@@ -110,7 +110,7 @@ We received 19 open-ended responses with suggestions on what to improve. Three t
 
 ### Mid-size organizations may be furthest into OTel-native tooling
 
-In our data, 100–999-employee organizations come out highest on OTel SDK adoption for application metrics and on OTel receiver adoption for infrastructure metrics. eBPF-based instrumentation (OBI) doesn't follow the same pattern — there it's the 1,000+ organizations that stand apart from every smaller band.
+In our data, organizations with 100-999 employees have the highest OTel SDK adoption for application metrics and OTel receiver adoption for infrastructure metrics. eBPF-based instrumentation (OBI) doesn't follow the same pattern — there, it's the 1,000+ organizations that stand apart from every smaller band.
 
 Adoption by organization size:
 

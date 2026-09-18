@@ -97,7 +97,7 @@ We received 19 open-ended responses with suggestions on what to improve. Three t
 
 - Unifying Prometheus and OTel's data models (attributes/labels)
   - This is a valid ask that we recognize. We will raise it for a discussion at the Prometheus Dev summit in October.
-- Resource attributes and metadata
+- Resource attributes and metadata gaps
   - This should be addressed by the [native metadata design doc](https://docs.google.com/document/d/1yYnyD7oJDvJhzFaigdniq6y302Mvp9gDcJUeAj3pJ0s/edit?tab=t.0#heading=h.5prvoamow70t). One thing that we have to wait for is finishing the OTel Entities spec.
 - Naming and formatting friction
   - Several relevant things already exist — the [OpenMetrics 2.0 exposition format](https://prometheus.io/docs/specs/om/open_metrics_spec_2_0/) lets OTel-style names be used directly in code, PromQL already supports UTF-8 metric names, and Prometheus's OTLP receiver has [configurable translation strategies](https://prometheus.io/docs/prometheus/latest/configuration/configuration/#configuration-file). The pieces exist; they're just not the default yet. We have to work on this.

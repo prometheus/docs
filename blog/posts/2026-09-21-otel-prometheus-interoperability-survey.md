@@ -48,7 +48,7 @@ _**Note**: The 2024 survey didn't ask respondents whether they worked for an obs
 
 Prometheus exporters are the most common single instrumentation method for infrastructure metrics but OTel receivers are close behind. Built-in `/metrics` endpoint, built-in OTLP push, and OpenTelemetry eBPF instrumentation (OBI) follow.
 
-When looking at how these methods combine, the picture is clearly hybrid, not either/or. Nearly half of respondents are mixing Prometheus and OTel instrumentation styles at once for infrastructure metrics, rather than doing a full migration. Only Prometheus style is twice as popular as only OTel style.
+When looking at how these methods combine, the picture is clearly hybrid, not either/or. Nearly half of respondents are mixing Prometheus and OTel instrumentation styles at once for infrastructure metrics, rather than doing a full migration. Among respondents using a single instrumentation style, Prometheus-only style is twice as popular as OTel-only style.
 
 <div style="display: flex; flex-wrap: wrap; gap: 1rem; width: 100%; max-width: 100%;">
   <img src="/assets/blog/2026-09-21/infrastructure-instrumentation-methods.png" alt="Bar chart of infrastructure instrumentation methods: Prometheus exporters 72%, OTel receivers 57%, built-in /metrics endpoint 43%, built-in OTLP push 26%, OBI 12%, other 5%, don't collect 2%" style="flex: 1 1 45%; min-width: 17rem;">

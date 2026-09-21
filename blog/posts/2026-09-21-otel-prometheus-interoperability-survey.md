@@ -148,3 +148,5 @@ _**Note**: Sysadmin (n = 6) and Operations (n = 2) respondents are excluded from
 Interoperability is measurably easier than it was two years ago, but the open-ended answers point to concrete gaps — data model differences, resource attributes and metadata gaps, and naming and formatting friction. There is still a lot of work to do on both the OpenTelemetry and the Prometheus side.
 
 Everyone is welcome to contribute. The discussion happens in the [#otel-prometheus](https://cloud-native.slack.com/archives/C01LSCJBXDZ) channel in the CNCF Slack.
+
+This blog post was published also on [opentelemetry.io/blog](https://opentelemetry.io/blog/2026/otel-prometheus-interoperability/) (canonical version).

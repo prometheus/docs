@@ -149,4 +149,4 @@ Interoperability is measurably easier than it was two years ago, but the open-en
 
 Everyone is welcome to contribute. The discussion happens in the [#otel-prometheus](https://cloud-native.slack.com/archives/C01LSCJBXDZ) channel in the CNCF Slack.
 
-This blog post was published also on [opentelemetry.io/blog](https://opentelemetry.io/blog/2026/otel-prometheus-interoperability/) (canonical version).
+NOTE: This blog post was also published on [opentelemetry.io/blog](https://opentelemetry.io/blog/2026/otel-prometheus-interoperability/) (canonical version).

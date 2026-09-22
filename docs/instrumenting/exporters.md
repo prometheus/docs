@@ -167,7 +167,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [Rancher exporter](https://github.com/infinityworks/prometheus-rancher-exporter)
    * [Speedtest exporter](https://github.com/nlamirault/speedtest_exporter)
    * [Tankerkönig API Exporter](https://github.com/lukasmalkmus/tankerkoenig_exporter)
-
+   * [Plesk Prometheus Exporter](https://github.com/iadminiserversupport/plesk-prometheus-exporter)
 ### Logging
    * [Fluentd exporter](https://github.com/V3ckt0r/fluentd_exporter)
    * [Google's mtail log data extractor](https://github.com/google/mtail)

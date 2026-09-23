@@ -211,8 +211,10 @@ may wish to block such paths to prevent CSRF.
 
 For non-mutating endpoints, you may wish to set [CORS
 headers](https://fetch.spec.whatwg.org/#http-cors-protocol) such as
-`Access-Control-Allow-Origin` in your reverse proxy to prevent
-[XSS](https://en.wikipedia.org/wiki/Cross-site_scripting).
+`Access-Control-Allow-Origin` in your reverse proxy if a browser
+application on another origin should be allowed to read those
+responses. CORS relaxes the Same-Origin Policy; it is not a defence
+against [XSS](https://en.wikipedia.org/wiki/Cross-site_scripting).
 
 If you are composing PromQL queries that include input from untrusted users
 (e.g. URL parameters to console templates, or something you built yourself) who

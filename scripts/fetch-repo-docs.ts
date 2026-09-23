@@ -13,7 +13,14 @@ import {
 } from "@/docs-collection-types";
 import matter from "gray-matter";
 import { octokit } from "./githubClient";
-import { compareFullVersion, filterUnique, majorMinor } from "./utils";
+import {
+  compareFullVersion,
+  compareMajorMinor,
+  filterUnique,
+  generateLTSTable,
+  getActiveLTSVersions,
+  majorMinor,
+} from "./utils";
 
 const OUTDIR = "./generated";
 
@@ -111,15 +118,21 @@ const fetchRepoDocs = async ({
   });
 
   const allReleaseTags: string[] = [];
+  const stableVersions: string[] = [];
 
   for await (const { data: releases } of iterator) {
     // Skip ancient releases. Some have non-semver compatible strings and the
     // version comparison below breaks. Also note the lack of `v` in the tag.
-    const validReleases = (repo === "prometheus")
-      ? releases.filter((r) => !r.tag_name.startsWith("0."))
-      : releases;
+    const validReleases = releases.filter(
+      (r) => !r.draft && !(repo === "prometheus" && r.tag_name.startsWith("0."))
+    );
 
     allReleaseTags.push(...validReleases.map((r) => r.tag_name));
+    stableVersions.push(
+      ...validReleases
+        .filter((r) => !r.prerelease && !r.tag_name.includes("-"))
+        .map((r) => majorMinor(r.tag_name))
+    );
     // For the Prometheus repo for efficieny-reasons, stop once we have found at least
     // one release starting with "v1.".
     // TODO: Do we even still want to show the latest v1 release?
@@ -156,6 +169,18 @@ const fetchRepoDocs = async ({
     }
   }
 
+  // Keep supported LTS docs even when they fall outside the recent versions.
+  const ltsVersions =
+    owner === "prometheus"
+      ? getActiveLTSVersions(docsConfig.ltsVersions, repo, stableVersions)
+      : [];
+  for (const version of ltsVersions) {
+    if (!recentVersions.includes(version)) {
+      recentVersions.push(version);
+    }
+  }
+  recentVersions.sort(compareMajorMinor).reverse();
+
   const latestTag = allReleaseTags.find((tag) => !tag.includes("-"));
   if (!latestTag) {
     throw new Error(`No latest version found for ${owner}/${repo}.`);
@@ -169,7 +194,7 @@ const fetchRepoDocs = async ({
   allRepoVersions[owner][repo] = {
     versions: recentVersions,
     latestVersion,
-    ltsVersions: (owner === "prometheus" && docsConfig.ltsVersions[repo]) || [],
+    ltsVersions,
   };
 
   console.log(
@@ -290,6 +315,20 @@ for (const sourceConfig of docsConfig.localMarkdownSources) {
     }
 
     const filePath = path.relative(docsDir, file);
+    let content = fs.readFileSync(file, "utf-8");
+    let outputFile = file;
+    if (content.includes("<!-- LTS_RELEASES_TABLE -->")) {
+      content = content.replace(
+        "<!-- LTS_RELEASES_TABLE -->",
+        generateLTSTable(
+          docsConfig.ltsVersions.prometheus,
+          allRepoVersions.prometheus.prometheus.ltsVersions
+        )
+      );
+      outputFile = path.join(OUTDIR, "local-docs", docsDir, filePath);
+      fs.mkdirSync(path.dirname(outputFile), { recursive: true });
+      fs.writeFileSync(outputFile, content);
+    }
     const {
       data: {
         title,
@@ -298,7 +337,7 @@ for (const sourceConfig of docsConfig.localMarkdownSources) {
         nav_icon: navIcon,
         hide_in_nav: hideInNav,
       },
-    } = matter(fs.readFileSync(file, "utf-8"));
+    } = matter(content);
     if (!title) {
       throw new Error(`Missing title in ${file}`);
     }
@@ -319,7 +358,7 @@ for (const sourceConfig of docsConfig.localMarkdownSources) {
       docsCollection[slug] = {
         type: "local-doc",
         slug,
-        filePath: file,
+        filePath: outputFile,
         title,
         navTitle,
         sortRank: sortRank ?? 0,

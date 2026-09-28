@@ -82,6 +82,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [Node/system metrics exporter](https://github.com/prometheus/node_exporter) (**official**)
    * [NVIDIA DCGM (GPU) exporter](https://github.com/NVIDIA/dcgm-exporter)
    * [ProSAFE exporter](https://github.com/dalance/prosafe_exporter)
+   * [Proxmox VE exporter (incl. CPU/GPU/NVMe temperatures)](https://github.com/drumandbytes/pve-metrics-exporter)
    * [Redfish exporter](https://github.com/comcast/fishymetrics)
    * [SmartRAID exporter](https://gitlab.com/calestyo/prometheus-smartraid-exporter)
    * [Waveplus Radon Sensor Exporter](https://github.com/jeremybz/waveplus_exporter)
@@ -94,6 +95,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [Bamboo exporter](https://github.com/AndreyVMarkelov/bamboo-prometheus-exporter)
    * [Bitbucket exporter](https://github.com/AndreyVMarkelov/prom-bitbucket-exporter)
    * [Confluence exporter](https://github.com/AndreyVMarkelov/prom-confluence-exporter)
+   * [GitHub Actions self-hosted runner exporter](https://github.com/drumandbytes/github-actions-runner-exporter)
    * [Jenkins exporter](https://github.com/lovoo/jenkins_exporter)
    * [JIRA exporter](https://github.com/AndreyVMarkelov/jira-prometheus-exporter)
 

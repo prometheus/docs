@@ -1,6 +1,6 @@
 ---
 title: Console templates
-sort_rank: 4
+sort_rank: 5
 ---
 
 CAUTION: Starting with Prometheus 3.0, console templates and libraries are no longer bundled with Prometheus. If you wish to use console templates, you must provide your own templates and libraries by specifying the `--web.console.templates` and `--web.console.libraries` command-line flags. This documentation page is maintained for historical reference and to demonstrate the capabilities of console templates. Please be aware that any referenced console libraries from the Prometheus 2.x branch are no longer maintained and may contain known security vulnerabilities (CVEs).

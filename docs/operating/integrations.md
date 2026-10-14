@@ -146,3 +146,4 @@ you to integrate it with your existing systems or build on top of it.
   * [Promdump](https://github.com/ihcsim/promdump): kubectl plugin to dump and restore data blocks
   * [Promregator](https://github.com/promregator/promregator): discovery and scraping for Cloud Foundry applications
   * [pint](https://github.com/cloudflare/pint): Prometheus rule linter
+  * [LibreDB Studio](https://github.com/libredb/libredb-studio): web-based query IDE that runs PromQL over the HTTP API and browses metrics, targets, rule groups and scrape pools

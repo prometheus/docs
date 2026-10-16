@@ -4,9 +4,9 @@ nav_title: "2.0"
 sort_rank: 2
 ---
 
-* Version: 2.0-rc.5
+* Version: 2.0-rc.6
 * Status: **Experimental**
-* Date: May 2024
+* Date: October 2026
 
 The Remote-Write specification, in general, is intended to document the standard for how Prometheus and Prometheus Remote-Write compatible senders send data to Prometheus or Prometheus Remote-Write compatible receivers.
 
@@ -44,6 +44,7 @@ In this document, the following definitions are followed:
 * a `Wire Format` is the format of the data as it travels on the wire (i.e. in a network). In the case of Remote-Write, this is always the compressed binary protobuf format.
 * a `Sender` is something that sends Remote-Write data.
 * a `Receiver` is something that receives (writes) Remote-Write data. The meaning of `Written` is up to the Receiver e.g. usually it means storing received data in a database, but also just validating, splitting or enhancing it.
+* a `Mode` is a set of additional rules on top of `Protocol` that tightens optional sender and receiver semantics into a deterministic contract.
 * `Written` refers to data the `Receiver` has received and is accepting. Whether or not it has ingested this data to persistent storage, written it to a WAL, etc. is up to the `Receiver`. The only distinction is that the `Receiver` has accepted this data rather than explicitly rejecting it with an error response.
 * a `Sample` is a triplet of (start timestamp, timestamp, value).
 * a `Histogram` is a triplet of (start timestamp, timestamp, [histogram value](https://github.com/prometheus/docs/blob/b9657b5f5b264b81add39f6db2f1df36faf03efe/content/docs/concepts/native_histograms.md)).
@@ -96,9 +97,10 @@ Content encoding request header MUST follow [the RFC 9110](https://www.rfc-edito
 ```
 Content-Type: application/x-protobuf
 Content-Type: application/x-protobuf;proto=<fully qualified name>
+Content-Type: application/x-protobuf;proto=<fully qualified name>;mode=<mode>
 ```
 
-Content type request header MUST follow [the RFC 9110](https://www.rfc-editor.org/rfc/rfc9110.html#name-content-type). Senders MUST use `application/x-protobuf` as the only media type. Senders MAY add `;proto=` parameter to the header's value to indicate the fully qualified name of the Protobuf Message that was used, from the two mentioned above. As a result, Senders MUST send any of the three supported header values:
+Content type request header MUST follow [the RFC 9110](https://www.rfc-editor.org/rfc/rfc9110.html#name-content-type). Senders MUST use `application/x-protobuf` as the only media type. Senders MAY add `;proto=` parameter to the header's value to indicate the fully qualified name of the Protobuf Message that was used, from the two mentioned above. Senders MAY also add `;mode=` parameter to indicate the mode for the Protobuf Message, if any is defined for it. As a result, Senders MUST send one of the following supported header values:
 
 For the deprecated message introduced in PRW 1.0, identified by `prometheus.WriteRequest`:
 
@@ -108,10 +110,12 @@ For the deprecated message introduced in PRW 1.0, identified by `prometheus.Writ
 For the message introduced in PRW 2.0, identified by `io.prometheus.write.v2.Request`:
 
 * `Content-Type: application/x-protobuf;proto=io.prometheus.write.v2.Request`
+* `Content-Type: application/x-protobuf;proto=io.prometheus.write.v2.Request;mode=stateless` (see [Modes](#modes))
+* `Content-Type: application/x-protobuf;proto=io.prometheus.write.v2.Request;mode=stateless-typed` (see [Modes](#modes))
 
-When talking to 1.x Receivers, Senders SHOULD use `Content-Type: application/x-protobuf` for backward compatibility. Otherwise, Senders SHOULD use `Content-Type: application/x-protobuf;proto=io.prometheus.write.v2.Request`. More Protobuf Messages might come in 2.x or beyond.
+When talking to 1.x Receivers, Senders SHOULD use `Content-Type: application/x-protobuf` for backward compatibility. Otherwise, Senders SHOULD use `Content-Type: application/x-protobuf;proto=io.prometheus.write.v2.Request` (optionally with `;mode=stateless` or `;mode=stateless-typed`). More Protobuf Messages or modes might come in 2.x or beyond.
 
-Receivers MUST use the content type header to identify the Protobuf Message schema to use. Accidental wrong schema choices may result in non-deterministic behaviour (e.g. corruptions).
+Receivers MUST use the content type header to identify the Protobuf Message schema and mode to use. Accidental wrong schema choices may result in non-deterministic behaviour (e.g. corruptions).
 
 > NOTE: Thanks to reserved fields in [`io.prometheus.write.v2.Request`](#protobuf-message), Receiver accidental use of wrong schema with `prometheus.WriteRequest` will result in empty message. This is generally for convenience to avoid surprising errors, but don't rely on it -- future Protobuf Messages might not have this feature.
 
@@ -190,7 +194,7 @@ Senders SHOULD expect [400 HTTP Bad Request](https://www.rfc-editor.org/rfc/rfc9
 
 #### Invalid Samples
 
-Receivers MAY NOT support certain metric types or samples (e.g. a Receiver might reject sample without metadata type specified or without start timestamp, while another Receiver might accept such sample.). It’s up to the Receiver what sample is invalid. Receivers MUST return a [400 HTTP Bad Request](https://www.rfc-editor.org/rfc/rfc9110.html#name-400-bad-request) status code for write requests that contain any invalid samples unless the [partial retriable write](#retries-on-partial-writes) occurs.
+Receivers MAY reject samples that violate this specification, the negotiated [mode](#modes), or receiver-specific limits (such as label count or length limits). Receivers MUST return a [400 HTTP Bad Request](https://www.rfc-editor.org/rfc/rfc9110.html#name-400-bad-request) status code for write requests that contain any invalid samples unless the [partial retriable write](#retries-on-partial-writes) occurs.
 
 Senders MUST NOT retry on a 4xx HTTP status codes (other than [429](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429)), which MUST be used by Receivers to indicate that the write operation will never be able to succeed and should not be retried. Senders MAY retry on the 415 HTTP status code with a different content type or encoding to see if the Receiver supports it.
 
@@ -229,9 +233,6 @@ The 2.x protocol is breaking compatibility with 1.x by introducing a new, mandat
 
 The `io.prometheus.write.v2.Request` references the new Protobuf Message that's meant to replace and deprecate the Remote-Write 1.0's `prometheus.WriteRequest` message.
 
-<!---
-TODO(bwplotka): Move link to the one on Prometheus main or even buf.
--->
 The full schema and source of the truth is in Prometheus repository in [`prompb/io/prometheus/write/v2/types.proto`](https://github.com/prometheus/prometheus/blob/main/prompb/io/prometheus/write/v2/types.proto). The `gogo` dependency and options CAN be ignored ([will be removed eventually](https://github.com/prometheus/prometheus/issues/11908)). They are not part of the specification as they don't impact the serialized format.
 
 The simplified version of the new `io.prometheus.write.v2.Request` is presented below.
@@ -378,7 +379,7 @@ Rationales: https://github.com/prometheus/proposals/blob/alexg/remote-write-20-p
 <!---
 Rationales: https://github.com/prometheus/proposals/blob/alexg/remote-write-20-proposal/proposals/2024-04-09_remote-write-20.md#always-on-metadata
 -->
-* `metadata` sub-fields SHOULD be provided. Receivers MAY reject series with unspecified `Metadata.type`.
+* `metadata` sub-fields SHOULD be provided (in [`stateless-typed` mode](#stateless-typed-mode), `Metadata.type` MUST be specified).
 * Exemplars SHOULD be provided if they exist for a series.
 
 The following subsections define some schema elements in detail.
@@ -423,7 +424,7 @@ Rationales: https://github.com/prometheus/proposals/blob/alexg/remote-write-20-p
 -->
 Senders MUST send `samples` (or `histograms`) for any given `TimeSeries` in timestamp order. Senders MAY send multiple requests for different series in parallel.
 
-Sample's or Histogram's `start_timestamp` SHOULD be provided for types that follow counter semantics (e.g. counters and counter histograms). Receivers MAY reject those series without `start_timestamp` being set. Given optionality, the 0 value MUST be treated by receivers as unset value. To represent the unlikely 0 unix timestamp in milliseconds, "1" or "-1" value MUST be used.
+Sample's or Histogram's `start_timestamp` SHOULD be provided for types that follow counter semantics (e.g. counters and counter histograms; in [`stateless-typed` mode](#stateless-typed-mode), `start_timestamp` MUST be set for these types). Given optionality in default and `stateless` modes, the 0 value MUST be treated by receivers as unset value. To represent the unlikely 0 unix timestamp in milliseconds, "1" or "-1" value MUST be used.
 
 <!---
 Rationales: https://github.com/prometheus/proposals/blob/alexg/remote-write-20-proposal/proposals/2024-04-09_remote-write-20.md#partial-writes#being-pull-vs-push-agnostic
@@ -465,6 +466,43 @@ Rationales: https://github.com/prometheus/proposals/blob/alexg/remote-write-20-p
 * MUST contain a timestamp. While exemplar timestamps are optional in Prometheus/Open Metrics exposition formats, the assumption is that a timestamp is assigned at scrape time in the same way a timestamp is assigned to the scrape sample. Receivers require exemplar timestamps to reliably handle (e.g. deduplicate) incoming exemplars.
 * MAY be sent in a `TimeSeries` that carries neither samples nor histograms. In that form the exemplars are associated with the series identified by `labels_refs`, rather than with a particular sample or histogram.
 
+#### Modes
+
+By default (when no `;mode=` parameter is set), `io.prometheus.write.v2.Request` keeps several structural and metadata rules optional (`SHOULD` or `MAY`) so Senders can forward any scraped metric (including untyped series, classic histograms, detached exemplars, or counters without start timestamps) without data loss or extra conversion overhead. However, some Receivers cannot ingest detached exemplars, split classic histogram series, untyped metrics, or counters without start timestamps without maintaining cross-request state or rejecting individual samples mid-stream (`400 HTTP Bad Request`).
+
+To address this, `io.prometheus.write.v2.Request` defines two progressive modes (`stateless` and `stateless-typed`) that tighten optional rules into `MUST` requirements. Modes allow Senders and Receivers to agree on stricter guarantees upfront via `Content-Type` negotiation (returning `415 HTTP Unsupported Media Type` if a required mode is not used), while keeping every mode-compliant payload a valid `io.prometheus.write.v2.Request` message.
+
+Senders SHOULD support `stateless` and `stateless-typed` modes. Senders MAY operate in either mode behind configuration or by default.
+
+Receivers MAY accept any valid `io.prometheus.write.v2.Request` (regardless of mode), require at least `stateless` mode (accepting `mode=stateless` and `mode=stateless-typed`), or require `stateless-typed` mode only.
+
+Receivers that support a given mode MUST NOT reject `TimeSeries` for omitting fields that are only required by a stricter mode (for example, a Receiver accepting `mode=stateless` MUST accept series with `METRIC_TYPE_UNSPECIFIED` or `start_timestamp = 0`; if it requires those fields, it MUST require `mode=stateless-typed` and return `415 HTTP Unsupported Media Type` for `mode=stateless`).
+
+If a `Request` violates the requirements of the mode specified in its `Content-Type` header, Receivers MUST treat the violating `TimeSeries` as [invalid samples](#invalid-samples) and return `400 HTTP Bad Request` (either rejecting the entire request or writing the valid `TimeSeries` following [partial write](#partial-write) rules).
+
+##### `stateless` Mode
+
+`stateless` mode ensures that every observation is self-contained in a single `TimeSeries` message rather than split across multiple series or detached exemplar messages, allowing Receivers to process each `TimeSeries` without cross-series or cross-request reassembly.
+
+When operating in `stateless` mode, Senders MUST:
+
+* Use content type of `Content-Type: application/x-protobuf;proto=io.prometheus.write.v2.Request;mode=stateless`.
+* Ensure all of the following for every `TimeSeries` in a `Request`:
+  * `Exemplar`s MUST only be sent on a `TimeSeries` that also contains at least one element in `samples` or in `histograms`. Exemplar-only `TimeSeries` messages MUST NOT be sent.
+  * Histograms MUST use the `Histogram` message (e.g. using Native Histograms with Custom Buckets instead of classic histogram `_bucket`, `_sum`, and `_count` float `Sample` series).
+
+##### `stateless-typed` Mode
+
+`stateless-typed` mode extends [`stateless` mode](#stateless-mode) with mandatory metric type and start timestamp semantics, ensuring every `TimeSeries` carries complete type and temporality metadata for strongly-typed or OpenTelemetry-compatible Receivers.
+
+When operating in `stateless-typed` mode, Senders MUST:
+
+* Use content type of `Content-Type: application/x-protobuf;proto=io.prometheus.write.v2.Request;mode=stateless-typed`.
+* Satisfy all `TimeSeries` requirements of [`stateless` mode](#stateless-mode).
+* Ensure all of the following for every `TimeSeries` in a `Request`:
+  * `Metadata.type` MUST be specified and MUST NOT be `METRIC_TYPE_UNSPECIFIED` (`0`).
+  * `start_timestamp` MUST be set (non-zero) on every `Sample` and `Histogram` for cumulative or delta metric types (`METRIC_TYPE_COUNTER`, `METRIC_TYPE_HISTOGRAM`, as well as `METRIC_TYPE_SUMMARY` `_sum` and `_count` `Samples`).
+
 ## Out of Scope
 
 The same as in [1.0](./remote_write_spec.md#out-of-scope).
@@ -475,7 +513,7 @@ This section contains speculative plans that are not considered part of protocol
 
 * **Transactionality** There is still no transactionality defined for 2.0 specification, mostly because it makes a scalable Sender implementation difficult. Prometheus Sender aims at being "transactional" - i.e. to never expose a partially scraped target to a query. We intend to do the same with Remote-Write -- for instance, in the future we would like to "align" Remote-Write with scrapes, perhaps such that all the samples, metadata and exemplars for a single scrape are sent in a single Remote-Write request.
 
-  However, Remote-Write 2.0 specification solves an important transactionality problem for [the classic histogram buckets](https://docs.google.com/document/d/1mpcSWH1B82q-BtJza-eJ8xMLlKt6EJ9oFGH325vtY1Q/edit#heading=h.ueg7q07wymku). This is done thanks to the native histograms supporting custom bucket-ing possible with the `io.prometheus.write.v2.Request` wire format. Senders might translate all classic histograms to native histograms this way, but it's out of this specification to mandate this. However, for this reason, Receivers MAY ignore certain metric types (e.g. classic histograms).
+  However, Remote-Write 2.0 specification solves an important transactionality problem for [the classic histogram buckets](https://docs.google.com/document/d/1mpcSWH1B82q-BtJza-eJ8xMLlKt6EJ9oFGH325vtY1Q/edit#heading=h.ueg7q07wymku). This is done thanks to the native histograms supporting custom bucketing (NHCB) in the `io.prometheus.write.v2.Request` wire format, which [`stateless` and `stateless-typed` modes](#modes) mandate instead of classic histograms. When no mode is specified, Senders might still translate classic histograms to native histograms this way; Receivers that do not support classic histograms MUST require [`stateless` or `stateless-typed` mode](#modes) rather than silently ignoring classic histogram series.
 
 * **Alternative wire formats**. The OpenTelemetry community has shown the validity of Apache Arrow (and potentially other columnar formats) for over-wire data transfer with their OTLP protocol. We would like to do experiments to confirm the compatibility of a similar format with Prometheus’ data model and include benchmarks of any resource usage changes. We would potentially maintain both a protobuf and columnar format long term for compatibility reasons and use our content negotiation to add different Protobuf Messages for this purpose.
 
@@ -493,6 +531,18 @@ If you use persistent HTTP/1.1 connections, they are pretty close to streaming. 
 
 **Why do we send samples in order?**
 The in-order constraint comes from the encoding we use for time series data in Prometheus, the implementation of which is optimized for append-only workloads. However, this requirement is also shared across many other databases and vendors in the ecosystem. In fact, [Prometheus with OOO feature enabled](https://youtu.be/qYsycK3nTSQ?t=1321), allows out-of-order writes, but with the performance penalty, thus reserved for rare events. To sum up, Receivers may support out-of-order write, though it is not permitted by the specification. In the future e.g. 2.x spec versions, we could extend content type to negotiate the out-of-order writes, if needed.
+
+**What's the purpose of `stateless` and `stateless-typed` modes?**
+By default, when no mode is specified, Remote-Write 2.0 allows any valid permutation of fields in `io.prometheus.write.v2.Request` to preserve compatibility and minimal overhead for existing Prometheus TSDB pipelines.
+
+However, some receivers cannot ingest shredded classic histograms, detached exemplars, untyped series, or cumulative series without start timestamps without maintaining stateful caches across requests or rejecting individual samples mid-stream. [Modes](#modes) give Senders and Receivers a deterministic contract they can negotiate via `Content-Type` (returning `415 HTTP Unsupported Media Type` when a required mode is not used), while letting other receivers accept the relaxed default form for wider sender compatibility.
+
+We split these rules into two progressive modes (`stateless` and `stateless-typed`) rather than a single mode or fine-grained capability flags:
+
+* **`stateless` vs. `stateless-typed` boundary**: `stateless` mode rules (attaching exemplars to samples/histograms and converting classic histograms to NHCB) are pure sender-side formatting choices that any Sender can enforce without dropping data, even when scraping legacy targets. In contrast, `stateless-typed` mode rules (`Metadata.type` and `start_timestamp`) depend on upstream instrumentation exposing types and start timestamps (or sender-side synthesis/filtering of untyped metrics).
+* **Progressive `mode` vs. `capabilities`**: `stateless-typed` includes `stateless` because receivers that require strict types and start timestamps also require structured histograms and attached exemplars, and `start_timestamp` validation itself requires knowing `Metadata.type`. Following [RFC 9413 (Maintaining Robust Protocols)](https://www.rfc-editor.org/rfc/rfc9413.html), three progressive levels (`default`, `stateless`, `stateless-typed`) prevent `2^N` protocol permutations, keep `Content-Type` matching to a single parameter value, and keep compliance testing linear.
+
+In future specification versions, we might propose making `stateless` (or parts of `stateless-typed`) mandatory, depending on ecosystem feedback and adoption.
 
 **How can we parallelise requests with the in-order constraint?**
 Samples must be in-order _for a given series_. However, even if a Receiver does not support out-of-order write, the Remote-Write requests can be sent in parallel as long as they are for different series. Prometheus shards the samples by their labels into separate queues, and then writes happen sequentially in each queue. This guarantees samples for the same series are delivered in order, but samples for different series are sent in parallel - and potentially "out of order" between different series.

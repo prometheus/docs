@@ -14,7 +14,7 @@ This document outlines officially supported exposition formats.
 ## Prometheus Text Format
 
 In this section you can find some [basic information](#basic-info)
-about this format as well as a more [detailed breakdown](#text-format-details) of the
+about this format as well as a more [detailed breakdown](#details) of the
 format.
 
 ### Basic info

@@ -13,7 +13,7 @@ NOTE: While the Prometheus Node Exporter is for *nix systems, there is the [Wind
 
 ## Installing and running the Node Exporter
 
-The Prometheus Node Exporter is a single static binary that you can install [via tarball](#tarball-installation). Once you've downloaded it from the Prometheus [downloads page](/download#node_exporter) extract it, and run it:
+The Prometheus Node Exporter is a single static binary that you can install via tarball. Once you've downloaded it from the Prometheus [downloads page](/download#node_exporter) extract it, and run it:
 
 ```bash
 # NOTE: Replace the URL with one from the above mentioned "downloads" page.

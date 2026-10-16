@@ -68,7 +68,7 @@ read-only access requires a login. Therefore, consider everything in Slack as
 ephemeral and inaccessible for the general public. Slack content is also not
 retained forever. Important information, like
 the result of a discussion, should also be published via other channels (e.g.
-on [GitHub](github) or the [mailing list](#developer-mailing-list)) to make it
+on [GitHub](#github) or the [mailing list](#developer-mailing-list)) to make it
 accessible and durable. Avoid linking to Slack messages from other media
 without summarizing the content of the linked messages.
 

@@ -29,9 +29,9 @@ author:
       organization: Grafana Labs
 ---
 
-- Version: 2.0.0-rc0
+- Version: 2.0.0-rc1
 - Status: Experimental
-- Date: March 2026
+- Date: October 2026
 - Authors: Arthur Silva Sens, Bartłomiej Płotka, David Ashpole, György Krajcsovits, Owen Williams, Richard Hartmann
 - Emeritus: Ben Kochie, Brian Brazil, Rob Skillington
 

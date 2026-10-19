@@ -4,7 +4,7 @@ nav_title: "2.0"
 sort_rank: 2
 ---
 
-* Version: 2.0-rc.4
+* Version: 2.0-rc.5
 * Status: **Experimental**
 * Date: May 2024
 
@@ -135,7 +135,9 @@ Senders MUST include a user agent header that SHOULD follow [the RFC 9110 User-A
 
 Receivers that written all data successfully MUST return a [success 2xx HTTP status code](https://www.rfc-editor.org/rfc/rfc9110.html#name-successful-2xx). In such a successful case, the response body from the Receiver SHOULD be empty and the status code SHOULD be [204 HTTP No Content](https://www.rfc-editor.org/rfc/rfc9110.html#name-204-no-content); Senders MUST ignore the response body. The response body is RESERVED for future use.
 
-Receivers MUST NOT return a 2xx HTTP status code if any of the pieces of sent data known to the Receiver (e.g. Samples, Histograms, Exemplars) were NOT written successfully (both [partial write](#partial-write) or full write rejection). In such a case, the Receiver MUST provide a human-readable error message in the response body. The Receiver's error SHOULD contain information about the amount of the samples being rejected and for what reasons. Senders MUST NOT try and interpret the error message and SHOULD log it as is.
+Receivers that operate asynchronously (e.g. ingest payloads into a message queue or pipeline for deferred processing without synchronous parsing) MAY return [202 HTTP Accepted](https://www.rfc-editor.org/rfc/rfc9110.html#name-202-accepted) status code. This indicates that the request has been accepted for processing, but processing has not been completed.
+
+Receivers MUST NOT return a 2xx HTTP status code, if any of the pieces of sent data known to the Receiver (e.g. Samples, Histograms, Exemplars) were NOT synchronously written successfully (both [partial write](#partial-write) or full write rejection) or wasn't sent for asynchronous processing (queue full for example). In such a case, the Receiver MUST provide a human-readable error message in the response body. The Receiver's error SHOULD contain information about the amount of the samples being rejected and for what reasons. Senders MUST NOT try and interpret the error message and SHOULD log it as is.
 
 The following subsections specify Sender and Receiver semantics around headers and different write error cases.
 
@@ -144,7 +146,9 @@ The following subsections specify Sender and Receiver semantics around headers a
 <!---
 Rationales: https://github.com/prometheus/prometheus/issues/14359
 -->
-Upon a successful content negotiation, Receivers process (write) the received batch of data. Once completed (with success or failure) for each important piece of data (currently Samples, Histograms and Exemplars) Receivers MUST send a dedicated HTTP `X-Prometheus-Remote-Write-*-Written` response header with the precise number of successfully written elements.
+Upon a successful content negotiation, Receivers process (write) the received batch of data. Once completed (with success or failure) for each important piece of data (currently Samples, Histograms and Exemplars) Receivers MUST send a dedicated HTTP `X-Prometheus-Remote-Write-*-Written` response header with the precise number of successfully written elements. 
+
+Asynchronous Receivers returning `202 Accepted` MAY omit these headers if counts cannot be calculated synchronously (validation is deferred). Asynchronous Receivers SHOULD propagate errors to clients via different channels.
 
 Each header value MUST be a single 64-bit integer. The header names MUST be as follows:
 
@@ -154,12 +158,17 @@ X-Prometheus-Remote-Write-Histograms-Written <count of all successfully written 
 X-Prometheus-Remote-Write-Exemplars-Written <count of all successfully written Exemplars>
 ```
 
-Upon receiving a 2xx or a 4xx status code, Senders CAN assume that any missing `X-Prometheus-Remote-Write-*-Written` response header means no element from this category (e.g. Sample) was written by the Receiver (count of `0`). Senders MUST NOT assume the same when using the deprecated `prometheus.WriteRequest` Protobuf Message due to the risk of hitting 1.0 Receiver without this feature.
+Upon receiving a 2xx status code or upon receiving a 4xx status code, Senders CAN assume that any missing `X-Prometheus-Remote-Write-*-Written` response header means no element from this category (e.g. Sample) was written by the Receiver (count of `0`). 
+
+Senders MUST NOT assume the same when:
+
+* Receiving `202 Accepted` status code as asynchronous Receivers may defer validation.
+* When using the deprecated `prometheus.WriteRequest` Protobuf Message due to the risk of hitting 1.0 Receiver without this feature.
 
 Senders MAY use those headers to confirm which parts of data were successfully written by the Receiver. Common use cases:
 
 * Better handling of the [Partial Write](#partial-write) failure situations: Senders MAY use those headers for more accurate client instrumentation and error handling.
-* Detecting broken 1.0 Receiver implementations: Senders SHOULD assume [415 HTTP Unsupported Media Type](https://www.rfc-editor.org/rfc/rfc9110.html#name-415-unsupported-media-type) status code when sending the data using `io.prometheus.write.v2.Request` request and receiving 2xx HTTP status code, but none of the `X-Prometheus-Remote-Write-*-Written` response headers from the Receiver. This is a common issue for the 1.0 Receivers that do not check the `Content-Type` request header; accidental decoding of the `io.prometheus.write.v2.Request` payload with `prometheus.WriteRequest` schema results in empty result and no decoding errors.
+* Detecting broken 1.0 Receiver implementations: Senders SHOULD assume [415 HTTP Unsupported Media Type](https://www.rfc-editor.org/rfc/rfc9110.html#name-415-unsupported-media-type) status code when sending the data using `io.prometheus.write.v2.Request` request and receiving a 2xx HTTP status code other than `202 Accepted`, but none of the `X-Prometheus-Remote-Write-*-Written` response headers from the Receiver. This is a common issue for the 1.0 Receivers that do not check the `Content-Type` request header; accidental decoding of the `io.prometheus.write.v2.Request` payload with `prometheus.WriteRequest` schema results in empty result and no decoding errors.
 * Detecting other broken implementations or issues: Senders MAY use those headers to detect broken Sender and Receiver implementations or other problems.
 
 Senders MUST NOT assume what Remote Write specification version the Receiver implements from the remote write response headers.
@@ -257,22 +266,23 @@ message TimeSeries {
   // or start timestamp.
   repeated uint32 labels_refs = 1;
 
-  // Timeseries messages can either specify samples or (native) histogram samples
-  // (histogram field), but not both. For a typical sender (real-time metric
-  // streaming), in healthy cases, there will be only one sample or histogram.
+  // TimeSeries messages must specify at least one float sample, native histogram sample
+  // or exemplar. Samples and histograms must not be specified at the same time.
+  // Exemplars may be specified without samples or histograms. For a typical sender
+  // (real-time metric streaming), in healthy cases, there will be only one sample or histogram.
   //
   // Samples and histograms are sorted by timestamp (older first).
   repeated Sample samples = 2;
   repeated Histogram histograms = 3;
 
-  // exemplars represents an optional set of exemplars attached to this series' samples.
+  // exemplars represents an optional set of exemplars for this series or series's samples/histograms if present.
   repeated Exemplar exemplars = 4;
 
   // metadata represents the metadata associated with the given series' samples.
   Metadata metadata = 5;
 }
 
-// Exemplar is an additional information attached to some series' samples.
+// Exemplar contains additional information associated with a series or series's samples/histograms if present.
 // It is typically used to attach an example trace or request ID associated with
 // the metric changes.
 message Exemplar {
@@ -362,7 +372,8 @@ For every `TimeSeries` message:
 <!---
 Rationales: https://github.com/prometheus/proposals/blob/alexg/remote-write-20-proposal/proposals/2024-04-09_remote-write-20.md#partial-writes#samples-vs-native-histogram-samples
 -->
-* At least one element in `samples` or in `histograms` MUST be provided. A `TimeSeries` MUST NOT include both `samples` and `histograms`. For series which (rarely) would mix float and histogram samples, a separate `TimeSeries` message MUST be used.
+* At least one element in `samples`, in `histograms`, or in `exemplars` MUST be provided. For example, a `TimeSeries` with only `metadata` and `labels_refs` is not valid.
+* A `TimeSeries` MUST NOT include both `samples` and `histograms`. For series which (rarely) would mix float and histogram samples, a separate `TimeSeries` message MUST be used.
 
 <!---
 Rationales: https://github.com/prometheus/proposals/blob/alexg/remote-write-20-proposal/proposals/2024-04-09_remote-write-20.md#always-on-metadata
@@ -452,6 +463,7 @@ Rationales: https://github.com/prometheus/proposals/blob/alexg/remote-write-20-p
 -->
 * MAY contain labels e.g. referencing trace or request ID. If the exemplar references a trace it SHOULD use the `trace_id` label name, as a best practice.
 * MUST contain a timestamp. While exemplar timestamps are optional in Prometheus/Open Metrics exposition formats, the assumption is that a timestamp is assigned at scrape time in the same way a timestamp is assigned to the scrape sample. Receivers require exemplar timestamps to reliably handle (e.g. deduplicate) incoming exemplars.
+* MAY be sent in a `TimeSeries` that carries neither samples nor histograms. In that form the exemplars are associated with the series identified by `labels_refs`, rather than with a particular sample or histogram.
 
 ## Out of Scope
 

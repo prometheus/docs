@@ -84,6 +84,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [ProSAFE exporter](https://github.com/dalance/prosafe_exporter)
    * [Redfish exporter](https://github.com/comcast/fishymetrics)
    * [SmartRAID exporter](https://gitlab.com/calestyo/prometheus-smartraid-exporter)
+   * [TEMPer USB thermal sensor exporter](https://github.com/BAPostma/temper-exporter)
    * [Waveplus Radon Sensor Exporter](https://github.com/jeremybz/waveplus_exporter)
    * [Weathergoose Climate Monitor Exporter](https://github.com/branttaylor/watchdog-prometheus-exporter)
    * [Windows exporter](https://github.com/prometheus-community/windows_exporter)

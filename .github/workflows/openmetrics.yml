@@ -25,6 +25,9 @@ jobs:
       run: |
         python3 openmetrics-spec-tests/check_openmetrics_spec.py docs/specs/om/open_metrics_spec_2_0.md
     - name: Check version bump for OpenMetrics 2.0
+      # Feature branches collect multiple spec changes under a single version,
+      # the bump is only required once the work is merged into main.
+      if: github.event.pull_request.base.ref == 'main'
       env:
         BASE_REF: ${{ github.event.pull_request.base.ref }}
         HEAD_SHA: ${{ github.event.pull_request.head.sha }}

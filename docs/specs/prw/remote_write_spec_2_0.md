@@ -115,7 +115,7 @@ For the message introduced in PRW 2.0, identified by `io.prometheus.write.v2.Req
 
 When talking to 1.x Receivers, Senders SHOULD use `Content-Type: application/x-protobuf` for backward compatibility. Otherwise, Senders SHOULD use `Content-Type: application/x-protobuf;proto=io.prometheus.write.v2.Request` (optionally with `;mode=stateless` or `;mode=stateless-typed`). More Protobuf Messages or modes might come in 2.x or beyond.
 
-Receivers MUST use the content type header to identify the Protobuf Message schema and mode to use. Accidental wrong schema choices may result in non-deterministic behaviour (e.g. corruptions).
+Receivers MUST use the content type header to identify the Protobuf Message schema to use, and MAY use it to identify the [mode](#modes). Accidental wrong schema choices may result in non-deterministic behaviour (e.g. corruptions).
 
 > NOTE: Thanks to reserved fields in [`io.prometheus.write.v2.Request`](#protobuf-message), Receiver accidental use of wrong schema with `prometheus.WriteRequest` will result in empty message. This is generally for convenience to avoid surprising errors, but don't rely on it -- future Protobuf Messages might not have this feature.
 
@@ -424,7 +424,7 @@ Rationales: https://github.com/prometheus/proposals/blob/alexg/remote-write-20-p
 -->
 Senders MUST send `samples` (or `histograms`) for any given `TimeSeries` in timestamp order. Senders MAY send multiple requests for different series in parallel. In [`stateless` and `stateless-typed` modes](#modes), histogram metrics MUST be sent using `histograms` (e.g. Native Histograms with Custom Buckets) rather than classic histogram float `samples`.
 
-Sample's or Histogram's `start_timestamp` SHOULD be provided for types that follow counter semantics (e.g. counters and counter histograms; in [`stateless-typed` mode](#stateless-typed-mode), `start_timestamp` MUST be set for these types). Receivers MAY reject those series without `start_timestamp` being set. Given optionality, the 0 value MUST be treated by receivers as unset value. To represent the unlikely 0 unix timestamp in milliseconds, "1" or "-1" value MUST be used.
+Sample's or Histogram's `start_timestamp` SHOULD be provided for types that follow counter semantics (e.g. counters and counter histograms; in [`stateless-typed` mode](#stateless-typed-mode), `start_timestamp` MUST be set for these types, except on stale markers). Receivers MAY reject those series without `start_timestamp` being set. Given optionality, the 0 value MUST be treated by receivers as unset value. To represent the unlikely 0 unix timestamp in milliseconds, "1" or "-1" value MUST be used.
 
 <!---
 Rationales: https://github.com/prometheus/proposals/blob/alexg/remote-write-20-proposal/proposals/2024-04-09_remote-write-20.md#partial-writes#being-pull-vs-push-agnostic
@@ -493,7 +493,7 @@ When operating in `stateless-typed` mode, Senders MUST:
 * Satisfy all `TimeSeries` requirements of [`stateless` mode](#stateless-mode).
 * Ensure all of the following for every `TimeSeries` in a `Request`:
   * `Metadata.type` MUST be specified and MUST NOT be `METRIC_TYPE_UNSPECIFIED` (`0`).
-  * `start_timestamp` MUST be set (non-zero) on every `Sample` and `Histogram` for cumulative or delta metric types (`METRIC_TYPE_COUNTER`, `METRIC_TYPE_HISTOGRAM`, as well as `METRIC_TYPE_SUMMARY` `_sum` and `_count` `Samples`).
+  * `start_timestamp` MUST be set (non-zero) on every `Sample` and `Histogram` (except stale markers) for cumulative or delta metric types (`METRIC_TYPE_COUNTER`, `METRIC_TYPE_HISTOGRAM`, as well as `METRIC_TYPE_SUMMARY` `_sum` and `_count` `Samples`).
 
 ## Out of Scope
 

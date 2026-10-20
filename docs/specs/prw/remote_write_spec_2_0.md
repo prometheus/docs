@@ -100,7 +100,7 @@ Content-Type: application/x-protobuf;proto=<fully qualified name>
 Content-Type: application/x-protobuf;proto=<fully qualified name>;mode=<mode>
 ```
 
-Content type request header MUST follow [the RFC 9110](https://www.rfc-editor.org/rfc/rfc9110.html#name-content-type). Senders MUST use `application/x-protobuf` as the only media type. Senders MAY add `;proto=` parameter to the header's value to indicate the fully qualified name of the Protobuf Message that was used, from the two mentioned above. Senders MAY also add `;mode=` parameter to indicate the mode for the Protobuf Message, if any is defined for it. As a result, Senders MUST send one of the following supported header values:
+Content type request header MUST follow [the RFC 9110](https://www.rfc-editor.org/rfc/rfc9110.html#name-content-type). Senders MUST use `application/x-protobuf` as the only media type. Senders MAY add `;proto=` parameter to the header's value to indicate the fully qualified name of the Protobuf Message that was used, from the two mentioned above. Senders MAY also add `;mode=` parameter to indicate the [mode](#modes) (additional semantic rules) for the Protobuf Message, if any is defined for it. As a result, Senders MUST send one of the following supported header values:
 
 For the deprecated message introduced in PRW 1.0, identified by `prometheus.WriteRequest`:
 
@@ -194,7 +194,7 @@ Senders SHOULD expect [400 HTTP Bad Request](https://www.rfc-editor.org/rfc/rfc9
 
 #### Invalid Samples
 
-Receivers SHOULD reject samples that violate this specification or the negotiated [mode](#modes). Receivers MAY reject samples that violate receiver-specific limits and gaps (such as not supporting native histograms, or label count or length limits). Receivers MUST return a [400 HTTP Bad Request](https://www.rfc-editor.org/rfc/rfc9110.html#name-400-bad-request) status code for write requests that contain any invalid samples unless the [partial retriable write](#retries-on-partial-writes) occurs.
+Receivers SHOULD reject data (such as samples, histograms, exemplars, or entire time series) that violates this specification or the negotiated [mode](#modes). Receivers MAY reject data that violates receiver-specific limits and gaps (such as not supporting native histograms, or label count or length limits). Receivers MUST return a [400 HTTP Bad Request](https://www.rfc-editor.org/rfc/rfc9110.html#name-400-bad-request) status code for write requests that contain any invalid data (whether rejecting the entire request or performing a [partial write](#partial-write)) unless the [partial retriable write](#retries-on-partial-writes) occurs.
 
 Senders MUST NOT retry on a 4xx HTTP status codes (other than [429](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429)), which MUST be used by Receivers to indicate that the write operation will never be able to succeed and should not be retried. Senders MAY retry on the 415 HTTP status code with a different content type or encoding to see if the Receiver supports it.
 
@@ -464,7 +464,7 @@ Rationales: https://github.com/prometheus/proposals/blob/alexg/remote-write-20-p
 -->
 * MAY contain labels e.g. referencing trace or request ID. If the exemplar references a trace it SHOULD use the `trace_id` label name, as a best practice.
 * MUST contain a timestamp. While exemplar timestamps are optional in Prometheus/Open Metrics exposition formats, the assumption is that a timestamp is assigned at scrape time in the same way a timestamp is assigned to the scrape sample. Receivers require exemplar timestamps to reliably handle (e.g. deduplicate) incoming exemplars.
-* MAY be sent in a `TimeSeries` that carries neither samples nor histograms (except in [`stateless` and `stateless-typed` modes](#modes), where exemplars MUST only be sent on a `TimeSeries` that also contains at least one element in `samples` or in `histograms`). In that form the exemplars are associated with the series identified by `labels_refs`, rather than with a particular sample or histogram.
+* MAY be sent in a `TimeSeries` that carries neither samples nor histograms (except in [`stateless` and `stateless-typed` modes](#modes), where exemplars MUST only be sent on a `TimeSeries` that also contains at least one element in `samples` or in `histograms`). Exemplars are always associated with the series identified by `labels_refs` rather than with a specific element in `samples` or `histograms`, even when multiple samples or histograms are present in the `TimeSeries`.
 
 #### Modes
 
@@ -493,7 +493,7 @@ When operating in `stateless-typed` mode, Senders MUST:
 * Satisfy all `TimeSeries` requirements of [`stateless` mode](#stateless-mode).
 * Ensure all of the following for every `TimeSeries` in a `Request`:
   * `Metadata.type` MUST be specified and MUST NOT be `METRIC_TYPE_UNSPECIFIED` (`0`).
-  * `start_timestamp` MUST be set (non-zero) on every `Sample` and `Histogram` (except stale markers) for cumulative or delta metric types (`METRIC_TYPE_COUNTER`, `METRIC_TYPE_HISTOGRAM`, as well as `METRIC_TYPE_SUMMARY` `_sum` and `_count` `Samples`).
+  * `start_timestamp` MUST be set (non-zero) on every `Sample` and `Histogram` (except stale markers) for metric types `METRIC_TYPE_COUNTER`, `METRIC_TYPE_HISTOGRAM`, as well as `METRIC_TYPE_SUMMARY` `_sum` and `_count` `Samples`.
 
 ## Out of Scope
 

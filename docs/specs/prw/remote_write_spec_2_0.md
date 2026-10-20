@@ -464,7 +464,7 @@ Rationales: https://github.com/prometheus/proposals/blob/alexg/remote-write-20-p
 -->
 * MAY contain labels e.g. referencing trace or request ID. If the exemplar references a trace it SHOULD use the `trace_id` label name, as a best practice.
 * MUST contain a timestamp. While exemplar timestamps are optional in Prometheus/Open Metrics exposition formats, the assumption is that a timestamp is assigned at scrape time in the same way a timestamp is assigned to the scrape sample. Receivers require exemplar timestamps to reliably handle (e.g. deduplicate) incoming exemplars.
-* MAY be sent in a `TimeSeries` that carries neither samples nor histograms (except in [`stateless` and `stateless-st` modes](#modes), where exemplars MUST only be sent on a `TimeSeries` that also contains at least one element in `samples` or in `histograms`). Exemplars are always associated with the series identified by `labels_refs` rather than with a specific element in `samples` or `histograms`, even when multiple samples or histograms are present in the `TimeSeries`.
+* MAY be sent in a `TimeSeries` that carries neither samples nor histograms (except in [`stateless` and `stateless-st` modes](#modes), where exemplars MUST only be sent on a `TimeSeries` that also contains at least one element in `samples` or in `histograms`).
 
 #### Modes
 

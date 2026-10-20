@@ -484,7 +484,7 @@ When operating in `stateless` mode, Senders MUST:
 * Ensure all of the following for every `TimeSeries` in a `Request`:
   * `Exemplar`s MUST only be sent on a `TimeSeries` that also contains at least one element in `samples` or in `histograms`. Exemplar-only `TimeSeries` messages MUST NOT be sent.
   * Histograms MUST use the `Histogram` message (e.g. using Native Histograms with Custom Buckets instead of classic histogram `_bucket`, `_sum`, and `_count` float `Sample` series).
-  * `Metadata.type` MUST be specified and MUST NOT be `METRIC_TYPE_UNSPECIFIED` (`0`). For series with an unknown metric type (such as `untyped` scraped metrics or recording rule outputs), Senders MAY assume `METRIC_TYPE_GAUGE`.
+  * `Metadata.type` MUST be specified and MUST NOT be `METRIC_TYPE_UNSPECIFIED` (`0`). For series with an unknown metric type (such as `untyped` scraped metrics or recording rule outputs), Senders SHOULD assume `METRIC_TYPE_GAUGE`, unless the metric name has a `_total` suffix, in which case Senders SHOULD assume `METRIC_TYPE_COUNTER`.
 
 ##### `stateless-st` Mode
 
@@ -533,7 +533,7 @@ However, stateless or strongly-typed receivers often require structured histogra
 
 We defined two progressive modes, `stateless` and `stateless-st`, rather than a single mode or fine-grained capability flags:
 
-* `stateless` mode rules (attaching exemplars to samples or histograms, converting classic histograms to NHCB, and requiring `Metadata.type` while allowing `METRIC_TYPE_GAUGE` for unknown metric types) make every `TimeSeries` message self-contained and typed. Any sender can enforce `stateless` mode without dropping data or tracking cross-scrape counter start timestamps, and receivers can validate histogram structure because `Metadata.type` is always set.
+* `stateless` mode rules (attaching exemplars to samples or histograms, converting classic histograms to NHCB, and requiring `Metadata.type` with a `METRIC_TYPE_GAUGE` or `_total`-based `METRIC_TYPE_COUNTER` fallback for unknown metric types) make every `TimeSeries` message self-contained and typed. Any sender can enforce `stateless` mode without dropping data or tracking cross-scrape counter start timestamps, and receivers can validate histogram structure because `Metadata.type` is always set.
 * `stateless-st` mode adds the `start_timestamp` requirement on cumulative metric types (`METRIC_TYPE_COUNTER`, `METRIC_TYPE_HISTOGRAM`, and summary `_sum` and `_count`). It is kept separate from `stateless` because `start_timestamp` depends on upstream instrumentation exposing created timestamps or stateful sender-side synthesis, and adds per-sample wire overhead on cumulative series that not all receivers require.
 * `stateless-st` includes `stateless` because receivers that require `start_timestamp` on cumulative metrics also require `Metadata.type`, structured histograms, and attached exemplars, and validating `start_timestamp` itself requires knowing `Metadata.type`. Following [RFC 9413](https://www.rfc-editor.org/rfc/rfc9413.html), three progressive levels (`default`, `stateless`, `stateless-st`) avoid `2^N` protocol permutations, keep `Content-Type` matching to a single parameter value, and keep compliance testing linear.
 

@@ -1,5 +1,6 @@
 # Redirects for old site structure.
 /docs/introduction/getting_started/         /docs/prometheus/latest/getting_started/
+/docs/tutorials/getting_started/            /docs/introduction/first_steps/
 /docs/introduction/install/                 /docs/prometheus/latest/installation/
 /docs/operating/configuration/              /docs/prometheus/latest/configuration/configuration/
 /docs/operating/federation/                 /docs/prometheus/latest/federation/

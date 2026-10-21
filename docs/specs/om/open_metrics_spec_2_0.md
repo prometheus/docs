@@ -371,13 +371,13 @@ Summaries SHOULD NOT be used, because quantiles are not aggregatable and the use
 
 A Summary Sample MUST contain a Count, Sum and a set of quantiles.
 
-Semantically, Count and Sum values are counters so MUST NOT be NaN or negative. Count MUST be an integer.
+Semantically, Count is a counter so MUST NOT be NaN or negative. Count MUST be an integer. Sum MUST NOT be NaN. Sum is only a counter semantically as long as there are no negative event values measured by the Summary.
 
 A Summary SHOULD have a Start Timestamp.
 
 Start Timestamp MUST NOT be based on the collection period of quantile values.
 
-Quantiles are a map from a quantile to a value. An example is a quantile 0.95 with value 0.2 in a metric called `myapp_http_request_duration_seconds` which means that the 95th percentile latency is 200ms over an unknown timeframe. If there are no events in the relevant timeframe, the value for a quantile MUST be NaN. A Quantile's Metric's LabelSet MUST NOT have "quantile" label name. Quantiles MUST be between 0 and 1 inclusive. Quantile values MUST NOT be negative. Quantile values SHOULD represent the recent values. Commonly this would be over the last 5-10 minutes.
+Quantiles are a map from a quantile to a value. An example is a quantile 0.95 with value 0.2 in a metric called `myapp_http_request_duration_seconds` which means that the 95th percentile latency is 200ms over an unknown timeframe. If there are no events in the relevant timeframe, the value for a quantile MUST be NaN. A Quantile's Metric's LabelSet MUST NOT have "quantile" label name. Quantiles MUST be between 0 and 1 inclusive. Quantile values SHOULD represent the recent values. Commonly this would be over the last 5-10 minutes.
 
 #### Unknown
 

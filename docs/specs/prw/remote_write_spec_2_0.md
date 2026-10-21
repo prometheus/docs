@@ -110,10 +110,11 @@ For the deprecated message introduced in PRW 1.0, identified by `prometheus.Writ
 For the message introduced in PRW 2.0, identified by `io.prometheus.write.v2.Request`:
 
 * `Content-Type: application/x-protobuf;proto=io.prometheus.write.v2.Request`
+* `Content-Type: application/x-protobuf;proto=io.prometheus.write.v2.Request;mode=none` (equivalent to omitting `;mode=`; see [Modes](#modes))
 * `Content-Type: application/x-protobuf;proto=io.prometheus.write.v2.Request;mode=stateless` (see [Modes](#modes))
 * `Content-Type: application/x-protobuf;proto=io.prometheus.write.v2.Request;mode=stateless-st` (see [Modes](#modes))
 
-When talking to 1.x Receivers, Senders SHOULD use `Content-Type: application/x-protobuf` for backward compatibility. Otherwise, Senders SHOULD use `Content-Type: application/x-protobuf;proto=io.prometheus.write.v2.Request` (optionally with `;mode=stateless` or `;mode=stateless-st`). More Protobuf Messages or modes might come in 2.x or beyond.
+When talking to 1.x Receivers, Senders SHOULD use `Content-Type: application/x-protobuf` for backward compatibility. Otherwise, Senders SHOULD use `Content-Type: application/x-protobuf;proto=io.prometheus.write.v2.Request` (optionally with `;mode=none`, `;mode=stateless`, or `;mode=stateless-st`). More Protobuf Messages or modes might come in 2.x or beyond.
 
 Receivers MUST use the content type header to identify the Protobuf Message schema to use, and MAY use it to identify the [mode](#modes). Accidental wrong schema choices may result in non-deterministic behaviour (e.g. corruptions).
 
@@ -188,7 +189,7 @@ Senders SHOULD use Remote-Write to send samples for multiple series in a single 
 
 #### Unsupported Request Content
 
-Receivers MUST return [415 HTTP Unsupported Media Type](https://www.rfc-editor.org/rfc/rfc9110.html#name-415-unsupported-media-type) status code if they don't support a given content type or encoding provided by Senders.
+Receivers MUST return [415 HTTP Unsupported Media Type](https://www.rfc-editor.org/rfc/rfc9110.html#name-415-unsupported-media-type) status code if they don't support a given content type or encoding provided by Senders. When returning `415 HTTP Unsupported Media Type`, Receivers SHOULD include the `Accept` (listing supported `Content-Type` values, including supported `;proto=` and `;mode=` parameters) and `Accept-Encoding` (listing supported `Content-Encoding` values) response headers as defined in [RFC 7694](https://www.rfc-editor.org/rfc/rfc7694.html) so Senders can determine what the Receiver supports without guessing.
 
 Senders SHOULD expect [400 HTTP Bad Request](https://www.rfc-editor.org/rfc/rfc9110.html#name-400-bad-request) for the above reasons from 1.x Receivers, for backwards compatibility.
 
@@ -196,7 +197,7 @@ Senders SHOULD expect [400 HTTP Bad Request](https://www.rfc-editor.org/rfc/rfc9
 
 Receivers SHOULD reject data (such as samples, histograms, exemplars, or entire time series) that violates this specification or the negotiated [mode](#modes). Receivers MAY reject data that violates receiver-specific limits and gaps (such as not supporting native histograms, or label count or length limits). Receivers MUST return a [400 HTTP Bad Request](https://www.rfc-editor.org/rfc/rfc9110.html#name-400-bad-request) status code for write requests that contain any invalid data (whether rejecting the entire request or performing a [partial write](#partial-write)) unless the [partial retriable write](#retries-on-partial-writes) occurs.
 
-Senders MUST NOT retry on a 4xx HTTP status codes (other than [429](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429)), which MUST be used by Receivers to indicate that the write operation will never be able to succeed and should not be retried. Senders MAY retry on the 415 HTTP status code with a different content type or encoding to see if the Receiver supports it.
+Senders MUST NOT retry on a 4xx HTTP status codes (other than [429](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429)), which MUST be used by Receivers to indicate that the write operation will never be able to succeed and should not be retried. Senders MAY retry on the 415 HTTP status code with a different content type or encoding (using the `Accept` and `Accept-Encoding` response headers if present; see [Unsupported Request Content](#unsupported-request-content)) to see if the Receiver supports it.
 
 ### Retries & Backoff
 
@@ -464,17 +465,17 @@ Rationales: https://github.com/prometheus/proposals/blob/alexg/remote-write-20-p
 -->
 * MAY contain labels e.g. referencing trace or request ID. If the exemplar references a trace it SHOULD use the `trace_id` label name, as a best practice.
 * MUST contain a timestamp. While exemplar timestamps are optional in Prometheus/Open Metrics exposition formats, the assumption is that a timestamp is assigned at scrape time in the same way a timestamp is assigned to the scrape sample. Receivers require exemplar timestamps to reliably handle (e.g. deduplicate) incoming exemplars.
-* MAY be sent in a `TimeSeries` that carries neither samples nor histograms (except in [`stateless` and `stateless-st` modes](#modes), where exemplars MUST only be sent on a `TimeSeries` that also contains at least one element in `samples` or in `histograms`).
+* MAY be sent in a `TimeSeries` that carries neither samples nor histograms (except in [`stateless` and `stateless-st` modes](#modes), where exemplars MUST only be sent on a `TimeSeries` that also contains at least one element in `samples` or in `histograms`). For cases where there are multiple `samples` or `histograms` on a `TimeSeries`, all exemplars MUST be associated with all of those `samples` or `histograms`.
 
 #### Modes
 
-By default (when no `;mode=` parameter is set), `io.prometheus.write.v2.Request` keeps several structural and metadata rules optional (`SHOULD` or `MAY`) so Senders can forward any scraped metric without data loss or conversion overhead. However, some common stateless or strongly typed Receivers cannot ingest all the data e.g. detached exemplars, classic histogram series, untyped metrics, or counters without start timestamps.
+By default (`none` mode, when no `;mode=` parameter is set or when `;mode=none` is specified), `io.prometheus.write.v2.Request` keeps several structural and metadata rules optional (`SHOULD` or `MAY`) so Senders can forward any scraped metric without data loss or conversion overhead. Senders MAY omit `;mode=` or explicitly send `;mode=none` to indicate this baseline mode. However, some common stateless or strongly typed Receivers cannot ingest all the data e.g. detached exemplars, classic histogram series, untyped metrics, or counters without start timestamps.
 
 To address this, `io.prometheus.write.v2.Request` defines two progressive modes, `stateless` and `stateless-st`, that tighten optional rules into `MUST` requirements on Senders while keeping every payload a valid `io.prometheus.write.v2.Request` message. See the [FAQ](#faq) for the rationale.
 
 Senders SHOULD support `stateless` and `stateless-st` modes. Senders MAY operate in either mode behind configuration or by default.
 
-Receivers MAY accept any valid `io.prometheus.write.v2.Request` regardless of mode, require at least `stateless` mode, or require `stateless-st` mode only. If rejected, [415 HTTP Unsupported Media Type](https://www.rfc-editor.org/rfc/rfc9110.html#name-415-unsupported-media-type) MUST be used.
+Receivers MAY accept any valid `io.prometheus.write.v2.Request` regardless of mode, require at least `stateless` mode, or require `stateless-st` mode only. If rejected, [415 HTTP Unsupported Media Type](https://www.rfc-editor.org/rfc/rfc9110.html#name-415-unsupported-media-type) MUST be used (see [Unsupported Request Content](#unsupported-request-content)).
 
 ##### `stateless` Mode
 
@@ -484,7 +485,9 @@ When operating in `stateless` mode, Senders MUST:
 * Ensure all of the following for every `TimeSeries` in a `Request`:
   * `Exemplar`s MUST only be sent on a `TimeSeries` that also contains at least one element in `samples` or in `histograms`. Exemplar-only `TimeSeries` messages MUST NOT be sent.
   * Histograms MUST use the `Histogram` message (e.g. using Native Histograms with Custom Buckets instead of classic histogram `_bucket`, `_sum`, and `_count` float `Sample` series).
-  * `Metadata.type` MUST be specified and MUST NOT be `METRIC_TYPE_UNSPECIFIED` (`0`). For series with an unknown metric type (such as `untyped` scraped metrics or recording rule outputs), Senders SHOULD assume `METRIC_TYPE_GAUGE`, unless the metric name has a `_total` suffix, in which case Senders SHOULD assume `METRIC_TYPE_COUNTER`.
+  * `Metadata.type` MUST be specified and MUST NOT be `METRIC_TYPE_UNSPECIFIED` (`0`). For series with an unknown metric type (such as `untyped` scraped metrics or recording rule outputs), Senders SHOULD assume:
+    * `METRIC_TYPE_GAUGE`, unless the metric name has a `_total` suffix, in which case Senders SHOULD assume `METRIC_TYPE_COUNTER`.
+    * `Metadata.help_ref` set to `"(type inferred from untyped)"` if empty, or with `" (type inferred from untyped)"` appended to the existing help text.
 
 ##### `stateless-st` Mode
 
@@ -524,7 +527,7 @@ If you use persistent HTTP/1.1 connections, they are pretty close to streaming. 
 The in-order constraint comes from the encoding we use for time series data in Prometheus, the implementation of which is optimized for append-only workloads. However, this requirement is also shared across many other databases and vendors in the ecosystem. In fact, [Prometheus with OOO feature enabled](https://youtu.be/qYsycK3nTSQ?t=1321), allows out-of-order writes, but with the performance penalty, thus reserved for rare events. To sum up, Receivers may support out-of-order write, though it is not permitted by the specification. In the future e.g. 2.x spec versions, we could extend content type to negotiate the out-of-order writes, if needed.
 
 **What's the purpose of `stateless` and `stateless-st` modes?**
-By default, when no mode is specified, Remote-Write 2.0 allows any valid permutation of fields in `io.prometheus.write.v2.Request` to preserve compatibility and minimal overhead for existing Prometheus TSDB pipelines.
+By default (`none` mode, when no mode or `;mode=none` is specified), Remote-Write 2.0 allows any valid permutation of fields in `io.prometheus.write.v2.Request` to preserve compatibility and minimal overhead for existing Prometheus TSDB pipelines.
 
 However, stateless or strongly-typed receivers often require structured histograms, attached exemplars, metric types, or start timestamps to ingest metrics without stateful caches or mid-stream `400 HTTP Bad Request` rejections. [Modes](#modes) have two goals:
 
@@ -535,9 +538,9 @@ We defined two progressive modes, `stateless` and `stateless-st`, rather than a 
 
 * `stateless` mode rules (attaching exemplars to samples or histograms, converting classic histograms to NHCB, and requiring `Metadata.type` with a `METRIC_TYPE_GAUGE` or `_total`-based `METRIC_TYPE_COUNTER` fallback for unknown metric types) make every `TimeSeries` message self-contained and typed. Any sender can enforce `stateless` mode without dropping data or tracking cross-scrape counter start timestamps, and receivers can validate histogram structure because `Metadata.type` is always set.
 * `stateless-st` mode adds the `start_timestamp` requirement on cumulative metric types (`METRIC_TYPE_COUNTER`, `METRIC_TYPE_HISTOGRAM`, and summary `_sum` and `_count`). It is kept separate from `stateless` because `start_timestamp` depends on upstream instrumentation exposing created timestamps or stateful sender-side synthesis, and adds per-sample wire overhead on cumulative series that not all receivers require.
-* `stateless-st` includes `stateless` because receivers that require `start_timestamp` on cumulative metrics also require `Metadata.type`, structured histograms, and attached exemplars, and validating `start_timestamp` itself requires knowing `Metadata.type`. Following [RFC 9413](https://www.rfc-editor.org/rfc/rfc9413.html), three progressive levels (`default`, `stateless`, `stateless-st`) avoid `2^N` protocol permutations, keep `Content-Type` matching to a single parameter value, and keep compliance testing linear.
+* `stateless-st` includes `stateless` because receivers that require `start_timestamp` on cumulative metrics also require `Metadata.type`, structured histograms, and attached exemplars, and validating `start_timestamp` itself requires knowing `Metadata.type`. Following [RFC 9413](https://www.rfc-editor.org/rfc/rfc9413.html), three progressive levels (`none`, `stateless`, `stateless-st`) avoid `2^N` protocol permutations, keep `Content-Type` matching to a single parameter value, and keep compliance testing linear.
 
-In future specification versions, we might propose making `stateless` mode the default while keeping `stateless-st` optional, depending on ecosystem feedback and adoption.
+In future specification versions, we might propose making `stateless` mode the default when `;mode=` is omitted while keeping `none` and `stateless-st` explicitly selectable, depending on ecosystem feedback and adoption.
 
 **How can we parallelise requests with the in-order constraint?**
 Samples must be in-order _for a given series_. However, even if a Receiver does not support out-of-order write, the Remote-Write requests can be sent in parallel as long as they are for different series. Prometheus shards the samples by their labels into separate queues, and then writes happen sequentially in each queue. This guarantees samples for the same series are delivered in order, but samples for different series are sent in parallel - and potentially "out of order" between different series.

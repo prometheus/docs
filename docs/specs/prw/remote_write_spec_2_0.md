@@ -469,7 +469,7 @@ Rationales: https://github.com/prometheus/proposals/blob/alexg/remote-write-20-p
 
 #### Modes
 
-By default (`none` mode, when no `;mode=` parameter is set or when `;mode=none` is specified), `io.prometheus.write.v2.Request` keeps several structural and metadata rules optional (`SHOULD` or `MAY`) so Senders can forward any scraped metric without data loss or conversion overhead. Senders MAY omit `;mode=` or explicitly send `;mode=none` to indicate this baseline mode. However, some common stateless or strongly typed Receivers cannot ingest all the data e.g. detached exemplars, classic histogram series, untyped metrics, or counters without start timestamps.
+By default (`none` mode, when no `;mode=` parameter is set or when `;mode=none` is specified), `io.prometheus.write.v2.Request` keeps several structural and metadata rules optional (`SHOULD` or `MAY`) so Senders can forward any scraped metric without restrictions or conversion overhead. Senders MAY omit `;mode=` or explicitly send `;mode=none` to indicate this baseline mode. However, some common stateless or strongly typed Receivers cannot ingest all the data e.g. detached exemplars, classic histogram series, untyped metrics, or counters without start timestamps.
 
 To address this, `io.prometheus.write.v2.Request` defines two progressive modes, `stateless` and `stateless-st`, that tighten optional rules into `MUST` requirements on Senders while keeping every payload a valid `io.prometheus.write.v2.Request` message. See the [FAQ](#faq) for the rationale.
 

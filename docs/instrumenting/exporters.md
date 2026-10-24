@@ -73,6 +73,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [IoT Edison exporter](https://github.com/roman-vynar/edison_exporter)
    * [InfiniBand exporter](https://github.com/treydock/infiniband_exporter)
    * [IPMI exporter](https://github.com/soundcloud/ipmi_exporter)
+   * [Kepler (Kubernetes-based Efficient Power Level Exporter)](https://github.com/sustainable-computing-io/kepler)
    * [knxd exporter](https://github.com/RichiH/knxd_exporter)
    * [Meinberg LANTIME OS exporter](https://github.com/raphaelthomas/meinberg_ltos_exporter)
    * [Modbus exporter](https://github.com/RichiH/modbus_exporter)

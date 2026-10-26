@@ -23,7 +23,7 @@ Let's also say that you've generated the following using [OpenSSL](https://www.d
 You can generate a self-signed certificate and private key using this command:
 
 ```bash
-mkdir -p /home/prometheus/certs/example.com && cd /home/prometheus/certs/certs/example.com
+mkdir -p /home/prometheus/certs/example.com && cd /home/prometheus/certs/example.com
 openssl req \
   -x509 \
   -newkey rsa:4096 \

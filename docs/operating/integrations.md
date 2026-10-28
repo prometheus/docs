@@ -142,8 +142,8 @@ you to integrate it with your existing systems or build on top of it.
 
   * [Alert analysis](https://github.com/m0nikasingh/am2ch): Stores alerts into a ClickHouse database and provides alert analysis dashboards
   * [karma](https://github.com/prymitive/karma): alert dashboard
+  * [LibreDB Studio](https://github.com/libredb/libredb-studio): web-based query IDE that runs PromQL over the HTTP API and browses metrics, targets, rule groups and scrape pools
   * [PushProx](https://github.com/RobustPerception/PushProx): Proxy to transverse NAT and similar network setups
   * [Promdump](https://github.com/ihcsim/promdump): kubectl plugin to dump and restore data blocks
   * [Promregator](https://github.com/promregator/promregator): discovery and scraping for Cloud Foundry applications
   * [pint](https://github.com/cloudflare/pint): Prometheus rule linter
-  * [LibreDB Studio](https://github.com/libredb/libredb-studio): web-based query IDE that runs PromQL over the HTTP API and browses metrics, targets, rule groups and scrape pools

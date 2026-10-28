@@ -71,11 +71,12 @@ func ping(m *metrics) func(w http.ResponseWriter, req *http.Request) {
 }
 ```
 
-Then register the metrics (in this case, only one counter) with a Prometheus registry and expose the metrics.
+Then register the metrics with a Prometheus registry and expose them. Here we use a custom registry and also register the Go runtime collector with it.
 
 ```go
 func main() {
 	reg := prometheus.NewRegistry()
+	reg.MustRegister(collectors.NewGoCollector())
 	m := newMetrics(reg)
 
 	http.HandleFunc("/ping", ping(m))
@@ -98,6 +99,7 @@ import (
 	"net/http"
 
 	"github.com/prometheus/client_golang/prometheus"
+	"github.com/prometheus/client_golang/prometheus/collectors"
 	"github.com/prometheus/client_golang/prometheus/promauto"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 )
@@ -126,6 +128,7 @@ func ping(m *metrics) func(w http.ResponseWriter, req *http.Request) {
 
 func main() {
 	reg := prometheus.NewRegistry()
+	reg.MustRegister(collectors.NewGoCollector())
 	m := newMetrics(reg)
 
 	http.HandleFunc("/ping", ping(m))
@@ -147,7 +150,7 @@ Now hit the localhost:8090/ping endpoint a couple of times and then send a reque
 
 Here, the `ping_request_count` shows that the `/ping` endpoint was called 3 times.
 
-The code above uses a custom registry (`prometheus.NewRegistry()`), which does not include Go runtime metrics by default. To also collect Go runtime metrics like `go_threads` and `go_goroutines`, register `collectors.NewGoCollector()` (from `github.com/prometheus/client_golang/prometheus/collectors`) with the registry.
+Unlike the default registry, a custom registry (`prometheus.NewRegistry()`) starts empty, so we registered the Go runtime collector explicitly with `reg.MustRegister(collectors.NewGoCollector())` (from `github.com/prometheus/client_golang/prometheus/collectors`). That is why we see other metrics like `go_threads`, `go_goroutines`, etc.
 
 We have built our first metric exporter. Let’s update our Prometheus config to scrape the metrics from our server.
 

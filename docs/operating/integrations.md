@@ -92,6 +92,7 @@ For notification mechanisms not natively supported by the Alertmanager, the
   * [Asana](https://gitlab.com/lupudu/alertmanager-asana-bridge)
   * [AWS SNS](https://github.com/DataReply/alertmanager-sns-forwarder)
   * [Better Uptime](https://docs.betteruptime.com/integrations/prometheus)
+  * [CallHeim](https://callheim.com/integrations/prometheus/): on-call & incident management
   * [Canopsis](https://git.canopsis.net/canopsis-connectors/connector-prometheus2canopsis)
   * [DingTalk](https://github.com/timonwong/prometheus-webhook-dingtalk)
   * [Discord](https://github.com/benjojo/alertmanager-discord)

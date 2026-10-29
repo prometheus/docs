@@ -73,6 +73,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [IoT Edison exporter](https://github.com/roman-vynar/edison_exporter)
    * [InfiniBand exporter](https://github.com/treydock/infiniband_exporter)
    * [IPMI exporter](https://github.com/soundcloud/ipmi_exporter)
+   * [Kepler (Kubernetes-based Efficient Power Level Exporter)](https://github.com/sustainable-computing-io/kepler)
    * [knxd exporter](https://github.com/RichiH/knxd_exporter)
    * [Meinberg LANTIME OS exporter](https://github.com/raphaelthomas/meinberg_ltos_exporter)
    * [Modbus exporter](https://github.com/RichiH/modbus_exporter)
@@ -163,11 +164,9 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [GraphQL exporter](https://github.com/ricardbejarano/graphql_exporter)
    * [InstaClustr exporter](https://github.com/fcgravalos/instaclustr_exporter)
    * [IO River exporter](https://github.com/ioriver/ioriver-exporter)
-   * [Mozilla Observatory exporter](https://github.com/Jimdo/observatory-exporter)
    * [OpenWeatherMap exporter](https://github.com/RichiH/openweathermap_exporter)
    * [Pagespeed exporter](https://github.com/foomo/pagespeed_exporter)
    * [Rancher exporter](https://github.com/infinityworks/prometheus-rancher-exporter)
-   * [Speedtest exporter](https://github.com/nlamirault/speedtest_exporter)
    * [Tankerkönig API Exporter](https://github.com/lukasmalkmus/tankerkoenig_exporter)
 
 ### Logging
@@ -229,6 +228,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [Cachet exporter](https://github.com/ContaAzul/cachet_exporter)
    * [ccache exporter](https://github.com/virtualtam/ccache_exporter)
    * [c-lightning exporter](https://github.com/lightningd/plugins/tree/master/prometheus)
+   * [Dagster exporter](https://github.com/HirofumiTsuda/dagster-prometheus-exporter)
    * [DHCPD leases exporter](https://github.com/DRuggeri/dhcpd_leases_exporter)
    * [Dovecot exporter](https://github.com/kumina/dovecot_exporter)
    * [Dnsmasq exporter](https://github.com/google/dnsmasq_exporter)

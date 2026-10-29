@@ -98,7 +98,7 @@ process_start_time_seconds 1.54115492874e+09
 process_virtual_memory_bytes 1.5609856e+07
 ```
 
-Those are metrics in the Prometheus [format](/docs/instrumenting/exposition_formats/#text-format-example). They come from the exporter’s [instrumentation](/docs/practices/instrumentation/) and tell us about the state of the exporter itself while it is running. This is called whitebox monitoring and very useful in daily ops practice. If you are curious, try out our guide on how to [instrument your own applications](https://prometheus.io/docs/guides/go-application/).
+Those are metrics in the Prometheus [format](/docs/instrumenting/exposition_formats/#example). They come from the exporter’s [instrumentation](/docs/practices/instrumentation/) and tell us about the state of the exporter itself while it is running. This is called whitebox monitoring and very useful in daily ops practice. If you are curious, try out our guide on how to [instrument your own applications](https://prometheus.io/docs/guides/go-application/).
 
 For the second type of querying we need to provide a target and module as parameters in the HTTP GET Request. The target is a URI or IP and the module must defined in the exporter’s configuration. The blackbox exporter container comes with a meaningful default configuration.
 We will use the target `prometheus.io` and the predefined module `http_2xx`. It tells the exporter to make a GET request like a browser would if you go to `prometheus.io` and to expect a [200 OK](https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#2xx_Success) response.

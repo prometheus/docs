@@ -36,6 +36,7 @@ OpenMetrics 2.0 contains many changes. Some of those changes are a loosening of 
 | [**CompositeValues**](#compositevalues)                                          |                                          |                                                    |           |
 | [Summary / Histogram / GaugeHistogram](#compositevalues)                         | Expanded `_bucket`/`_count`/`_sum` lines | Single `{key:value}` CompositeValue                | Yes       |
 | [Sum and Count required](#sum-and-count-required)                                | `_count`/`_sum` optional                 | Count and Sum required in CompositeValue           | Yes       |
+| [Negative and float values](#negative-and-float-values)                          | Sum/quantiles >= 0; integer counts       | Negative Sum/quantiles; float counts allowed       | No        |
 | [**Native Histograms**](#native-histograms)                                      |                                          |                                                    |           |
 | [Native-only and combined histograms](#native-only-histogram)                    | N/A                                      | Exponential buckets via `schema`/spans/buckets/etc | No        |
 | [**Exemplars**](#exemplars)                                                      |                                          |                                                    |           |
@@ -454,6 +455,8 @@ Note: The counter line uses a plain Number value, not a CompositeValue. The summ
 
 The Sum and Count are now required in OM 2.0 for histograms and gaugehistograms. In OM 1.0 these were optional.
 
+This includes histograms with negative threshold buckets. In OM 1.0 such histograms had to omit the sum, in OM 2.0 the sum is required and may be negative (see [Negative and Float Values](#negative-and-float-values)).
+
 **Histogram**
 
 OM 1.0:
@@ -488,6 +491,60 @@ queue_depth_bytes {gcount:23,gsum:1048576,bucket:[1024:5,65536:18,+Inf:23]}
 ```
 
 See: [Histogram](../specs/om/open_metrics_spec_2_0.md#histogram) and [GaugeHistogram](../specs/om/open_metrics_spec_2_0.md#gaugehistogram) in the OM 2.0 spec.
+
+### Negative and Float Values
+
+**Non-breaking**: OM 2.0 only relaxes OM 1.0 restrictions, so values that were valid in OM 1.0 remain valid. Consumers that relied on the old restrictions need to be adjusted.
+
+| Value                                                           | 1.0                  | 2.0                                                                     |
+| --------------------------------------------------------------- | -------------------- | ----------------------------------------------------------------------- |
+| Histogram Sum                                                   | MUST NOT be negative | MAY be negative                                                         |
+| Summary Sum                                                     | MUST NOT be negative | MAY be negative                                                         |
+| Summary quantile values                                         | MUST NOT be negative | MAY be negative                                                         |
+| Histogram Count and bucket values, GaugeHistogram bucket values | MUST be integers     | SHOULD be integers; floats are allowed (also for GaugeHistogram Gcount) |
+
+A Histogram or Summary Sum is a counter semantically only as long as no negative values are measured. Once a negative value is observed the Sum can decrease, so consumers must not assume that a Sum or a quantile value is non-negative or never decreases. Float Count and bucket values make it possible to expose the results of arithmetic operations, such as adding histograms or the rate of change of a GaugeHistogram.
+
+Not changed from OM 1.0:
+
+- Count, Gcount and bucket values MUST NOT be negative.
+- A Summary Count MUST be an integer.
+- Classic bucket thresholds MAY be negative.
+- A GaugeHistogram Gsum is a gauge semantically and MAY be negative.
+
+**Histogram with negative observations**
+
+In OM 1.0, a histogram with negative threshold buckets could not expose a sum. In OM 2.0 the sum is required.
+
+OM 1.0:
+```
+# TYPE temperature_celsius histogram
+temperature_celsius_bucket{le="-10.0"} 2
+temperature_celsius_bucket{le="0.0"} 5
+temperature_celsius_bucket{le="10.0"} 9
+temperature_celsius_bucket{le="+Inf"} 10
+temperature_celsius_count 10
+```
+
+OM 2.0:
+```
+# TYPE temperature_celsius histogram
+temperature_celsius {count:10,sum:-3.5,bucket:[-10.0:2,0.0:5,10.0:9,+Inf:10]}
+```
+
+Native histograms use `negative_spans` and `negative_buckets` for negative observations, see [Native Histograms](#native-histograms).
+
+**Summary with negative observations**
+
+A Summary with a negative Sum or negative quantile values was not valid in OM 1.0. In OM 2.0 it is.
+
+OM 2.0:
+```
+# TYPE temperature_change_celsius summary
+temperature_change_celsius {count:10,sum:-3.5,quantile:[0.5:-0.4,0.9:1.2,0.99:2.7]} st@1000000000
+```
+
+See: [Histogram](../specs/om/open_metrics_spec_2_0.md#histogram), [GaugeHistogram](../specs/om/open_metrics_spec_2_0.md#gaugehistogram) and [Summary](../specs/om/open_metrics_spec_2_0.md#summary) in the OM 2.0 spec.
 
 ## Native Histograms
 

@@ -15,3 +15,4 @@ following maintainers with their focus areas:
   generator.
 * Richard Hartmann <richih@richih.org> @RichiH: Everything
   else.
+* Jan Fajerski <prometheus@fajerski.name> @jan--f

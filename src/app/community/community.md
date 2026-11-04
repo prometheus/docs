@@ -50,8 +50,11 @@ If you're using a different calendar, there's an [.ics to add to non-Google cale
 
 ### Social
 
+- [Prometheus Monitoring](https://www.linkedin.com/company/prometheus-monitoring) on [LinkedIn](https://www.linkedin.com/).
+- [@PrometheusIO](https://x.com/PrometheusIO) on [X](https://x.com/).
 - [@prometheus.io](https://bsky.app/profile/prometheus.io) on [Bluesky](https://bsky.app/).
 - [@Prometheus](https://chaos.social/@Prometheus) on [Mastodon (chaos.social)](https://chaos.social).
+- [r/PrometheusMonitoring](https://www.reddit.com/r/PrometheusMonitoring/) on [Reddit](https://www.reddit.com/).
 
 ### GitHub
 

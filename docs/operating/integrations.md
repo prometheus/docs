@@ -92,6 +92,7 @@ For notification mechanisms not natively supported by the Alertmanager, the
   * [Asana](https://gitlab.com/lupudu/alertmanager-asana-bridge)
   * [AWS SNS](https://github.com/DataReply/alertmanager-sns-forwarder)
   * [Better Uptime](https://docs.betteruptime.com/integrations/prometheus)
+  * [CallHeim](https://callheim.com/integrations/prometheus/): on-call & incident management
   * [Canopsis](https://git.canopsis.net/canopsis-connectors/connector-prometheus2canopsis)
   * [DingTalk](https://github.com/timonwong/prometheus-webhook-dingtalk)
   * [Discord](https://github.com/benjojo/alertmanager-discord)
@@ -142,6 +143,7 @@ you to integrate it with your existing systems or build on top of it.
 
   * [Alert analysis](https://github.com/m0nikasingh/am2ch): Stores alerts into a ClickHouse database and provides alert analysis dashboards
   * [karma](https://github.com/prymitive/karma): alert dashboard
+  * [LibreDB Studio](https://github.com/libredb/libredb-studio): web-based query IDE that runs PromQL over the HTTP API and browses metrics, targets, rule groups and scrape pools
   * [PushProx](https://github.com/RobustPerception/PushProx): Proxy to transverse NAT and similar network setups
   * [Promdump](https://github.com/ihcsim/promdump): kubectl plugin to dump and restore data blocks
   * [Promregator](https://github.com/promregator/promregator): discovery and scraping for Cloud Foundry applications

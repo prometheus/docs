@@ -64,7 +64,7 @@ data volumes.
   * [Kafka](https://github.com/Telefonica/prometheus-kafka-adapter): write
   * [Last9](https://last9.io/docs/integrations/observability/prometheus/): write
   * [M3DB](https://m3db.io/docs/integrations/prometheus/): read and write
-  * [Mezmo](https://docs.mezmo.com/telemetry-pipelines/prometheus-remote-write-pipeline-source): write
+  * [Mezmo](https://docs.mezmo.com/telemetry-pipelines/prometheus-remote-write-source): write
   * [New Relic](https://docs.newrelic.com/docs/set-or-remove-your-prometheus-remote-write-integration): write
   * [Oodle](https://docs.oodle.ai/integrations/metrics/prometheus/): write
   * [OpenObserve](https://openobserve.ai/docs/ingestion/metrics/prometheus/): write

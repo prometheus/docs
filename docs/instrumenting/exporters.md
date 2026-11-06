@@ -168,6 +168,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [Pagespeed exporter](https://github.com/foomo/pagespeed_exporter)
    * [Rancher exporter](https://github.com/infinityworks/prometheus-rancher-exporter)
    * [Tankerkönig API Exporter](https://github.com/lukasmalkmus/tankerkoenig_exporter)
+   * [Tapyr (Aruba Central, Cisco Meraki, Teltonika RMS and RutOS APIs)](https://github.com/Kentrow/tapyr)
 
 ### Logging
    * [Fluentd exporter](https://github.com/V3ckt0r/fluentd_exporter)

@@ -112,6 +112,7 @@ For notification mechanisms not natively supported by the Alertmanager, the
   * [Parny](https://parny.io/integrations/prometheus): AI-native on-call management, incident response, uptime monitoring, and real-time infrastructure visibility platform.
   * [Phabricator / Maniphest](https://github.com/knyar/phalerts)
   * [prom2teams](https://github.com/idealista/prom2teams): forwards notifications to Microsoft Teams
+  * [PushWard](https://pushward.app/docs/integrations/alertmanager): push notifications on iOS and Android
   * [Rootly](https://docs.rootly.com/integrations/alertmanager): on-call & incident management
   * [Runframe](https://runframe.io/integrations/prometheus): on-call, incident response, and status pages
   * [Ansible Tower](https://github.com/pja237/prom2tower): call Ansible Tower (AWX) API on alerts (launch jobs etc.)

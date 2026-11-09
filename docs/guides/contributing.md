@@ -176,6 +176,26 @@ it. We encourage explicitly disclosing AI tool usage, for example by adding an
 
 For discussions around issues and PRs we strongly prefer a dialog with humans.
 
+### AI bot pull requests
+
+Every change merged into `prometheus/prometheus` requires at least two pairs of
+human eyes, typically the author and a reviewing maintainer, to catch issues and
+share codebase knowledge across reviewers. This also applies when an AI coding
+bot or agent opens a pull request:
+
+- Prefer opening AI-assisted pull requests from your own GitHub account, or
+  explicitly state in the pull request description that you triggered and own
+  the bot's pull request.
+- When a maintainer triggers, guides, or claims ownership of an AI bot pull
+  request, they count as the author. Even if that maintainer reviews the bot's
+  commits on GitHub, a second maintainer must still review and approve the pull
+  request before merging.
+- If an AI bot opens a pull request without a human claiming ownership, merging
+  requires approvals from two maintainers, or one maintainer claiming ownership
+  and a second maintainer approving it.
+- Deterministic automation such as `prombot` or Dependabot is exempt from this
+  rule and only requires a single maintainer approval.
+
 ## Coding style
 
 Much has been written about coding styles for a given language elsewhere. For 

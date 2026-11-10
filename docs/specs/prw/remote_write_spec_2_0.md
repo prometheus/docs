@@ -91,15 +91,17 @@ Content-Encoding: <compression>
 Rationales: https://github.com/prometheus/proposals/blob/alexg/remote-write-20-proposal/proposals/2024-04-09_remote-write-20.md#no-new-compression-added--yet-
 Relaxed in 2.0-rc.7: `snappy` stays mandatory, `gzip` and `zstd` are optional for Receivers.
 -->
-Content encoding request header MUST follow [the RFC 9110](https://www.rfc-editor.org/rfc/rfc9110.html#name-content-encoding). The allowed values are:
+Content encoding request header MUST follow [the RFC 9110](https://www.rfc-editor.org/rfc/rfc9110.html#name-content-encoding). Senders are allowed to use following values:
 
 * `snappy`: [Google’s Snappy](https://github.com/google/snappy). The [block format](https://github.com/google/snappy/blob/2c94e11145f0b7b184b831577c93e5a41c4c0346/format_description.txt) MUST be used -- [the framed format](https://github.com/google/snappy/blob/2c94e11145f0b7b184b831577c93e5a41c4c0346/framing_format.txt) MUST NOT be used.
 * `gzip`: MUST follow [RFC 1952](https://www.rfc-editor.org/rfc/rfc1952.html).
 * `zstd`: MUST follow [RFC 8878](https://www.rfc-editor.org/rfc/rfc8878.html) and [RFC 9659](https://www.rfc-editor.org/rfc/rfc9659.html).
 
-Senders and Receivers MUST support `snappy`. Receivers SHOULD support `gzip` and `zstd`. `gzip` and `zstd` MUST only be used with `io.prometheus.write.v2.Request`.
+`gzip` and `zstd` MUST only be used with `io.prometheus.write.v2.Request`. `prometheus.WriteRequest` is unchanged from [1.0](./remote_write_spec.md), `snappy` only.
 
-Receivers MAY include the `Accept-Encoding` response header on 2xx responses to advertise supported `Content-Encoding` values, as defined in [RFC 7694](https://www.rfc-editor.org/rfc/rfc7694.html). Senders MAY use it to choose a supported encoding for subsequent requests.
+Senders and Receivers MUST support `snappy`. Receivers SHOULD support `gzip` and `zstd`. Senders MAY use `gzip` or `zstd`, and SHOULD use `snappy` unless configured otherwise or the Receiver advertised the encoding with `Accept-Encoding`.
+
+Receivers advertise supported `Content-Encoding` values with the [`Accept-Encoding`](https://www.rfc-editor.org/rfc/rfc9110.html#name-accept-encoding) response header, which applies to the request it answers. Receivers MAY send it on 2xx responses. On a [415 HTTP Unsupported Media Type](https://www.rfc-editor.org/rfc/rfc9110.html#name-415-unsupported-media-type) they SHOULD send it when an unsupported `Content-Encoding` is the cause, and MUST NOT send it otherwise. A Sender that chose its encoding from a 2xx `Accept-Encoding` MUST retry once with `snappy` when it gets a 415, unless the 415 carries `Accept` and no `Accept-Encoding`.
 
 #### Content-Type
 
@@ -198,7 +200,7 @@ Senders SHOULD use Remote-Write to send samples for multiple series in a single 
 
 #### Unsupported Request Content
 
-Receivers MUST return [415 HTTP Unsupported Media Type](https://www.rfc-editor.org/rfc/rfc9110.html#name-415-unsupported-media-type) status code if they don't support a given content type or encoding provided by Senders. When returning `415 HTTP Unsupported Media Type`, Receivers SHOULD include the `Accept` response header (listing supported `Content-Type` values, including supported `;proto=` and `;mode=` parameters) so Senders can determine what the Receiver supports without guessing. If the 415 is due to an unsupported `Content-Encoding`, Receivers SHOULD also include the `Accept-Encoding` response header listing supported `Content-Encoding` values. Otherwise, in a 415 response, Receivers MUST NOT include `Accept-Encoding`, as defined in [RFC 7694](https://www.rfc-editor.org/rfc/rfc7694.html).
+Receivers MUST return [415 HTTP Unsupported Media Type](https://www.rfc-editor.org/rfc/rfc9110.html#name-415-unsupported-media-type) status code if they don't support a given content type or encoding provided by Senders. If the 415 is due to an unsupported `Content-Type`, Receivers SHOULD include the [`Accept`](https://www.rfc-editor.org/rfc/rfc9110.html#name-accept) response header listing supported `Content-Type` values, including supported `;proto=` and `;mode=` parameters, so Senders can determine what the Receiver supports without guessing. For an unsupported `Content-Encoding`, see [Content-Encoding](#content-encoding).
 
 Senders SHOULD expect [400 HTTP Bad Request](https://www.rfc-editor.org/rfc/rfc9110.html#name-400-bad-request) for the above reasons from 1.x Receivers, for backwards compatibility.
 

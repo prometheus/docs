@@ -74,6 +74,11 @@ const commercialSupportProviders: ProviderCardProps[] = [
     url: "https://cloudraft.io/",
   },
   {
+    name: "DharmOps",
+    logo: "/assets/commercial-support-logos/dharmops.png",
+    url: "https://dharmops.com/services/database-engineering",
+  },
+  {
     name: "Fullstaq",
     logo: "/assets/commercial-support-logos/fullstaq.png",
     url: "https://fullstaq.com/",

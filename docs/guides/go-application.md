@@ -9,7 +9,7 @@ NOTE: For comprehensive API documentation, see the [GoDoc](https://godoc.org/git
 
 ## Installation
 
-You can install the `prometheus`, `promauto`, and `promhttp` libraries necessary for the guide using [`go get`](https://golang.org/doc/articles/go_command.html):
+You can install the `prometheus`, `promauto`, and `promhttp` libraries necessary for the guide using [`go get`](https://go.dev/ref/mod#go-get):
 
 ```bash
 go get github.com/prometheus/client_golang/prometheus
@@ -19,7 +19,7 @@ go get github.com/prometheus/client_golang/prometheus/promhttp
 
 ## How Go exposition works
 
-To expose Prometheus metrics in a Go application, you need to provide a `/metrics` HTTP endpoint. You can use the [`prometheus/promhttp`](https://godoc.org/github.com/prometheus/client_golang/prometheus/promhttp) library's HTTP [`Handler`](https://godoc.org/github.com/prometheus/client_golang/prometheus/promhttp#Handler) as the handler function.
+To expose Prometheus metrics in a Go application, you need to provide a `/metrics` HTTP endpoint. You can use the [`prometheus/promhttp`](https://godoc.org/github.com/prometheus/client_golang/prometheus/promhttp) library's [`HandlerFor`](https://godoc.org/github.com/prometheus/client_golang/prometheus/promhttp#HandlerFor) function to create an HTTP handler for a metrics registry.
 
 This minimal application, for example, would expose the default metrics for Go applications via `http://localhost:2112/metrics`:
 
@@ -59,7 +59,7 @@ curl http://localhost:2112/metrics
 
 ## Adding your own metrics
 
-The application [above](#how-go-exposition-works) exposes only the default Go metrics. You can also register your own custom application-specific metrics. This example application exposes a `myapp_processed_ops_total` [counter](/docs/concepts/metric_types/#counter) that counts the number of operations that have been processed thus far. Every 2 seconds, the counter is incremented by one.
+The application [above](#how-go-exposition-works) exposes only the default Go and process metrics. You can also register your own custom application-specific metrics. This example application exposes a `myapp_processed_ops_total` [counter](/docs/concepts/metric_types/#counter) that counts the number of operations that have been processed thus far. Every 2 seconds, the counter is incremented by one.
 
 ```go
 package main
@@ -143,4 +143,4 @@ In this guide we covered just a small handful of features available in the Prome
 
 ## Summary
 
-In this guide, you created two sample Go applications that expose metrics to Prometheus---one that exposes only the default Go metrics and one that also exposes a custom Prometheus counter---and configured a Prometheus instance to scrape metrics from those applications.
+In this guide, you created two sample Go applications that expose metrics to Prometheus---one that exposes the default Go and process metrics and one that exposes a custom Prometheus counter---and configured a Prometheus instance to scrape metrics from those applications.

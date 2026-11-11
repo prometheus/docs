@@ -85,6 +85,7 @@ data volumes.
 For notification mechanisms not natively supported by the Alertmanager, the
 [webhook receiver](/docs/alerting/configuration/#webhook_config) allows for integration.
 
+  * [Akmatori](https://akmatori.com/docs/integrations/alertmanager): investigates alerts with LLM agents and proposes remediation for human approval
   * [AlertINT](https://github.com/alertint/alertint-agent): correlates alerts into incidents and runs LLM triage before notifying
   * [alertmanager-webhook-logger](https://github.com/tomtom-international/alertmanager-webhook-logger): logs alerts
   * [Alertsnitch](https://gitlab.com/yakshaving.art/alertsnitch): saves alerts to a MySQL database

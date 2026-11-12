@@ -13,24 +13,50 @@ This document outlines officially supported exposition formats.
 
 ## Prometheus Text Format
 
-In this section you can find some [basic information](#basic-info)
-about this format as well as a more [detailed breakdown](#details) of the
-format.
+In this section you can find the [versions](#versions) of this format, some
+[basic information](#basic-info) about it as well as a more
+[detailed breakdown](#details) of the format.
+
+### Versions
+
+The version of the text format is carried in the `version` parameter of the
+HTTP `Content-Type` header:
+
+* `0.0.4`: The original version. Metric and label names are limited to the
+  [legacy character set](../concepts/data_model.md#metric-names-and-labels).
+  A missing `version` is treated as `0.0.4`.
+* `1.0.0`: The same format as `0.0.4`, extended with
+  [quoted metric and label names](#comments-help-text-and-type-information), so
+  that names outside of the legacy character set can be exposed unescaped. It
+  also adds the `escaping` parameter, which negotiates how such names are
+  escaped (see [escaping schemes](./escaping_schemes.md) and
+  [content negotiation](./content_negotiation.md)). Prometheus requests this
+  version as the `PrometheusText1.0.0` scrape protocol since version 3.0.
+
+Targets that expose UTF-8 names should respond with `version=1.0.0`. If the
+scraper only accepts `0.0.4`, or requests an `escaping` scheme other than
+`allow-utf-8`, the target must escape names using the requested scheme
+(`underscores` by default).
+
+Prometheus itself does not check the `version` parameter when parsing the text
+format, so it also ingests quoted UTF-8 names from a response that declares
+`version=0.0.4` or no version. This is not part of the `0.0.4` format and other
+consumers may reject such a response.
 
 ### Basic info
 
 | Aspect                               | Description                                                                                                                                                                       |
 |--------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | **Inception**                        | April 2014                                                                                                                                                                        |
-| **Supported in**                     | Prometheus version `>=0.4.0`                                                                                                                                                      |
+| **Supported in**                     | <ul><li>`version=0.0.4`: Prometheus version `>=0.4.0`</li><li>`version=1.0.0`: Prometheus version `>=3.0.0`</li></ul>                                                             |
 | **Transmission**                     | HTTP                                                                                                                                                                              |
 | **Encoding**                         | UTF-8, `\n` line endings                                                                                                                                                          |
-| **HTTP `Content-Type`**              | `text/plain` with parameters:<br><ul><li>`version=0.0.4` (A missing `version` value will lead to a fall-back to the most recent text format version.)                             |
+| **HTTP `Content-Type`**              | `text/plain` with parameters:<br><ul><li>`version=0.0.4` or `1.0.0` (a missing `version` value is treated as `0.0.4`)</li><li>`escaping=<scheme>` (`1.0.0` only)</li></ul>        |
 | **Optional HTTP `Content-Encoding`** | `gzip`                                                                                                                                                                            |
 | **Advantages**                       | <ul><li>Human-readable</li><li>Easy to assemble, especially for minimalistic cases (no nesting required)</li><li>Readable line by line (with the exception of metadata)</li></ul> |
 | **Limitations**                      | <ul><li>Verbose</li><li>Types and docstrings not integral part of the syntax, meaning little-to-nonexistent metric contract validation</li><li>Parsing cost</li></ul>             |
 | **Supported metric primitives**      | <ul><li>Counter</li><li>Gauge</li><li>Histogram</li><li>Summary</li><li>Untyped</li></ul>                                                                                         |
-| **Supported advanced features**      |                                                                                                                                                                                   |
+| **Supported advanced features**      | <ul><li>UTF-8 metric names and label names (`version=1.0.0`)</li></ul>                                                                                                            |
 
 ### Details
 

@@ -4,7 +4,7 @@ nav_title: "2.0"
 sort_rank: 2
 ---
 
-* Version: 2.0-rc.6
+* Version: 2.0-rc.7
 * Status: **Experimental**
 * Date: October 2026
 
@@ -25,7 +25,7 @@ The Remote-Write protocol is designed to make it possible to reliably propagate 
 <!---
 For the detailed rationales behind each 2.0 Remote-Write decision, see: https://github.com/prometheus/proposals/blob/alexg/remote-write-20-proposal/proposals/2024-04-09_remote-write-20.md
 -->
-The Remote-Write protocol is designed to be stateless; there is strictly no inter-message communication. As such the protocol is not considered "streaming". To achieve a streaming effect multiple messages should be sent over the same connection using e.g. HTTP/1.1 or HTTP/2. "Fancy" technologies such as gRPC were considered, but at the time were not widely adopted, and it was challenging to expose gRPC services to the internet behind load balancers such as an AWS EC2 ELB.
+The Remote-Write protocol is designed to be stateless (with one optional exception for optimizing away repeating metric help texts), and otherwise there is strictly no inter-message communication. As such the protocol is not considered "streaming". To achieve a streaming effect multiple messages should be sent over the same connection using e.g. HTTP/1.1 or HTTP/2. "Fancy" technologies such as gRPC were considered, but at the time were not widely adopted, and it was challenging to expose gRPC services to the internet behind load balancers such as an AWS EC2 ELB.
 
 The Remote-Write protocol contains opportunities for batching, e.g. sending multiple samples for different series in a single request. It is not expected that multiple samples for the same series will be commonly sent in the same request, although there is support for this in the Protobuf Message.
 
@@ -349,7 +349,8 @@ message Metadata {
   MetricType type = 1;
   // help_ref is a reference to the Request.symbols array representing help
   // text for the metric. Help is optional, reference should point to an empty string in
-  // such a case.
+  // such a case. In stateless and stateless-st modes an empty string means the help
+  // is not carried by this request (it is unchanged), see the Metadata section.
   uint32 help_ref = 3;
   // unit_ref is a reference to the Request.symbols array representing a unit
   // for the metric. Unit is optional, reference should point to an empty string in
@@ -454,6 +455,28 @@ Metadata SHOULD follow the official Prometheus guidelines for [Type](https://pro
 
 Metadata MAY follow the official OpenMetrics guidelines for [Unit](https://github.com/prometheus/OpenMetrics/blob/v1.0.0/specification/OpenMetrics.md#unit).
 
+##### Help in `stateless` and `stateless-st` Modes
+
+In [`stateless` and `stateless-st` modes](#modes), Senders MAY omit the help text of a series that is unchanged, by setting `Metadata.help_ref` to the empty string (`help_ref` not set, or set to `0`). A series is identified by its complete label set. Omitting help text is OPTIONAL; Senders that do not implement it, or have it disabled, send the full help text in every request.
+
+Senders that omit unchanged help text MUST:
+
+* Send the full help text of a series whenever it changes.
+* Also resend the full help text of every series periodically, even if it is unchanged, so that the time between two requests carrying the full help text of a series never exceeds the resend interval. For a series whose help text is empty, the full help text is `""` (see below).
+* Make the resend interval configurable.
+
+Receivers that use help text MUST interpret `Metadata.help_ref` as follows:
+
+* If `help_ref` resolves to the empty string (this includes `help_ref` not being set, as it then defaults to `0`), the request does not carry the help text of the series. Receivers that retain help text between requests MUST keep the last help text received for the series, or treat the help text as empty if none was received, and MUST NOT clear it. Receivers that do not retain state between requests MAY treat the help text as empty for this request.
+* If `help_ref` resolves to the two-character string `""` (two ASCII double quote characters), the help text is the empty string. Receivers that retain help text MUST replace any previous help text with the empty string.
+* Otherwise the resolved string is the help text. Receivers that retain help text MUST replace any previous help text with it.
+
+Senders MUST send `""` to clear a previously sent help text. As a consequence, a help text that is literally `""` cannot be represented in these modes.
+
+Receivers are not required to retain help text between requests. A Receiver that has no help text for a series (e.g. after a restart, or because the requests of one Sender are spread across multiple Receiver replicas) obtains it with the next periodic resend, so the help text can be temporarily absent but never stays lost.
+
+In the default `none` mode, an empty help text carries no such meaning and Receivers MUST NOT assume it indicates an unchanged help text.
+
 #### Exemplars
 
 Each exemplar, if attached to a `TimeSeries`:
@@ -487,7 +510,7 @@ When operating in `stateless` mode, Senders MUST:
   * Histograms MUST use the `Histogram` message (e.g. using Native Histograms with Custom Buckets instead of classic histogram `_bucket`, `_sum`, and `_count` float `Sample` series).
   * `Metadata.type` MUST be specified and MUST NOT be `METRIC_TYPE_UNSPECIFIED` (`0`). For series with an unknown metric type (such as `untyped` scraped metrics or recording rule outputs), Senders SHOULD assume:
     * `METRIC_TYPE_GAUGE`, unless the metric name has a `_total` suffix, in which case Senders SHOULD assume `METRIC_TYPE_COUNTER`.
-    * `Metadata.help_ref` set to `"(type inferred from untyped)"` if empty, or with `" (type inferred from untyped)"` appended to the existing help text.
+    * The help text of the series (see [Help in `stateless` and `stateless-st` Modes](#help-in-stateless-and-stateless-st-modes)) set to `"(type inferred from untyped)"` if it is empty, or with `" (type inferred from untyped)"` appended to the existing help text. If the Sender omits help because it is unchanged, the previously sent help text MUST already have included this suffix.
 
 ##### `stateless-st` Mode
 
@@ -536,7 +559,7 @@ However, stateless or strongly-typed receivers often require structured histogra
 
 We defined two progressive modes, `stateless` and `stateless-st`, rather than a single mode or fine-grained capability flags:
 
-* `stateless` mode rules (attaching exemplars to samples or histograms, converting classic histograms to NHCB, and requiring `Metadata.type` with a `METRIC_TYPE_GAUGE` or `_total`-based `METRIC_TYPE_COUNTER` fallback for unknown metric types) make every `TimeSeries` message self-contained and typed. Any sender can enforce `stateless` mode without dropping data or tracking cross-scrape counter start timestamps, and receivers can validate histogram structure because `Metadata.type` is always set.
+* `stateless` mode rules (attaching exemplars to samples or histograms, converting classic histograms to NHCB, and requiring `Metadata.type` with a `METRIC_TYPE_GAUGE` or `_total`-based `METRIC_TYPE_COUNTER` fallback for unknown metric types) make every `TimeSeries` message self-contained and typed (the one optional exception being help text, which Senders MAY omit when unchanged as long as they resend it periodically, so Receivers never need to retain state, see [Help in `stateless` and `stateless-st` Modes](#help-in-stateless-and-stateless-st-modes)). Any sender can enforce `stateless` mode without dropping data or tracking cross-scrape counter start timestamps, and receivers can validate histogram structure because `Metadata.type` is always set.
 * `stateless-st` mode adds the `start_timestamp` requirement on cumulative metric types (`METRIC_TYPE_COUNTER`, `METRIC_TYPE_HISTOGRAM`, and summary `_sum` and `_count`). It is kept separate from `stateless` because `start_timestamp` depends on upstream instrumentation exposing created timestamps or stateful sender-side synthesis, and adds per-sample wire overhead on cumulative series that not all receivers require.
 * `stateless-st` includes `stateless` because receivers that require `start_timestamp` on cumulative metrics also require `Metadata.type`, structured histograms, and attached exemplars, and validating `start_timestamp` itself requires knowing `Metadata.type`. Following [RFC 9413](https://www.rfc-editor.org/rfc/rfc9413.html), three progressive levels (`none`, `stateless`, `stateless-st`) avoid `2^N` protocol permutations, keep `Content-Type` matching to a single parameter value, and keep compliance testing linear.
 
@@ -548,4 +571,4 @@ Samples must be in-order _for a given series_. However, even if a Receiver does 
 **What are the differences between Remote-Write 2.0 and OpenTelemetry's OTLP protocol?**
 [OpenTelemetry OTLP](https://github.com/open-telemetry/opentelemetry-proto/blob/a05597bff803d3d9405fcdd1e1fb1f42bed4eb7a/docs/specification.md) is a protocol for transporting of telemetry data (such as metrics, logs, traces and profiles) between telemetry sources, intermediate nodes and telemetry backends. The recommended transport involves gRPC with protobuf, but HTTP with protobuf or JSON are also described. It was designed from scratch with the intent to support a variety of different observability signals, data types and extra information. For [metrics](https://github.com/open-telemetry/opentelemetry-proto/blob/main/opentelemetry/proto/metrics/v1/metrics.proto) that means additional non-identifying labels, flags, temporal aggregations types, resource or scoped metrics, schema URLs and more. OTLP also requires [the semantic convention](https://opentelemetry.io/docs/concepts/semantic-conventions/) to be used.
 
-Remote-Write was designed for simplicity, efficiency and organic growth. The first version was officially released in 2023, when already [dozens of battle-tested adopters in the CNCF ecosystem](./remote_write_spec.md#compatible-senders-and-receivers) had been using this protocol for years. Remote-Write 2.0 iterates on the previous protocol by adding a few new elements (metadata, exemplars, start timestamp and native histograms) and string interning. Remote-Write 2.0 is always stateless, focuses only on metrics and is opinionated; as such it is scoped down to elements that the Prometheus community considers enough to have a robust metric solution. The intention is to ensure the Remote-Write is a stable protocol that is cheaper and simpler to adopt and use than the alternatives in the observability ecosystem.
+Remote-Write was designed for simplicity, efficiency and organic growth. The first version was officially released in 2023, when already [dozens of battle-tested adopters in the CNCF ecosystem](./remote_write_spec.md#compatible-senders-and-receivers) had been using this protocol for years. Remote-Write 2.0 iterates on the previous protocol by adding a few new elements (metadata, exemplars, start timestamp and native histograms) and string interning. Remote-Write 2.0 is stateless (with one optional exception), focuses only on metrics and is opinionated; as such it is scoped down to elements that the Prometheus community considers enough to have a robust metric solution. The intention is to ensure the Remote-Write is a stable protocol that is cheaper and simpler to adopt and use than the alternatives in the observability ecosystem.

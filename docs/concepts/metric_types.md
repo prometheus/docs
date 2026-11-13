@@ -88,7 +88,7 @@ the following time series:
 Native histograms are generally much more efficient than classic histograms,
 allow much higher resolution, do not require explicit configuration of bucket
 boundaries during instrumentation, and provide atomicity when transferred over
-the network (e.g. via the Prometheus remote write procol, where classic
+the network (e.g. via the Prometheus remote write protocol, where classic
 histograms suffer from possible partial transfer because their constituent time
 series are transferred independently). Their bucketing schema ensures that they
 are always aggregatable with each other, even if the resolution might have

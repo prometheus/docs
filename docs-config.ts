@@ -50,8 +50,7 @@ export default {
       repoDocsDir: "docs",
       slugPrefix: "exporters/official-exporters/postgres",
       navTitle: "Postgres",
-      versioning: "git-ref",
-      ref: "a488faeecc902f7a4ef74a23518639004e4048b2",
+      versioning: "latest-release-tag",
     },
   ],
 

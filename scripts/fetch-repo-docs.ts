@@ -462,72 +462,6 @@ const fetchLatestReleaseTagRepoDocs = async ({
   });
 };
 
-const fetchGitRefRepoDocs = async ({
-  owner,
-  repo,
-  repoDocsDir,
-  slugPrefix,
-  ref,
-  navTitle: rootNavTitle,
-}: Extract<GithubMarkdownSource, { versioning: "git-ref" }>) => {
-  console.log(`Fetching docs for ${owner}/${repo}@${ref}...`);
-
-  const repoCheckoutDir = `${OUTDIR}/repos/${owner}/${repo}.git`;
-  syncRepo(owner, repo, repoCheckoutDir);
-  execSync(`git -C ${repoCheckoutDir} fetch origin ${ref} --quiet`);
-
-  const checkoutName = ref.replace(/[^a-zA-Z0-9._-]/g, "-");
-  checkoutVersionDocs(
-    owner,
-    repo,
-    repoCheckoutDir,
-    checkoutName,
-    ref,
-    `${OUTDIR}/repo-docs`,
-    repoDocsDir
-  );
-
-  const docsDir = `${OUTDIR}/repo-docs/${owner}/${repo}/${checkoutName}/${repoDocsDir}`;
-  const assetsRoot = `/repo-docs-assets/${owner}/${repo}/${checkoutName}`;
-
-  integrateRepoDocs({
-    owner,
-    repo,
-    docsDir,
-    repoDocsDir,
-    assetsRoot,
-    includeFile: () => true,
-    addMarkdownDoc: ({
-      file,
-      filePath,
-      slugPath,
-      title,
-      navTitle,
-      sortRank,
-      hideInNav,
-    }) => {
-      const slug = path.join(slugPrefix, slugPath);
-
-      docsCollection[slug] = {
-        type: "unversioned-repo-doc",
-        slug,
-        filePath: file,
-        owner,
-        repo,
-        gitRef: ref,
-        slugPrefix,
-        repoFilePath: filePath,
-        assetsRoot,
-        title,
-        navTitle: slugPath === "" ? rootNavTitle ?? navTitle : navTitle,
-        sortRank,
-        hideInNav,
-        children: [],
-      };
-    },
-  });
-};
-
 const fetchRepoDocs = async (source: GithubMarkdownSource) => {
   switch (source.versioning) {
     case "release-branches":
@@ -535,9 +469,6 @@ const fetchRepoDocs = async (source: GithubMarkdownSource) => {
       break;
     case "latest-release-tag":
       await fetchLatestReleaseTagRepoDocs(source);
-      break;
-    case "git-ref":
-      await fetchGitRefRepoDocs(source);
       break;
   }
 };

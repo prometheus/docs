@@ -109,8 +109,9 @@ Preserve common and useful labels for your alerts. They are most useful for rout
 
 The inspiration behind the idea comes from [The Zen of Go](https://the-zen-of-go.netlify.app), [Go Proverbs](https://go-proverbs.github.io/) and [The Zen of Python](https://zen-of-python.info/).
 
-    *Thank you very much all others that contributed with their invaluable ideas.*
-    The initial rules are gathered from several sources from the community, such as [Prometheus Proverbs](https://www.youtube.com/watch?v=TwH3KXKbJqM) by [Björn Rabenstein](https://github.com/beorn7), [Best Practices and Beastly Pitfalls](https://www.youtube.com/watch?v=_MNYuTNfTb4) by [Julius Volz](https://github.com/juliusv), [Patterns for Instrumenting Your Go Services](https://www.youtube.com/watch?v=LU6D5cNeHks) by [Bartek Plotka](https://github.com/bwplotka) and [Kemal Akkoyun](https://github.com/kakkoyun), [Instrumenting Applications and Alerting with Prometheus](https://www.youtube.com/watch?v=sHKWD8XnmmY) by [Simon Pasquier](https://github.com/simonpasquier) and [Robust Perception Blog](https://www.robustperception.io/blog) by [Brian Brazil](https://github.com/brian-brazil).
+**Thank you very much all others that contributed with their invaluable ideas.**
+
+The initial rules are gathered from several sources from the community, such as [Prometheus Proverbs](https://www.youtube.com/watch?v=TwH3KXKbJqM) by [Björn Rabenstein](https://github.com/beorn7), [Best Practices and Beastly Pitfalls](https://www.youtube.com/watch?v=_MNYuTNfTb4) by [Julius Volz](https://github.com/juliusv), [Patterns for Instrumenting Your Go Services](https://www.youtube.com/watch?v=LU6D5cNeHks) by [Bartek Plotka](https://github.com/bwplotka) and [Kemal Akkoyun](https://github.com/kakkoyun), [Instrumenting Applications and Alerting with Prometheus](https://www.youtube.com/watch?v=sHKWD8XnmmY) by [Simon Pasquier](https://github.com/simonpasquier) and [Robust Perception Blog](https://www.robustperception.io/blog) by [Brian Brazil](https://github.com/brian-brazil).
 
 ## Further resources
 

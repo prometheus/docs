@@ -23,7 +23,7 @@ Let's also say that you've generated the following using [OpenSSL](https://www.d
 You can generate a self-signed certificate and private key using this command:
 
 ```bash
-mkdir -p /home/prometheus/certs/example.com && cd /home/prometheus/certs/certs/example.com
+mkdir -p /home/prometheus/certs/example.com && cd /home/prometheus/certs/example.com
 openssl req \
   -x509 \
   -newkey rsa:4096 \
@@ -65,15 +65,15 @@ If you'd like to test out TLS locally using the `example.com` domain, you can ad
 127.0.0.1     example.com
 ```
 
-You can then use cURL to interact with your local Prometheus setup:
+Use the port configured for Prometheus's web listener (9090 by default) to interact with your local Prometheus setup:
 
 ```bash
 curl --cacert /home/prometheus/certs/example.com/example.com.crt \
-  https://example.com/api/v1/label/job/values
+  https://example.com:9090/api/v1/label/job/values
 ```
 
 You can connect to the Prometheus server without specifying certs using the `--insecure` or `-k` flag:
 
 ```bash
-curl -k https://example.com/api/v1/label/job/values
+curl -k https://example.com:9090/api/v1/label/job/values
 ```

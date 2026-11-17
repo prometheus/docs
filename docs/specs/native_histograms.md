@@ -641,7 +641,7 @@ classic protobuf spec as its internal data model, simplifying the initial
 development.)
 
 The classic Prometheus text form was not extended for native histograms, and
-such an extension is not planned. (See also the [OpenMetrics](#open-metrics)
+such an extension is not planned. (See also the [OpenMetrics](#openmetrics)
 section below.)
 
 There is a proto2 and a proto3 version of the protobuf specification, which
@@ -966,7 +966,7 @@ queries involving histograms require many histograms to get merged, during
 which the lowest common resolution is used so that the user ends up with a
 lower resolution anyway. The TSDB can be protected against the churn by
 limiting the resolution upon ingestion (see
-[below](#limit-bucket-count-and-resolution)), but if a reasonably low
+[below](#limiting-bucket-count-and-resolution)), but if a reasonably low
 resolution will be enforced upon ingestion anyway, it is more straightforward
 to set this resolution during instrumentation already. However, this strategy
 might be worth the resource overhead within the instrumented program in
@@ -1426,7 +1426,7 @@ procedure:
 If the two histograms are both using a standard schema, but differ in schema or
 in the zero bucket width, these changes could be part of a compatible
 resolution reduction (which happens regularly to [reduce the bucket count of a
-histogram](#limit-the-bucket-count)). Both of the following is true for a
+histogram](#limiting-the-bucket-count)). Both of the following is true for a
 compatible resolution reduction:
 
 - If the schema has changed, its number has decreased from one standard
@@ -1443,7 +1443,7 @@ procedure is concluded.
 
 If both conditions are met, the first histogram has to be converted so that its
 schema and zero bucket width matches those of the second histogram. This
-happens in the same way as [previously described](#limit-the-bucket-count):
+happens in the same way as [previously described](#limiting-the-bucket-count):
 Neighboring buckets are merged to reduce the schema, and regular buckets are
 merged with the zero bucket to increase the width of the zero bucket.
 

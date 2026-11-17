@@ -65,7 +65,7 @@ for use in the `rate`and `increase` functions.
 
 ### Importing pre-built dashboards from Grafana.com
 
-Grafana.com maintains [a collection of shared dashboards](https://grafana.com/dashboards)
+Grafana.com maintains [a collection of shared dashboards](https://grafana.com/grafana/dashboards/)
 which can be downloaded and used with standalone instances of Grafana. Use
 the Grafana.com "Filter" option to browse dashboards for the "Prometheus"
 data source only.

@@ -111,6 +111,11 @@ Any user with access to the Alertmanager HTTP endpoint has access to its data.
 They can create and resolve alerts. They can create, modify and delete
 silences.
 
+Operators who do not configure any form of authentication must exercise
+caution: Alertmanager serves `/api/v2` with `Access-Control-Allow-Origin: *`.
+This grants API access to any website visited by a browser capable of reaching
+the service.
+
 Where notifications are sent to is determined by the configuration file. With
 certain templating setups it is possible for notifications to end up at an
 alert-defined destination. For example if notifications use an alert label as
@@ -206,8 +211,10 @@ may wish to block such paths to prevent CSRF.
 
 For non-mutating endpoints, you may wish to set [CORS
 headers](https://fetch.spec.whatwg.org/#http-cors-protocol) such as
-`Access-Control-Allow-Origin` in your reverse proxy to prevent
-[XSS](https://en.wikipedia.org/wiki/Cross-site_scripting).
+`Access-Control-Allow-Origin` in your reverse proxy if a browser
+application on another origin should be allowed to read those
+responses. CORS relaxes the Same-Origin Policy; it is not a defence
+against [XSS](https://en.wikipedia.org/wiki/Cross-site_scripting).
 
 If you are composing PromQL queries that include input from untrusted users
 (e.g. URL parameters to console templates, or something you built yourself) who

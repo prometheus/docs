@@ -26,7 +26,7 @@ login by default.
 ### Creating a Prometheus data source
 
 To learn about how to set up a data source in Perses, please refer
-to [Perses documentation](https://perses.dev/perses/docs/concepts/datasources).
+to [Perses documentation](https://perses.dev/perses/docs/concepts/datasource/).
 Once this connection to your Prometheus instance is configured, you are able to query it from the Dashboard and Explore
 views.
 

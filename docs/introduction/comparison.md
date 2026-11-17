@@ -56,10 +56,12 @@ RRD-style database that expects samples to arrive at regular intervals. Every
 time series is stored in a separate file, and new samples overwrite old ones
 after a certain amount of time.
 
-Prometheus also creates one local file per time series, but allows storing
-samples at arbitrary intervals as scrapes or rule evaluations occur. Since new
-samples are simply appended, old data may be kept arbitrarily long. Prometheus
-also works well for many short-lived, frequently changing sets of time series.
+[Prometheus's local TSDB](/docs/prometheus/latest/storage/#on-disk-layout) keeps
+recent samples in an in-memory head protected by a write-ahead log, then
+persists them in time-based block directories containing a chunks directory, an
+index, and metadata. It accepts samples at arbitrary intervals as scrapes or
+rule evaluations occur. Retention is configurable, and Prometheus also works
+well for many short-lived, frequently changing sets of time series.
 
 ### Summary
 
@@ -107,8 +109,8 @@ Prometheus, by contrast, supports the float64 data type with limited support for
 strings, and millisecond resolution timestamps.
 
 InfluxDB uses a variant of a [log-structured merge tree for storage with a write ahead log](https://docs.influxdata.com/influxdb/v1.7/concepts/storage_engine/),
-sharded by time. This is much more suitable to event logging than Prometheus's
-append-only file per time series approach.
+sharded by time. This is more suitable for event logging, while Prometheus's
+block-based local TSDB is optimized for monitoring time series.
 
 [Logs and Metrics and Graphs, Oh My!](https://grafana.com/blog/2016/01/05/logs-and-metrics-and-graphs-oh-my/)
 describes the differences between event logging and metrics recording.

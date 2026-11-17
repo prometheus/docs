@@ -64,8 +64,9 @@ data volumes.
   * [Kafka](https://github.com/Telefonica/prometheus-kafka-adapter): write
   * [Last9](https://last9.io/docs/integrations/observability/prometheus/): write
   * [M3DB](https://m3db.io/docs/integrations/prometheus/): read and write
-  * [Mezmo](https://docs.mezmo.com/telemetry-pipelines/prometheus-remote-write-pipeline-source): write
+  * [Mezmo](https://docs.mezmo.com/telemetry-pipelines/prometheus-remote-write-source): write
   * [New Relic](https://docs.newrelic.com/docs/set-or-remove-your-prometheus-remote-write-integration): write
+  * [Oodle](https://docs.oodle.ai/integrations/metrics/prometheus/): write
   * [OpenObserve](https://openobserve.ai/docs/ingestion/metrics/prometheus/): write
   * [OpenTSDB](https://github.com/prometheus/prometheus/tree/main/documentation/examples/remote_storage/remote_storage_adapter): write
   * [QuasarDB](https://doc.quasardb.net/master/user-guide/integration/prometheus.html): read and write
@@ -84,12 +85,15 @@ data volumes.
 For notification mechanisms not natively supported by the Alertmanager, the
 [webhook receiver](/docs/alerting/configuration/#webhook_config) allows for integration.
 
+  * [Akmatori](https://akmatori.com/docs/integrations/alertmanager): investigates alerts with LLM agents and proposes remediation for human approval
+  * [AlertINT](https://github.com/alertint/alertint-agent): correlates alerts into incidents and runs LLM triage before notifying
   * [alertmanager-webhook-logger](https://github.com/tomtom-international/alertmanager-webhook-logger): logs alerts
   * [Alertsnitch](https://gitlab.com/yakshaving.art/alertsnitch): saves alerts to a MySQL database
   * [All Quiet](https://allquiet.app/integrations/inbound/prometheus): on-call & incident management
   * [Asana](https://gitlab.com/lupudu/alertmanager-asana-bridge)
   * [AWS SNS](https://github.com/DataReply/alertmanager-sns-forwarder)
   * [Better Uptime](https://docs.betteruptime.com/integrations/prometheus)
+  * [CallHeim](https://callheim.com/integrations/prometheus/): on-call & incident management
   * [Canopsis](https://git.canopsis.net/canopsis-connectors/connector-prometheus2canopsis)
   * [DingTalk](https://github.com/timonwong/prometheus-webhook-dingtalk)
   * [Discord](https://github.com/benjojo/alertmanager-discord)
@@ -140,6 +144,8 @@ you to integrate it with your existing systems or build on top of it.
 
   * [Alert analysis](https://github.com/m0nikasingh/am2ch): Stores alerts into a ClickHouse database and provides alert analysis dashboards
   * [karma](https://github.com/prymitive/karma): alert dashboard
+  * [LibreDB Studio](https://github.com/libredb/libredb-studio): web-based query IDE that runs PromQL over the HTTP API and browses metrics, targets, rule groups and scrape pools
+  * [Nightingale (n9e)](https://github.com/ccfos/nightingale): alerting engine that evaluates PromQL alert rules against Prometheus via its HTTP API, with web-based rule management and notification routing
   * [PushProx](https://github.com/RobustPerception/PushProx): Proxy to transverse NAT and similar network setups
   * [Promdump](https://github.com/ihcsim/promdump): kubectl plugin to dump and restore data blocks
   * [Promregator](https://github.com/promregator/promregator): discovery and scraping for Cloud Foundry applications

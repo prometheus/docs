@@ -97,6 +97,16 @@ You can configure some high-level settings for the documentation website in the 
 * Which repositories to fetch download information from.
 * Information about LTS (long-term-support) versions.
 
+`ltsVersions` lists all known LTS versions, including past and upcoming releases,
+with a `releaseDate` and an inclusive `endDate` in `YYYY-MM-DD` format (UTC).
+Upcoming releases can use `TBD` as the version and `YYYY-MM` as the release date.
+`fetch-repo-docs` replaces `<!-- LTS_RELEASES_TABLE -->` in the release-cycle page
+with a table generated from this config, writing the result under `generated/local-docs/`.
+The generators treat a version as an active LTS only once a stable GitHub release exists and through its
+end date. Active LTS versions are retained in the documentation even outside the
+recent-version window, included in downloads, and labeled as LTS. Expired versions
+can still appear under the usual recent/latest-version rules, without an LTS label.
+
 ## Automatic Deployment
 
 This site is automatically deployed using [Netlify](https://www.netlify.com/).

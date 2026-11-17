@@ -3,7 +3,7 @@ MD_FILES_TO_FORMAT=docs/specs/om/open_metrics_spec_2_0.md
 
 MDOX="mdox"
 $(MDOX):
-	@go install github.com/bwplotka/mdox@v0.9.0
+	@go install github.com/bwplotka/mdox@e88e0a8655a0c91ef6a849edd29798e7e4809d75
 
 .PHONY: help
 help: ## Displays help.

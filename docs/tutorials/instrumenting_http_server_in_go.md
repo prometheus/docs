@@ -51,16 +51,16 @@ type metrics struct {
 func newMetrics(reg prometheus.Registerer) *metrics {
 	m := &metrics{
 		pingCounter: promauto.With(reg).NewCounter(
-			prometheus.CounterOpts {
+			prometheus.CounterOpts{
 				Name: "ping_request_count",
-				Help: "No of requests handled by Ping handler",
+				Help: "Number of requests handled by the ping handler.",
 			}),
 	}
 	return m
 }
 ```
 
-Next, let's update the ping Handler to increase the count of the counter using `metrics.pingCounter.Inc()`.
+Next, let's update the ping handler to increase the count of the counter using `m.pingCounter.Inc()`.
 
 ```go
 func ping(m *metrics) func(w http.ResponseWriter, req *http.Request) {
@@ -71,11 +71,15 @@ func ping(m *metrics) func(w http.ResponseWriter, req *http.Request) {
 }
 ```
 
-Then register the metrics (in this case, only one counter) with a Prometheus registry and expose the metrics.
+Then create a Prometheus registry, register collectors for Go runtime and process metrics as well as the counter, and expose the metrics.
 
 ```go
 func main() {
 	reg := prometheus.NewRegistry()
+	reg.MustRegister(
+		collectors.NewGoCollector(),
+		collectors.NewProcessCollector(collectors.ProcessCollectorOpts{}),
+	)
 	m := newMetrics(reg)
 
 	http.HandleFunc("/ping", ping(m))
@@ -84,11 +88,12 @@ func main() {
 }
 ```
 
-The `prometheus.MustRegister` function registers the pingCounter with the default registry.
+A custom registry starts empty, so `reg.MustRegister` adds the Go runtime and process collectors.
+`promauto.With(reg).NewCounter(...)` creates the counter and registers it with `reg`.
 To expose the metrics, the Go Prometheus client library provides the promhttp package.
-`promhttp.Handler()` provides an `http.Handler` which exposes the metrics registered in the default registry.
+`promhttp.HandlerFor(reg, promhttp.HandlerOpts{})` provides an `http.Handler` which exposes the metrics registered in `reg`.
 
-The sample code is now:
+Replace `server.go` with the complete instrumented example:
 
 ```go
 package main
@@ -98,6 +103,7 @@ import (
 	"net/http"
 
 	"github.com/prometheus/client_golang/prometheus"
+	"github.com/prometheus/client_golang/prometheus/collectors"
 	"github.com/prometheus/client_golang/prometheus/promauto"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 )
@@ -111,7 +117,7 @@ func newMetrics(reg prometheus.Registerer) *metrics {
 		pingCounter: promauto.With(reg).NewCounter(
 			prometheus.CounterOpts{
 				Name: "ping_request_count",
-				Help: "No of request handled by Ping handler",
+				Help: "Number of requests handled by the ping handler.",
 			}),
 	}
 	return m
@@ -126,6 +132,10 @@ func ping(m *metrics) func(w http.ResponseWriter, req *http.Request) {
 
 func main() {
 	reg := prometheus.NewRegistry()
+	reg.MustRegister(
+		collectors.NewGoCollector(),
+		collectors.NewProcessCollector(collectors.ProcessCollectorOpts{}),
+	)
 	m := newMetrics(reg)
 
 	http.HandleFunc("/ping", ping(m))
@@ -141,13 +151,14 @@ go mod tidy
 go run server.go
 ```
 
-Now hit the localhost:8090/ping endpoint a couple of times and then send a request to localhost:8090/metrics to see the metrics.
+After three requests to `http://localhost:8090/ping`, a request to `http://localhost:8090/metrics` returns metrics including:
 
-[![Ping Metric](/assets/docs/tutorial/ping_metric.png)](/assets/docs/tutorial/ping_metric.png)
+[![Metrics page showing go_threads, ping_request_count with a value of 3, and process_cpu_seconds_total](/assets/docs/tutorial/ping_metric.png)](/assets/docs/tutorial/ping_metric.png)
 
 Here, the `ping_request_count` shows that the `/ping` endpoint was called 3 times.
 
-The default registry comes with a collector for Go runtime metrics, and that is why we see other metrics like `go_threads`, `go_goroutines`, etc.
+The Go and process collectors also expose metrics such as `go_threads` and `process_cpu_seconds_total`.
+The available process metrics depend on the operating system.
 
 We have built our first metric exporter. Let’s update our Prometheus config to scrape the metrics from our server.
 

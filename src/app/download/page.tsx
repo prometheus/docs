@@ -40,7 +40,7 @@ export default function DownloadPage() {
             <Anchor
               c="var(--secondary-link-color)"
               component={Link}
-              href="/docs/instrumenting/exporters/"
+              href="/docs/exporters/exporters-and-integrations/"
             >
               Exporters and integrations
             </Anchor>

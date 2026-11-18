@@ -108,7 +108,7 @@ For notification mechanisms not natively supported by the Alertmanager, the
   * [ITOC360](https://docs.itoc360.com/integrations/inbound-integrations/observability-and-apm/prometheus-integration): on-call & incident management.
   * [JIRAlert](https://github.com/free/jiralert)
   * [Matrix](https://github.com/jaywink/matrix-alertmanager): sends Alertmanager notifications to Matrix rooms
-  * [Matrix](https://github.com/hectorjsmith/matrix-hookshot): bridges webhooks to Matrix with rich formatting support
+  * [Matrix](https://github.com/matrix-org/matrix-hookshot): bridges webhooks to Matrix with rich formatting support
   * [Notion](https://github.com/cthtuf/alertmanager-to-notion): creates/updates record in a Notion database
   * [Parny](https://parny.io/integrations/prometheus): AI-native on-call management, incident response, uptime monitoring, and real-time infrastructure visibility platform.
   * [Phabricator / Maniphest](https://github.com/knyar/phalerts)

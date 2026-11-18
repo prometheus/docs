@@ -10,13 +10,35 @@ If you are new to monitoring, or want to learn more about Prometheus' architectu
 
 ## Downloading Prometheus
 
-[Download the latest release](/download) of Prometheus for your platform, then
-extract it:
+[Download the latest release](/download) of Prometheus for your platform.
+Browsers usually save it to your `Downloads` folder, so run the following
+commands from there (for example, `cd ~/Downloads`).
+
+Before extracting the archive, check that it wasn't corrupted or tampered with:
+compute its SHA256 checksum and compare it with the checksum listed for that file
+on the [download page](/download).
+
+```language-bash
+# Linux
+sha256sum prometheus-*.tar.gz
+# macOS
+shasum -a 256 prometheus-*.tar.gz
+```
+
+On Windows, run `Get-FileHash prometheus-*.zip -Algorithm SHA256` in PowerShell.
+If the checksums don't match, delete the file and download it again.
+
+Then extract the archive and change into the extracted directory:
 
 ```language-bash
 tar xvfz prometheus-*.tar.gz
-cd prometheus-*
+cd prometheus-*/
 ```
+
+The trailing `/` makes the wildcard match only the extracted directory. Without
+it, `prometheus-*` also matches the `.tar.gz` file and `cd` fails with
+`too many arguments` (bash) or `string not in pwd` (zsh). If your shell reports
+`no matches found`, you're not in the directory that contains the download.
 
 The Prometheus server is a single binary called `prometheus` (or `prometheus.exe` on Microsoft Windows). We can run the binary and see help on its options by passing the `--help` flag.
 
@@ -28,6 +50,8 @@ The Prometheus monitoring server
 
 . . .
 ```
+
+NOTE: On macOS, binaries downloaded with a web browser are quarantined. Because the Prometheus binaries aren't notarized by Apple, macOS blocks `prometheus` the first time you run it, and the shell reports that the process was killed (for example, `zsh: killed`). After verifying the checksum, either click **Allow Anyway** next to "prometheus" in **System Settings > Privacy & Security** and run the command again, or run `xattr -dr com.apple.quarantine .` inside the extracted directory. Downloads made with `curl` or `wget` aren't quarantined.
 
 Before starting Prometheus, let's configure it.
 

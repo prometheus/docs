@@ -198,10 +198,10 @@ Start Prometheus with the `otlp-native-delta-ingestion` feature flag to store de
 $ prometheus --web.enable-otlp-receiver --enable-feature=otlp-native-delta-ingestion
 ```
 
-Delta support is in an early stage of development, and the ingestion and querying process may change over time. The OTLP `StartTimeUnixNano` field is currently ignored. Standard PromQL counter functions such as `rate()` and `increase()` are designed for cumulative metrics and produce incorrect results for delta metrics; query delta metrics with `sum_over_time()` instead.
+To retain the OTLP `StartTimeUnixNano` field and use it in PromQL functions such as `rate()` and `increase()`, also enable the `st-storage` and `use-start-timestamps` feature flags. Without them, query delta metrics with `sum_over_time()`.
 
-See [Feature flags](/docs/prometheus/latest/feature_flags/#otlp-native-delta-support) for current caveats. The open proposal is tracked in [prometheus/proposals#48](https://github.com/prometheus/proposals/pull/48).
+See [Feature flags](/docs/prometheus/latest/feature_flags/#otlp-native-delta-support) for current caveats, including querying, federation, and telling delta and cumulative series apart. Ongoing work is tracked in [prometheus/prometheus#17649](https://github.com/prometheus/prometheus/issues/17649).
 
-### Delta to cumulative conversion (legacy)
+### Delta to cumulative conversion (deprecated)
 
-The `otlp-deltatocumulative` feature flag embeds the [delta to cumulative processor](https://github.com/open-telemetry/opentelemetry-collector-contrib/tree/main/processor/deltatocumulativeprocessor) from OpenTelemetry Collector contrib, converting deltas to their cumulative equivalent before storage. Native delta ingestion is expected to replace this approach, and deprecating this flag is under discussion ([prometheus/prometheus#19950](https://github.com/prometheus/prometheus/pull/19950)); prefer native delta ingestion for new setups. The two flags cannot be enabled at the same time.
+The `otlp-deltatocumulative` feature flag embeds the [delta to cumulative processor](https://github.com/open-telemetry/opentelemetry-collector-contrib/tree/main/processor/deltatocumulativeprocessor) from OpenTelemetry Collector contrib, converting deltas to their cumulative equivalent before storage. This flag is deprecated and will be removed in a future major version; use native delta ingestion instead. The two flags cannot be enabled at the same time.

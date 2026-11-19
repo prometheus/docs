@@ -188,8 +188,20 @@ otlp:
 
 The [OpenTelemetry specification says](https://opentelemetry.io/docs/specs/otel/metrics/data-model/#temporality) that both Delta temporality and Cumulative temporality are supported. While delta temporality is common in systems like statsd and graphite, cumulative temporality is the default in Prometheus.
 
-Today, Prometheus embeds the [delta to cumulative processor](https://github.com/open-telemetry/opentelemetry-collector-contrib/tree/main/processor/deltatocumulativeprocessor) from [OpenTelemetry-Collector-contrib](https://github.com/open-telemetry/opentelemetry-collector-contrib), which is capable of ingesting deltas and transforming them into the equivalent cumulative representation before storing in Prometheus' TSDB.
+Prometheus can ingest delta metrics in two ways, both of them ***experimental***.
 
-This feature is ***experimental***, so start Prometheus with the feature-flag `otlp-deltatocumulative` enabled to use it.
+### Native delta ingestion (recommended)
 
-The team is still working on a more efficient way of handling OTLP deltas.
+Start Prometheus with the `otlp-native-delta-ingestion` feature flag to store delta samples as they arrive, without conversion:
+
+```shell
+$ prometheus --web.enable-otlp-receiver --enable-feature=otlp-native-delta-ingestion
+```
+
+Delta support is in an early stage of development, and the ingestion and querying process may change over time. The OTLP `StartTimeUnixNano` field is currently ignored. Standard PromQL counter functions such as `rate()` and `increase()` are designed for cumulative metrics and produce incorrect results for delta metrics; query delta metrics with `sum_over_time()` instead.
+
+See [Feature flags](/docs/prometheus/latest/feature_flags/#otlp-native-delta-support) for current caveats. The open proposal is tracked in [prometheus/proposals#48](https://github.com/prometheus/proposals/pull/48).
+
+### Delta to cumulative conversion (legacy)
+
+The `otlp-deltatocumulative` feature flag embeds the [delta to cumulative processor](https://github.com/open-telemetry/opentelemetry-collector-contrib/tree/main/processor/deltatocumulativeprocessor) from OpenTelemetry Collector contrib, converting deltas to their cumulative equivalent before storage. Native delta ingestion is expected to replace this approach, and deprecating this flag is under discussion ([prometheus/prometheus#19950](https://github.com/prometheus/prometheus/pull/19950)); prefer native delta ingestion for new setups. The two flags cannot be enabled at the same time.

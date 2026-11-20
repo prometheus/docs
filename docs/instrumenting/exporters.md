@@ -346,6 +346,7 @@ separate exporters are needed:
    * [ScyllaDB](http://github.com/scylladb/scylla)
    * [Skipper](https://github.com/zalando/skipper)
    * [SkyDNS](https://github.com/skynetservices/skydns) (**direct**)
+   * [SpeedKetchup](https://github.com/gatispei/speedketchup)
    * [Telegraf](https://github.com/influxdata/telegraf/tree/master/plugins/outputs/prometheus_client)
    * [Traefik](https://github.com/containous/traefik)
    * [Triton Inference Server](https://docs.nvidia.com/deeplearning/triton-inference-server/user-guide/docs/user_guide/metrics.html)

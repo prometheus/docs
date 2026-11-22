@@ -27,6 +27,23 @@ depends on the `honor_labels` configuration option. See the
 [scrape configuration documentation](/docs/prometheus/latest/configuration/configuration/#scrape_config)
 for more information.
 
+To use the hostname without the port as the default `instance` label, add the
+following target relabeling rule to the scrape job:
+
+```yaml
+relabel_configs:
+  - source_labels: [instance, __address__]
+    separator: '!'
+    regex: '!([^!]+):[0-9]+'
+    target_label: instance
+    replacement: '${1}'
+```
+
+The rule matches an empty `instance` followed by a target address with a port,
+so an explicitly configured `instance` is preserved. The scrape address stays
+the same. Use this only when the remaining labels still distinguish targets
+that listen on different ports on the same host.
+
 For each instance scrape, Prometheus stores a [sample](/docs/introduction/glossary#sample) in
 the following time series:
 

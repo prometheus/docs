@@ -91,17 +91,19 @@ Content-Encoding: <compression>
 Rationales: https://github.com/prometheus/proposals/blob/alexg/remote-write-20-proposal/proposals/2024-04-09_remote-write-20.md#no-new-compression-added--yet-
 Relaxed in 2.0-rc.7: `snappy` stays mandatory, `gzip` and `zstd` are optional for Receivers.
 -->
-Content encoding request header MUST follow [the RFC 9110](https://www.rfc-editor.org/rfc/rfc9110.html#name-content-encoding). Senders are allowed to use following values:
+Content encoding request header MUST follow [the RFC 9110](https://www.rfc-editor.org/rfc/rfc9110.html#name-content-encoding). Senders MUST use exactly one of the following values:
 
 * `snappy`: [Google’s Snappy](https://github.com/google/snappy). The [block format](https://github.com/google/snappy/blob/2c94e11145f0b7b184b831577c93e5a41c4c0346/format_description.txt) MUST be used -- [the framed format](https://github.com/google/snappy/blob/2c94e11145f0b7b184b831577c93e5a41c4c0346/framing_format.txt) MUST NOT be used.
 * `gzip`: MUST follow [RFC 1952](https://www.rfc-editor.org/rfc/rfc1952.html).
-* `zstd`: MUST follow [RFC 8878](https://www.rfc-editor.org/rfc/rfc8878.html) and [RFC 9659](https://www.rfc-editor.org/rfc/rfc9659.html).
+* `zstd`: MUST follow [RFC 8878](https://www.rfc-editor.org/rfc/rfc8878.html) and [RFC 9659](https://www.rfc-editor.org/rfc/rfc9659.html). Dictionaries MUST NOT be used.
 
-`gzip` and `zstd` MUST only be used with `io.prometheus.write.v2.Request`. `prometheus.WriteRequest` is unchanged from [1.0](./remote_write_spec.md), `snappy` only.
+These rules apply to Senders. A Receiver that supports the request's `Content-Encoding` but can't decode the body SHOULD return [400 HTTP Bad Request](https://www.rfc-editor.org/rfc/rfc9110.html#name-400-bad-request). An unsupported `Content-Encoding` gets a 415 (see [Unsupported Request Content](#unsupported-request-content)).
+
+Senders MUST NOT use `gzip` or `zstd` with `prometheus.WriteRequest`, which remains `snappy` only as in [1.0](./remote_write_spec.md). Receivers MAY reject `prometheus.WriteRequest` compressed with `gzip` or `zstd` with [415 HTTP Unsupported Media Type](https://www.rfc-editor.org/rfc/rfc9110.html#name-415-unsupported-media-type).
 
 Senders and Receivers MUST support `snappy`. Receivers SHOULD support `gzip` and `zstd`. Senders MAY use `gzip` or `zstd`, and SHOULD use `snappy` unless configured otherwise or the Receiver advertised the encoding with `Accept-Encoding`.
 
-Receivers advertise supported `Content-Encoding` values with the [`Accept-Encoding`](https://www.rfc-editor.org/rfc/rfc9110.html#name-accept-encoding) response header, which applies to the request it answers. Receivers MAY send it on 2xx responses. On a [415 HTTP Unsupported Media Type](https://www.rfc-editor.org/rfc/rfc9110.html#name-415-unsupported-media-type) they SHOULD send it when an unsupported `Content-Encoding` is the cause, and MUST NOT send it otherwise. A Sender that chose its encoding from a 2xx `Accept-Encoding` MUST retry once with `snappy` when it gets a 415, unless the 415 carries `Accept` and no `Accept-Encoding`.
+Receivers advertise supported `Content-Encoding` values with the [`Accept-Encoding`](https://www.rfc-editor.org/rfc/rfc9110.html#name-accept-encoding) response header. Receivers MAY send it on 2xx responses. On a [415 HTTP Unsupported Media Type](https://www.rfc-editor.org/rfc/rfc9110.html#name-415-unsupported-media-type) they SHOULD send it when an unsupported `Content-Encoding` is the cause, and MUST NOT send it otherwise. A Sender that gets a 415 for a request sent with `gzip` or `zstd` MUST retry it with `snappy`.
 
 #### Content-Type
 
@@ -208,7 +210,7 @@ Senders SHOULD expect [400 HTTP Bad Request](https://www.rfc-editor.org/rfc/rfc9
 
 Receivers SHOULD reject data (such as samples, histograms, exemplars, or entire time series) that violates this specification or the negotiated [mode](#modes). Receivers MAY reject data that violates receiver-specific limits and gaps (such as not supporting native histograms, or label count or length limits). Receivers MUST return a [400 HTTP Bad Request](https://www.rfc-editor.org/rfc/rfc9110.html#name-400-bad-request) status code for write requests that contain any invalid data (whether rejecting the entire request or performing a [partial write](#partial-write)) unless the [partial retriable write](#retries-on-partial-writes) occurs.
 
-Senders MUST NOT retry on a 4xx HTTP status codes (other than [429](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429)), which MUST be used by Receivers to indicate that the write operation will never be able to succeed and should not be retried. Senders MAY retry on the 415 HTTP status code with a different content type or encoding (using the `Accept` and `Accept-Encoding` response headers if present; see [Unsupported Request Content](#unsupported-request-content)) to see if the Receiver supports it.
+Senders MUST NOT retry on a 4xx HTTP status codes (other than [429](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429)), which MUST be used by Receivers to indicate that the write operation will never be able to succeed and should not be retried. Senders MAY retry on the 415 HTTP status code with a different content type or encoding (using the `Accept` and `Accept-Encoding` response headers if present; see [Unsupported Request Content](#unsupported-request-content) and [Content-Encoding](#content-encoding)) to see if the Receiver supports it, and MUST retry with `snappy` as described in [Content-Encoding](#content-encoding).
 
 ### Retries & Backoff
 

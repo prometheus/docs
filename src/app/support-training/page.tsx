@@ -123,6 +123,11 @@ const commercialSupportProviders: ProviderCardProps[] = [
     url: "https://openobserve.ai",
   },
   {
+    name: "Oreon IT",
+    logo: "/assets/commercial-support-logos/oreon-it.png",
+    url: "https://www.oreonit.com/observability-and-monitoring-consultancy-services/",
+  },
+  {
     name: "PlatformEngineers.io",
     logo: "/assets/commercial-support-logos/platformengineers.png",
     url: "https://platformengineers.io/",

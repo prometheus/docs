@@ -351,6 +351,7 @@ separate exporters are needed:
    * [Triton Inference Server](https://docs.nvidia.com/deeplearning/triton-inference-server/user-guide/docs/user_guide/metrics.html)
    * [Vector](https://vector.dev)
    * [VerneMQ](https://github.com/vernemq/vernemq)
+   * [whydrop](https://github.com/YHK0427/whydrop/blob/main/docs/integrations.md)
    * [Flux](https://github.com/fluxcd/flux2)
    * [Xandikos](https://www.xandikos.org/) (**direct**)
    * [Zipkin](https://github.com/openzipkin/zipkin/tree/master/zipkin-server#metrics)

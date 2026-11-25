@@ -120,7 +120,7 @@ backing instances.
 
 Note the comment above the loop that’s calling out to Consul for each service:
 
-    // Note that we treat errors when querying specific consul services as fatal for for this
+    // Note that we treat errors when querying specific consul services as fatal for this
     // iteration of the time.Tick loop. It's better to have some stale targets than an incomplete
     // list of targets simply because there may have been a timeout. If the service is actually
     // gone as far as consul is concerned, that will be picked up during the next iteration of

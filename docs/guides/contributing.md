@@ -119,7 +119,7 @@ in two ways:
 
 For bigger changes and ideas we require a formal proposal and review in the 
 [Proposal repository](https://github.com/prometheus/proposals/). For details 
-please read the accepted [proposal proposal](https://github.com/prometheus/proposals/blob/main/proposals/0001-proposal-process.md).
+please read the accepted [proposal](https://github.com/prometheus/proposals/blob/main/proposals/0001-proposal-process.md).
 
 ## GitHub guidelines
 

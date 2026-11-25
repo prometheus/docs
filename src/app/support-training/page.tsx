@@ -153,6 +153,11 @@ const commercialSupportProviders: ProviderCardProps[] = [
     url: "https://sentinelfox.com/services/observability/prometheus/",
   },
   {
+    name: "Simafri",
+    logo: "/assets/commercial-support-logos/simafri.png",
+    url: "https://www.simafri.com/en/managed-vps/",
+  },
+  {
     name: "Sysdig",
     logo: "/assets/commercial-support-logos/sysdig.svg",
     url: "https://sysdig.com/solutions/prometheus-monitoring/",

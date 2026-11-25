@@ -150,3 +150,4 @@ you to integrate it with your existing systems or build on top of it.
   * [Promdump](https://github.com/ihcsim/promdump): kubectl plugin to dump and restore data blocks
   * [Promregator](https://github.com/promregator/promregator): discovery and scraping for Cloud Foundry applications
   * [pint](https://github.com/cloudflare/pint): Prometheus rule linter
+  * [slo-burn-rate-alerts](https://github.com/oreondev/helm-charts/tree/main/charts/slo-burn-rate-alerts): Helm chart that generates SLO recording rules, multi-window burn-rate alerts and a Grafana error-budget dashboard for the Prometheus Operator

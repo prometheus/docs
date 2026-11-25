@@ -16,7 +16,22 @@ export type RepoDocMetadata = {
   assetsRoot: string;
 };
 
-export type DocMetadata = (LocalDocMetadata | RepoDocMetadata) & {
+export type UnversionedRepoDocMetadata = {
+  type: "unversioned-repo-doc";
+
+  owner: string;
+  repo: string;
+  gitRef: string;
+  slugPrefix: string;
+  repoFilePath: string;
+  assetsRoot: string;
+};
+
+export type DocMetadata = (
+  | LocalDocMetadata
+  | RepoDocMetadata
+  | UnversionedRepoDocMetadata
+) & {
   slug: string;
   filePath: string;
   title: string;

@@ -21,6 +21,7 @@ import {
   IconChartLine,
   IconMap,
   IconFileDescription,
+  IconPackage,
   IconProps,
   IconTag,
 } from "@tabler/icons-react";
@@ -37,6 +38,7 @@ const iconMap: Record<string, React.ComponentType<IconProps>> = {
   "chart-line": IconChartLine,
   map: IconMap,
   "file-description": IconFileDescription,
+  package: IconPackage,
 };
 
 function NavIcon({ iconName, ...props }: { iconName: string } & IconProps) {
@@ -86,6 +88,10 @@ function buildRecursiveNav(
           return true;
         }
 
+        if (child.type === "unversioned-repo-doc") {
+          return true;
+        }
+
         // Always show latest version docs if we're not looking at a different version of the same repo.
         if (
           !currentPageVersion &&
@@ -122,7 +128,12 @@ function buildRecursiveNav(
         <NavLink
           defaultOpened={active || undefined}
           key={doc.slug}
-          href="#required-for-focus"
+          component={doc.type === "unversioned-repo-doc" ? Link : undefined}
+          href={
+            doc.type === "unversioned-repo-doc"
+              ? `/docs/${doc.slug}/`
+              : "#required-for-focus"
+          }
           label={doc.navTitle ?? doc.title}
           // We offset the children, but we do it manually via a mix of margin and padding
           // to position the left-hand-side border on the first level correctly.

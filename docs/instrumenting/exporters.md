@@ -187,6 +187,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [CCF HuaTuo exporter](https://github.com/ccfos/huatuo)
    * [Cloud Foundry Firehose exporter](https://github.com/cloudfoundry-community/firehose_exporter)
    * [Collectd exporter](https://github.com/prometheus/collectd_exporter) (**official**)
+   * [Generator Labs exporter](https://github.com/generator-labs/prometheus-exporter)
    * [Google Stackdriver exporter](https://github.com/frodenas/stackdriver_exporter)
    * [Graphite exporter](https://github.com/prometheus/graphite_exporter) (**official**)
    * [Heka dashboard exporter](https://github.com/docker-infra/heka_exporter)

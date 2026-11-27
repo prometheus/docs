@@ -97,7 +97,7 @@ For notification mechanisms not natively supported by the Alertmanager, the
   * [Canopsis](https://git.canopsis.net/canopsis-connectors/connector-prometheus2canopsis)
   * [DingTalk](https://github.com/timonwong/prometheus-webhook-dingtalk)
   * [Discord](https://github.com/benjojo/alertmanager-discord)
-  * [GitLab](https://docs.gitlab.com/ee/operations/metrics/alerts.html#external-prometheus-instances)
+  * [GitLab](https://docs.gitlab.com/operations/incident_management/integrations/#add-integration-credentials-to-alertmanager-prometheus-integrations-only)
   * [Gotify](https://github.com/DRuggeri/alertmanager_gotify_bridge)
   * [GELF](https://github.com/b-com-software-basis/alertmanager2gelf)
   * [Grafana OnCall](https://grafana.com/docs/grafana-cloud/alerting-and-irm/irm/configure/integrations/integration-reference/oncall/alertmanager)
@@ -108,7 +108,7 @@ For notification mechanisms not natively supported by the Alertmanager, the
   * [ITOC360](https://docs.itoc360.com/integrations/inbound-integrations/observability-and-apm/prometheus-integration): on-call & incident management.
   * [JIRAlert](https://github.com/free/jiralert)
   * [Matrix](https://github.com/jaywink/matrix-alertmanager): sends Alertmanager notifications to Matrix rooms
-  * [Matrix](https://github.com/hectorjsmith/matrix-hookshot): bridges webhooks to Matrix with rich formatting support
+  * [Matrix](https://github.com/matrix-org/matrix-hookshot): bridges webhooks to Matrix with rich formatting support
   * [Notion](https://github.com/cthtuf/alertmanager-to-notion): creates/updates record in a Notion database
   * [Parny](https://parny.io/integrations/prometheus): AI-native on-call management, incident response, uptime monitoring, and real-time infrastructure visibility platform.
   * [Phabricator / Maniphest](https://github.com/knyar/phalerts)

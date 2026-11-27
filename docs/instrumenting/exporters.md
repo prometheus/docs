@@ -213,6 +213,7 @@ wide variety of JVM-based applications, for example [Kafka](http://kafka.apache.
    * [StatsD exporter](https://github.com/prometheus/statsd_exporter) (**official**)
    * [TencentCloud monitor exporter](https://github.com/tencentyun/tencentcloud-exporter)
    * [ThousandEyes exporter](https://github.com/sapcc/1000eyes_exporter)
+   * [WatchFor exporter](https://github.com/watchfor-io/prometheus-exporter)
    * [StatusPage exporter](https://github.com/sergeyshevch/statuspage-exporter)
 
 ### Miscellaneous
